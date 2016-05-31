@@ -1,0 +1,1084 @@
+  
+  <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="init()">
+  <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoProfile()">Information</button></a></li>
+       	<li  role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
+      	<!-- <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoHoursOfOperation()">Hours of Operations </button></a></li> -->
+       	
+  </ul>
+    <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      	<li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Active</button></a></li>
+      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDeactive()">Inactive</button></a></li>
+    </ul>
+	    <div id="myTabContent" class="tab-content">
+	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+	      	<div>
+		        <h2><b>Users</b></h2>
+		        <a class="btn btn-primary" style="margin-left: 83%;" data-toggle="modal" data-target="#modal-basic" ng-click="createNewUser()">Create New User</a>
+	        </div>
+			<div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+				</div> 
+	      </div>
+	      
+	    </div>
+  </div>
+  
+  <div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" style="width: 1370px;margin-top: 11px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" id = "btnClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Create User</strong></h4>
+                </div>
+                <form name="userFrm" ng-submit="saveImage()">
+                <div class="modal-body">
+                		
+                		<div class="form-group col-sm-12">
+	                		<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Role *</label>
+									<div class="col-sm-6">
+										<select class="form-control form-white" id="userType" ng-model="user.userType" ng-change="selectOption()" required>
+	                                    <option value="">Select</option>
+	                                    <option value="Sales Person">Sales Person</option>
+	                                    <option value="Photographer">Photographer</option>
+	                                </select>
+									</div>
+							</div>
+                		</div>
+                		
+                   
+                   		<div class="form-group col-sm-12">
+                   			<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">First Name *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.firstName"  required>
+								</div>
+							</div>	
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Last Name *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.lastName"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Email *</label>
+								<div class="col-sm-6">
+									<input id="userEmail" class="form-control form-white" type="email" ng-model="user.email" ng-blur="checkEmail('create')"  required>
+								</div>
+							</div>
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Phone *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.phone"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="showOtherFild == 1">
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Gender *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userGender" ng-model="user.userGender">
+                                    <option value="">Select</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+								</div>
+							</div>
+						<!-- <div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Role *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userType" ng-model="user.userType" required>
+                                    <option value="">Select</option>
+                                    <option value="Sales Person">Sales Person</option>
+                                </select>
+								</div>
+						</div> -->
+								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Age *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userAge" ng-model="user.age">
+                                    <option value="">Select</option>
+                                    <option value="16-18">16-18</option>
+                                    <option value="18-20">18-20</option>
+                                    <option value="20-25">20-25</option>
+                                    <option value="25-30">25-30</option>
+                                    <option value="30-40">30-40</option>
+                                    <option value="40-50">40-50</option>
+                                    <option value="50-60">50-60</option>
+                                </select>
+								</div>
+								</div>
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="showOtherFild == 1">
+						  <div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Training Provided *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usertrainingPro" ng-change="getProvided(user.trainingPro)" ng-model="user.trainingPro">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usertrial" ng-change="getTrial(user.trial)" ng-model="user.trial">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="user.trial == 'Yes'">
+						  <div class="col-sm-6">
+							
+						  </div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Days *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="number" ng-model="user.trialPeriod"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="user.trainingPro == 'Yes'">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Training Cost *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.trainingCost">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Training Hours*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.trainingHours">
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="showOtherFild != 0">
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Contract Duration *</label>
+								<div class="col-sm-6">
+									<input type="radio" id="employee" name="duration" ng-click="contract('Employee')" required> Employee
+								</div>
+								<div class="col-sm-6" style="margin-top: 9px;" ng-if="showOtherFild == 2">
+									<input type="radio" id="employee1" name="duration" ng-click="contract('One Time Order')" required> One Time Order
+								</div>
+							</div>
+							<div class="col-sm-6" ng-if="showOtherFild == 2">
+							<label class="col-sm-3 control-label" style="text-align: right;">Salary </label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.salary">
+								</div>
+							</div>
+						</div>	
+						<div class="form-group col-sm-12" ng-if="showOtherFild != 0">
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;"></label>
+								<div class="col-sm-6">
+									<input type="radio" id="txt" name="duration" ng-click="contract('Text')" required>
+									<input type="number" id="number" name="duration text" style="width:100px;height:30px;text-align:center;" ng-model="num"> 
+										<select id="duration" style="width:100px; height:30px;" ng-model="duration" required>
+                                    		<option value="month">Month</option>
+                                    		<option value="year">Year</option>
+                                		</select>
+								</div>
+							</div>
+						</div>
+						
+					
+						
+						<div class="form-group col-sm-12">
+						  <div class="col-sm-6" ng-if="showOtherFild == 1">
+							<label class="col-sm-3 control-label" style="text-align: right;">Salary *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.salary"  required>
+								</div>
+							</div>
+							
+							<div class="col-sm-6" ng-if="showOtherFild == 1">
+								<label class="col-sm-3 control-label" style="text-align: right;">Commission %*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.commission"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="showOtherFild == 1">
+							
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">System Features *</label>
+								<div class="col-sm-6">
+									<label ng-repeat="rolePer in permissionList" class="col-sm-6" style="padding:0px;">
+				 						 <input type="checkbox" name="permissions" ng-click="rolesClicked($event,rolePer,rolePer.isSelected)"
+				 						   	ng-model="rolePer.isSelected">					
+   					 						{{rolePer.name}}</label>
+   					 				<label><input type="checkbox" 	ng-model="user.premiumFlag">Premium leads</label>							
+								</div>
+								</div>
+									
+						</div>
+						
+						
+					
+						  <div class="col-sm-12" ng-if="showOtherFild == 2">
+	  <div class="col-sm-6">
+	 <!--  <form ng-submit="saveSalesHours()"> -->
+	  <div class="col-sm-12">
+	  
+	  </div>
+	  <div class="col-sm-12" style="margin-bottom: 10px">
+	  <div class="col-sm-2" >
+	  <h2><a>Day</a></h2>
+	  </div>
+	   <div class="col-sm-3" >
+	 <h2> <a>Set Time</a></h2>
+	  </div> 
+	  <div class="col-sm-5" >
+	 <h2> <a>Photoshoot Start Time</a></h2>
+	  </div>
+	  	  
+	  
+	  </div>
+	  
+	  
+	  <div class="col-sm-12">
+	  <div class="col-sm-2" >
+	  <a>Sun</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="sunday" style="width: 20px;" ng-model="user.hOperation.sunOpen"/></span>
+	    </div> 
+	  <div class="col-sm-4" ng-if="user.hOperation.sunOpen == true">
+	  <div>
+      <input type="text" name="openTimeTime" ng-model="user.hOperation.sunOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." ng-click="openClick()" data-format="am-pm" id="sunOpen" >
+	  </div>
+	  </div>
+	 
+	  
+	  
+	  </div>
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Mon</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="monday" style="width: 20px;" ng-model="user.hOperation.monOpen"/></span>
+	    </div> 
+	  <div class="col-sm-4" ng-if="user.hOperation.monOpen == true">
+	  <div>
+      <input type="text"  ng-model="user.hOperation.monOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="monOpen" >
+	  </div>
+	  </div>
+	 
+	  
+	  </div>
+	  
+	  
+	  <div class="col-sm-12"style="margin-top: 10px">
+	<div class="col-sm-2" >
+	  <a>Tue</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="tueday" style="width: 20px;" ng-model="user.hOperation.tueOpen"/></span>
+	    </div> 
+	  <div class="col-sm-4" ng-if="user.hOperation.tueOpen == true">
+	  <div>
+      <input type="text"  ng-model="user.hOperation.tueOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="tueOpen" >
+	  </div>
+	  </div>
+	 
+	  
+	  </div>
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  <div class="col-sm-2" >
+	  <a>Wed</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="wednesday" style="width: 20px;" ng-model="user.hOperation.wedOpen"/></span>
+	    </div> 
+	  <div class="col-sm-4" ng-if="user.hOperation.wedOpen == true">
+	  <div>
+      <input type="text"  ng-model="user.hOperation.wedOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="wedOpen" >
+	  </div>
+	  </div>
+	 
+	  
+	  </div>
+	  
+	  <div class="col-sm-12" style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Thu</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="thursday" style="width: 20px;" ng-model="user.hOperation.thuOpen"/></span>
+	    </div> 
+	  <div class="col-sm-4" ng-if="user.hOperation.thuOpen == true">
+	  <div>
+      <input type="text"  ng-model="user.hOperation.thuOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="thuOpen" >
+	  </div>
+	  </div>
+	
+	  
+	  </div>
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Fri</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="friday" style="width: 20px;" ng-model="user.hOperation.friOpen"/></span>
+	    </div> 
+	   <div class="col-sm-4" ng-if="user.hOperation.friOpen == true">
+	  <div>
+      <input type="text"  ng-model="user.hOperation.friOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="friOpen" >
+	  </div>
+	  </div>
+	
+	  
+	  </div>
+	  
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Sat</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="saturday" style="width: 20px;" ng-model="user.hOperation.satOpen"/></span>
+	    </div> 
+	  <div class="col-sm-4" ng-if="user.hOperation.satOpen == true">
+	  <div>
+      <input type="text"  ng-model="user.hOperation.satOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="satOpen" >
+	  </div>
+	  </div>
+	  
+	  
+	  </div>
+	
+	  </div>
+	  
+	 
+	   </div>
+					<div class="col-sm-12" style="margin-left: 25px;" ng-if="showOtherFild == 1">
+						<label>Documentation</label>
+					</div>
+					<div class="col-sm-12" style="margin-top: 20px;margin-left: 25px;" ng-if="showOtherFild == 1">
+								<table  style="border: 1px solid; width:80%" >
+					    		<tr style="border: 1px solid;">
+					    			<td style="padding: 5px;font-size: 20px;text-align: center; border: 1px solid;">PDF Name</td>
+					    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
+					    		  </tr>
+					    			<tr ng-repeat="item in internalPdfList" style="border: 1px solid;">
+					    				<td style="padding: 5px;border: 1px solid;" >{{item.internalPdfName}}</td>
+					    				<td style="border: 1px solid;text-align: center;"> <input type="checkbox" ng-model="selected" name="vehicle" ng-click="selectPdf($event,item,selected)"></td>
+					    			</tr>
+					    		</table>
+							</div>
+					
+						<div class="form-group col-sm-12" style="margin-top: 23px;" ng-if="showOtherFild == 1">
+							<div class="col-sm-4">
+								<label class="col-sm-4 control-label" style="text-align: right;">Photo </label>
+	                   				<!-- <input class="form-control" type="file" style="margin-left: 29%;width: 42%;" accept="image/*" name="logoFile" ng-file-select="onLogoFileSelect($files)" required=""> -->
+				                   <p><!-- <label>&{field.name}</label> --><!-- <span id="preview"> --></span>
+				 	               <input class="form-control" type="file" id="file" style="margin-left: 29%;width: 60%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
+				                   <span id="preview" style="margin-top: 20px;width: 108px;margin-left: 23px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{img}}></span>
+				                  </p>
+							</div>
+							<div class="form-group col-sm-8">
+				 	               	<img id="img1" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p1.png" ng-click="imageBorder('img1')">
+				 	               	<img id="img2" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p2.png" ng-click="imageBorder('img2')">
+				 	               	<img id="img3" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p3.png" ng-click="imageBorder('img3')">
+				 	               	<img id="img4" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p4.png" ng-click="imageBorder('img4')">
+				 	               	<img id="img5" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p5.png" ng-click="imageBorder('img5')">
+				 	               	<img id="img6" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p6.png" ng-click="imageBorder('img6')">
+				 	               	<img id="img7" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p7.png" ng-click="imageBorder('img7')">
+							</div>	
+						</div>	
+						
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-embossed">Create User</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  
+  <button id="editUserModal" data-toggle="modal" data-target="#modal-edit" style="display: none;"></button>
+   <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog"  style="width: 1370px;margin-top: 11px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" id = "btnEditClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Edit User</strong></h4>
+                </div>
+                <form name="userEditFrm" ng-submit="updateImage()">
+                <div class="modal-body">
+                		
+                		<div class="form-group col-sm-12">
+	                		<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Role *</label>
+									<div class="col-sm-6">
+										<select class="form-control form-white" id="userType" ng-model="userData.userType" ng-change="selectOption()" required>
+	                                    <option value="">Select</option>
+	                                    <option value="Sales Person">Sales Person</option>
+	                                    <option value="Photographer">Photographer</option>
+	                                </select>
+									</div>
+							</div>
+                		</div>
+                		
+                   
+                   		<div class="form-group col-sm-12">
+                   			<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">First Name *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.firstName"  required>
+								</div>
+							</div>	
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Last Name *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.lastName"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Email *</label>
+								<div class="col-sm-6">
+									<input id="userEmail" class="form-control form-white" type="email" ng-model="userData.email" ng-blur="checkEmail('create')"  required>
+								</div>
+							</div>
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Phone *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.phone"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="showOtherFild == 1">
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Gender *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userGender" ng-model="userData.userGender">
+                                    <option value="">Select</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+								</div>
+							</div>
+						<!-- <div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Role *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userType" ng-model="user.userType" required>
+                                    <option value="">Select</option>
+                                    <option value="Sales Person">Sales Person</option>
+                                </select>
+								</div>
+						</div> -->
+								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Age *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userAge" ng-model="userData.age">
+                                    <option value="">Select</option>
+                                    <option value="16-18">16-18</option>
+                                    <option value="18-20">18-20</option>
+                                    <option value="20-25">20-25</option>
+                                    <option value="25-30">25-30</option>
+                                    <option value="30-40">30-40</option>
+                                    <option value="40-50">40-50</option>
+                                    <option value="50-60">50-60</option>
+                                </select>
+								</div>
+								</div>
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="showOtherFild == 1">
+						  <div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Training Provided *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usertrainingPro" ng-change="getProvided(user.trainingPro)" ng-model="userData.trainingPro">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usertrial" ng-change="getTrial(user.trial)" ng-model="userData.trial">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="user.trial == 'Yes'">
+						  <div class="col-sm-6">
+							
+						  </div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Days *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="number" ng-model="userData.trialPeriod"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="user.trainingPro == 'Yes'">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Training Cost *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.trainingCost">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Training Hours*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.trainingHours">
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="showOtherFild != 0">
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Contract Duration *</label>
+								<div class="col-sm-6">
+									<input type="radio" id="employee" name="duration" ng-click="contract('Employee')" required> Employee
+								</div>
+								<div class="col-sm-6" style="margin-top: 9px;" ng-if="showOtherFild == 2">
+									<input type="radio" id="employee1" name="duration" ng-click="contract('One Time Order')" required> One Time Order
+								</div>
+							</div>
+							<div class="col-sm-6" ng-if="showOtherFild == 2">
+							<label class="col-sm-3 control-label" style="text-align: right;">Salary </label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.salary">
+								</div>
+							</div>
+						</div>	
+						<div class="form-group col-sm-12" ng-if="showOtherFild != 0">
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;"></label>
+								<div class="col-sm-6">
+									<input type="radio" id="txt" name="duration" ng-click="contract('Text')" required>
+									<input type="number" id="number" name="duration text" style="width:100px;height:30px;text-align:center;" ng-model="num"> 
+										<select id="duration" style="width:100px; height:30px;" ng-model="duration" required>
+                                    		<option value="month">Month</option>
+                                    		<option value="year">Year</option>
+                                		</select>
+								</div>
+							</div>
+						</div>
+						
+					
+						
+						<div class="form-group col-sm-12">
+						  <div class="col-sm-6" ng-if="showOtherFild == 1">
+							<label class="col-sm-3 control-label" style="text-align: right;">Salary *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.salary"  required>
+								</div>
+							</div>
+							
+							<div class="col-sm-6" ng-if="showOtherFild == 1">
+								<label class="col-sm-3 control-label" style="text-align: right;">Commission %*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.commission"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="showOtherFild == 1">
+							
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">System Features *</label>
+								<div class="col-sm-6">
+									<label ng-repeat="rolePer in permissionList" class="col-sm-6" style="padding:0px;">
+				 						 <input type="checkbox" name="permissions" ng-click="rolesClicked($event,rolePer,rolePer.isSelected)"
+				 						   	ng-model="rolePer.isSelected">					
+   					 						{{rolePer.name}}</label>
+   					 				<label><input type="checkbox" 	ng-model="userData.premiumFlag">Premium leads</label>							
+								</div>
+								</div>
+									
+						</div>
+						
+						<div class="col-sm-12" style="margin-left: 25px;" ng-if="showOtherFild == 1">
+						<label>Documentation</label>
+					</div>
+					<div class="col-sm-12" style="margin-top: 20px;margin-left: 25px;" ng-if="showOtherFild == 1">
+								<table  style="border: 1px solid; width:80%" >
+					    		<tr style="border: 1px solid;">
+					    			<td style="padding: 5px;font-size: 20px;text-align: center; border: 1px solid;">PDF Name</td>
+					    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
+					    		  </tr>
+					    			<tr ng-repeat="item in internalPdfList" style="border: 1px solid;">
+					    				<td style="padding: 5px;border: 1px solid;" >{{item.internalPdfName}}</td>
+					    				<td style="border: 1px solid;text-align: center;"> <input type="checkbox" ng-model="selected" name="vehicle" ng-click="selectPdf($event,item,selected)"></td>
+					    			</tr>
+					    		</table>
+							</div>
+						
+						
+						
+					
+						  <div class="col-sm-12" style="margin-top: 10px;"ng-if="showOtherFild == 2">
+	  <div class="col-sm-6">
+	 <!--  <form ng-submit="saveSalesHours()"> -->
+	  <div class="col-sm-12">
+	  
+	  </div>
+	  <div class="col-sm-12" style="margin-bottom: 10px">
+	  <div class="col-sm-2" >
+	  <h2><a>Day</a></h2>
+	  </div>
+	   <div class="col-sm-3" >
+	 <h2> <a>Set Time</a></h2>
+	  </div> 
+	  <div class="col-sm-5" >
+	 <h2> <a>Photoshoot Start Time</a></h2>
+	  </div>
+	  	  
+	  
+	  </div>
+	  
+	  
+	  <div class="col-sm-12">
+	  <div class="col-sm-2" >
+	  <a>Sun</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="sunday" style="width: 20px;" ng-model="userData.hOperation.sunOpen"/></span>
+	    </div> 
+	  <div class="col-sm-4" ng-if="userData.hOperation.sunOpen == true">
+	  <div>
+      <input type="text" name="openTimeTime" ng-model="userData.hOperation.sunOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." ng-click="openClick()" data-format="am-pm" id="sunOpen" >
+	  </div>
+	  </div>
+	 
+	  
+	  
+	  </div>
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Mon</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="monday" style="width: 20px;" ng-model="userData.hOperation.monOpen"/></span>
+	    </div> 
+	  <div class="col-sm-4" ng-if="userData.hOperation.monOpen == true">
+	  <div>
+      <input type="text"  ng-model="userData.hOperation.monOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="monOpen" >
+	  </div>
+	  </div>
+	 
+	  
+	  </div>
+	  
+	  
+	  <div class="col-sm-12"style="margin-top: 10px">
+	<div class="col-sm-2" >
+	  <a>Tue</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="tueday" style="width: 20px;" ng-model="userData.hOperation.tueOpen"/></span>
+	    </div> 
+	  <div class="col-sm-4" ng-if="userData.hOperation.tueOpen == true">
+	  <div>
+      <input type="text"  ng-model="userData.hOperation.tueOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="tueOpen" >
+	  </div>
+	  </div>
+	 
+	  
+	  </div>
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  <div class="col-sm-2" >
+	  <a>Wed</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="wednesday" style="width: 20px;" ng-model="userData.hOperation.wedOpen"/></span>
+	    </div> 
+	  <div class="col-sm-4" ng-if="userData.hOperation.wedOpen == true">
+	  <div>
+      <input type="text"  ng-model="userData.hOperation.wedOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="wedOpen" >
+	  </div>
+	  </div>
+	 
+	  
+	  </div>
+	  
+	  <div class="col-sm-12" style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Thu</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="thursday" style="width: 20px;" ng-model="userData.hOperation.thuOpen"/></span>
+	    </div> 
+	  <div class="col-sm-4" ng-if="userData.hOperation.thuOpen == true">
+	  <div>
+      <input type="text"  ng-model="userData.hOperation.thuOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="thuOpen" >
+	  </div>
+	  </div>
+	
+	  
+	  </div>
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Fri</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="friday" style="width: 20px;" ng-model="userData.hOperation.friOpen"/></span>
+	    </div> 
+	   <div class="col-sm-4" ng-if="userData.hOperation.friOpen == true">
+	  <div>
+      <input type="text"  ng-model="userData.hOperation.friOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="friOpen" >
+	  </div>
+	  </div>
+	
+	  
+	  </div>
+	  
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Sat</a>
+	  </div>
+	   <div class="col-sm-2">
+			<span><input type="checkbox"  name="day" value="saturday" style="width: 20px;" ng-model="userData.hOperation.satOpen"/></span>
+	    </div> 
+	  <div class="col-sm-4" ng-if="userData.hOperation.satOpen == true">
+	  <div>
+      <input type="text"  ng-model="userData.hOperation.satOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="satOpen" >
+	  </div>
+	  </div>
+	  
+	  
+	  </div>
+	
+	  </div>
+	  
+	 
+	   </div>
+					
+					
+						<div class="form-group col-sm-12" ng-if="showOtherFild == 1" style="margin-top: 15px;">
+							<div class="col-sm-4">
+								<label class="col-sm-4 control-label" style="text-align: right;">Photo </label>
+	                   				<!-- <input class="form-control" type="file" style="margin-left: 29%;width: 42%;" accept="image/*" name="logoFile" ng-file-select="onLogoFileSelect($files)" required=""> -->
+				                   <p><!-- <label>&{field.name}</label> --><!-- <span id="preview"> --></span>
+				 	               <input class="form-control" type="file" id="file" style="margin-left: 29%;width: 60%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
+				                   <span id="preview" style="margin-top: 20px;width: 108px;margin-left: 23px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{img}}></span>
+				                  </p>
+							</div>
+							<div class="col-sm-8">
+				 	               	<img id="img1" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p1.png" ng-click="imageBorder('img1')">
+				 	               	<img id="img2" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p2.png" ng-click="imageBorder('img2')">
+				 	               	<img id="img3" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p3.png" ng-click="imageBorder('img3')">
+				 	               	<img id="img4" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p4.png" ng-click="imageBorder('img4')">
+				 	               	<img id="img5" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p5.png" ng-click="imageBorder('img5')">
+				 	               	<img id="img6" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p6.png" ng-click="imageBorder('img6')">
+				 	               	<img id="img7" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p7.png" ng-click="imageBorder('img7')">
+							</div>	
+						</div>	
+						
+
+                </div>
+               <!-- <div class="modal-body">
+                   
+                   <div class="form-group col-sm-12">
+                   			<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">First Name *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.firstName"  required>
+								</div>
+							</div>	
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Last Name *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.lastName"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Email *</label>
+								<div class="col-sm-6">
+									<input id="userEmail" class="form-control form-white" type="email" ng-model="userData.email" ng-blur="checkEmail('create')"  required>
+								</div>
+							</div>
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Phone *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.phone"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12">
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Gender</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userGender" ng-model="userData.userGender">
+                                    <option value="">Select</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+								</div>
+							</div>
+								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Age </label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userAge" ng-model="userData.age">
+                                    <option value="">Select</option>
+                                    <option value="16-18">16-18</option>
+                                    <option value="18-20">18-20</option>
+                                    <option value="20-25">20-25</option>
+                                    <option value="25-30">25-30</option>
+                                    <option value="30-40">30-40</option>
+                                    <option value="40-50">40-50</option>
+                                    <option value="50-60">50-60</option>
+                                </select>
+								</div>
+								</div>
+						</div>
+						
+						<div class="form-group col-sm-12">
+						  <div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Training Provided *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usertrainingPro" ng-change="getProvided(userData.trainingPro)" ng-model="userData.trainingPro">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+								</div>
+							</div>
+						<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usertrial" ng-change="getTrial(userData.trial)" ng-model="userData.trial">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="userData.trial == 'Yes'">
+						  <div class="col-sm-6">
+							
+						  </div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Days *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="number" ng-model="userData.trialPeriod"  required>
+								</div>
+							</div>	
+						</div>
+						<div class="form-group col-sm-12" ng-if="userData.trainingPro == 'Yes'">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Training Cost *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.trainingCost">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Training Hours*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.trainingHours">
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12">
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Contract Duration *</label>
+								<div class="col-sm-6">
+									<input type="radio" id="employee1" name="duration" ng-click="contract('Employee')" required> Employee
+								</div>
+								
+							</div>
+							<div class="col-sm-6">
+								
+							</div>	
+						</div>	
+							
+						<div class="form-group col-sm-12">
+							<div class="col-sm-6">
+							
+								<label class="col-sm-3 control-label" style="text-align: right;"></label>
+								<div class="col-sm-6">
+									<input type="radio" id="txt1" name="duration" ng-click="contract('Text')" required>
+									<input type="number" id="number1" name="duration text" style="width:100px;height:30px;text-align:center;" ng-model="num1"> 
+										<select id="duration1" style="width:100px; height:30px;" ng-model="duration1" required>
+                                    		<option value="month">Month</option>
+                                    		<option value="year">Year</option>
+                                		</select>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Salary *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.salary"  required>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Commission %*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.commission"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12">
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Role *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userType" ng-model="userData.userType" required>
+                                    <option value="">Select</option>
+                                    <option value="Sales Person">Sales Person</option>
+                                </select>
+								</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">System Features *</label>
+								<div class="col-sm-6">
+									<label ng-repeat="rolePer in permissionList" class="col-sm-6" style="padding:0px;">
+				 						 <input type="checkbox" name="permissions" ng-click="rolesClicked($event,rolePer,rolePer.isSelected)"
+				 						   	ng-model="rolePer.isSelected">					
+   					 						{{rolePer.name}}</label>
+								</div>
+								</div>
+									
+						</div>
+						
+												
+						<div class="form-group col-sm-12">
+							<div class="col-sm-4">
+								<label class="col-sm-4 control-label" style="text-align: right;">Photo </label>
+				                   <p><label>&{field.name}</label> --><!-- <span id="preview"></span>
+				 	               <input class="form-control" type="file" id="file" style="margin-left: 29%;width: 60%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
+				                   <span id="preview" style="margin-top: 20px;width: 108px;margin-left: 23px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{img}}></span>
+				                  </p>
+							</div>
+							<div class="col-sm-8">
+				 	               	<img id="uimg1" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p1.png" ng-click="imageBorder('img1')">
+				 	               	<img id="uimg2" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p2.png" ng-click="imageBorder('img2')">
+				 	               	<img id="uimg3" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p3.png" ng-click="imageBorder('img3')">
+				 	               	<img id="uimg4" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p4.png" ng-click="imageBorder('img4')">
+				 	               	<img id="uimg5" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p5.png" ng-click="imageBorder('img5')">
+				 	               	<img id="uimg6" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p6.png" ng-click="imageBorder('img6')">
+				 	               	<img id="uimg7" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p7.png" ng-click="imageBorder('img7')">
+							</div>	
+						</div>
+
+                </div> -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-embossed">Update User</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  
+<div style="display:none;" id="deleteModal" data-toggle="modal" data-target="#modal-delete"></div>
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" style="margin:100px;">
+            <div class="modal-content" style="width:1500px;height: 900px;">
+                <div class="modal-header">
+                    <button type="button" id="deleteClose" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Disable User</strong></h4>
+                </div>
+                
+                <div class="modal-body">
+                	<div class="col-sm-12" style="margin-bottom: 10px;margin-top: 10px;">
+                		<button class="btn btn-primary btn-embossed" style="margin-left: 5px; margin-bottom:10px;" ng-click="selectAll()">Select All</button>
+                		<select class="form-control form-white" id="assignUserId" ng-model="assignUser" style="width:150px;margin-left: 70%;">
+                            <option ng-repeat="item in usersList" value="{{item.id}}">{{item.fullName}}</option>
+                         </select>
+                		<button class="btn btn-primary btn-embossed" style="margin-left: 5px;" ng-click="assignTo()">Assign To User</button>
+                	</div>
+                	<div class="col-sm-12">
+                		<div ui-grid="gridOptions1" style="height:600px; width:1450px;" ui-grid-edit ui-grid-pagination></div>
+					</div>
+                </div>
+                <div class="modal-footer">
+                    <button id="clsUserLead" type="button" class="btn btn-default btn-embossed" data-dismiss="modal" style="margin-top:30px;" ng-click="clouseUserLead()">Close</button>
+                    <button type="button" class="btn btn-primary btn-embossed" ng-click="deactivateAccount()" style="margin-top:30px;">Deactivate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+<style>
+.ImageBorder
+{
+        border: 5px solid #0099FF;
+}
+.noClass{
+	
+}
+
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+
+</style>	
+
+<script>
+
+
+
+var _URL = window.URL || window.webkitURL;
+function displayPreview(files) {
+  var file = files[0]
+  var img = new Image();
+  var sizeKB = file.size / 1024;
+   img.onload = function() {
+	   console.log("image");
+     $('#preview').append(img);
+     alert("Size: " + sizeKB + "KB\nWidth: " + img.width + "\nHeight: " + img.height);
+  } 
+  img.src = _URL.createObjectURL(file);
+}
+#{field 'user.ImageName'}
+</script>

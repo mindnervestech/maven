@@ -1,0 +1,516 @@
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+	 <ul id="myTabs" class="nav nav-tabs" role="tablist">
+	 	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToVisitors()">WebSite</button></a></li>
+       <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToVehicleInfo()">Inventory</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToActions()">Leads</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSearches()">Staff</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToRefferers()">Financial</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToheatMapInfo()">Marketing</button></a></li>
+	    <!-- <li role="presentation" class="active"><a role="home-tab" id="profile-tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToVehicleInfo()">Inventory</button></a></li>
+		<li role="presentation" class=""><a role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToVisitors()">Visitors</button></a></li>
+		<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button	type="button" class="btn btn-blue" ng-click="goToActions()">Actions</button></a></li>
+		<li role="presentation" class=""><a role="tab" id="profile-tab"	data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSearches()">Searches</button></a></li>
+		<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button	type="button" class="btn btn-blue" ng-click="goToRefferers()">Refferers</button></a></li>
+		<li role="presentation" class=""><a id="tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSessionsData()">Sessions Data</button></a></li>
+		<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToheatMapInfo()">HeatMap</button></a></li> -->
+	</ul> 
+	
+	<div id="myTabContent" class="tab-content">
+		<div role="tabpanel" class="tab-pane fade active in" id="home"
+			aria-labelledby="home-tab">
+			<div style="text-align: right;">
+				<!-- <input type="button" value="Hourly"> -->
+				<input type="button" ng-click="dayFunction()" value="Day">
+				<input type="button" ng-click="weekFunction()" value="Week">
+				<input type="button" ng-click="monthFunction()" value="Month">
+			</div>
+			<div class="col-xlg-12 col-lg-12" ng-if="lineChartmonth == 1">
+				<div class="row">
+					<canvas id="line-chart" class="full"></canvas>
+				</div>
+			</div>
+			<div class="col-xlg-12 col-lg-12" ng-if="lineChartweek == 1">
+				<div class="row">
+					<canvas id="line-chartweek" class="full"></canvas>
+				</div>
+			</div>
+			 <div class="col-xlg-12 col-lg-12" ng-if="lineChartday == 1">
+				<div class="row">
+					<canvas id="line-chartday" class="full"></canvas>
+				</div>
+			</div> 
+			<div class="col-xlg-12 col-lg-12">
+			<label></label>
+			</div>
+			<div class="col-xlg-12 col-lg-12">
+				<div class="row">
+					<a ng-click="openUserPopup('user')"><div class="col-xlg-2 col-lg-2">
+					
+					  <div style="background-color: white;">
+					    <h3>
+									<strong>Users</strong>
+								</h3>
+					    <div style="font-size: 35px;">{{users}}</div>	
+						<canvas id="line-chart1" class="full"></canvas>
+					  </div>	
+					</div></a>
+					<a ng-click="openUserPopup('pageview')"><div class="col-xlg-2 col-lg-2">	
+						<div style="background-color: white;">
+						<h3>
+									<strong>Pageview</strong>
+								</h3>
+					    <div style="font-size: 35px;">{{pageview}}</div>	
+						<canvas id="line-chart2" class="full"></canvas>
+					  </div>
+					</div></a>
+					<a ng-click="openUserPopup('sessionDuration')"><div class="col-xlg-2 col-lg-2">	
+						<div style="background-color: white;">
+						<h3>
+									<strong>Avg. Session Duration</strong>
+								</h3>
+					    <div style="font-size: 35px;">{{avgSessDur}}</div>	
+						<canvas id="line-chart3" class="full"></canvas>
+					  </div>
+					</div></a>
+					<a ng-click="openUserPopup('enginesound')"><div class="col-xlg-2 col-lg-2">
+							<div style="background-color: white;">
+							<h3>
+									<strong>engine sound</strong>
+							</h3>
+					    <div style="font-size: 35px;">{{enginesound}}</div>	
+						<canvas id="line-chart4" class="full"></canvas>
+					  </div>
+					</div></a>
+					<a ng-click="openUserPopup('virtualtour')"><div class="col-xlg-2 col-lg-2">
+							<div style="background-color: white;">
+						<h3>
+									<strong>Virtual Tour</strong>
+								</h3>
+					    <div style="font-size: 35px;">{{virtualtour}}</div>	
+						<canvas id="line-chart5" class="full"></canvas>
+					  </div>
+					</div></a>
+					<div class="col-xlg-2 col-lg-2" style="margin-top: 26px;">
+						<div class="panel no-bd bd-3 panel-stat">
+							<div class="panel-header">
+								<h3>
+									<i class="icon-graph"></i> <strong>Visitor</strong>
+								</h3>
+							</div>
+							<div class="panel-stat-chart" style="height: 178px;">
+								<canvas id="pie-chart visitorInfo"
+									style="margin-top: 10px; margin-left: -27px;"></canvas>
+							</div>
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<div class="col-lg-12">
+						<label></label>
+				</div>
+				<div class="col-lg-12">
+					<label></label>
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<div class="row">
+					<a ng-click="openEmailpopup('requestMore')"><div class="col-xlg-2 col-lg-2">
+						<div class="panel no-bd bd-3 panel-stat">
+							<div class="panel-header">
+								<h3>
+									<i class="icon-graph"></i> <strong>Request more info</strong>
+								</h3>
+							</div>
+							<div class="panel-stat-chart" style="height: 178px;">
+								<canvas id="pie-chart requestmoreinfo"
+									style="margin-top: 10px; margin-left: -27px;"></canvas>
+							</div>
+						</div>
+					</div></a>
+					<a ng-click="openEmailpopup('scheduleTest')"><div class="col-xlg-2 col-lg-2">
+						<div class="panel no-bd bd-3 panel-stat">
+							<div class="panel-header">
+								<h3>
+									<i class="icon-graph"></i> <strong>Schedule test drive</strong>
+								</h3>
+							</div>
+							<div class="panel-stat-chart" style="height: 178px;">
+								<canvas id="pie-chart scheduletest"
+									style="margin-top: 10px; margin-left: -27px;"></canvas>
+							</div>
+						</div>
+					</div></a>
+					<a ng-click="openEmailpopup('tradeInApp')"><div class="col-xlg-2 col-lg-2">
+						<div class="panel no-bd bd-3 panel-stat">
+							<div class="panel-header">
+								<h3>
+									<i class="icon-graph"></i> <strong>Trade-In Appraisal</strong>
+								</h3>
+							</div>
+							<div class="panel-stat-chart" style="height: 178px;">
+								<canvas id="pie-chart trade"
+									style="margin-top: 10px; margin-left: -27px;"></canvas>
+							</div>
+						</div>
+					</div></a>
+					<a ng-click="openEmailpopup('emailToFrd')"><div class="col-xlg-2 col-lg-2">
+						<div class="panel no-bd bd-3 panel-stat">
+							<div class="panel-header">
+								<h3>
+									<i class="icon-graph"></i> <strong>Email to friend</strong>
+								</h3>
+							</div>
+							<div class="panel-stat-chart" style="height: 178px;">
+								<canvas id="pie-chart emailtofriend"
+									style="margin-top: 10px; margin-left: -27px;"></canvas>
+							</div>
+						</div>
+					</div></a>
+					<div class="col-xlg-2 col-lg-2">
+						<div class="panel no-bd bd-3 panel-stat">
+							<div class="panel-header">
+								<h3>
+									 <strong>Followers</strong>
+								</h3>
+							</div>
+							<div class="panel-stat-chart" style="height: 178px;text-align: center;">
+							<h1 style="font-size: 107px;">{{followers}}</h1>
+								<!-- <canvas id="pie-chart trade"
+									style="margin-top: 10px; margin-left: -27px;"></canvas> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				
+				 <div class="row">
+            <div class="col-md-4">
+              <div class="panel">
+                <div class="panel-header">
+                  <h3><i class="icon-list"></i> <strong>Demographics</strong></h3>
+                  
+                </div>
+                <div class="panel-content widget-news">
+                  <div class="withScroll" data-height="400">
+                  <hr style="margin-top: 0px;margin-bottom: 0px;">
+                    <a ng-click="showlanguageCount()">
+                      <div ng-click="selectedTab=1;"  ng-class="selectedTab==1 ? 'media active':'media'">
+                        <div class="media-body">
+                          
+                          <div>
+                            <h4 style="color: deepskyblue;margin-left: 11px;">Language</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <hr style="margin-top: 0px;margin-bottom: 0px;">
+                    <a ng-click="showLocationCount()">
+                      <div ng-click="selectedTab=3;"  ng-class="selectedTab==3 ? 'media active':'media'">
+                        <div class="media-body">
+                          <div>
+                            <h4 style="color: deepskyblue;margin-left: 11px;">City, Country</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <hr style="margin-top: 0px;margin-bottom: 0px;">
+                    <div class="panel-header">
+                  			<h3><i class="icon-list"></i> <strong>System</strong></h3>
+	                </div>
+	                 <hr style="margin-top: 0px;margin-bottom: 0px;">
+                    <a ng-click="showBrowerCount()">
+                      <div ng-click="selectedTab=2;"  ng-class="selectedTab==2 ? 'media active':'media'">
+                        <div class="media-body">
+                         
+                          <div>
+                            <h4 style="color: deepskyblue;margin-left: 11px;">Browser</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <hr style="margin-top: 0px;margin-bottom: 0px;">
+                    <a ng-click="showOperatingCount()">
+                      <div ng-click="selectedTab=4;"  ng-class="selectedTab==4 ? 'media active':'media'">
+                        <div class="media-body">
+                         
+                          <div>
+                            <h4 style="color: deepskyblue;margin-left: 11px;">Operating System</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                     <hr style="margin-top: 0px;margin-bottom: 0px;">
+                    <a ng-click="showscreenResoluationCount()">
+                      <div ng-click="selectedTab=5;"  ng-class="selectedTab==5 ? 'media active':'media'">
+                        <div class="media-body">
+                         
+                          <div>
+                            <h4 style="color: deepskyblue;margin-left: 11px;">Screen Resoluation</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8" ng-if="langshow == 1">
+              <div class="panel">
+                <div class="panel-header panel-controls">
+                  <h3><i class="icon-star"></i> <strong>Language</strong></h3>
+                </div>
+                <div class="panel-content widget-table">
+                  <div class="withScroll" data-height="400">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Language</th>
+                          <th>Sessions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(key, value) in langmap">
+                          <td>{{key}}</td>
+                          <td><span class="p-l-10 c-green">{{value}}</span></td>
+                          
+                        </tr>
+                                             
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8" ng-if="locationshow == 1">
+              <div class="panel">
+                <div class="panel-header panel-controls">
+                  <h3><i class="icon-star"></i> <strong>Country, City</strong></h3>
+                </div>
+                <div class="panel-content widget-table">
+                  <div class="withScroll" data-height="400">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>City, Country</th>
+                          <th>Sessions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(key, value) in location">
+                          <td>{{key}}</td>
+                          <td><span class="p-l-10 c-green">{{value}}</span></td>
+                          
+                        </tr>
+                                             
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8" ng-if="operatingshow == 1">
+              <div class="panel">
+                <div class="panel-header panel-controls">
+                  <h3><i class="icon-star"></i> <strong>Operating System</strong></h3>
+                </div>
+                <div class="panel-content widget-table">
+                  <div class="withScroll" data-height="400">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Operating System</th>
+                          <th>Sessions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(key, value) in operatingSystem">
+                          <td>{{key}}</td>
+                          <td><span class="p-l-10 c-green">{{value}}</span></td>
+                          
+                        </tr>
+                                             
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-8" ng-if="webBroshow == 1">
+              <div class="panel">
+                <div class="panel-header panel-controls">
+                  <h3><i class="icon-star"></i> <strong>Web Browser</strong></h3>
+                </div>
+                <div class="panel-content widget-table">
+                  <div class="withScroll" data-height="400">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Web Browser</th>
+                          <th>Sessions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(key, value) in webBrosmap">
+                          <td>{{key}}</td>
+                          <td><span class="p-l-10 c-green">{{value}}</span></td>
+                         
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+             <div class="col-md-8" ng-if="screenResoluation == 1">
+              <div class="panel">
+                <div class="panel-header panel-controls">
+                  <h3><i class="icon-star"></i> <strong>Screen Resoluation</strong></h3>
+                </div>
+                <div class="panel-content widget-table">
+                  <div class="withScroll" data-height="400">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Screen Resoluation</th>
+                          <th>Sessions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(key, value) in screenResoluations">
+                          <td>{{key}}</td>
+                          <td><span class="p-l-10 c-green">{{value}}</span></td>
+                         
+                        </tr>
+                                              
+                       
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+			
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="userModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog" style="width: 1292px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" id="driveClose"
+						data-dismiss="modal" aria-hidden="true">
+						<i class="icons-office-52"></i>
+					</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body" style="height: 510px; overflow-x: auto;">
+					<div style="text-align: right;">
+						<!-- <input type="button" value="Hourly"> -->
+						<input type="button" ng-click="analydayFunction()" value="Day">
+						<input type="button" ng-click="analyweekFunction()" value="Week">
+						<input type="button" ng-click="analymonthFunction()" value="Month">
+					</div>
+					<div class="col-xlg-12 col-lg-12" ng-if="analylineChartmonth == 1">
+						<div class="row">
+							<canvas id="analyline-chart" class="full"></canvas>
+						</div>
+					</div>
+					<div class="col-xlg-12 col-lg-12" ng-if="analylineChartweek == 1">
+						<div class="row">
+							<canvas id="analyline-chartweek" class="full"></canvas>
+						</div>
+					</div>
+					<div class="col-xlg-12 col-lg-12" ng-if="analylineChartday == 1">
+						<div class="row">
+							<canvas id="analyline-chartday" class="full"></canvas>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-embossed"
+							data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="emailModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog" style="width: 1292px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" id="driveClose"
+						data-dismiss="modal" aria-hidden="true">
+						<i class="icons-office-52"></i>
+					</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body" style="height: 510px; overflow-x: auto;">
+					<div style="text-align: right;">
+						<input type="button" ng-click="maildayFunction()" value="Day">
+						<input type="button" ng-click="mailweekFunction()" value="Week">
+						<input type="button" ng-click="mailmonthFunction()" value="Month">
+					</div>
+					<div class="col-xlg-12 col-lg-12" ng-if="maillineChartmonth == 1">
+						<div class="row">
+							<canvas id="mailline-chart" class="full"></canvas>
+						</div>
+					</div>
+					<div class="col-xlg-12 col-lg-12" ng-if="maillineChartweek == 1">
+						<div class="row">
+							<canvas id="mailline-chartweek" class="full"></canvas>
+						</div>
+					</div>
+					<div class="col-xlg-12 col-lg-12" ng-if="maillineChartday == 1">
+						<div class="row">
+							<canvas id="mailline-chartday" class="full"></canvas>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-embossed"
+							data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+<style>
+.red {
+	color: black;
+	background-color: #ffd3d3 !important;
+}
+
+.nav-tabs>li>a::before {
+	height: 0px;
+}
+
+.tab-content {
+	background-color: #F1F1F1;
+	border-top: 0px;
+}
+
+.nav.nav-tabs>li.active>a {
+	background-color: #F1F1F1;
+}
+
+.active{
+	background-color: #eaeaea !important;
+}
+
+
+</style>

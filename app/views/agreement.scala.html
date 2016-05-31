@@ -1,0 +1,330 @@
+@(userName: String, userDate: String, userPhone: String)
+<html>
+<head>
+<title>GLIDER Enterprise</title>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href='https://fonts.googleapis.com/css?family=Work+Sans:200,100,300,400' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.4.0/animate.min.css" type="text/css">
+<link href="/assets/global/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" />
+<style>
+
+body {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 200;
+    overflow: hidden;
+}
+
+h1 {
+    text-transform: uppercase;
+    font-size: 3em;
+    color: #006bb6;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+.txt{
+	display: block;
+    font-family: initial;
+    margin: 1em 0px 1em;
+    text-align: left;
+    margin-left: 50px;
+    margin-right: 10px;
+}
+
+input[type='text'], input[type='password'], textarea {
+    display: block;
+    padding: 10px 5px;
+    font-size: 1em;
+    font-family: 'Work Sans', sans-serif;
+    width: 300px;
+    margin: 20px auto;
+    border: 1px solid gray;
+    background: none;
+}
+
+input[type='submit'] {
+    display: inline-block;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    text-transform: uppercase;
+    background: #006bb6;
+}
+
+.row {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.remind {
+    text-decoration: none;
+    color: gray;
+    white-space: nowrap;
+    margin-left: 90px;
+}
+.agreement {
+    text-decoration: none;
+    color: gray;
+    white-space: nowrap;
+    margin-left: 90px;
+}
+.highlight {
+    color: red;
+}
+
+h1, h2 {
+    text-align: center;
+    font-weight: 200;
+}
+
+.support {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    -webkit-transform: translateY(-50%) translateX(-50%);
+    -moz-transform: translateY(-50%) translateX(-50%);
+    -ms-transform: translateY(-50%) translateX(-50%);
+    -o-transform: translateY(-50%) translateX(-50%);
+    max-width: 500px;
+}
+
+.page_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 10;
+  opacity: .6;
+  filter: alpha(opacity=60);
+  display: none;
+  cursor: pointer;
+}
+
+.pops {
+  position: fixed;
+  display: none;
+  z-index: 20;
+  width: 460px;
+  background: #fff;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.popss {
+  position: fixed;
+  display: none;
+  z-index: 20;
+  width: 800px;
+  height:600px;
+  background: #fff;
+  text-align: center;
+  padding-bottom: 20px;
+  overflow: auto;
+}
+.close-button {
+  height: 25px;
+  width: 25px;
+  right: -15px;
+  top: -30px;
+  position: absolute;
+  box-sizing: border-box;
+  line-height: 50px;
+  display: inline-block;
+}
+.close-button:before,
+.close-button:after {
+  transform: rotate(-45deg);
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -5px;
+  margin-left: -25px;
+  display: block;
+  height: 5px;
+  width: 25px;
+  background-color: #fff;
+  transition: all 0.2s ease-out;
+}
+.close-button:after {
+  transform: rotate(45deg);
+}
+.close-button:hover:before,
+.close-button:hover:after {
+  transform: rotate(0deg);
+}
+
+@@media screen and (max-width: 959px) {
+
+}
+
+</style>
+</head>
+<body ng-app="newApp" ng-controller="mainPdfCtrl" style="overflow: auto;">
+
+<div class="col-sm-12">
+    <a href="#" class="close-button"></a>
+    <img src="/assets/images/glider_logo.png" style="height:150px; width:200px;text-align: center; margin-top:50px;margin-left: 40%;">
+    <h2><b>NON­DISCLOSURE AGREEMENT (NDA)</b></h2>
+    <p class="txt">THIS AGREEMENT is made between GLIDER LLC.,("Discloser") and "Recipient”.</p>
+    
+    <p class="txt"><b>1. Purpose.</b>​The Discloser has agreed to make available to the Recipient certain
+Confidential Information (as defined below) of the Discloser for the purpose of evaluating a possible
+business transaction with the Discloser
+</p>
+
+<p class="txt"><b>2. Definition.</b>​​ "Confidential Information" means any information, technical data, or knowhow,
+including, but not limited to, that which relates to research, product plans, products, services,
+customers, markets, software, developments, inventions, processes, designs, drawings, engineering,
+hardware configuration information, marketing or finances, which Confidential Information is
+designated in writing to be confidential or proprietary, or if given orally, is confirmed promptly in writing
+as having been disclosed as confidential or proprietary. Confidential Information does not include
+information, technical data or know­how which: (i) is in the possession of the receiving party at the
+time of disclosure as shown by the receiving party's files and records immediately prior to the time of
+disclosure; (ii) prior or after the time of disclosure becomes part of the public knowledge or literature,
+not as a result of any inaction or action of the receiving party; or (iii) is approved for release by the
+Discloser in writing.
+</p>
+
+<p class="txt"><b>3. Non­Disclosure of Confidential Information.</b>​​​ The Recipient agrees not to use the
+Confidential Information for any purpose other than that set forth in Section 1 of this Agreement. The
+Recipient will not disclose any Confidential Information to third parties except those who are required to
+have the information in order to carry out the purpose set forth in Section 1 of this Agreement.
+Recipient has had or will have directors, officers, employees, consultants and agents of Recipient to whom
+Confidential Information is disclosed or who have access to Confidential Information sign a Non­Disclosure
+Agreement in content substantially similar to this Agreement and will promptly notify the Discloser in writing
+of the names of each such person who has signed such agreements after such agreements are signed.
+Recipient agrees that it will take all reasonable measures to protect the secrecy of and avoid
+disclosure or use of Confidential Information in order to prevent it from falling into the public domain or
+the possession of persons other than those persons authorized hereunder to have any such
+information, which measures shall include the highest degree of care that Recipient utilizes to protect
+its own Confidential Information of a similar nature. Recipient agrees to notify the Discloser in writing
+of any misuse or misappropriation of such Confidential Information which may come to its attention.
+</p>
+
+<p class="txt"><b>4. Mandatory Disclosure.</b>​​​​ In the event that the Recipient or its directors, officers,
+employees, consultants or agents are requested or required by legal process to disclose any of the
+Confidential Information, the Recipient shall give prompt notice so that the Discloser may seek a
+protective order or other appropriate relief. In the event that such protective order is not obtained, the
+Recipient shall disclose only that portion of the Confidential Information which its counsel advises that
+it is legally required to disclose.
+</p>
+
+<p class="txt"><b>5. Return of Materials.</b>​​​ Any materials or documents of which have been furnished by the
+Discloser to the Recipient will be promptly returned, accompanied by copies of such documentation,
+after the evaluation set forth in Section 1 of this Agreement has been concluded.
+</p>
+
+<p class="txt"><b>6. No License Granted.</b>​​​​Nothing in this Agreement is intended to grant any rights to
+Recipient under any patent, copyright, trade secret or other intellectual property right nor shall this
+Agreement grant Recipient any rights in or to the other party's Confidential Information, except the
+limited right to review such Confidential Information solely for the purpose set forth in Section 1 of this
+Agreement.
+</p>
+
+<p class="txt"><b>7. Term.</b>​​​​ The foregoing commitments shall survive any termination of discussions
+between the parties, and shall continue for a period of three (3) years following the date of this
+Agreement.
+</p>
+
+<p class="txt"><b>8. Miscellaneous.</b>​​​​​This Agreement shall be binding upon and for the benefit of the
+undersigned parties, their successors and assigns, provided that Confidential Information may not be
+assigned without the prior written consent of the Discloser. Failure to enforce any provision of this
+Agreement shall not constitute a waiver of any term hereof.
+</p>
+
+<p class="txt"><b>9. Governing Law and Jurisdiction.</b>​​​​​ ​This Agreement shall be governed by and
+construed and enforced in accordance with the internal laws of California, and shall be
+binding upon the parties hereto in United States and worldwide. The federal and state courts
+within California shall have exclusive jurisdiction to adjudicate any dispute arising out of
+this Agreement.
+</p>
+
+<p class="txt"><b>10. Remedies.</b>​​​​​ Recipient agrees that its obligations hereunder are necessary and
+reasonable in order to protect the Discloser and its business, and expressly agrees that monetary
+damages would be inadequate to compensate the Discloser for any breach of any covenants and
+agreements set forth herein. Accordingly, Recipient agrees and acknowledges that any such
+violation or threatened violation will cause irreparable injury to the Discloser and that, in addition to
+any other remedies that may be available, in law, in equity or otherwise, the Discloser shall be entitled
+to obtain injunctive relief against the threatened breach of this Agreement or the continuation of any
+such breach, without the necessity of proving actual damages.
+IN WITNESS WHEREOF, the parties hereto have executed this Agreement as of the date
+first written above
+</p>
+
+
+<div>
+	 <form ng-submit="acceptAgreement()">
+		<div class=" col-sm-12">
+			<div class=" col-sm-4">
+				<label class="col-sm-10 control-label" style="">User Name</label>
+			</div>
+			<div class=" col-sm-4">
+				<label class="col-sm-10 control-label" style="">Date (dd-mm-yyyy)</label>
+			</div>
+			<div class=" col-sm-4">
+				<label class="col-sm-10 control-label" style="">User Phone</label>
+			</div>
+		</div>	
+		<div class="col-sm-12">
+			<div class=" col-sm-4">
+				<div class="col-sm-10">
+					<input type="text" value="@userName" style="width:200px;" required>
+				</div>
+			</div>
+			<div class=" col-sm-4">
+				<div class="col-sm-10">
+					<input type="text" value="@userDate" style="width:200px;" required>
+				</div>
+			</div>
+			<div class=" col-sm-4">
+				<div class="col-sm-10">
+					<input type="number" value="@userPhone" style="width:200px; margin-top:30px;" required>
+				</div>
+			</div>
+		</div>
+		
+	 	<input type="submit" id="subId" style="margin-left: 40%;" class="btn btn-primary" value="Accept" click="acceptAgreement()">
+   		<input type="submit" class="btn btn-primary" id="cancelAgreement" value="Cancel" onclick="">
+    </form>
+</div>
+
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="/assets/loginPage/particles.min.js"></script>
+<script src="/dealerjs/plugins/angular/angular.min.js"></script>
+<script src="/dealer/mainLoginCtrl.js"></script>
+<script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script>
+	$( document ).ready(function() {
+		console.log('@userName');
+		console.log('@userDate');
+		console.log('@userPhone');
+		$scope.userName='@userName';
+		$scope.userDate='@userDate';
+		$scope.userPhone='@userPhone';
+});
+	
+</script>
+
+</body>
+</html>
+

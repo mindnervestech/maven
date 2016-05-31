@@ -1,0 +1,416 @@
+ <div ng-init = goTocars();>
+    
+    <div class="col-sm-12">
+    	<div class="col-sm-6">
+    		<h2><b>View Registration</b></h2>
+    	</div>	
+    
+   
+</div>
+ <tabset class="nav-tabs2">
+                                <tab style="width:90px;">
+                                    <tab-heading>
+                                        <button type="button" style="width:60px; text-align:center;" class="btn btn-blue" ng-click="goTocars()" >Cars</button>
+                                       
+                                    </tab-heading>
+								    
+    							</tab>
+    				 			<tab style="width:132px;">
+                                    <tab-heading>
+                                        <button type="button" id="motorBtn" style="width:107px;" class="btn btn-blue" ng-click="goToMotorcycles()">Motorcycles</button>
+                                    </tab-heading>
+                               </tab >   
+                               <tab style="width:90px;">
+                                    <tab-heading>
+                                        <button type="button" style="width:62px;" class="btn btn-blue" ng-click="goToBoat()">Boat</button>
+                                    </tab-heading>
+                               </tab> 
+                                <tab style="width:118px;">
+                                    <tab-heading>
+                                        <button type="button" style="width:90px;" class="btn btn-blue" ng-click="goToAirplanes()">Airplanes</button>
+                                    </tab-heading>
+								    
+    							</tab>
+    							<tab style="width:179px;">
+                                    <tab-heading>
+                                        <button type="button" id="furnitureBtn" style="width:150px;" class="btn btn-blue" ng-click="goToDesignerFurniture()">Designer Furniture</button>
+                                    </tab-heading>
+                               </tab>   
+                               <tab style="width:129px;">
+                                    <tab-heading>
+                                        <button type="button" style="width:100px;" class="btn btn-blue" ng-click="goToRealState()">Real State</button>
+                                    </tab-heading>
+                               </tab>   
+                               <tab style="width:164px;">
+                                    <tab-heading>
+                                        <button type="button" style="width:135px;" class="btn btn-blue" ng-click="goToServiceProvider()">Service Provider</button>
+                                    </tab-heading>
+								    
+    							</tab>
+    							<tab style="width:164px;">
+                                    <tab-heading>
+                                        <button type="button" id="luxuryBtn" style="width:135px;" class="btn btn-blue" ng-click="goToLuxuryProducts()" style="text-align:center">Luxury Products</button>
+                                    </tab-heading>
+                               </tab>    
+     </tabset>	
+	<div  ng-if="doPublic == 0"><div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	<div  ng-if="doPublic == 1"><div ui-grid="gridOptions1" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	<div  ng-if="doPublic == 2"><div ui-grid="gridOptions2" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	<div  ng-if="doPublic == 3"><div ui-grid="gridOptions3" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	<div  ng-if="doPublic == 4"><div ui-grid="gridOptions4" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	
+	<div  ng-if="doPublic == 5"><div ui-grid="gridOptions5" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	<div  ng-if="doPublic == 6"><div ui-grid="gridOptions6" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	
+	<div  ng-if="doPublic == 7"><div ui-grid="gridOptions7" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+    <tabset class="nav-tabs2">
+                               <!--  <tab>
+                                    <tab-heading>
+                                        <button type="button" class="btn btn-blue" ng-click="pendingUser()">Send Demo Link</button>
+                                    </tab-heading> -->
+                                    
+                                    
+    							<!-- <tab>
+                                    <tab-heading>
+                                        <button type="button" id="soldBtn" class="btn btn-blue" ng-click="viewActive()">Active</button>
+                                    </tab-heading>
+                               </tab>   
+                               <tab>
+                                    <tab-heading>
+                                        <button type="button" class="btn btn-blue" ng-click="draftTab()">Drafts</button>
+                                    </tab-heading>
+                               </tab>  -->   
+     </tabset>
+    	 <div ng-if="doShow == 0" ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div>        
+        <!-- <div ng-if="doShow == 1" ui-grid="gridOptions1" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div> -->
+	    
+	             
+</div>   
+
+<!-- <button id="btnStatusSchedule" data-toggle="modal" data-target="#vehicalStatusModal" style="display: none;"></button> --> -->
+
+ <div style="display:none;" id="editPopup" data-toggle="modal" data-target="#editPopups"></div>
+<div class="modal fade" id="editPopups" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Register</strong></h4>
+                </div>
+			<div class="modal-body">
+				<form ng-submit="UpdateRegisterUser()">
+					<div class="col-md-12">
+						<input type="radio" class="col-md-1" name="location"
+							ng-model="register.oneLocation" value="one"><label
+							class="col-md-4">One Location</label> <input type="radio"
+							class="col-md-1" name="location" ng-model="register.oneLocation"
+							value="multi"> <label class="col-md-4">Multiple
+							Location</label>
+					</div>
+					<div class="col-md-12 form-group">
+						<div class="col-md-4">
+							<label>Options</label>
+						</div>
+						<div class="col-md-6">
+							<select class="form-control form-white"
+								ng-model="register.options" required>
+								<option value="">Select</option>
+								<option value="Cars">Cars</option>
+								<option value="Motorcycles">Motorcycles</option>
+								<option value="Boat">Boat</option>
+								<option value="Airplanes">Airplanes</option>
+								<option value="DesignerFurniture">Designer Furniture</option>
+								<option value="RealEstate">Real Estate</option>
+								<option value="ServicesProvider">Services Provider</option>
+								<option value="LuxuryProducts">Luxury Products</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-12 form-group">
+						<div class="col-md-4">
+							<label> Name</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" name="name" class="form-control"
+								ng-model="register.name" id="userName" placeholder="Name"
+								required />
+						</div>
+					</div>
+					<div class="col-md-12 form-group">
+						<div class="col-md-4">
+							<label>Email</label>
+						</div>
+						<div class="col-md-6">
+							<input type="email" class="form-control"
+								ng-model="register.email" 
+								placeholder="EMAIL" required />
+						</div>
+					</div>
+					<div class="col-md-12 form-group">
+						<div class="col-md-4">
+							<label class="control-label"> Phone</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" ng-model="register.phone" class="form-control"
+								placeholder="PHONE NUMBER" required />
+						</div>
+					</div>
+					<div class="col-md-12 form-group">
+						<div class="col-md-4">
+							<label> Business Name</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" ng-model="register.businessName"
+								class="form-control" placeholder="Business Name" required />
+						</div>
+					</div>
+					<div class="col-md-12 form-group">
+						<div class="col-md-4">
+							<label> Business Adress</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" class="form-control"
+								ng-model="register.businessAddress"
+								placeholder="Business Adress" required />
+						</div>
+					</div>
+					<input type="submit" class="btn btn-primary btn-embossed"
+						value="submit">
+
+				</form>
+			</div>
+
+		</div>
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteVehicleRow()">Yes</button>
+                </div> -->
+            </div>
+        </div>
+    </div> 
+   <!--  <div class="modal fade" id="vehicalStatusModal" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Sold Vehical</h4>
+								                </div>
+								                <form ng-submit="saveVehicalStatus()">
+								                <div class="modal-body" style="height:410px;overflow-x:auto;">
+								                   <div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Name</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="soldContact.name" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Email</label>
+														<div class="col-sm-7">
+															<input type="email" class="form-control form-white" ng-model="soldContact.email" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Phone</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="soldContact.phone" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Gender</label>
+														<div class="col-sm-7">
+															<select class="form-control form-white" ng-model="soldContact.gender" required>
+																<option value="">Select</option>
+																<option value="Male">Male</option>
+																<option value="Female">Female</option>
+															</select>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Age</label>
+														<div class="col-sm-7">
+															<select class="form-control form-white" ng-model="soldContact.age" required>
+																<option value="">Select</option>
+																<option value="16-20">16-20</option>
+																<option value="21-24">21-24</option>
+																<option value="25-39">25-39</option>
+																<option value="40-59">40-59</option>
+																<option value="60+">60+</option>
+															</select>
+														</div>
+													</div>
+														<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Zip Code</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="soldContact.custZipCode" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Enthicity</label>
+														<div class="col-sm-7">
+															<select class="form-control form-white" ng-model="soldContact.enthicity" required>
+																<option value="">Select</option>
+																<option value="White">White</option>
+																<option value="Hispanic or Latino">Hispanic or Latino</option>
+																<option value="Black or African American">Black or African American</option>
+																<option value="Native American or American Indian">Native American or American Indian</option>
+																<option value="Asian / Pacific Islander">Asian / Pacific Islander</option>
+																<option value="Other">Other</option>
+															</select>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Buying for</label>
+														<div class="col-sm-7">
+															<select class="form-control form-white" ng-model="soldContact.buyingFor">
+																<option value="Myself">Myself</option>
+																<option value="Spouse">Spouse</option>
+																<option value="Child">Child</option>
+																<option value="Other Relative">Other Relative</option>
+															</select>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">How contacted us</label>
+														<div class="col-sm-7">
+															<select class="form-control form-white" ng-model="soldContact.howContactedUs" required>
+																<option value="">Select</option>
+																<option value="Phone">Phone</option>
+																<option value="Walk In">Walk In</option>
+																<option value="Email">Email</option>
+																<option value="Facebool">Facebook</option>
+																<option value="Online">Online</option>
+															</select>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">How found us</label>
+														<div class="col-sm-7">
+															<select class="form-control form-white" ng-model="soldContact.howFoundUs" required>
+																<option value="">Select</option>
+																<option value="Google Search">Google Search</option>
+																<option value="Yahoo Search">Yahoo Search</option>
+																<option value="Bing Search">Bing Search</option>
+																<option value="Google Maps">Google Maps</option>
+																<option value="Google Maps Search">Google Maps Search</option>
+																<option value="Facebook">Facebook</option>
+																<option value="Google Plus">Google Plus</option>
+																<option value="Twitter">Twitter</option>
+																<option value="Word of the mouth">Word of the mouth</option>
+																<option value="Returning Client">Returning Client</option>
+																<option value="Yelp">Yelp</option>
+																<option value="Cars.com">Cars.com</option>
+																<option value="AutoGuru">AutoGuru</option>
+																<option value="AutoTrader">AutoTrader</option>
+																<option value="Kelly Blue Book">Kelly Blue Book</option>
+																<option value="Craigslist">Craigslist</option>
+															</select>
+														</div>
+													</div>
+													
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Request has been initiated</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="soldContact.typeOfLead" required>
+														</div>
+													</div>
+													
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Make</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="soldContact.make" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Year</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="soldContact.year" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Mileage</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="soldContact.mileage" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Final Price</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="soldContact.price" required>
+														</div>
+													</div>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Sold</button>
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div> -->
+								    
+				<!-- 	<div style="display:none;" id="vehicleHistory" data-toggle="modal" data-target="#modal-vehicleHistory"></div>
+					<div class="modal fade" id="modal-vehicleHistory" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" id="noteClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Vehicle History</h4>
+								                </div>
+								                <div class="modal-body">
+								                    <div class="form-group col-sm-12">
+								                    	<table class="table">
+								                    		<tr>
+									                    		<td>Note</td>
+									                    		<td>Action</td>
+									                    		<td>Date</td>
+									                    		<td>Time</td>
+								                    		</tr>
+								                    		<tr ng-repeat="noteStatus in vehicleHistory">
+									                    		<td>{{noteStatus.note}}</td>
+									                    		<td>{{noteStatus.action}}</td>
+									                    		<td>{{noteStatus.createdDate}}</td>
+									                    		<td>{{noteStatus.createdTime}}</td>
+								                    		</tr>
+								                    	</table>
+								                    </div>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>								    
+								     -->
+								    
+	<div class="modal fade" id="imagePopup" tabindex="-1" role="dialog" aria-hidden="true" style="text-align:right; margin-top:20%;height:200px; overflow: hidden; margin-left:30%;width:250px;">
+  		<div class="modal-dialog" style=" width: 250px;padding-right: 0 !important;    margin: 0;">
+  			 <div class="modal-header" style="display:none;">
+				<button type="button" class="close" id="imgClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+       		</div>
+  			<div id="img" style="height:200px; width: 250px;"> 
+				<img id="thumb_image"src="" style="height:200px; width:250px;" />
+			</div>
+  		</div>	
+  </div>								    
+    
+<style>
+.red { color: black;  background-color: #ffd3d3 !important; }
+.green {color: red;background-color:yellow !important;}
+</style>     

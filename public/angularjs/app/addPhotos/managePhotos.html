@@ -1,0 +1,119 @@
+<div class="header"><h2>Manage Photos</h2></div>
+<div ng-init="init()">
+<!-- <div class="col-lg-12">
+<div class="row">
+<div ng-repeat="image in imageList" class="col-md-4">
+	<img ng-src="/getImage/{{image.id}}" width="200" height="200" style="margin-top:10%;"/>
+</div>
+</div>
+</div> -->
+
+
+                    <div gridster="gridsterOpts">
+                    	<ul>
+                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" 
+                    			data-sizex="1" data-sizey="1" ng-repeat="image in imageList"
+                    		 	on-finish-render="ngRepeatFinished" >
+                    		 	<div class="imageGroup">
+                        			<img class="myImage" style="width:100%; height:100%;" src="/getImage/{{image.id}}/thumbnail" id="imgId{{$index}}" />
+                            		<div>
+                            		<a class="remImage1" ng-click="setAsDefault(image,$index)" style="cursor:pointer;color:#319DB5;"><b>Set Default</b></a>
+                            		</div>
+                            		<div>
+                            			<a class="remImage" ng-click="deleteImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
+                            		</div>
+                            		<a class="remImage2" ng-click="showFullImage(image)" data-toggle="modal" data-target="#modal-image" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
+                        			<a class="remImage3" ng-click="editImage(image)" style="cursor:pointer;color:#319DB5;"><b>Edit</b></a>
+                        		</div>
+                        	</li>
+                        </ul>
+                        </div>
+    
+ <!-- <div data-gridster>
+    <ul>
+        <li data-row="{{image.row}}" data-col="{{image.col}}" data-sizex="2" data-sizey="6" gridster-item="image" ng-repeat="image in imageList">
+	        <figure class="animal effect-zoe magnific">
+	        	<img src="/getImage/{{image.id}}" id="imgId{{$index}}" alt="9" width="320" height="150" />
+	        	<figcaption>
+                                <button class="btn btn-info btn-transparent btn-rounded" ng-click="setAsDefault(image,$index)" style="width:47%;">Set Default</button>
+                                <button class="btn btn-sm btn-icon btn-rounded btn-danger" ng-click="deleteImage(image)"><b>X</b></button>
+                            </figcaption>
+	        </figure>
+        </li>
+    </ul>
+</div> -->
+    
+ <div class="modal fade modal-image" id="modal-image" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                </div>
+                <div class="modal-body">
+                    <img src="/getImage/{{imageId}}/full" alt="picture 1" class="img-responsive">
+                </div>
+                <div class="modal-footer">
+                    <p>{{imageName}}</p>
+                </div>
+            </div>
+        </div>
+    </div>   
+    
+</div>    
+<style>
+.portfolioContainer figure {
+height: 200px;
+margin: 2.5%;
+}
+.grid figure {
+  width: 27.5%;
+}
+
+.remImage{
+opacity:0;
+top:0;
+right:-15px;
+position:absolute;
+}
+
+.remImage1{
+opacity:0;
+top:0;
+left:7px;
+position:absolute;
+}
+
+.remImage2{
+opacity:0;
+top:88px;
+left:123px;
+position:absolute;
+}
+
+.remImage3{
+opacity:0;
+top:88px;
+left:10px;
+position:absolute;
+}
+
+.imageGroup{
+position:relative;
+float:left;
+}
+.imageGroup:hover .remImage{
+opacity:1;
+}
+.imageGroup:hover .remImage1{
+opacity:1;
+}
+.imageGroup:hover .remImage2{
+opacity:1;
+}
+.imageGroup:hover .remImage3{
+opacity:1;
+}
+.imageGroup:hover .myImage{
+opacity:0.2;
+}
+</style>    

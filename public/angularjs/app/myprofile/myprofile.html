@@ -1,0 +1,402 @@
+  
+  <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+    <ul id="myTabs" class="nav nav-tabs" role="tablist">
+    	<li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Information</button></a></li>
+      	<li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Dealer's Profile</button></a></li>
+      	<li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
+      	<li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLoaction()">My Locations</button></a></li>
+      	<li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDeactivateLoaction()">Deactivate Locations</button></a></li>
+		<!-- <li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoHoursOfOperation()">Hours of Operations</button></a></li>  -->
+	    <div id="myTabContent" class="tab-content">
+	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+	        
+	       <!--  <h1><b>My Profile</b></h1> -->
+<h2><b>Dealership's Info</b></h2>
+<!-- h4><b>Enter your 17 digit vin in the form below and click decode.</b></h4>
+ -->
+
+<!-- <div class="form-group" ng-init="vehicleInit()">
+	<div class="col-sm-3">
+		<input class="form-control form-white" type="text" ng-model="vinNumber" placeholder="Enter Vin">
+	</div>
+	<button class="btn btn-primary" ng-click="getVinData()">Decode!</button>
+	<p style="color:red;" ng-show="vinErr"><b>Vin is not valid</b></p>
+</div> -->
+<hr>
+
+<form ng-submit="saveMyprofile()">
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Name *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" style="border-color:red;" ng-model="myprofile.myname" required>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Dealer ID</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" ng-model="myprofile.dealer_id" disabled = 'true'">
+	</div>
+</div>
+
+<!-- <div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">VIN</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" ng-model="vinData.specification.vin" placeholder="VIN Number" readonly="readonly">
+	</div>
+	<div class="col-sm-6" style="margin-left:17%;">
+		<p>A valid vin is 17 digits and cannot contain the letters I,O or Q</p>
+	</div>
+</div> -->
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Address *</label>
+	<div class="col-sm-5" id="locationField">
+		<textarea rows="4" cols="50" style="border-color:red;" ng-model="myprofile.address" class="form-control form-white"
+			id="autocomplete" placeholder="Enter your address" ng-focus="geolocate()"></textarea>
+	</div>
+</div>
+<!--
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Address1 *</label>
+	<div class="col-sm-5">
+		<div id="locationField">
+      		<input id="autocomplete" placeholder="Enter your address"
+             ng-focus="geolocate()" type="text"></input>
+    </div>
+	</div>
+</div>
+ <div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">City</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" " ng-model="myprofile.city" >
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">State</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text"  ng-model="myprofile.state" >
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Zip</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text"  ng-model="myprofile.zip" >
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Country</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" ng-model="myprofile.country" >
+	</div>
+</div> -->
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Phone *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white"style="border-color:red;" maxlength="10" minlength="10" ng-model="myprofile.phone" type="text" pattern="[0-9]{10}" title="Please enter numbers" required   >
+	</div>
+</div>
+
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Email *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" style="border-color:red;" ng-model="myprofile.email" type="email" required>
+		<!-- <p>745i,Accord,Sierra</p> -->
+	</div>
+</div>
+
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Web *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" style="border-color:red;" ng-model="myprofile.web" type="text" required>
+		<!-- <p>745i,Accord,Sierra</p> -->
+	</div>
+</div>
+<div class="form-group col-sm-12" ng-if="userRole == 'Manager'">
+	<label class="col-sm-2 control-label" style="text-align: right;">Location Photo </label>
+                   <p class="col-sm-5">
+ 	               <input class="form-control" type="file" id="file" style="width: 42%;" accept="image/*" ng-file-select="onLogoFileLocationSelect($files)">
+                   <span id="preview" style="margin-top: 20px;width: 108px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{imgLocation}}></span>
+                  </p>
+</div>
+
+<h2><b>Social Media links</b></h2>
+<hr class="ng-scope">
+<label style="margin-left: 252px;">Enter your url with "https://"</label>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Facebook</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text"  ng-model="myprofile.facebook" >
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Pinterest</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text"  ng-model="myprofile.pinterest" >
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Instagram</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text"  ng-model="myprofile.instagram" >
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Twitter</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text"  ng-model="myprofile.twitter" >
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Google Plus</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text"  ng-model="myprofile.googleplus" >
+	</div>
+	
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Yelp</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text"  ng-model="myprofile.yelp" >
+	</div>
+	
+</div>
+
+<div class="form-group col-sm-12">
+<button type="submit" class="btn btn-primary" style="margin-left:31%;" ng-click="setFlagVal()">Save Profile</button>
+</div>
+<!-- <a style="font-size: 26px;" data-toggle="modal" data-target="#modal-basic" ng-click="createGeneralManager()"><u>General Manager Details</u></a>
+<hr class="ng-scope"> -->
+
+ 
+<!-- <button type="submit" class="btn btn-primary" ng-click="addPhoto()">Save & Go To Photos</button> -->
+
+</form>
+   <div ng-if="userRole == 'General Manager' || userRole == null">
+	      <form name="userFrm" ng-submit="saveImage()">
+                   <h2 style="float: left;"><b>General Manager Details</b></h2>
+<hr class="ng-scope">
+                   
+                   		<div class="form-group col-sm-12">
+							<label class="col-sm-2 control-label" style="text-align: right;">Name *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.firstName"  required>
+								</div>
+						</div>
+						
+						<div class="form-group col-sm-12">
+							<label class="col-sm-2 control-label" style="text-align: right;">Email *</label>
+								<div class="col-sm-6">
+									<input id="userEmail" class="form-control form-white" type="email" ng-model="user.email" ng-blur="checkEmail('create')"  required>
+								</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-2 control-label" style="text-align: right;">Password *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.password"  required>
+								</div>
+						</div>
+						<p style="color:red;"><b>{{emailMsg}}</b></p>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-2 control-label" maxlength="10" minlength="10" style="text-align: right;">Phone *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.phone" maxlength="10" minlength="10" pattern="[0-9]{10}" title="Please enter numbers" required>
+								</div>
+						</div>
+						
+						<label class="col-sm-2 control-label" style="text-align: right;">Photo </label>
+                   <!-- <input class="form-control" type="file" style="margin-left: 29%;width: 42%;" accept="image/*" name="logoFile" ng-file-select="onLogoFileSelect($files)" required=""> -->
+                   <p><!-- <label>&{field.name}</label> --><!-- <span id="preview"> --></span>
+ 	               <input class="form-control" type="file" id="file" style="margin-left: 19%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
+                   <span id="preview" style="margin-top: 20px;width: 108px;margin-left: 23px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{imgGM}}></span>
+                  </p>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" style="margin-left:31%;" >Create General Manager</button>
+                </div>
+                </form>
+	    
+	    </div>
+	      </div>
+	    
+	    </div>
+	   
+	    
+	    
+	     <div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" id = "btnClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Create General Manager</strong></h4>
+                </div>
+                <form name="userFrm" ng-submit="saveImage()">
+                <div class="modal-body">
+                   
+                   		<div class="form-group col-sm-12">
+							<label class="col-sm-3 control-label" style="text-align: right;">Name *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.firstName"  required>
+								</div>
+						</div>
+						
+						<div class="form-group col-sm-12">
+							<label class="col-sm-3 control-label" style="text-align: right;">Email *</label>
+								<div class="col-sm-6">
+									<input id="userEmail" class="form-control form-white" type="email" ng-model="user.email" ng-blur="checkEmail('create')"  required>
+								</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-3 control-label" style="text-align: right;">Password *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.password"  required>
+								</div>
+						</div>
+						<p style="color:red;"><b>{{emailMsg}}</b></p>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-3 control-label" style="text-align: right;">Phone *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.phone" maxlength="10" minlength="10" pattern="[0-9]{10}" title="Please enter numbers" required>
+								</div>
+						</div>
+						
+						<label class="col-sm-3 control-label" style="text-align: right;">Photo </label>
+                   <!-- <input class="form-control" type="file" style="margin-left: 29%;width: 42%;" accept="image/*" name="logoFile" ng-file-select="onLogoFileSelect($files)" required=""> -->
+                   <p><!-- <label>&{field.name}</label> --><!-- <span id="preview"> --></span>
+ 	               <input class="form-control" type="file" id="file" style="margin-left: 29%;width: 42%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
+                   <span id="preview" style="margin-top: 20px;width: 108px;margin-left: 23px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{imgGM}}></span>
+                  </p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-embossed">Create General Manager</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- ---------------------------------------Manager Profile------------------------ -->
+    
+    
+    
+    <div ng-if="userRole == 'Manager'" id="myTabContent" class="tab-content">
+	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab" ng-init="initManager()">
+	        
+<!-- <h2><b>Location Info</b></h2>
+
+<hr> -->
+<form ng-submit="updateManagerProfile()">
+<!-- <div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Location Name *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" style="border-color:red;" ng-model="managerProfile.locationName"  required>
+	</div>
+</div>
+
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Address *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" " ng-model="vinData.specification.address" type="text" >
+	<textarea rows="4" cols="50" style="border-color:red;" ng-model="managerProfile.locationaddress" class="form-control form-white"></textarea>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Email *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="email" " ng-model="managerProfile.locationemail" required>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Phone</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text"  ng-model="managerProfile.locationphone" >
+	</div>
+</div> -->
+
+
+
+
+<h2><b>Manager Details</b></h2>
+<hr class="ng-scope">
+
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">First Name *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" ng-model="managerProfile.firstName" required>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Last Name *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" ng-model="managerProfile.lastName" required>
+	</div>
+</div>
+
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Phone *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" ng-model="managerProfile.phone" maxlength="10" minlength="10" pattern="[0-9]{10}" title="Please enter numbers" required>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Email *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="email" ng-model="managerProfile.email" required>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+	<label class="col-sm-2 control-label" style="text-align: right;">Manager Photo </label>
+                  <p class="col-sm-5">
+ 	               <input class="form-control" type="file" id="file" style="width: 42%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
+                   <span id="preview" style="margin-top: 20px;width: 108px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{img}}></span>
+                  </p>
+</div>
+
+<hr class="ng-scope">
+
+<button type="submit" class="btn btn-primary" style="margin-left:31%;float: left;" >Save Profile</button>
+
+<!-- <button type="submit" class="btn btn-primary" ng-click="addPhoto()">Save & Go To Photos</button> -->
+
+</form>
+	      </div>
+	    </div>
+    
+    <form action="/authenticate">
+    	<button type="submit" id="GM" class="btn btn-primary" style="display: none;" ></button>
+    </form>
+    
+  </div>
+  
+  
+<style>
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+
+#locationField, #controls {
+        position: relative;
+            height: 80px;
+      }
+      #autocomplete {
+      }
+</style>	
+
+
+
+
+
+
+
+
+

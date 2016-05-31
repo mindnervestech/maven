@@ -1,0 +1,836 @@
+<div ng-init="init()">
+<h2>Edit Vehicle</h2>
+<tabset class="nav-tabs2">
+                                <tab>
+                                    <tab-heading>
+                                        <button type="button" class="btn btn-blue">Details</button>
+                                    </tab-heading>
+                                    <div style="margin-left:74%;">
+	                                    <button type="button" class="btn btn-white" ng-click="updateVehicleStatus()">Mark As Sold</button>
+	                                    <button type="button" class="btn btn-white" ng-click="deleteVehicle()">Delete</button>
+                                    </div>
+                                    <form ng-submit="updateVehicle()">
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Category *</label>
+											<div class="col-sm-5">
+												<!-- <input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.category" placeholder="Cars and Trucks" required> -->
+												<select placeholder="Cars and Trucks" class="form-control form-white" ng-model="vinData.specification.category" style="border-color:red;" required>
+			  											<option value="">Select</option>
+														<option value="Car">Car</option>
+														<option value="Truck">Truck</option>
+														<option value="Motorcylce">Motorcylce</option>
+														<option value="Boat">Boat</option>
+														<option value="Supercar">Supercar</option>
+												</select>
+											</div>
+										</div>										
+										<div class="form-group col-sm-12" style="font-size: 16px;">
+												<label class="col-sm-2 control-label" style="text-align: right;"> </label>
+												<div class="col-sm-5">
+														<span> New<input type="radio"  name="New" ng-checked="true" value="New" style="width: 20px;" ng-model="vinData.specification.typeofVehicle"/>
+											 			<span  style="margin-left: 20px;">Used<input type="radio" name="New" value="Used" style="width: 20px;" ng-model="vinData.specification.typeofVehicle"/></span>
+												</div>
+
+ 
+										</div>
+										
+										<div class="form-group col-sm-12" >
+										<label class="col-sm-2 control-label" style="text-align: right;"> </label>
+										<div class="col-sm-2">
+												<span>Coming Soon<input type="checkbox"  ng-checked="master" name="ComingSoon" value="comingSoon" style="width: 20px;" ng-click="dataShow(vinData.specification.commingSoonVehicle)" ng-model="vinData.specification.commingSoonVehicle"/>
+											</div>
+										<div class="col-sm-2">  <!-- ng-show="vinData.specification.commingSoonVehicle" -->
+											<input data-provide="datepicker" id="comingsoonDateEdit" placeholder="Select Date" class="form-control input-sm" 
+											data-date-format="yyyy-mm-dd" >
+										</div>
+										 </div>
+
+										<div class="form-group col-sm-12">
+											<label class="col-sm-2 control-label" style="text-align: right">Upload PDF brochure *</label>
+											<div class="col-sm-2">
+													<input type="file" name="logoFile" ng-file-select="onPdfFileSelect($files)" accept="application/msword,application/pdf"/>
+											</div>
+											<label class="col-sm-2 control-label" ng-if="vinData.specification.fileName != null" style="text-align: left">{{vinData.specification.fileName}}</label>
+											<i class="col-sm-1 glyphicon glyphicon-remove-circle" ng-if="vinData.specification.fileName != null" style="text-align: right;cursor: pointer;" title="Remove Pdf"ng-click="removePdf(vinData.specification.id)"> </i>
+										</div>
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Title *</label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.title" type="text" required>
+											</div>
+										</div>
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">VIN</label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.vin" placeholder="VIN Number" minlength="17" required>
+											</div>
+											<div class="col-sm-6" style="margin-left:17%;">
+												<p>A valid vin is 17 digits and cannot contain the letters I,O or Q</p>
+											</div>
+										</div>
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Year *</label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.year" type="text" required>
+											</div>
+										</div>
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Make *</label>
+											<div class="col-sm-5">
+												<angucomplete-alt id="makeSearch"
+														placeholder="Make"
+														pause="10"
+														selected-object="selectedMake"
+														local-data="makeList"
+														search-fields="make"
+														title-field="make"
+														minlength="1"
+														focus-In="focusIn($index)"
+														input-class="form-control form-control-small txtClr">
+												</angucomplete-alt>
+												<!-- <input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.make" type="text" required>-->
+											</div>
+										</div>
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Model *</label>
+											<div class="col-sm-5">
+														<angucomplete-alt id="modelSearch"
+																placeholder="Model"
+																pause="10"
+																selected-object="selectedModel"
+																local-data="modelList"
+																search-fields="model"
+																title-field="model"
+																minlength="0"
+																focus-In="focusIn($index)"
+																input-class="form-control form-control-small txtClr">
+														</angucomplete-alt>
+												<!--<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.model" type="text" required>-->
+												<p>745i,Accord,Sierra</p>
+											</div>
+										</div>
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Trim *</label>
+											<div class="col-sm-5">
+												<angucomplete-alt id="trimSearch"
+														placeholder="Trim"
+														pause="10"
+														selected-object="selectedTrim"
+														local-data="trimList"
+														search-fields="trim"
+														title-field="trim"
+														minlength="0"
+														focus-In="focusIn($index)"
+														input-class="form-control form-control-small txt">
+												</angucomplete-alt>
+												<!--<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.trim_level" type="text" required> -->
+												<p>EX,LX,DX</p>
+											</div>
+										</div>
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Label *</label>
+											<div class="col-sm-5">
+												<angucomplete-alt id="labelSearch"
+														placeholder="Label"
+														pause="10"
+														selected-object="selectedLabel"
+														local-data="labelList"
+														search-fields="label"
+														title-field="label"
+														minlength="0"
+														focus-In="focusIn($index)"
+														input-class="form-control form-control-small txt">
+												</angucomplete-alt>
+												<!--<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.label" placeholder="Runs Great,Clean History" required>-->
+											</div>
+										</div>
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Stock *</label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.stock" type="text" required>
+											</div>
+										</div>
+										<div class="form-group col-sm-12" ng-if="vinData.specification.typeofVehicle != 'New'">
+                                        <label class="col-sm-2 control-label" style="text-align: right;">Mileage *</label>
+	                                        <div class="col-sm-5">
+		                                        <input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.mileage" type="text" required>
+	                                        </div>
+                                        </div>
+										
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">MPG </label>
+											<div class="col-sm-2">
+												<input class="form-control form-white" type="text" ng-model="vinData.specification.city_mileage" placeholder="City">
+											</div>
+											<div class="col-sm-2">
+												<input class="form-control form-white" type="text" ng-model="vinData.specification.highway_mileage" placeholder="Hwy">
+											</div>
+										</div>
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Cost </label>
+											<div class="col-sm-5">
+												<input  class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.cost"required>    <!-- type="number" min="0" placeholder="$" currency-input ng-change="changeCost()" --> 
+												<p>Not Required,Numbers only,Internal Use Only,Not Displayed to Customer</p>
+											</div>
+										</div>
+										<div class="form-group col-sm-12" ng-if="vinData.specification.commingSoonVehicle != true">
+										<label class="col-sm-2 control-label" style="text-align: right;">Price *</label>
+											<div class="col-sm-5">
+												<input type="number" min="0" placeholder="$" class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.price"   required>  <!-- currency-input type="number" min="0" placeholder="$" ng-change="changePrice()" -->
+												<p>Numbers only,Enter 0 to display "Call"</p>
+											</div>
+										</div>
+										<div class="form-group col-sm-12" ng-if="vinData.specification.commingSoonVehicle == true">
+										<label class="col-sm-2 control-label" style="text-align: right;">Price</label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" ng-model="vinData.specification.price" type="number" min="0" placeholder="$">
+												<p>Numbers only,Enter 0 to display "Call"</p>
+											</div>
+										</div>
+										<div class="form-group col-sm-12">
+											<div class="col-sm-2">
+											</div>	
+											<div class="col-sm-5">
+												<h2>Price History Log</h2>
+								                    	<table class="table">
+								                    		<tr>
+									                    		<td>Date & Time</td>
+									                    		<td>Person</td>
+									                    		<td>Price</td>
+								                    		</tr>
+								                    		<tr ng-repeat="history in priceHistory">
+									                    		<td>{{history.dateTime}}</td>
+									                    		<td>{{history.person}}</td>
+									                    		<td>{{history.price}}</td>
+								                    		</tr>
+								                    	</table>
+								                    </div>	
+								                    </div>
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Made In</label>
+											<div class="col-sm-5">
+												<angucomplete-alt id="madeInSearch"
+														placeholder="MadeIn"
+														pause="10"
+														selected-object="selectedMadeIn"
+														local-data="madeInList"
+														search-fields="madeIn"
+														title-field="madeIn"
+														minlength="0"
+														focus-In="focusIn($index)"
+														input-class="form-control form-control-small txt">
+												</angucomplete-alt>
+												<!-- <input class="form-control form-white" ng-model="vinData.specification.made_in" type="text">-->
+											</div>
+										</div>
+										
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Optional Seating</label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" ng-model="vinData.specification.optional_seating" type="text">
+											</div>
+										</div>
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Exterior Color</label>
+											<div class="col-sm-5">
+												<angucomplete-alt id="extColorSearch"
+														placeholder="ExteriorColor"
+														pause="10"
+														selected-object="selectedExtColor"
+														local-data="exteriorColorList"
+														search-fields="extColor"
+														title-field="extColor"
+														minlength="0"
+														focus-In="focusIn($index)"
+														input-class="form-control form-control-small txt">
+												</angucomplete-alt>
+												<!--<input class="form-control form-white" ng-model="vinData.specification.extColor" type="text"> -->
+											</div>
+										</div>
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Color Description</label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" ng-model="vinData.specification.colorDesc" type="text">
+												<p>Specific exterior color name,but not required</p>
+											</div>
+										</div>
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Doors</label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" ng-model="vinData.specification.doors" type="text">
+											</div>
+										</div>
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Stereo</label>
+											<div class="col-sm-5">
+												<angucomplete-alt id="stereoSearch"
+														placeholder="Stereo"
+														pause="10"
+														selected-object="selectedStereo"
+														local-data="stereoList"
+														search-fields="stereo"
+														title-field="stereo"
+														minlength="0"
+														focus-In="focusIn($index)"
+														input-class="form-control form-control-small txt">
+												</angucomplete-alt>
+												<!--<input class="form-control form-white" ng-model="vinData.specification.stereo" type="text"> -->
+											</div>
+										</div>
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Engine</label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" ng-model="vinData.specification.engine" type="text">
+											</div>
+										</div>
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Body Style</label>
+											<div class="col-sm-5">
+												<!-- <input class="form-control form-white" ng-model="vinData.specification.style" type="text"> -->
+												<select placeholder="Body Style" class="form-control form-white" ng-model="vinData.specification.style" style="border-color:red;" required>
+												   <option value="">Select</option>
+												   <option value="Sedan">Sedan</option>
+												<option value="Coupe">Coupe</option>
+												<option value="SUV">SUV</option>
+												<option value="RV">RV</option>
+												<option value="Hachback">Hatchback</option>
+												<option value="2Hachback">2dr Hachback</option>
+												 <option value="4Hachback">4dr Hachback</option>
+												  <option value="Convertible">Convertible</option>
+				
+			   								</select>
+											</div>
+										</div>
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Location</label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" ng-model="vinData.specification.location" style="border-color:red;" type="text">
+											</div>
+											<p>Please add location for vehicle</p>
+										</div>
+										
+										<div class="form-group col-sm-12">
+											<label class="col-sm-2 control-label" style="text-align: right;">Description</label>
+												<div class="col-sm-5">
+													<textarea class="form-control form-white" ng-model="vinData.specification.description" rows="5"></textarea>
+												</div>
+											</div>
+										
+										<h2><b>Vehicle Overview</b></h2>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Drive Type</label>
+	<div class="col-sm-4">
+		<angucomplete-alt id="driveTypeSearch"
+				placeholder="Drive Type"
+				pause="10"
+				selected-object="selectedDriveType"
+				local-data="driveTypeList"
+				search-fields="drivetrain"
+				title-field="drivetrain"
+				minlength="0"
+				focus-In="focusIn($index)"
+				input-class="form-control form-control-small txt">
+		</angucomplete-alt>
+		<!--<input class="form-control form-white" ng-model="vinData.specification.drivetrain" type="text"> -->
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Fuel Type</label>
+	    <div class="col-sm-4">
+		<!-- <input class="form-control form-white" ng-model="vinData.specification.fuelType" type="text">-->
+		<select placeholder="Fuel Type" class="form-control form-white" ng-model="vinData.specification.fuelType" >
+			   <option value="">Select</option>
+			   <option value="Eco-Friendly">Eco-Friendly</option>
+			   <option value="Electric">Electric</option>
+			   <option value="Gas">Gas</option>
+			   <option value="Flexible-Fuel">Flexible-Fuel</option>
+			   <option value="Hybrid">Hybrid</option>
+		</select>
+		<!-- <angucomplete-alt id="fuelTypeSearch"
+				placeholder="Fuel Type"
+				pause="10"
+				selected-object="selectedFuelType"
+				local-data="fuelTypeList"
+				search-fields="fuelType"
+				title-field="fuelType"
+				minlength="0"
+				focus-In="focusIn($index)"
+				focus-Out="fuelFocusOut()"
+				input-class="form-control form-control-small txt">
+		</angucomplete-alt> -->
+		<!-- <input class="form-control form-white" ng-model="vinData.specification.fuelType" type="text">-->
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Fuel Tank</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.fuelTank" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Headlights</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.headlights" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Mirrors</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.mirrors" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Ground Clearance</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.groundClearance" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Roof</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.roof" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Height</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.height" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Length</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.length" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Width</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.width" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Acceleration</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.acceleration" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Seats</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.optional_seating" type="text">
+	</div>
+</div>
+<h2><b>Engine, Transmission & Brakes</b></h2>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Engine Type</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.engine" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Cylinders</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.cylinders" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Displacement</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.displacement" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Cam Type</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.camType" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Valves</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.valves" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Fuel Type</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.fuelType" type="text" >  <!-- ng-blur="fuelTypeChange()" -->
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Fuel Quality</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.fuelQuality" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Max. Horse Power</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.horsePower" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Transmission</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.transmission" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Gears</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.gears" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Brakes</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.brakes" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Front Brake Diameter</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.frontBrakeDiameter" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Front Brake Type</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.frontBrakeType" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Rear Brake Diameter</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.rearBrakeDiameter" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Rear Brake Type</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.rearBrakeType" type="text">
+	</div>
+	
+</div>
+<h2><b>Safety</b></h2>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Active Head Restraints</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.activeHeadRestraints" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Body Side Reinforcements</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.bodySideReinforcements" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Crumple Zones</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.crumpleZones" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Impact Absorbing Bumpers</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.impactAbsorbingBumpers" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Impact Sensors</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.impactSensors" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Parking Sensors</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.parkingSensors" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Seatbelts</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.seatbelts" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Audi Side Assist</label>
+	<div class="col-sm-4">
+		<textarea class="form-control form-white" ng-model="vinData.specification.audiSideAssist" rows="5"></textarea>
+	</div>
+</div>
+<h2><b>Interior & Comfort</b></h2>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Interior Color</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.intColor" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Comfort Features</label>
+	<div class="col-sm-4">
+		<textarea class="form-control form-white" ng-model="vinData.specification.comfortFeatures" rows="5"></textarea>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Power Outlet(s)</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.powerOutLets" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Power Steering</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.powerSteering" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Rear View Camera</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.rearViewCamera" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Rear View Monitor</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.rearViewMonitor" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Remote Trunk Release</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.remoteTrunkRelease" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Steering Wheel</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.steeringWheel" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Steering Wheel Mounted Controls</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.steeringWheelcontrols" type="text">
+	</div>
+</div>
+										
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Post to:</label>
+											<div class="col-sm-5">
+											<div ng-repeat="site in siteList">
+												<label class="">
+										          <div class="icheckbox_flat-blue"  style="position: relative;">
+										          <input type="checkbox"  ng-model="site.flag" ng-change="setSiteId(site.id,site.flag)">
+										          <input type="checkbox" data-checkbox="icheckbox_flat-blue" ng-model="flag" ng-change="setSiteId(site.id,flag)" style="position: absolute; opacity: 0;">
+										          <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+										          </div> {{site.name}}
+										        </label>
+											</div>
+												
+											</div>
+										</div>
+										<p style="color:green;margin-left:19%;" ng-show="isUpdated"><b>Vehicle updated successfully!</b></p>
+										<button type="submit" class="btn btn-primary" style="margin-left:11%;margin-left:19%;">Update!</button>
+										<button type="button" ng-if="isPublished" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
+										</form>
+                                </tab>
+                                <tab>
+                                    <tab-heading>
+                                        <button id="vImg" type="button" class="btn btn-blue" ng-click="getImages()">Images</button>
+                                    </tab-heading>
+                                    <div gridster="gridsterOpts">
+				                    	<ul>
+				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" 
+				                    			data-sizex="1" data-sizey="1" ng-repeat="image in imageList"
+				                    		 	on-finish-render="ngRepeatFinished" >
+				                    		 	<div class="imageGroup">
+				                        			<img class="myImage" style="width:100%; height:100%;" src="/getImage/{{image.id}}/thumbnail" id="imgId{{$index}}" />
+				                            		<div>
+				                            		<a class="remImage1" ng-click="setAsDefault(image,$index)" style="cursor:pointer;color:#319DB5;"><b>Set Default</b></a>
+				                            		</div>
+				                            		<div>
+				                            			<a class="remImage" ng-click="deleteImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
+				                            		</div>
+				                            		<a class="remImage2" ng-click="showFullImage(image)" data-toggle="modal" data-target="#modal-image" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
+				                        			<a class="remImage3" ng-click="editImage(image)" style="cursor:pointer;color:#319DB5;"><b>Edit</b></a>
+				                        		</div>
+				                        	</li>
+				                        </ul>
+				                        </div>
+				                        <h1>Upload your photographs</h1>
+				                        <form id="dropzoneFrm" action="/uploadPhotos" class="dropzone">
+				                            <div class="fallback">
+				                                <input name="file" type="file" multiple />
+				                            </div>
+				                        </form>
+										 <button class="btn btn-primary" ng-click="uploadFiles()" style="margin-left:44%;margin-top:3%;">Upload</button> 
+				                        <button type="button" style="margin-top: 48px;" ng-if="isPublished" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
+				                        <div class="modal fade modal-image" id="modal-image" tabindex="-1" role="dialog" aria-hidden="true">
+									        <div class="modal-dialog">
+									            <div class="modal-content">
+									                <div class="modal-header">
+									                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+									                </div>
+									                <div class="modal-body">
+									                    <img src="/getImage/{{imageId}}/full" alt="picture 1" class="img-responsive">
+									                </div>
+									                <div class="modal-footer">
+									                    <p>{{imageName}}</p>
+									                </div>
+									            </div>
+									        </div>
+									    </div>  
+                                </tab>
+                                <tab>
+                                    <tab-heading>
+                                        <button type="button" class="btn btn-blue" ng-click="getAllAudio()">Sound</button>
+                                    </tab-heading>
+                                    <h3>uploaded Files</h3>
+                                   
+                                    <table class="table" style="margin-left:35%;width:30%;">
+	                                    	<tr ng-repeat="audio in audioList">
+	                                    	<td>{{audio.fileName}}</td>
+	                                    	<td><i class="fa fa-trash" title="Delete" ng-click="confirmFileDelete(audio.id)" style="cursor:pointer;"></i></td>
+	                                    	</tr>
+                                    </table>
+                                    <form ng-submit="uploadAudio()" method="post" enctype="multipart/form-data" style="margin-top:5%;margin-left:35%;">
+                                    	<input type="file" name="soundFile" accept="audio/*" ng-file-select="onFileSelect($files)" required>
+                                    	<input type="hidden" name="vinNum" ng-model="vinData.specification.vin">
+                                    	 <button type="submit" class="btn btn-primary" style="margin-left:5%;margin-top:5%;">Upload</button>
+                                    	 <button type="button" style="margin-top: 48px;" ng-if="isPublished" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
+                                    </form>
+                                    
+                                </tab>
+                                <tab>
+                                    <tab-heading>
+                                    	<button type="button" class="btn btn-blue" ng-click="getVirtualTourData()">Virtual Tour</button>
+                                    </tab-heading>
+                                    <form ng-submit="saveVData()">
+                                    	<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Desktop </label>
+											<div class="col-sm-5">
+												<textarea class="form-control form-white" type="text" ng-model="vData.desktopUrl" rows="5"></textarea>
+											</div>
+											<p>width="1170px" height="500px"</p>
+										</div>
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Mobile </label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" type="text" ng-model="vData.mobileUrl">
+											</div>
+										</div>
+										<button type="submit" class="btn btn-primary" style="margin-left:25%;margin-top:5%;">Save</button>
+										<button type="button" style="margin-top: 78px;" ng-if="isPublished" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
+                                    </form>
+                                </tab>
+                                
+                                 <tab>
+                                    <tab-heading>
+                                    	<button type="button" class="btn btn-blue" ng-click="getVirtualTourData()">Video</button>
+                                    </tab-heading>
+                                    <form ng-submit="saveVideoData()">
+                                    	<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Desktop </label>
+											<div class="col-sm-5">
+												<textarea class="form-control form-white" type="text" ng-model="videoData.desktopUrl" rows="5"></textarea>
+											</div>
+											<p>width="1170px" height="500px"</p>
+										</div>
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Mobile </label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" type="text" ng-model="videoData.mobileUrl">
+											</div>
+										</div>
+										<button type="submit" class="btn btn-primary" style="margin-left:25%;margin-top:5%;">Save</button>
+										<button type="button" style="margin-top: 78px;" ng-if="isPublished" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
+                                    </form>
+                                </tab>
+                                
+                                
+                                
+                                
+                            </tabset>
+
+
+</div>
+
+<div style="display:none;" id="deleteModal" data-toggle="modal" data-target="#modal-basic"></div>
+<div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Delete Vehicle</strong></h4>
+                </div>
+                <div class="modal-body">
+                   Are you sure to delete vehicle?<br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteVehicleRow()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+<div style="display:none;" id="deleteModal2" data-toggle="modal" data-target="#modal-basic2"></div>
+<div class="modal fade" id="modal-basic2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Delete Vehicle</strong></h4>
+                </div>
+                <div class="modal-body">
+                   Are you sure to delete file?<br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteAudioFile()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+<style>
+.portfolioContainer figure {
+height: 200px;
+margin: 2.5%;
+}
+.grid figure {
+  width: 27.5%;
+}
+
+.remImage{
+opacity:0;
+top:0;
+right:-15px;
+position:absolute;
+}
+
+.remImage1{
+opacity:0;
+top:0;
+left:7px;
+position:absolute;
+}
+
+.remImage2{
+opacity:0;
+top:88px;
+left:123px;
+position:absolute;
+}
+
+.remImage3{
+opacity:0;
+top:88px;
+left:10px;
+position:absolute;
+}
+
+.imageGroup{
+position:relative;
+float:left;
+}
+.imageGroup:hover .remImage{
+opacity:1;
+}
+.imageGroup:hover .remImage1{
+opacity:1;
+}
+.imageGroup:hover .remImage2{
+opacity:1;
+}
+.imageGroup:hover .remImage3{
+opacity:1;
+}
+.imageGroup:hover .myImage{
+opacity:0.2;
+}
+</style>   
+<style>
+.txtClr{
+    background: white;
+    border-color: red;
+}
+.txt{
+    background: white;
+}
+</style> 
