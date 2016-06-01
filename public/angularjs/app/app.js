@@ -35,10 +35,10 @@ var MakeApp = angular
             templateUrl: '/dealer/dashboard/dashboard.html',
             controller: 'dashboardCtrl'
         })
-        .when('/addVehicle', {
+       /* .when('/addVehicle', {
             templateUrl: '/dealer/addVehicle/addVehicle.html',
             controller: 'addVehicleCtrl'
-        })
+        })*/
         .when('/homePage', {
             templateUrl: '/dealer/homePage/homePage.html',
             controller: 'HomePageCtrl'
@@ -53,6 +53,15 @@ var MakeApp = angular
             controller: 'myprofileCtrl'
         })
         */
+        
+        .when('/addProduct', {
+            templateUrl: 'dealer/addProduct/add_product.html',
+            controller: 'addProductCtrl'
+        })
+        .when('/addProductImages/:id', {
+            templateUrl: 'dealer/addProduct/productImages.html',
+            controller: 'ProductImagesCtrl'
+        })
         .when('/createUser', {
             templateUrl: '/dealer/myprofile/createUser.html',
             controller: 'createUserCtrl'
@@ -380,7 +389,6 @@ var MakeApp = angular
             controller: 'ContactCropCtrl'
         })
         
-        
         .when('/managePhotos/:num', {
             templateUrl: '/dealer/addPhotos/managePhotos.html',
             controller: 'ManagePhotoCtrl'
@@ -389,9 +397,13 @@ var MakeApp = angular
             templateUrl: '/dealer/addVehicle/editVehicle.html',
             controller: 'EditVehicleCtrl'
         })
-         .when('/viewVehicles', {
+         /*.when('/viewVehicles', {
             templateUrl: '/dealer/viewVehicle/viewVehicles.html',
             controller: 'ViewVehiclesCtrl'
+        })*/
+        .when('/inventory', {
+            templateUrl: 'dealer/inventory/readyMadeInventory.html',
+            controller: 'ReadyMadeInventoryCtrl'
         })
         
         .when('/viewRegistration', {

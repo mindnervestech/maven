@@ -1,0 +1,101 @@
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+    <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      
+      <li role="presentation" class="active"><button type="button" class="btn btn-blue" ng-click="goTocollectionPage(temp)">Collections</button></li>
+      <li role="presentation" class=""><button type="button" class="btn btn-blue" ng-click="getCollectionImg()">Collection Images</button></li>
+    </ul>
+  </div> 
+<h1><b>UPLOAD COLLECTION IMAGES</b></h1>
+<p><font color="red"><strong>Warning Tip :</strong> You must crop images after uploading to keep the website's image grid consistent.</font></p>
+<br><br>
+<div ng-init="init()">
+
+<div gridster="gridsterOpts">
+				                    	<ul>
+				                    		<li gridster-item="" id="{{imageList.id}}" data-row="0" data-col="0" 
+				                    			data-sizex="1" data-sizey="1">
+				                    		 	<div class="imageGroup">
+				                        			<img class="myImage" style="width:100%; height:100%;" src="/getCollectionImageById/{{imageList.id}}/thumbnail?date={{tempDate}}" id="imgId" />
+				                            		 <div>
+				                            		<!-- <a class="remImage1" ng-click="setAsDefault(imageList)" style="cursor:pointer;color:#319DB5;"><b>Set Default</b></a> -->
+				                            		<!-- <a class="remImage" ng-click="deleteImage(imageList)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a> -->
+				                            		</div>
+				                            		
+				                            		<a class="remImage2" ng-click="showFullImage(image)" data-toggle="modal" data-target="#modal-image" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
+				                        			<a class="remImage3" ng-click="editImage(imageList)" style="cursor:pointer;color:#319DB5;"><b>Edit</b></a> 
+				                        		</div>
+				                        	</li>
+				                        </ul>
+				                        </div>
+
+ <!-- <div class="form-group col-sm-12">
+<div>
+<label class=" control-label" style="width: 40%;"><font size="3">PRODUCT'S IMAGES * </font></label>
+</div>
+<div>                  
+            
+			
+					<form id="dropzoneFrm" action="/uploadProductPhoto" class="dropzone">
+                            <div class="fallback">
+                                <input name="file" type="file" multiple /> 
+                            </div>
+                        </form>
+             </div>       
+	</div> 
+
+
+
+
+<input type="submit" class="btn btn-primary" ng-click="uploadFiles()" value="ADD IMAGES" style="margin-top:3%;margin-left:46%;">
+ -->
+ 
+ </div>
+<style>
+.remImage{
+opacity:0;
+top:0;
+right:-15px;
+position:absolute;
+}
+
+.remImage1{
+opacity:0;
+top:0;
+left:7px;
+position:absolute;
+}
+
+.remImage2{
+opacity:0;
+top:88px;
+left:123px;
+position:absolute;
+}
+
+.remImage3{
+opacity:0;
+top:88px;
+left:10px;
+position:absolute;
+}
+
+.imageGroup{
+position:relative;
+float:left;
+}
+.imageGroup:hover .remImage{
+opacity:1;
+}
+.imageGroup:hover .remImage1{
+opacity:1;
+}
+.imageGroup:hover .remImage2{
+opacity:1;
+}
+.imageGroup:hover .remImage3{
+opacity:1;
+}
+.imageGroup:hover .myImage{
+opacity:0.2;
+}
+</style>

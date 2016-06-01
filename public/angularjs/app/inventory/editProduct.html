@@ -1,0 +1,194 @@
+<h1><b>UPDATE PRODUCT</b></h1>
+<br><br>
+<form ng-submit="updateProduct()">
+	
+<div class="form-group col-sm-12" ng-init="collectionList()">
+	<div>
+		<label class="control-label" style="width: 21%;"><font size="3">SECONDARY TITLE * </font></label>
+	</div>
+		<input class="form-control form-white" type="text" style="border-color:red;width:30%;" ng-model="productData.title"  required>
+</div>
+
+<div class="form-group col-sm-12" >
+	<div>
+		<label class="control-label" style="width: 21%;"><font size="3">PRIMARY TITLE * </font></label>
+	</div>
+		<input class="form-control form-white" type="text" style="border-color:red;width:30%;" ng-model="productData.primaryTitle"  required>
+</div>
+
+<div class="form-group col-sm-12" >
+	<div>
+		<label class="control-label" style="width: 21%;"><font size="3">YEAR  </font></label>
+	</div>
+		<input class="form-control form-white" type="text" style="width:30%;" ng-model="productData.year" >
+</div>
+
+<div class="form-group col-sm-12" >
+	<div>
+		<label class="control-label" style="width: 21%;"><font size="3">DESIGNER </font></label>
+	</div>
+		<input class="form-control form-white" type="text" style="width:30%;" ng-model="productData.designer" >
+</div>
+
+<div class="form-group col-sm-12">
+	<div>
+		<label class=" control-label" style="width: 30%;"><font size="3">PRODUCT'S  DESCRIPTION  </font></label>
+	</div>            
+		<textarea rows="5" style="width:50%;" ng-model="productData.description" class="form-control form-white"></textarea>
+</div>
+
+<div class="form-group col-sm-12">
+	<div>
+		<label class="control-label" style="width: 21%;"><font size="3">PRODUCT PRICE * </font></label>
+	</div>
+		<input class="form-control form-white" type="text" style="border-color:red;width:30%;" ng-model="productData.price"  required>
+</div>
+
+<div class="form-group col-sm-12">
+	<div>
+		<label class="control-label" style="width: 21%;"><font size="3">PRODUCT COST * </font></label>
+	</div>
+		<input class="form-control form-white" type="text" style="border-color:red;width:30%;" ng-model="productData.cost"  required>
+</div>
+
+<div class="form-group col-sm-12" ng-if="newProd == false">
+		<div>
+			<label class="control-label " style="width: 40%;"><font size="3">SELECT COLLECTION </font></label>
+		</div>
+		<!--
+		<div>
+					   <input id="pro" type="radio" name="coll" value="product" ng-click="status('product')" ng-model="product"/>PRODUCT
+					   <input id="reday" type="radio" name="coll" value="readyMade" ng-click="status('readyMade')" ng-model="ready" ng-checked="true"/>READYMADE
+				</div>-->
+		<div>
+			<input id="product" type="radio" name="coll" value="product" ng-click="status('product')" ng-model="product" required/>
+			PRODUCT
+			<input id="readymade" type="radio" name="coll" value="readyMade" ng-click="status('readymade')" ng-model="ready" required/>
+			READYMADE
+			<input id="section" type="radio" name="coll" value="section" ng-click="status('section')" ng-model="section" required/>
+			SECTION
+		</div>
+	</div>
+
+
+<div class="form-group col-sm-12" ng-if="collection=='product'">
+	<div>
+		<label class="control-label " style="width: 40%;"><font size="3">ADD TO EXISTING COLLECTION* </font></label>
+	</div>
+	<div><select id="sectionId" class="from-control form-white" style="width:30%;" ng-model="productData.collectionId" required>
+ 
+        <option ng-repeat="item in proCollection" ng-selected="productData.collectionId==item.id" value="{{item.id}}">{{item.title}}</option>
+    	</select>
+	</div>
+</div>
+
+<div class="form-group col-sm-12" ng-if="collection=='section'">
+	<div>
+		<label class="control-label " style="width: 40%;"><font size="3">ADD TO EXISTING COLLECTION* </font></label>
+	</div>
+	<div><select id="sectionId" class="from-control form-white" style="width:30%;" ng-model="productData.collectionId" required>
+ 
+        <option ng-repeat="item in SectionCollection" ng-selected="productData.collectionId==item.id" value="{{item.id}}">{{item.title}}</option>
+    	</select>
+	</div>
+</div>
+
+<div class="form-group col-sm-12" ng-if="collection=='readymade'">
+	<div>
+		<label class="control-label " style="width: 40%;"><font size="3">ADD TO EXISTING COLLECTION* </font></label>
+	</div>
+	<div><select id="sectionId" class="from-control form-white" style="width:30%;" ng-model="productData.collectionId" required>
+ 
+        <option ng-repeat="item in readyCollection" ng-selected="productData.collectionId==item.id" value="{{item.id}}">{{item.title}}</option>
+    	</select>
+	</div>
+</div>
+
+
+<div class="form-group col-sm-12" ng-if="collection=='null'">
+	<div>
+		<label class="control-label " style="width: 40%;"><font size="3">ADD TO EXISTING COLLECTION* </font></label>
+	</div>
+	<div><select id="sectionId" class="from-control form-white" style="width:30%;" ng-model="productData.collectionId" required>
+ 
+        <option ng-repeat="item in CollectionList" ng-selected="productData.collectionId==item.id" value="{{item.id}}">{{item.title}}</option>
+    	</select>
+	</div>
+</div>
+<!--
+
+<div class="form-group col-sm-12" ng-if="newProd == false">
+		<div>
+			<label class="control-label " style="width: 40%;"><font size="3">SELECT COLLECTION </font></label>
+		</div>
+		<div>
+   			<input type="radio" name="coll" value="product" ng-click="status('product')" ng-model="product" required/>PRODUCT
+   			<input type="radio" name="coll" value="readyMade" ng-click="status('readyMade')" ng-model="ready" required/>READYMADE
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12" ng-if="collection=='product'">
+		<div>
+			<label class="control-label " style="width: 40%;"><font size="3">ADD TO EXISTING COLLECTION* </font></label>
+		</div>
+		<div><select id="sectionId" class="from-control form-white" style="width:30%;height: 35px;" ng-model="addProduct.id" required>
+ 
+        		<option ng-repeat="item in proCollection" ng-selected="productData.collectionId==item.id" value="{{item.id}}">{{item.title}}</option>
+    		</select>
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12" ng-if="collection=='ready'">
+		<div>
+			<label class="control-label " style="width: 40%;"><font size="3">ADD TO EXISTING COLLECTION* </font></label>
+		</div>
+		<div><select id="sectionId" class="from-control form-white" style="width:30%;height: 35px;" ng-model="addProduct.id" required>
+ 
+        		<option ng-repeat="item in readyCollection" ng-selected="productData.collectionId==item.id" value="{{item.id}}">{{item.title}}</option>
+    		</select>
+		</div>
+	</div>
+
+-->
+
+
+
+
+
+
+
+
+
+
+<div class="form-group col-sm-12">
+	<div>
+		<label class="control-label " style="width: 40%;"><font size="3">ADD SPECIFICATION FILE </font></label>
+	</div>
+	<div class="fallback">
+   		<a href="/downloadFile/{{productData.id}}">{{productData.fileName}}</a>
+   		<input name="file" type="file" ng-model="productData.fileName" name="logoFile" ng-file-select="onLogoFileSelect($files)" accept="application/msword,application/pdf"/>
+	</div>
+</div>
+
+<div class="form-group col-sm-12">
+	<div>
+		<label class="control-label " style="width: 40%;"><font size="3">ADD CAD FILE </font></label>
+	</div>
+	<div class="fallback">
+   		<a href="/cadFileDownload/{{productData.id}}">{{productData.cadfileName}}</a>
+   		<input name="file" type="file" ng-model="productData.cadfileName" name="logoFile" ng-file-select="onCadFileSelect($files)" accept="application/zip/msword,application/cad"/>
+	</div>
+</div>
+
+
+<div class="form-group col-sm-12" ng-if="newProd == false">
+ 
+   <input type="checkbox" class="ng-pristine ng-valid" ng-checked="productData.newFlag =='true'" ng-model="productData.newFlag" name="newFlag"  id="newflag"/> New
+  
+</div>
+
+<input type="submit" class="btn btn-primary"  value="UPDATE" style="margin-top:3%;margin-left:40%;">
+<input type="button" class="btn btn-primary" ng-click="goToImages()"  value="UPDATE IMAGES" style="margin-top:3%;">
+
+</form>
+

@@ -55,6 +55,25 @@ POST   /saveCampaigns					controllers.Application.saveCampaigns()
 GET		/getCustomerPdfData		 controllers.Application.getCustomerPdfData()
 GET		/getEmailDetails		 controllers.Application.getEmailDetails()
 
+
+
+
+GET 	/getSectionCollection/:id	     controllers.productController.getSectionCollection(id:Long)
+GET     /getColl				         controllers.productController.getCollectionList()
+GET 	/getSections			         controllers.productController.getSections()
+POST    /saveProduct                     controllers.productController.addProduct()
+GET     /removeDefaultProduct/:newId	 controllers.productController.removeDefaultProduct(newId:Long)
+GET		/deleteImage/:id		         controllers.productController.deleteImage(id:Long)
+GET		/getImagesByProduct/:id		     controllers.productController.getImagesByProduct(id:Long)
+POST    /uploadProductPhoto   			 controllers.productController.uploadProductPhotos()
+GET		/getImage/:id/:type			     controllers.productController.getImageById(id:Long,type:String)
+GET		/getReadyMadeCollection		     controllers.InventoryController.getReadyMadeCollection()
+GET		/getAllSection				     controllers.InventoryController.getAllSection()
+GET    /deleteCollectionById/:id		 controllers.Application.deleteCollectionById(id:Long)
+
+
+
+
 GET		/getCustomerPdfForVehicle/:vin 	controllers.Application.getCustomerPdfForVehicle(vin:String)
 GET		/getSocialMediadetail		controllers.Application.getSocialMediadetail()
 GET		/deletePdfById/:id	   controllers.Application.deletePdfById(id:Long)

@@ -1,0 +1,78 @@
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+    <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><button type="button" class="btn btn-blue" ng-click="goTocollectionPage(temp)">Collections</button></li>
+      <li role="presentation" class=""><button type="button" class="btn btn-blue" ng-click="getCollectionImg(temp)">Collection Images</button></li>
+    </ul>
+</div> 
+<h1><b>Edit COLLECTION</b></h1>
+<br><br>
+<form ng-submit="saveCollection(addCollection.section)">
+	<div class="form-group col-sm-12">
+		<div>
+			<label class="control-label" style="width: 20%;"><font size="3">SECTION* </font></label>
+		</div>
+		<div><select id="sectionId" class="from-control form-white" style="width:30%;height: 37px;" ng-model="addCollection.section" required>
+				<option ng-repeat="section in sections" value="{{section.value}}">{{section.title}}</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12" ng-if="addCollection.section !='null'">
+		<div>
+			<label class="control-label" style="width: 21%;"><font size="3">COLLECTION'S TITLE * </font></label>
+		</div>
+			<input class="form-control form-white" type="text" style="border-color:red;width:30%;" ng-model="addCollection.title"  required>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<div>
+			<label class=" control-label" style="width: 30%;" ng-if="addCollection.section != 'accessories' && addCollection.section != 'null'"><font size="3">COLLECTION'S  DESCRIPTION * </font></label>
+		</div>            
+			<textarea rows="5" style="border-color:red;width:50%;" ng-model="addCollection.description" class="form-control form-white" ng-if="addCollection.section != 'accessories' && addCollection.section != 'null'" required></textarea>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<div>
+			<label class=" control-label" style="width: 40%;"><font size="3">COLLECTION'S FEATURED IMAGE* </font></label>
+		</div>
+		<div>
+			<input class="form-control" type="file" style="width:40%;" name="logoFile" ng-file-select="onLogoFileSelect($files)">      	
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<div>
+			<label class=" control-label" style="width: 40%;background-color: #ECEDEE;"><font size="3">{{addCollection.image_name}}</font></label>
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12" ng-if="addCollection.section=='readymade'">
+		<div>
+			<label class=" control-label" style="width: 40%;"><font size="3">COLLECTION'S THUMBNAIL IMAGE* </font></label>
+		</div>
+		<div>
+			<input class="form-control" type="file" style="width:40%;" name="logoFile" ng-file-select="onThumbFileSelect($files)">      	
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12" ng-if="addCollection.section=='readymade'">
+		<div>
+			<label class=" control-label" style="width: 40%;background-color: #ECEDEE;"><font size="3">{{addCollection.thumbnailImageName}}</font></label>
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12" ng-if="addCollection.section == 'accessories'">
+		<div>
+			<label class="control-label" style="width: 21%;"><font size="3">LINK * </font></label>
+		</div>
+			<input class="form-control form-white" type="text" style="border-color:red;width:30%;" ng-model="addCollection.website"  required>
+	</div>
+
+	<div class="form-group col-sm-12" ng-if="addCollection.section !='null'">
+		<div>  
+   			<input type="checkbox" ng-checked="addCollection.newFlag =='true'" ng-model="addCollection.newFlag" name="new" value="New" id="new"/> New
+  		</div>
+	</div>
+	
+	<input type="submit" class="btn btn-primary" value="Update" style="margin-top:3%;margin-left:21%;">
+</form>

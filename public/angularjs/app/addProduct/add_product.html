@@ -1,0 +1,178 @@
+<h1><b>ADD PRODUCT</b></h1>
+<br>
+<br>
+<form ng-submit="saveProduct()">
+	<div class="form-group col-sm-12" ng-init="collectionList()">
+		<div>
+			<label class="control-label" style="width: 21%;"><font size="3">SECONDARY TITLE * </font></label>
+		</div>
+		<input class="form-control form-white" type="text" style="border-color:red;width:30%;" ng-model="addProduct.title"  required>
+	</div>
+
+	<div class="form-group col-sm-12" >
+		<div>
+			<label class="control-label" style="width: 21%;"><font size="3">PRIMARY TITLE * </font></label>
+		</div>
+		<input class="form-control form-white" type="text" style="border-color:red;width:30%;" ng-model="addProduct.primaryTitle"  required>
+	</div>
+
+	<div class="form-group col-sm-12" >
+		<div>
+			<label class="control-label" style="width: 21%;"><font size="3">YEAR </font></label>
+		</div>
+		<input class="form-control form-white" type="number" style="width:30%;" ng-model="addProduct.year" >
+	</div>
+
+	<div class="form-group col-sm-12">
+		<div>
+			<label class="control-label" style="width: 21%;"><font size="3">DESIGNER </font></label>
+		</div>
+		<input class="form-control form-white" type="text" style="width:30%;" ng-model="addProduct.designer" >
+	</div>
+
+	<div class="form-group col-sm-12">
+		<div>
+			<label class=" control-label" style="width: 30%;"><font size="3">PRODUCT'S  DESCRIPTION </font></label>
+		</div>
+		<textarea rows="5" style="width:50%;" ng-model="addProduct.description" class="form-control form-white"></textarea>
+	</div>
+
+	<!-- <div class="form-group col-sm-12">
+	<div>
+	<label class=" control-label" style="width: 40%;"><font size="3">PRODUCT'S IMAGES * </font></label>
+	</div>
+	<div>
+
+	<form id="dropzoneFrm2" action="/uploadProductPhoto" class="dropzone">
+	<div class="fallback">
+	<input name="file" type="file" multiple />
+	</div>
+	</form>
+	</div>
+	<input class="form-control" type="file" style="width:40%;" name="logoFile" ng-file-select="onLogoFileSelect($files)" required>
+	</div> -->
+
+	<div class="form-group col-sm-12">
+		<div>
+			<label class="control-label" style="width: 21%;"><font size="3">PRODUCT PRICE * </font></label>
+		</div>
+		<input class="form-control form-white" type="number" style="border-color:red;width:30%;" ng-model="addProduct.price"  required>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<div>
+			<label class="control-label" style="width: 21%;"><font size="3">PRODUCT COST * </font></label>
+		</div>
+		<input class="form-control form-white" type="number" style="border-color:red;width:30%;" ng-model="addProduct.cost"  required>
+	</div>
+	<!-- <div class="form-group col-sm-12">
+	<div>
+	<label class=" control-label" style="width: 40%;"><font size="3">PRODUCT'S IMAGES * </font></label>
+	</div>
+	<div>
+
+	<form id="dropzoneFrm2" action="/uploadProductPhoto" class="dropzone">
+	<div class="fallback">
+	<input name="file" type="file" multiple />
+	</div>
+	</form>
+	</div>
+	<input class="form-control" type="file" style="width:40%;" name="logoFile" ng-file-select="onLogoFileSelect($files)" required>
+	</div> -->
+
+	<div class="form-group col-sm-12" ng-if="newProd == false">
+		<div>
+			<label class="control-label " style="width: 40%;"><font size="3">SELECT COLLECTION </font></label>
+		</div>
+		<div>
+			<input type="radio" name="coll" value="product" ng-click="status('product')" required/>
+			PRODUCT
+			<input type="radio" name="coll" value="readyMade" ng-click="status('readyMade')" required/>
+			READYMADE
+			<input type="radio" name="coll" value="section" ng-click="status('section')" required/>
+			SECTION
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12" ng-if="collection=='section'">
+		
+		<div>
+			<label class="control-label " style="width: 40%;"><font size="3">SELECT SECTION </font></label>
+		</div>
+		<div>
+			<select id="section" class="from-control form-white" style="width:30%;height: 35px;" ng-model="sect.id" ng-change="chengeSection()" required>
+
+				<option ng-repeat="item in sectionList" value="{{item.id}}">{{item.title}}</option>
+			</select>
+			</select>
+		</div>
+		
+		<div ng-if="sectColl != 'null'">
+			<div>
+				<label class="control-label " style="width: 40%;"><font size="3">ADD TO EXISTING COLLECTION* </font></label>
+			</div>
+			<div>
+				<select id="sectionId" class="from-control form-white" style="width:30%;height: 35px;" ng-model="addProduct.id" required>
+	
+					<option ng-repeat="item in sectionCollection" value="{{item.id}}">{{item.title}}</option>
+				</select>
+				</select>
+			</div>
+		</div>
+	</div>
+	
+	<div class="form-group col-sm-12" ng-if="collection=='product'">
+		<div>
+			<label class="control-label " style="width: 40%;"><font size="3">ADD TO EXISTING COLLECTION* </font></label>
+		</div>
+		<div>
+			<select id="sectionId" class="from-control form-white" style="width:30%;height: 35px;" ng-model="addProduct.id" required>
+
+				<option ng-repeat="item in proCollection" value="{{item.id}}">{{item.title}}</option>
+			</select>
+			</select>
+		</div>
+	</div>
+	<div class="form-group col-sm-12" ng-if="collection=='readyMade'">
+		<div>
+			<label class="control-label " style="width: 40%;"><font size="3">ADD TO EXISTING COLLECTION* </font></label>
+		</div>
+		<div>
+			<select id="sectionId" class="from-control form-white" style="width:30%;height: 35px;" ng-model="addProduct.id" required>
+
+				<option ng-repeat="item in readyCollection" value="{{item.id}}">{{item.title}}</option>
+			</select>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12">
+		<div>
+			<label class="control-label " style="width: 40%;"><font size="3">ADD SPECIFICATION FILE </font></label>
+		</div>
+		<div class="fallback">
+			<input type="file" name="logoFile" ng-file-select="onLogoFileSelect($files)" accept="application/msword,application/pdf"/>
+		</div>
+	</div>
+	
+	<div class="form-group col-sm-12">
+			<div>
+				<label class="control-label " style="width: 40%;"><font size="3">ADD CAD </font></label>
+			</div>
+			<div class="fallback">
+				<input type="file" name="cadFile" ng-file-select="onCADFileSelect($files)" accept="application/zip/msword,application/cad"/>
+			</div>
+		</div>
+	
+	<div class="form-group col-sm-12" ng-if="newProd == false">
+
+		<input type="checkbox" class="ng-pristine ng-valid" ng-model="addProduct.newFlag" name="newFlag" value="false" id="newflag"/>
+		New
+
+	</div>
+	<input type="submit" id="submit" class="btn btn-primary "  value="SAVE" style="margin-top:3%;margin-left:46%;">
+	<p>
+		<font color="red"><strong>Warning Tip :</strong> You must crop images after uploading to keep the website's image grid consistent.</font>
+	</p>
+
+</form>
