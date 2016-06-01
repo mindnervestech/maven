@@ -69,7 +69,7 @@ POST    /uploadProductPhoto   			 controllers.productController.uploadProductPho
 GET		/getImage/:id/:type			     controllers.productController.getImageById(id:Long,type:String)
 GET		/getReadyMadeCollection		     controllers.InventoryController.getReadyMadeCollection()
 GET		/getAllSection				     controllers.InventoryController.getAllSection()
-GET    /deleteCollectionById/:id		 controllers.Application.deleteCollectionById(id:Long)
+GET    /deleteCollectionById/:id		 controllers.InventoryController.deleteCollectionById(id:Long)
 
 
 
