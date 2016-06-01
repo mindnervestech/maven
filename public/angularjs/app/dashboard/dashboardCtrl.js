@@ -2602,7 +2602,7 @@ angular.module('newApp')
     			  $scope.PlanOnMonday();
     			  $scope.updateMeeting();
     			  $scope.planMsg();
-    			  $scope.priceAlertMsg();
+    			  //$scope.priceAlertMsg();
     			  
     			 $scope.check={};
     			  var date = new Date();
@@ -3019,7 +3019,7 @@ angular.module('newApp')
 				   $scope.aValue = localStorage.getItem('flagForNoty');
 			   }
 			 
-			 $scope.priceAlertMsg = function(){
+	/*		 $scope.priceAlertMsg = function(){
 					$http.get('/sendComingSoonPOpUp').success(function(data){
 						angular.forEach(data, function(value, key) {
 							var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
@@ -3102,7 +3102,7 @@ angular.module('newApp')
 						});
 						});
 		    		});
-			 }		
+			 }	*/	
 			$scope.PlanOnMonday = function(){
 				$http.get('/getPlanMonday')
 	    		.success(function(data){
@@ -3367,7 +3367,7 @@ angular.module('newApp')
 				});
 			}
 			
-			$scope.makeIt = function(value){
+			/*$scope.makeIt = function(value){
 				console.log(value);
 				$scope.vinForPopup=value.vin;
 				if(value.price == 0){
@@ -3377,9 +3377,9 @@ angular.module('newApp')
 				else{
 					$scope.addMakeIt($scope.vinForPopup);
 				}
-			}
+			}*/
 
-			$scope.addByPriceMakeIt = function(price){
+			/*$scope.addByPriceMakeIt = function(price){
 				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price)
 					.success(function(data) {
 						 $('#addPriceOther').modal("toggle");
@@ -3393,9 +3393,9 @@ angular.module('newApp')
 						
 					});
 				 
-			 }
+			 }*/
 			
-			$scope.addMakeIt = function(vin){
+			/*$scope.addMakeIt = function(vin){
 				console.log("inside coming soon");
 				console.log(vin);
 				$http.get('/sendComingSoonEmail/'+vin)
@@ -3403,16 +3403,16 @@ angular.module('newApp')
 					
 					 $('#addPrice').modal("toggle");
 				});
-			}
+			}*/
 			
-			$scope.changeArrivalDate = function(value){
+			/*$scope.changeArrivalDate = function(value){
           	  $('#changeDate').modal();
           	  console.log(value);
           	  $scope.arrDate = value.comingSoonDate;
           	  $scope.priceDetail = value;
-      	  	}
+      	  	}*/
 			
-			$scope.addChangeArrival = function(){
+			/*$scope.addChangeArrival = function(){
 				var aDate = $('#arrivalDate').val();
 				console.log(aDate);
 				$http.get('/setArrivelDate/'+$scope.priceDetail.id+"/"+aDate)
@@ -3425,9 +3425,9 @@ angular.module('newApp')
 					});
 					
 				});
-			}
+			}*/
 
-			$scope.buttFlag = 0;
+			/*$scope.buttFlag = 0;
 			 $scope.addPrice = function(value){
 				 
 				 $scope.vinForPriceChange=value.vin;
@@ -3473,7 +3473,7 @@ angular.module('newApp')
 				 
 				 $scope.addChangeArrival();
 			 }
-			
+			*/
     		  
     		  $scope.schedulmultidatepicker = function(){
     			  $scope.showToDoList = false;

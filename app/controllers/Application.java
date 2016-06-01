@@ -1388,16 +1388,16 @@ public class Application extends Controller {
     	return ok(Json.toJson(userObj));
     }
     
-    public static Result getAddPrice(Long id,Integer price){
+    /*public static Result getAddPrice(Long id,Integer price){
     	Vehicle vehicle = Vehicle.findById(id);
     	if(vehicle != null){
     		vehicle.setPrice(price);
     		vehicle.update();
     	}
     	return ok();
-    }
+    }*/
     
-    public static Result setArrivelDate(Long id,String aDate){
+    /*public static Result setArrivelDate(Long id,String aDate){
     	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     	Vehicle vehicle = Vehicle.findById(id);
     	if(vehicle != null){
@@ -1410,12 +1410,12 @@ public class Application extends Controller {
     		vehicle.update();
     	}
     	return ok();
-    }
+    }*/
     
-    public static Result sendComingSoonPOpUp(){
+   /* public static Result sendComingSoonPOpUp(){
     	List<PriceAlert> price=PriceAlert.getAllRecordPopUp();
     	DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-    	/*Date cDate = new Date();
+    	Date cDate = new Date();
     	String cd = df2.format(cDate);
     	Date curDate = null;
 		try {
@@ -1423,7 +1423,7 @@ public class Application extends Controller {
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}*/
+		}
     	Date curDate = null;
     	List<RequestInfoVM> rList = new ArrayList<>();
     	//for(PriceAlert alert:price){
@@ -1479,19 +1479,19 @@ public class Application extends Controller {
         					
         					rList.add(rVm);
         				//}
-    				/*} catch (Exception e) {
+    				} catch (Exception e) {
     					// TODO Auto-generated catch block
     					e.printStackTrace();
-    				}*/
+    				}
         			
         		}
     		}
     		
     	//}
     	return ok(Json.toJson(rList));
-    }
+    }*/
     
-    public  static Result sendComingSoonEmail(String vin){
+    /*public  static Result sendComingSoonEmail(String vin){
     	
     	DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
     	
@@ -1542,8 +1542,8 @@ public class Application extends Controller {
     			
     		
     	return ok();
-    }
-public static Result sendEmailForComingSoonVehicle(String email,String subject,String comment,String vin) {
+    }*/
+/*public static Result sendEmailForComingSoonVehicle(String email,String subject,String comment,String vin) {
 		
 		final String username = emailUsername;
 		final String password = emailPassword;
@@ -1560,7 +1560,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			
 			Vehicle sameMake =  sameBodyList.get(2);
 			VehicleImage sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin);
-	/*	Properties props = new Properties();  
+		Properties props = new Properties();  
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.port", "587");
@@ -1586,7 +1586,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		   
 		     } catch (MessagingException e) {
 		    	 e.printStackTrace();
-		    }*/
+		    }
 		
 			
 			 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -1695,16 +1695,16 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	        		context.put("horsePower", "");
 	        	}
 	        
-	       /* context.put("email", profile.email);
+	        context.put("email", profile.email);
 	        String firstThreeDigit=profile.phone;
 	        firstThreeDigit=firstThreeDigit.substring(0, 3);
 	        String secondThreeDigit=profile.phone;
 	        secondThreeDigit=secondThreeDigit.substring(3, 6);
-	        String thirdThreeDigit=profile.phone;*/
-	       /* thirdThreeDigit=thirdThreeDigit.substring(6, 10);
+	        String thirdThreeDigit=profile.phone;
+	        thirdThreeDigit=thirdThreeDigit.substring(6, 10);
 	        context.put("firstThreeDigit", firstThreeDigit);
 	        context.put("secondThreeDigit", secondThreeDigit);
-	        context.put("thirdThreeDigit", thirdThreeDigit);*/
+	        context.put("thirdThreeDigit", thirdThreeDigit);
 	        
 	        //context.put("phone", profile.phone);
 	        if(sameBodyStyle != null) {
@@ -1788,7 +1788,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 				
 		return ok();
 	}
-    
+    */
     
     
     public static Result saveVehiclePdf(Long id) throws IOException {
@@ -2584,7 +2584,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     			}
     			
     		}
-    		if(vm.vType.equals("comingSoon") || vm.applyAll.equals("true")){
+    	/*	if(vm.vType.equals("comingSoon") || vm.applyAll.equals("true")){
     			SiteInventory sInventoryComingSoon = SiteInventory.findByLocationAndType(Long.valueOf(session("USER_LOCATION")),"comingSoon");
     			if(sInventoryComingSoon == null){
     				SiteInventory siInventory = new SiteInventory();
@@ -2617,7 +2617,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     				sInventoryComingSoon.update();
     			}
     			
-    		}
+    		}*/
     	
     	
     	return ok();
@@ -2810,7 +2810,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 						}
 		    		}
 		    	}*/
-	    		int comingSoonFlag=0;
+	    		/*int comingSoonFlag=0;
 	    		if(vm.comingSoonDate != ""){
 	    			vehicle.comingSoonFlag=1;
 	    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -2821,7 +2821,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 						e.printStackTrace();
 					}
 	    			
-	    		}
+	    		}*/
 		    	
 	    		vehicle.setTitle(vm.make+" "+vm.model+" "+vm.year);
 		    	vehicle.category = vm.category;
@@ -6267,11 +6267,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			specificationVM.standardSeating = vehicle.getStandardSeating();
 			
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			if(vehicle.getComingSoonFlag() != null && vehicle.getComingSoonFlag() == 1){
+			/*if(vehicle.getComingSoonFlag() != null && vehicle.getComingSoonFlag() == 1){
 			String dat=df.format(vehicle.getComingSoonDate());
 			specificationVM.comingSoonDate=dat;
 			specificationVM.comingSoonFlag=vehicle.comingSoonFlag;
-			}
+			}*/
 			specificationVM.mileage = vehicle.getMileage();
 			List<Long> siteIds = new ArrayList<>();
 			for(Site site: vehicle.getSite()) {
@@ -6731,7 +6731,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     				flag=1;
 	    		}
 	    		
-	    		int comingSoonFlag=0;
+	    		/*int comingSoonFlag=0;
 	    		if(vm.comingSoonDate != ""){
 	    			vehicle.setComingSoonFlag(1);
 	    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -6742,7 +6742,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 						e.printStackTrace();
 					}
 	    			
-	    		}
+	    		}*/
 		    	
 		    	
 	    		
@@ -32689,8 +32689,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 							e.printStackTrace();
 						}
 						
-						int flagLoop = 0;
-						if(vehicle.comingSoonFlag == 1){
+						//int flagLoop = 0;
+						/*if(vehicle.comingSoonFlag == 1){
 							if (vehicle.comingSoonDate.before(thedate) || vehicle.comingSoonDate.equals(thedate)) {
 								flagLoop = 1;
 							}
@@ -32698,14 +32698,14 @@ public static Result getviniewsChartLeads(Long id, String vin,
 							if (vehicle.postedDate.before(thedate) || vehicle.postedDate.equals(thedate)) {
 								flagLoop = 1;
 							}
-						}
+						}*/
 						
-						if (flagLoop == 1) {
+						//if (flagLoop == 1) {
 							
-							if (flagDate == 1) {
+							/*if (flagDate == 1) {
 								startDate = df.format(thedate);
 								endDate = df.format(thedate);
-							}
+							}*/
 							try {
 								if ((thedate.after(df.parse(startDate)) && thedate.before(df.parse(endDate))) || thedate.equals(df.parse(startDate)) || thedate.equals(df.parse(endDate))) {
 								
@@ -32729,7 +32729,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-						}		
+						//}		
 				}else if (status.equals("Sold")) {
 					Vehicle vehicle = Vehicle.findById(id);
 					
@@ -34032,7 +34032,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		SetPriceChangeFlag sPrice = new SetPriceChangeFlag();
 		if(status.equals("Newly Arrived")){
 			Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
-			if(vehicle.comingSoonFlag == 1){
+			//if(vehicle.comingSoonFlag == 1){
 			
 				for (int i=0;i<1;i++) {
 					PriceFormatDate pvalue = new PriceFormatDate();
@@ -34045,7 +34045,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				sPrice.type = "flags";
 				sPrice.data = sAndValues;
 				sPrice.name = "Launch Date";
-			}
+			//}
 		}	
 		
 		return ok(Json.toJson(sPrice));
@@ -38447,11 +38447,11 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			if(vehicle != null){
 				pVm1.person = "Has been added to the invnetory";
-				if(vehicle.comingSoonFlag == 1){
-					pVm1.dateTime = df.format(vehicle.comingSoonDate);
-				}else{
+				//if(vehicle.comingSoonFlag == 1){
+					//pVm1.dateTime = df.format(vehicle.comingSoonDate);
+				//}else{
 					pVm1.dateTime = df.format(vehicle.postedDate);
-				}
+				//}
 				
 				pList.add(pVm1);
 				
