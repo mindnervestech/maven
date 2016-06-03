@@ -477,6 +477,14 @@ var MakeApp = angular
         	templateUrl: 'dealer/inventory/editcollection.html',
         	controller: 'EditCollectionCtrl',
         })
+        .when('/editCollectionImg/:id/:temp', {
+            templateUrl: 'dealer/inventory/editCollectionImages.html',
+            controller: 'EditCollectionImgCtrl'
+        })
+        .when('/editCollectionImg/:id', {
+            templateUrl: 'dealer/inventory/editCollectionImages.html',
+            controller: 'AddCollectionImgCtrl'
+        })
         
         .otherwise({
             redirectTo: '/'
