@@ -19,9 +19,10 @@ public class FeaturedImageConfig extends Model {
 	
 	@ManyToOne
 	public AuthUser user;
-	
+
 	@ManyToOne
 	public Location locations;
+	
 
 	public Long getId() {
 		return id;
@@ -54,7 +55,8 @@ public class FeaturedImageConfig extends Model {
 	public void setUser(AuthUser user) {
 		this.user = user;
 	}
-	
+
+
 	public Location getLocations() {
 		return locations;
 	}
@@ -67,13 +69,13 @@ public class FeaturedImageConfig extends Model {
 
 	public static Finder<Long,FeaturedImageConfig> find = new Finder<>(Long.class,FeaturedImageConfig.class);
 	
+	public static List<FeaturedImageConfig> findByUser() {
+		return find.all();
+	}
 	public static FeaturedImageConfig findByUser(AuthUser user) {
 		return find.where().eq("user", user).findUnique();
 	}
-	
 	public static FeaturedImageConfig findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findUnique();
 	}
-	
-	
 }

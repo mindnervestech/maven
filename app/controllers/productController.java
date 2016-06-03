@@ -11,8 +11,11 @@ import javax.imageio.ImageIO;
 import models.AddCollection;
 import models.AddProduct;
 import models.AuthUser;
+import models.FeaturedImageConfig;
 import models.ProductImages;
 import models.Sections;
+import models.VehicleImage;
+import models.VehicleImageConfig;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -28,6 +31,7 @@ import play.mvc.Result;
 import securesocial.core.Identity;
 import viewmodel.AddCollectionVM;
 import viewmodel.AddProductVM;
+import viewmodel.EditImageVM;
 import viewmodel.ImageVM;
 import viewmodel.SectionsVM;
 import views.html.home;
@@ -365,6 +369,55 @@ public class productController extends Controller {
 		    		file = new File(rootDir+image.path.replaceAll("%20"," "));
 		    	}
 		    	return ok(file);
+	    	}	
+	    }
+	  
+	  public static Result getImageDataById(Long id) throws IOException {
+		  if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+	    		AuthUser user = (AuthUser) getLocalUser();
+	    		ProductImages image = ProductImages.findById(id);
+		    	File file = new File(rootDir+image.path);
+		    	
+		    	BufferedImage originalImage = ImageIO.read(file);
+		    	//FeaturedImageConfig featuredConfig = FeaturedImageConfig.findByUser(user);
+		    	List<FeaturedImageConfig> featuredCon = FeaturedImageConfig.findByUser();
+		    	FeaturedImageConfig featuredConfig = new FeaturedImageConfig();
+		    	featuredConfig = featuredCon.get(0);
+		    	ImageVM vm = new ImageVM();
+				vm.id = image.id;
+				vm.imgName = image.imageName;
+				vm.defaultImage = image.defaultImage;
+				vm.row = originalImage.getHeight();
+				vm.col = originalImage.getWidth();
+				vm.path = image.path;
+	    		vm.height = featuredConfig.cropHeight;
+	    		vm.width = featuredConfig.cropWidth;
+				//vm.vin = image.vin;
+		    	return ok(Json.toJson(vm));
+	    	}	
+	    }
+	  
+	  public static Result editImage() throws IOException {
+		  if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	AuthUser user = (AuthUser) getLocalUser();
+		    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+		    	EditImageVM vm = form.get();
+		    	
+		    	ProductImages image = ProductImages.findById(vm.imageId);
+		    	File file = new File(rootDir+image.path);
+		    	File thumbFile = new File(rootDir+image.thumbPath);
+		    	
+		    	BufferedImage originalImage = ImageIO.read(file);
+		    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+		    	Thumbnails.of(croppedImage).scale(1.0).toFile(file);
+		    	
+		    	Thumbnails.of(croppedImage).height(155).toFile(thumbFile);
+		    	
+		    	return ok();
 	    	}	
 	    }
 	

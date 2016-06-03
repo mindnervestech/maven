@@ -55,7 +55,7 @@ POST   /saveCampaigns					controllers.Application.saveCampaigns()
 GET		/getCustomerPdfData		 controllers.Application.getCustomerPdfData()
 GET		/getEmailDetails		 controllers.Application.getEmailDetails()
 
-
+#------------------------------------------
 
 
 GET 	/getSectionCollection/:id	     controllers.productController.getSectionCollection(id:Long)
@@ -66,10 +66,44 @@ GET     /removeDefaultProduct/:newId	 controllers.productController.removeDefaul
 GET		/deleteImage/:id		         controllers.productController.deleteImage(id:Long)
 GET		/getImagesByProduct/:id		     controllers.productController.getImagesByProduct(id:Long)
 POST    /uploadProductPhoto   			 controllers.productController.uploadProductPhotos()
+GET		/getImageById/:id			     controllers.productController.getImageDataById(id: Long)
 GET		/getImage/:id/:type			     controllers.productController.getImageById(id:Long,type:String)
+POST	/editImage				    	 controllers.productController.editImage()
 GET		/getReadyMadeCollection		     controllers.InventoryController.getReadyMadeCollection()
 GET		/getAllSection				     controllers.InventoryController.getAllSection()
-GET    /deleteCollectionById/:id		 controllers.InventoryController.deleteCollectionById(id:Long)
+GET     /deleteCollectionById/:id		 controllers.InventoryController.deleteCollectionById(id:Long)
+POST	/saveCollectionOrder		     controllers.InventoryController.saveCollectionOrder()
+GET		/getAllSale						 controllers.InventoryController.getAllSale()
+GET     /moveProductById/:id             controllers.InventoryController.moveProductById(id:Long)
+GET     /saleProductById/:id             controllers.InventoryController.saleProductById(id:Long)
+GET		/getAllReadyMade		         controllers.InventoryController.getAllReadyMade()
+POST    /updateProduct                   controllers.InventoryController.updateProduct()
+GET     /deleteProductById/:id           controllers.InventoryController.deleteProductById(id:Long)
+GET		/getOnlyReadyMade		         controllers.InventoryController.getOnlyReadyMade()
+GET		/getAllAccessories		         controllers.InventoryController.getAllAccessories()
+GET		/getAllProductTypes				 controllers.InventoryController.getAllProductTypes()
+GET		/getProductCollection		     controllers.InventoryController.getProductCollection()
+GET     /getProductData/:id              controllers.InventoryController.getProductData(id:Long) 
+GET     /getList                         controllers.InventoryController.collectionList()
+POST    /updateProductInfo               controllers.InventoryController.updateProductInfo()
+GET     /downloadFile/:id				 controllers.InventoryController.fileDownload(id:Long)
+GET     /cadFileDownload/:id			 controllers.InventoryController.cadFileDownload(id:Long)
+GET     /getAllCollection		         controllers.InventoryController.getAllCollection()
+GET     /getCollectionData/:id           controllers.InventoryController.getCollectionData(id:Long)  
+POST    /updateCollection		         controllers.InventoryController.updateCollection()
+POST    /updateReadyCollection		     controllers.InventoryController.updateReadyCollection()
+GET     /getImagesByCollection/:id	     controllers.InventoryController.getImagesByCollection(id:Long)
+GET		/getAllSectionTypes/:id		     controllers.InventoryController.getAllSectionTypes(id:Long)
+GET		/getSectionCollectionData/:id    controllers.InventoryController.getSectionCollectionData(id:Long)
+
+
+
+
+
+
+#------------------------------------------
+
+
 
 
 
@@ -150,8 +184,6 @@ POST	/uploadSoundFile			controllers.Application.uplaodSoundFile()
 GET		/getAllAudio/:vin			controllers.Application.getAllAudio(vin:String)
 POST	/saveVData					controllers.Application.saveVData()
 POST    /saveVideoData                controllers.Application.saveVideoData()
-GET		/getImageById/:id			controllers.Application.getImageDataById(id: Long)
-POST	/editImage					controllers.Application.editImage()
 POST	/uploadSliderPhotos			controllers.Application.uploadSliderPhotos()
 POST	/uploadFeaturedPhotos		controllers.Application.uploadFeaturedPhotos()
 POST    /uploadInventoryPhotos			controllers.Application.uploadInventoryPhotos()

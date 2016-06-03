@@ -7500,29 +7500,6 @@ public class Application extends Controller {
     	 	}
     	return ok();
     	}*/
-    public static Result editImage() throws IOException {
-    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render("",userRegistration));
-    	} else {
-    		
-    		AuthUser user = (AuthUser) getLocalUser();
-	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
-	    	EditImageVM vm = form.get();
-	    	
-	    	VehicleImage image = VehicleImage.findById(vm.imageId);
-	    	File file = new File(rootDir+image.path);
-	    	File thumbFile = new File(rootDir+image.thumbPath);
-	    	
-	    	BufferedImage originalImage = ImageIO.read(file);
-	    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
-	    	Thumbnails.of(croppedImage).scale(1.0).toFile(file);
-	    	
-	    	VehicleImageConfig config = VehicleImageConfig.findByUser(user);
-	    	Thumbnails.of(croppedImage).height(140).width(210).toFile(thumbFile);
-	    	
-	    	return ok();
-    	}	
-    }
     
     
     public static Result uploadInventoryPhotosComingSoon() {
@@ -10047,36 +10024,7 @@ public class Application extends Controller {
 	    	return ok();
     	}	
     }
-    
    
-	
-	
-	
-    public static Result getImageDataById(Long id) throws IOException {
-    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render("",userRegistration));
-    	} else {
-    		
-    		AuthUser user = (AuthUser) getLocalUser();
-	    	VehicleImage image = VehicleImage.findById(id);
-	    	File file = new File(rootDir+image.path);
-	    	
-	    	BufferedImage originalImage = ImageIO.read(file);
-	    	
-	    	ImageVM vm = new ImageVM();
-			vm.id = image.id;
-			vm.imgName = image.imgName;
-			vm.defaultImage = image.defaultImage;
-			vm.row = originalImage.getHeight();
-			vm.col = originalImage.getWidth();
-			vm.path = image.path;
-			vm.vin = image.vin;
-			VehicleImageConfig config = VehicleImageConfig.findByUser(user);
-			vm.width = config.cropWidth;
-			vm.height = config.cropHeight;
-	    	return ok(Json.toJson(vm));
-    	}	
-    }
     
     
     public static Result editSliderImage() throws IOException {

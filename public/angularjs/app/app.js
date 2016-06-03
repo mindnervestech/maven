@@ -339,7 +339,7 @@ var MakeApp = angular
             templateUrl: '/dealer/addPhotos/uploadPhoto.html',
             controller: 'PhotoUploadCtrl'
         })
-        .when('/cropImage/:id/:vid', {
+        .when('/cropImage/:id/:pId', {
             templateUrl: '/dealer/addPhotos/cropImage.html',
             controller: 'ImageCropCtrl'
         })
@@ -401,10 +401,7 @@ var MakeApp = angular
             templateUrl: '/dealer/viewVehicle/viewVehicles.html',
             controller: 'ViewVehiclesCtrl'
         })*/
-        .when('/inventory', {
-            templateUrl: 'dealer/inventory/readyMadeInventory.html',
-            controller: 'ReadyMadeInventoryCtrl'
-        })
+        
         
         .when('/viewRegistration', {
             templateUrl: '/dealer/viewRegistration/viewRegistration.html',
@@ -416,12 +413,70 @@ var MakeApp = angular
             controller: 'ViewClientCtrl'
         })
         
-        
          .when('/dashboardLocation/:LocationId/:managerId/:gmIsManager', {
             templateUrl: '/dealer/dashboard/dashboardLocation.html',
             controller: 'dashboardLocationCtrl'
         })
         
+        /*----------------------------------------*/
+        
+        .when('/inventory', {
+            templateUrl: '/dealer/inventory/readyMadeInventory.html',
+            controller: 'ReadyMadeInventoryCtrl'
+        })
+        .when('/accessoriesInventory', {
+            templateUrl: '/dealer/inventory/accessoriesInventory.html',
+            controller: 'AccessoriesInventoryCtrl'
+        })
+        .when('/productsInventory', {
+            templateUrl: '/dealer/inventory/productInventory.html',
+            controller: 'ProductsInventoryCtrl'
+        })
+        .when('/allproductsInventory', {
+            templateUrl: '/dealer/inventory/productInventory.html',
+            controller: 'AllProductsInventoryCtrl'
+        })
+        .when('/sectionInventory/:id', {
+            templateUrl: '/dealer/inventory/sectionInventory.html',
+            controller: 'SectionInventoryCtrl'
+        })
+        .when('/allSectionCollection/:id', {
+            templateUrl: '/dealer/inventory/sectionInventory.html',
+            controller: 'SectionCollectionCtrl'
+        })
+        .when('/sale', {
+            templateUrl: '/dealer/inventory/readyMadeInventory.html',
+            controller: 'SaleInventoryCtrl'
+        })
+        
+        .when('/readyMadeOnly', {
+            templateUrl: 'dealer/inventory/readyMadeInventory.html',
+            controller: 'OnlyReadyMadeInventoryCtrl'
+        })
+        
+        .when('/collection', {
+            templateUrl: 'dealer/inventory/collectionInventory.html',
+            controller: 'collectionInventoryCtrl'
+        })
+        
+        .when('/allProductCollection', {
+            templateUrl: 'dealer/inventory/productInventory.html',
+            controller: 'ProductCollectionCtrl'
+        })
+        
+       .when('/editProduct/:id/:flag', {
+            templateUrl: 'dealer/inventory/editProduct.html',
+            controller: 'EditProductsCtrl',
+        })  
+        .when('/allReadyMadeCollection', {
+            templateUrl: 'dealer/inventory/readyMadeInventory.html',
+            controller: 'ReadyMadeCollectionCtrl'
+        })
+        
+        .when('/editcollection/:id/:flag', {
+        	templateUrl: 'dealer/inventory/editcollection.html',
+        	controller: 'EditCollectionCtrl',
+        })
         
         .otherwise({
             redirectTo: '/'
