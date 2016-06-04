@@ -19,6 +19,14 @@ import play.db.ebean.Model.Finder;
 @Entity
 public class RequestMoreInfo extends Model {
 
+	public Long getProductId() {
+		return productId;
+	}
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
+
+
 	@Id
 	public Long id;
 	public String name;
@@ -53,7 +61,9 @@ public class RequestMoreInfo extends Model {
 	public int onlineOrOfflineLeads;
 public String testDriveStatus;
 public String isContactusType;
-public String message;	
+public String message;
+
+public Long productId;
 	
 	
 	

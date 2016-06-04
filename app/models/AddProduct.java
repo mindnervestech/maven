@@ -32,6 +32,9 @@ public class AddProduct extends Model {
 	public String cadfileName;
 	public String cadfilePath;
 	
+	@ManyToOne
+	public Location locations;
+	
 	public String getCadfileName() {
 		return cadfileName;
 	}
@@ -55,6 +58,13 @@ public class AddProduct extends Model {
 	}
 	public void setYear(String year) {
 		this.year = year;
+	}
+	
+	public Location getLocations() {
+		return locations;
+	}
+	public void setLocations(Location locations) {
+		this.locations = locations;
 	}
 	public String getDesigner() {
 		return designer;
@@ -171,5 +181,10 @@ public class AddProduct extends Model {
 	public static List<AddProduct> findProductsByCollectiongetOnlyReadyMade(AddCollection collection) {
 		return find.where().ne("sale", "sale").eq("collection", collection).findList();
 	}
-	
+	public static List<AddProduct> findByProductId(String productname,Location location) {
+		return find.where().eq("title", productname).ne("sale", "sale").findList();
+	}
+	public static List<AddProduct> findByLocationNoDraft(Long location) {
+		return find.all();
+	}
 }

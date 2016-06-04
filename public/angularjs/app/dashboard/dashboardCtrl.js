@@ -64,7 +64,7 @@ angular.module('newApp')
 	}
 	$http.get('/getAllVehicles')
 		.success(function(data) {
-			$scope.vinSearchList = data;
+			$scope.prodSearchList = data;
 		});
 		//$scope.stockRp = {};
 		
@@ -4217,11 +4217,13 @@ angular.module('newApp')
 					$scope.len = itm;
 	    		};
 	    		$scope.createLead = function() {
+	    			console.log($scope.lead);
+	    			$scope.lead.leadType = '1';
 	    			if($scope.lead.custName == ''){
 	    				$scope.lead.custName = $('#ex1_value').val();
 	    			}
 	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' ||  
-	    					 $scope.lead.leadType =='' || $scope.lead.contactedFrom=='') {
+	    					 $scope.lead.leadType =='') {
 	    				$scope.isInValid = true;
 	    			} else {
 	    				$scope.isInValid = false;
@@ -4246,7 +4248,7 @@ angular.module('newApp')
 		    			}
 	    			}
 	    			if($scope.lead.leadType != '3'){
-	    				window.location.reload();
+	    				//window.location.reload();
 	    			}
 	    		};
 	    		
@@ -4258,6 +4260,7 @@ angular.module('newApp')
 	    		}
 	    		
 	    		$scope.makeLead = function() {
+	    			
 	    			$scope.othertxt = $('#othertxt').val();
 	    			if($scope.lead.hearedFrom == "Other"){
 	    				if($scope.othertxt == null || $scope.othertxt == undefined){
@@ -4317,20 +4320,19 @@ angular.module('newApp')
 	    		$scope.stockWiseData.push({});
 	    		$scope.getStockDetails = function(stockRp) {
 	    			$scope.isStockError = false;
+	    			console.log(stockRp);
 	    			$http.get('/getStockDetails/'+stockRp.stockNumber).success(function(response) {
+	    				console.log(response);
 	    				if(response.isData) {
 	    					$scope.isStockError = false;
-	    					stockRp.make = response.make;
-	    					stockRp.model = response.model;
-	    					stockRp.bodyStyle = response.bodyStyle;
-	    					stockRp.engine = response.engine;
-	    					stockRp.mileage = response.mileage;
-	    					stockRp.transmission = response.transmission;
-	    					stockRp.drivetrain = response.drivetrain;
+	    					stockRp.designer = response.designer;
+	    					stockRp.price = response.price;
 	    					stockRp.vehicleImage = response.vehicleImage;
 	    					stockRp.imgId = response.imgId;
 	    					stockRp.year = response.year;
-	    					stockRp.vin = response.vin;
+	    					stockRp.primaryTitle = response.primaryTitle;
+	    					stockRp.title = response.title; 
+	    					stockRp.id = response.id;
 	    				} else {
 	    					$scope.isStockError = true;
 	    				}

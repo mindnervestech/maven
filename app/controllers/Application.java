@@ -56,6 +56,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
 
 import models.ActionAdd;
+import models.AddProduct;
 import models.AuthUser;
 import models.AutoPortal;
 import models.Blog;
@@ -92,6 +93,7 @@ import models.PlanScheduleMonthlySalepeople;
 import models.PremiumLeads;
 import models.PriceAlert;
 import models.PriceChange;
+import models.ProductImages;
 import models.Registration;
 import models.RequestMoreInfo;
 import models.SalesPlanSchedule;
@@ -5673,59 +5675,42 @@ public class Application extends Controller {
     		int visitorCount = 0;
 	    	/*List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");*/
     		
-    		List <Vehicle> vehicleObjList = Vehicle.findByNewArrAndLocationNoDraft(Long.valueOf(session("USER_LOCATION")));
+    		List <AddProduct> productObjList = AddProduct.findByLocationNoDraft(Long.valueOf(session("USER_LOCATION")));
     		
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>();
 	    	String params = "&date=last-28-days&type=visitors-list&limit=all";
-	     	for(Vehicle vm : vehicleObjList){
+	     	for(AddProduct vm : productObjList){
 	     		
-	     		VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+	     		ProductImages productImg = ProductImages.findDefaultImg(vm.id);
 	     		
-	     		SpecificationVM vehicle = new SpecificationVM();
-	     		vehicle.id = vm.id;
-	     	    vehicle.title=vm.getTitle();
-		    	vehicle.category = vm.category;
-		    	vehicle.vin = vm.vin;
-		    	vehicle.year = vm.year;
-		    	vehicle.make = vm.make;
-		    	vehicle.model = vm.model;
-		    	vehicle.trim_level = vm.trim;
-		    	vehicle.label = vm.label;
-		    	vehicle.stock = vm.stock;
-		    	vehicle.mileage = vm.mileage;
-		    	vehicle.cost = vm.cost;
-		    	vehicle.price = vm.price;
-		    	vehicle.extColor = vm.exteriorColor;
-		    	vehicle.intColor = vm.interiorColor;
-		    	vehicle.colorDesc = vm.colorDescription;
-		    	vehicle.doors = vm.doors;
-		    	vehicle.stereo = vm.stereo;
-		    	vehicle.engine = vm.engine;
-		    	vehicle.fuel = vm.fuel;
-		    	vehicle.city_mileage = vm.cityMileage;
-		    	vehicle.highway_mileage = vm.highwayMileage;
-		    	vehicle.bodyStyle = vm.bodyStyle;
-		    	vehicle.drivetrain = vm.drivetrain;
-		    	vehicle.transmission = vm.transmission;
-		    	vehicle.location = vm.location;
-		    	vehicle.status  =  vm.status;
-		    	if(vehicleImg != null){
-		    		vehicle.imagePath = vehicleImg.thumbPath;
-		    		vehicle.imgId = vehicleImg.id;
+	     		SpecificationVM product = new SpecificationVM();
+	     		product.id = vm.id;
+	     		product.title=vm.getTitle();
+	     		product.description = vm.description;
+	     		product.designer = vm.designer;
+	     		product.year = vm.year;
+	     		product.primaryTitle = vm.primaryTitle;
+		    //	vehicle.price = vm.price;
+		    	//vehicle.trim_level = vm.cost;
+		    	
+		    	
+		    	if(productImg != null){
+		    		product.imagePath = productImg.thumbPath;
+		    		product.imgId = productImg.id;
 		    	}	
 		    	
-		    	vehicle.sold = false;
+		    	product.sold = false;
 		    	visitorCount = 0;
 		    	
-        		try {
+        		/*try {
     				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     				for(int j=0;j<jsonArray.length();j++){
     	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
     	    			String arr[] = data.split("/");
     	    			if(arr.length > 5){
     	    			  if(arr[5] != null){
-    	    				  if(arr[5].equals(vm.vin)){
+    	    			  if(arr[5].equals(vm.vin)){
     	    					  visitorCount = visitorCount + 1;
     	    				  }
     	    			  }
@@ -5735,15 +5720,15 @@ public class Application extends Controller {
     			} catch (JSONException e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
-    			}
+    			}*/
 		    	
-        		vehicle.pageViewCount = visitorCount;
+		    	product.pageViewCount = visitorCount;
 		    	
-		    	List<SqlRow> rows = Vehicle.getDriveTimeAndName(vehicle.vin);
+		    /*	List<SqlRow> rows = Vehicle.getDriveTimeAndName(product.vin);
 		    	for(SqlRow row : rows) {
 		    		Date date = (Date) row.get("confirm_date");
 		    		Date timeObj = (Date) row.get("confirm_time");
-		    		vehicle.testDrive = df.format(date) +" ";
+		    		product.testDrive = df.format(date) +" ";
 		    		Calendar time = Calendar.getInstance();
 		    		if(timeObj != null){
 		    			time.setTime(timeObj);
@@ -5755,14 +5740,14 @@ public class Application extends Controller {
 	    			} else {
 	    				ampm = "AM";
 	    			}
-	    			vehicle.testDrive = vehicle.testDrive + time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+	    			product.testDrive = product.testDrive + time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
 		    		Integer userId = (Integer) row.get("assigned_to_id");
 		    		AuthUser userData = AuthUser.findById(userId);
-		    		vehicle.salesRep = userData.firstName +" "+userData.lastName;
+		    		product.salesRep = userData.firstName +" "+userData.lastName;
 		    		break;
-		    	}
-		    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin);
-		    	NewVMs.add(vehicle);
+		    	}*/
+		    	//vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin);
+		    	NewVMs.add(product);
 	    	}
 	     	
 	     	
@@ -26764,19 +26749,19 @@ private static void cancelTestDriveMail(Map map) {
 			List<TradeIn> tIns = TradeIn.findAllSeenSch(user);
 			
 			for(RequestMoreInfo rInfo :rMoreInfo){
-				if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
+				//if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
 					vinUnik.put(rInfo.vin, 1);
-				}
+				//}
 			}
 			for(ScheduleTest sTest: sTests){
-				if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
+				//if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
 					vinUnik.put(sTest.vin, 1);
-				}	
+				//}	
 			}
 			for(TradeIn tradeIn: tIns){
-				if((tradeIn.tradeDate.after(start) && tradeIn.tradeDate.before(end)) || tradeIn.tradeDate.equals(end) || tradeIn.tradeDate.equals(start)){
+				//if((tradeIn.tradeDate.after(start) && tradeIn.tradeDate.before(end)) || tradeIn.tradeDate.equals(end) || tradeIn.tradeDate.equals(start)){
 					vinUnik.put(tradeIn.vin, 1);
-				}
+				//}
 			}
 			for (Map.Entry<String, Integer> entry : vinUnik.entrySet()) {
 				vins.add(entry.getKey());
@@ -27179,25 +27164,21 @@ if(vehicles.equals("All")){
     	}
     }
     
-    public static Result getStockDetails(String stockNumber) {
-    	List<Vehicle> vehicles = Vehicle.findByStock(stockNumber,Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    public static Result getStockDetails(String productName) {
+    	List<AddProduct> product = AddProduct.findByProductId(productName,Location.findById(Long.valueOf(session("USER_LOCATION"))));
     	Map map = new HashMap();
-    	if(vehicles.size()>0) {
+    	if(product.size()>0) {
     		map.put("isData", true);
-    		map.put("make", vehicles.get(0).getMake());
-    		map.put("model", vehicles.get(0).getModel());
-    		map.put("year", vehicles.get(0).getYear());
-    		map.put("bodyStyle", vehicles.get(0).getBodyStyle());
-    		map.put("engine", vehicles.get(0).getEngine());
-    		map.put("stock", vehicles.get(0).getStock());
-    		map.put("mileage", vehicles.get(0).getMileage());
-    		map.put("transmission", vehicles.get(0).getTransmission());
-    		map.put("drivetrain", vehicles.get(0).getDrivetrain());
-    		map.put("vin", vehicles.get(0).getVin());
+    		map.put("title", product.get(0).getTitle());
+    		map.put("year", product.get(0).getYear());
+    		map.put("price", product.get(0).getPrice());
+    		map.put("primaryTitle", product.get(0).getPrimaryTitle());
+    		map.put("designer", product.get(0).getDesigner());
+    		map.put("id", product.get(0).getId());
     		//map.put("vehicleImage", vehicles.get(0).getDrivetrain());
-    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicles.get(0).vin);
-    		if(vehicleImage!=null) {
-    			map.put("imgId",vehicleImage.getId());
+    		ProductImages productImage = ProductImages.findDefaultImg(product.get(0).getId());
+    		if(productImage!=null) {
+    			map.put("imgId",productImage.getId());
     		}
     		else {
     			map.put("imgId","/assets/images/no-image.jpg");
@@ -28185,8 +28166,8 @@ if(vehicles.equals("All")){
 	    		info.setCustZipCode(leadVM.custZipCode);
 	    		info.setEnthicity(leadVM.enthicity);
 	    		info.setAssignedTo(user);
-	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
-	    		info.setVin(vehicle.getVin());
+	    		AddProduct product = AddProduct.findById(vehicleVM.id);
+	    		info.setProductId(product.getId());
 	    		info.setUser(user);
 				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		info.setIsScheduled(false);

@@ -392,7 +392,7 @@ GET		/getVisitedData/:userkey/:type/:filterBy/:search/:searchBy/:vehicles/:start
 GET     /changePermission/:locatioId/:managerId/:gmIsManager		controllers.Application.changePermission(locatioId:Long,managerId:Integer,gmIsManager:String)
 GET		/getMakes						controllers.Application.getMakes()
 GET		/getModels/:make				controllers.Application.getModels(make:String)
-GET		/getStockDetails/:stockNumber	controllers.Application.getStockDetails(stockNumber:String)
+GET		/getStockDetails/:productName	controllers.Application.getStockDetails(productName:String)
 GET		/checkStockNumber/:stockNumber	controllers.Application.checkStockNumber(stockNumber:String)
 POST	/createLead						controllers.Application.createLead()
 GET		/getMonthlyVisitorsStats/:startDate/:endDate		controllers.Application.getMonthlyVisitorsStats(startDate:String, endDate:String)

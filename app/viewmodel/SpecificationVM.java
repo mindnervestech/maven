@@ -90,4 +90,11 @@ public class SpecificationVM {
 	public String fileName;
 	public String comingSoonDate;
 	public int comingSoonFlag; 
+	
+	/*---------------------*/
+	
+	public String designer;
+	public String primaryTitle;
+
+	
 }
