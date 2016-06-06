@@ -1210,30 +1210,30 @@ angular.module('newApp')
     	 		 $scope.gridOptions5.enableHorizontalScrollbar = 0;
     	 		 $scope.gridOptions5.enableVerticalScrollbar = 2;
     	 		 $scope.gridOptions5.columnDefs = [
-    	 		                                 { name: 'vin', displayName: 'Vin', width:'10%',cellEditableCondition: false,
-    	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.vin}}</a> ',
+    	 		                                 { name: 'title', displayName: 'Title', width:'14%',cellEditableCondition: false,
+    	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.title}}</a> ',
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	 		                                       if (row.entity.noteFlag != 1) {
     	 		                                         return 'red';
     	 		                                       }
     	 		                                	} ,
     	 		                                 },
-    	 		                                 { name: 'model', displayName: 'Model', width:'7%',cellEditableCondition: false,
-    	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.model}}</a> ',
+    	 		                                 { name: 'designer', displayName: 'Designer', width:'8%',cellEditableCondition: false,
+    	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.designer}}</a> ',
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.noteFlag != 1) {
     	  		                                         return 'red';
     	  		                                     }
     	 		                                	} ,
     	 		                                 },
-    	 		                                 { name: 'make', displayName: 'Make', width:'8%',cellEditableCondition: false,
+    	 		                                 /*{ name: 'make', displayName: 'Make', width:'8%',cellEditableCondition: false,
     	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.make}}</a> ',
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.noteFlag != 1) {
     	  		                                         return 'red';
     	  		                                     }
     	 		                                	} ,
-    	 		                                 },
+    	 		                                 },*/
     	 		                                 { name: 'name', displayName: 'Name', width:'10%',cellEditableCondition: false,
     	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -1352,7 +1352,7 @@ angular.module('newApp')
     				 		                                 },
     	    	     		                                 ];
     	 		
-    			 $scope.gridOptions2 = {
+    		/*	 $scope.gridOptions2 = {
      			 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
      			 		    paginationPageSize: 150,
      			 		    enableFiltering: true,
@@ -1411,22 +1411,7 @@ angular.module('newApp')
      			   		                                     }
      			  		                                	} ,
      			 		                                 },
-     			 		                                 /*{ name: 'confirmDate', displayName: 'Confirm Day', width:'8%',cellEditableCondition: false,
-     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.confirmDate}}</a> ',
-     			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     			   		                                       if (row.entity.confirmDate === null && row.entity.note.length <= 1) {
-     			   		                                         return 'red';
-     			   		                                     }
-     			  		                                	} ,
-     					                                 },
-     					                                 { name: 'confirmTime', displayName: 'Confirm Time', width:'8%',cellEditableCondition: false,
-     					                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.confirmTime}}</a> ',
-     					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     				  		                                       if (row.entity.confirmDate === null && row.entity.note.length <= 1) {
-     				  		                                         return 'red';
-     				  		                                     }
-     				 		                                	} ,
-     			 		                                 },*/
+     			 		                               
      			 		                               { name: 'bestDay', displayName: 'Date Added', width:'8%',cellEditableCondition: false,
      			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.bestDay}}</a> ',
       			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -1459,10 +1444,10 @@ angular.module('newApp')
        			   		                                     }
        			  		                                	} ,
        			 		                                 },
-     			     		                                 ];
+     			     		                                 ];*/
     	 		 
      			 		 
-     			 		$scope.gridOptions3 = {
+     			 	/*	$scope.gridOptions3 = {
      			 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
      			 		 		    paginationPageSize: 150,
      			 		 		    enableFiltering: true,
@@ -1547,7 +1532,7 @@ angular.module('newApp')
      	       			   		                                     }
      	       			  		                                	} ,
      	       			 		                                 },
-     			 		     		                                 ];
+     			 		     		                                 ];*/
      			 		  
      			 		 		$scope.gridOptions4 = {
      	     			 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -1559,15 +1544,15 @@ angular.module('newApp')
      	     			 		 		 $scope.gridOptions4.enableHorizontalScrollbar = 0;
      	     			 		 		 $scope.gridOptions4.enableVerticalScrollbar = 2;
      	     			 		 		 $scope.gridOptions4.columnDefs = [
-     	     			 		 		                                 { name: 'vin', displayName: 'Vin', width:'10%',cellEditableCondition: false,
+     	     			 		 		                                 { name: 'title', displayName: 'title', width:'14%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },
-     	     			 		 		                                 { name: 'model', displayName: 'Model', width:'8%',cellEditableCondition: false,
+     	     			 		 		                                 { name: 'designer', displayName: 'designer', width:'10%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },
-     	     			 		 		                                 { name: 'make', displayName: 'Make', width:'8%',cellEditableCondition: false,
+     	     			 		 /*		                                 { name: 'make', displayName: 'Make', width:'8%',cellEditableCondition: false,
      	     			 		 		                                	
-     	     			 		 		                                 },
+     	     			 		 		                                 },*/
      	     			 		 		                                 { name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
      	     			 				                                	 
      	     			 		 		                                 },
@@ -1776,7 +1761,7 @@ angular.module('newApp')
      	     		     	       			 		                                 },
      	     		     			 		     		                                 ]; 
      	     			 	    	 		 
-     	     		     			 		 	$scope.gridOptions9 = {
+     	     		     			 		 	/*$scope.gridOptions9 = {
         	     		     			 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
         	     		     			 		 		    paginationPageSize: 150,
         	     		     			 		 		    enableFiltering: true,
@@ -1877,8 +1862,8 @@ angular.module('newApp')
         	     		     	       			 		                                 },
         	     		     	       			 		                                 
         	     		     	       			 		                                 
-        	     		     			 		     		                               ]; 
-        	     		     			 		 		$scope.gridOptions10 = {
+        	     		     			 		     		                               ]; */
+        	     		     			 		 		/*$scope.gridOptions10 = {
         	     	     	     			 	    	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
         	     	     	     			 	    	 		    paginationPageSize: 150,
         	     	     	     			 	    	 		    enableFiltering: true,
@@ -1931,7 +1916,7 @@ angular.module('newApp')
         	     	     	     			 	    	  		                                     }
         	     	     	     			 	    	 		                                	} ,
         	     	     	     			 	    	 		                                 },
-        	     	     	     			 	    	 		                             /*{ name: 'status', displayName: 'Status', width:'10%',cellEditableCondition: false,
+        	     	     	     			 	    	 		                             { name: 'status', displayName: 'Status', width:'10%',cellEditableCondition: false,
         	     	      	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     	      	     			 	    	  		                                       if (row.entity.isRead === false) {
         	     	      	     			 	    	  		                                         return 'red';
@@ -1945,7 +1930,7 @@ angular.module('newApp')
         	     	       	     			 	    	  		                                     }
         	     	       	     			 	    	 		                                	} ,
         	     	       	     			 	    	 		                                 },
-        	     	       	     			 	    	 		                                 */
+        	     	       	     			 	    	 		                                 
         	     	       	     			 	    	 		                           { name: 'testDriveCompletedComment', displayName: 'Comments', width:'10%',cellEditableCondition: false,
          	     	       	     			 	    	 		                               	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
          	     	       	     			 	    	  		                                       if (row.entity.isRead === false) {
@@ -1962,15 +1947,15 @@ angular.module('newApp')
 		       	     	       	     			 	    	 		                          },
         	     	      	     			 	    	 		                            
         	     	     	     			 	    	 		                             
-        	     	     	     			 	    	 		                                /*{ name: 'btnSold', displayName: '',enableFiltering: false, width:'12%',cellEditableCondition: false,
+        	     	     	     			 	    	 		                                { name: 'btnSold', displayName: '',enableFiltering: false, width:'12%',cellEditableCondition: false,
         	     	     	     			 				 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">ASSIGN</button>',
         	     	     	     			 				 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     	     	     			 				   		                                       if (row.entity.isRead === false) {
         	     	     	     			 				   		                                         return 'red';
         	     	     	     			 				   		                                     }
         	     	     	     			 				  		                                	} ,
-        	     	     	     			 				 		                                 },*/
-        	     	     	     			 	    	     		                                 ]; 		 
+        	     	     	     			 				 		                                 },
+        	     	     	     			 	    	     		                                 ]; */		 
      	     		     			 		 		 		 
      	     			 		 		 
      			 		 		 
@@ -2003,7 +1988,7 @@ angular.module('newApp')
 	 			        });
 	 		   		
 	 	  		};
-	 	  		$scope.gridOptions9.onRegisterApi = function(gridApi){
+	 	  		/*$scope.gridOptions9.onRegisterApi = function(gridApi){
 					 $scope.gridApi = gridApi;
 					 
 			   		$scope.gridApi.core.on.filterChanged( $scope, function() {
@@ -2011,7 +1996,7 @@ angular.module('newApp')
 				          $scope.gridOptions9.data = $filter('filter')($scope.allTestDirConfir,{'name':grid.columns[0].filters[0].term,'phone':grid.columns[1].filters[0].term,'email':grid.columns[2].filters[0].term,'requestDate':grid.columns[3].filters[0].term,'vin':grid.columns[4].filters[0].term,'model':grid.columns[5].filters[0].term,'make':grid.columns[6].filters[0].term,'confirmDate':grid.columns[7].filters[0].term,'confirmTime':grid.columns[8].filters[0].term,'wethar':grid.columns[9].filters[0].term},undefined);
 				        });
 			   		
-		  		};
+		  		};*/
     		  
     		  $scope.gridOptions5.onRegisterApi = function(gridApi){
     				 $scope.gridApi = gridApi;
@@ -2088,6 +2073,7 @@ angular.module('newApp')
    	  		$scope.editLeads = {};
    	  	$scope.stockWiseData = [];
    	  		$scope.editVinData = function(entity){
+   	  			console.log(entity);
    	  		  $scope.financeData.downPayment=1000;
    	  		  $scope.financeData.annualInterestRate=7;
    	  		  $scope.financeData.numberOfYears=5;
@@ -2106,31 +2092,26 @@ angular.module('newApp')
 				   $scope.pdffile = entity.pdfPath;
 				   $scope.lead = entity.leadsValue;
 			   }   	  		  
+   	  			//console.log($scope.stockWiseData);
    	  			
    	  		$scope.stockWiseData.push({
-				model:entity.model,
-				make:entity.make,
-				stockNumber:entity.stock,
+   	  			title:entity.title,
+   	  			stockNumber:entity.title,
+   	  			designer:entity.designer,
+   	  			price:entity.price,
 				year:entity.year,
-				bodyStyle:entity.bodyStyle,
-				mileage:entity.mileage,
-				transmission:entity.transmission,
-				drivetrain:entity.drivetrain,
-				engine:entity.engine,
-				vin:entity.vin,
-				imgId:entity.imgId,
-				searchStr:entity.vin,
+				primaryTitle:entity.primaryTitle,
+				productId:entity.productId,
 			});
-   	  			$scope.editLeads.vin = entity.vin;
-				$('#vinSearch_value').val(entity.vin);
-				$('#vinSearch').val(entity.vin);
-   	  			$scope.editLeads.stockNumber = entity.stock;
-		   	  	$scope.editLeads.model = entity.model;
-		   	  	$scope.editLeads.make = entity.make;
+   	  			$scope.editLeads.productId = entity.productId;
+				$('#vinSearch_value').val(entity.productId);
+				$('#vinSearch').val(entity.productId);
+   	  			$scope.editLeads.stockNumber = entity.title;
+		   	  	$scope.editLeads.title = entity.title;
+		   	  	$scope.editLeads.designer = entity.designer;
 		   	  	$scope.editLeads.year = entity.year;
-		   	  	$scope.editLeads.custZipCode = entity.custZipCode;
-				$scope.editLeads.enthicity = entity.enthicity;
-				$scope.editLeads.parentChildLead = entity.parentChildLead;
+		   	  	$scope.editLeads.stock = entity.title;
+		   	  	$scope.editLeads.parentChildLead = entity.parentChildLead;
 		   	  	
 		   	  	$scope.editLeads.id = entity.id;
 		   	  	$scope.editLeads.custName = entity.name;
@@ -3837,7 +3818,8 @@ angular.module('newApp')
     		  }
     		  
     		  $scope.restoreLead = function(entity){
-    			  $http.get('/restoreLead/'+entity.id+'/'+entity.leadType)
+    			  console.log(entity);
+    			  $http.get('/restoreLead/'+entity.id+'/'+entity.typeOfLead)
 					.success(function(data) {
 						$.pnotify({
 						    title: "Success",
@@ -3873,13 +3855,13 @@ angular.module('newApp')
     			  
     		  }
     		  
-    			  $http.get('/getAllScheduleTestAssigned')
+    			  /*$http.get('/getAllScheduleTestAssigned')
     					.success(function(data) {
     					$scope.gridOptions2.data = data;
     					$scope.AllScheduleTestAssignedList = data;
-    				});
+    				});*/
     	
-    			  $scope.gridOptions2.onRegisterApi = function(gridApi){
+    			  /*$scope.gridOptions2.onRegisterApi = function(gridApi){
      				 $scope.gridApi = gridApi;
      				 
      		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
@@ -3887,9 +3869,9 @@ angular.module('newApp')
      			          $scope.gridOptions2.data = $filter('filter')($scope.AllScheduleTestAssignedList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'confirmDate':grid.columns[6].filters[0].term,'confirmTime':grid.columns[7].filters[0].term,'bestDay':grid.columns[8].filters[0].term,'bestTime':grid.columns[9].filters[0].term},undefined);
      			        });
      		   		
-     	  		};
+     	  		};*/
     			  
-    			  $http.get('/getAllTradeInSeen')
+    			  /*$http.get('/getAllTradeInSeen')
     				.success(function(data) {
     			 		$scope.gridOptions3.data = data;
     			 		$scope.AllTradeInSeenList = data;
@@ -3903,9 +3885,9 @@ angular.module('newApp')
       			          $scope.gridOptions3.data = $filter('filter')($scope.AllTradeInSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'requestDate':grid.columns[6].filters[0].term},undefined);
       			        });
       		   		
-      	  		};
+      	  		};*/
       	  		
-      	  	 $scope.gridOptions10.onRegisterApi = function(gridApi){
+      	  	/* $scope.gridOptions10.onRegisterApi = function(gridApi){
   				 $scope.gridApi = gridApi;
   				 
   		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
@@ -3913,7 +3895,7 @@ angular.module('newApp')
   			          $scope.gridOptions10.data = $filter('filter')($scope.completedL,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'status':grid.columns[6].filters[0].term},undefined);
   			        });
   		   		
-  	  		};
+  	  		};*/
       	  		
       	  	
     			  
@@ -4144,17 +4126,15 @@ angular.module('newApp')
 	    			$scope.stockWiseData = [];
 	    			$http.get('/getStockDetails/'+item).success(function(response) {
 	    				if(response.isData) {
+	    					
 	    					 $scope.stockWiseData.push({
-	    							model:response.model,
-	    							make:response.make,
-	    							stockNumber:response.stock,
-	    							year:response.year,
-	    							bodyStyle:response.bodyStyle,
-	    							mileage:response.mileage,
-	    							transmission:response.transmission,
-	    							drivetrain:response.drivetrain,
-	    							engine:response.engine,
-	    							vin:response.vin,
+	    						 title:entity.title,
+		    		   	  			stockNumber:entity.title,
+		    		   	  			designer:entity.designer,
+		    		   	  			price:entity.price,
+		    						year:entity.year,
+		    						primaryTitle:entity.primaryTitle,
+		    						productId:entity.productId,
 	    							imgId:response.imgId,
 	    						});
 	    				} 
@@ -4287,19 +4267,19 @@ angular.module('newApp')
 	    				//$scope.userLocationData('Week','person');
 	    				 $scope.findMystatisData(startD,endD,'person');
 	    				$scope.getAllSalesPersonRecord($scope.salesPerson);
-	    				if($scope.lead.leadType=='2')  {
+	    				/*if($scope.lead.leadType=='2')  {
 	    					$scope.getScheduleTestData();
 	    					$("#createLeadPopup").modal('hide');
 	    				}
-	    				else if($scope.lead.leadType=='1') {
+	    				else*/ if($scope.lead.leadType=='1') {
 	    					$scope.getRequestMoreData();
 	    					$("#createLeadPopup").modal('hide');
 	    				}
-	    				else {
+	    				/*else {
 	    					$scope.getTradeInData();
 	    					$("#tradeInApp").modal('hide');
 	    					window.location.reload();
-	    				}
+	    				}*/
 	    				$scope.initialiase();
 	    			});
 	    			$scope.getAllSalesPersonRecord($scope.salesPerson);
@@ -4333,6 +4313,7 @@ angular.module('newApp')
 	    					stockRp.primaryTitle = response.primaryTitle;
 	    					stockRp.title = response.title; 
 	    					stockRp.id = response.id;
+	    					stockRp.productId = response.productId;
 	    				} else {
 	    					$scope.isStockError = true;
 	    				}
@@ -4493,7 +4474,7 @@ angular.module('newApp')
 			    	                	$('html, body').animate({scrollTop:1660}, 'slow'); // changed from 480 to 1660 for show myleads grid
 			    	                	
 			    	                	if($scope.leadNotification.premiumFlag == 0 && $scope.leadNotification.premiumFlag != null){
-			    	                		if($scope.leadNotification.leadType == 'Schedule Test'){
+			    	                		/*if($scope.leadNotification.leadType == 'Schedule Test'){
 			    	                			$scope.testDrive();
 					    	                	$('#test-drive-tabSched').click();
 				    	                		for(var i=0;i<$scope.gridOptions2.data.length;i++){
@@ -4502,7 +4483,8 @@ angular.module('newApp')
 				    	                				break;
 				    	                			}
 				    	                		}
-			    	                		}else if($scope.leadNotification.leadType == 'Request More Info'){
+			    	                		}else */
+			    	                		if($scope.leadNotification.leadType == 'Request More Info'){
 			    	                			$scope.requestMore()
 			    	                			$('#tab').click();
 			    	                			for(var i=0;i<$scope.gridOptions5.data.length;i++){
@@ -4511,7 +4493,7 @@ angular.module('newApp')
 				    	                				break;
 				    	                			}
 				    	                		}
-			    	                		}else{
+			    	                		}/*else{
 			    	                			$scope.tradeIn();
 			    	                			$('#profile-tab').click();
 			    	                			for(var i=0;i<$scope.gridOptions3.data.length;i++){
@@ -4520,7 +4502,7 @@ angular.module('newApp')
 				    	                				break;
 				    	                			}
 				    	                		}
-			    	                		}
+			    	                		}*/
 			    	                	}
 			    	                }
 			    	            }
@@ -4634,7 +4616,7 @@ angular.module('newApp')
     		$scope.getAllLeadIn();
     		//$scope.requestMore();
     	}
-    	$scope.schedultestDrive = function(){
+    	/*$scope.schedultestDrive = function(){
     		$scope.showAllTypeLeads = false;
     		$scope.schedTest = true;
     		$scope.schedTestGrid = true;
@@ -4645,8 +4627,7 @@ angular.module('newApp')
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
         	$scope.contact = false;
-//    		$scope.schedulTestDir();
-    	}
+    	}*/
     	
     	$scope.requestMore = function() {
     		$scope.schedTest = false;
@@ -4658,7 +4639,7 @@ angular.module('newApp')
         	$scope.cancelleads = false;
         	$scope.contact = false;
     	}		  
-    	$scope.testDrive = function() {
+    	/*$scope.testDrive = function() {
     		$scope.schedTest = false;
     		$scope.reqMore = false;	
         	$scope.testdrv = true;
@@ -4667,8 +4648,8 @@ angular.module('newApp')
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
         	$scope.contact = false;
-    	}	
-    	$scope.tradeIn = function() {
+    	}	*/
+    	/*$scope.tradeIn = function() {
     		$scope.schedTest = false;
     		$scope.reqMore = false;	
         	$scope.testdrv = false;
@@ -4677,7 +4658,7 @@ angular.module('newApp')
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
         	$scope.contact = false;
-    	}
+    	}*/
     	
     	$scope.contactUs = function(){
     		$scope.schedTest = false;
@@ -4747,7 +4728,7 @@ angular.module('newApp')
         	$scope.getAllSalesPersonRecord($scope.salesPerson);
         }
         
-        $scope.schedulTestDir = function(){
+       /* $scope.schedulTestDir = function(){
         	$http.get('/getTestDirConfir')
 			.success(function(data) {
 				$scope.gridOptions9.data = data;
@@ -4757,7 +4738,7 @@ angular.module('newApp')
 				$scope.allTestDirConfir = data;
 				$scope.setWether($scope.gridOptions9.data);
 			});
-        }
+        }*/
 
         $scope.setWether = function(gridValue){
 			  
@@ -4772,13 +4753,13 @@ angular.module('newApp')
 			 });  
         }
         
-        $scope.getCompletedData = function(){
+       /* $scope.getCompletedData = function(){
         	$http.get('/getAllCompletedLeads')
 			.success(function(data) {
 				$scope.gridOptions10.data = data;
 				$scope.completedL = data;
 			});
-        }
+        }*/
         
         $scope.getAllLostAndComLeads = function(){
         	$http.get('/getAllLostAndCompLeads')
@@ -4792,6 +4773,7 @@ angular.module('newApp')
 			.success(function(data) {
 				$scope.gridOptions4.data = data;
 				$scope.canceledLead = data;
+				console.log($scope.gridOptions4.data);
 			});
         }
         
@@ -4826,13 +4808,13 @@ angular.module('newApp')
         	
         }
         
-    	$scope.getScheduleTestData = function() {
+    	/*$scope.getScheduleTestData = function() {
 	    		$http.get('/getAllScheduleTestAssigned')
 				.success(function(data) {
 					$scope.gridOptions2.data = data;
 					$scope.AllScheduleTestAssignedList = data;
 			});
-    	};
+    	};*/
     	
     	$scope.getRequestMoreData = function() {
     		$http.get('/getAllRequestInfoSeen')
@@ -4842,13 +4824,13 @@ angular.module('newApp')
 		});
 	};
     	
-		$scope.getTradeInData = function() {
+		/*$scope.getTradeInData = function() {
 			 $http.get('/getAllTradeInSeen')
 				.success(function(data) {
 			 		$scope.gridOptions3.data = data;
 			 		$scope.AllTradeInSeenList = data;
 			 });
-		};
+		};*/
 	
 	
 		$scope.changeSalesPerson = function(){
@@ -4859,7 +4841,7 @@ angular.module('newApp')
 //			$('#home-tab').click();
 		};
 	
-		$scope.getScheduleData = function(id){
+		/*$scope.getScheduleData = function(id){
 			var deferred = $q.defer();
 			$http.get('/getAllSalesPersonScheduleTestAssigned/'+id)
 			.success(function(data) {
@@ -4880,7 +4862,7 @@ angular.module('newApp')
 				}
 		    });
 			return deferred.promise;
-		};
+		};*/
 		
 		$scope.getRequestData = function(id){
 			var deferred = $q.defer();
@@ -4929,7 +4911,7 @@ angular.module('newApp')
 		};
 		
 		
-		$scope.getTradeInData = function(id){
+		/*$scope.getTradeInData = function(id){
 			
 			var deferred = $q.defer();
 			 $http.get('/getAllSalesPersonTradeInSeen/'+id)
@@ -4951,19 +4933,19 @@ angular.module('newApp')
 				}
 			   });
 				return deferred.promise;
-		};
+		};*/
 		
 		$scope.addData = function(){
 			var deferred = $q.defer();
 			var countUnReadLead = 0;
 			$scope.getAllListLeadDate = [];
 			if($scope.userType == "Manager" || $scope.userType == "Sales Person"){
-  				 angular.forEach($scope.gridOptions2.data,function(value,key){
+  				 /*angular.forEach($scope.gridOptions2.data,function(value,key){
   		        		$scope.getAllListLeadDate.push(value);
   		        		if(value.noteFlag == 0 && value.confirmDate == null){
   		        			countUnReadLead++;
   		        		}
-  		        	});
+  		        	});*/
   				 angular.forEach($scope.gridOptions8.data,function(value,key){
 		        		$scope.getAllListLeadDate.push(value);
 		        		if(value.noteFlag == 0 && value.confirmDate == null){
@@ -4976,12 +4958,12 @@ angular.module('newApp')
   		        			countUnReadLead++;
   		        		}
   		        	});
-  				 angular.forEach($scope.gridOptions3.data,function(value,key){
+  				 /*angular.forEach($scope.gridOptions3.data,function(value,key){
   		        		$scope.getAllListLeadDate.push(value);
   		        		if(value.noteFlag == 0 && value.confirmDate == null){
   		        			countUnReadLead++;
   		        		}
-  		        	});
+  		        	});*/
   				 
   				 $scope.lengthOfAllLead = countUnReadLead;
   				 deferred.resolve("success");
@@ -5001,12 +4983,12 @@ angular.module('newApp')
 		       		id = 0;
 		       	}
 		       	//debugger;
-		       	$scope.getScheduleData(id).then(
-		       			function(success){
+		       //	$scope.getScheduleData(id).then(
+		       		//	function(success){
 		       				$scope.getRequestData(id).then(
 		    		       			function(success){
-		    		       				$scope.getTradeInData(id).then(
-		    		    		       			function(success){
+		    		       				//$scope.getTradeInData(id).then(
+		    		    		       			//function(success){
 		    		    		       				$scope.getContactUsData(id).then(
 		    		    		    		       			function(success){
 		    		    		       				$scope.addData().then(
@@ -5017,6 +4999,7 @@ angular.module('newApp')
 		    		    				           	        	//added by vinayak 23-Apr-2016
 		    		    				           	        	$http.get('/getAllCanceledLeads/'+id)
 		    		    				           				.success(function(data) {
+		    		    				           					console.log($scope.gridOptions4.data);
 		    		    				           					$scope.gridOptions4.data = data;
 		    		    				           					$scope.canceledLead = data;
 		    		    				           				});
@@ -5027,7 +5010,7 @@ angular.module('newApp')
 		    		    						       			 		$scope.AllTradeInSeenList = data;
 		    		    						       			 });
 		    		    						       			 
-		    		    						       			 $http.get('/getTestDirConfirById/'+id)
+		    		    						       			 /*$http.get('/getTestDirConfirById/'+id)
 		    		    						       				.success(function(data) {
 		    		    						       					$scope.gridOptions9.data = data;
 		    		    						       					angular.forEach($scope.gridOptions9.data,function(value,key){
@@ -5036,13 +5019,13 @@ angular.module('newApp')
 		    		    						       					$scope.setWether($scope.gridOptions9.data);
 		    		    						       					$scope.allTestDirConfir = data;
 		    		    						       				
-		    		    						       				});
+		    		    						       				});*/
 		    		    						       			 
-		    		    						       			 $http.get('/getAllCompletedLeadsbyId/'+id)
+		    		    						       			/* $http.get('/getAllCompletedLeadsbyId/'+id)
 		    		    						       				.success(function(data) {
 		    		    						       					$scope.gridOptions10.data = data;
 		    		    						       					$scope.completedL = data;
-		    		    						       				});
+		    		    						       				});*/
 		    		    		    		       			},function(error){
 		    		    		    		       				
 		    		    		    		       			}
@@ -5052,19 +5035,19 @@ angular.module('newApp')
 		    		    		       			}
 		    		    		       	);
 		    		       				
-		    		       			},function(error){
+		    		       			//},function(error){
 		    		       				
-		    		       			}
-		    		       	);
+		    		       		//	}
+		    		       //	);
 		    		       		},function(error){
 		    		       				
 		    		       			}
 		    		       	);
 		       				
-		       			},function(error){
+		       			//},function(error){
 		       				
-		       			}
-		       	);
+		       			//}
+		       //	);
 		       	
 	}
 		
@@ -5388,7 +5371,7 @@ angular.module('newApp')
     	$scope.saveScheduleClose = function() {
 	    		$http.get('/setScheduleStatusClose/'+$scope.scheduleStatusCancel.id+'/'+$scope.scheduleStatusCancel.typeOfLead+'/'+$scope.reasonToCancel)
 				.success(function(data) {
-					$scope.getScheduleTestData();
+					//$scope.getScheduleTestData();
 					$('#scheduleCancelBtn').click();
 					$.pnotify({
     				    title: "Success",
@@ -5591,7 +5574,7 @@ angular.module('newApp')
 				    type:'success',
 				    text: "Trad in Lead Cancelled successfully",
 				});
-				$scope.getTradeInData();
+				//$scope.getTradeInData();
 			});
     	}
     	
@@ -6011,15 +5994,15 @@ angular.module('newApp')
     				});
 		 			 $scope.getAllSalesPersonRecord($scope.salesPerson);
 					$('#noteClose').click();
-					if($scope.typeOfNote == 'scheduleTest') {
+					/*if($scope.typeOfNote == 'scheduleTest') {
 						$scope.getScheduleTestData();
-					}
+					}*/
 					if($scope.typeOfNote == 'requestMore') {
 						$scope.getRequestMoreData();
 					}
-					if($scope.typeOfNote == 'tradeIn') {
+					/*if($scope.typeOfNote == 'tradeIn') {
 						$scope.getTradeInData();
-					}
+					}*/
 					//$scope.getAllSalesPersonRecord($('#salesPersonUserId').val());
 		 		});
 		   }
@@ -6045,18 +6028,15 @@ angular.module('newApp')
 			   $scope.testDriveData.prefferedContact = "";
 			   
 			   $scope.stockWiseData.push({
-					model:entity.model,
-					make:entity.make,
-					stockNumber:entity.stock,
-					year:entity.year,
-					bodyStyle:entity.bodyStyle,
-					mileage:entity.mileage,
-					transmission:entity.transmission,
-					drivetrain:entity.drivetrain,
-					engine:entity.engine,
-					vin:entity.vin,
-					imgId:entity.imgId,
-				});
+					 title:entity.title,
+		   	  			stockNumber:entity.title,
+		   	  			designer:entity.designer,
+		   	  			price:entity.price,
+						year:entity.year,
+						primaryTitle:entity.primaryTitle,
+						productId:entity.productId,
+						imgId:response.imgId,
+					});
 			   
 		   }
 		   

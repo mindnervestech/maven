@@ -163,6 +163,11 @@ public class AddProduct extends Model {
 	public static AddProduct findById(Long id) {
 		return find.byId(id);
 	}
+	
+	public static AddProduct findByIdNotSale(Long id) {
+		return find.where().eq("id", id).ne("sale", "sale").findUnique();
+	}
+	
 	public static List<AddProduct> getAllAccessories(AddCollection collection) {
 		return find.where().eq("collection", collection).findList();
 	}
@@ -183,6 +188,10 @@ public class AddProduct extends Model {
 	}
 	public static List<AddProduct> findByProductId(String productname,Location location) {
 		return find.where().eq("title", productname).ne("sale", "sale").findList();
+	}
+	
+	public static AddProduct findByProductIdOne(String productname,Location location) {
+		return find.where().eq("title", productname).ne("sale", "sale").findUnique();
 	}
 	public static List<AddProduct> findByLocationNoDraft(Long location) {
 		return find.all();

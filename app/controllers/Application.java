@@ -3964,13 +3964,14 @@ public class Application extends Controller {
 	    	int parentFlag = 0;
 	    	Long parentLeadId = 0L;
 	    	Date reqDate = null;
-	    	for(VehicleVM vehicleVM:vm.stockWiseData){
+	    	for(VehicleVM productVM:vm.stockWiseData){
 	    		if(parentFlag == 0){
 	    			
 		    	if(vm.leadType.equals("Request More Info")){
 		    		RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
 		    		if(rInfo != null){
-		    			rInfo.setVin(vehicleVM.vin);
+		    			rInfo.setVin(productVM.vin);
+		    			rInfo.setProductId(productVM.id);
 		    			rInfo.setName(vm.custName);
 		    			rInfo.setEmail(vm.custEmail);
 		    			rInfo.setPhone(vm.custNumber);
@@ -3998,7 +3999,8 @@ public class Application extends Controller {
 		    	}else if(vm.leadType.equals("Schedule Test Drive")){
 		    		ScheduleTest sInfo = ScheduleTest.findById(Long.parseLong(vm.id));
 		    		if(sInfo != null){
-		    			sInfo.setVin(vehicleVM.vin);
+		    			sInfo.setVin(productVM.vin);
+		    			//sInfo
 		    			sInfo.setName(vm.custName);
 		    			sInfo.setEmail(vm.custEmail);
 		    			sInfo.setPhone(vm.custNumber);
@@ -4026,7 +4028,7 @@ public class Application extends Controller {
 		    	}else if(vm.leadType.equals("Trade-In Appraisal")){
 		    		TradeIn tInfo = TradeIn.findById(Long.parseLong(vm.id));
 		    		if(tInfo != null){
-		    			tInfo.setVin(vehicleVM.vin);
+		    			tInfo.setVin(productVM.vin);
 		    			tInfo.setFirstName(vm.custName);
 		    			tInfo.setEmail(vm.custEmail);
 		    			tInfo.setPhone(vm.custNumber);
@@ -4066,8 +4068,9 @@ public class Application extends Controller {
 	    	    		info.setCustZipCode(vm.custZipCode);
 	    	    		info.setEnthicity(vm.enthicity);
 	    	    		
-	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
-	    	    		info.setVin(vehicle.getVin());
+	    	    		AddProduct product = AddProduct.findByProductIdOne(productVM.title, Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    	    		//info.setVin(vehicle.getVin());
+	    	    		info.setProductId(product.getId());
 	    	    		info.setUser(user);
 	    				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    	    		info.setIsScheduled(false);
@@ -4156,7 +4159,7 @@ public class Application extends Controller {
 	    	    		//test.setScheduleDate(new Date());
 	    	    		test.setScheduleDate(reqDate);
 	    	    		test.setPreferredContact(sInfo.preferredContact);
-	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(productVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
 	    	    		test.setVin(vehicle.getVin());
 	    	    		test.setAssignedTo(user);
 	    	    		test.setOnlineOrOfflineLeads(1);
@@ -10953,7 +10956,7 @@ public class Application extends Controller {
     		return ok(Json.toJson(vehicles));
     }
     
-    
+ /*   
     public static Result getAllCompletedLeadsbyId(Integer leadId){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -10974,9 +10977,9 @@ public class Application extends Controller {
 	    	
 	    	return ok(Json.toJson(infoVMList));
     	}	
-    }
+    }*/
     
-    public static Result getTestDirConfirById(Integer leadId){
+   /* public static Result getTestDirConfirById(Integer leadId){
     	
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -10995,12 +10998,11 @@ public class Application extends Controller {
 	    	
 	    	fillLeadsData(listData, requestMoreInfos, tradeIns, infoVMList);
 	    	
-	    	// java.util.Collections.sort(infoVMList,new infoVMListComparatorCountHigh());
 	    	
 	    	return ok(Json.toJson(infoVMList));
     	}	
     	
-    }
+    }*/
     
    
 	/* public static class infoVMListComparatorCountHigh implements Comparator<RequestInfoVM> {
@@ -11242,7 +11244,7 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result getTestDirConfir(){
+   /* public static Result getTestDirConfir(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
@@ -11258,7 +11260,7 @@ public class Application extends Controller {
 	    	return ok(Json.toJson(infoVMList));
     	}	
     
-    }
+    }*/
     
     
     public static void fillLeadsData(List<ScheduleTest> listData, List<RequestMoreInfo> requestMoreInfos, List<TradeIn> tradeIns, List<RequestInfoVM> infoVMList){
@@ -11572,7 +11574,7 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result getAllCompletedLeads(){
+    /*public static Result getAllCompletedLeads(){
     	AuthUser user = (AuthUser) getLocalUser();
     	
     	List<ScheduleTest> listData = ScheduleTest.findAllCompletedToUser(user);
@@ -11583,7 +11585,7 @@ public class Application extends Controller {
     	fillLeadsData(listData, requestMoreInfos, tradeIns, infoVMList);
     	
     	return ok(Json.toJson(infoVMList));
-    }
+    }*/
     
     public static Result getAllLostAndCompLeads() {
       	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -12225,24 +12227,20 @@ public class Application extends Controller {
 				
 				RequestInfoVM rList1 = new RequestInfoVM();
 				rList1.id = rMoreInfo.id;
-	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(rMoreInfo.vin);
-	    		rList1.vin = rMoreInfo.vin;
-	    		if(vehicle1 != null) {
-	    			rList1.model = vehicle1.model;
-	    			rList1.make = vehicle1.make;
-	    			rList1.stock = vehicle1.stock;
-	    			rList1.year = vehicle1.year;
-	    			rList1.mileage = vehicle1.mileage;
-	    			rList1.price = vehicle1.price;
-	    			rList1.bodyStyle =vehicle1.bodyStyle;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-	        		if(vehicleImage!=null) {
-	        			rList1.imgId = vehicleImage.getId().toString();
+	    		AddProduct product1 = AddProduct.findByIdNotSale(rMoreInfo.productId);
+	    		rList1.productId = rMoreInfo.productId;
+	    		if(product1 != null) {
+	    			rList1.title = product1.title;
+	    			rList1.designer = product1.designer;
+	    			rList1.year = product1.year;
+	    			rList1.price = (int) product1.price;
+	    			ProductImages pImage = ProductImages.findDefaultImg(product1.id);
+	        		if(pImage!=null) {
+	        			rList1.imgId = pImage.getId().toString();
 	        		}
 	        		else {
 	        			rList1.imgId = "/assets/images/no-image.jpg";
 	        		}
-	    			
 	    		}
 	    		if(rMoreInfo.confirmDate != null){
 	    			rList1.bestDay = df.format(rMoreInfo.confirmDate);
@@ -12267,19 +12265,16 @@ public class Application extends Controller {
 			if(!info1.getId().equals(info.getId())){
 			RequestInfoVM rList1 = new RequestInfoVM();
 			rList1.id = info1.id;
-    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
-    		rList1.vin = info1.vin;
-    		if(vehicle1 != null) {
-    			rList1.model = vehicle1.model;
-    			rList1.make = vehicle1.make;
-    			rList1.stock = vehicle1.stock;
-    			rList1.year = vehicle1.year;
-    			rList1.mileage = vehicle1.mileage;
-    			rList1.price = vehicle1.price;
-    			rList1.bodyStyle =vehicle1.bodyStyle;
-    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-        		if(vehicleImage!=null) {
-        			rList1.imgId = vehicleImage.getId().toString();
+			AddProduct product1 = AddProduct.findByIdNotSale(info1.productId);
+    		rList1.productId = info1.productId;
+    		if(product1 != null) {
+    			rList1.title = product1.title;
+    			rList1.designer = product1.designer;
+    			rList1.year = product1.year;
+    			rList1.price = (int) product1.price;
+    			ProductImages pImage = ProductImages.findDefaultImg(product1.id);
+        		if(pImage!=null) {
+        			rList1.imgId = pImage.getId().toString();
         		}
         		else {
         			rList1.imgId = "/assets/images/no-image.jpg";
@@ -12306,19 +12301,16 @@ public class Application extends Controller {
 		for(RequestMoreInfo info1:requestMoreInfo){
 			RequestInfoVM rList1 = new RequestInfoVM();
 			rList1.id = info1.id;
-    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
-    		rList1.vin = info1.vin;
-    		if(vehicle1 != null) {
-    			rList1.model = vehicle1.model;
-    			rList1.make = vehicle1.make;
-    			rList1.stock = vehicle1.stock;
-    			rList1.year = vehicle1.year;
-    			rList1.mileage = vehicle1.mileage;
-    			rList1.price = vehicle1.price;
-    			rList1.bodyStyle =vehicle1.bodyStyle;
-    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-        		if(vehicleImage!=null) {
-        			rList1.imgId = vehicleImage.getId().toString();
+			AddProduct product1 = AddProduct.findByIdNotSale(info1.productId);
+    		rList1.productId = info1.productId;
+    		if(product1 != null) {
+    			rList1.title = product1.title;
+    			rList1.designer = product1.designer;
+    			rList1.year = product1.year;
+    			rList1.price = (int) product1.price;
+    			ProductImages pImage = ProductImages.findDefaultImg(product1.id);
+        		if(pImage!=null) {
+        			rList1.imgId = pImage.getId().toString();
         		}
         		else {
         			rList1.imgId = "/assets/images/no-image.jpg";
@@ -12460,7 +12452,7 @@ public class Application extends Controller {
 	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	Calendar time = Calendar.getInstance();
-	    	for(ScheduleTest info: listData) {
+	    	/*for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
 	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
@@ -12490,7 +12482,6 @@ public class Application extends Controller {
 	    		if(info.bestDay != null){
 	    			String chaArr[] = info.bestDay.split("-");
 	    			vm.bestDay = chaArr[2]+"-"+chaArr[1]+"-"+chaArr[0];
-	    			//vm.bestDay = info.bestDay;
 	    		}	
 	    		vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
@@ -12498,7 +12489,6 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Schedule Test Drive";
-	    		//List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
 	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
@@ -12545,75 +12535,8 @@ public class Application extends Controller {
 	    		vm.option = 0;
 	    		
 	    		findSchedulParentChildAndBro(infoVMList, info, df, vm);
-	    		/*List<RequestInfoVM> rList2 = new ArrayList<>();
-	    		if(info.parentId != null){
-	    			ScheduleTest sTest = ScheduleTest.findByIdAndParent(info.parentId);
-	    			if(sTest != null){
-	    				RequestInfoVM rList1 = new RequestInfoVM();
-	    				rList1.id = sTest.id;
-	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(sTest.vin);
-	    	    		rList1.vin = sTest.vin;
-	    	    		if(vehicle1 != null) {
-	    	    			rList1.model = vehicle1.model;
-	    	    			rList1.make = vehicle1.make;
-	    	    			rList1.stock = vehicle1.stock;
-	    	    			rList1.year = vehicle1.year;
-	    	    			rList1.mileage = vehicle1.mileage;
-	    	    			rList1.price = vehicle1.price;
-	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
-	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-	    	        		if(vehicleImage!=null) {
-	    	        			rList1.imgId = vehicleImage.getId().toString();
-	    	        		}
-	    	        		else {
-	    	        			rList1.imgId = "/assets/images/no-image.jpg";
-	    	        		}
-	    	    			
-	    	    		}
-	    	    		rList1.name = sTest.name;
-	    	    		rList1.phone = sTest.phone;
-	    	    		rList1.email = sTest.email;
-	    	    		rList1.requestDate = df.format(sTest.scheduleDate);
-	    	    		rList1.typeOfLead = "Trade-In Appraisal";
-	    	    		
-	    	    		rList2.add(rList1);
-	    			}
-	    		}
 	    		
-	    		List<ScheduleTest> tIns = ScheduleTest.findAllByParentID(info.getId());
-	    		for(ScheduleTest info1:tIns){
-	    			RequestInfoVM rList1 = new RequestInfoVM();
-    				rList1.id = info1.id;
-    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
-    	    		rList1.vin = info1.vin;
-    	    		if(vehicle1 != null) {
-    	    			rList1.model = vehicle1.model;
-    	    			rList1.make = vehicle1.make;
-    	    			rList1.stock = vehicle1.stock;
-    	    			rList1.year = vehicle1.year;
-    	    			rList1.mileage = vehicle1.mileage;
-    	    			rList1.price = vehicle1.price;
-    	    			rList1.bodyStyle =vehicle1.bodyStyle;
-    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-    	        		if(vehicleImage!=null) {
-    	        			rList1.imgId = vehicleImage.getId().toString();
-    	        		}
-    	        		else {
-    	        			rList1.imgId = "/assets/images/no-image.jpg";
-    	        		}
-    	    		}
-    	    		rList1.name = info1.name;
-    	    		rList1.phone = info1.phone;
-    	    		rList1.email = info1.email;
-    	    		rList1.requestDate = df.format(info1.scheduleDate);
-    	    		rList1.typeOfLead = "Trade-In Appraisal";
-    	    		
-    	    		rList2.add(rList1);
-	    		}
-	    		vm.parentChildLead = rList2;
-	    		
-	    		infoVMList.add(vm);*/
-	    	}
+	    	}*/
 	    	
 	    	for(TradeIn info: tradeIns) {
 	    		RequestInfoVM vm = new RequestInfoVM();
@@ -12643,8 +12566,7 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		if(info.bestDay != null){
-	    			/*String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
+	    			//vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
 	    			vm.bestDay = info.bestDay;
 	    		}
 	    		
@@ -12657,9 +12579,7 @@ public class Application extends Controller {
 	    		LeadVM lVm = new LeadVM();
 	    		lVm.id = info.id.toString();
 	    		
-	    		//if(!info.comments.equals("null")){
 	    			lVm.comments = info.comments;
-	    		//}
 	    		if(info.year != null){
 	    			if(!info.year.equals("null")){
 		    			lVm.year = info.year;
@@ -12722,44 +12642,20 @@ public class Application extends Controller {
 		    			lVm.engineRating = info.engineRating;
 		    		}
 	    		}
-	    		//if(!info.glassRating.equals("null")){
 	    			lVm.glassRating = info.glassRating;
-	    		//}
-	    		//if(!info.interiorRating.equals("null")){
 	    			lVm.interiorRating = info.interiorRating;
-	    		//}
-	    		//if(!info.exhaustRating.equals("null")){
 	    			lVm.exhaustRating = info.exhaustRating;
-	    		//}
-	    		//if(!info.leaseOrRental.equals("null")){
 	    			lVm.rentalReturn = info.leaseOrRental;
-	    		//}
-	    		//if(!info.operationalAndAccurate.equals("null")){
 	    			lVm.odometerAccurate = info.operationalAndAccurate;
-	    	//	}
 	    			lVm.serviceRecords = info.serviceRecord;
-	    		//if(!info.lienholder.equals("null")){
 	    			lVm.lienholder = info.lienholder;
-	    		//}
 	    			lVm.prefferedContact = info.preferredContact;
-	    		//if(!info.equipment.equals("null")){
 	    			lVm.equipment = info.equipment;
-	    		//}
-	    		//if(!info.accidents.equals("null")){
 	    			lVm.accidents = info.accidents;
-	    		//}
-	    		//if(!info.vehiclenew.equals("null")){
 	    			lVm.vehiclenew = info.vehiclenew;
-	    		//}
-	    		//if(!info.paint.equals("null")){
 	    			lVm.paint = info.paint;
-	    		//}
-	    		//if(!info.salvage.equals("null")){
 	    			lVm.salvage = info.salvage;
-	    		//}
-	    		//if(!info.damage.equals("null")){
 	    			lVm.damage = info.damage;
-	    		//}
 	    			lVm.titleholder = info.holdsThisTitle;
 	    			lVm.prefferedContact = info.preferredContact;
 	    			
@@ -12773,7 +12669,6 @@ public class Application extends Controller {
 	    			
 	    		vm.leadsValue = lVm;	
 	    		vm.typeOfLead = "Trade-In Appraisal";
-	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
 	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
@@ -12821,77 +12716,10 @@ public class Application extends Controller {
 	    		
 	    		findTreadParentChildAndBro(infoVMList, info, df, vm);
 	    		
-	    		/*List<RequestInfoVM> rList2 = new ArrayList<>();
-	    		if(info.parentId != null){
-	    			TradeIn tIn = TradeIn.findByIdAndParent(info.parentId);
-	    			if(tIn != null){
-	    				RequestInfoVM rList1 = new RequestInfoVM();
-	    				rList1.id = tIn.id;
-	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(tIn.vin);
-	    	    		rList1.vin = tIn.vin;
-	    	    		if(vehicle1 != null) {
-	    	    			rList1.model = vehicle1.model;
-	    	    			rList1.make = vehicle1.make;
-	    	    			rList1.stock = vehicle1.stock;
-	    	    			rList1.year = vehicle1.year;
-	    	    			rList1.mileage = vehicle1.mileage;
-	    	    			rList1.price = vehicle1.price;
-	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
-	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-	    	        		if(vehicleImage!=null) {
-	    	        			rList1.imgId = vehicleImage.getId().toString();
-	    	        		}
-	    	        		else {
-	    	        			rList1.imgId = "/assets/images/no-image.jpg";
-	    	        		}
-	    	    			
-	    	    		}
-	    	    		rList1.name = tIn.firstName;
-	    	    		rList1.phone = tIn.phone;
-	    	    		rList1.email = tIn.email;
-	    	    		rList1.requestDate = df.format(tIn.tradeDate);
-	    	    		rList1.typeOfLead = "Trade-In Appraisal";
-	    	    		
-	    	    		rList2.add(rList1);
-	    			}
-	    		}
 	    		
-	    		List<TradeIn> tIns = TradeIn.findAllByParentID(info.getId());
-	    		for(TradeIn info1:tIns){
-	    			RequestInfoVM rList1 = new RequestInfoVM();
-    				rList1.id = info1.id;
-    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
-    	    		rList1.vin = info1.vin;
-    	    		if(vehicle1 != null) {
-    	    			rList1.model = vehicle1.model;
-    	    			rList1.make = vehicle1.make;
-    	    			rList1.stock = vehicle1.stock;
-    	    			rList1.year = vehicle1.year;
-    	    			rList1.mileage = vehicle1.mileage;
-    	    			rList1.price = vehicle1.price;
-    	    			rList1.bodyStyle =vehicle1.bodyStyle;
-    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-    	        		if(vehicleImage!=null) {
-    	        			rList1.imgId = vehicleImage.getId().toString();
-    	        		}
-    	        		else {
-    	        			rList1.imgId = "/assets/images/no-image.jpg";
-    	        		}
-    	    		}
-    	    		rList1.name = info1.firstName;
-    	    		rList1.phone = info1.phone;
-    	    		rList1.email = info1.email;
-    	    		rList1.requestDate = df.format(info1.tradeDate);
-    	    		rList1.typeOfLead = "Trade-In Appraisal";
-    	    		
-    	    		rList2.add(rList1);
-	    		}
-	    		vm.parentChildLead = rList2;
-	    		
-	    		infoVMList.add(vm);*/
 	    	}
 	    	
-	    	for(RequestMoreInfo info: requestMoreInfos) {
+	    	/*for(RequestMoreInfo info: requestMoreInfos) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
 	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
@@ -12920,8 +12748,6 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		if(info.bestDay != null){
-	    			/*String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
 	    			vm.bestDay = info.bestDay;
 	    		}
 	    		vm.bestTime = info.bestTime;
@@ -12930,7 +12756,6 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Request More Info";
-	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
@@ -12978,143 +12803,6 @@ public class Application extends Controller {
 	    		
 	    		findRequestParentChildAndBro(infoVMList, info, df, vm);
 	    		
-	    		/*List<RequestInfoVM> rList2 = new ArrayList<>();
-	    		if(info.parentId != null){
-	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findByIdAndParent(info.parentId);
-	    			if(rMoreInfo != null){
-	    				RequestInfoVM rList1 = new RequestInfoVM();
-	    				rList1.id = rMoreInfo.id;
-	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(rMoreInfo.vin);
-	    	    		rList1.vin = rMoreInfo.vin;
-	    	    		if(vehicle1 != null) {
-	    	    			rList1.model = vehicle1.model;
-	    	    			rList1.make = vehicle1.make;
-	    	    			rList1.stock = vehicle1.stock;
-	    	    			rList1.year = vehicle1.year;
-	    	    			rList1.mileage = vehicle1.mileage;
-	    	    			rList1.price = vehicle1.price;
-	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
-	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-	    	        		if(vehicleImage!=null) {
-	    	        			rList1.imgId = vehicleImage.getId().toString();
-	    	        		}
-	    	        		else {
-	    	        			rList1.imgId = "/assets/images/no-image.jpg";
-	    	        		}
-	    	    			
-	    	    		}
-	    	    		rList1.name = rMoreInfo.name;
-	    	    		rList1.phone = rMoreInfo.phone;
-	    	    		rList1.email = rMoreInfo.email;
-	    	    		rList1.requestDate = df.format(rMoreInfo.requestDate);
-	    	    		rList1.typeOfLead = "Request More Info";
-	    	    		
-	    	    		rList2.add(rList1);
-	    			}
-	    		}
-	    		
-	    		List<RequestMoreInfo> requestMoreInfo = RequestMoreInfo.findAllByParentID(info.getId());
-	    		for(RequestMoreInfo info1:requestMoreInfo){
-	    			RequestInfoVM rList1 = new RequestInfoVM();
-    				rList1.id = info1.id;
-    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
-    	    		rList1.vin = info1.vin;
-    	    		if(vehicle1 != null) {
-    	    			rList1.model = vehicle1.model;
-    	    			rList1.make = vehicle1.make;
-    	    			rList1.stock = vehicle1.stock;
-    	    			rList1.year = vehicle1.year;
-    	    			rList1.mileage = vehicle1.mileage;
-    	    			rList1.price = vehicle1.price;
-    	    			rList1.bodyStyle =vehicle1.bodyStyle;
-    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-    	        		if(vehicleImage!=null) {
-    	        			rList1.imgId = vehicleImage.getId().toString();
-    	        		}
-    	        		else {
-    	        			rList1.imgId = "/assets/images/no-image.jpg";
-    	        		}
-    	    		}
-    	    		rList1.name = info1.name;
-    	    		rList1.phone = info1.phone;
-    	    		rList1.email = info1.email;
-    	    		rList1.requestDate = df.format(info1.requestDate);
-    	    		rList1.typeOfLead = "Request More Info";
-    	    		
-    	    		rList2.add(rList1);
-	    		}
-	    		vm.parentChildLead = rList2;
-	    		infoVMList.add(vm);*/
-	    	}
-	    	
-	    	
-	    	/*List<ScheduleTest> listData = ScheduleTest.findAllAssigned(user);
-	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
-	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
-	    	Calendar time = Calendar.getInstance();
-	    	for(ScheduleTest info: listData) {
-	    		RequestInfoVM vm = new RequestInfoVM();
-	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
-	    			vm.year = vehicle.year;
-	    			vm.mileage = vehicle.mileage;
-	    			vm.price = vehicle.price;
-	    		}
-	    		vm.name = info.name;
-	    		vm.phone = info.phone;
-	    		vm.email = info.email;
-	    		if(info.bestDay != null){
-	    			vm.bestDay = df.format(info.bestDay);
-	    		}
-	    		vm.bestTime = info.bestTime;
-	    		vm.howContactedUs = info.contactedFrom;
-	    		vm.howFoundUs = info.hearedFrom;
-	    		vm.custZipCode = info.custZipCode;
-	    		vm.enthicity = info.enthicity;
-	    		vm.typeOfLead = "Schedule Test Drive";
-	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
-	    		List<NoteVM> list = new ArrayList<>();
-	    		for(UserNotes noteObj :notesList) {
-	    			NoteVM obj = new NoteVM();
-	    			obj.id = noteObj.id;
-	    			obj.note = noteObj.note;
-					obj.action = noteObj.action;	    			
-	    			obj.date = df.format(noteObj.createdDate);
-	    			obj.time = timedf.format(noteObj.createdTime);
-	    			list.add(obj);
-	    		}
-	    		vm.note = list;
-	    		if(info.getConfirmDate() != null) {
-	    			vm.confirmDate = df.format(info.getConfirmDate());
-	    		}
-	    		
-	    		if(info.getConfirmTime() != null) {
-	    			time.setTime(info.getConfirmTime());
-	    			String ampm = "";
-	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
-	    				ampm = "PM";
-	    			} else {
-	    				ampm = "AM";
-	    			}
-	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
-	    		}
-	    		if(info.scheduleDate != null){
-	    			vm.requestDate = df.format(info.scheduleDate);
-	    		}
-	    		if(info.isRead == 0) {
-	    			vm.isRead = false;
-	    		}
-	    		
-	    		if(info.isRead == 1) {
-	    			vm.isRead = true;
-	    		}
-	    		infoVMList.add(vm);
 	    	}*/
 	    	
 	    	return ok(Json.toJson(infoVMList));
@@ -13445,7 +13133,7 @@ public class Application extends Controller {
     }
     
     
-    public static Result getAllTradeInSeen() {
+    /*public static Result getAllTradeInSeen() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
@@ -13492,9 +13180,7 @@ public class Application extends Controller {
 	    		
 	    		LeadVM lVm = new LeadVM();
 	    		lVm.id = info.id.toString();
-	    		//if(!info.comments.equals("null")){
     			lVm.comments = info.comments;
-    		//}
     		if(info.year != null){
     			if(!info.year.equals("null")){
 	    			lVm.year = info.year;
@@ -13557,44 +13243,20 @@ public class Application extends Controller {
 	    			lVm.engineRating = info.engineRating;
 	    		}
     		}
-    		//if(!info.glassRating.equals("null")){
     			lVm.glassRating = info.glassRating;
-    		//}
-    		//if(!info.interiorRating.equals("null")){
     			lVm.interiorRating = info.interiorRating;
-    		//}
-    		//if(!info.exhaustRating.equals("null")){
     			lVm.exhaustRating = info.exhaustRating;
-    		//}
-    		//if(!info.leaseOrRental.equals("null")){
     			lVm.rentalReturn = info.leaseOrRental;
-    		//}
-    		//if(!info.operationalAndAccurate.equals("null")){
     			lVm.odometerAccurate = info.operationalAndAccurate;
-    	//	}
     			lVm.serviceRecords = info.serviceRecord;
-    		//if(!info.lienholder.equals("null")){
     			lVm.lienholder = info.lienholder;
-    		//}
     			lVm.prefferedContact = info.preferredContact;
-    		//if(!info.equipment.equals("null")){
     			lVm.equipment = info.equipment;
-    		//}
-    		//if(!info.accidents.equals("null")){
     			lVm.accidents = info.accidents;
-    		//}
-    		//if(!info.vehiclenew.equals("null")){
     			lVm.vehiclenew = info.vehiclenew;
-    		//}
-    		//if(!info.paint.equals("null")){
     			lVm.paint = info.paint;
-    		//}
-    		//if(!info.salvage.equals("null")){
     			lVm.salvage = info.salvage;
-    		//}
-    		//if(!info.damage.equals("null")){
     			lVm.damage = info.damage;
-    		//}
 	    			lVm.titleholder = info.holdsThisTitle;
 	    			lVm.prefferedContact = info.preferredContact;
     			List<String> sList = new ArrayList<>();
@@ -13606,7 +13268,6 @@ public class Application extends Controller {
     			
     		vm.leadsValue = lVm;
 	    		
-	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
 	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
@@ -13640,7 +13301,7 @@ public class Application extends Controller {
 	    	
 	    	return ok(Json.toJson(infoVMList));
     	}	
-    }
+    }*/
     
     public static Result getInfoCount() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -21372,23 +21033,16 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(RequestMoreInfo info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.typeofVehicle=vehicle.typeofVehicle;
-	    			vm.stock = vehicle.stock;
-	    			vm.mileage = vehicle.mileage;
-	    			vm.year = vehicle.year;
-	    			vm.bodyStyle =vehicle.bodyStyle;
-	    			vm.drivetrain = vehicle.drivetrain;
-	    			vm.engine = vehicle.engine;
-	    			vm.transmission = vehicle.transmission;
-	    			vm.price = vehicle.price;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
-	        		if(vehicleImage!=null) {
-	        			vm.imgId = vehicleImage.getId().toString();
+	    		AddProduct product = AddProduct.findByIdNotSale(info.productId);
+	    		vm.productId = info.productId;
+	    		if(product != null) {
+	    			vm.title = product.title;
+	    			vm.designer = product.designer;
+	    			vm.year = product.year;
+	    			vm.price = (int) product.price;
+	    			ProductImages pImage = ProductImages.findDefaultImg(product.id);
+	        		if(pImage!=null) {
+	        			vm.imgId = pImage.getId().toString();
 	        		}
 	        		else {
 	        			vm.imgId = "/assets/images/no-image.jpg";
@@ -21399,7 +21053,7 @@ private static void cancelTestDriveMail(Map map) {
 	    		vm.email = info.email;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
-	    		vm.price = vehicle.price;
+	    		
 	    		vm.requestDate = df.format(info.requestDate);
 	    		vm.typeOfLead = "Request More Info";
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
@@ -21509,7 +21163,7 @@ private static void cancelTestDriveMail(Map map) {
     }
     
     
-    public static Result getAllSalesPersonTradeInSeen(Integer id){
+   /* public static Result getAllSalesPersonTradeInSeen(Integer id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
@@ -21651,7 +21305,6 @@ private static void cancelTestDriveMail(Map map) {
     			lVm.options = sList;
     		vm.leadsValue = lVm;
     		
-	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
 	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
@@ -21682,81 +21335,14 @@ private static void cancelTestDriveMail(Map map) {
 	    		
 	    		findTreadParentChildAndBro(infoVMList, info, df, vm);
 	    		
-	    		/*List<RequestInfoVM> rList2 = new ArrayList<>();
-	    		if(info.parentId != null){
-	    			TradeIn tIn = TradeIn.findByIdAndParent(info.parentId);
-	    			if(tIn != null){
-	    				RequestInfoVM rList1 = new RequestInfoVM();
-	    				rList1.id = tIn.id;
-	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(tIn.vin);
-	    	    		rList1.vin = tIn.vin;
-	    	    		if(vehicle1 != null) {
-	    	    			rList1.model = vehicle1.model;
-	    	    			rList1.make = vehicle1.make;
-	    	    			rList1.stock = vehicle1.stock;
-	    	    			rList1.year = vehicle1.year;
-	    	    			rList1.mileage = vehicle1.mileage;
-	    	    			rList1.price = vehicle1.price;
-	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
-	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-	    	        		if(vehicleImage!=null) {
-	    	        			rList1.imgId = vehicleImage.getId().toString();
-	    	        		}
-	    	        		else {
-	    	        			rList1.imgId = "/assets/images/no-image.jpg";
-	    	        		}
-	    	    			
-	    	    		}
-	    	    		rList1.name = tIn.firstName;
-	    	    		rList1.phone = tIn.phone;
-	    	    		rList1.email = tIn.email;
-	    	    		rList1.requestDate = df.format(tIn.tradeDate);
-	    	    		rList1.typeOfLead = "Trade-In Appraisal";
-	    	    		
-	    	    		rList2.add(rList1);
-	    			}
-	    		}
 	    		
-	    		List<TradeIn> tIns = TradeIn.findAllByParentID(info.getId());
-	    		for(TradeIn info1:tIns){
-	    			RequestInfoVM rList1 = new RequestInfoVM();
-    				rList1.id = info1.id;
-    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
-    	    		rList1.vin = info1.vin;
-    	    		if(vehicle1 != null) {
-    	    			rList1.model = vehicle1.model;
-    	    			rList1.make = vehicle1.make;
-    	    			rList1.stock = vehicle1.stock;
-    	    			rList1.year = vehicle1.year;
-    	    			rList1.mileage = vehicle1.mileage;
-    	    			rList1.price = vehicle1.price;
-    	    			rList1.bodyStyle =vehicle1.bodyStyle;
-    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-    	        		if(vehicleImage!=null) {
-    	        			rList1.imgId = vehicleImage.getId().toString();
-    	        		}
-    	        		else {
-    	        			rList1.imgId = "/assets/images/no-image.jpg";
-    	        		}
-    	    		}
-    	    		rList1.name = info1.firstName;
-    	    		rList1.phone = info1.phone;
-    	    		rList1.email = info1.email;
-    	    		rList1.requestDate = df.format(info1.tradeDate);
-    	    		rList1.typeOfLead = "Trade-In Appraisal";
-    	    		
-    	    		rList2.add(rList1);
-	    		}
-	    		vm.parentChildLead = rList2;
-	    		
-	    		infoVMList.add(vm);*/
 	    	}
 	    	
 	    	return ok(Json.toJson(infoVMList));
     	}	
     	
     	
-    }
+    }*/
     public static Result getWeekChartData(Integer id) throws ParseException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -22838,12 +22424,11 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(RequestMoreInfo info: requestData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+	    		AddProduct product = AddProduct.findById(info.productId);
 	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
+	    		if(product != null) {
+	    			vm.title = product.title;
+	    			vm.designer = product.designer;
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -22961,6 +22546,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
 	    		}
+	    			    		
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
@@ -23003,12 +22589,11 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(RequestMoreInfo info: requestData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+	    		AddProduct product = AddProduct.findById(info.productId);
 	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
+	    		if(product != null) {
+	    			vm.title = product.title;
+	    			vm.designer = product.designer;
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -27175,6 +26760,7 @@ if(vehicles.equals("All")){
     		map.put("primaryTitle", product.get(0).getPrimaryTitle());
     		map.put("designer", product.get(0).getDesigner());
     		map.put("id", product.get(0).getId());
+    		map.put("productId", product.get(0).getId());
     		//map.put("vehicleImage", vehicles.get(0).getDrivetrain());
     		ProductImages productImage = ProductImages.findDefaultImg(product.get(0).getId());
     		if(productImage!=null) {

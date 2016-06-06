@@ -72,5 +72,8 @@ public class RequestInfoVM {
 	public String premiumFlagForSale;
 	public String comingSoonDate;
 	public Integer subscribers;
+	public String designer;
+	public String title;
+	public Long productId;
 	
 }

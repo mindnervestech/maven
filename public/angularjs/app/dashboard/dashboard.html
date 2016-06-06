@@ -4702,7 +4702,7 @@ float: right !important;
         	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 			    <ul id="myTabs" class="nav nav-tabs" role="tablist">
 			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:15px;margin-right: 0px;" ng-click="showLeadsDrive()">Leads</button><span class="badge badge-header" style="border-radius: 17px / 17px;background-color: red;font-size: 14px;" ng-if="lengthOfAllLead >= 1"><b>{{lengthOfAllLead}}</b></span></a></li>
-			      <li role="presentation" class=""><a role="tab" id="test-drive-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size: 15px" ng-click="schedultestDrive()">Test Drives</button></a></li>
+			      <!-- <li role="presentation" class=""><a role="tab" id="test-drive-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size: 15px" ng-click="schedultestDrive()">Test Drives</button></a></li> -->
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-show="userType == 'General Manager' || userType == 'Manager'" ng-click="canceledLeads()">Canceled Leads</button></a></li>
 			       <li role="presentation" class="" style="float: right;"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="showLeadsArchive()">Archive</button></a></li>
 			    	<h3><b style="margin-left:4%;float: left;margin-bottom:5px;" ng-show="userType == 'General Manager'" >Choose Sales Person</b></h3>
@@ -4719,8 +4719,8 @@ float: right !important;
 				        <ul id="myTabs" class="nav nav-tabs" role="tablist">
 				        <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" ng-click="getAllLeadIn()">All </a></li>
 			      			<li role="presentation" class=" "><a id="tab" role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="requestMore()">Request More Info </a></li>
-			      			<li role="presentation" class=""><a role="tab" id="test-drive-tabSched" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="testDrive()">Schedule Test Drive</a></li>
-			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="tradeIn()">Trade In Inquiries</a></li>
+			      			<!-- <li role="presentation" class=""><a role="tab" id="test-drive-tabSched" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="testDrive()">Schedule Test Drive</a></li>
+			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="tradeIn()">Trade In Inquiries</a></li> -->
 			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="contactUs()">ContactUs</a></li>
 			      			
 			    		</ul>
@@ -4728,9 +4728,9 @@ float: right !important;
 						   <div ng-if="reqMore" ui-grid="gridOptions5" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 						   <div class="watermark" ng-show="!gridOptions5.data.length" >No Leads has been added</div>
 												</div>
-							<div ng-if="testdrv" ui-grid="gridOptions2" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+							<!-- <div ng-if="testdrv" ui-grid="gridOptions2" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 							<div class="watermark" ng-show="!gridOptions2.data.length" >No Leads has been added</div>
-												</div> 
+												</div> --> 
 							<div ng-if="trdin" ui-grid="gridOptions3" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 							<div class="watermark" ng-show="!gridOptions3.data.length" >No Leads has been added</div>
 												</div>
@@ -4745,7 +4745,7 @@ float: right !important;
 				      </div>
 				      
 				    </div>
-				    <div id="myTabContent" class="tab-content" ng-if="schedTest">
+				    <!-- <div id="myTabContent" class="tab-content" ng-if="schedTest">
 				      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 				         <ul id="myTabs" class="nav nav-tabs" role="tablist">
 				        <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" ng-click="getScheduless()">Scheduled </a></li>
@@ -4760,7 +4760,7 @@ float: right !important;
 																						
 				      </div>
 				      
-				    </div>
+				    </div> -->
 				    
 				     <div id="myTabContent" class="tab-content" ng-if="showAllTypeLeads == false">
 				      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
@@ -5664,7 +5664,7 @@ float: right !important;
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="stockRp.stockNumber" ng-blur="getStockDetails(stockRp)"/>
 								                    			</div>
-								                    			<!-- <div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<angucomplete-alt id="vinSearch1"
 														              placeholder="Title"
 														              pause="10"
@@ -5676,8 +5676,7 @@ float: right !important;
 														              focus-In="focusIn($index)"
 														              input-class="form-control form-control-small">
 															    	</angucomplete-alt>
-								                    			</div> -->
-								                    			{{stockRp.designer}}-=-
+								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="stockRp.designer" disabled="disabled" placeholder="Designer"/>
 								                    			</div>
@@ -5685,19 +5684,19 @@ float: right !important;
 								                    				<input type="text" ng-model="stockRp.year" disabled="disabled" placeholder="Year"/>
 								                    			</div>
 								                    		</div>
-								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;" ng-if="stockRp.vin != null">
+								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;" ng-if="stockRp.productId != null">
 								                    			<div>
 								                    				<div class="col-md-4" style="padding-left: 0px;">
 								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
 								    									<img class="preview" style="margin-top: 7px;width: 124px;height: 121PX;" src="/getImage/{{stockRp.imgId}}/thumbnail">
 								    								</div>
 								    								<div class="col-md-8" style="padding: 0px;">
-								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockRp.year}} {{stockRp.make}} {{stockRp.model}}</label>
-								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{stockRp.bodyStyle}}</label>
-								    										<label class="col-md-6">Mileage:</label><label class="col-md-6" ng-if="stockRp.mileage != null">{{stockRp.mileage}}</label><label class="col-md-6" ng-if="stockRp.mileage == null">_</label>
-								    										<label class="col-md-6">Transmission:</label><label class="col-md-6" ng-if="stockRp.transmission != null">{{stockRp.transmission}}</label><label class="col-md-6" ng-if="stockRp.transmission == null">_</label>
-								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6" ng-if="stockRp.drivetrain != null">{{stockRp.drivetrain}}</label><label class="col-md-6" ng-if="stockRp.drivetrain == null">_</label>
-								    										<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="stockRp.engine != null">{{stockRp.engine}}</label><label class="col-md-6" ng-if="stockRp.engine == null">_</label>
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockRp.title}}</label>
+								    										<label class="col-md-6">designer:</label><label class="col-md-6">{{stockRp.designer}}</label>
+								    										<label class="col-md-6">price:</label><label class="col-md-6" ng-if="stockRp.price != null">{{stockRp.price}}</label><label class="col-md-6" ng-if="stockRp.price == null">_</label>
+								    										 <label class="col-md-6">Primary Title:</label><label class="col-md-6" ng-if="stockRp.primaryTitle != null">{{stockRp.primaryTitle}}</label><label class="col-md-6" ng-if="stockRp.primaryTitle == null">_</label>
+								    									     <label class="col-md-6">year:</label><label class="col-md-6" ng-if="stockRp.year != null">{{stockRp.year}}</label><label class="col-md-6" ng-if="stockRp.year == null">_</label>
+								    											<!--<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="stockRp.engine != null">{{stockRp.engine}}</label><label class="col-md-6" ng-if="stockRp.engine == null">_</label> -->
 								    								</div>
 								                    				
 								                    			</div>
@@ -5716,12 +5715,12 @@ float: right !important;
 								                    		   <div ng-if="$index == 0">	
 								                    		<div ng-repeat="childL in editLeads.parentChildLead" style="float: left;">
 								                    				<div class="col-md-3" style="margin-top: 11px;">
-								                    			<div class="col-md-12"><label>Stock Number Search</label></div>
+								                    			<div class="col-md-12"><label>FURNITURE Search</label></div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="childL.stock" ng-blur="getStockDetails(childL)" disabled="disabled"/>
 								                    			</div>
 																<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="childL.vin" disabled="disabled"/>
+								                    				<input type="text" ng-model="childL.title" disabled="disabled"/>
 								                    			</div>
 																<!--<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<angucomplete-alt id="vinSearchChild"
@@ -5737,25 +5736,25 @@ float: right !important;
 															    	</angucomplete-alt>
 								                    			</div>-->
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="childL.make" disabled="disabled" placeholder="CAR MAKE"/>
+								                    				<input type="text" ng-model="childL.designer" disabled="disabled" placeholder="Designer"/>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="childL.model" disabled="disabled" placeholder="MODEL"/>
+								                    				<input type="text" ng-model="childL.year" disabled="disabled" placeholder="Year"/>
 								                    			</div>
 								                    		</div>
-								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;margin-top: 11px;" ng-if="stockRp.vin != null">
+								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;margin-top: 11px;" ng-if="stockRp.productId != null">
 								                    			<div>
 								                    				<div class="col-md-4" style="padding-left: 0px;">
 								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
 								    									<img class="preview" style="margin-top: 7px;width: 124px;height: 121PX;" src="/getImage/{{childL.imgId}}/thumbnail">
 								    								</div>
-								    								<div class="col-md-8" style="padding: 0px;">
-								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{childL.year}} {{childL.make}} {{childL.model}}</label>
-								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{childL.bodyStyle}}</label>
-								    										<label class="col-md-6">Mileage:</label><label class="col-md-6" ng-if="childL.mileage != null">{{childL.mileage}}</label><label class="col-md-6" ng-if="childL.mileage == null">_</label>
-								    										<label class="col-md-6">Transmission:</label><label class="col-md-6" ng-if="childL.transmission != null">{{childL.transmission}}</label><label class="col-md-6" ng-if="childL.transmission == null">_</label>
-								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6" ng-if="childL.drivetrain != null">{{childL.drivetrain}}</label><label class="col-md-6" ng-if="childL.drivetrain == null">_</label>
-								    										<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="childL.engine != null">{{childL.engine}}</label><label class="col-md-6" ng-if="childL.engine == null">_</label>
+								    									<div class="col-md-8" style="padding: 0px;">
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{childL.title}}</label>
+								    										<label class="col-md-6">designer:</label><label class="col-md-6">{{childL.designer}}</label>
+								    										<label class="col-md-6">price:</label><label class="col-md-6" ng-if="childL.price != null">{{childL.price}}</label><label class="col-md-6" ng-if="childL.price == null">_</label>
+								    										 <label class="col-md-6">Primary Title:</label><label class="col-md-6" ng-if="childL.primaryTitle != null">{{childL.primaryTitle}}</label><label class="col-md-6" ng-if="childL.primaryTitle == null">_</label>
+								    									     <label class="col-md-6">year:</label><label class="col-md-6" ng-if="childL.year != null">{{childL.year}}</label><label class="col-md-6" ng-if="childL.year == null">_</label>
+								    											<!--<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="stockRp.engine != null">{{stockRp.engine}}</label><label class="col-md-6" ng-if="stockRp.engine == null">_</label> -->
 								    								</div>
 								                    				
 								                    			</div>
@@ -5773,7 +5772,7 @@ float: right !important;
 								                    		</div>
 								                    		
 								                    	</div>
-								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;" ng-if="stockWiseData[0].vin != null">
+								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;" ng-if="stockWiseData[0].productId != null">
 								                    	<a ng-click="pushRecord()">ADD VEHICLES</a>
 								                    	</div>
 								                    </div>
@@ -8641,19 +8640,19 @@ float: right !important;
 								                    				<input type="text" ng-model="stockRp.year" disabled="disabled" placeholder="Year"/>
 								                    			</div>
 								                    		</div>
-								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;" ng-if="stockRp.vin != null">
+								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;" ng-if="stockRp.id != null">
 								                    			<div>
 								                    				<div class="col-md-5" style="padding-left: 0px;">
 								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
 								    									<img class="preview" style="margin-top: 7px;width: 174px;height: 121px;" src="/getImage/{{stockRp.imgId}}/thumbnail">
 								    								</div>
 								    								<div class="col-md-7" style="padding: 0px;">
-								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockRp.year}} {{stockRp.make}} {{stockRp.model}}</label>
-								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{stockRp.bodyStyle}}</label>
-								    										<label class="col-md-6">Mileage:</label><label class="col-md-6" ng-if="stockRp.mileage != null">{{stockRp.mileage}}</label><label class="col-md-6" ng-if="stockRp.mileage == null">_</label>
-								    										<label class="col-md-6">Transmission:</label><label class="col-md-6" ng-if="stockRp.transmission != null">{{stockRp.transmission}}</label><label class="col-md-6" ng-if="stockRp.transmission == null">_</label>
-								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6" ng-if="stockRp.drivetrain != null">{{stockRp.drivetrain}}</label><label class="col-md-6" ng-if="stockRp.drivetrain == null">_</label>
-								    										<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="stockRp.engine != null">{{stockRp.engine}}</label><label class="col-md-6" ng-if="stockRp.engine == null">_</label>
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockRp.title}}</label>
+								    										<label class="col-md-6">designer:</label><label class="col-md-6">{{stockRp.designer}}</label>
+								    										<label class="col-md-6">price:</label><label class="col-md-6" ng-if="stockRp.price != null">{{stockRp.price}}</label><label class="col-md-6" ng-if="stockRp.price == null">_</label>
+								    										 <label class="col-md-6">Primary Title:</label><label class="col-md-6" ng-if="stockRp.primaryTitle != null">{{stockRp.primaryTitle}}</label><label class="col-md-6" ng-if="stockRp.primaryTitle == null">_</label>
+								    									     <label class="col-md-6">year:</label><label class="col-md-6" ng-if="stockRp.year != null">{{stockRp.year}}</label><label class="col-md-6" ng-if="stockRp.year == null">_</label>
+								    										<!-- <label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="stockRp.engine != null">{{stockRp.engine}}</label><label class="col-md-6" ng-if="stockRp.engine == null">_</label>  -->
 								    								</div>
 								                    				
 								                    			</div>
@@ -8664,7 +8663,7 @@ float: right !important;
 								                    		</div>
 								                    		
 								                    	</div>
-								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;" ng-if="stockWiseData[0].vin != null">
+								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;" ng-if="stockWiseData[0].id != null">
 								                    	<a ng-click="pushRecord()">ADD VEHICLES</a>
 								                    	</div>
 								                    </div>
