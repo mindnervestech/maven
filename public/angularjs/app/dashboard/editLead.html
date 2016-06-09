@@ -1,0 +1,158 @@
+<div class="col-sm-12">
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6">
+			<div class="form-group col-sm-3">
+				<label>Name</label>
+			</div>
+			<!-- $scope.initAutocomplete = function() {
+	            	 autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),
+	            	     {types: ['geocode']});
+	            	 autocomplete.addListener('place_changed', fillInAddress);
+	            	} -->
+			<div class="form-group col-sm-6">
+				<!-- <angucomplete-alt id="ex1"
+						placeholder="Title"
+						pause="10"
+						selected-object="selectedNames"
+						local-data="prodSearchList"
+						search-fields="title"
+						title-field="title"
+						minlength="3"
+						focus-In="focusNameOut($index)"
+						input-class="form-control form-control-small">
+				</angucomplete-alt> -->
+			</div>
+		</div>
+		<div class="form-group col-sm-6">
+			<div class="form-group col-sm-3">
+				<label>Ph</label>
+			</div>
+			<div class="form-group col-sm-3">
+				<div angucomplete-alts listData="{{prodSearchList}}"></div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- ------------------------- -->
+	
+	<div class="form-group col-sm-12">
+		<div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Builder</h3>
+                </div>
+                <div style="margin-top: 10px;">
+                	<div class="row">
+                		<div class="col-md-1">
+                		</div>  
+                		<label class="col-md-4 control-label">{{bul}}</label>
+                		<div class="col">
+                			<input type="text" ng-model="formName" placeholder=""/>
+                		</div>
+                	</div>
+                </div>
+                <span  style = "cursor:pointer;"ng-click = "addSubsection()" class="glyphicon glyphicon-plus"></span>
+                <div ng-repeat = " b in FB" style = "padding: 5px;">{{b.name}}
+                    <div style = "border-style:dotted  !important; border:1px solid; " fb-builder={{b.name}} ng-model="b.initComponent"></div><hr/>    
+                </div>
+
+                <!-- <span  ng-click = "addSubsection()" class="glyphicon glyphicon-plus"></span>
+                <div ng-repeat = " b in builder.forms" style = "padding: 10px;">{{builder.forms}}
+                    <div style = "border-style:dotted  !important; border:1px solid; " fb-builder="b" ng-model="initComponent"></div><hr/>    
+                </div> -->
+                <!--  <div fb-builder="default" ng-model="initComponent"></div><hr/> -->
+                <!--<div fb-builder="default1" ng-model="initComponent"></div><hr/> -->
+
+                <div class="panel-footer">
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="isShowScope" />
+                            Show scope
+                        </label>
+                    </div>
+                    <pre ng-if="isShowScope">{{form}}</pre>
+                    <div>
+                        <button class="btn btn-primary" type="submit" ng-click="saveDraft(formName)">Draft</button>
+                        <button class="btn btn-primary" type="submit" ng-click="savePublish(formName)">Publish</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div fb-components></div>
+        </div>
+        <!-- <div class="col-md-4">
+            <iframe name="iframer" width="365" height="793" class="setImage" ng-src="http://localhost:8080/iframe.html"></iframe>
+        </div> -->
+    </div>
+	</div>
+	
+	
+</div>
+
+
+
+
+												<div class="form-group col-sm-11" style="margin-left: 14px;">
+													<h4 class="modal-title" style="color:#c7081b;"><b>Financial Calculator</b></h4>
+												</div>	
+								                
+								                <div class="col-sm-12">
+								                <div class="financing_calculator">
+								                   <div class="form-group col-sm-12">
+															<label class="col-sm-6 control-label" style="text-align: left;">Cost of Vehicle($)</label>
+															<div class="col-sm-6">
+																<input type="text" ng-model="financeData.price" class="number cost">
+															</div>
+													</div>
+													<div class="form-group col-sm-12">
+															<label class="col-sm-6 control-label" style="text-align: left;">Down Payment($)</label>
+															<div class="col-sm-6">
+																<input type="text" ng-model="financeData.downPayment"  class="number down_payment">
+															</div>
+													</div>
+													<div class="form-group col-sm-12">
+															<label class="col-sm-6 control-label" style="text-align: left;">Annual Interest Rate($)</label>
+															<div class="col-sm-6">
+																<input type="text" ng-model="financeData.annualInterestRate" class="number interest">
+															</div>
+													</div>
+													<div class="form-group col-sm-6">
+														<label ng-if="editLeads.prefferedContact != null" class="col-sm-12 control-label">Method of Contact : {{editLeads.prefferedContact}}</label>
+														<label ng-if="editLeads.prefferedContact == null" class="col-sm-12 control-label">Method of Contact : Not Selected</label>
+													</div>
+													<div class="form-group col-sm-12">
+														
+															<label class="col-sm-6 control-label" style="text-align: left;">Term of Loan in Years:</label>
+															<div class="col-sm-6">
+																<input type="text" ng-model="financeData.numberOfYears" class="number loan_years">
+															</div>
+													</div>
+													<div class="form-group col-sm-12">
+															<label class="col-sm-6 control-label" style="text-align: left;">Frequency of Payments:($)</label>
+															<div class="col-sm-6" >
+																<select class="frequency css-dropdowns" ng-model="financeData.frequencyOfPayments" >
+																	<option value="26">Monthly</option>
+																	<option value="52">Bi-Weekly</option>
+																	<option value="12">Weekly</option>
+																</select>
+															</div>
+													</div>
+													
+													<div class="form-group col-sm-12">
+															<label class="col-sm-3 control-label" style="text-align: left;"></label>
+															<div class="col-sm-6">
+																<button type="button" class="btn btn-default btn-embossed  pull-right" ng-click="calculateFinancialData(financeData)" style="background-color: #c7081b;color: white;">Calculate Payment</button>
+															</div>
+													</div>
+													<div class="form-group col-sm-12">
+															<strong class="col-sm-6" style="text-align: left;">NUMBER OF PAYMENTS:</strong>
+															<strong class="payments col-sm-6">{{payments}}</strong>
+													</div>
+													<div class="form-group col-sm-12">
+															<strong class="col-sm-6" style="text-align: left;">PAYMENT AMOUNT:</strong>
+															<strong class="payment_amount" >{{payment}}</strong>
+													</div>
+													</div>
+								                </div>
+								                

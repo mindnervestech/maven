@@ -30,13 +30,7 @@ public class NewsLetter {
 			Duration.create(0, TimeUnit.MILLISECONDS),
 			Duration.create(1, TimeUnit.DAYS), new Runnable() {
 				public void run() {
-					/*try{
-						controllers.Application.sendComingSoonEmail();
-						
-					}
-					catch(Exception e) {
-						e.printStackTrace();
-					}*/
+				
 					
 					Date date = new Date();
 					Calendar cal = Calendar.getInstance();
@@ -72,7 +66,7 @@ public class NewsLetter {
 									    	   @Override
 										       public void run() {
 										    	   System.out.println("newsletter called");
-										        controllers.Application.sendNewsletterEmail();
+										       // controllers.Application.sendNewsletterEmail();
 										       }
 										   }, Akka.system().dispatcher());
 									       

@@ -69,6 +69,8 @@ public class productController extends Controller {
 	private static boolean simulate = false;
     
 	public static Result getSectionCollection(Long id){
+		
+		
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
 			return ok(home.render("",userRegistration));
 		} else {

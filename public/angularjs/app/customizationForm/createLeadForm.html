@@ -1,0 +1,128 @@
+	
+<div class="form-group col-sm-12">
+	<div class="form-group col-sm-12">
+		<div class="row">
+								                    	<div class="col-md-12">
+								                    		<div class="" ng-show="isInValid" style="color: red;">
+								                    			Please provide all mandatory fields.
+								                    		</div>
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>CUSTOMER'S INFO</strong></h3>
+								                    		<div class="col-md-6">
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				
+								                    				<input type="text" ng-model="lead.custNumber" placeholder="Search Name" required/> <span style="color: red;">*</span>
+															    
+								                    			</div>
+								                    			
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="lead.custNumber" placeholder="PHONE NUMBER" required/> <span style="color: red;">*</span>
+								                    			</div>
+								                    			
+								                    		</div>
+								                    		<div class="col-md-6">
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="lead.custEmail" placeholder="EMAIL" required/> <span style="color: red;">*</span>
+								                    			</div>	
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="lead.custZipCode" placeholder="ZIP CODE" required/> <span style="color: red;">*</span>
+								                    			</div>
+								                    		</div>	
+								                    	</div>
+								                    </div>
+								                    <div class="row">
+								                    	<div class="col-md-12">
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>INTERESTED IN FURNITURE? <span style="color: red;">*</span></strong></h3>
+								                    		<div class="col-md-4">
+								                    			<div class="col-md-12"><label>Title Search</label></div>
+								                    			<div ng-show="isStockError" style="color: red;">Furniture Not Found.</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="stockRp.stockNumber"/>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<angucomplete-alt id="vinSearch1"
+														              placeholder="Title"
+														              pause="10"
+														              selected-object="selectedVin"
+														              local-data="prodSearchList"
+														              search-fields="title"
+														              title-field="title"
+														              minlength="3"
+														              focus-In="focusIn($index)"
+														              input-class="form-control form-control-small">
+															    	</angucomplete-alt>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="stockRp.designer" disabled="disabled" placeholder="Designer"/>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="stockRp.year" disabled="disabled" placeholder="Year"/>
+								                    			</div>
+								                    		</div>
+								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;">
+								                    			<div>
+								                    				<div class="col-md-5" style="padding-left: 0px;">
+								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
+								    									<img class="preview" style="margin-top: 7px;width: 174px;height: 121px;" src="/getImage/{{stockRp.imgId}}/thumbnail">
+								    								</div>
+								    								<div class="col-md-7" style="padding: 0px;">
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">Furniture Name</label>
+								    										<label class="col-md-6">designer:</label><label class="col-md-6">-</label>
+								    										<label class="col-md-6">price:</label><label class="col-md-6">_</label>
+								    										 <label class="col-md-6">Primary Title:</label><label class="col-md-6">_</label>
+								    									     <label class="col-md-6">year:</label><label class="col-md-6">_</label>
+								    								</div>
+								                    				
+								                    			</div>
+								                    			
+								                    		</div> 
+								                    		<div class="col-md-1" style="font-size: 29px;margin-top: 54px;" ng-show="stockWiseData.length  > 1">
+								                    			<a ng-click="removeLead($index)"><span class="glyphicon glyphicon-trash"></span></a>
+								                    		</div>
+								                    		
+								                    	</div>
+								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;">
+								                    	<a>ADD VEHICLES</a>
+								                    	</div>
+								                    	
+								                    	<div class="col-md-5" style="width: 50%;">
+								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>WANTS TO? <span style="color: red;">*</span></strong></h3>
+								                    			<div>
+								                    				<select placeholder="TYPE OF REQUEST" class="col-md-4" ng-model="lead.leadType">
+								                    					<!-- <option value="1">REQUEST MORE INFO</option>
+								                    					<option value="2">SCHEDULE TEST DRIVE</option>
+								                    					<option value="3">TRADE-IN INQUIRIES</option> -->
+								                    				</select>
+								                    			</div>
+								                    		</div> 
+								                    </div>
+								                    <hr>
+	</div>
+	<div class="form-group col-sm-12">
+		<div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Builder</h3>
+                </div>
+                <div fb-builder="default" ng-model="initComponent"></div>
+                <div class="panel-footer">
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="isShowScope" />
+                            Show scope
+                        </label>
+                    </div>
+                    <pre ng-if="isShowScope">{{form}}</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div fb-components></div>
+        </div>
+        
+    </div>
+	</div>
+	<div class="form-group col-sm-12" style="text-align: right;">
+		<button type="button" class="btn btn-primary" ng-click="saveCreateLeadForm()">Submit</button>
+	</div>
+</div>	

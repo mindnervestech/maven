@@ -119,6 +119,7 @@ import models.VehicleImageConfig;
 import models.Video;
 import models.VirtualTour;
 import models.Warranty;
+import models.CustomizationDataValue;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FileUtils;
@@ -163,6 +164,7 @@ import viewmodel.HeardAboutUsVm;
 import viewmodel.HoursOperation;
 import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
+import viewmodel.KeyValueDataVM;
 import viewmodel.LeadDateWiseVM;
 import viewmodel.LeadVM;
 import viewmodel.LocationMonthPlanVM;
@@ -27730,6 +27732,9 @@ if(vehicles.equals("All")){
     	return ok();
     }
     
+    /**
+     * @return
+     */
     public static Result createLead() {
     	AuthUser user = (AuthUser)getLocalUser();
     	SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
@@ -27790,6 +27795,17 @@ if(vehicles.equals("All")){
 	    		
 	    		info.save();
 	    		
+	    		
+	    		for(KeyValueDataVM custom:leadVM.customData){
+	    			CustomizationDataValue cValue = new CustomizationDataValue();
+	    			cValue.keyValue = custom.key;
+	    			cValue.value = custom.value;
+	    			cValue.leadId = info.id;
+	    			cValue.leadType = "Request More Info";
+	    			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    			cValue.save();
+	    		}
+	    		
 	    		if(parentFlag == 0){
 	    			parentFlag = 1;
 	    			parentLeadId = info.getId();
@@ -27805,6 +27821,8 @@ if(vehicles.equals("All")){
 	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
 	    		uNotes.save();
+	    		
+	    		
 	    		
 	    		/*if(info.premiumFlag == 1){
 	    			sendMailpremium();

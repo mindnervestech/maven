@@ -15,7 +15,9 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder', '$validator',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder, $validator) {
+	  
+	  
 	  var ele = document.getElementById('loadingmanual');	
    	$(ele).hide();
 	$http.get('/getLocationDays')
@@ -57,17 +59,36 @@ angular.module('newApp')
 	$scope.listingFilter = null;
 	$scope.len = null;
 	$scope.showGmLocation = 0;
+	
+	$scope.default = "";
+	$scope.defaultValue = "";
 	if(locationId != 0){
 		$scope.showGmLocation = 1;
 		$scope.showSelectLocationDash = locationId;
 		
 	}
+	var autocomplete;
 	$http.get('/getAllVehicles')
 		.success(function(data) {
 			$scope.prodSearchList = data;
 		});
 		//$scope.stockRp = {};
 		
+	$scope.selectedNames = function(obj){
+		console.log(obj);
+		console.log("Hiiiii");
+	}
+	$scope.focusNameOut = function(item){
+		console.log(item);
+		console.log("$$$$$");
+	}
+	
+	$scope.formlySubmit = function(){
+		console.log("Huuuuu");
+		console.log($scope.user);
+	}
+	
+	
 			$scope.stockWiseData = [];
 	$scope.selectedVin = function (selectObj) {
 		if(typeof selectObj.originalObject != 'undefined'){
@@ -2146,6 +2167,8 @@ angular.module('newApp')
    	  			});
    	  		}
    	 $scope.calculateFinancialData = function(financeData){
+   		 
+   		 console.log("hjhjhjhjhjh");
    	  	var cost         =financeData.price;
 		var down_payment =financeData.downPayment;
 		var interest     =financeData.annualInterestRate;
@@ -2583,6 +2606,7 @@ angular.module('newApp')
     			  $scope.PlanOnMonday();
     			  $scope.updateMeeting();
     			  $scope.planMsg();
+    			  $scope.initAutocomplete();
     			  //$scope.priceAlertMsg();
     			  
     			 $scope.check={};
@@ -4115,13 +4139,102 @@ angular.module('newApp')
 	    				$scope.heardAboutUs = response;
 	    			});
 	    			$scope.othertxt=null;
+	    			
+	    			$scope.input = [];
+	    			$scope.userFields = [];
+	    			
 	    		$scope.openCreateNewLeadPopup = function() {
+	    			
+	    			
 	    			$scope.stockWiseData = [];
 	    			$scope.stockWiseData = [{}];
+	    			
+	    			$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
+	    				console.log(response);
+	    				console.log(angular.fromJson(response.jsonData));
+	    				
+	    				 $scope.editInput = angular.fromJson(response.jsonData);
+	    				 $scope.userFields = $scope.addFormField($scope.editInput);
+	    				 //console.log(userlists);
+	    				 $scope.user = {};
+	    				 //console.log();
+	    				 //$scope.userFields = $scope.formFields;
+	    			/*	 $scope.userFields = [];
+	    				  ----------------
+	    				  $scope.user = {};
+
+	    				  $scope.userFields = [
+	    				    {
+	    				      key: 'username',
+	    				      type: 'input',
+	    				      templateOptions: {
+	    				        label: 'Username',
+	    				        placeholder: 'johndoe',
+	    				        required: true,
+	    				        description: 'Descriptive text'
+	    				      }
+	    				    },
+	    				    {
+	    				      key: 'password',
+	    				      type: 'input',
+	    				      templateOptions: {
+	    				        type: 'password',
+	    				        label: 'Password',
+	    				        required: true
+	    				      },
+	    				      expressionProperties: {
+	    				        'templateOptions.disabled': '!model.username' // disabled when username is blank
+	    				      }
+	    				    }
+	    				  ];*/
+	    				  
+	    				/*  $scope.user = {};
+	    				 angular.forEach(editInput, function(value, key) {
+	    					 
+	    					 if(value.component == "textInput"){
+	    						 $scope.userFields.push({
+		    							key: value.id,
+		    							type:value.label,
+		    							templateOptions: {
+		    						        label: 'Name',
+		    						        placeholder: 'Name',
+		    						        required: true,
+		    						        description: 'Descriptive text'
+		    						      }
+		   	    		   	  			
+		      					});
+	    					 }
+	    					 if(value.component == "select"){
+	    						 $scope.userFields.push({
+		    							key: value.id,
+		    							type:value.label,
+		    							templateOptions: {
+		    						        label: 'Name',
+		    						        placeholder: 'Name',
+		    						        required: true,
+		    						        description: 'Descriptive text'
+		    						      }
+		   	    		   	  			
+		      					});
+	    					 }
+	    			});*/
+	    				 
+	    				 /*//
+		    				 * // $builder.forms['default'] = editInput;console.log($builder);
+		    				 * angular.forEach(editInput, function(value, key) {
+		    					$scope.input.push({
+		      						 	id:value.id,
+		   	    		   	  			label:value.label,
+		   	    		   	  			value:'',
+		   	    		   	  			
+		      						});
+			    			});*/
+		    				//console.log($scope.input);
+		    				//$scope.$apply();
 	    			$scope.getMakes();
 	    			$("#createLeadPopup").modal();
-	    		};
-	    		
+	    		});
+	    		}	
 	    		$scope.openCreateNewLeads = function(item) {
 	    			$scope.stockWiseData = [];
 	    			$http.get('/getStockDetails/'+item).success(function(response) {
@@ -4189,7 +4302,7 @@ angular.module('newApp')
 	    		$scope.removeLead = function(index){
 	    			$scope.stockWiseData.splice(index, 1);
 	    		}
-	    		
+	    		$scope.customList = [];
 	    		$scope.initialiase();
 	    		$scope.isInValid = false;
 	    		$scope.isStockError = false;
@@ -4197,8 +4310,21 @@ angular.module('newApp')
 					$scope.len = itm;
 	    		};
 	    		$scope.createLead = function() {
+	    			
+	    			console.log($scope.customData);
+	    			
+	    			
+	    			 $.each($scope.customData, function(attr, value) {
+	    			      $scope.customList.push({
+	    		   	  			key:attr,
+	    		   	  			value:value,
+	    		   	  			
+	    					});
+	    			   });
+	    			
+	    			$scope.lead.customData = $scope.customList;
 	    			console.log($scope.lead);
-	    			$scope.lead.leadType = '1';
+	    			//$scope.lead.leadType = '1';
 	    			if($scope.lead.custName == ''){
 	    				$scope.lead.custName = $('#ex1_value').val();
 	    			}
@@ -4701,7 +4827,9 @@ angular.module('newApp')
         	$scope.allLeadd = false;
         	$scope.getCompletedData();
    	  	}
-    	
+    	$scope.clickY = function(){
+    		 $location.path('/leadCreateForm');
+    	}
         $scope.canceledLeads = function() {
         	$scope.schedTest = false;
         	$scope.showAllTypeLeads = false;
@@ -4773,7 +4901,6 @@ angular.module('newApp')
 			.success(function(data) {
 				$scope.gridOptions4.data = data;
 				$scope.canceledLead = data;
-				console.log($scope.gridOptions4.data);
 			});
         }
         
@@ -4999,7 +5126,6 @@ angular.module('newApp')
 		    		    				           	        	//added by vinayak 23-Apr-2016
 		    		    				           	        	$http.get('/getAllCanceledLeads/'+id)
 		    		    				           				.success(function(data) {
-		    		    				           					console.log($scope.gridOptions4.data);
 		    		    				           					$scope.gridOptions4.data = data;
 		    		    				           					$scope.canceledLead = data;
 		    		    				           				});
@@ -8367,6 +8493,32 @@ angular.module('newApp')
 			   }); 
 			   
 		   }
+		   
+		/*------------------Form Builder ---------------------*/
+		   
+		            
+	           var placeSearch, autocomplete;
+	            
+	            $scope.initAutocomplete = function() {
+	            	 autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),
+	            	     {types: ['geocode']});
+	            	 autocomplete.addListener('place_changed', fillInAddress);
+	            	}
+
+	            	function fillInAddress() {
+	            	 var place = autocomplete.getPlace();
+	            	 console.log(place);
+	            	 $scope.register.businessName = place.name;
+	            	 $scope.register.businessAddress = place.formatted_address;
+	            	 
+	            	}     
+	            	
+	            	
+	          /*-----------------*/  
+	            	
+	            	
+		       
+		   
   }]);
 
 angular.module('newApp')

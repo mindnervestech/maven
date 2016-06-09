@@ -25,8 +25,15 @@ var MakeApp = angular
     'ngAutocomplete',
     'angucomplete',
     'angucomplete-alt',
-    'textAngular',
+    'builder',
+    'builder.components',
+    'validator.rules',
+    //'textAngular',
     'nvd3',
+    'formly',
+    'ionic',
+    'formlyIonic',
+    'ngDialog',
     'ui.grid.cellNav'
   ])
   .config(function ($routeProvider) {
@@ -35,6 +42,11 @@ var MakeApp = angular
             templateUrl: '/dealer/dashboard/dashboard.html',
             controller: 'dashboardCtrl'
         })
+        .when('/leadCreateForm', {
+            templateUrl: '/dealer/customizationForm/createLeadForm.html',
+            controller: 'customizationFormCtrl'
+        })
+        
        /* .when('/addVehicle', {
             templateUrl: '/dealer/addVehicle/addVehicle.html',
             controller: 'addVehicleCtrl'
@@ -647,3 +659,26 @@ MakeApp.directive('ngSpinnerLoader', ['$rootScope',
     }
 
 ]);
+
+MakeApp.directive('myCustomer', function() {
+	  return {
+	    templateUrl: '/dealer/dashboard/editLead.html',
+	    	controller: 'dashboardCtrl'
+	  };
+	});
+
+MakeApp.directive('angucompleteAlts', function() {
+			
+		return{
+			template: '<angucomplete-alt id="ex1" placeholder="Title" pause="10" selected-object="selectedNames" local-data="prodSearchList" search-fields="title" title-field="title" minlength="3" focus-In="focusNameOut($index)" input-class="form-control form-control-small"></angucomplete-alt>',
+	        link: function(scope, element, attrs) {
+	        	console.log("HHHHHHHHHHHHHOOOOOOOOOOo");
+	        	console.log(attrs.listData);
+	        }
+			
+		}
+		
+		
+		
+	});
+

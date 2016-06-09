@@ -59,10 +59,6 @@ public class TestDriveScheduler {
 							ceTime = timeFormatter.parse(timeFormatter.format(date));
 							aftDate = dateFormatter.parse(dateFormatter.format(newDate));
 							aftTime = timeFormatter.parse(timeFormatter.format(newDate));
-							/*System.out.println(crDate);
-							System.out.println(ceTime);
-							System.out.println(aftDate);
-							System.out.println(aftTime);*/
 						
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -81,8 +77,6 @@ public class TestDriveScheduler {
 							System.out.println(info.confirmDate);
 							if((info.confirmDate.after(crDate) && info.confirmDate.before(aftDate)) || info.confirmDate.equals(crDate) || info.confirmDate.equals(aftDate)){
 								emailList.add(info.email);
-								/*System.out.println(info.email);
-								System.out.println(info.confirmDate);*/
 								info.setScheduleEmail(1);
 								info.update();
 							}
@@ -93,8 +87,6 @@ public class TestDriveScheduler {
 						if(info.confirmDate !=null){
 							if((info.confirmDate.after(crDate) && info.confirmDate.before(aftDate)) || info.confirmDate.equals(crDate) || info.confirmDate.equals(aftDate)){
 								emailList.add(info.email);
-								/*System.out.println(info.email);
-								System.out.println(info.confirmDate);*/
 								info.setScheduleEmail(1);
 								info.update();
 							}
@@ -104,8 +96,6 @@ public class TestDriveScheduler {
 						if(info.confirmDate !=null){
 							if((info.confirmDate.after(crDate) && info.confirmDate.before(aftDate)) || info.confirmDate.equals(crDate) || info.confirmDate.equals(aftDate)){
 								emailList.add(info.email);
-								/*System.out.println(info.email);
-								System.out.println(info.confirmDate);*/
 								info.setScheduleEmail(1);
 								info.update();
 							}
