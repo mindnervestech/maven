@@ -8426,11 +8426,24 @@ float: right !important;
 																</div>
 								                    		</div> 
 								                    	</div>
+								                    	<div class="col-md-12">
+								                    		<div class="col-md-5" style="width: 50%;">
+								                    		</div>
+								                    		<div class="col-md-5" ng-show="lead.leadType==2">
+								                    			<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST TIME</strong> <span style="color: red;">*</span></h3>
+								                    			<div>
+																	<div>
+																		<div class="prepend-icon">
+								                              				<input type="text" name="timepicker" ng-model="lead.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="leadBestTime">
+								                              				<i class="icon-clock"></i>
+								                            			</div>
+																	</div>
+																</div>
+								                    		</div>
+								                    	</div>
 								                    	<div class="col-md-12" style="margin-top: 32px;">
-								                    		<!-- <form ng-submit="formlySubmit()"> -->
 								                				<formly-form model="customData" fields="userFields">
   																</formly-form>
-  															<!-- </form>	 -->
 								                    	</div>	
 								                    	<!-- <div class="row">
                           									<div class="col-sm-12">
@@ -8446,17 +8459,17 @@ float: right !important;
 									                          </div>
 									                         </div> -->
 								                    </div>
-								                     <div>
+								                    <!-- <div>
 								                    	<div class="col-md-12">
 								                    		
-								                    		<!-- <div class="col-md-5" style="width: 50%;">
+								                    		<div class="col-md-5" style="width: 50%;">
 								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>HOW DID HE/SHE HEAR ABOUT US?</strong></h3>
 								                    			<div>
 								                    				<select ng-model="lead.hearedFrom">
 								                    					<option ng-repeat="item in heardAboutUs" value="{{item.value}}">{{item.value}}</option>
 								                    				</select>
 								                    			</div>
-								                    		</div> -->
+								                    		</div>
 								                    		<div class="col-md-5" ng-show="lead.leadType==2">
 								                    			<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST TIME</strong> <span style="color: red;">*</span></h3>
 								                    			<div>
@@ -8469,10 +8482,10 @@ float: right !important;
 																</div>
 								                    		</div>
 								                    	</div>
-								                    	<!-- <div class="col-md-12" ng-if="lead.hearedFrom=='Other'" style="margin: 5px 0 0 10px;">
+								                    	<div class="col-md-12" ng-if="lead.hearedFrom=='Other'" style="margin: 5px 0 0 10px;">
 								                    				<input type="text" id="othertxt" ng-model="othertxt" placeholder="HEAR ABOUT US?"/>
-								                    	</div> -->
-								                    </div> 
+								                    	</div>
+								                    </div> -->
 								                  <!--   <div>
 								                    	<div class="col-md-12">
 								                    		<div class="col-md-5" style="width: 50%;">
