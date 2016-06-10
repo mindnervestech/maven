@@ -12503,7 +12503,7 @@ angular.module('newApp')
 	$scope.premium = {};
 	
 	$scope.form = function(){
-		$location.path('/form');
+		$location.path('/form/');
 	}
 	
 
@@ -12626,10 +12626,10 @@ angular.module('newApp')
 		});
 		
 		
-		
+		//ng-click="grid.appScope.editName(row)"  use for edit name
 		$scope.gridOptions.columnDefs = [
 		                                 { name: 'name', displayName: 'Name', width:'70%',
-		                                	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.editName(row)">{{row.entity.name}}</label></div>',
+		                                	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.ShowCreateNewForm1(row)">{{row.entity.name}}</label></div>',
 		                                 },
 		                                 
 		                                 { name: 'edit', displayName: ' ', width:'30%',
@@ -12675,8 +12675,13 @@ $scope.leadTypeAll = function(){
 	}	
 	
 	$scope.ShowCreateNewForm = function(row){
-		$location.path('/leadCreateForm');
+		$location.path('/leadCreateForm/'+"Edit");
 	}
+
+	$scope.ShowCreateNewForm1 = function(row){
+		$location.path('/leadCreateForm/'+"Preview");
+	}
+	
 	
 	$scope.allLeaddata = function(){
 		$http.get('/getAllLeadData')

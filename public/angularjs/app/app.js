@@ -42,7 +42,7 @@ var MakeApp = angular
             templateUrl: '/dealer/dashboard/dashboard.html',
             controller: 'dashboardCtrl'
         })
-        .when('/leadCreateForm', {
+        .when('/leadCreateForm/:pageType', {
             templateUrl: '/dealer/customizationForm/createLeadForm.html',
             controller: 'customizationFormCtrl'
         })

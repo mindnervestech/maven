@@ -2,6 +2,8 @@ package viewmodel;
 
 import java.util.Date;
 
+import models.Location;
+
 public class CreateFormVM {
 
 	public Long id;

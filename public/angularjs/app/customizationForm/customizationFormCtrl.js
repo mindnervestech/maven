@@ -9,8 +9,11 @@
  */
 
 angular.module('newApp')
-  .controller('customizationFormCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder', '$validator',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder, $validator) {
+  .controller('customizationFormCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder', '$validator','$routeParams',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder, $validator,$routeParams) {
 
+	  	console.log($routeParams.pageType);
+	  	$scope.showSaveButton = $routeParams.pageType;
+	  
 		   $scope.initFunction = function(){
 			   $http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
 					
@@ -84,6 +87,10 @@ angular.module('newApp')
 
 		  }
 		  $scope.editAllTitle = function(){
+			 
+			  delete $scope.setjson.locations;
+			  delete $scope.setjson.showFild;
+			  delete $scope.setjson.jsonData;
 			  console.log($scope.setjson);
 			  $http.post('/getLeadCrateFormTitle', $scope.setjson)
 				 .success(function(data) {

@@ -9,7 +9,7 @@
 								                    		<div class="" ng-show="isInValid" style="color: red;">
 								                    			Please provide all mandatory fields.
 								                    		</div>
-								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{setjson.mainTitle}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Main Title')"><i class="glyphicon glyphicon-edit"></i></a></h3>
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{setjson.mainTitle}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Main Title')" ng-if="showSaveButton == 'Edit'"><i class="glyphicon glyphicon-edit"></i></a></h3>
 								                    		<div class="col-md-6">
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				
@@ -34,9 +34,9 @@
 								                    </div>
 								                    <div class="row">
 								                    	<div class="col-md-12">
-								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{setjson.searchTitle}}<span style="color: red;">*</span></strong>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Search Title')"><i class="glyphicon glyphicon-edit"></i></a></h3>
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{setjson.searchTitle}}<span style="color: red;">*</span></strong>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Search Title')" ng-if="showSaveButton == 'Edit'"><i class="glyphicon glyphicon-edit"></i></a></h3>
 								                    		<div class="col-md-4">
-								                    			<div class="col-md-12"><label>{{setjson.searchSubTitle}}</label>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Search Sub Title')"><i class="glyphicon glyphicon-edit"></i></a></div>
+								                    			<div class="col-md-12"><label>{{setjson.searchSubTitle}}</label>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Search Sub Title')" ng-if="showSaveButton == 'Edit'"><i class="glyphicon glyphicon-edit"></i></a></div>
 								                    			<div ng-show="isStockError" style="color: red;">Furniture Not Found.</div>
 								                    			<!-- <div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="stockRp.stockNumber"/>
@@ -88,7 +88,7 @@
 								                    	</div>
 								                    	
 								                    	<div class="col-md-5" style="width: 50%;">
-								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>{{setjson.leadTypeTitle}}<span style="color: red;">*</span></strong>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Lead Type Title')"><i class="glyphicon glyphicon-edit"></i></a></h3>
+								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>{{setjson.leadTypeTitle}}<span style="color: red;">*</span></strong>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Lead Type Title')" ng-if="showSaveButton == 'Edit'"><i class="glyphicon glyphicon-edit"></i></a></h3>
 								                    			<div>
 								                    				<select placeholder="TYPE OF REQUEST" class="col-md-4" ng-model="lead.leadType">
 								                    					<!-- <option value="1">REQUEST MORE INFO</option>
@@ -122,12 +122,17 @@
         </div>
 
         <div class="col-md-6">
+        	<div>
+                    <h2>BUILDER</h2>
+                    <h4>Drag & drop items to the "FIELDS" area.</h4>
+                </div>
+                <hr>
             <div fb-components></div>
         </div>
         
     </div>
 	</div>
-	<div class="form-group col-sm-12" style="text-align: right;">
+	<div class="form-group col-sm-12" style="text-align: right;" ng-if="showSaveButton == 'Edit'">
 		<button type="button" class="btn btn-primary" ng-click="saveCreateLeadForm()">Save</button>
 	</div>
 </div>	
