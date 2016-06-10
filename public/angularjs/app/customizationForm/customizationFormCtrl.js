@@ -11,9 +11,22 @@
 angular.module('newApp')
   .controller('customizationFormCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder', '$validator',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder, $validator) {
 
-		   
+		   $scope.initFunction = function(){
+			   $http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
+					
+					$scope.setjson = response;
+					$scope.setjson.jsonData = angular.fromJson(response.jsonData);
+					$scope.initComponent = angular.fromJson(response.jsonData);
+					//$scope.initComponent = [{"id":0,"component":"textInput","editable":true,"index":0,"label":"Text Input","description":"","key":"","imageUrl":"","placeholder":"placeholder","options":[],"columnOptions":[],"equation":"","required":false,"isRepeatable":false,"validation":"/.*/","logic":{"action":"Hide"},"pointRules":[],"column":[]}];
+					console.log($scope.setjson);
+					//$builder.forms['default'] = $scope.setjson.jsonData;
+					//console.log($builder);
+			});
+		   }
+	  
+	  
 		/*------------------Form Builder ---------------------*/
-		   
+		   $scope.setjson = {};
 		   	$scope.initComponent = [];
 			var vm = this;
 			$scope.fields = [];
@@ -46,7 +59,7 @@ angular.module('newApp')
 		    };
 		    $scope.subSectonsName = FBuilder.name;
 		    $scope.FB.push(FBuilder);
-		    // console.log($scope.FB, "FBuilder", $builder.forms); 
+		     console.log($scope.FB, "FBuilder", $builder.forms); 
 		    count++; 
 		    };
 		    
@@ -57,12 +70,37 @@ angular.module('newApp')
 		         console.log('$builder.forms',$builder.forms);
 		       }, true);
 		       
+		       
 		  $scope.saveCreateLeadForm = function(){
-			  $http.post('/getLeadCrateForm',$scope.form)
+			 
+			  $http.post('/getLeadCrateForm', $scope.form)
 				 .success(function(data) {
- 						console.log("jhjjh");
+					 $.pnotify({
+	    				    title: "Success",
+	    				    type:'success',
+	    				    text: "Form Created successfully",
+	    				});
 					});
 		  }     
+		  $scope.editLeadInfo = function(title){
+			   $scope.setjson.showFild = title;
+			  $('#edititle').modal('show');
+
+		  }
+		  $scope.editAllTitle = function(){
+			  console.log($scope.setjson);
+			  $http.post('/getLeadCrateFormTitle', $scope.setjson)
+				 .success(function(data) {
+					 $.pnotify({
+	    				    title: "Success",
+	    				    type:'success',
+	    				    text: "Title Edit successfully",
+	    				});
+					 $scope.initFunction();
+						$('#edititle').modal('hide');
+					});
+			  
+		  }
 		 
 		   
   }]);

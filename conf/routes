@@ -102,6 +102,7 @@ GET		/getSectionCollectionData/:id    controllers.InventoryController.getSection
 
 
 POST  /getLeadCrateForm       controllers.customizationController.getLeadCrateForm()
+POST  /getLeadCrateFormTitle	  controllers.customizationController.getLeadCrateFormTitle()
 GET   /getCustomizationform/:type	  controllers.customizationController.getCustomizationform(type:String)
 
 

@@ -4153,84 +4153,10 @@ angular.module('newApp')
 	    				console.log(response);
 	    				console.log(angular.fromJson(response.jsonData));
 	    				
-	    				 $scope.editInput = angular.fromJson(response.jsonData);
-	    				 $scope.userFields = $scope.addFormField($scope.editInput);
-	    				 //console.log(userlists);
+	    				 $scope.editInput = response;
+	    				 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
 	    				 $scope.user = {};
-	    				 //console.log();
-	    				 //$scope.userFields = $scope.formFields;
-	    			/*	 $scope.userFields = [];
-	    				  ----------------
-	    				  $scope.user = {};
-
-	    				  $scope.userFields = [
-	    				    {
-	    				      key: 'username',
-	    				      type: 'input',
-	    				      templateOptions: {
-	    				        label: 'Username',
-	    				        placeholder: 'johndoe',
-	    				        required: true,
-	    				        description: 'Descriptive text'
-	    				      }
-	    				    },
-	    				    {
-	    				      key: 'password',
-	    				      type: 'input',
-	    				      templateOptions: {
-	    				        type: 'password',
-	    				        label: 'Password',
-	    				        required: true
-	    				      },
-	    				      expressionProperties: {
-	    				        'templateOptions.disabled': '!model.username' // disabled when username is blank
-	    				      }
-	    				    }
-	    				  ];*/
-	    				  
-	    				/*  $scope.user = {};
-	    				 angular.forEach(editInput, function(value, key) {
-	    					 
-	    					 if(value.component == "textInput"){
-	    						 $scope.userFields.push({
-		    							key: value.id,
-		    							type:value.label,
-		    							templateOptions: {
-		    						        label: 'Name',
-		    						        placeholder: 'Name',
-		    						        required: true,
-		    						        description: 'Descriptive text'
-		    						      }
-		   	    		   	  			
-		      					});
-	    					 }
-	    					 if(value.component == "select"){
-	    						 $scope.userFields.push({
-		    							key: value.id,
-		    							type:value.label,
-		    							templateOptions: {
-		    						        label: 'Name',
-		    						        placeholder: 'Name',
-		    						        required: true,
-		    						        description: 'Descriptive text'
-		    						      }
-		   	    		   	  			
-		      					});
-	    					 }
-	    			});*/
-	    				 
-	    				 /*//
-		    				 * // $builder.forms['default'] = editInput;console.log($builder);
-		    				 * angular.forEach(editInput, function(value, key) {
-		    					$scope.input.push({
-		      						 	id:value.id,
-		   	    		   	  			label:value.label,
-		   	    		   	  			value:'',
-		   	    		   	  			
-		      						});
-			    			});*/
-		    				//console.log($scope.input);
-		    				//$scope.$apply();
+	    			
 	    			$scope.getMakes();
 	    			$("#createLeadPopup").modal();
 	    		});
@@ -4422,6 +4348,12 @@ angular.module('newApp')
 	    				$scope.models = response;
 	    			});
 	    		};
+	    		
+	    		$scope.focusIn11 = function(index, stockRp){
+	    			stockRp.stockNumber = $scope.prodSearchList[index].title;
+	    			$scope.getStockDetails(stockRp)
+	    		}
+	    		
 	    		$scope.stockWiseData = [];
 	    		$scope.stockWiseData.push({});
 	    		$scope.getStockDetails = function(stockRp) {

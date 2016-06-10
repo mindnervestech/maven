@@ -1,42 +1,16 @@
 package controllers;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-import models.AddCollection;
-import models.AddProduct;
-import models.AuthUser;
 import models.CustomizationForm;
-import models.LeadType;
 import models.Location;
-import models.ProductImages;
-import models.Sections;
-import net.coobird.thumbnailator.Thumbnails;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Http.MultipartFormData;
-import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import securesocial.core.Identity;
-import viewmodel.AddCollectionVM;
-import viewmodel.AddProductVM;
-import viewmodel.ImageVM;
-import viewmodel.SectionsVM;
-import views.html.home;
+import viewmodel.CreateFormVM;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class customizationController extends Controller {
 
@@ -84,6 +58,44 @@ public class customizationController extends Controller {
 			cForm.update();
 		}
 		
+		return ok();
+	}
+	
+	public static Result getLeadCrateFormTitle() {
+		
+		Form<CreateFormVM> form = DynamicForm.form(CreateFormVM.class).bindFromRequest();
+		CreateFormVM vm = form.get();
+		
+		CustomizationForm cForm = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")),"Create Lead");
+		if(cForm == null){
+			CustomizationForm cust = new CustomizationForm();
+			cust.setMainTitle(vm.mainTitle);
+			cust.setSearchTitle(vm.searchTitle);
+			cust.setSearchSubTitle(vm.searchSubTitle);
+			cust.setLeadTypeTitle(vm.leadTypeTitle);
+			cust.setDataType("Create Lead");
+			cust.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+			cust.save();
+		}else{
+			cForm.setMainTitle(vm.mainTitle);
+			cForm.setSearchTitle(vm.searchTitle);
+			cForm.setSearchSubTitle(vm.searchSubTitle);
+			cForm.setLeadTypeTitle(vm.leadTypeTitle);
+			cForm.update();
+		}
+		//JsonNode json = request().body().asJson();
+		
+		/*CustomizationForm cForm = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")),"Create Lead");
+		if(cForm == null){
+			CustomizationForm cust = new CustomizationForm();
+			cust.setDataType("Create Lead");
+			cust.setJsonData(json.toString());
+			cust.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+			cust.save();
+		}else{
+			cForm.setJsonData(json.toString());
+			cForm.update();
+		}*/
 		
 		return ok();
 	}
@@ -91,6 +103,7 @@ public class customizationController extends Controller {
 	
 	public static Result getCustomizationform(String type) {
 		CustomizationForm cForm = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")),type);
+		
 		return ok(Json.toJson(cForm));
 	}
 	

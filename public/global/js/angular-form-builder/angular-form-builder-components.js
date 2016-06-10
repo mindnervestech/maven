@@ -28,9 +28,8 @@
       
       $builderProvider.registerComponent('textArea', {
         group: 'Default',
-        label: 'Text Area',
-        description: 'description',
-        placeholder: 'placeholder',
+        label: 'Text Area', 
+        description: '* instructions',
         required: false,
         template: "<div class=\"form-group\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\" ng-class=\"{'fb-required':required}\">{{label}}</label>\n    <div class=\"col-md-6\">\n        <textarea type=\"text\" ng-model=\"inputText\" validator-required=\"{{required}}\" validator-group=\"{{formName}}\" id=\"{{formName+index}}\" class=\"form-control\" rows='6' placeholder=\"{{placeholder}}\"/>\n        <p class='help-block'>{{description}}</p>\n    </div>\n</div>",
         //popoverTemplate: "<form>\n    <div class=\"form-group\">\n        <label class='control-label'>Label</label>\n        <input type='text' ng-model=\"label\" validator=\"[required]\" class='form-control'/>\n    </div>\n    <div class=\"form-group\">\n        <label class='control-label'>Description</label>\n        <input type='text' ng-model=\"description\" class='form-control'/>\n    </div>\n    <div class=\"form-group\">\n        <label class='control-label'>Placeholder</label>\n        <input type='text' ng-model=\"placeholder\" class='form-control'/>\n    </div>\n    <div class=\"checkbox\">\n        <label>\n            <input type='checkbox' ng-model=\"required\" />\n            Required</label>\n    </div>\n\n    <hr/>\n    <div class='form-group'>\n        <input type='submit' ng-click=\"popover.save($event)\" class='btn btn-primary' value='Save'/>\n        <input type='button' ng-click=\"popover.cancel($event)\" class='btn btn-default' value='Cancel'/>\n        <input type='button' ng-click=\"popover.remove($event)\" class='btn btn-danger' value='Delete'/>\n    </div>\n</form>"
@@ -62,7 +61,6 @@
         group: 'Default',
         label: 'Text Input',
         description: '',
-        placeholder: 'placeholder',
         readOnly: false,
         minLength: 0,
         maxLength: 999,
@@ -87,7 +85,7 @@
       });
     $builderProvider.registerComponent('date', {
         group: 'Default',
-        label: 'Date Picker',
+        label: 'Date Selector',
         description: '',
         required: false,
         disableWeekends: false,
@@ -100,9 +98,7 @@
      
       $builderProvider.registerComponent('select', {
         group: 'Default',
-        label: 'Select',
-        description: 'description',
-        placeholder: 'placeholder',
+        label: 'Dropdown',
         required: false,
         options: ['value one', 'value two'],
         template: "<div class=\"form-group col-sm-12\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\">{{label}}</label>\n    <div class=\"col-md-6\">\n        <select ng-options=\"value for value in options\" id=\"{{formName+index}}\" class=\"form-control\"\n            ng-model=\"inputText\" ng-init=\"inputText = options[0]\"/>\n        <p class='help-block'>{{description}}</p>\n    </div>\n</div>",
@@ -125,7 +121,6 @@
           group: 'Default',
           label: 'Autocomplete Text Input',
           description: '',
-          placeholder: 'placeholder',
           readOnly: false,
           required: false,
           template: "<div class=\"form-group col-sm-12\" id=\"{{formName+index | nospace}}\">\n    <label class=\"col-sm-3 control-label\" for=\"{{formName+index}}\" ng-class=\"{'fb-required':required}\"><i ng-if =\"formObject.logic.component\" id=\"hasLogic\" class=\"fa fa-random label-logic\"></i> {{label}}</label>\n    <div class=\"col-sm-6\">\n  <angucomplete-alt id=\"ex1\" placeholder=\"Search Name\" pause=\"10\" selected-object=\"selectedNames\" local-data=\"prodSearchList\" search-fields=\"title\" title-field=\"title\" minlength=\"3\" input-class=\"form-control form-control-small\"></angucomplete-alt>\n</div>",

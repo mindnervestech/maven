@@ -826,7 +826,7 @@
             _base[_name] = [];
           }
           
-          
+          console.log('scope.ngModel',scope.ngModel);
           if(scope.ngModel.length>0){
             console.log('scope.ngModel',scope.ngModel);
             $builder.forms[scope.formName] = scope.ngModel;

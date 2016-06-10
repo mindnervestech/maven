@@ -17,6 +17,10 @@ public class CustomizationForm extends Model {
 	public Long id;
 	public String jsonData;
 	public String dataType;
+	public String mainTitle;
+	public String searchTitle;
+	public String searchSubTitle;
+	public String leadTypeTitle;
 	
 		
 	@ManyToOne
@@ -50,6 +54,39 @@ public class CustomizationForm extends Model {
 
 	public Location getLocations() {
 		return locations;
+	}
+	
+
+	public String getMainTitle() {
+		return mainTitle;
+	}
+
+	public void setMainTitle(String mainTitle) {
+		this.mainTitle = mainTitle;
+	}
+
+	public String getSearchTitle() {
+		return searchTitle;
+	}
+
+	public void setSearchTitle(String searchTitle) {
+		this.searchTitle = searchTitle;
+	}
+
+	public String getSearchSubTitle() {
+		return searchSubTitle;
+	}
+
+	public void setSearchSubTitle(String searchSubTitle) {
+		this.searchSubTitle = searchSubTitle;
+	}
+
+	public String getLeadTypeTitle() {
+		return leadTypeTitle;
+	}
+
+	public void setLeadTypeTitle(String leadTypeTitle) {
+		this.leadTypeTitle = leadTypeTitle;
 	}
 
 	public void setLocations(Location locations) {

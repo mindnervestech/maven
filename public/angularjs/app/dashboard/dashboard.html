@@ -5539,27 +5539,305 @@ float: right !important;
 													<h4 class="modal-title" style="margin-left: 50%; color:#c7081b;"><b>Financial Calculator</b></h4>
 												</div>	
 								                </div>
-								                <div class="row">
-								                <form ng-submit="formlySubmit()">
-								                	<formly-form model="user" fields="userFields">
-   														 <button type="submit">Submit</button>
-  													</formly-form>
-  												</form>	
-												   <!-- <form class="form-horizontal">
-												           <div ng-model="input" fb-form="default" fb-default="defaultValue"></div>
-												           <div class="form-group">
-												               <div class="col-md-8 col-md-offset-4">
-												                   <input type="submit" ng-click="submit()" class="btn btn-default"/>
-												               </div>
-												           </div>
-												       </form> -->
-												</div>
-								                  <!-- <div class="modal-body" style="height:692px;overflow-x:auto;">
-								                	<div class="form-group col-sm-12">
-								                	<div my-customer></div>
-								                	</div>
+								                
+								                <form ng-submit="editleads()">
+								                <div class="modal-body" style="height:661px;overflow-x:auto;">
+								                <div class="financing_calculator">
+								                   <div class="form-group col-sm-12">
+														<label class="col-sm-1 control-label" style="text-align: right;">Name</label>
+														<div class="col-sm-5">
+															<input type="text" class="form-control form-white" ng-model="editLeads.custName" required>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-6 control-label" style="text-align: left;">Cost of Vehicle($)</label>
+															<div class="col-sm-6">
+																<input type="text" ng-model="financeData.price" class="number cost">
+															</div>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-1 control-label" style="text-align: right;">Email</label>
+														<div class="col-sm-5">
+															<input type="email" class="form-control form-white" ng-model="editLeads.custEmail" required>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-6 control-label" style="text-align: left;">Down Payment($)</label>
+															<div class="col-sm-6">
+																<input type="text" ng-model="financeData.downPayment"  class="number down_payment">
+															</div>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-1 control-label" style="text-align: right;">Phone</label>
+														<div class="col-sm-5">
+															<input type="text" class="form-control form-white" ng-model="editLeads.custNumber" required>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-6 control-label" style="text-align: left;">Annual Interest Rate($)</label>
+															<div class="col-sm-6">
+																<input type="text" ng-model="financeData.annualInterestRate" class="number interest">
+															</div>
+														</div>
+													</div>
+													<div class="form-group col-sm-6">
+														<label ng-if="editLeads.prefferedContact != null" class="col-sm-12 control-label">Method of Contact : {{editLeads.prefferedContact}}</label>
+														<label ng-if="editLeads.prefferedContact == null" class="col-sm-12 control-label">Method of Contact : Not Selected</label>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-1 control-label" style="text-align: right;">Zip Code</label>
+														<div class="col-sm-5">
+															<input type="text" class="form-control form-white" ng-model="editLeads.custZipCode">
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-6 control-label" style="text-align: left;">Term of Loan in Years:</label>
+															<div class="col-sm-6">
+																<input type="text" ng-model="financeData.numberOfYears" class="number loan_years">
+															</div>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-1 control-label" style="text-align: right;">Enthicity</label>
+														<div class="col-sm-5">
+															<select class="form-control form-white" ng-model="editLeads.enthicity">
+																<option value="">Select</option>
+																<option value="White">White</option>
+																<option value="Hispanic or Latino">Hispanic or Latino</option>
+																<option value="Black or African American">Black or African American</option>
+																<option value="Native American or American Indian">Native American or American Indian</option>
+																<option value="Asian / Pacific Islander">Asian / Pacific Islander</option>
+																<option value="Other">Other</option>
+															</select>
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-6 control-label" style="text-align: left;">Frequency of Payments:($)</label>
+															<div class="col-sm-6" >
+																<select class="frequency css-dropdowns" ng-model="financeData.frequencyOfPayments" >
+																	<option value="26">Monthly</option>
+																	<option value="52">Bi-Weekly</option>
+																	<option value="12">Weekly</option>
+																</select>
+															</div>
+														</div>
+													</div>
+													
+													<div class="form-group col-sm-12">
+														<label class="col-sm-1 control-label" style="text-align: right;"></label>
+														<div class="col-sm-5">
+															
+														</div>
+														<div class="col-sm-6">
+															<label class="col-sm-6 control-label" style="text-align: left;"></label>
+															<div class="col-sm-6">
+																<button type="button" class="btn btn-default btn-embossed  pull-right" ng-click="calculateFinancialData(financeData)" style="background-color: #c7081b;color: white;">Calculate Payment</button>
+															</div>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-1 control-label" style="text-align: right;"></label>
+														<div class="col-sm-5">
+															
+														</div>
+														<div class="col-sm-6">
+															<strong class="col-sm-6" style="text-align: left;">NUMBER OF PAYMENTS:</strong>
+															<strong class="payments col-sm-6">{{payments}}</strong>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-1 control-label" style="text-align: right;"></label>
+														<div class="col-sm-5">
+															
+														</div>
+														<div class="col-sm-6">
+															<strong class="col-sm-6" style="text-align: left;">PAYMENT AMOUNT:</strong>
+															<strong class="payment_amount" >{{payment}}</strong>
+														</div>
+													</div>
+													</div>
+													<!-- ------------------------------- -->
+													
+													
+													 <div class="row">
+								                    	<div class="col-md-12" ng-repeat="stockRp in stockWiseData">
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>INTERESTED IN MODEL? <span style="color: red;">*</span></strong></h3>
+								                    		<div class="col-md-3">
+								                    			<div class="col-md-12"><label>Stock Number Search</label></div>
+								                    			<div ng-show="isStockError" style="color: red;">Stock Number Not Found.</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="stockRp.stockNumber" ng-blur="getStockDetails(stockRp)"/>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<angucomplete-alt id="vinSearch"
+														              placeholder="{{stockRp.vin}}"
+														              pause="10"
+														              selected-object="selectedVin"
+														              local-data="vinSearchList"
+														              search-fields="vin"
+														              title-field="vin"
+														              minlength="3"
+														              focus-In="focusIn($index)"
+														              input-class="form-control form-control-small">
+															    	</angucomplete-alt>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="stockRp.make" disabled="disabled" placeholder="CAR MAKE"/>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="stockRp.model" disabled="disabled" placeholder="MODEL"/>
+								                    			</div>
+								                    		</div>
+								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;" ng-if="stockRp.vin != null">
+								                    			<div>
+								                    				<div class="col-md-4" style="padding-left: 0px;">
+								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
+								    									<img class="preview" style="margin-top: 7px;width: 124px;height: 121PX;" src="/getImage/{{stockRp.imgId}}/thumbnail">
+								    								</div>
+								    								<div class="col-md-8" style="padding: 0px;">
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockRp.year}} {{stockRp.make}} {{stockRp.model}}</label>
+								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{stockRp.bodyStyle}}</label>
+								    										<label class="col-md-6">Mileage:</label><label class="col-md-6" ng-if="stockRp.mileage != null">{{stockRp.mileage}}</label><label class="col-md-6" ng-if="stockRp.mileage == null">_</label>
+								    										<label class="col-md-6">Transmission:</label><label class="col-md-6" ng-if="stockRp.transmission != null">{{stockRp.transmission}}</label><label class="col-md-6" ng-if="stockRp.transmission == null">_</label>
+								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6" ng-if="stockRp.drivetrain != null">{{stockRp.drivetrain}}</label><label class="col-md-6" ng-if="stockRp.drivetrain == null">_</label>
+								    										<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="stockRp.engine != null">{{stockRp.engine}}</label><label class="col-md-6" ng-if="stockRp.engine == null">_</label>
+								    								</div>
+								                    				
+								                    			</div>
+								                    			
+								                    		</div> 
+								                    		
+								                    		<div class="col-md-1" style="font-size: 29px;margin-top: 54px;" ng-show="stockWiseData.length  > 1">
+								                    			<div class="col-sm-12">
+								                    			<a ng-click="removeLead($index)"><span class="glyphicon glyphicon-trash"></span></a>
+								                    			</div>
+								                    			<!-- <div class="col-sm-12" style="padding: 0px;">
+											                              <button type="button" ng-click="cancelScheduleComfir(parentchil)" class="btn btn-primary btn-embossed">Cancel</button>
+																</div> -->
+								                    		</div>
+								                    		
+								                    		   <div ng-if="$index == 0">	
+								                    		<div ng-repeat="childL in editLeads.parentChildLead" style="float: left;">
+								                    				<div class="col-md-3" style="margin-top: 11px;">
+								                    			<div class="col-md-12"><label>Stock Number Search</label></div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="childL.stock" ng-blur="getStockDetails(childL)" disabled="disabled"/>
+								                    			</div>
+																<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="childL.vin" disabled="disabled"/>
+								                    			</div>
+																<!--<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<angucomplete-alt id="vinSearchChild"
+														              placeholder="{{childL.vin}}"
+														              pause="10"
+														              selected-object="selectedVin"
+														              local-data="vinSearchList"
+														              search-fields="vin"
+														              title-field="vin"
+														              minlength="3"
+														              focus-out="focusOut()"
+														              input-class="form-control form-control-small">
+															    	</angucomplete-alt>
+								                    			</div>-->
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="childL.make" disabled="disabled" placeholder="CAR MAKE"/>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="childL.model" disabled="disabled" placeholder="MODEL"/>
+								                    			</div>
+								                    		</div>
+								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;margin-top: 11px;" ng-if="stockRp.vin != null">
+								                    			<div>
+								                    				<div class="col-md-4" style="padding-left: 0px;">
+								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
+								    									<img class="preview" style="margin-top: 7px;width: 124px;height: 121PX;" src="/getImage/{{childL.imgId}}/thumbnail">
+								    								</div>
+								    								<div class="col-md-8" style="padding: 0px;">
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{childL.year}} {{childL.make}} {{childL.model}}</label>
+								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{childL.bodyStyle}}</label>
+								    										<label class="col-md-6">Mileage:</label><label class="col-md-6" ng-if="childL.mileage != null">{{childL.mileage}}</label><label class="col-md-6" ng-if="childL.mileage == null">_</label>
+								    										<label class="col-md-6">Transmission:</label><label class="col-md-6" ng-if="childL.transmission != null">{{childL.transmission}}</label><label class="col-md-6" ng-if="childL.transmission == null">_</label>
+								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6" ng-if="childL.drivetrain != null">{{childL.drivetrain}}</label><label class="col-md-6" ng-if="childL.drivetrain == null">_</label>
+								    										<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="childL.engine != null">{{childL.engine}}</label><label class="col-md-6" ng-if="childL.engine == null">_</label>
+								    								</div>
+								                    				
+								                    			</div>
+								                    			
+								                    		</div> 
+								                    			<div class="col-md-1" style="font-size: 29px;margin-top: 54px;">
+								                    			<div class="col-sm-12">
+								                    			<a ng-click="cancelLead(childL,$parent.$index)"><span class="glyphicon glyphicon-remove"></span></a>
+								                    			</div>
+								                    			<div class="col-sm-12" style="padding: 0px;">
+											                              <button type="button" ng-click="cancelScheduleComfir(childL)" class="btn btn-primary btn-embossed">Cancel</button>
+																</div>
+								                    		</div>
+								                    		</div>
+								                    		</div>
+								                    		
+								                    	</div>
+								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;" ng-if="stockWiseData[0].vin != null">
+								                    	<a ng-click="pushRecord()">ADD VEHICLES</a>
+								                    	</div>
+								                    </div>
+													
+													
+													<!-- ----------------------------------- -->
+													
+												<!-- 	 <div class="form-group col-sm-10">
+								                 	<label class="col-sm-3 control-label" style="text-align: right;">Stock Number</label>
+														<div class="col-sm-4">
+								                      	<select class="form-control form-white" ng-model="editLeads.stockNumber" ng-change="changesVin('',editLeads.stockNumber)" required>
+																<option value="">Select</option>
+																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.stockNumber == vehi.stock" value="{{vehi.stock}}">{{vehi.stock}}</option>
+															</select>
+															</div>
+								                 </div>
+												<div class="form-group col-sm-10">
+								                 	<label class="col-sm-3 control-label" style="text-align: right;">Vin</label>
+														<div class="col-sm-4">
+								                      	<select class="form-control form-white" ng-model="editLeads.vin" ng-change="changesVin(editLeads.vin,'')" required>
+																<option value="">Select</option>
+																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.vin == vehi.vin" value="{{vehi.vin}}">{{vehi.vin}}</option>
+															</select>
+															</div>
+								                 </div>
+								                
+								                 <div class="form-group col-sm-10">
+								                 	<label class="col-sm-3 control-label" style="text-align: right;">Year</label>
+														<div class="col-sm-4">
+								                      
+															<input type="text" class="form-control form-white" ng-model="editLeads.year" disabled required>
+															</div>
+								                 </div>
+								                  <div class="form-group col-sm-10">
+								                 	<label class="col-sm-3 control-label" style="text-align: right;">Model</label>
+														<div class="col-sm-4">
+								                      
+															<input type="text" class="form-control form-white" ng-model="editLeads.model" disabled required>
+															</div>
+								                 </div>
+								                 <div class="form-group col-sm-10">
+								                 	<label class="col-sm-3 control-label" style="text-align: right;">Make</label>
+														<div class="col-sm-4">
+								                      	
+															<input type="text" class="form-control form-white" ng-model="editLeads.make" disabled required>
+															</div>
 								                 </div>  -->
-								                	
+								                 <div ng-if="pdffile != null">
+								                 <div class="form-group col-sm-11" style="text-align: center;" ng-if="editLeads.leadType == 'Trade In' || editLeads.leadType == 'Trade-In Appraisal'">
+								                 	<a ng-click="showPdf(editLeads.id)" style="cursor: pointer;"><span class="glyphicon glyphicon-list-alt" style="font-size: 50px;"></span>
+								                 	Trade_In.pdf</a>
+								                 </div>
+								                 <div class="form-group col-sm-11" style="text-align: center;" ng-if="editLeads.leadType == 'Trade In' || editLeads.leadType == 'Trade-In Appraisal'">
+								                 	<button type="button" class="btn btn-default btn-embossed" ng-click="openForm()">Trade_In Form</button>
+								                 </div>
+								                 
+												</div>									               													
+								                </div>
+								                <div class="modal-footer">
+													<a class="btn btn-primary btn-embossed" href="mailto:{{editLeads.custEmail}}">Send Email</a>
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+								                </div>
+								                </form>
 								            </div>
 								        </div>
 								    </div>
@@ -8301,7 +8579,7 @@ float: right !important;
 								                    		<div class="" ng-show="isInValid" style="color: red;">
 								                    			Please provide all mandatory fields.
 								                    		</div>
-								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>CUSTOMER'S INFO</strong></h3>
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.mainTitle}}</strong></h3>
 								                    		<div class="col-md-6">
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				
@@ -8318,7 +8596,6 @@ float: right !important;
 															    </angucomplete-alt>
 															    
 								                    			</div>
-								                    			
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="lead.custNumber" placeholder="PHONE NUMBER" required/> <span style="color: red;">*</span>
 								                    			</div>
@@ -8336,13 +8613,13 @@ float: right !important;
 								                    </div>
 								                    <div class="row">
 								                    	<div class="col-md-12" ng-repeat="stockRp in stockWiseData">
-								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>INTERESTED IN FURNITURE? <span style="color: red;">*</span></strong></h3>
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.searchTitle}}<span style="color: red;">*</span></strong></h3>
 								                    		<div class="col-md-4">
-								                    			<div class="col-md-12"><label>Title Search</label></div>
+								                    			<div class="col-md-12"><label>{{editInput.searchSubTitle}}</label></div>
 								                    			<div ng-show="isStockError" style="color: red;">Furniture Not Found.</div>
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    			<!-- <div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="stockRp.stockNumber" ng-blur="getStockDetails(stockRp)"/>
-								                    			</div>
+								                    			</div> -->
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<angucomplete-alt id="vinSearch1"
 														              placeholder="Title"
@@ -8352,7 +8629,7 @@ float: right !important;
 														              search-fields="title"
 														              title-field="title"
 														              minlength="3"
-														              focus-In="focusIn($index)"
+														              focus-Out="focusIn11($index, stockRp)"
 														              input-class="form-control form-control-small">
 															    	</angucomplete-alt>
 								                    			</div>
@@ -8387,7 +8664,7 @@ float: right !important;
 								                    		
 								                    	</div>
 								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;" ng-if="stockWiseData[0].id != null">
-								                    	<a ng-click="pushRecord()">ADD VEHICLES</a>
+								                    	<a ng-click="pushRecord()">ADD ITEM</a>
 								                    	</div>
 								                    </div>
 								                    <div>
@@ -8408,7 +8685,7 @@ float: right !important;
 								                    	</div> -->
 								                    	<div class="col-md-12">
 								                    		 <div class="col-md-5" style="width: 50%;">
-								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>WANTS TO? <span style="color: red;">*</span></strong></h3>
+								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.leadTypeTitle}}<span style="color: red;">*</span></strong></h3>
 								                    			<div>
 								                    				<select placeholder="TYPE OF REQUEST" ng-model="lead.leadType">
 								                    					<option value="1">REQUEST MORE INFO</option>
