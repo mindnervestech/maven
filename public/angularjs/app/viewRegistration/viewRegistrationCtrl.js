@@ -28,6 +28,7 @@ angular.module('newApp')
 			                                	} ,
 		                                 },
 		                                 { name: 'businessName', displayName: 'Business Name', width:'14%',cellEditableCondition: false,
+		                                	 cellTemplate:'<a href="http://maps.google.com/?q={{row.entity.businessName}}" target="_blank">{{row.entity.businessName}}</a>',
 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
@@ -55,8 +56,8 @@ angular.module('newApp')
 			                                     }
 			                                	} ,
 		                                 },
-		                                 { name: 'edit', displayName: '', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    		                                 cellTemplate:'<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.sendDemoUrl(row)"  title="Send Demo Url"></i> &nbsp;&nbsp;&nbsp<i class="fa fa-trash" ng-click="grid.appScope.removeUser(row)"  title="Remove"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-click="grid.appScope.Status(row)"  title="Status"></i> ', 
+		                                 { name: 'edit', displayName: 'Actions', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+    		                                 cellTemplate:'<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.sendDemoUrl(row)"  title="Send Demo Url"></i> &nbsp;&nbsp;&nbsp<i class="fa fa-trash" ng-click="grid.appScope.removeUser(row)"  title="Remove"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.Status(row)"  title="Make Live"></i> ', 
     		                                 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
@@ -123,7 +124,9 @@ angular.module('newApp')
 			 $scope.doShow = 0;
 			 $http.get('/getRegistrList')
 				.success(function(data) {
+					
 				$scope.gridOptions.data = data;
+				console.log($scope.gridOptions.data);
 				$scope.pendingList = data;
 			});
 		 }
@@ -166,13 +169,58 @@ angular.module('newApp')
 				$scope.activeList = data;
 			});
 		 }*/
+		
 		 $scope.Status = function(row){
-			 $http.get('/getStatus/'+row.entity.id)
+			 $('#makeLivebutton').click();
+			 $scope.MakeLives = row.entity;
+			 
+		 }
+		 
+		 $scope.MakeLive = function(){
+			$http.get('/getStatus/'+$scope.MakeLives.id)
 				.success(function(data) {
 					 $.pnotify({
 						    title: "Success",
 						    type:'success',
-						    text: "Status",
+						    text: "Make Live Successfully",
+						});
+					 if($scope.MakeLives.options =="Cars"){
+						 $scope.goTocars();
+					 }
+					 if($scope.MakeLives.options =="Motorcycles"){
+						 $scope.goToMotorcycles();
+					 }
+					 if($scope.MakeLives.options =="Boat"){
+						 $scope.goToBoat();
+					 }
+					 if($scope.MakeLives.options =="DesignerFurniture"){
+						 $scope.goToDesignerFurniture();
+					 }
+					 if($scope.MakeLives.options =="RealEstate"){
+						 $scope.goToRealState();
+					 }
+					 if($scope.MakeLives.options =="Airplanes"){
+						 $scope.goToAirplanes();
+					 }
+					 if($scope.MakeLives.options =="ServiceProvider"){
+						 $scope.goToServiceProvider();
+					 }
+					 if($scope.MakeLives.options =="LuxuryProducts"){
+						 $scope.goToLuxuryProducts();
+					 }
+					 
+				});
+		   }
+		 
+		
+		 
+		 $scope.removeUser = function(row){
+			 $http.get('/getRemoveUser/'+row.entity.id)
+				.success(function(data) {
+					 $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Remove User",
 						});
 					 if(row.entity.options =="Cars"){
 						 $scope.goTocars();
@@ -198,20 +246,6 @@ angular.module('newApp')
 					 if(row.entity.options =="LuxuryProducts"){
 						 $scope.goToLuxuryProducts();
 					 }
-					 
-				});
-		 }
-		 
-		 $scope.removeUser = function(row){
-			 $http.get('/getRemoveUser/'+row.entity.id)
-				.success(function(data) {
-					 $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Remove User",
-						});
-				$scope.gridOptions.data = data;
-				$scope.pendingUser();
 			});
 		 }
 		 
@@ -223,8 +257,30 @@ angular.module('newApp')
 						    type:'success',
 						    text: "Demo Link send",
 						});
-				$scope.gridOptions.data = data;
-				$scope.pendingUser();
+					 if(row.entity.options =="Cars"){
+						 $scope.goTocars();
+					 }
+					 if(row.entity.options =="Motorcycles"){
+						 $scope.goToMotorcycles();
+					 }
+					 if(row.entity.options =="Boat"){
+						 $scope.goToBoat();
+					 }
+					 if(row.entity.options =="DesignerFurniture"){
+						 $scope.goToDesignerFurniture();
+					 }
+					 if(row.entity.options =="RealEstate"){
+						 $scope.goToRealState();
+					 }
+					 if(row.entity.options =="Airplanes"){
+						 $scope.goToAirplanes();
+					 }
+					 if(row.entity.options =="ServiceProvider"){
+						 $scope.goToServiceProvider();
+					 }
+					 if(row.entity.options =="LuxuryProducts"){
+						 $scope.goToLuxuryProducts();
+					 }
 			});
 		 }
 		 
@@ -233,7 +289,7 @@ angular.module('newApp')
 			 $('#editPopup').click();
 			 console.log(row.entity)
 			 $scope.register = row.entity;
-			 $scope.register.oneLocation = row.entity.location;
+			 $scope.register.oneLocation = row.entity.oneLocation;
 			 $scope.register.businessAddress = row.entity.businessAdd;
 		 }
 		 

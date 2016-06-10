@@ -155,6 +155,15 @@ var MakeApp = angular
             controller: 'ConfigPageCtrl'
         })
         
+        .when('/leadtype', {
+            templateUrl: '/dealer/config/leadtype.html',
+            controller: 'ConfigPageCtrl'
+        })
+        
+        .when('/form', {
+            templateUrl: '/dealer/config/form.html',
+            controller: 'ConfigPageCtrl'
+        })
         
         .when('/documentation', {
             templateUrl: '/dealer/config/documentation.html',
@@ -272,10 +281,31 @@ var MakeApp = angular
             controller: 'VideoAnalyticsCtrl'
         })
         
+      .when('/visitorInfo/:visitorInfo/:startDate1/:endDate1', {
+          templateUrl: '/dealer/analytics/visitorInfo.html',
+          controller: 'VisitorsCtrl'
+      })
+      
+      .when('/visitorInfoForMap/:type/:flagForLocation/:startDate2/:endDate2', {
+          templateUrl: '/dealer/analytics/referrerTypeData.html',
+          controller: 'VisitorsCtrl'
+      })
+      
+      .when('/landingPageInfo/:idOfLanding/:flagForLandingUrl/:startDateForLand/:endDateForLand', {
+          templateUrl: '/dealer/analytics/landingPage.html',
+          controller: 'VisitorsCtrl'
+      })
+      
         .when('/visitorsAnalytics', {
             templateUrl: '/dealer/analytics/visitors.html',
             controller: 'VisitorsCtrl'
         })
+        
+        .when('/visitorsAnalytics/:typeOfInfo', {
+            templateUrl: '/dealer/analytics/visitors.html',
+            controller: 'VisitorsCtrl'
+        })
+        
         .when('/actionsAnalytics', {
             templateUrl: '/dealer/analytics/actions.html',
             controller: 'ActionsCtrl'
@@ -326,6 +356,11 @@ var MakeApp = angular
             templateUrl: '/dealer/analytics/goToContentInfo.html',
             controller: 'goToContentInfoCtrl' 
         })
+         .when('/entranceGrid/:id', {
+            templateUrl: '/dealer/analytics/entrancePageGrid.html',
+            controller: 'goToContentInfoCtrl'
+        })
+        
         
         .when('/contentAnalytics', {
             templateUrl: '/dealer/analytics/content.html',
@@ -400,6 +435,7 @@ var MakeApp = angular
             templateUrl: '/dealer/addPhotos/cropContactPhoto.html',
             controller: 'ContactCropCtrl'
         })
+        
         
         .when('/managePhotos/:num', {
             templateUrl: '/dealer/addPhotos/managePhotos.html',

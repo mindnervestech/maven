@@ -108,7 +108,8 @@
                     <h3 class="panel-title">FIELDS</h3><br>
                     <h4>Drag & drop items to the "FIELDS" area.</h4>
                 </div>
-                <div fb-builder="default" ng-model="initComponent"></div>
+                <div  ng-if="initComponent.length > 0" fb-builder="default" ng-model="initComponent"></div>
+                <div  ng-if="initComponent.length <= 0" fb-builder="default" ng-model="initComponent"></div>
                 <div class="panel-footer">
                     <div class="checkbox">
                         <label><input type="checkbox" ng-model="isShowScope" />

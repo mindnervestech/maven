@@ -17,10 +17,6 @@ angular.module('newApp')
 					$scope.setjson = response;
 					$scope.setjson.jsonData = angular.fromJson(response.jsonData);
 					$scope.initComponent = angular.fromJson(response.jsonData);
-					//$scope.initComponent = [{"id":0,"component":"textInput","editable":true,"index":0,"label":"Text Input","description":"","key":"","imageUrl":"","placeholder":"placeholder","options":[],"columnOptions":[],"equation":"","required":false,"isRepeatable":false,"validation":"/.*/","logic":{"action":"Hide"},"pointRules":[],"column":[]}];
-					console.log($scope.setjson);
-					//$builder.forms['default'] = $scope.setjson.jsonData;
-					//console.log($builder);
 			});
 		   }
 	  

@@ -1,0 +1,183 @@
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="initFunction()">
+</div>
+
+<!-- <div  class="col-sm-12">
+	        	 	 <a class="btn btn-blue" ng-click="showVisitorsInfo('Visitor log')" style="width: 8%;">Visitor log</a><a class="btn btn-blue" ng-click="showVisitorsInfo('Action log')" style="width: 8%;">Action log</a><a class="btn btn-blue" ng-click="showVisitorsInfo('Engagement_action')" style="width: 13%;">Engagement(action)</a><a class="btn btn-blue" ng-click="showVisitorsInfo('Engagement_time')" style="width: 13%;">Engagement(time)</a><a class="btn btn-blue" ng-click="showVisitorsInfo('Active_visitors')" style="width: 15%;">Most active visitors</a><a class="btn btn-blue" ng-click="showVisitorsInfo('Traffic_scoures')" style="width: 12%;">Traffic scoures</a>   
+	      </div> -->
+<div   class="col-sm-12" >
+	<h2> Visitor details </h2>
+	<hr style="border-color: black;">
+	<div class="col-sm-6">
+	<div  class="col-sm-12">
+	<div class="col-sm-3">
+	<label  >Visits:</label>
+	</div>
+	<div class="col-sm-4">
+	<a style="color:black;" > {{visitorInfo.totalVisits}} </a>
+	</div>
+	</div>
+	
+	<div  class="col-sm-12">
+	<div class="col-sm-3">
+	<label>Unique ID:</label>
+	</div>
+	<div class="col-sm-2">
+	<a style="cursor: pointer;color:black;" >{{visitorInfo.uid}}</a>
+	</div>
+	<div class="col-sm-1" style="color: red"></div>
+	</div>
+	
+	<div  class="col-sm-12">
+	<div class="col-sm-3">
+	<label  >IP Address:</label>
+	</div>
+	<div class="col-sm-4">
+	<a  style="cursor: pointer;"  ng-click="referrerTypeDataForIpAdress(visitorInfo.ipAddress)" >{{visitorInfo.ipAddress}} &nbsp;&nbsp;&nbsp; (ARIN/RIPE)</a>
+	</div>
+	<div class="col-sm-1" style="color: red"></div>
+	</div>
+	
+	<div  class="col-sm-12">
+	<div class="col-sm-3">
+	<label>Locale:</label>
+	</div>
+	<div class="col-sm-5">
+	<a   style="cursor: pointer;" ng-click="referrerTypeDataForLocation(visitorInfo.geolocation)"  >{{visitorInfo.geolocation}}</a>&nbsp;/&nbsp;<a  style="cursor: pointer;" ng-click="referrerTypeDataForLang(visitorInfo.language)" >{{visitorInfo.language}}</a>
+	</div>
+	</div>
+	
+	
+	<div  class="col-sm-12">
+	<div class="col-sm-3">
+	<label>Organization:</label>
+	</div>
+	<div class="col-sm-5">
+	<a  style="cursor: pointer;" ng-click="referrerTypeDataForOrg(visitorInfo.organization)" >{{visitorInfo.organization}}</a>&nbsp;/&nbsp;<a   style="cursor: pointer;" ng-click="referrerTypeDataForHost(visitorInfo.hostname)" >{{visitorInfo.hostname}}</a>
+	</div>
+	</div>
+	
+	
+	<div  class="col-sm-12">
+	<div class="col-sm-3">
+	<label>Platform:</label>
+	</div>
+	<div class="col-sm-6">
+	<a  style="cursor: pointer;" ng-click="referrerTypeDataForBrowser(visitorInfo.webBrowser)" >{{visitorInfo.webBrowser}}</a>&nbsp;/&nbsp;<a style="cursor: pointer;" ng-click="referrerTypeDataForOs(visitorInfo.operatingSystem)">{{visitorInfo.operatingSystem}}</a>&nbsp;/&nbsp;<a style="cursor: pointer;" ng-click="referrerTypeDataForScreen(visitorInfo.screenResolution)" >{{visitorInfo.screenResolution}}</a>
+	</div>
+	</div>
+	
+	
+	
+	
+	
+	</div>
+	
+	<div  ng-if="flagForIpAdressData != 1" class="col-sm-6">
+	<div class="col-sm-12" > 
+		 <div id="map-canvas" style="width:100%; height:390px"></div> 
+	</div>
+	</div>
+	</div>
+	
+	
+    <div  ng-if="flagForIpAdressData != 1" class="col-sm-12">
+	<h2> This Visit </h2>
+	<hr style="border-color: black;">
+	<div class="col-sm-6">
+	
+	<div  class="col-sm-12">
+	<div class="col-sm-3">
+	<label >Date:</label>
+	</div>
+	<div class="col-sm-6">
+	<a style="color:black;" >{{visitorInfo.timePretty}}</a>
+	</div>
+	</div>
+	
+	<div  class="col-sm-12">
+	<div class="col-sm-3">
+	<label>Session:</label>
+	</div>
+	<div class="col-sm-6">
+	<a style="color:black;" >{{visitorInfo.timeTotal}},{{visitorInfo.actions}} actions </a>
+	</div>
+	</div>
+	
+	<div  class="col-sm-12">
+	<div class="col-sm-3">
+	<label>Landing Page:</label>
+	</div>
+	<div class="col-sm-8">
+	<a   target="_blank"  href="{{visitorInfo.landingPage}}"  >{{visitorInfo.landingPage}}</a>
+	</div>
+	</div>
+	
+	
+	<div  class="col-sm-12">
+	<div class="col-sm-3">
+	<label>Referrer type:</label>
+	</div>
+	<div class="col-sm-6">
+	<a   style="cursor: pointer;" ng-click="referrerTypeData(visitorInfo.referrerType)" >{{visitorInfo.referrerType}}</a>
+	</div>
+	</div>
+	
+	
+	</div>
+	
+	<div class="col-sm-6">
+	
+	</div>
+	
+	
+	
+	</div>
+	
+	
+	<div  style="margin-top: 5%;" class="col-sm-12">
+	<div  ui-grid="gridOptions1" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div> 
+	
+	</div>
+	
+	
+	<div style="margin-top: 40%;"  ng-if="flagForIpAdressData == 1" ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div> 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<style>
+
+
+#functional-chart {
+    height:100%;
+    width:100%;
+  }
+   .ui-grid-row, .ui-grid-cell {
+  min-height: 50px !important;
+}
+
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+
+
+
+</style>      	
