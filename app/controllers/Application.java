@@ -10155,6 +10155,7 @@ public class Application extends Controller {
 	     		LeadTypeVM lead = new LeadTypeVM();
 	     		lead.id = vm.id;
 	     		lead.leadName = vm.leadName;
+	     		lead.checkValue = vm.shows;
 	     		
 	     		leadVMs.add(lead);
 	  	}
@@ -30756,6 +30757,13 @@ if(vehicles.equals("All")){
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return ok();
+	}
+	
+	public static Result getCheckButton(Long leadId,Integer intValue){
+		LeadType lType = LeadType.findById(leadId);
+		lType.setShows(intValue);
+		lType.update();
 		return ok();
 	}
 	
