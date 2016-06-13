@@ -4145,9 +4145,14 @@ angular.module('newApp')
 	    			
 	    		$scope.openCreateNewLeadPopup = function() {
 	    			
-	    			
 	    			$scope.stockWiseData = [];
 	    			$scope.stockWiseData = [{}];
+	    			
+	    			$http.get('/getSelectedLeadType').success(function(response) {
+	    				console.log(response);
+	    				$scope.leadList = response; 
+	    			
+	    			});
 	    			
 	    			$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
 	    				console.log(response);
@@ -4159,7 +4164,7 @@ angular.module('newApp')
 	    			
 	    			$scope.getMakes();
 	    			$("#createLeadPopup").modal();
-	    		});
+	    		 });
 	    		}	
 	    		$scope.openCreateNewLeads = function(item) {
 	    			$scope.stockWiseData = [];
@@ -4250,6 +4255,8 @@ angular.module('newApp')
 	    			
 	    			$scope.lead.customData = $scope.customList;
 	    			console.log($scope.lead);
+	    			console.log($('#exCustom_value').val());
+	    			console.log($('#ex1_value').val());
 	    			//$scope.lead.leadType = '1';
 	    			if($scope.lead.custName == ''){
 	    				$scope.lead.custName = $('#ex1_value').val();

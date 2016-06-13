@@ -115,29 +115,39 @@
           template: "<div class=\"form-group col-sm-11\" style=\"margin-left: 14px;\"><h4 class=\"modal-title\" style=\"color:#c7081b;\"><b>Financial Calculator</b></h4></div><div class=\"col-sm-12\"><div class=\"financing_calculator\"><div class=\"form-group col-sm-12\"><label class=\"col-sm-6 control-label\" style=\"text-align: left;\">Cost of Vehicle($)</label><div class=\"col-sm-6\"><input type=\"text\" ng-model=\"financeData.price\" class=\"number cost\"></div></div><div class=\"form-group col-sm-12\"><label class=\"col-sm-6 control-label\" style=\"text-align: left;\">Down Payment($)</label><div class=\"col-sm-6\"><input type=\"text\" class=\"number down_payment\"></div></div><div class=\"form-group col-sm-12\"><label class=\"col-sm-6 control-label\" style=\"text-align: left;\">Annual Interest Rate($)</label><div class=\"col-sm-6\"><input type=\"text\" ng-model=\"financeData.annualInterestRate\" class=\"number interest\"></div></div><div class=\"form-group col-sm-12\"><label class=\"col-sm-6 control-label\" style=\"text-align: left;\">Term of Loan in Years:</label><div class=\"col-sm-6\"><input type=\"text\" class=\"number loan_years\"></div></div><div class=\"form-group col-sm-12\"><label class=\"col-sm-6 control-label\" style=\"text-align: left;\">Frequency of Payments:($)</label><div class=\"col-sm-6\" ><select class=\"frequency css-dropdowns\"><option value=\"26\">Monthly</option><option value=\"52\">Bi-Weekly</option><option value=\"12\">Weekly</option></select></div></div><div class=\"form-group col-sm-12\"><label class=\"col-sm-3 control-label\" style=\"text-align: left;\"></label><div class=\"col-sm-6\"><button type=\"button\" class=\"btn btn-default btn-embossed  pull-right\" ng-click=\"calculateFinancialData(financeData)\" style=\"background-color: #c7081b;color: white;\">Calculate Payment</button></div></div><div class=\"form-group col-sm-12\"><strong class=\"col-sm-6\" style=\"text-align: left;\">NUMBER OF PAYMENTS:</strong><strong class=\"payments col-sm-6\">{{payments}}</strong></div><div class=\"form-group col-sm-12\"><strong class=\"col-sm-6\" style=\"text-align: left;\">PAYMENT AMOUNT:</strong><strong class=\"payment_amount\" >{{payment}}</strong></div></div></div>",
           popoverTemplateUrl: '/dealer/template/select.html'
         });
-
+      //id="autocomplete"
+      $builderProvider.registerComponent('daterange', {
+          group: 'Default',
+          label: 'Date Range',
+          description: '',
+          required: false,
+          disableWeekends: false,
+          readOnly: false,
+          displayTemplate:"<div class=\"form-group col-sm-12\" id=\"{{formName+index | nospace}}\">\ndate</div>",
+          template: "<div class=\"form-group col-sm-12\"><div class=\"form-group col-sm-6\"><label class=\"form-group col-sm-5\">Start Date</label><div class=\"form-group col-sm-9\"><ui-date weekends=\"{{disableWeekends}}\"></ui-date></div></div><div class=\"form-group col-sm-6\"><label class=\"form-group col-sm-5\">End Date</label><div class=\"form-group col-sm-9\"><ui-date weekends=\"{{disableWeekends}}\"></ui-date></div></div></div>",
+          popoverTemplateUrl: '/dealer/template/datepicker.html'
+        });
       
       $builderProvider.registerComponent('autocompleteText', {
           group: 'Default',
-          label: 'Autocomplete Text Input',
+          label: 'Address bar',
           description: '',
           readOnly: false,
           required: false,
-          template: "<div class=\"form-group col-sm-12\" id=\"{{formName+index | nospace}}\">\n    <label class=\"col-sm-3 control-label\" for=\"{{formName+index}}\" ng-class=\"{'fb-required':required}\"><i ng-if =\"formObject.logic.component\" id=\"hasLogic\" class=\"fa fa-random label-logic\"></i> {{label}}</label>\n    <div class=\"col-sm-6\">\n  <angucomplete-alt id=\"ex1\" placeholder=\"Search Name\" pause=\"10\" selected-object=\"selectedNames\" local-data=\"prodSearchList\" search-fields=\"title\" title-field=\"title\" minlength=\"3\" input-class=\"form-control form-control-small\"></angucomplete-alt>\n</div>",
+         // template: "<div class=\"form-group col-sm-12\" id=\"{{formName+index | nospace}}\">\n    <label class=\"col-sm-3 control-label\" for=\"{{formName+index}}\" ng-class=\"{'fb-required':required}\"><i ng-if =\"formObject.logic.component\" id=\"hasLogic\" class=\"fa fa-random label-logic\"></i> {{label}}</label>\n    <div class=\"col-sm-6\">\n  <angucomplete-alt id=\"ex1\" placeholder=\"Search Name\" pause=\"10\" selected-object=\"selectedNames\" local-data=\"prodSearchList\" search-fields=\"title\" title-field=\"title\" minlength=\"3\" input-class=\"form-control form-control-small\"></angucomplete-alt>\n</div>",
+          template: "<div class=\"form-group col-sm-12\" id=\"{{formName+index | nospace}}\">\n    <label class=\"col-sm-3 control-label\" for=\"{{formName+index}}\" ng-class=\"{'fb-required':required}\"><i ng-if =\"formObject.logic.component\" id=\"hasLogic\" class=\"fa fa-random label-logic\"></i> {{label}}</label>\n    <div class=\"col-sm-6\">\n        <input type=\"text\" id=\"autocomplete\"  ng-model=\"autoText\" class=\"form-control m-b\" placeholder=\"{{placeholder}}\"/>\n    </div> ",
           popoverTemplateUrl: '/dealer/template/textInput.html'
         });
       
-     /* <angucomplete-alt id="ex1"
-			placeholder="Title"
-			pause="10"
-			selected-object="selectedNames"
-			local-data="prodSearchList"
-			search-fields="title"
-			title-field="title"
-			minlength="3"
-			focus-In="focusNameOut($index)"
-			input-class="form-control form-control-small">
-	</angucomplete-alt>*/
+      $builderProvider.registerComponent('contactssearch', {
+          group: 'Default',
+          label: 'Contacts Search',
+          description: '',
+          disableWeekends: false,
+          readOnly: false,
+          template: "<div class=\"col-md-12\"><div ng-show=\"isInValid\" style=\"color: red;\">Please provide all mandatory fields.</div><h3 style=\"margin-top:10px; margin-bottom: 10px;\"><strong>{{editInput.mainTitle}}</strong></h3><div class=\"col-md-6\"><div class=\"col-md-12\" style=\"margin: 10px 0 10px 0;\"><angucomplete-alt id=\"ex1\" placeholder=\"Search Name\" pause=\"10\" selected-object=\"selectedObj\" local-data=\"searchList\" search-fields=\"fullName\" title-field=\"fullName\" minlength=\"3\" focus-out=\"focusOut()\" input-class=\"form-control form-control-small\"></angucomplete-alt></div><div class=\"col-md-12\" style=\"margin: 10px 0 10px 0;\"><input type=\"text\" ng-model=\"lead.custNumber\" placeholder=\"PHONE NUMBER\" required/> <span style=\"color: red;\">*</span></div></div><div class=\"col-md-6\"><div class=\"col-md-12\" style=\"margin: 10px 0 10px 0;\"><input type=\"text\" ng-model=\"lead.custEmail\" placeholder=\"EMAIL\" required/> <span style=\"color: red;\">*</span></div><div class=\"col-md-12\" style=\"margin: 10px 0 10px 0;\"><input type=\"text\" ng-model=\"lead.custZipCode\" placeholder=\"ZIP CODE\" required/> <span style=\"color: red;\">*</span></div></div></div>",
+          popoverTemplateUrl: '/dealer/template/textInput.html'
+        });
       
       
     }

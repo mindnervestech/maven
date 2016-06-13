@@ -103,7 +103,7 @@ POST    /updateReadyCollection		     controllers.InventoryController.updateReady
 GET     /getImagesByCollection/:id	     controllers.InventoryController.getImagesByCollection(id:Long)
 GET		/getAllSectionTypes/:id		     controllers.InventoryController.getAllSectionTypes(id:Long)
 GET		/getSectionCollectionData/:id    controllers.InventoryController.getSectionCollectionData(id:Long)
-
+GET     /getSelectedLeadType		         controllers.InventoryController.getSelectedLeadType()
 
 
 #--------------------------customization------------------------------

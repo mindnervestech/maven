@@ -105,6 +105,7 @@
                 return viewLocation === $location.path();
             };
 
+            
             $scope.addFormField = function(editInput){
             	console.log("");
             		
@@ -144,6 +145,18 @@
                         }
                         if(form.component === 'image'){
                           formFields.push(getJsonBForImage(form));
+                        }
+                        if(form.component === 'financialcalculator'){
+                            formFields.push(getJsonBForFinancialcalculator(form));
+                        }
+                        if(form.component === "daterange"){
+                            formFields.push(getJsonBForDateRange(form));
+                          }
+                        if(form.component === "autocompleteText"){
+                            formFields.push(getJsonBForAutocomplete(form));
+                          }
+                        if(form.component === "contactssearch"){
+                        	 formFields.push(getJsonBForContactssearch(form));
                         }
                       });
                       /* form_details.name = subSectons[i];
@@ -204,6 +217,33 @@
                         console.log("getJsonBForTextInput====", jsonObject);
                         return isHideComponent(jsonObject); 
                       }
+                	};
+                	return convertedObject;
+              	}
+              	
+              	function getJsonBForAutocomplete(jsonObject){
+              		var key;
+                	if(jsonObject.key === ""){
+                  		key = jsonObject.label;
+                  		key = key.replace(" ","_");
+        		        key = key.toLowerCase();
+        		   	}else{
+        		    	key = jsonObject.key;
+        		  	}
+
+                	var properties = getPropertiesForEditable(jsonObject.editable);
+                	var convertedObject = {
+                  		"key": key,
+                    	"type": 'autocompleteText',
+                    	"templateOptions": {
+                      		"type": "text",
+                      		"label": jsonObject.label,
+                      		"placeholder": jsonObject.placeholder,
+                      		"required": jsonObject.required
+                    	},	
+                       // controller: 'formState.textCtrl',
+                    	"expressionProperties": properties,
+                      
                 	};
                 	return convertedObject;
               	}
@@ -474,6 +514,31 @@
                   };
                   return convertedObject;
                 }
+                
+                function getJsonBForDateRange(jsonObject){
+                	 var key;
+                     if(jsonObject.key === ""){
+                       key = jsonObject.label;
+                       key = key.replace(" ","_");
+                       key = key.toLowerCase();
+                     }else{
+                       key = jsonObject.key;
+                     }
+                     var properties = getPropertiesForEditable(jsonObject.editable);
+                     var convertedObject = {
+                       "key": key,
+                         "type": 'daterange',
+                         "templateOptions": {
+                           "type": "date",
+                           "label": jsonObject.label,
+                           "placeholder": jsonObject.placeholder,
+                           "required": jsonObject.required
+                         },
+                         "expressionProperties": properties,
+                         
+                     };
+                     return convertedObject;
+                }
 
                 function getJsonBForSignature(jsonObject){
                   var key;
@@ -624,6 +689,50 @@
                   return convertedObject;
                 };
                 
+                
+                function getJsonBForContactssearch(jsonObject){
+               	 var columnDefs = [];
+                    var columnDefs1 = [];
+                    var properties = getPropertiesForEditable(jsonObject.editable);
+                    columnDefs = getPropertiesForColumnDefs1(jsonObject.columnOptions);
+                    // columnDefs1 = getPropertiesForColumnDefs1(jsonObject.columnOptions);
+                    columnDef = columnDefs;
+                    equation = jsonObject.equation;
+                    
+                    var convertedObject = {
+                      key: 'contactssearch',
+                      type: 'contactssearch',
+                      templateOptions: {
+                        label: 'Contacts'
+                      },
+                     
+                    };
+                    
+                    return convertedObject;
+               }
+                
+                
+                function getJsonBForFinancialcalculator(jsonObject){
+                	 var columnDefs = [];
+                     var columnDefs1 = [];
+                     var properties = getPropertiesForEditable(jsonObject.editable);
+                     columnDefs = getPropertiesForColumnDefs1(jsonObject.columnOptions);
+                     // columnDefs1 = getPropertiesForColumnDefs1(jsonObject.columnOptions);
+                     columnDef = columnDefs;
+                     equation = jsonObject.equation;
+                     
+                     var convertedObject = {
+                       key: 'financialcalculator',
+                       type: 'financialcalculator',
+                       templateOptions: {
+                         label: 'fina'
+                       },
+                      
+                     };
+                     
+                     return convertedObject;
+                }
+                
               
                 $scope.saveJsonObject = function(object){
                   if($stateParams.templateId === ''){
@@ -667,3 +776,59 @@
                 } 
             
         }]);
+angular.module('newApp').controller('customizationCtrl',
+	    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$interval',
+	        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$interval) {
+	    
+	    	
+	    	$http.get('/getDataFromCrm').success(function(data){
+	    		$scope.searchList = data;
+	    		console.log($scope.searchList);
+	    	 });
+	    	
+	    	$scope.financeData = {};
+	    	 $scope.financeData.downPayment=1000;
+  	  		  $scope.financeData.annualInterestRate=7;
+  	  		  $scope.financeData.numberOfYears=5;
+  	  		//  $scope.financeData.price=entity.price;
+  	  		  $scope.financeData.frequencyOfPayments=26;
+	    	
+	    	
+	    	 $scope.calculateFinancialData = function(financeData){
+	    	   	  	var cost         =financeData.price;
+	    			var down_payment =financeData.downPayment;
+	    			var interest     =financeData.annualInterestRate;
+	    			var loan_years   =financeData.numberOfYears;
+	    			var frequency_rate    =financeData.frequencyOfPayments;
+	    			
+	    			var interest_rate = (interest) / 100;
+	    			 var rate          = interest_rate / frequency_rate;
+	    			 $scope.payments      = loan_years * frequency_rate;
+	    			var difference    = cost - down_payment;
+	    			$scope.payment = Math.floor((difference*rate)/(1-Math.pow((1+rate),(-1* $scope.payments)))*100)/100;
+	          }
+	            
+	    	 
+	    	  $scope.test = function(){
+	            	$scope.initAutocomplete();
+	            };
+	            
+	           var placeSearch, autocomplete;
+	            
+	            $scope.initAutocomplete = function() {
+	            	
+	            	 autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),
+	            	     {types: ['geocode']});
+	            	 autocomplete.addListener('place_changed', fillInAddress());
+	            	}
+
+	            	function fillInAddress() {
+	            		console.log(autocomplete);
+	            	 var place = autocomplete.getPlace();
+	            	 console.log(place);
+	            	 $scope.autoText = place.name;
+	            	 $scope.autoText = place.formatted_address;
+	           	    }	 
+	    	 
+	    	 
+}]);

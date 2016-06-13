@@ -8688,9 +8688,7 @@ float: right !important;
 								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.leadTypeTitle}}<span style="color: red;">*</span></strong></h3>
 								                    			<div>
 								                    				<select placeholder="TYPE OF REQUEST" ng-model="lead.leadType">
-								                    					<option value="1">REQUEST MORE INFO</option>
-								                    					<option value="2">SCHEDULE TEST DRIVE</option>
-								                    					<option value="3">TRADE-IN INQUIRIES</option>
+								                    					<option ng-repeat="lType in leadList" value="{{lType.id}}">{{lType.leadName}}</option>
 								                    				</select>
 								                    			</div>
 								                    		</div> 

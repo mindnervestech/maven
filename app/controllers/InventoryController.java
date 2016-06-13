@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import models.AddCollection;
 import models.AddProduct;
 import models.AuthUser;
+import models.LeadType;
 import models.ProductImages;
 import models.Sections;
 import net.coobird.thumbnailator.Thumbnails;
@@ -864,6 +865,7 @@ public class InventoryController extends Controller {
 			
 		}
 	   
+	   
 	   public static Result getSectionCollectionData(Long id) {
 			if(session("USER_KEY") == null || session("USER_KEY") == "") {
 		   		return ok(home.render("", userRegistration));
@@ -891,10 +893,17 @@ public class InventoryController extends Controller {
 		}
 	   
 	   
+	   public static Result getSelectedLeadType() {
+		   List<LeadType> lType = LeadType.findByLocationsAndSelected(Long.valueOf(session("USER_LOCATION")));
+		   return ok(Json.toJson(lType));
+	   }
+	   
 	public static AuthUser getLocalUser() {
 		String id = session("USER_KEY");
 		AuthUser user = AuthUser.find.byId(Integer.parseInt(id));
 		return user;
 	}
+	
+	
 
 }
