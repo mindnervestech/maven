@@ -4242,6 +4242,13 @@ angular.module('newApp')
 	    		};
 	    		$scope.createLead = function() {
 	    			$scope.customData.setTime = $("#bestTimes").val()
+	    			if($scope.customData.setTime == undefined){
+	    				delete $scope.customData.setTime;
+	    			}
+	    			$scope.customData.autocompleteText = $("#autocomplete").val()
+	    			if($scope.customData.autocompleteText == undefined){
+	    				delete $scope.customData.autocompleteText;
+	    			}
 	    			console.log($("#bestTimes").val());
 	    			console.log($scope.customData);
 	    			 $.each($scope.customData, function(attr, value) {
@@ -4254,8 +4261,8 @@ angular.module('newApp')
 	    			
 	    			$scope.lead.customData = $scope.customList;
 	    			console.log($scope.lead);
-	    			console.log($('#exCustom_value').val());
-	    			console.log($('#ex1_value').val());
+	    			console.log($("#autocomplete").val());
+	    			
 	    			//$scope.lead.leadType = '1';
 	    			if($scope.lead.custName == ''){
 	    				$scope.lead.custName = $('#ex1_value').val();
