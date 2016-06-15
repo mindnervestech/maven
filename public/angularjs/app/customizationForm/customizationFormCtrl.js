@@ -11,8 +11,8 @@
 angular.module('newApp')
   .controller('customizationFormCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder', '$validator','$routeParams',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder, $validator,$routeParams) {
 
-	  	console.log($routeParams.pageType);
 	  	$scope.showSaveButton = $routeParams.pageType;
+	  	
 	  
 		   $scope.initFunction = function(){
 			   $http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
@@ -32,7 +32,6 @@ angular.module('newApp')
 			$scope.component = [];
 		  $scope.formName;
 		  $scope.subSectonsName = 'default';
-		 // console.log('$stateParams.myParam',$stateParams.myParam);
 
 		   	$scope.options = {
 				formState: {
@@ -58,7 +57,6 @@ angular.module('newApp')
 		    };
 		    $scope.subSectonsName = FBuilder.name;
 		    $scope.FB.push(FBuilder);
-		     console.log($scope.FB, "FBuilder", $builder.forms); 
 		    count++; 
 		    };
 		    
@@ -71,7 +69,9 @@ angular.module('newApp')
 		       
 		       
 		  $scope.saveCreateLeadForm = function(){
-			 
+			 console.log($scope.form);
+			 console.log($builder.forms['default']);
+			 $scope.form = $builder.forms['default'];
 			  $http.post('/getLeadCrateForm', $scope.form)
 				 .success(function(data) {
 					 $.pnotify({
@@ -91,7 +91,6 @@ angular.module('newApp')
 			  delete $scope.setjson.locations;
 			  delete $scope.setjson.showFild;
 			  delete $scope.setjson.jsonData;
-			  console.log($scope.setjson);
 			  $http.post('/getLeadCrateFormTitle', $scope.setjson)
 				 .success(function(data) {
 					 $.pnotify({
@@ -104,6 +103,8 @@ angular.module('newApp')
 					});
 			  
 		  }
+		  
+		
 		 
 		   
   }]);

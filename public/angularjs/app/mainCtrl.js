@@ -158,6 +158,16 @@
                         if(form.component === "contactssearch"){
                         	 formFields.push(getJsonBForContactssearch(form));
                         }
+                        if(form.component === "inventorysearch"){
+                       	 formFields.push(getJsonBForInventorysearch(form));
+                       }
+                        if(form.component === "fileuploaders"){
+                          	 formFields.push(getJsonBForFileuploader(form));
+                          }
+                        if(form.component === "timerange"){
+                         	 formFields.push(getJsonBForTimeRange(form));
+                         }
+                        
                       });
                       /* form_details.name = subSectons[i];
                        form_details.isRepeatable  = true;
@@ -514,6 +524,28 @@
                   };
                   return convertedObject;
                 }
+                function getJsonBForTimeRange(jsonObject){
+                	 var key;
+                     if(jsonObject.key === ""){
+                       key = jsonObject.label;
+                       key = key.replace(" ","_");
+                       key = key.toLowerCase();
+                     }else{
+                       key = jsonObject.key;
+                     }
+                     var properties = getPropertiesForEditable(jsonObject.editable);
+                     var convertedObject = {
+                       "key": key,
+                         "type": 'timerange',
+                         "templateOptions": {
+                           "label": jsonObject.label,
+                           "placeholder": jsonObject.placeholder,
+                         },
+                         "expressionProperties": properties,
+                         
+                     };
+                     return convertedObject;
+                }
                 
                 function getJsonBForDateRange(jsonObject){
                 	 var key;
@@ -688,7 +720,41 @@
                   };
                   return convertedObject;
                 };
-                
+                function getJsonBForFileuploader(jsonObject){
+                    
+                    var convertedObject = {
+                      key: 'fileuploaders',
+                      type: 'fileuploaders',
+                      templateOptions: {
+                    	  "label": jsonObject.label,
+                      }
+                     
+                    };
+                    
+                    return convertedObject;
+                	
+              
+                }
+                function getJsonBForInventorysearch(jsonObject){
+                	 var columnDefs = [];
+                     var columnDefs1 = [];
+                     var properties = getPropertiesForEditable(jsonObject.editable);
+                     columnDefs = getPropertiesForColumnDefs1(jsonObject.columnOptions);
+                     // columnDefs1 = getPropertiesForColumnDefs1(jsonObject.columnOptions);
+                     columnDef = columnDefs;
+                     equation = jsonObject.equation;
+                     
+                     var convertedObject = {
+                       key: 'inventorysearch',
+                       type: 'inventorysearch',
+                       templateOptions: {
+                         label: 'Inventory'
+                       },
+                      
+                     };
+                     
+                     return convertedObject;
+                }
                 
                 function getJsonBForContactssearch(jsonObject){
                	 var columnDefs = [];
@@ -777,8 +843,8 @@
             
         }]);
 angular.module('newApp').controller('customizationCtrl',
-	    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$interval',
-	        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$interval) {
+	    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$interval','$rootScope',
+	        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$interval,$rootScope) {
 	    
 	    	
 	    	$http.get('/getDataFromCrm').success(function(data){
@@ -829,6 +895,52 @@ angular.module('newApp').controller('customizationCtrl',
 	            	 $scope.autoText = place.name;
 	            	 $scope.autoText = place.formatted_address;
 	           	    }	 
-	    	 
-	    	 
+	            	
+	            	$http.get('/getAllVehicles')
+	        		.success(function(data) {
+	        			$scope.prodSearchList = data;
+	        		});
+	            	
+	            	$scope.focusIn11 = function(index, stockRp){
+		    			stockRp.stockNumber = $scope.prodSearchList[index].title;
+		    			$scope.getStockDetails(stockRp)
+		    		}
+	            	
+	            	 $scope.stockWiseData = [];
+	     	  		$scope.stockWiseData.push({});  	
+	     	  		$scope.getStockDetails = function(stockRp) {
+		    			$scope.isStockError = false;
+		    			console.log(stockRp);
+		    			$http.get('/getStockDetails/'+stockRp.stockNumber).success(function(response) {
+		    				console.log(response);
+		    				if(response.isData) {
+		    					$scope.isStockError = false;
+		    					stockRp.designer = response.designer;
+		    					stockRp.price = response.price;
+		    					stockRp.vehicleImage = response.vehicleImage;
+		    					stockRp.imgId = response.imgId;
+		    					stockRp.year = response.year;
+		    					stockRp.primaryTitle = response.primaryTitle;
+		    					stockRp.title = response.title; 
+		    					stockRp.id = response.id;
+		    					stockRp.productId = response.productId;
+		    				} else {
+		    					$scope.isStockError = true;
+		    				}
+		    			});
+		    		};
+		    		
+		    		$scope.pushRecord = function(){
+		    			$scope.stockWiseData.push({});
+		    		}
+		    		
+		    		$scope.onLogoFileSelect = function($files){
+		    			console.log($files);
+		    			$rootScope.fileCustom = $files; 
+		    			
+		    		}		
+		    		$scope.showtimepick = function(){
+		    			$('#bestTimes').timepicker();
+		    		}
+		    		 
 }]);

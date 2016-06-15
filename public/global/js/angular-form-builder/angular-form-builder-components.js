@@ -150,6 +150,39 @@
         });
       
       
+      $builderProvider.registerComponent('inventorysearch', {
+          group: 'Default',
+          label: 'Inventory Search',
+          description: '',
+          disableWeekends: false,
+          readOnly: false,
+          template: "<div class=\"col-md-12\"><h3>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click=\"editLeadInfo('Search Title')\" ng-if=\"showSaveButton == 'Edit'\"><i class=\"glyphicon glyphicon-edit\"></i></a></h3><div class=\"col-md-4\"><div class=\"col-md-12\"><label>{{setjson.searchSubTitle}}</label>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click=\"editLeadInfo('Search Sub Title')\" ng-if=\"showSaveButton == 'Edit'\"><i class=\"glyphicon glyphicon-edit\"></i></a></div><div ng-show=\"isStockError\" style=\"color: red;\">Furniture Not Found.</div><div style=\"margin: 10px 0 10px 0;\"><input type=\"text\" class=\"col-md-12\" ng-model=\"stockRp.designer\" style=\"margin-bottom: 7px;\" disabled=\"disabled\" placeholder=\"Title\"/></div><div style=\"margin: 10px 0 10px 0;\"><input type=\"text\" class=\"col-md-12\" style=\"margin-bottom: 7px;\" ng-model=\"stockRp.designer\" disabled=\"disabled\" placeholder=\"Title\"/></div><div style=\"margin: 10px 0 10px 0;\"><input type=\"text\" class=\"col-md-12\" ng-model=\"stockRp.year\" style=\"margin-bottom: 7px;\" disabled=\"disabled\" placeholder=\"Year\"/></div></div><div class=\"col-md-7\" style=\"border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;\"><div><div class=\"col-md-5\" style=\"padding-left: 0px;\"><img class=\"preview col-md-5\" style=\"margin-top: 7px;width: 136px;height: 121px;\" src=\"/getImage/{{stockRp.imgId}}/thumbnail\"></div><div class=\"col-md-7\" style=\"padding: 0px;\"><label class=\"col-md-12\" style=\"font-size: 20px;padding: 0px;\">Furniture Name</label><label class=\"col-md-6\">designer:</label><label class=\"col-md-6\">-</label><label class=\"col-md-6\">price:</label><label class=\"col-md-6\">_</label><label class=\"col-md-6\">Primary Title:</label><label class=\"col-md-6\">_</label><label class=\"col-md-6\">year:</label><label class=\"col-md-6\">_</label></div></div></div><div class=\"col-md-1\" style=\"font-size: 29px;margin-top: 54px;\" ng-show=\"stockWiseData.length  > 1\"><a ng-click=\"removeLead($index)\"><span class=\"glyphicon glyphicon-trash\"></span></a></div></div><div class=\"col-md-12\" style=\"text-align: center;font-size: 17px;\"><a>ADD ITEM</a></div>",
+          popoverTemplateUrl: '/dealer/template/textInput.html'
+        });
+      
+      $builderProvider.registerComponent('fileuploaders', {
+          group: 'Default',
+          label: 'File uploader',
+          description: '',
+          disableWeekends: false,
+          readOnly: false,
+          template: "<div class=\"col-md-12\"><label for=\"{{formName+index}}\" class=\"col-md-4 control-label\">{{label}}</label><div class=\"col-md-8\"><input type=\"file\" name=\"logoFile\" ng-file-select=\"onLogoFileSelect($files)\" accept=\"application/msword,application/pdf\"/></div></div>",
+          popoverTemplateUrl: '/dealer/template/textInput.html'
+        });
+      
+      $builderProvider.registerComponent('timerange', {
+    	  group: 'Default',
+          label: 'Time Range',
+          description: '',
+          required: false,
+          disableWeekends: false,
+          readOnly: false,
+          displayTemplate:"<div class=\"form-group col-sm-12\" id=\"{{formName+index | nospace}}\">\ndate</div>",
+          template: "<div class=\"form-group col-sm-12\"><label for=\"{{formName+index}}\" class=\"col-md-4 control-label\">{{label}}</label><div class=\"form-group col-sm-8\"><input type=\"text\" name=\"timepicker\" ng-model=\"testDriveData.confirmTime\" class=\"timepicker form-control hasDatepicker\" placeholder=\"Choose a time...\" data-format=\"am-pm\" id=\"bestTime\"></div>",
+          popoverTemplateUrl: '/dealer/template/datepicker.html'
+        });
+      
+      
     }
   ]);
 

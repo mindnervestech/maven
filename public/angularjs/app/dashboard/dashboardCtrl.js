@@ -15,7 +15,7 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder', '$validator',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder, $validator) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder', '$validator','$rootScope',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder, $validator, $rootScope) {
 	  
 	  
 	  var ele = document.getElementById('loadingmanual');	
@@ -4320,27 +4320,53 @@ angular.module('newApp')
 	    			
 	    			$("#createLeadPopup").modal('hide');
 	    			$scope.lead.stockWiseData = $scope.stockWiseData;
-	    			$http.post('/createLead',$scope.lead).success(function(response) {
-	    				//$scope.getVisitedData('week','countHigh','0','0','All');
-	    				$scope.topVisitedDataDatewise();
-	    				//$scope.userLocationData('Week','person');
-	    				 $scope.findMystatisData(startD,endD,'person');
-	    				$scope.getAllSalesPersonRecord($scope.salesPerson);
-	    				/*if($scope.lead.leadType=='2')  {
-	    					$scope.getScheduleTestData();
-	    					$("#createLeadPopup").modal('hide');
+	    			
+	    			
+	    			var files = [];
+	    			
+	    			if($rootScope.fileCustom != undefined){
+	    				console.log($rootScope.fileCustom);
+	    				files = $rootScope.fileCustom;
+	    				console.log($scope.lead);
+	    				
+	    				console.log(files.length);
+	    				console.log(files);
+	    				console.log("bothfile");
+	    				
+	    				// delete $scope.lead.customData;
+	    				// delete $scope.lead.options;
+	    				// delete $scope.lead.stockWiseData;
+	    				
+	    				 $upload.upload({
+	    		            url : '/createLead',
+	    		            method: 'POST',
+	    		            file:files,
+	    		            data:$scope.lead
+	    		         }).success(function(data) {
+	    		   			console.log('success');
+	    		   			
+	    		   		 });
+	    				}else{
+	    					$http.post('/createLead',$scope.lead).success(function(response) {
+	    	    				$scope.topVisitedDataDatewise();
+	    	    				 $scope.findMystatisData(startD,endD,'person');
+	    	    				$scope.getAllSalesPersonRecord($scope.salesPerson);
+	    	    				/*if($scope.lead.leadType=='2')  {
+	    	    					$scope.getScheduleTestData();
+	    	    					$("#createLeadPopup").modal('hide');
+	    	    				}
+	    	    				else*/ if($scope.lead.leadType=='1') {
+	    	    					$scope.getRequestMoreData();
+	    	    					$("#createLeadPopup").modal('hide');
+	    	    				}
+	    	    				/*else {
+	    	    					$scope.getTradeInData();
+	    	    					$("#tradeInApp").modal('hide');
+	    	    					window.location.reload();
+	    	    				}*/
+	    	    				$scope.initialiase();
+	    	    			});
 	    				}
-	    				else*/ if($scope.lead.leadType=='1') {
-	    					$scope.getRequestMoreData();
-	    					$("#createLeadPopup").modal('hide');
-	    				}
-	    				/*else {
-	    					$scope.getTradeInData();
-	    					$("#tradeInApp").modal('hide');
-	    					window.location.reload();
-	    				}*/
-	    				$scope.initialiase();
-	    			});
 	    			$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    		};
 	    		

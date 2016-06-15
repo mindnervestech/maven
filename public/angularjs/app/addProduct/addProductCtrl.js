@@ -239,8 +239,6 @@ angular.module('newApp')
 		   Dropzone.autoDiscover = false;
 		   myDropzone.processQueue();
 		   
-		   //console.log("Upload Images...."+$routeParams.id);
-		  // $location.path('/editProduct/'+$routeParams.id);
 	   }
 	   
 

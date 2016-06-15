@@ -56,6 +56,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
 
 import models.ActionAdd;
+import models.AddCollection;
 import models.AddProduct;
 import models.AuthUser;
 import models.AutoPortal;
@@ -132,6 +133,7 @@ import models.CustomizationDataValue;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.net.ftp.FTPClient;
@@ -146,6 +148,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import play.Play;
 import play.data.DynamicForm;
@@ -158,6 +161,7 @@ import play.mvc.Result;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
+import viewmodel.AddProductVM;
 import viewmodel.AssignToVM;
 import viewmodel.AudioVM;
 import viewmodel.AutoPortalVM;
@@ -15012,6 +15016,161 @@ public class Application extends Controller {
 		
     }
     
+    
+    private static void saveBilndVm(LeadVM leadVM,MultipartFormData bodys,Form<LeadVM> form) {
+    	 
+    	 JSONArray jArr,jArr1;
+    	 List<VehicleVM> vmList = new ArrayList<>();
+    	 List<KeyValueDataVM> vmList1 = new ArrayList<>();
+		try {
+			form.data().get("stockWiseData");
+			System.out.println(form.data().get("stockWiseData"));
+			jArr = new JSONArray(form.data().get("stockWiseData"));
+			
+			for (int i=0; i < jArr.length(); i++) {
+				VehicleVM vm = new VehicleVM();
+				JSONObject jsonObj = jArr.getJSONObject(i);
+				vm.id = Long.parseLong(String.valueOf(jsonObj.get("id")));
+				vm.imgId = String.valueOf(jsonObj.get("imgId")); 
+				vm.title = String.valueOf(jsonObj.get("title"));
+				vm.price =  String.valueOf(jsonObj.get("price"));
+				vm.stockNumber = String.valueOf(jsonObj.get("stockNumber"));
+				vmList.add(vm);
+				leadVM.stockWiseData.add(vm);
+			}
+			
+			jArr1 = new JSONArray(form.data().get("customData"));
+			
+			for (int i=0; i < jArr1.length(); i++) {
+				KeyValueDataVM vm1 = new KeyValueDataVM();
+				JSONObject jsonObj1 = jArr1.getJSONObject(i);
+				vm1.key = String.valueOf(jsonObj1.get("key"));
+				vm1.value = String.valueOf(jsonObj1.get("value"));
+				vmList1.add(vm1);
+				leadVM.customData.add(vm1);
+			}
+			//leadVM.customData = vmList1;
+			//leadVM.stockWiseData = vmList;
+			
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		
+		leadVM.custEmail = form.data().get("custEmail");
+		leadVM.custName = form.data().get("custName");
+		leadVM.custNumber = form.data().get("custNumber");
+		leadVM.custZipCode = form.data().get("custZipCode");
+		leadVM.prefferedContact = form.data().get("prefferedContact");
+		leadVM.leadType =form.data().get("leadType");
+		
+         
+    }
+    
+    
+    private static void saveCustomData(RequestMoreInfo info,LeadVM leadVM,MultipartFormData bodys,String leadtype) {
+    	
+    	for(KeyValueDataVM custom:leadVM.customData){
+			CustomizationDataValue cValue = new CustomizationDataValue();
+			cValue.keyValue = custom.key;
+			cValue.value = custom.value;
+			cValue.leadId = info.id;
+			cValue.leadType = leadtype;
+			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			cValue.save();
+		}
+    	
+    	
+    	
+    	
+    	if(bodys != null){
+    		FilePart picture = bodys.getFile("file0");
+    		if (picture != null) {
+    			String fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
+    			File file = picture.getFile();
+    			try {
+    				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+info.id+File.separator+fileName);
+    	    	    if(!fdir.exists()) {
+    	    	    	fdir.mkdir();
+    	    	    }
+    	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+info.id+File.separator+fileName;
+    	    	    FileUtils.moveFile(file, new File(filePath));
+    	    	    
+    	    	    CustomizationDataValue cValue = new CustomizationDataValue();
+    				cValue.keyValue = "fileupload";
+    				cValue.value = session("USER_LOCATION")+File.separator+"leads"+File.separator+info.id+File.separator+fileName;
+    				cValue.leadId = info.id;
+    				cValue.leadType = leadtype;
+    				cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    				cValue.save();
+    	    	   // vehicle.setPdfBrochurePath(session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure"+fileName);
+    			} catch (Exception e) {
+					e.printStackTrace();
+				}
+    		}
+    	}
+    	
+		
+		/*if(bodys != null){
+    		List<FilePart> filePart =  body.getFiles();
+    		if (filePart != null) {
+    			if(filePart.size() > 0){
+    	    		
+    				
+    	    		for(int i= 0; i<filePart.size(); i++){
+    	    			
+		    	    		 pdfFile = filePart.get(i);
+		       				 String fileName = pdfFile.getFilename().replaceAll("[-+^:,() ]","");
+		       	       		 System.out.println(fileName);
+		       	     		 String ext = FilenameUtils.getExtension(fileName);
+		       	     		 System.out.println(ext);
+		       	       		 fileName = vm.getTitle() +"_"+ fileName;
+		       	       		 
+		       	       	    String contentType = pdfFile.getContentType(); 
+		       	       	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"product");
+		       	       	    if(!fdir.exists()) {
+		       	       	    	fdir.mkdir();
+		       	       	    }
+		       	       	    	String filePath = rootDir+File.separator+userObj.id+File.separator+"product"+File.separator+fileName;
+		       	       	 try {
+		       	       		 	Boolean sts = FileUtils.deleteQuietly(new File(filePath));
+		       	       		 	System.out.println("delete "+sts);
+		       				} catch (Exception e) {
+		       					e.printStackTrace();
+		       				}
+		       	       	    File file = pdfFile.getFile();
+		       	       	    try {
+		       	       	    	
+		       	       	    	if(ext.equalsIgnoreCase("pdf")){
+		       	       	    		FileUtils.moveFile(file, new File(filePath));
+		       		    		   		AddProduct obj = AddProduct.findById(productVM.id);
+		       		    		   		obj.setFileName(fileName);
+		       		    		   		obj.setFilePath("/"+userObj.id+"/"+"product"+"/"+fileName);
+		       		    		   		obj.update();
+		       		    		   		
+		       	       	    	}else if(ext.equalsIgnoreCase("cad")||ext.equalsIgnoreCase("zip")||ext.equalsIgnoreCase("rar")){
+		       	       	    		FileUtils.moveFile(file, new File(filePath));
+		       	       	    			AddProduct obj = AddProduct.findById(productVM.id);
+		       	       	    			
+		       	       	    			obj.setCadfileName(fileName);
+		       	       	    			obj.setCadfilePath("/"+userObj.id+"/"+"product"+"/"+fileName);
+		       	       	    			obj.update();
+		       	       	    	}
+		       	       	    		
+		       	       	    		
+		       	       	  } catch (FileNotFoundException e) {
+		       	     			e.printStackTrace();
+		       	    	  		} catch (IOException e) {
+		       	    	  			e.printStackTrace();
+		       	    	  		}
+    	    		}
+    			}
+            }
+    	}*/
+		
+    }
+    
     private static void sendMailpremium() {
     	/*--------------------------------*/
 		
@@ -27936,8 +28095,25 @@ if(vehicles.equals("All")){
      */
     public static Result createLead() {
     	AuthUser user = (AuthUser)getLocalUser();
+    	
     	SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
-    	LeadVM leadVM = DynamicForm.form(LeadVM.class).bindFromRequest().get();
+    	MultipartFormData bodys = request().body().asMultipartFormData();
+    	//JsonNode json = request().body().asJson();
+		//DynamicForm form = DynamicForm.form().bindFromRequest();
+		//Json.fromJson(json, LeadVM.class);
+		//LeadVM leadVM = Json.fromJson(json, LeadVM.class);
+    	LeadVM leadVM = null;
+    	
+    	
+    	Form<LeadVM> form = DynamicForm.form(LeadVM.class).bindFromRequest();
+    	if(bodys != null){
+    		LeadVM leadVM1 = new LeadVM();
+    		saveBilndVm(leadVM1,bodys,form);
+    		leadVM = leadVM1;
+    	}else{
+    		leadVM = form.get();
+    	}
+    	
     	String makestr = leadVM.make!=null&&!leadVM.make.isEmpty()?leadVM.make:leadVM.makeSelect;
     	String model = leadVM.model!=null&&!leadVM.model.isEmpty()?leadVM.model:leadVM.modelSelect;
     	Date date = new Date();
@@ -27994,17 +28170,9 @@ if(vehicles.equals("All")){
 	    		
 	    		info.save();
 	    		
+	    		saveCustomData(info,leadVM,bodys,"Request More Info");
 	    		
-	    		for(KeyValueDataVM custom:leadVM.customData){
-	    			CustomizationDataValue cValue = new CustomizationDataValue();
-	    			cValue.keyValue = custom.key;
-	    			cValue.value = custom.value;
-	    			cValue.leadId = info.id;
-	    			cValue.leadType = "Request More Info";
-	    			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	    			cValue.save();
-	    		}
-	    		
+	    	
 	    		if(parentFlag == 0){
 	    			parentFlag = 1;
 	    			parentLeadId = info.getId();
