@@ -885,16 +885,16 @@ angular.module('newApp').controller('customizationCtrl',
 	            	
 	            	 autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),
 	            	     {types: ['geocode']});
-	            	 autocomplete.addListener('place_changed', fillInAddress());
+	            	 //autocomplete.addListener('place_changed', fillInAddress());
 	            	}
 
-	            	function fillInAddress() {
+	            	/*function fillInAddress() {
 	            		console.log(autocomplete);
 	            	 var place = autocomplete.getPlace();
 	            	 console.log(place);
 	            	 $scope.autoText = place.name;
 	            	 $scope.autoText = place.formatted_address;
-	           	    }	 
+	           	    }*/	 
 	            	
 	            	$http.get('/getAllVehicles')
 	        		.success(function(data) {

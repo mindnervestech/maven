@@ -4241,10 +4241,9 @@ angular.module('newApp')
 					$scope.len = itm;
 	    		};
 	    		$scope.createLead = function() {
-	    			
+	    			$scope.customData.setTime = $("#bestTimes").val()
+	    			console.log($("#bestTimes").val());
 	    			console.log($scope.customData);
-	    			
-	    			
 	    			 $.each($scope.customData, function(attr, value) {
 	    			      $scope.customList.push({
 	    		   	  			key:attr,
