@@ -3976,6 +3976,7 @@ public class Application extends Controller {
     	} else {
     		AuthUser user = (AuthUser) getLocalUser();
     		Date currDate = new Date();
+    		MultipartFormData bodys = request().body().asMultipartFormData();
 	    	Form<LeadVM> form = DynamicForm.form(LeadVM.class).bindFromRequest();
 	    	LeadVM vm = form.get();
 	    	int parentFlag = 0;
@@ -3995,6 +3996,8 @@ public class Application extends Controller {
 		    			rInfo.setCustZipCode(vm.custZipCode);
 		    			rInfo.setEnthicity(vm.enthicity);
 		    			rInfo.update();
+		    			
+		    			saveCustomData(rInfo,vm,bodys,"Request More Info");
 		    			
 		    			reqDate = rInfo.requestDate;
 		    			
@@ -4085,9 +4088,11 @@ public class Application extends Controller {
 	    	    		info.setCustZipCode(vm.custZipCode);
 	    	    		info.setEnthicity(vm.enthicity);
 	    	    		
-	    	    		AddProduct product = AddProduct.findByProductIdOne(productVM.title, Location.findById(Long.valueOf(session("USER_LOCATION"))));
-	    	    		//info.setVin(vehicle.getVin());
-	    	    		info.setProductId(product.getId());
+	    	    		//AddProduct product = AddProduct.findById(Long.parseLong(vm.id));
+	    	    		//info.setProductId(product.getId());
+	    	    		//AddProduct product = AddProduct.findByProductIdOne(productVM.title, Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    	    		//info.setVin();
+	    	    		info.setProductId(productVM.id);
 	    	    		info.setUser(user);
 	    				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    	    		info.setIsScheduled(false);
@@ -4122,6 +4127,8 @@ public class Application extends Controller {
 	    	    		}
 	    	    		
 	    	    		info.save();
+	    	    		
+	    	    		saveCustomData(info,vm,bodys,"Request More Info");
 	    	    		
 	    	    		if(parentFlag == 0){
 	    	    			parentFlag = 1;
@@ -12422,6 +12429,21 @@ public class Application extends Controller {
 		infoVMList.add(vm);
     }
     
+    
+    public static void findCustomeData(RequestMoreInfo info,RequestInfoVM vm){
+    	List<CustomizationDataValue> custData = CustomizationDataValue.findByLeadIdWise(info.id);
+    	List<KeyValueDataVM> keyValueList = new ArrayList<>();
+    	Map<String, String> mapCar = new HashMap<String, String>();
+    	for(CustomizationDataValue custD:custData){
+    		mapCar.put(custD.keyValue, custD.value);
+    		//KeyValueDataVM keyValue = new KeyValueDataVM();
+    		//keyValue.key = custD.keyValue;
+    		//keyValue.value = custD.value;
+    		//keyValueList.add(keyValue);
+    	}
+    	vm.customMapData = mapCar;
+    }
+    
     public static void findRequestParentChildAndBro(List<RequestInfoVM> infoVMList, RequestMoreInfo info,SimpleDateFormat df, RequestInfoVM vm){
     	SimpleDateFormat timedf = new SimpleDateFormat("hh:mm a");
     	List<RequestInfoVM> rList2 = new ArrayList<>();
@@ -15072,13 +15094,24 @@ public class Application extends Controller {
     private static void saveCustomData(RequestMoreInfo info,LeadVM leadVM,MultipartFormData bodys,String leadtype) {
     	
     	for(KeyValueDataVM custom:leadVM.customData){
-			CustomizationDataValue cValue = new CustomizationDataValue();
-			cValue.keyValue = custom.key;
-			cValue.value = custom.value;
-			cValue.leadId = info.id;
-			cValue.leadType = leadtype;
-			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-			cValue.save();
+    		
+    		CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId(custom.key,info.id);
+    		if(cDataValue == null){
+    			CustomizationDataValue cValue = new CustomizationDataValue();
+    			cValue.keyValue = custom.key;
+    			cValue.value = custom.value;
+    			cValue.leadId = info.id;
+    			cValue.leadType = leadtype;
+    			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    			cValue.save();
+    			
+    		}else{
+    			cDataValue.setKeyValue(custom.key);
+    			cDataValue.setValue(custom.value);
+    			cDataValue.update();
+    		}
+    		
+			
 		}
     	
     	
@@ -21444,6 +21477,8 @@ private static void cancelTestDriveMail(Map map) {
 	    		if(info.isRead == 1) {
 	    			vm.isRead = true;
 	    		}
+	    		
+	    		findCustomeData(info,vm);
 	    		
 	    		findRequestParentChildAndBro(infoVMList, info, df, vm);
 	    		
@@ -28098,10 +28133,7 @@ if(vehicles.equals("All")){
     	
     	SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
     	MultipartFormData bodys = request().body().asMultipartFormData();
-    	//JsonNode json = request().body().asJson();
-		//DynamicForm form = DynamicForm.form().bindFromRequest();
-		//Json.fromJson(json, LeadVM.class);
-		//LeadVM leadVM = Json.fromJson(json, LeadVM.class);
+    	
     	LeadVM leadVM = null;
     	
     	
@@ -28171,7 +28203,6 @@ if(vehicles.equals("All")){
 	    		info.save();
 	    		
 	    		saveCustomData(info,leadVM,bodys,"Request More Info");
-	    		
 	    	
 	    		if(parentFlag == 0){
 	    			parentFlag = 1;

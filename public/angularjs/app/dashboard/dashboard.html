@@ -5655,112 +5655,97 @@ float: right !important;
 													</div>
 													<!-- ------------------------------- -->
 													
-													
 													 <div class="row">
 								                    	<div class="col-md-12" ng-repeat="stockRp in stockWiseData">
-								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>INTERESTED IN MODEL? <span style="color: red;">*</span></strong></h3>
-								                    		<div class="col-md-3">
-								                    			<div class="col-md-12"><label>Stock Number Search</label></div>
-								                    			<div ng-show="isStockError" style="color: red;">Stock Number Not Found.</div>
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.searchTitle}}<span style="color: red;">*</span></strong></h3>
+								                    		<div class="col-md-4">
+								                    			<div class="col-md-12"><label>{{editInput.searchSubTitle}}</label></div>
+								                    			<div ng-show="isStockError" style="color: red;">Furniture Not Found.</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="stockRp.stockNumber" ng-blur="getStockDetails(stockRp)"/>
-								                    			</div>
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<angucomplete-alt id="vinSearch"
-														              placeholder="{{stockRp.vin}}"
+								                    				<angucomplete-alt id="vinSearch1ch"
+														              placeholder="Title"
 														              pause="10"
-														              selected-object="selectedVin"
-														              local-data="vinSearchList"
-														              search-fields="vin"
-														              title-field="vin"
+														              selected-object="addSkill"
+														              local-data="prodSearchList"
+														              search-fields="title"
+														              title-field="title"
 														              minlength="3"
-														              focus-In="focusIn($index)"
+														              focus-Out="focusIn11($index, stockRp)"
 														              input-class="form-control form-control-small">
 															    	</angucomplete-alt>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="stockRp.make" disabled="disabled" placeholder="CAR MAKE"/>
+								                    				<input type="text" ng-model="stockRp.designer" disabled="disabled" placeholder="Designer"/>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="stockRp.model" disabled="disabled" placeholder="MODEL"/>
+								                    				<input type="text" ng-model="stockRp.year" disabled="disabled" placeholder="Year"/>
 								                    			</div>
 								                    		</div>
-								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;" ng-if="stockRp.vin != null">
+								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;" ng-if="stockRp.id != null">
 								                    			<div>
-								                    				<div class="col-md-4" style="padding-left: 0px;">
-								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
-								    									<img class="preview" style="margin-top: 7px;width: 124px;height: 121PX;" src="/getImage/{{stockRp.imgId}}/thumbnail">
+								                    				<div class="col-md-5" style="padding-left: 0px;">
+								    									<img class="preview" style="margin-top: 7px;width: 174px;height: 121px;" src="/getImage/{{stockRp.imgId}}/thumbnail">
 								    								</div>
-								    								<div class="col-md-8" style="padding: 0px;">
-								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockRp.year}} {{stockRp.make}} {{stockRp.model}}</label>
-								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{stockRp.bodyStyle}}</label>
-								    										<label class="col-md-6">Mileage:</label><label class="col-md-6" ng-if="stockRp.mileage != null">{{stockRp.mileage}}</label><label class="col-md-6" ng-if="stockRp.mileage == null">_</label>
-								    										<label class="col-md-6">Transmission:</label><label class="col-md-6" ng-if="stockRp.transmission != null">{{stockRp.transmission}}</label><label class="col-md-6" ng-if="stockRp.transmission == null">_</label>
-								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6" ng-if="stockRp.drivetrain != null">{{stockRp.drivetrain}}</label><label class="col-md-6" ng-if="stockRp.drivetrain == null">_</label>
-								    										<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="stockRp.engine != null">{{stockRp.engine}}</label><label class="col-md-6" ng-if="stockRp.engine == null">_</label>
+								    								<div class="col-md-7" style="padding: 0px;">
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockRp.title}}</label>
+								    										<label class="col-md-6">designer:</label><label class="col-md-6">{{stockRp.designer}}</label>
+								    										<label class="col-md-6">price:</label><label class="col-md-6" ng-if="stockRp.price != null">{{stockRp.price}}</label><label class="col-md-6" ng-if="stockRp.price == null">_</label>
+								    										 <label class="col-md-6">Primary Title:</label><label class="col-md-6" ng-if="stockRp.primaryTitle != null">{{stockRp.primaryTitle}}</label><label class="col-md-6" ng-if="stockRp.primaryTitle == null">_</label>
+								    									     <label class="col-md-6">year:</label><label class="col-md-6" ng-if="stockRp.year != null">{{stockRp.year}}</label><label class="col-md-6" ng-if="stockRp.year == null">_</label>
+								    									     <label class="col-md-6">-</label><label class="col-md-6">_</label>
 								    								</div>
 								                    				
 								                    			</div>
 								                    			
 								                    		</div> 
-								                    		
 								                    		<div class="col-md-1" style="font-size: 29px;margin-top: 54px;" ng-show="stockWiseData.length  > 1">
-								                    			<div class="col-sm-12">
 								                    			<a ng-click="removeLead($index)"><span class="glyphicon glyphicon-trash"></span></a>
-								                    			</div>
-								                    			<!-- <div class="col-sm-12" style="padding: 0px;">
-											                              <button type="button" ng-click="cancelScheduleComfir(parentchil)" class="btn btn-primary btn-embossed">Cancel</button>
-																</div> -->
 								                    		</div>
 								                    		
 								                    		   <div ng-if="$index == 0">	
 								                    		<div ng-repeat="childL in editLeads.parentChildLead" style="float: left;">
 								                    				<div class="col-md-3" style="margin-top: 11px;">
-								                    			<div class="col-md-12"><label>Stock Number Search</label></div>
+								                    			<div class="col-md-12"><label>{{editInput.searchSubTitle}}</label></div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="childL.stock" ng-blur="getStockDetails(childL)" disabled="disabled"/>
-								                    			</div>
-																<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="childL.vin" disabled="disabled"/>
-								                    			</div>
-																<!--<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<angucomplete-alt id="vinSearchChild"
-														              placeholder="{{childL.vin}}"
+								                    				<angucomplete-alt id="vinSearch1"
+														              placeholder="Title"
 														              pause="10"
 														              selected-object="selectedVin"
-														              local-data="vinSearchList"
-														              search-fields="vin"
-														              title-field="vin"
+														              local-data="prodSearchList"
+														              search-fields="title"
+														              title-field="title"
 														              minlength="3"
-														              focus-out="focusOut()"
+														              focus-Out="focusIn11($index, childL)"
 														              input-class="form-control form-control-small">
 															    	</angucomplete-alt>
-								                    			</div>-->
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="childL.make" disabled="disabled" placeholder="CAR MAKE"/>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="childL.model" disabled="disabled" placeholder="MODEL"/>
+								                    				<input type="text" ng-model="childL.designer" disabled="disabled" placeholder="Designer"/>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="childL.year" disabled="disabled" placeholder="Year"/>
 								                    			</div>
 								                    		</div>
-								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;margin-top: 11px;" ng-if="stockRp.vin != null">
+								                    										                    		
+								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;" ng-if="childL.id != null">
 								                    			<div>
-								                    				<div class="col-md-4" style="padding-left: 0px;">
-								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
-								    									<img class="preview" style="margin-top: 7px;width: 124px;height: 121PX;" src="/getImage/{{childL.imgId}}/thumbnail">
+								                    				<div class="col-md-5" style="padding-left: 0px;">
+								    									<img class="preview" style="margin-top: 7px;width: 174px;height: 121px;" src="/getImage/{{childL.imgId}}/thumbnail">
 								    								</div>
-								    								<div class="col-md-8" style="padding: 0px;">
-								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{childL.year}} {{childL.make}} {{childL.model}}</label>
-								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{childL.bodyStyle}}</label>
-								    										<label class="col-md-6">Mileage:</label><label class="col-md-6" ng-if="childL.mileage != null">{{childL.mileage}}</label><label class="col-md-6" ng-if="childL.mileage == null">_</label>
-								    										<label class="col-md-6">Transmission:</label><label class="col-md-6" ng-if="childL.transmission != null">{{childL.transmission}}</label><label class="col-md-6" ng-if="childL.transmission == null">_</label>
-								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6" ng-if="childL.drivetrain != null">{{childL.drivetrain}}</label><label class="col-md-6" ng-if="childL.drivetrain == null">_</label>
-								    										<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="childL.engine != null">{{childL.engine}}</label><label class="col-md-6" ng-if="childL.engine == null">_</label>
+								    								<div class="col-md-7" style="padding: 0px;">
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{childL.title}}</label>
+								    										<label class="col-md-6">designer:</label><label class="col-md-6">{{childL.designer}}</label>
+								    										<label class="col-md-6">price:</label><label class="col-md-6" ng-if="childL.price != null">{{stockRp.price}}</label><label class="col-md-6" ng-if="childL.price == null">_</label>
+								    										 <label class="col-md-6">Primary Title:</label><label class="col-md-6" ng-if="childL.primaryTitle != null">{{stockRp.primaryTitle}}</label><label class="col-md-6" ng-if="childL.primaryTitle == null">_</label>
+								    									     <label class="col-md-6">year:</label><label class="col-md-6" ng-if="childL.year != null">{{stockRp.year}}</label><label class="col-md-6" ng-if="childL.year == null">_</label>
+								    									     <label class="col-md-6">-</label><label class="col-md-6">_</label>
 								    								</div>
 								                    				
 								                    			</div>
 								                    			
 								                    		</div> 
+								                    		
+								                    		
 								                    			<div class="col-md-1" style="font-size: 29px;margin-top: 54px;">
 								                    			<div class="col-sm-12">
 								                    			<a ng-click="cancelLead(childL,$parent.$index)"><span class="glyphicon glyphicon-remove"></span></a>
@@ -5773,10 +5758,15 @@ float: right !important;
 								                    		</div>
 								                    		
 								                    	</div>
-								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;" ng-if="stockWiseData[0].vin != null">
-								                    	<a ng-click="pushRecord()">ADD VEHICLES</a>
+								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;">
+								                    	<a ng-click="pushRecord()">ADD ITEM</a>
 								                    	</div>
 								                    </div>
+								                 
+								                    	<div class="col-md-12" style="margin-top: 32px;">
+								                				<formly-form model="customData" fields="userFields">
+  																</formly-form>
+								                    	</div>
 													
 													
 													<!-- ----------------------------------- -->
@@ -9920,8 +9910,8 @@ h2 {
    color: white
 }
 	
-	.pac-container{
+	 .pac-container{
 		z-index:2000;
-	}
+	} 
 	
 </style>	

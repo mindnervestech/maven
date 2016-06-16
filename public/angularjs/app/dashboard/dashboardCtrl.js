@@ -2095,6 +2095,14 @@ angular.module('newApp')
    	  	$scope.stockWiseData = [];
    	  		$scope.editVinData = function(entity){
    	  			console.log(entity);
+   	  		$scope.customData = entity.customMapData;
+   	  			console.log($scope.customData);
+   	  		$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
+				 $scope.editInput = response;
+				 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
+				 $scope.user = {};
+   	  		});
+   	  			
    	  		  $scope.financeData.downPayment=1000;
    	  		  $scope.financeData.annualInterestRate=7;
    	  		  $scope.financeData.numberOfYears=5;
@@ -2123,6 +2131,8 @@ angular.module('newApp')
 				year:entity.year,
 				primaryTitle:entity.primaryTitle,
 				productId:entity.productId,
+				id:entity.id,
+				imgId:entity.imgId,
 			});
    	  			$scope.editLeads.productId = entity.productId;
 				$('#vinSearch_value').val(entity.productId);
@@ -2183,8 +2193,18 @@ angular.module('newApp')
    	 }
    	  	
    	  		$scope.editleads = function(){
-   	  		
+   	  		console.log($scope.customData);
+   	  	 $.each($scope.customData, function(attr, value) {
+		      $scope.customList.push({
+	   	  			key:attr,
+	   	  			value:value,
+	   	  			
+				});
+		   });
+		
+   	  		$scope.editLeads.customData = $scope.customList;
    	  		$scope.editLeads.stockWiseData = $scope.stockWiseData;
+   	  		console.log($scope.editLeads);
 	   	  		 $http.post('/editLeads',$scope.editLeads).success(function(data) {
 	   	  			 
 	   	  			 	$.pnotify({
@@ -4388,8 +4408,23 @@ angular.module('newApp')
 	    			});
 	    		};
 	    		
+	    		
+	    		$scope.addSkill = function(select){
+	    			console.log(select.title);
+	    			$scope.selectedName = select.title 
+	    			//stockRp.stockNumber = $scope.prodSearchList[index].title;
+	    			//$scope.getStockDetails(stockRp)
+	    		}
+	    		
 	    		$scope.focusIn11 = function(index, stockRp){
-	    			stockRp.stockNumber = $scope.prodSearchList[index].title;
+	    			console.log($scope.prodSearchList);
+	    			console.log(index);
+	    			console.log($scope.selectedName);
+	    			angular.forEach($scope.prodSearchList, function(value, key) {
+	    				if(value.title = $scope.selectedName){
+	    					stockRp.stockNumber = $scope.selectedName;
+	    				}
+	    			});
 	    			$scope.getStockDetails(stockRp)
 	    		}
 	    		
@@ -4414,6 +4449,7 @@ angular.module('newApp')
 	    				} else {
 	    					$scope.isStockError = true;
 	    				}
+	    				console.log(stockRp);
 	    			});
 	    		};
 	    		

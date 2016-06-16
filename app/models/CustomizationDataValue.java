@@ -30,6 +30,54 @@ public class CustomizationDataValue extends Model {
 	public Location locations;
 	
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public String getKeyValue() {
+		return keyValue;
+	}
+
+	public void setKeyValue(String keyValue) {
+		this.keyValue = keyValue;
+	}
+
+	public Long getLeadId() {
+		return leadId;
+	}
+
+	public void setLeadId(Long leadId) {
+		this.leadId = leadId;
+	}
+
+	public String getLeadType() {
+		return leadType;
+	}
+
+	public void setLeadType(String leadType) {
+		this.leadType = leadType;
+	}
+
+	public Location getLocations() {
+		return locations;
+	}
+
+	public void setLocations(Location locations) {
+		this.locations = locations;
+	}
+
 	public static Finder<Long,CustomizationDataValue> find = new Finder<>(Long.class,CustomizationDataValue.class);
 	
 	public static CustomizationDataValue findById(Long id) {
@@ -40,9 +88,17 @@ public class CustomizationDataValue extends Model {
 		return find.where().eq("id", id).eq("status", null).findUnique();
 	}
 	
+	public static CustomizationDataValue findByKeyAndLeadId(String key,Long leadId) {
+		return find.where().eq("keyValue", key).eq("leadId", leadId).findUnique();
+	}
+	
 		
 		public static List<CustomizationDataValue> findByScheduler() {
 		return find.where().eq("schedule_email", 0).findList();
 	}
+		
+		public static List<CustomizationDataValue> findByLeadIdWise(Long leadId) {
+			return find.where().eq("leadId", leadId).findList();
+		}
 	
 }

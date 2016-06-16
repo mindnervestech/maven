@@ -888,7 +888,9 @@ angular.module('newApp').controller('customizationCtrl',
 	            	 autocomplete.addListener('place_changed', fillInAddress());
 	            	}
 
-	            	
+	           /* function fillInAddress(){
+	            	var place = autocomplete.getplace();
+	            }*/
 	            	
 	            	$http.get('/getAllVehicles')
 	        		.success(function(data) {
