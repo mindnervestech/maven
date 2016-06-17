@@ -2096,6 +2096,7 @@ angular.module('newApp')
    	  		$scope.editVinData = function(entity){
    	  			console.log(entity);
    	  		$scope.customData = entity.customMapData;
+   	  	
    	  			console.log($scope.customData);
    	  		$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
 				 $scope.editInput = response;
@@ -4265,6 +4266,10 @@ angular.module('newApp')
 	    			if($scope.customData.setTime == undefined){
 	    				delete $scope.customData.setTime;
 	    			}
+	    			$scope.customData.custName = $("#exCustom_value").val();
+	    			if($scope.customData.custName == undefined){
+	    				delete $scope.customData.custName;
+	    			}
 	    			$scope.customData.autocompleteText = $("#autocomplete").val()
 	    			if($scope.customData.autocompleteText == undefined){
 	    				delete $scope.customData.autocompleteText;
@@ -4417,6 +4422,12 @@ angular.module('newApp')
 	    		}
 	    		
 	    		$scope.focusIn11 = function(index, stockRp){
+	    			console.log($scope.prodSearchList);
+	    			console.log(index);
+	    			stockRp.stockNumber = $scope.prodSearchList[index].title;
+	    			$scope.getStockDetails(stockRp)
+	    		}
+	    		$scope.focusEdit = function(index, stockRp){
 	    			console.log($scope.prodSearchList);
 	    			console.log(index);
 	    			console.log($scope.selectedName);
