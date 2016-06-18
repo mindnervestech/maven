@@ -310,7 +310,10 @@ public void setMessage(String message) {
 	
 	public static List<RequestMoreInfo> findAllData() {
 		return find.where().eq("isContactusType", null).findList();
-		
+	}
+	
+	public static List<RequestMoreInfo> findAllOtherLeadIdWise(String leadId) {
+		return find.where().eq("isContactusType", leadId).findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllContactData() {
@@ -321,12 +324,21 @@ public void setMessage(String message) {
 	public static List<RequestMoreInfo> findAllLocationData(Long locationId) {
 		return find.where().eq("status", null).eq("isRead", 0).eq("premiumFlag", 0).eq("assignedTo", null).eq("isContactusType", null).eq("locations.id", locationId).findList();
 	}
+	
+	public static List<RequestMoreInfo> findAllLocationAndOtherLeadData(Long locationId,String leadId) {
+		return find.where().eq("status", null).eq("isRead", 0).eq("premiumFlag", 0).eq("assignedTo", null).eq("isContactusType", leadId).eq("locations.id", locationId).findList();
+	}
+	
 	public static List<RequestMoreInfo> findAllLocationDataContactUs(Long locationId) {
 		return find.where().eq("status", null).eq("isRead", 0).eq("premiumFlag", 0).eq("assignedTo", null).ne("isContactusType", null).eq("locations.id", locationId).findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllLocationDataManager(Long locationId) {
 		return find.where().eq("status", null).eq("locations.id", locationId).eq("premiumFlag", 0).eq("isContactusType", null).findList();
+	}
+	
+	public static List<RequestMoreInfo> findAllLocationAndOtherLeadDataManager(Long locationId,String leadId) {
+		return find.where().eq("status", null).eq("locations.id", locationId).eq("premiumFlag", 0).eq("isContactusType", leadId).findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllLocationDataManagerContactUs(Long locationId) {
@@ -340,6 +352,11 @@ public void setMessage(String message) {
 	public static List<RequestMoreInfo> findAllSeen(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).eq("isContactusType", null).eq("isScheduled", false).orderBy("requestDate desc").findList();
 	}
+	
+	public static List<RequestMoreInfo> findAllOtherLead(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).ne("isContactusType", null).eq("isScheduled", false).orderBy("requestDate desc").findList();
+	}
+	
 	public static List<RequestMoreInfo> findAllSeenContactUs(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).ne("isContactusType", null).eq("isScheduled", false).orderBy("requestDate desc").findList();
 	}

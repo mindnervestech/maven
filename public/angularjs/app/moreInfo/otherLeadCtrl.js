@@ -1,5 +1,10 @@
 angular.module('newApp')
-.controller('RequestMoreInfoCtrl', ['$scope','$http','$location','$filter','$interval', function ($scope,$http,$location,$filter,$interval) {
+.controller('otherLeadCtrl', ['$scope','$http','$location','$filter','$interval','$routeParams', function ($scope,$http,$location,$filter,$interval,$routeParams) {
+	
+	console.log("&&");
+	console.log($routeParams.leadId);
+	$scope.leadId = $routeParams.leadId;
+	
 	$scope.leadList = [];
 	$http.get('/getSelectedLeadType').success(function(response) {
 		console.log(response);
@@ -7,6 +12,9 @@ angular.module('newApp')
 		angular.forEach(response, function(value, key) {
 			if(value.id > 3){
 				$scope.leadList.push(value); 
+			}
+			if(value.id == $scope.leadId){
+				$scope.leadName = value.leadName;
 			}
 		});
 		console.log($scope.leadList);
@@ -23,27 +31,27 @@ angular.module('newApp')
  		 $scope.gridOptions.enableHorizontalScrollbar = 0;
  		 $scope.gridOptions.enableVerticalScrollbar = 2;
  		 $scope.gridOptions.columnDefs = [
- 		                                 { name: 'title', displayName: 'Title', width:'12%',cellEditableCondition: false,
- 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
- 		                                       if (row.entity.isRead === false) {
- 		                                         return 'red';
- 		                                       }
- 		                                	} ,
- 		                                 },
- 		                                 { name: 'designer', displayName: 'Designer', width:'8%',cellEditableCondition: false,
- 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-  		                                       if (row.entity.isRead === false) {
-  		                                         return 'red';
-  		                                     }
- 		                                	} ,
- 		                                 },
- 		                                 { name: 'year', displayName: 'Year', width:'7%',cellEditableCondition: false,
- 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-  		                                       if (row.entity.isRead === false) {
-  		                                         return 'red';
-  		                                     }
- 		                                	} ,
- 		                                 },
+										{ name: 'title', displayName: 'Title', width:'12%',cellEditableCondition: false,
+										 	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+										        if (row.entity.isRead === false) {
+										          return 'red';
+										        }
+										 	} ,
+										  },
+										  { name: 'designer', displayName: 'Designer', width:'8%',cellEditableCondition: false,
+										 	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+										         if (row.entity.isRead === false) {
+										           return 'red';
+										       }
+										 	} ,
+										  },
+										  { name: 'year', displayName: 'Year', width:'7%',cellEditableCondition: false,
+										 	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+										         if (row.entity.isRead === false) {
+										           return 'red';
+										       }
+										 	} ,
+										  },
  		                                 { name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
@@ -114,7 +122,7 @@ angular.module('newApp')
 	   		
   		};
  		 
-	  $http.get('/getAllRequestInfo')
+	  $http.get('/getAllOtherLeadInfo/'+$scope.leadId)
 			.success(function(data) {
 				console.log(data);
 				
@@ -132,7 +140,7 @@ angular.module('newApp')
 		});
 	  
 	  $scope.getAllRequestInfo = function() {
-		  $http.get('/getAllRequestInfo')
+		  $http.get('/getAllOtherLeadInfo/'+$scope.leadId)
 			.success(function(data) {
 			$scope.gridOptions.data = data;
 			$scope.requsetMoreList = data;
@@ -141,7 +149,7 @@ angular.module('newApp')
 	  }
 	  
 	  var promo =  $interval(function(){
-			  $http.get('/getAllRequestInfo')
+			  $http.get('/getAllOtherLeadInfo/'+$scope.leadId)
 				.success(function(data) {
 				$scope.gridOptions.data = data;
 				$scope.requsetMoreList = data;
@@ -154,7 +162,7 @@ angular.module('newApp')
 	  $http.get('/requestInfoMarkRead/'+flag+'/'+id)
 		.success(function(data) {
 			//$scope.gridOptions.data = data;
-			$http.get('/getAllRequestInfo')
+			$http.get('/getAllOtherLeadInfo/'+$scope.leadId)
 			.success(function(data) {
 				console.log(data);
 			$scope.gridOptions.data = data;
@@ -191,6 +199,8 @@ angular.module('newApp')
 		console.log(leads.id);
 		$location.path('/otherLeads/'+leads.id);
 	}
-	
+	$scope.requestMore = function() {
+		$location.path('/requestMoreInfo');
+	} 
   
 }]);

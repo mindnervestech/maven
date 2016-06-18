@@ -938,5 +938,7 @@ angular.module('newApp').controller('customizationCtrl',
 		    		$scope.showtimepick = function(){
 		    			$('#bestTimes').timepicker();
 		    		}
-		    		 
+		    		/*$scope.selectedObjs = function(select){
+		    			console.log(select);
+		    		}*/
 }]);

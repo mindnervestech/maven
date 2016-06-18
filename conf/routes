@@ -63,6 +63,8 @@ GET		/getEmailDetails		 controllers.Application.getEmailDetails()
 GET   /getCheckButton/:leadId/:intValue				 controllers.Application.getCheckButton(leadId:Long,intValue:Integer)
 
 
+
+
 #------------------------------------------
 
 
@@ -103,7 +105,10 @@ POST    /updateReadyCollection		     controllers.InventoryController.updateReady
 GET     /getImagesByCollection/:id	     controllers.InventoryController.getImagesByCollection(id:Long)
 GET		/getAllSectionTypes/:id		     controllers.InventoryController.getAllSectionTypes(id:Long)
 GET		/getSectionCollectionData/:id    controllers.InventoryController.getSectionCollectionData(id:Long)
-GET     /getSelectedLeadType		         controllers.InventoryController.getSelectedLeadType()
+GET     /getSelectedLeadType		     controllers.InventoryController.getSelectedLeadType()
+GET     /getAllOtherLeadInfo/:leadId		     controllers.CustomersRequestController.getAllOtherLeadInfo(leadId:String)
+GET     /getAllSalesPersonOtherLead/:id               controllers.CustomersRequestController.getAllSalesPersonOtherLead(id:Integer)
+
 
 
 #--------------------------customization------------------------------

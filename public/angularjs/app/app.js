@@ -261,7 +261,10 @@ var MakeApp = angular
             templateUrl: '/dealer/moreInfo/contactUsInfo.html',
             controller: 'contactUsInfoCtrl'
         })
-        
+        .when('/otherLeads/:leadId', {
+            templateUrl: '/dealer/moreInfo/otherLeads.html',
+            controller: 'otherLeadCtrl'
+        })
         
         
         

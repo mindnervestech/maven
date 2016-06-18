@@ -1,5 +1,18 @@
 angular.module('newApp')
 .controller('TradeInCtrl', ['$scope','$http','$location','$filter','$interval', function ($scope,$http,$location,$filter,$interval) {
+	$scope.leadList = [];
+	$http.get('/getSelectedLeadType').success(function(response) {
+		console.log(response);
+		
+		angular.forEach(response, function(value, key) {
+			if(value.id > 3){
+				$scope.leadList.push(value); 
+			}
+		});
+		console.log($scope.leadList);
+	
+	});
+	
 	
   $scope.gridOptions = {
  		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -11,34 +24,27 @@ angular.module('newApp')
  		 $scope.gridOptions.enableHorizontalScrollbar = 0;
  		 $scope.gridOptions.enableVerticalScrollbar = 2;
  		 $scope.gridOptions.columnDefs = [
- 		                                 { name: 'vin', displayName: 'Vin', width:'11%',cellEditableCondition: false,
+ 		                                 { name: 'title', displayName: 'Title', width:'12%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-   		                                       if (row.entity.isRead === false) {
-   		                                         return 'red';
-   		                                     }
-  		                                	} ,
+ 		                                       if (row.entity.isRead === false) {
+ 		                                         return 'red';
+ 		                                       }
+ 		                                	} ,
  		                                 },
- 		                                 { name: 'model', displayName: 'Model', width:'8%',cellEditableCondition: false,
+ 		                                 { name: 'designer', displayName: 'Designer', width:'8%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-   		                                       if (row.entity.isRead === false) {
-   		                                         return 'red';
-   		                                     }
-  		                                	} ,
+  		                                       if (row.entity.isRead === false) {
+  		                                         return 'red';
+  		                                     }
+ 		                                	} ,
  		                                 },
- 		                                 { name: 'make', displayName: 'Make', width:'8%',cellEditableCondition: false,
+ 		                                 { name: 'year', displayName: 'Year', width:'7%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-   		                                       if (row.entity.isRead === false) {
-   		                                         return 'red';
-   		                                     }
-  		                                	} ,
+  		                                       if (row.entity.isRead === false) {
+  		                                         return 'red';
+  		                                     }
+ 		                                	} ,
  		                                 },
- 		                                 { name: 'stock', displayName: 'Stock', width:'6%',cellEditableCondition: false,
- 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-   		                                       if (row.entity.isRead === false) {
-   		                                         return 'red';
-   		                                     }
-  		                                	} ,
-		                                 },
  		                                 { name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	  		                                       if (row.entity.isRead === false) {
@@ -138,6 +144,7 @@ angular.module('newApp')
 			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
 			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			$scope.tradeInList = data;
+			console.log(data);
 			if(data.length > 0){
 				$scope.userRole = data[0].userRole;
 				if($scope.userRole == "Sales Person"){
@@ -204,6 +211,9 @@ angular.module('newApp')
 	  
 	  $scope.goContactUs = function() {
 			$location.path('/contactUsInfo');
+		}
+	  $scope.otherLeads = function(leads) {
+			$location.path('/otherLeads/'+leads.id);
 		}
 	  
 }]);

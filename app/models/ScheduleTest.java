@@ -34,17 +34,7 @@ public class ScheduleTest extends Model {
 	public Date confirmDate;
 	public Date confirmTime;
 	public Date confirmEndTime;
-	public Date getConfirmEndTime() {
-		return confirmEndTime;
-	}
-	public void setConfirmEndTime(Date confirmEndTime) {
-		this.confirmEndTime = confirmEndTime;
-	}
-
-
-
-
-
+	public Long productId;
 	public String leadStatus;
 	public String reason;
 	public String declineUser;
@@ -52,16 +42,6 @@ public class ScheduleTest extends Model {
 	//public Integer noteFlag;
 	@ManyToOne
 	public AuthUser assignedTo;
-	public Integer getMeeting() {
-		return meeting;
-	}
-	public void setMeeting(Integer meeting) {
-		this.meeting = meeting;
-	}
-
-
-
-
 
 	@ManyToOne
 	public AuthUser user;
@@ -96,6 +76,26 @@ public class ScheduleTest extends Model {
 	
 	
 	
+	
+	public Integer getMeeting() {
+		return meeting;
+	}
+	public void setMeeting(Integer meeting) {
+		this.meeting = meeting;
+	}
+	public Date getConfirmEndTime() {
+		return confirmEndTime;
+	}
+	public void setConfirmEndTime(Date confirmEndTime) {
+		this.confirmEndTime = confirmEndTime;
+	}
+	
+	public Long getProductId() {
+		return productId;
+	}
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
 	public String getTestDriveStatus() {
 		return testDriveStatus;
 	}
@@ -404,7 +404,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findAllLocationDataManager(Long locationId) {
-		return find.where().eq("leadStatus", null).eq("locations.id",locationId).ne("vin", "no").eq("premiumFlag", 0).orderBy("scheduleDate desc").findList();
+		return find.where().eq("leadStatus", null).eq("locations.id",locationId).eq("premiumFlag", 0).orderBy("scheduleDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findAllLocationDataManagerPremium(Long locationId) {

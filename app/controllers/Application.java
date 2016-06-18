@@ -3977,46 +3977,31 @@ public class Application extends Controller {
     		AuthUser user = (AuthUser) getLocalUser();
     		Date currDate = new Date();
     		MultipartFormData bodys = request().body().asMultipartFormData();
-	    	Form<LeadVM> form = DynamicForm.form(LeadVM.class).bindFromRequest();
-	    	LeadVM vm = form.get();
+    		
+    		LeadVM vm = null;
+        	
+        	Form<LeadVM> form = DynamicForm.form(LeadVM.class).bindFromRequest();
+        	if(bodys != null){
+        		LeadVM leadVM1 = new LeadVM();
+        		saveBilndVm(leadVM1,bodys,form);
+        		vm = leadVM1;
+        	}else{
+        		vm = form.get();
+        	}
+    		
+    		
+	    	/*Form<LeadVM> form = DynamicForm.form(LeadVM.class).bindFromRequest();
+	    	LeadVM vm = form.get();*/
+	    	
+	    	
+	    	
 	    	int parentFlag = 0;
 	    	Long parentLeadId = 0L;
 	    	Date reqDate = null;
 	    	for(VehicleVM productVM:vm.stockWiseData){
 	    		if(parentFlag == 0){
 	    			
-		    	if(vm.leadType.equals("Request More Info")){
-		    		RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
-		    		if(rInfo != null){
-		    			rInfo.setVin(productVM.vin);
-		    			rInfo.setProductId(productVM.id);
-		    			rInfo.setName(vm.custName);
-		    			rInfo.setEmail(vm.custEmail);
-		    			rInfo.setPhone(vm.custNumber);
-		    			rInfo.setCustZipCode(vm.custZipCode);
-		    			rInfo.setEnthicity(vm.enthicity);
-		    			rInfo.update();
-		    			
-		    			saveCustomData(rInfo,vm,bodys,"Request More Info");
-		    			
-		    			reqDate = rInfo.requestDate;
-		    			
-			    		if(parentFlag == 0){
-			    			parentFlag = 1;
-			    			parentLeadId = rInfo.getId();
-			    		}
-		    			
-		    			UserNotes uNotes = new UserNotes();
-		        		uNotes.setNote("Client interested in another vehicle");
-		        		uNotes.setAction("Other");
-		        		uNotes.createdDate = currDate;
-		        		uNotes.createdTime = currDate;
-		        		uNotes.user = user;
-		        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-		        		uNotes.requestMoreInfo = RequestMoreInfo.findById(rInfo.id);
-		        		uNotes.save();
-		    		}
-		    	}else if(vm.leadType.equals("Schedule Test Drive")){
+		    	if(vm.leadType.equals("Schedule Test Drive")){
 		    		ScheduleTest sInfo = ScheduleTest.findById(Long.parseLong(vm.id));
 		    		if(sInfo != null){
 		    			sInfo.setVin(productVM.vin);
@@ -4073,84 +4058,42 @@ public class Application extends Controller {
 		        		uNotes.tradeIn = TradeIn.findById(tInfo.id);
 		        		uNotes.save();
 		    		}
+		    	}else {
+		    		RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
+		    		if(rInfo != null){
+		    			rInfo.setVin(productVM.vin);
+		    			rInfo.setProductId(productVM.productId);
+		    			rInfo.setName(vm.custName);
+		    			rInfo.setEmail(vm.custEmail);
+		    			rInfo.setPhone(vm.custNumber);
+		    			rInfo.setCustZipCode(vm.custZipCode);
+		    			rInfo.setEnthicity(vm.enthicity);
+		    			rInfo.update();
+		    			if(rInfo.isContactusType != null){
+			    			if(!rInfo.isContactusType.equals("contactUs")){
+			    				saveCustomData(rInfo.id,vm,bodys, Long.parseLong(rInfo.isContactusType));
+			    			}
+		    			}
+		    			reqDate = rInfo.requestDate;
+		    			
+			    		if(parentFlag == 0){
+			    			parentFlag = 1;
+			    			parentLeadId = rInfo.getId();
+			    		}
+		    			
+		    			UserNotes uNotes = new UserNotes();
+		        		uNotes.setNote("Client interested in another vehicle");
+		        		uNotes.setAction("Other");
+		        		uNotes.createdDate = currDate;
+		        		uNotes.createdTime = currDate;
+		        		uNotes.user = user;
+		        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		        		uNotes.requestMoreInfo = RequestMoreInfo.findById(rInfo.id);
+		        		uNotes.save();
+		    		}
 		    	}
 	    	}else{
-	    		if(vm.leadType.equals("Request More Info")){
-	    			
-	    			RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
-	    			
-	    	    		RequestMoreInfo info = new RequestMoreInfo();
-	    	    		info.setIsReassigned(true);
-	    	    		info.setLeadStatus(null);
-	    	    		info.setEmail(vm.custEmail);
-	    	    		info.setName(vm.custName);
-	    	    		info.setPhone(vm.custNumber);
-	    	    		info.setCustZipCode(vm.custZipCode);
-	    	    		info.setEnthicity(vm.enthicity);
-	    	    		
-	    	    		//AddProduct product = AddProduct.findById(Long.parseLong(vm.id));
-	    	    		//info.setProductId(product.getId());
-	    	    		//AddProduct product = AddProduct.findByProductIdOne(productVM.title, Location.findById(Long.valueOf(session("USER_LOCATION"))));
-	    	    		//info.setVin();
-	    	    		info.setProductId(productVM.id);
-	    	    		info.setUser(user);
-	    				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	    	    		info.setIsScheduled(false);
-	    	    		info.setIsRead(1);
-	    	    		info.setHearedFrom(rInfo.hearedFrom);
-	    	    		info.setContactedFrom(rInfo.contactedFrom);
-	    	    		info.setAssignedTo(user);
-	    	    		info.setOnlineOrOfflineLeads(1);
-	    	    		info.setRequestDate(reqDate);
-	    	    		/*PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	    	    		if(pLeads != null){
-	        				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
-	        					info.setPremiumFlag(1);
-	        				}else{
-	        					info.setPremiumFlag(0);
-	        					if(pLeads.premium_flag == 0){
-	        						info.setAssignedTo(user);
-	        					}
-	        				}
-	        				if(pLeads.premium_flag == 1){
-	        					AuthUser aUser = AuthUser.getlocationAndManagerOne(Location.findById(Long.valueOf(session("USER_LOCATION"))));
-	        					info.setAssignedTo(aUser);
-	        				}
-	        			
-	    	    		}else{
-	    	    			info.setPremiumFlag(0);
-	    	    			info.setAssignedTo(user);
-	    	    		}*/
-	    	    		
-	    	    		if(parentFlag == 1){
-	    	    			info.setParentId(parentLeadId);
-	    	    		}
-	    	    		
-	    	    		info.save();
-	    	    		
-	    	    		saveCustomData(info,vm,bodys,"Request More Info");
-	    	    		
-	    	    		if(parentFlag == 0){
-	    	    			parentFlag = 1;
-	    	    			parentLeadId = info.getId();
-	    	    		}
-	    	    		
-	    	    		UserNotes uNotes = new UserNotes();
-	    	    		uNotes.setNote("Lead has been created");
-	    	    		uNotes.setAction("Other");
-	    	    		uNotes.createdDate = currDate;
-	    	    		uNotes.createdTime = currDate;
-	    	    		uNotes.saveHistory = 1;
-	    	    		uNotes.user = user;
-	    	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	    	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
-	    	    		uNotes.save();
-	    	    		
-	    	    		/*if(info.premiumFlag == 1){
-	    	    			sendMailpremium();
-	    	    		}*/
-	    	    		
-	        	}else if(vm.leadType.equals("Schedule Test Drive")){
+	    		 if(vm.leadType.equals("Schedule Test Drive")){
 	        		
 	        		ScheduleTest sInfo = ScheduleTest.findById(Long.parseLong(vm.id));
 	        		Date confirmDate = null;
@@ -4239,7 +4182,7 @@ public class Application extends Controller {
 	    	    		map.put("uname", user.firstName+" "+user.lastName);
 	    	    		map.put("uphone", user.phone);
 	    	    		map.put("uemail", user.email);
-	    	    		makeToDo(vehicle.vin);
+	    	    		makeToDo(productVM.id);
 	    	    		/*if(test.premiumFlag == 1){
 	    	    			sendMailpremium();
 	    	    		}*/
@@ -5258,6 +5201,81 @@ public class Application extends Controller {
 	    			} catch (Exception e) {
 	    				e.printStackTrace();
 	    			}
+	        	}else if(vm.leadType.equals("Request More Info")){
+	    			
+	    			RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
+	    			
+	    	    		RequestMoreInfo info = new RequestMoreInfo();
+	    	    		info.setIsReassigned(true);
+	    	    		info.setLeadStatus(null);
+	    	    		info.setEmail(vm.custEmail);
+	    	    		info.setName(vm.custName);
+	    	    		info.setPhone(vm.custNumber);
+	    	    		info.setCustZipCode(vm.custZipCode);
+	    	    		info.setEnthicity(vm.enthicity);
+	    	    		
+	    	    		//AddProduct product = AddProduct.findById(Long.parseLong(vm.id));
+	    	    		//info.setProductId(product.getId());
+	    	    		//AddProduct product = AddProduct.findByProductIdOne(productVM.title, Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    	    		//info.setVin();
+	    	    		info.setProductId(productVM.id);
+	    	    		info.setUser(user);
+	    				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    	    		info.setIsScheduled(false);
+	    	    		info.setIsRead(1);
+	    	    		info.setHearedFrom(rInfo.hearedFrom);
+	    	    		info.setContactedFrom(rInfo.contactedFrom);
+	    	    		info.setAssignedTo(user);
+	    	    		info.setOnlineOrOfflineLeads(1);
+	    	    		info.setRequestDate(reqDate);
+	    	    		/*PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	    		if(pLeads != null){
+	        				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
+	        					info.setPremiumFlag(1);
+	        				}else{
+	        					info.setPremiumFlag(0);
+	        					if(pLeads.premium_flag == 0){
+	        						info.setAssignedTo(user);
+	        					}
+	        				}
+	        				if(pLeads.premium_flag == 1){
+	        					AuthUser aUser = AuthUser.getlocationAndManagerOne(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	        					info.setAssignedTo(aUser);
+	        				}
+	        			
+	    	    		}else{
+	    	    			info.setPremiumFlag(0);
+	    	    			info.setAssignedTo(user);
+	    	    		}*/
+	    	    		
+	    	    		if(parentFlag == 1){
+	    	    			info.setParentId(parentLeadId);
+	    	    		}
+	    	    		
+	    	    		info.save();
+	    	    		
+	    	    		saveCustomData(info.id,vm,bodys,2L);
+	    	    		
+	    	    		if(parentFlag == 0){
+	    	    			parentFlag = 1;
+	    	    			parentLeadId = info.getId();
+	    	    		}
+	    	    		
+	    	    		UserNotes uNotes = new UserNotes();
+	    	    		uNotes.setNote("Lead has been created");
+	    	    		uNotes.setAction("Other");
+	    	    		uNotes.createdDate = currDate;
+	    	    		uNotes.createdTime = currDate;
+	    	    		uNotes.saveHistory = 1;
+	    	    		uNotes.user = user;
+	    	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+	    	    		uNotes.save();
+	    	    		
+	    	    		/*if(info.premiumFlag == 1){
+	    	    			sendMailpremium();
+	    	    		}*/
+	    	    		
 	        	}
 	    		
 	    	 }
@@ -11043,15 +11061,20 @@ public class Application extends Controller {
 	    	for(RequestMoreInfo info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
-	    			vm.year = vehicle.year;
-	    			vm.mileage = vehicle.mileage;
-	    			vm.price = vehicle.price;
+	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		vm.productId = info.productId;
+	    		if(productInfo != null) {
+	    			vm.title = productInfo.title;
+	    			vm.designer = productInfo.designer;
+	    			vm.price = (int) productInfo.price;
+	    			vm.year = productInfo.year;
+	    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+	        		if(pImage!=null) {
+	        			vm.imgId = pImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.message=info.message;
 	    		vm.name = info.name;
@@ -11115,15 +11138,13 @@ public class Application extends Controller {
 	    	for(RequestMoreInfo info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
-	    			vm.year = vehicle.year;
-	    			vm.mileage = vehicle.mileage;
-	    			vm.price = vehicle.price;
+	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		vm.productId = info.productId;
+	    		if(productInfo != null) {
+	    			vm.title = productInfo.title;
+	    			vm.designer = productInfo.designer;
+	    			vm.price = (int) productInfo.price;
+	    			vm.year = productInfo.year;
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -12044,11 +12065,11 @@ public class Application extends Controller {
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.requestDate = df.format(info.requestDate);
-	    		
-	    		if(!info.custZipCode.equals("null")){
-	    			vm.custZipCode = info.custZipCode;
+	    		if(info.custZipCode != null){
+	    			if(!info.custZipCode.equals("null")){
+	    				vm.custZipCode = info.custZipCode;
+	    			}
 	    		}
-	    		
 	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "ContactUs Info";
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
@@ -12130,9 +12151,10 @@ public class Application extends Controller {
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.requestDate = df.format(info.requestDate);
-	    		
+	    		if(info.custZipCode != null){
 	    		if(!info.custZipCode.equals("null")){
 	    			vm.custZipCode = info.custZipCode;
+	    		}
 	    		}
 	    		
 	    		vm.enthicity = info.enthicity;
@@ -12584,22 +12606,16 @@ public class Application extends Controller {
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
-	    			vm.year = vehicle.year;
-	    			vm.mileage = vehicle.mileage;
-	    			vm.price = vehicle.price;
-	    			vm.bodyStyle =vehicle.bodyStyle;
-	    			vm.drivetrain = vehicle.drivetrain;
-	    			vm.engine = vehicle.engine;
-	    			vm.transmission = vehicle.transmission;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
-	        		if(vehicleImage!=null) {
-	        			vm.imgId = vehicleImage.getId().toString();
+	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		vm.productId = info.productId;
+	    		if(productInfo != null) {
+	    			vm.title = productInfo.title;
+	    			vm.designer = productInfo.designer;
+	    			vm.price = (int) productInfo.price;
+	    			vm.year = productInfo.year;
+	    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+	        		if(pImage!=null) {
+	        			vm.imgId = pImage.getId().toString();
 	        		}
 	        		else {
 	        			vm.imgId = "/assets/images/no-image.jpg";
@@ -13066,23 +13082,16 @@ public class Application extends Controller {
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
-	    			vm.year = vehicle.year;
-	    			vm.mileage = vehicle.mileage;
-	    			vm.price = vehicle.price;
-	    			
-	    			vm.bodyStyle =vehicle.bodyStyle;
-	    			vm.drivetrain = vehicle.drivetrain;
-	    			vm.engine = vehicle.engine;
-	    			vm.transmission = vehicle.transmission;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
-	        		if(vehicleImage!=null) {
-	        			vm.imgId = vehicleImage.getId().toString();
+	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		vm.productId = info.productId;
+	    		if(productInfo != null) {
+	    			vm.title = productInfo.title;
+	    			vm.designer = productInfo.designer;
+	    			vm.price = (int) productInfo.price;
+	    			vm.year = productInfo.year;
+	    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+	        		if(pImage!=null) {
+	        			vm.imgId = pImage.getId().toString();
 	        		}
 	        		else {
 	        			vm.imgId = "/assets/images/no-image.jpg";
@@ -13294,22 +13303,16 @@ public class Application extends Controller {
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
-	    			vm.year = vehicle.year;
-	    			vm.mileage = vehicle.mileage;
-	    			vm.price = vehicle.price;
-	    			vm.bodyStyle =vehicle.bodyStyle;
-	    			vm.drivetrain = vehicle.drivetrain;
-	    			vm.engine = vehicle.engine;
-	    			vm.transmission = vehicle.transmission;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
-	        		if(vehicleImage!=null) {
-	        			vm.imgId = vehicleImage.getId().toString();
+	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		vm.productId = info.productId;
+	    		if(productInfo != null) {
+	    			vm.title = productInfo.title;
+	    			vm.designer = productInfo.designer;
+	    			vm.price = (int) productInfo.price;
+	    			vm.year = productInfo.year;
+	    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+	        		if(pImage!=null) {
+	        			vm.imgId = pImage.getId().toString();
 	        		}
 	        		else {
 	        			vm.imgId = "/assets/images/no-image.jpg";
@@ -13590,7 +13593,7 @@ public class Application extends Controller {
 	    			infoObj.setAssignedTo(null);
 	    		}
 	    		infoObj.update();
-	    		List<RequestMoreInfo> listData = new ArrayList<>();
+	    		/*List<RequestMoreInfo> listData = new ArrayList<>();
 	    		if(user.role == null) {
 	    			listData = RequestMoreInfo.findAllData();
 	    		} else {
@@ -13639,9 +13642,9 @@ public class Application extends Controller {
 	        		}
 	        		
 	        		infoVMList.add(vm);
-	        	}
+	        	}*/
 	        	
-	        	return ok(Json.toJson(infoVMList));
+	        	return ok();
     	}	
     }
     
@@ -13705,12 +13708,20 @@ public class Application extends Controller {
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
+	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		vm.productId = info.productId;
+	    		if(productInfo != null) {
+	    			vm.title = productInfo.title;
+	    			vm.designer = productInfo.designer;
+	    			vm.price = (int) productInfo.price;
+	    			vm.year = productInfo.year;
+	    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+	        		if(pImage!=null) {
+	        			vm.imgId = pImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -13795,12 +13806,20 @@ public class Application extends Controller {
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
+	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		vm.productId = info.productId;
+	    		if(productInfo != null) {
+	    			vm.title = productInfo.title;
+	    			vm.designer = productInfo.designer;
+	    			vm.price = (int) productInfo.price;
+	    			vm.year = productInfo.year;
+	    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+	        		if(pImage!=null) {
+	        			vm.imgId = pImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		if(info.lastName != null){
 	    			vm.name = info.firstName+" "+info.lastName;
@@ -15016,12 +15035,13 @@ public class Application extends Controller {
     	return ok(Json.toJson(listOfString));
     }
     
-    private static void makeToDo(String vin) {
+    private static void makeToDo(Long pId) {
     	AuthUser user = (AuthUser) getLocalUser();
     	ToDo todo = new ToDo();
-		Vehicle vobj = Vehicle.findByVinAndStatus(vin);
-		if(vobj != null){
-			todo.task = "Follow up with the client about test Drive for"+vobj.make+" "+vobj.model+" ("+vobj.vin+")";
+    	AddProduct pAddProduct = AddProduct.findByIdNotSale(pId);
+		//Vehicle vobj = Vehicle.findByVinAndStatus(vin);
+		if(pAddProduct != null){
+			todo.task = "Follow up with the client about test Drive for"+pAddProduct.designer+" "+pAddProduct.title;
 			todo.assignedTo = user;
 			todo.assignedBy = user;
 			todo.priority = "High";
@@ -15079,7 +15099,7 @@ public class Application extends Controller {
 			e.printStackTrace();
 		}
 
-		
+		leadVM.id = form.data().get("id");
 		leadVM.custEmail = form.data().get("custEmail");
 		leadVM.custName = form.data().get("custName");
 		leadVM.custNumber = form.data().get("custNumber");
@@ -15091,16 +15111,16 @@ public class Application extends Controller {
     }
     
     
-    private static void saveCustomData(RequestMoreInfo info,LeadVM leadVM,MultipartFormData bodys,String leadtype) {
+    private static void saveCustomData(Long infoId,LeadVM leadVM,MultipartFormData bodys,Long leadtype) {
     	
     	for(KeyValueDataVM custom:leadVM.customData){
     		
-    		CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId(custom.key,info.id);
+    		CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId(custom.key,infoId);
     		if(cDataValue == null){
     			CustomizationDataValue cValue = new CustomizationDataValue();
     			cValue.keyValue = custom.key;
     			cValue.value = custom.value;
-    			cValue.leadId = info.id;
+    			cValue.leadId = infoId;
     			cValue.leadType = leadtype;
     			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			cValue.save();
@@ -15110,11 +15130,8 @@ public class Application extends Controller {
     			cDataValue.setValue(custom.value);
     			cDataValue.update();
     		}
-    		
 			
 		}
-    	
-    	
     	
     	
     	if(bodys != null){
@@ -15123,21 +15140,30 @@ public class Application extends Controller {
     			String fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
     			File file = picture.getFile();
     			try {
-    				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+info.id+File.separator+fileName);
+    				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileName);
     	    	    if(!fdir.exists()) {
     	    	    	fdir.mkdir();
     	    	    }
-    	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+info.id+File.separator+fileName;
+    	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileName;
     	    	    FileUtils.moveFile(file, new File(filePath));
     	    	    
-    	    	    CustomizationDataValue cValue = new CustomizationDataValue();
-    				cValue.keyValue = "fileupload";
-    				cValue.value = session("USER_LOCATION")+File.separator+"leads"+File.separator+info.id+File.separator+fileName;
-    				cValue.leadId = info.id;
-    				cValue.leadType = leadtype;
-    				cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    				cValue.save();
-    	    	   // vehicle.setPdfBrochurePath(session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure"+fileName);
+    				
+    				CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId("fileupload",infoId);
+    	    		if(cDataValue == null){
+    	    			 CustomizationDataValue cValue = new CustomizationDataValue();
+    	    				cValue.keyValue = "fileupload";
+    	    				cValue.value = session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileName;
+    	    				cValue.leadId = infoId;
+    	    				cValue.leadType = leadtype;
+    	    				cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    				cValue.save();
+    	    			
+    	    		}else{
+    	    			//cDataValue.setKeyValue(custom.key);
+    	    			cDataValue.setValue(session("USER_LOCATION")+File.separator+"leads"+File.separator+infoId+File.separator+fileName);
+    	    			cDataValue.update();
+    	    		}
+    				
     			} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -15619,7 +15645,7 @@ private static void cancelTestDriveMail(Map map) {
 	        context.put("monthName", monthName);
 	        context.put("confirmTime", map.get("confirmTime"));
 	        
-	        Vehicle vehicle = Vehicle.findByVinAndStatus(map.get("vin").toString());
+	        Vehicle vehicle = Vehicle.findByVinAndStatus(map.get("productId").toString());
 	        context.put("year", vehicle.year);
 	        context.put("make", vehicle.make);
 	        context.put("model", vehicle.model);
@@ -28136,7 +28162,6 @@ if(vehicles.equals("All")){
     	
     	LeadVM leadVM = null;
     	
-    	
     	Form<LeadVM> form = DynamicForm.form(LeadVM.class).bindFromRequest();
     	if(bodys != null){
     		LeadVM leadVM1 = new LeadVM();
@@ -28153,7 +28178,7 @@ if(vehicles.equals("All")){
     	long parentLeadId = 0L;
     	
     	List<Vehicle> vehicles = Vehicle.findByMakeAndModel(makestr, model);
-    	if(leadVM.leadType.equals("1")) {
+    	if(!leadVM.leadType.equals("2") && !leadVM.leadType.equals("3")) {
     		for(VehicleVM vehicleVM:leadVM.stockWiseData){
 	    		RequestMoreInfo info = new RequestMoreInfo();
 	    		info.setIsReassigned(true);
@@ -28195,14 +28220,14 @@ if(vehicles.equals("All")){
 					info.setPremiumFlag(0);
 						info.setAssignedTo(user);
 				}*/
-	    		
+	    		info.setIsContactusType(leadVM.leadType);
 	    		if(parentFlag == 1){
 	    			info.setParentId(parentLeadId);
 	    		}
 	    		
 	    		info.save();
 	    		
-	    		saveCustomData(info,leadVM,bodys,"Request More Info");
+	    		saveCustomData(info.id,leadVM,bodys,Long.parseLong(leadVM.leadType));
 	    	
 	    		if(parentFlag == 0){
 	    			parentFlag = 1;
@@ -28263,8 +28288,8 @@ if(vehicles.equals("All")){
 	    		test.setScheduleDate(new Date());
 	    		test.setScheduleTime(new Date());
 	    		test.setPreferredContact(leadVM.prefferedContact);
-	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
-	    		test.setVin(vehicle.getVin());
+	    		AddProduct product = AddProduct.findById(vehicleVM.id);
+	    		test.setProductId(product.getId());
 	    		test.setAssignedTo(user);
 	    		test.setPremiumFlag(0);
 	    		test.setOnlineOrOfflineLeads(0);
@@ -28296,6 +28321,7 @@ if(vehicles.equals("All")){
 	    		
 	    		test.save();
 	    		
+	    		saveCustomData(test.id,leadVM,bodys,Long.parseLong(leadVM.leadType));
 	    		
 	    		UserNotes uNotes = new UserNotes();
 	    		uNotes.setNote("Lead has been created");
@@ -28312,12 +28338,12 @@ if(vehicles.equals("All")){
 	    		map.put("email",leadVM.custEmail);
 	    		map.put("confirmDate", confirmDate);
 	    		map.put("confirmTime",leadVM.bestTime);
-	    		map.put("vin", vehicle.getVin());
+	    		map.put("vin", product.getId());
 	    		map.put("uname", user.firstName+" "+user.lastName);
 	    		map.put("uphone", user.phone);
 	    		map.put("uemail", user.email);
 	    		
-	    		makeToDo(vehicle.vin);
+	    		makeToDo(product.getId());
 	    		
 
 	    		if(parentFlag == 0){
@@ -28331,7 +28357,7 @@ if(vehicles.equals("All")){
    					sendMailpremium();
    				}*/
     	}
-    	} else {
+    	} else if(leadVM.leadType.equals("3")){
     		TradeIn tIn = null;
     		if(leadVM.id != null){
     			tIn = TradeIn.findById(Long.parseLong(leadVM.id));
@@ -28392,8 +28418,8 @@ if(vehicles.equals("All")){
         		tradeIn.setUser(user);
     			tradeIn.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		tradeIn.setVehiclenew(leadVM.vehiclenew);
-        		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber,Location.findById(Long.valueOf(session("USER_LOCATION"))));
-        		tradeIn.setVin(vehicle.getVin());
+        		AddProduct product = AddProduct.findById(vehicleVM.id);
+        		tradeIn.setProductId(product.getId());
         		tradeIn.setAssignedTo(user);
         		tradeIn.setPremiumFlag(0);
         		tradeIn.setOnlineOrOfflineLeads(0);
@@ -28426,6 +28452,9 @@ if(vehicles.equals("All")){
 	    		
         		tradeIn.save();
 	    		
+        		
+        		saveCustomData(tradeIn.id,leadVM,bodys,Long.parseLong(leadVM.leadType));
+        		
 	    		if(parentFlag == 0){
 	    			parentFlag = 1;
 	    			parentLeadId = tradeIn.getId();
@@ -28447,7 +28476,9 @@ if(vehicles.equals("All")){
 	    		}*/
     		
     		
-    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
+        		ProductImages pImages = ProductImages.findDefaultImg(product.getId());
+        		
+    		//VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
     		
     		AuthUser defaultUser = getLocalUser();
     		//AuthUser defaultUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
@@ -29152,10 +29183,10 @@ if(vehicles.equals("All")){
 				context.put("year", tradeIn.getYear());
 				context.put("make", tradeIn.getMake());
 				context.put("model", tradeIn.getModel());
-				context.put("price", "$" + vehicle.getPrice());
-				context.put("vin", vehicle.getVin());
-				context.put("stock", vehicle.getStock());
-				context.put("mileage", vehicle.getMileage());
+				//context.put("price", "$" + vehicle.getPrice());
+				//context.put("vin", vehicle.getVin());
+				//context.put("stock", vehicle.getStock());
+				//context.put("mileage", vehicle.getMileage());
 				context.put("pdffilePath", findpath);
 
 				if (tradeIn.getPreferredContact() != null) {

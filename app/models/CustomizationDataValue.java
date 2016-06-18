@@ -24,7 +24,7 @@ public class CustomizationDataValue extends Model {
 	public String value;
 	public String keyValue;
 	public Long leadId;
-	public String leadType;
+	public Long leadType;
 	
 	@ManyToOne
 	public Location locations;
@@ -62,11 +62,12 @@ public class CustomizationDataValue extends Model {
 		this.leadId = leadId;
 	}
 
-	public String getLeadType() {
+
+	public Long getLeadType() {
 		return leadType;
 	}
 
-	public void setLeadType(String leadType) {
+	public void setLeadType(Long leadType) {
 		this.leadType = leadType;
 	}
 

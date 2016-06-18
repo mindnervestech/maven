@@ -89,6 +89,7 @@ public class TradeIn extends Model {
 	public String testDriveCompletedDuration;
 	public int onlineOrOfflineLeads;
 public String testDriveStatus;
+	public Long productId;
 	
 	
 	
@@ -215,6 +216,13 @@ public String testDriveStatus;
 	}
 	public void setWorkPhone(String workPhone) {
 		this.workPhone = workPhone;
+	}
+	
+	public Long getProductId() {
+		return productId;
+	}
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
 	public String getPhone() {
 		return phone;

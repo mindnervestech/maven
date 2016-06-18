@@ -2179,7 +2179,6 @@ angular.module('newApp')
    	  		}
    	 $scope.calculateFinancialData = function(financeData){
    		 
-   		 console.log("hjhjhjhjhjh");
    	  	var cost         =financeData.price;
 		var down_payment =financeData.downPayment;
 		var interest     =financeData.annualInterestRate;
@@ -2194,6 +2193,20 @@ angular.module('newApp')
    	 }
    	  	
    	  		$scope.editleads = function(){
+   	  			
+   	  		$scope.customData.setTime = $("#bestTimes").val()
+			if($scope.customData.setTime == undefined){
+				delete $scope.customData.setTime;
+			}
+			console.log($('#exCustoms_value').val());
+			$scope.customData.custName = $('#exCustoms_value').val();
+			if($scope.customData.custName == undefined){
+				delete $scope.customData.custName;
+			}
+			$scope.customData.autocompleteText = $("#autocomplete").val()
+			if($scope.customData.autocompleteText == undefined){
+				delete $scope.customData.autocompleteText;
+			}
    	  		console.log($scope.customData);
    	  	 $.each($scope.customData, function(attr, value) {
 		      $scope.customList.push({
@@ -2202,12 +2215,34 @@ angular.module('newApp')
 	   	  			
 				});
 		   });
+   	  	 
 		
    	  		$scope.editLeads.customData = $scope.customList;
    	  		$scope.editLeads.stockWiseData = $scope.stockWiseData;
    	  		console.log($scope.editLeads);
-	   	  		 $http.post('/editLeads',$scope.editLeads).success(function(data) {
-	   	  			 
+   	  	var files = [];
+   	  	if($rootScope.fileCustom != undefined){
+			console.log($rootScope.fileCustom);
+			files = $rootScope.fileCustom;
+			
+			console.log(files.length);
+			console.log(files);
+			
+			// delete $scope.lead.customData;
+			// delete $scope.lead.options;
+			// delete $scope.lead.stockWiseData;
+			
+			 $upload.upload({
+	            url : '/editLeads',
+	            method: 'POST',
+	            file:files,
+	            data:$scope.editLeads
+	         }).success(function(data) {
+	   			console.log('success');
+	   			
+	   		 });
+			}else{ 
+   	  			$http.post('/editLeads',$scope.editLeads).success(function(data) {
 	   	  			 	$.pnotify({
 						    title: "Success",
 						    type:'success',
@@ -2217,6 +2252,7 @@ angular.module('newApp')
 	   	  			$("#editLeads").modal('hide');
 	   	  			$scope.getAllSalesPersonRecord($scope.salesPerson);
 				 });
+			 }
    	  		}
    	  		$scope.joinDatePick = function(index){
    	  			
@@ -4261,12 +4297,18 @@ angular.module('newApp')
 	    		$scope.focusIn = function(itm){
 					$scope.len = itm;
 	    		};
+	    		
+	    		/*$scope.selectedObjs = function(select){
+	    			console.log(select);
+	    		}*/
+	    		
 	    		$scope.createLead = function() {
 	    			$scope.customData.setTime = $("#bestTimes").val()
 	    			if($scope.customData.setTime == undefined){
 	    				delete $scope.customData.setTime;
 	    			}
-	    			$scope.customData.custName = $("#exCustom_value").val();
+	    			console.log($('#exCustoms_value').val());
+	    			$scope.customData.custName = $('#exCustoms_value').val();
 	    			if($scope.customData.custName == undefined){
 	    				delete $scope.customData.custName;
 	    			}
@@ -4312,9 +4354,11 @@ angular.module('newApp')
 			    			} else {
 			    				$scope.makeLead();
 			    			}
-		    			} else {
+		    			} else if($scope.lead.leadType=='3') {
 		    				$("#createLeadPopup").modal('hide');
 		    				$("#tradeInApp").modal();
+		    			}else{
+		    				$scope.makeLead();
 		    			}
 	    			}
 	    			if($scope.lead.leadType != '3'){
@@ -4774,6 +4818,7 @@ angular.module('newApp')
     	}*/
     	
     	$scope.requestMore = function() {
+    		$scope.otherLeads = false;
     		$scope.schedTest = false;
     		$scope.reqMore = true;	
         	$scope.testdrv = false;
@@ -4785,7 +4830,7 @@ angular.module('newApp')
     	}		  
     	/*$scope.testDrive = function() {
     		$scope.schedTest = false;
-    		$scope.reqMore = false;	
+    		k false;	
         	$scope.testdrv = true;
         	$scope.trdin = false;
         	$scope.allLeadd = false;
@@ -4805,6 +4850,7 @@ angular.module('newApp')
     	}*/
     	
     	$scope.contactUs = function(){
+    		$scope.otherLeads = false;
     		$scope.schedTest = false;
     		$scope.reqMore = false;	
         	$scope.testdrv = false;
@@ -4816,6 +4862,7 @@ angular.module('newApp')
     	}
     	
     	$scope.getAllLeadIn = function(){
+    		$scope.otherLeads = false;
     		$scope.schedTest = false;
     		$scope.reqMore = false;	
         	$scope.testdrv = false;
@@ -4836,6 +4883,7 @@ angular.module('newApp')
     	$scope.getCompletedLeads = function(){
     		$scope.completedLeadsTest = true;
     		$scope.schedTestGrid = false;
+    		$scope.otherLeads = false;
     		$scope.schedTest = true;
     		$scope.reqMore = false;	
         	$scope.testdrv = false;
@@ -4850,6 +4898,7 @@ angular.module('newApp')
     	}*/
         $scope.canceledLeads = function() {
         	$scope.schedTest = false;
+        	$scope.otherLeads = false;
         	$scope.showAllTypeLeads = false;
         	$scope.reqMore = false;	
         	$scope.testdrv = false;
@@ -4859,6 +4908,7 @@ angular.module('newApp')
 //        	$scope.getAllCanceledLeads();
         }
         $scope.showLeadsArchive = function(){
+        	$scope.otherLeads = false;
         	$scope.schedTest = false;
         	$scope.showAllTypeLeads = false;
         	$scope.reqMore = false;	
@@ -5032,6 +5082,17 @@ angular.module('newApp')
 			return deferred.promise;
 		};
 		
+		$scope.getOtherLeadInfo = function(id){
+			var deferred = $q.defer();
+			$http.get('/getAllSalesPersonOtherLead/'+id)
+			.success(function(data) {
+				var countUnReadLead = 0;
+				$scopoe.otherLead = data;
+			
+		   });
+			return deferred.promise;
+		};
+		
 		$scope.getContactUsData = function(id){
 			var deferred = $q.defer();
 			$http.get('/getAllSalesPersonContactUsSeen/'+id)
@@ -5134,6 +5195,8 @@ angular.module('newApp')
 		    		       			function(success){
 		    		       				//$scope.getTradeInData(id).then(
 		    		    		       			//function(success){
+		    		       				$scope.getOtherLeadInfo(id).then(
+		    		    		       			function(success){
 		    		    		       				$scope.getContactUsData(id).then(
 		    		    		    		       			function(success){
 		    		    		       				$scope.addData().then(
@@ -5174,6 +5237,10 @@ angular.module('newApp')
 		    		    		    		       				
 		    		    		    		       			}
 		    		    		    		       	);
+		    		    		    		       			},function(error){
+		    		    		    		       				
+		    		    		    		       			}
+		    		    		    		       	);	
 		    		    		       			},function(error){
 		    		    		       				
 		    		    		       			}
@@ -8511,6 +8578,104 @@ angular.module('newApp')
 			   }); 
 			   
 		   }
+		   $scope.leadList = [];
+		   $http.get('/getSelectedLeadType').success(function(response) {
+				console.log(response);
+				
+				angular.forEach(response, function(value, key) {
+					if(value.id > 1){
+						$scope.leadList.push(value); 
+					}
+				});
+			
+			});
+		   $scope.AllOtherLeadSeenList = [];
+		   
+		   $scope.otherLeadId = function(){
+			   console.log("change");
+			   console.log($scope.otherLead);
+			   $scope.otherLeads = true;
+			   $scope.schedTest = false;
+	    		$scope.reqMore = false;	
+	        	$scope.testdrv = false;
+	        	$scope.allLeadd = false;
+	        	$scope.trdin = false;
+	        	$scope.showLeadsV = false;
+	        	$scope.cancelleads = false;
+	        	$scope.contact = false;
+	        	
+	        	
+	        	angular.forEach($scope.otherLead,function(value,key){
+	        		if(value.noteFlag == 0 && value.confirmDate == null){
+	        			$scope.AllOtherLeadSeenList.push(value);
+	        		}
+	        	});
+	    	/*	$scopoe.otherLead = data;
+				$scope.gridOptions13.data = data;
+				$scope.AllOtherLeadSeenList = data;
+				if($scope.userType == "Sales Person"){
+					angular.forEach($scope.gridOptions13.data,function(value,key){
+		        		$scope.getAllListLeadDate.push(value);
+		        		if(value.noteFlag == 0 && value.confirmDate == null){
+		        			countUnReadLead++;
+		        		}
+		        	});
+						$scope.lengthOfAllLead = countUnReadLead;
+						deferred.resolve("success");
+				}else{
+					deferred.resolve("error");
+				}*/
+		   }
+		   
+			$scope.gridOptions13 = {
+				 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+				 		    paginationPageSize: 150,
+				 		    enableFiltering: true,
+				 		    useExternalFiltering: true,
+				 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+				 		 };
+				
+				
+				 $scope.gridOptions13.enableHorizontalScrollbar = 0;
+					 $scope.gridOptions13.enableVerticalScrollbar = 2;
+					 $scope.gridOptions13.columnDefs = [
+					                                 { name: 'title', displayName: 'Title', width:'30%',cellEditableCondition: false,
+					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+					                                       if (row.entity.isRead === false) {
+					                                         return 'red';
+					                                     }
+					                                	} ,
+					                                 },
+					                                 { name: 'showUrl', displayName: 'ShowUrl', width:'47%',cellEditableCondition: false,
+					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+					                                       if (row.entity.isRead === false) {
+					                                         return 'red';
+					                                     }
+					                                	} ,
+					                                 },
+					                                 { name: 'value_percent', displayName: 'Value Percent', width:'10%',cellEditableCondition: false,
+					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+					                                       if (row.entity.isRead === false) {
+					                                         return 'red';
+					                                     }
+					                                	} ,
+					                                 },
+					                                 { name: 'edit', displayName: '', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+			    		                                 cellTemplate:'<a ng-click="grid.appScope.showheatmap(row)"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://cdn.staticstuff.net/media/icon_heatmap.png"></a>', 
+					                                 
+					                                 },
+					                                 ];
+				
+					 $scope.gridOptions13.onRegisterApi = function(gridApi){
+						 $scope.gridApi = gridApi;
+						 
+				   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+					          var grid = this.grid;
+					          $scope.gridOptions13.data = $filter('filter')($scope.heatMapList,{'title':grid.columns[0].filters[0].term,'showUrl':grid.columns[1].filters[0].term,'value_percent':grid.columns[2].filters[0].term},undefined);
+					        });
+				   		
+			 		};
+		 	
 		       
 		   
   }]);
