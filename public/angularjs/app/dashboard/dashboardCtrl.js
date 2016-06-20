@@ -4379,7 +4379,7 @@ angular.module('newApp')
 	    		/*$scope.selectedObjs = function(select){
 	    			console.log(select);
 	    		}*/
-	    		
+	    		$scope.customData = {};
 	    		$scope.createLead = function() {
 	    			$scope.customData.setTime = $("#bestTimes").val()
 	    			if($scope.customData.setTime == undefined){
