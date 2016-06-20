@@ -580,6 +580,10 @@ public class ScheduleTest extends Model {
 		return find.where().eq("vin", vin).eq("leadStatus", null).eq("locations", location).findList();
 	}
 	
+	public static List<ScheduleTest>  findByProductAndLocation(Long pId,Location location) {
+		return find.where().eq("productId", pId).eq("leadStatus", null).eq("locations", location).findList();
+	}
+	
 	public static List<ScheduleTest>  findByVinSoldAndLocation(String vin,Location location) {
 		return find.where().eq("vin", vin).ne("leadStatus", null).eq("locations", location).findList();
 	}

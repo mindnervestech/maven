@@ -15,10 +15,14 @@ public class SoldContactVM {
 	public String howContactedUs;
 	public String howFoundUs;
 	public String make;
+	public String title;
+	public String designer;
+	public Long productId;
 	public String year;
 	public String mileage;
 	public String price;
 	public String typeOfLead;
+	public String leadId;
 	public String vin;
 	public String statusVal;
 	public String custZipCode;

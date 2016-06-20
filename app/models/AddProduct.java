@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -18,13 +19,9 @@ public class AddProduct extends Model {
 	public String description;
 	public double price;
 	public double cost;
-	public double getCost() {
-		return cost;
-	}
-	public void setCost(double cost) {
-		this.cost = cost;
-	}
-
+	public Date soldDate;
+	public String year;
+	public String designer;
 	public String sale;
 	public String filePath;
 	public String newFlag;
@@ -34,6 +31,16 @@ public class AddProduct extends Model {
 	
 	@ManyToOne
 	public Location locations;
+	
+	@ManyToOne
+	public AuthUser soldUser;
+	
+	public double getCost() {
+		return cost;
+	}
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
 	
 	public String getCadfileName() {
 		return cadfileName;
@@ -72,10 +79,21 @@ public class AddProduct extends Model {
 	public void setDesigner(String designer) {
 		this.designer = designer;
 	}
-
-	public String year;
-	public String designer;
 	
+
+	public Date getSoldDate() {
+		return soldDate;
+	}
+	public void setSoldDate(Date soldDate) {
+		this.soldDate = soldDate;
+	}
+	public AuthUser getSoldUser() {
+		return soldUser;
+	}
+	public void setSoldUser(AuthUser soldUser) {
+		this.soldUser = soldUser;
+	}
+
 	
 	public String getNewFlag() {
 		return newFlag;

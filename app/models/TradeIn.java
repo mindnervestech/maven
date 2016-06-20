@@ -695,6 +695,10 @@ public String testDriveStatus;
 		return find.where().eq("vin", vin).eq("status", null).eq("locations", location).findList();
 	}
 	
+	public static List<TradeIn>  findByProductIdAndLocation(Long pId,Location location) {
+		return find.where().eq("productId", pId).eq("status", null).eq("locations", location).findList();
+	}
+	
 	public static List<TradeIn>  findByVinSoldAndLocation(String vin,Location location) {
 		return find.where().eq("vin", vin).ne("status", null).eq("locations", location).findList();
 	}

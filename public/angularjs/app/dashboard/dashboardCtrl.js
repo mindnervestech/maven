@@ -1219,6 +1219,84 @@ angular.module('newApp')
 
       
       $scope.activeTab = true;
+      
+      $scope.gridOptions13 = {
+ 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+ 	 		    paginationPageSize: 150,
+ 	 		    enableFiltering: true,
+ 	 		    useExternalFiltering: true,
+ 	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+ 	 		 };
+ 	 		 $scope.gridOptions13.enableHorizontalScrollbar = 0;
+ 	 		 $scope.gridOptions13.enableVerticalScrollbar = 2;
+ 	 		 $scope.gridOptions13.columnDefs = [
+ 	 		                                 { name: 'title', displayName: 'Title', width:'14%',cellEditableCondition: false,
+ 	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.title}}</a> ',
+ 	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+ 	 		                                       if (row.entity.noteFlag != 1) {
+ 	 		                                         return 'red';
+ 	 		                                       }
+ 	 		                                	} ,
+ 	 		                                 },
+ 	 		                                 { name: 'designer', displayName: 'Designer', width:'8%',cellEditableCondition: false,
+ 	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.designer}}</a> ',
+ 	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+ 	  		                                       if (row.entity.noteFlag != 1) {
+ 	  		                                         return 'red';
+ 	  		                                     }
+ 	 		                                	} ,
+ 	 		                                 },
+ 	 		                                 { name: 'name', displayName: 'Name', width:'10%',cellEditableCondition: false,
+ 	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
+ 	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+ 	  		                                       if (row.entity.noteFlag != 1) {
+ 	  		                                         return 'red';
+ 	  		                                     }
+ 	 		                                	} ,
+ 	 		                                 },
+ 	 		                                 { name: 'phone', displayName: 'Phone', width:'7%',cellEditableCondition: false,
+ 	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.phone}}</a> ',
+ 	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+ 	  		                                       if (row.entity.noteFlag != 1) {
+ 	  		                                         return 'red';
+ 	  		                                     }
+ 	 		                                	} ,
+ 	 		                                 },
+ 	 		                                 { name: 'email', displayName: 'Email', width:'9%',cellEditableCondition: false,
+ 	 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
+ 	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+ 	  		                                       if (row.entity.noteFlag != 1) {
+ 	  		                                         return 'red';
+ 	  		                                     }
+ 	 		                                	} ,
+ 	 		                                 },
+ 	 		                                { name: 'requestDate', displayName: 'Date Added', width:'5%',cellEditableCondition: false,
+ 	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.requestDate}}</a> ',
+	 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	 		   		                                       if (row.entity.noteFlag != 1) {
+	 		   		                                         return 'red';
+	 		   		                                     }
+	 		  		                                	} ,
+	 		 		                                 },
+ 	 		                                { name: 'btnSold', displayName: '',enableFiltering: false, width:'45%',cellEditableCondition: false,
+			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType != \'\'" style="margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,1)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button><button type="button" ng-click="grid.appScope.createContact(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">ADD TO CLIENTELE</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button>',
+			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+			   		                                       if (row.entity.noteFlag != 1) {
+			   		                                         return 'red';
+			   		                                     }
+			  		                                	} ,
+			 		                                 },
+ 	     		                                 ];
+			
+ 	 		$scope.gridOptions13.onRegisterApi = function(gridApi){
+ 				 $scope.gridApi = gridApi;
+ 				 
+ 		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+ 			          var grid = this.grid;
+ 			          $scope.gridOptions13.data = $filter('filter')($scope.AllRequestInfoSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'requestDate':grid.columns[6].filters[0].term},undefined);
+ 			        });
+ 		   		
+ 	  		};
 
       
       $scope.gridOptions5 = {
@@ -5086,8 +5164,21 @@ angular.module('newApp')
 			var deferred = $q.defer();
 			$http.get('/getAllSalesPersonOtherLead/'+id)
 			.success(function(data) {
-				var countUnReadLead = 0;
-				$scopoe.otherLead = data;
+				$scope.otherLead = data;
+				//$scope.gridOptions13.data = data;
+				//$scope.AllOtherLeadSeenList = data;
+				if($scope.userType == "Sales Person"){
+					angular.forEach($scope.otherLead,function(value,key){
+		        		$scope.getAllListLeadDate.push(value);
+		        		if(value.noteFlag == 0 && value.confirmDate == null){
+		        			countUnReadLead++;
+		        		}
+		        	});
+						$scope.lengthOfAllLead = countUnReadLead;
+						deferred.resolve("success");
+				}else{
+					deferred.resolve("error");
+				}
 			
 		   });
 			return deferred.promise;
@@ -5202,9 +5293,15 @@ angular.module('newApp')
 		    		    		       				$scope.addData().then(
 		    		    		    		       			function(success){
 		    		    		    		       				$scope.gridOptions7.data = $scope.getAllListLeadDate;
-		    		    				           	        	
+		    		    				           	        	//$scope.otherLeadId("5");
 		    		    				           	        	//$scope.getAllCanceledLeads();
 		    		    				           	        	//added by vinayak 23-Apr-2016
+		    		    				           	        	
+		    		    				           	        	
+		    		    				        	        	console.log($scope.otherLead);
+		    		    				        	        	//$scope.gridOptions13.data = $scope.otherLead; 
+		    		    				        	        	//console.log($scope.gridOptions13.data);
+		    		    				           	        	
 		    		    				           	        	$http.get('/getAllCanceledLeads/'+id)
 		    		    				           				.success(function(data) {
 		    		    				           					$scope.gridOptions4.data = data;
@@ -5610,6 +5707,7 @@ angular.module('newApp')
     		$scope.soldContact.phone = entity.phone;
     		$scope.soldContact.custZipCode = entity.custZipCode;
     		$scope.soldContact.typeOfLead = entity.typeOfLead;
+    		$scope.soldContact.leadId = entity.leadId;
     		$scope.soldContact.enthicity = entity.enthicity;
     		$scope.soldContact.parentChildLead = entity.parentChildLead;
     		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
@@ -5627,6 +5725,10 @@ angular.module('newApp')
     		$scope.soldContact.year = entity.year;
     		$scope.soldContact.mileage = entity.mileage;
     		$scope.soldContact.price = entity.price;
+    		$scope.soldContact.designer = entity.designer;
+    		$scope.soldContact.productId = entity.productId;
+    		
+    		$scope.soldContact.title = entity.title;
     		$('#btnCompleteRequest').click();
     	};
     	
@@ -8591,7 +8693,9 @@ angular.module('newApp')
 			});
 		   $scope.AllOtherLeadSeenList = [];
 		   
-		   $scope.otherLeadId = function(){
+		   $scope.otherLeadId = function(leads){
+			   
+			   $scope.AllOtherLeadSeenList = [];
 			   console.log("change");
 			   console.log($scope.otherLead);
 			   $scope.otherLeads = true;
@@ -8604,77 +8708,20 @@ angular.module('newApp')
 	        	$scope.cancelleads = false;
 	        	$scope.contact = false;
 	        	
-	        	
 	        	angular.forEach($scope.otherLead,function(value,key){
-	        		if(value.noteFlag == 0 && value.confirmDate == null){
-	        			$scope.AllOtherLeadSeenList.push(value);
+	        		console.log(value.isContactusType);
+	        		console.log(leads);
+	        		if(parseInt(value.isContactusType)== leads){
+	    				$scope.AllOtherLeadSeenList.push(value);
 	        		}
 	        	});
-	    	/*	$scopoe.otherLead = data;
-				$scope.gridOptions13.data = data;
-				$scope.AllOtherLeadSeenList = data;
-				if($scope.userType == "Sales Person"){
-					angular.forEach($scope.gridOptions13.data,function(value,key){
-		        		$scope.getAllListLeadDate.push(value);
-		        		if(value.noteFlag == 0 && value.confirmDate == null){
-		        			countUnReadLead++;
-		        		}
-		        	});
-						$scope.lengthOfAllLead = countUnReadLead;
-						deferred.resolve("success");
-				}else{
-					deferred.resolve("error");
-				}*/
+	        	
+	        	$scope.gridOptions13.data = $scope.AllOtherLeadSeenList; 
+	        	console.log($scope.gridOptions13.data);
+	    	
 		   }
 		   
-			$scope.gridOptions13 = {
-				 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
-				 		    paginationPageSize: 150,
-				 		    enableFiltering: true,
-				 		    useExternalFiltering: true,
-				 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
-				 		 };
-				
-				
-				 $scope.gridOptions13.enableHorizontalScrollbar = 0;
-					 $scope.gridOptions13.enableVerticalScrollbar = 2;
-					 $scope.gridOptions13.columnDefs = [
-					                                 { name: 'title', displayName: 'Title', width:'30%',cellEditableCondition: false,
-					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-					                                       if (row.entity.isRead === false) {
-					                                         return 'red';
-					                                     }
-					                                	} ,
-					                                 },
-					                                 { name: 'showUrl', displayName: 'ShowUrl', width:'47%',cellEditableCondition: false,
-					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-					                                       if (row.entity.isRead === false) {
-					                                         return 'red';
-					                                     }
-					                                	} ,
-					                                 },
-					                                 { name: 'value_percent', displayName: 'Value Percent', width:'10%',cellEditableCondition: false,
-					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-					                                       if (row.entity.isRead === false) {
-					                                         return 'red';
-					                                     }
-					                                	} ,
-					                                 },
-					                                 { name: 'edit', displayName: '', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-			    		                                 cellTemplate:'<a ng-click="grid.appScope.showheatmap(row)"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://cdn.staticstuff.net/media/icon_heatmap.png"></a>', 
-					                                 
-					                                 },
-					                                 ];
-				
-					 $scope.gridOptions13.onRegisterApi = function(gridApi){
-						 $scope.gridApi = gridApi;
-						 
-				   		$scope.gridApi.core.on.filterChanged( $scope, function() {
-					          var grid = this.grid;
-					          $scope.gridOptions13.data = $filter('filter')($scope.heatMapList,{'title':grid.columns[0].filters[0].term,'showUrl':grid.columns[1].filters[0].term,'value_percent':grid.columns[2].filters[0].term},undefined);
-					        });
-				   		
-			 		};
+		
 		 	
 		       
 		   

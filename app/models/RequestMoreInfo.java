@@ -304,6 +304,10 @@ public void setMessage(String message) {
 		return find.where().eq("vin", vin).eq("status", null).eq("locations", location).findList();
 	}
 	
+	public static List<RequestMoreInfo> findByProductIdAndLocation(Long pId,Location location) {
+		return find.where().eq("productId", pId).eq("status", null).eq("locations", location).findList();
+	}
+	
 	public static List<RequestMoreInfo> findByVinSoldAndLocation(String vin,Location location) {
 		return find.where().eq("vin", vin).ne("status", null).eq("locations", location).findList();
 	}

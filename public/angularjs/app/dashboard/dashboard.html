@@ -4722,8 +4722,7 @@ float: right !important;
 			      			<li role="presentation" class=" "><a id="tab" role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="requestMore()">Request More Info </a></li>
 			      			<!-- <li role="presentation" class=""><a role="tab" id="test-drive-tabSched" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="testDrive()">Schedule Test Drive</a></li>
 			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="tradeIn()">Trade In Inquiries</a></li> -->
-			      			<li role="presentation" class="" ng-repeat="lead in leadList"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="otherLeadId(lead)">{{lead.leadName}}</a></li>
-			      			
+			      			<li role="presentation" class="" ng-repeat="lead in leadList"><a role="tab" id="home" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="otherLeadId(lead.id)">{{lead.leadName}}</a></li>
 			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="contactUs()">ContactUs</a></li>
 			      			
 			    		</ul>
@@ -4742,13 +4741,13 @@ float: right !important;
 											</div>	
 							<div ng-if="contact" ui-grid="gridOptions8" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 							<div class="watermark" ng-show="!gridOptions8.data.length" >No Leads has been added</div>
-							
-							<div ng-if="otherLeads" ui-grid="gridOptions13" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-							<div class="watermark" ng-show="!gridOptions8.data.length" >No Leads has been added</div>
+							 </div>
+							<div ui-grid="gridOptions13" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+							<div class="watermark" ng-show="!gridOptions13.data.length" >No Leads has been added</div>
 											</div>					
 																				
 																			
-				      </div>
+				     
 				      
 				    </div>
 				    <!-- <div id="myTabContent" class="tab-content" ng-if="schedTest">
@@ -6134,9 +6133,9 @@ float: right !important;
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">Make</label>
+														<label class="col-sm-4 control-label" style="text-align: right;">Title</label>
 														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.make" required>
+															<input type="text" class="form-control form-white" ng-model="soldContact.title" required>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
@@ -6146,9 +6145,9 @@ float: right !important;
 														</div>
 													</div>
 													<div class="form-group col-sm-12" ng-if="vehicletype != 'New'" >
-														<label class="col-sm-4 control-label" style="text-align: right;">Mileage</label>
+														<label class="col-sm-4 control-label" style="text-align: right;">Designer</label>
 														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.mileage" required>
+															<input type="text" class="form-control form-white" ng-model="soldContact.designer" required>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">

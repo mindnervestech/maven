@@ -18127,9 +18127,9 @@ private static void cancelTestDriveMail(Map map) {
     		contact.buyingFor = vm.buyingFor;
     		contact.howContactedUs = vm.howContactedUs;
     		contact.howFoundUs = vm.howFoundUs;
-    		contact.make = vm.make;
+    		contact.title = vm.title;
     		contact.year = vm.year;
-    		contact.mileage = vm.mileage;
+    		contact.designer = vm.designer;
     		contact.price = vm.price;
     		contact.custZipCode = vm.custZipCode;
     		contact.enthicity = vm.enthicity;
@@ -18757,9 +18757,9 @@ private static void cancelTestDriveMail(Map map) {
     		contact.buyingFor = vm.buyingFor;
     		contact.howContactedUs = vm.howContactedUs;
     		contact.howFoundUs = vm.howFoundUs;
-    		contact.make = vm.make;
+    		contact.title = vm.title;
     		contact.year = vm.year;
-    		contact.mileage = vm.mileage;
+    		contact.designer = vm.designer;
     		contact.price = vm.price;
     		contact.custZipCode = vm.custZipCode;
     		contact.enthicity = vm.enthicity;
@@ -18798,51 +18798,18 @@ private static void cancelTestDriveMail(Map map) {
 			}
     		
     		Date date = new Date();
-    		if(vm.typeOfLead.equals("Request More Info")){
-		    		
-		    		RequestMoreInfo info = RequestMoreInfo.findById(vm.infoId);
-		    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-		    		if(vehicle != null){
-			    		vehicle.setStatus("Sold");
-			    		vehicle.setSoldDate(date);
-			    		vehicle.setSoldUser(user);
-			    		vehicle.setPrice(Integer.parseInt(vm.price));
-			    		vehicle.update();
-		    		}
-		    		info.setStatus("COMPLETE");
-		    		info.setCustZipCode(vm.custZipCode);
-		    		info.setEnthicity(vm.enthicity);
-		    		info.setStatusDate(currDate);
-		    		info.setStatusTime(currDate);
-		    		
-		    		info.update();
-		    		
-		    		
-		    		UserNotes uNotes = new UserNotes();
-		    		uNotes.setNote("Vehicle Sold");
-		    		uNotes.setAction("Other");
-		    		uNotes.createdDate = currDate;
-		    		uNotes.createdTime = currDate;
-		    		uNotes.user = user;
-		    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
-		    		uNotes.save();
-		    		
-		    		otherParentChildLeadsStatus(vm,user,currDate);
-		    		lostLeadsFunction(info.vin, currDate);
-    		}else if(vm.typeOfLead.equals("Trade-In Appraisal")){
+    	 if(vm.typeOfLead.equals("Trade-In Appraisal")){
     				
     			
         		TradeIn info = TradeIn.findById(vm.infoId);
-        		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-        		
-        		if(vehicle != null){
-        		vehicle.setStatus("Sold");
-        		vehicle.setSoldDate(date);
-        		vehicle.setSoldUser(user);
-        		vehicle.setPrice(Integer.parseInt(vm.price));
-        		vehicle.update();
-        		}
+        		AddProduct product = AddProduct.findById(info.productId);
+	    		if(product != null){
+	    			product.setSale("sale");
+	    			product.setSoldDate(date);
+	    			product.setSoldUser(user);
+	    			product.setPrice(Integer.parseInt(vm.price));
+	    			product.update();
+	    		}
         		info.setStatus("COMPLETE");
         		info.setCustZipCode(vm.custZipCode);
         		info.setEnthicity(vm.enthicity);
@@ -18862,7 +18829,7 @@ private static void cancelTestDriveMail(Map map) {
         		uNotes.save();
         		
         		otherParentChildLeadsStatus(vm,user,currDate);
-        		lostLeadsFunction(info.vin, currDate);
+        		lostLeadsFunction(info.productId, currDate);
         		
         	
     		}else if(vm.typeOfLead.equals("Schedule Test Drive")){
@@ -18875,14 +18842,14 @@ private static void cancelTestDriveMail(Map map) {
         		schedule.setEnthicity(vm.enthicity);
         		schedule.update();
         		
-        		Vehicle vehicle = Vehicle.findByVinAndStatus(schedule.vin);
-        		if(vehicle != null){
-	        		vehicle.setStatus("Sold");
-	        		vehicle.setSoldDate(date);
-	        		vehicle.setSoldUser(user);
-	        		vehicle.setPrice(Integer.parseInt(vm.price));
-	        		vehicle.update();
-        		}
+        		AddProduct product = AddProduct.findById(schedule.productId);
+	    		if(product != null){
+	    			product.setSale("sale");
+	    			product.setSoldDate(date);
+	    			product.setSoldUser(user);
+	    			product.setPrice(Integer.parseInt(vm.price));
+	    			product.update();
+	    		}
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Vehicle Sold");
         		uNotes.setAction("Other");
@@ -18893,9 +18860,43 @@ private static void cancelTestDriveMail(Map map) {
         		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
         		uNotes.save();
         		otherParentChildLeadsStatus(vm,user,currDate);
-        		lostLeadsFunction(schedule.vin, currDate);
-    		}
-    		return ok(msg);
+        		lostLeadsFunction(schedule.parentId, currDate);
+    		}else {
+    			/*if(vm.typeOfLead.equals("Request More Info")){
+    				
+    			}*/
+	    		RequestMoreInfo info = RequestMoreInfo.findById(vm.infoId);
+	    		AddProduct product = AddProduct.findById(info.productId);
+	    		if(product != null){
+	    			product.setSale("sale");
+	    			product.setSoldDate(date);
+	    			product.setSoldUser(user);
+	    			product.setPrice(Integer.parseInt(vm.price));
+	    			product.update();
+	    		}
+	    		info.setStatus("COMPLETE");
+	    		info.setCustZipCode(vm.custZipCode);
+	    		info.setEnthicity(vm.enthicity);
+	    		info.setStatusDate(currDate);
+	    		info.setStatusTime(currDate);
+	    		
+	    		info.update();
+	    		
+	    		
+	    		UserNotes uNotes = new UserNotes();
+	    		uNotes.setNote("Vehicle Sold");
+	    		uNotes.setAction("Other");
+	    		uNotes.createdDate = currDate;
+	    		uNotes.createdTime = currDate;
+	    		uNotes.user = user;
+	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+	    		uNotes.save();
+	    		
+	    		otherParentChildLeadsStatus(vm,user,currDate);
+	    		lostLeadsFunction(info.productId, currDate);
+		}
+    	 return ok(msg);
     	}
     }
     
@@ -18927,7 +18928,7 @@ private static void cancelTestDriveMail(Map map) {
     		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(requestMoreInfo.id);
     		    		uNotes.save();
     		    		
-    		    		lostLeadsFunction(requestMoreInfo.vin, currDate);
+    		    		lostLeadsFunction(requestMoreInfo.productId, currDate);
     				}else if(rMoreInfo.typeOfLead.equals("Schedule Test Drive")){
     					ScheduleTest schTest = ScheduleTest.findById(rMoreInfo.id);
     					schTest.setLeadStatus("COMPLETE");
@@ -18952,7 +18953,7 @@ private static void cancelTestDriveMail(Map map) {
     		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(schTest.id);
     		    		uNotes.save();
     		    		
-    		    		lostLeadsFunction(schTest.vin, currDate);
+    		    		lostLeadsFunction(schTest.productId, currDate);
     				}else if(rMoreInfo.typeOfLead.equals("Trade-In Appraisal")){
     					TradeIn tTest = TradeIn.findById(rMoreInfo.id);
     					tTest.setStatus("COMPLETE");
@@ -18977,7 +18978,7 @@ private static void cancelTestDriveMail(Map map) {
     		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(tTest.id);
     		    		uNotes.save();
     		    		
-    		    		lostLeadsFunction(tTest.vin, currDate);
+    		    		lostLeadsFunction(tTest.productId, currDate);
     				}
     			}else if(rMoreInfo.status.equals("Cancel")){
     				if(rMoreInfo.typeOfLead.equals("Request More Info")){
@@ -19062,12 +19063,12 @@ private static void cancelTestDriveMail(Map map) {
     	return ok();
     }
     
-    public static void lostLeadsFunction(String vin, Date currDate){
+    public static void lostLeadsFunction(Long pId, Date currDate){
     	List<String> emailList = new ArrayList<>();
     	List<String> vinList = new ArrayList<>();
     	List<RequestInfoVM>vinAndEmailList =new ArrayList<>();
     	
-    	List<TradeIn> tIn = TradeIn.findByVinAndLocation(vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    	List<TradeIn> tIn = TradeIn.findByProductIdAndLocation(pId, Location.findById(Long.parseLong(session("USER_LOCATION"))));
 		for(TradeIn tradeIn:tIn){
 			if(tradeIn.status == null){
 				tradeIn.setStatus("LOST");
@@ -19114,7 +19115,7 @@ private static void cancelTestDriveMail(Map map) {
 			}
 		}
 		
-		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByProductIdAndLocation(pId, Location.findById(Long.parseLong(session("USER_LOCATION"))));
 		for(RequestMoreInfo rMoreInfo:rInfos){
 			if(rMoreInfo.status == null){
 				
@@ -19164,7 +19165,7 @@ private static void cancelTestDriveMail(Map map) {
 		}
 		
 		
-		List<ScheduleTest> sTests = ScheduleTest.findByVinAndLocation(vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+		List<ScheduleTest> sTests = ScheduleTest.findByProductAndLocation(pId, Location.findById(Long.parseLong(session("USER_LOCATION"))));
 		for(ScheduleTest scheduleTest:sTests){
 			if(scheduleTest.leadStatus == null){
 				scheduleTest.setLeadStatus("LOST");

@@ -22,9 +22,9 @@ public class SoldContact extends Model {
 	public String buyingFor;
 	public String howContactedUs;
 	public String howFoundUs;
-	public String make;
+	public String title;
 	public String year;
-	public String mileage;
+	public String designer;
 	public String price;
 	public String custZipCode;
 	public String enthicity;
@@ -37,6 +37,18 @@ public class SoldContact extends Model {
 	public Location locations;
 	
 	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getDesigner() {
+		return designer;
+	}
+	public void setDesigner(String designer) {
+		this.designer = designer;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -104,24 +116,14 @@ public class SoldContact extends Model {
 	public void setHowFoundUs(String howFoundUs) {
 		this.howFoundUs = howFoundUs;
 	}
-	public String getMake() {
-		return make;
-	}
-	public void setMake(String make) {
-		this.make = make;
-	}
+	
 	public String getYear() {
 		return year;
 	}
 	public void setYear(String year) {
 		this.year = year;
 	}
-	public String getMileage() {
-		return mileage;
-	}
-	public void setMileage(String mileage) {
-		this.mileage = mileage;
-	}
+	
 	public String getPrice() {
 		return price;
 	}

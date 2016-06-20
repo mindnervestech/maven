@@ -147,6 +147,8 @@ public class CustomersRequestController extends Controller {
 		    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 		    	for(RequestMoreInfo info: listData) {
+		    		if(!info.isContactusType.equals("contactUs")){
+		    			
 		    		RequestInfoVM vm = new RequestInfoVM();
 		    		vm.id = info.id;
 		    		AddProduct product = AddProduct.findByIdNotSale(info.productId);
@@ -169,11 +171,14 @@ public class CustomersRequestController extends Controller {
 		    		vm.email = info.email;
 		    		vm.custZipCode = info.custZipCode;
 		    		vm.enthicity = info.enthicity;
+		    		vm.isContactusType = info.isContactusType;
 		    		
 		    		vm.requestDate = df.format(info.requestDate);
 		    		vm.productId = info.productId;
-		    		LeadType lType = LeadType.findById(info.productId);
-		    		vm.typeOfLead = lType.leadName;
+		    		
+		    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));
+		    			vm.typeOfLead = lType.leadName;
+		    			vm.leadId = lType.id;
 		    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 		    		Integer nFlag = 0;
 		    		List<NoteVM> list = new ArrayList<>();
@@ -204,7 +209,7 @@ public class CustomersRequestController extends Controller {
 		    		
 		    		Application.findCustomeData(info,vm);
 		    		Application.findRequestParentChildAndBro(infoVMList, info, df, vm);
-		    		
+		    	}
 		    	
 		    	}
 		    	

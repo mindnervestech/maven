@@ -50,6 +50,7 @@ public class RequestInfoVM {
 	public String howContactedUs;
 	public String howFoundUs;
 	public String typeOfLead;
+	public Long leadId;
 	public int option;
 	public String isgoogle;
 	public String enthicity;
@@ -77,6 +78,7 @@ public class RequestInfoVM {
 	public Integer subscribers;
 	public String designer;
 	public String title;
+	public String isContactusType; 
 	public Long productId;
 	public List<KeyValueDataVM> customData;
 	public Map<String, String> customMapData;
