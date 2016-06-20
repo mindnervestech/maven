@@ -413,7 +413,7 @@ public class ScheduleTest extends Model {
 	
 	
 	public static List<ScheduleTest> findAllAssigned(AuthUser user) {
-		return find.where().eq("assignedTo", user).eq("leadStatus", null).ne("vin", "no").eq("isRead",true).orderBy("scheduleDate desc").findList();
+		return find.where().eq("assignedTo", user).eq("leadStatus", null).eq("isRead",true).orderBy("scheduleDate desc").findList();
 	}
 	public static List<ScheduleTest> findAllNullStatusLeads(Date beforeSevenDays) {
 		return find.where().eq("leadStatus", null).ge("scheduleTime", beforeSevenDays).findList();

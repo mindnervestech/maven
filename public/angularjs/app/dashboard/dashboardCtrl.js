@@ -1451,7 +1451,7 @@ angular.module('newApp')
     				 		                                 },
     	    	     		                                 ];
     	 		
-    		/*	 $scope.gridOptions2 = {
+    			 $scope.gridOptions2 = {
      			 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
      			 		    paginationPageSize: 150,
      			 		    enableFiltering: true,
@@ -1543,10 +1543,10 @@ angular.module('newApp')
        			   		                                     }
        			  		                                	} ,
        			 		                                 },
-     			     		                                 ];*/
+     			     		                                 ];
     	 		 
      			 		 
-     			 	/*	$scope.gridOptions3 = {
+     			 		$scope.gridOptions3 = {
      			 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
      			 		 		    paginationPageSize: 150,
      			 		 		    enableFiltering: true,
@@ -1631,7 +1631,7 @@ angular.module('newApp')
      	       			   		                                     }
      	       			  		                                	} ,
      	       			 		                                 },
-     			 		     		                                 ];*/
+     			 		     		                                 ];
      			 		  
      			 		 		$scope.gridOptions4 = {
      	     			 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -4740,7 +4740,7 @@ angular.module('newApp')
 			    	                	$('html, body').animate({scrollTop:1660}, 'slow'); // changed from 480 to 1660 for show myleads grid
 			    	                	
 			    	                	if($scope.leadNotification.premiumFlag == 0 && $scope.leadNotification.premiumFlag != null){
-			    	                		/*if($scope.leadNotification.leadType == 'Schedule Test'){
+			    	                		if($scope.leadNotification.leadType == 'Schedule Test'){
 			    	                			$scope.testDrive();
 					    	                	$('#test-drive-tabSched').click();
 				    	                		for(var i=0;i<$scope.gridOptions2.data.length;i++){
@@ -4749,7 +4749,7 @@ angular.module('newApp')
 				    	                				break;
 				    	                			}
 				    	                		}
-			    	                		}else */
+			    	                		}else 
 			    	                		if($scope.leadNotification.leadType == 'Request More Info'){
 			    	                			$scope.requestMore()
 			    	                			$('#tab').click();
@@ -4759,7 +4759,7 @@ angular.module('newApp')
 				    	                				break;
 				    	                			}
 				    	                		}
-			    	                		}/*else{
+			    	                		}else{
 			    	                			$scope.tradeIn();
 			    	                			$('#profile-tab').click();
 			    	                			for(var i=0;i<$scope.gridOptions3.data.length;i++){
@@ -4768,7 +4768,7 @@ angular.module('newApp')
 				    	                				break;
 				    	                			}
 				    	                		}
-			    	                		}*/
+			    	                		}
 			    	                	}
 			    	                }
 			    	            }
@@ -4906,17 +4906,17 @@ angular.module('newApp')
         	$scope.cancelleads = false;
         	$scope.contact = false;
     	}		  
-    	/*$scope.testDrive = function() {
+    	$scope.testDrive = function() {
     		$scope.schedTest = false;
-    		k false;	
+    		//k false;	
         	$scope.testdrv = true;
         	$scope.trdin = false;
         	$scope.allLeadd = false;
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
         	$scope.contact = false;
-    	}	*/
-    	/*$scope.tradeIn = function() {
+    	}	
+    	$scope.tradeIn = function() {
     		$scope.schedTest = false;
     		$scope.reqMore = false;	
         	$scope.testdrv = false;
@@ -4925,7 +4925,7 @@ angular.module('newApp')
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
         	$scope.contact = false;
-    	}*/
+    	}
     	
     	$scope.contactUs = function(){
     		$scope.otherLeads = false;
@@ -5114,11 +5114,12 @@ angular.module('newApp')
 //			$('#home-tab').click();
 		};
 	
-		/*$scope.getScheduleData = function(id){
+		$scope.getScheduleData = function(id){
 			var deferred = $q.defer();
 			$http.get('/getAllSalesPersonScheduleTestAssigned/'+id)
 			.success(function(data) {
 			$scope.gridOptions2.data = data;
+			console.log($scope.gridOptions2.data);
 			$scope.AllScheduleTestAssignedList = data;
 			var countUnReadLead = 0;
 				if($scope.userType == "Sales Person"){
@@ -5135,7 +5136,7 @@ angular.module('newApp')
 				}
 		    });
 			return deferred.promise;
-		};*/
+		};
 		
 		$scope.getRequestData = function(id){
 			var deferred = $q.defer();
@@ -5208,7 +5209,7 @@ angular.module('newApp')
 		};
 		
 		
-		/*$scope.getTradeInData = function(id){
+		$scope.getTradeInData = function(id){
 			
 			var deferred = $q.defer();
 			 $http.get('/getAllSalesPersonTradeInSeen/'+id)
@@ -5230,19 +5231,19 @@ angular.module('newApp')
 				}
 			   });
 				return deferred.promise;
-		};*/
+		};
 		
 		$scope.addData = function(){
 			var deferred = $q.defer();
 			var countUnReadLead = 0;
 			$scope.getAllListLeadDate = [];
 			if($scope.userType == "Manager" || $scope.userType == "Sales Person"){
-  				 /*angular.forEach($scope.gridOptions2.data,function(value,key){
+  				angular.forEach($scope.gridOptions2.data,function(value,key){
   		        		$scope.getAllListLeadDate.push(value);
   		        		if(value.noteFlag == 0 && value.confirmDate == null){
   		        			countUnReadLead++;
   		        		}
-  		        	});*/
+  		        	});
   				 angular.forEach($scope.gridOptions8.data,function(value,key){
 		        		$scope.getAllListLeadDate.push(value);
 		        		if(value.noteFlag == 0 && value.confirmDate == null){
@@ -5255,12 +5256,12 @@ angular.module('newApp')
   		        			countUnReadLead++;
   		        		}
   		        	});
-  				 /*angular.forEach($scope.gridOptions3.data,function(value,key){
+  				 angular.forEach($scope.gridOptions3.data,function(value,key){
   		        		$scope.getAllListLeadDate.push(value);
   		        		if(value.noteFlag == 0 && value.confirmDate == null){
   		        			countUnReadLead++;
   		        		}
-  		        	});*/
+  		        	});
   				 
   				 $scope.lengthOfAllLead = countUnReadLead;
   				 deferred.resolve("success");
@@ -5280,12 +5281,12 @@ angular.module('newApp')
 		       		id = 0;
 		       	}
 		       	//debugger;
-		       //	$scope.getScheduleData(id).then(
-		       		//	function(success){
+		       	$scope.getScheduleData(id).then(
+		       			function(success){
 		       				$scope.getRequestData(id).then(
 		    		       			function(success){
-		    		       				//$scope.getTradeInData(id).then(
-		    		    		       			//function(success){
+		    		       				$scope.getTradeInData(id).then(
+		    		    		       			function(success){
 		    		       				$scope.getOtherLeadInfo(id).then(
 		    		    		       			function(success){
 		    		    		       				$scope.getContactUsData(id).then(
@@ -5294,7 +5295,7 @@ angular.module('newApp')
 		    		    		    		       			function(success){
 		    		    		    		       				$scope.gridOptions7.data = $scope.getAllListLeadDate;
 		    		    				           	        	//$scope.otherLeadId("5");
-		    		    				           	        	//$scope.getAllCanceledLeads();
+		    		    				           	        	$scope.getAllCanceledLeads();
 		    		    				           	        	//added by vinayak 23-Apr-2016
 		    		    				           	        	
 		    		    				           	        	
@@ -5323,9 +5324,9 @@ angular.module('newApp')
 		    		    						       					$scope.setWether($scope.gridOptions9.data);
 		    		    						       					$scope.allTestDirConfir = data;
 		    		    						       				
-		    		    						       				});*/
+		    		    						       				});
 		    		    						       			 
-		    		    						       			/* $http.get('/getAllCompletedLeadsbyId/'+id)
+		    		    						       			 $http.get('/getAllCompletedLeadsbyId/'+id)
 		    		    						       				.success(function(data) {
 		    		    						       					$scope.gridOptions10.data = data;
 		    		    						       					$scope.completedL = data;
@@ -5343,19 +5344,19 @@ angular.module('newApp')
 		    		    		       			}
 		    		    		       	);
 		    		       				
-		    		       			//},function(error){
+		    		       			},function(error){
 		    		       				
-		    		       		//	}
-		    		       //	);
+		    		       			}
+		    		       	);
 		    		       		},function(error){
 		    		       				
 		    		       			}
 		    		       	);
 		       				
-		       			//},function(error){
+		       			},function(error){
 		       				
-		       			//}
-		       //	);
+		       			}
+		       	);
 		       	
 	}
 		
@@ -6348,7 +6349,7 @@ angular.module('newApp')
 						year:entity.year,
 						primaryTitle:entity.primaryTitle,
 						productId:entity.productId,
-						imgId:response.imgId,
+						//imgId:entity.imgId,
 					});
 			   
 		   }
@@ -8685,7 +8686,7 @@ angular.module('newApp')
 				console.log(response);
 				
 				angular.forEach(response, function(value, key) {
-					if(value.id > 1){
+					if(value.id > 3){
 						$scope.leadList.push(value); 
 					}
 				});

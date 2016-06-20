@@ -20760,28 +20760,20 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.typeofVehicle=vehicle.typeofVehicle;
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
-	    			vm.year = vehicle.year;
-	    			vm.mileage = vehicle.mileage;
-	    			vm.bodyStyle =vehicle.bodyStyle;
-	    			vm.drivetrain = vehicle.drivetrain;
-	    			vm.engine = vehicle.engine;
-	    			vm.transmission = vehicle.transmission;
-	    			vm.price = vehicle.price;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
-	        		if(vehicleImage!=null) {
-	        			vm.imgId = vehicleImage.getId().toString();
+	    		AddProduct product = AddProduct.findByIdNotSale(info.productId);
+	    		vm.productId = info.productId;
+	    		if(product != null) {
+	    			vm.title = product.title;
+	    			vm.designer = product.designer;
+	    			vm.year = product.year;
+	    			vm.price = (int) product.price;
+	    			ProductImages pImage = ProductImages.findDefaultImg(product.id);
+	        		if(pImage!=null) {
+	        			vm.imgId = pImage.getId().toString();
 	        		}
 	        		else {
 	        			vm.imgId = "/assets/images/no-image.jpg";
 	        		}
-	    			
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -20919,22 +20911,16 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(TradeIn info: tradeIns) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
-	    			vm.mileage = vehicle.mileage;
-	    			vm.year = vehicle.year;
-	    			vm.bodyStyle =vehicle.bodyStyle;
-	    			vm.drivetrain = vehicle.drivetrain;
-	    			vm.engine = vehicle.engine;
-	    			vm.price = vehicle.price;
-	    			vm.transmission = vehicle.transmission;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
-	        		if(vehicleImage!=null) {
-	        			vm.imgId = vehicleImage.getId().toString();
+	    		AddProduct product = AddProduct.findByIdNotSale(info.productId);
+	    		vm.productId = info.productId;
+	    		if(product != null) {
+	    			vm.title = product.title;
+	    			vm.designer = product.designer;
+	    			vm.year = product.year;
+	    			vm.price = (int) product.price;
+	    			ProductImages pImage = ProductImages.findDefaultImg(product.id);
+	        		if(pImage!=null) {
+	        			vm.imgId = pImage.getId().toString();
 	        		}
 	        		else {
 	        			vm.imgId = "/assets/images/no-image.jpg";
@@ -21192,22 +21178,16 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(RequestMoreInfo info: requestMoreInfos) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
-	    			vm.mileage = vehicle.mileage;
-	    			vm.year = vehicle.year;
-	    			vm.bodyStyle =vehicle.bodyStyle;
-	    			vm.drivetrain = vehicle.drivetrain;
-	    			vm.engine = vehicle.engine;
-	    			vm.price = vehicle.price;
-	    			vm.transmission = vehicle.transmission;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
-	        		if(vehicleImage!=null) {
-	        			vm.imgId = vehicleImage.getId().toString();
+	    		AddProduct product = AddProduct.findByIdNotSale(info.productId);
+	    		vm.productId = info.productId;
+	    		if(product != null) {
+	    			vm.title = product.title;
+	    			vm.designer = product.designer;
+	    			vm.year = product.year;
+	    			vm.price = (int) product.price;
+	    			ProductImages pImage = ProductImages.findDefaultImg(product.id);
+	        		if(pImage!=null) {
+	        			vm.imgId = pImage.getId().toString();
 	        		}
 	        		else {
 	        			vm.imgId = "/assets/images/no-image.jpg";
@@ -21585,7 +21565,7 @@ private static void cancelTestDriveMail(Map map) {
     }
     
     
-   /* public static Result getAllSalesPersonTradeInSeen(Integer id){
+    public static Result getAllSalesPersonTradeInSeen(Integer id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
@@ -21602,23 +21582,16 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.typeofVehicle=vehicle.typeofVehicle;
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
-	    			vm.year =vehicle.year;
-	    			vm.mileage =vehicle.mileage;
-	    			vm.bodyStyle =vehicle.bodyStyle;
-	    			vm.drivetrain = vehicle.drivetrain;
-	    			vm.engine = vehicle.engine;
-	    			vm.price = vehicle.price;
-	    			vm.transmission = vehicle.transmission;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
-	        		if(vehicleImage!=null) {
-	        			vm.imgId = vehicleImage.getId().toString();
+	    		AddProduct product = AddProduct.findByIdNotSale(info.productId);
+	    		vm.productId = info.productId;
+	    		if(product != null) {
+	    			vm.title = product.title;
+	    			vm.designer = product.designer;
+	    			vm.year = product.year;
+	    			vm.price = (int) product.price;
+	    			ProductImages pImage = ProductImages.findDefaultImg(product.id);
+	        		if(pImage!=null) {
+	        			vm.imgId = pImage.getId().toString();
 	        		}
 	        		else {
 	        			vm.imgId = "/assets/images/no-image.jpg";
@@ -21764,7 +21737,7 @@ private static void cancelTestDriveMail(Map map) {
     	}	
     	
     	
-    }*/
+    }
     public static Result getWeekChartData(Integer id) throws ParseException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
