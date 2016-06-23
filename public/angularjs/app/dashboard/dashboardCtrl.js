@@ -93,6 +93,7 @@ angular.module('newApp')
 	$scope.selectedVin = function (selectObj) {
 		if(typeof selectObj.originalObject != 'undefined'){
 			$scope.item = selectObj.originalObject;
+			$scope.selectedName = $scope.item.title; 
 			if($scope.len !=null){
 				$scope.stockWiseData[$scope.len].model = $scope.item.model;
 				$scope.stockWiseData[$scope.len].make = $scope.item.make;
@@ -4546,7 +4547,14 @@ angular.module('newApp')
 	    		$scope.focusIn11 = function(index, stockRp){
 	    			console.log($scope.prodSearchList);
 	    			console.log(index);
-	    			stockRp.stockNumber = $scope.prodSearchList[index].title;
+	    			console.log($scope.selectedName);
+	    			/*stockRp.stockNumber = $scope.prodSearchList[index].title;
+	    			$scope.getStockDetails(stockRp)*/
+	    			angular.forEach($scope.prodSearchList, function(value, key) {
+	    				if(value.title == $scope.selectedName){
+	    					stockRp.stockNumber = $scope.selectedName;
+	    				}
+	    			});
 	    			$scope.getStockDetails(stockRp)
 	    		}
 	    		$scope.focusEdit = function(index, stockRp){
@@ -4554,7 +4562,7 @@ angular.module('newApp')
 	    			console.log(index);
 	    			console.log($scope.selectedName);
 	    			angular.forEach($scope.prodSearchList, function(value, key) {
-	    				if(value.title = $scope.selectedName){
+	    				if(value.title == $scope.selectedName){
 	    					stockRp.stockNumber = $scope.selectedName;
 	    				}
 	    			});
