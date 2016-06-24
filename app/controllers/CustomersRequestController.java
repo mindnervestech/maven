@@ -122,7 +122,7 @@ public class CustomersRequestController extends Controller {
 		    		if(info.isRead == 1) {
 		    			vm.isRead = true;
 		    		}
-		    		
+		    		Application.findCustomeData(info.id,vm,Long.parseLong(leadId));
 		    		infoVMList.add(vm);
 		    	}
 		    	
