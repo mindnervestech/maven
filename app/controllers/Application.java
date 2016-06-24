@@ -12696,6 +12696,8 @@ public class Application extends Controller {
 	    		if(info.isRead == 1) {
 	    			vm.isRead = true;
 	    		}
+	    		
+	    		findCustomeData(info.id,vm,2L);
 	    		infoVMList.add(vm);
 	    	}
 	    	
@@ -13376,6 +13378,8 @@ public class Application extends Controller {
 	    		if(info.isRead == 1) {
 	    			vm.isRead = true;
 	    		}
+	    		
+	    		findCustomeData(info.id,vm,3L);
 	    		infoVMList.add(vm);
 	    	}
 	    	
