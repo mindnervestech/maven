@@ -74,6 +74,7 @@ import models.ClickyPagesList;
 import models.ClickyVisitorsList;
 import models.Comments;
 import models.ContactHeader;
+import models.ContactOtherField;
 import models.Contacts;
 import models.CoverImage;
 import models.CreateNewForm;
@@ -5720,7 +5721,7 @@ public class Application extends Controller {
     		int visitorCount = 0;
 	    	/*List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");*/
     		
-    		List <AddProduct> productObjList = AddProduct.findByLocationNoDraft(Long.valueOf(session("USER_LOCATION")));
+    		List <AddProduct> productObjList = AddProduct.findProductsNotSale(Long.valueOf(session("USER_LOCATION")));
     		
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>();
@@ -11177,6 +11178,8 @@ public class Application extends Controller {
 	    			vm.isRead = true;
 	    		}
 	    		
+	    		findCustomeData(info.id,vm,1L);
+	    		
 	    		infoVMList.add(vm);
 	    	}
 	    	
@@ -12452,17 +12455,35 @@ public class Application extends Controller {
     }
     
     
-    public static void findCustomeData(RequestMoreInfo info,RequestInfoVM vm){
-    	List<CustomizationDataValue> custData = CustomizationDataValue.findByLeadIdWise(info.id);
+    public static void findCustomeData(Long id,RequestInfoVM vm,Long leadType){
+    	List<CustomizationDataValue> custData = CustomizationDataValue.findByCustomeLead(leadType, id);
     	List<KeyValueDataVM> keyValueList = new ArrayList<>();
     	Map<String, String> mapCar = new HashMap<String, String>();
     	for(CustomizationDataValue custD:custData){
     		mapCar.put(custD.keyValue, custD.value);
-    		//KeyValueDataVM keyValue = new KeyValueDataVM();
-    		//keyValue.key = custD.keyValue;
-    		//keyValue.value = custD.value;
-    		//keyValueList.add(keyValue);
+    		if(custD.displayGrid.equals("true")){
+    			//if(keyValueList.size() == 0){
+    				KeyValueDataVM keyValue = new KeyValueDataVM();
+            		keyValue.key = custD.keyValue;
+            		keyValue.value = custD.value;
+            		keyValue.displayGrid = custD.displayGrid;
+            		keyValueList.add(keyValue);
+    			//}else{
+            		/*for(KeyValueDataVM ks:keyValueList){
+    					if(!ks.equals(custD.keyValue)){
+    						KeyValueDataVM keyValue = new KeyValueDataVM();
+    	            		keyValue.key = custD.keyValue;
+    	            		keyValue.value = custD.value;
+    	            		keyValue.displayGrid = custD.displayGrid;
+    	            		keyValueList.add(keyValue);
+    					}
+    				}
+    			}*/
+    			
+    		}
+    		
     	}
+    	vm.customData = keyValueList;
     	vm.customMapData = mapCar;
     }
     
@@ -15122,12 +15143,16 @@ public class Application extends Controller {
     			cValue.value = custom.value;
     			cValue.leadId = infoId;
     			cValue.leadType = leadtype;
+    			cValue.saveCrm = custom.savecrm;
+    			cValue.displayGrid = custom.displayGrid;
     			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			cValue.save();
     			
     		}else{
     			cDataValue.setKeyValue(custom.key);
     			cDataValue.setValue(custom.value);
+    			cDataValue.setSaveCrm(custom.savecrm);
+    			cDataValue.setDisplayGrid(custom.displayGrid);
     			cDataValue.update();
     		}
 			
@@ -18748,60 +18773,12 @@ private static void cancelTestDriveMail(Map map) {
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
     		
-    		SoldContact contact = new SoldContact();
-    		contact.name = vm.name;
-    		contact.email = vm.email;
-    		contact.phone = vm.phone;
-    		contact.gender = vm.gender;
-    		contact.age = vm.age;
-    		contact.buyingFor = vm.buyingFor;
-    		contact.howContactedUs = vm.howContactedUs;
-    		contact.howFoundUs = vm.howFoundUs;
-    		contact.title = vm.title;
-    		contact.year = vm.year;
-    		contact.designer = vm.designer;
-    		contact.price = vm.price;
-    		contact.custZipCode = vm.custZipCode;
-    		contact.enthicity = vm.enthicity;
-    		contact.save();
-    		try {
-    			Contacts con = Contacts.findByEmail(vm.email);
-        		if(con ==null){
-        			Contacts contactsObj = new Contacts();
-            		String arr[] = vm.name.split(" ");
-            		if(arr.length >= 1) {
-            			contactsObj.firstName = arr[0];
-            		} else {
-            			contactsObj.firstName = vm.name;
-            		}
-            		if(arr.length >= 2) {
-            			contactsObj.middleName = arr[1];
-            		}
-            		if(arr.length >= 3) {
-            			contactsObj.lastName = arr[2];
-            		} 
-            		contactsObj.email = vm.email;
-            		contactsObj.phone = vm.phone;
-            		contactsObj.custZipCode = vm.custZipCode;
-            		contactsObj.enthicity = vm.enthicity;
-            		contactsObj.newsLetter = 1;
-            		contactsObj.user = user.id;
-            		contactsObj.type = "Online";
-            		contactsObj.assignedTo = user.id.toString();
-            		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-            		contactsObj.save();
-        		}else{
-        			msg="contact error";
-        		}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-    		
     		Date date = new Date();
+    		List<CustomizationDataValue> keyValue = null;
     	 if(vm.typeOfLead.equals("Trade-In Appraisal")){
-    				
     			
         		TradeIn info = TradeIn.findById(vm.infoId);
+        		keyValue = CustomizationDataValue.findByCustomeSaveCRMLead(3L, vm.infoId);
         		AddProduct product = AddProduct.findById(info.productId);
 	    		if(product != null){
 	    			product.setSale("sale");
@@ -18835,6 +18812,7 @@ private static void cancelTestDriveMail(Map map) {
     		}else if(vm.typeOfLead.equals("Schedule Test Drive")){
     			
     			ScheduleTest schedule = ScheduleTest.findById(vm.infoId);
+    			keyValue = CustomizationDataValue.findByCustomeSaveCRMLead(2L, vm.infoId);
         		schedule.setLeadStatus("COMPLETE");
         		schedule.setStatusDate(currDate);
         		schedule.setStatusTime(currDate);
@@ -18865,7 +18843,9 @@ private static void cancelTestDriveMail(Map map) {
     			/*if(vm.typeOfLead.equals("Request More Info")){
     				
     			}*/
+    			LeadType lType = LeadType.findByName(vm.typeOfLead);
 	    		RequestMoreInfo info = RequestMoreInfo.findById(vm.infoId);
+	    		keyValue = CustomizationDataValue.findByCustomeSaveCRMLead(lType.id, vm.infoId);
 	    		AddProduct product = AddProduct.findById(info.productId);
 	    		if(product != null){
 	    			product.setSale("sale");
@@ -18896,6 +18876,64 @@ private static void cancelTestDriveMail(Map map) {
 	    		otherParentChildLeadsStatus(vm,user,currDate);
 	    		lostLeadsFunction(info.productId, currDate);
 		}
+    	 
+    	 SoldContact contact = new SoldContact();
+ 		contact.name = vm.name;
+ 		contact.email = vm.email;
+ 		contact.phone = vm.phone;
+ 		contact.gender = vm.gender;
+ 		contact.age = vm.age;
+ 		contact.buyingFor = vm.buyingFor;
+ 		contact.howContactedUs = vm.howContactedUs;
+ 		contact.howFoundUs = vm.howFoundUs;
+ 		contact.title = vm.title;
+ 		contact.year = vm.year;
+ 		contact.designer = vm.designer;
+ 		contact.price = vm.price;
+ 		contact.custZipCode = vm.custZipCode;
+ 		contact.enthicity = vm.enthicity;
+ 		contact.save();
+ 		try {
+ 			Contacts con = Contacts.findByEmail(vm.email);
+     		if(con ==null){
+     			Contacts contactsObj = new Contacts();
+         		String arr[] = vm.name.split(" ");
+         		if(arr.length >= 1) {
+         			contactsObj.firstName = arr[0];
+         		} else {
+         			contactsObj.firstName = vm.name;
+         		}
+         		if(arr.length >= 2) {
+         			contactsObj.middleName = arr[1];
+         		}
+         		if(arr.length >= 3) {
+         			contactsObj.lastName = arr[2];
+         		} 
+         		contactsObj.email = vm.email;
+         		contactsObj.phone = vm.phone;
+         		contactsObj.custZipCode = vm.custZipCode;
+         		contactsObj.enthicity = vm.enthicity;
+         		contactsObj.newsLetter = 1;
+         		contactsObj.user = user.id;
+         		contactsObj.type = "Online";
+         		contactsObj.assignedTo = user.id.toString();
+         		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+         		contactsObj.save();
+         		
+         		for(CustomizationDataValue cust:keyValue){
+         			ContactOtherField cField = new ContactOtherField();
+         			cField.keyValue = cust.keyValue;
+         			cField.value = cust.value;
+         			cField.contacts = contactsObj;
+         			cField.save();
+         		}
+         		 
+     		}else{
+     			msg="contact error";
+     		}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
     	 return ok(msg);
     	}
     }
@@ -20836,6 +20874,8 @@ private static void cancelTestDriveMail(Map map) {
 	    		}
 	    		vm.option = 0;
 	    		
+	    		findCustomeData(info.id,vm,2L);
+	    		
 	    		findSchedulParentChildAndBro(infoVMList, info, df, vm);
 	    		
 	    		/*List<RequestInfoVM> rList2 = new ArrayList<>();
@@ -21485,7 +21525,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			vm.isRead = true;
 	    		}
 	    		
-	    		findCustomeData(info,vm);
+	    		findCustomeData(info.id,vm,1L);
 	    		
 	    		findRequestParentChildAndBro(infoVMList, info, df, vm);
 	    		

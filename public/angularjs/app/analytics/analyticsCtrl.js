@@ -68,15 +68,6 @@ angular.module('newApp')
 	    }, 2000);
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	 function initialized() {
 		 //  $( document ).ready(function() {
 	    	console.log(">>>>>>>>>>");
@@ -104,8 +95,6 @@ angular.module('newApp')
 	      script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
 	      document.body.appendChild(script);
 	    }
-
-	
 	
 	
 	 var date = new Date();

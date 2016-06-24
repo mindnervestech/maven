@@ -27,7 +27,7 @@ var MakeApp = angular
     'angucomplete-alt',
     'builder',
     'builder.components',
-    'validator.rules',
+    //'validator.rules',
     //'textAngular',
     'nvd3',
     'formly',

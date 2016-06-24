@@ -214,4 +214,7 @@ public class AddProduct extends Model {
 	public static List<AddProduct> findByLocationNoDraft(Long location) {
 		return find.all();
 	}
+	public static List<AddProduct> findProductsNotSale(Long location) {
+		return find.where().ne("sale", "sale").findList();
+	}
 }

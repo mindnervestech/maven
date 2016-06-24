@@ -207,7 +207,7 @@ public class CustomersRequestController extends Controller {
 		    			vm.isRead = true;
 		    		}
 		    		
-		    		Application.findCustomeData(info,vm);
+		    		Application.findCustomeData(info.id,vm,lType.id);
 		    		Application.findRequestParentChildAndBro(infoVMList, info, df, vm);
 		    	}
 		    	

@@ -478,13 +478,15 @@
         copyObjectToScope(formObject, $scope);
         $scope.optionsText = formObject.options.join('\n');
         $scope.columnOptionsText = formObject.columnOptions;
-        $scope.$watch('[label, description, placeholder, required, isRepeatable, options, validation, multiple, minLength, maxLength, disableWeekends, maxDate, requireConfirmation, readOnly, minRange, maxRange, nextXDays, performCreditCheck, cprCountry, logic, category, pointRules, conversionType,imageUrl,key, columnOptions, equation]', function() {
+        $scope.$watch('[label, description, placeholder, required, isRepeatable, options, validation, multiple, minLength, maxLength, disableWeekends, maxDate, requireConfirmation, readOnly, minRange, maxRange, nextXDays, performCreditCheck, cprCountry, logic, category, pointRules, conversionType,imageUrl,key, columnOptions, equation, displayGrid, savecrm]', function() {
           formObject.label = $scope.label;
           formObject.description = $scope.description;
           formObject.key = $scope.key;
           formObject.imageUrl = $scope.imageUrl;
           formObject.placeholder = $scope.placeholder;
           formObject.required = $scope.required;
+          formObject.displayGrid = $scope.displayGrid;
+          formObject.savecrm = $scope.savecrm;
           formObject.isRepeatable = $scope.isRepeatable;
           formObject.options = $scope.options;
           formObject.columnOptions = $scope.columnOptions;
@@ -542,6 +544,8 @@
             placeholder: $scope.placeholder,
             isRepeatable: $scope.isRepeatable,
             required: $scope.required,
+            displayGrid:$scope.displayGrid,
+            savecrm:$scope.savecrm,
             optionsText: $scope.optionsText,
             columnOptionsText: $scope.columnOptionsText,
             validation: $scope.validation,
@@ -578,6 +582,8 @@
           $scope.imageUrl = this.model.imageUrl;
           $scope.placeholder = this.model.placeholder;
           $scope.required = this.model.required;
+          $scope.displayGrid = this.model.displayGrid;
+          $scope.savecrm = this.model.savecrm;
           $scope.isRepeatable = this.model.isRepeatable;
           $scope.optionsText = this.model.optionsText;
           $scope.columnOptionsText = this.model.columnOptionsText;
@@ -1763,7 +1769,7 @@
       "default": 0
     };
     this.convertComponent = function(name, component) {
-      var result, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9,_ref10,_ref11, _ref12, _ref13, _ref13;
+      var result, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9,_ref10,_ref11, _ref12, _ref13, _ref13,_ref14,_ref15;
       result = {
         name: name,
         group: (_ref = component.group) != null ? _ref : 'Default',
@@ -1774,6 +1780,8 @@
         placeholder: (_ref3 = component.placeholder) != null ? _ref3 : '',
         editable: (_ref4 = component.editable) != null ? _ref4 : true,
         required: (_ref5 = component.required) != null ? _ref5 : false,
+        displayGrid: (_ref14 = component.displayGrid) != null ? _ref14 : false,
+        savecrm: (_ref15 = component.savecrm) != null ? _ref15 : false,		
         isRepeatable: (_ref13 = component.isRepeatable) != null ? _ref13 : false,
         validation: (_ref6 = component.validation) != null ? _ref6 : '/.*/',
         validationOptions: (_ref7 = component.validationOptions) != null ? _ref7 : [],
@@ -1795,7 +1803,7 @@
       return result;
     };
     this.convertFormObject = function(name, formObject) {
-      var component, exist, form, result, _i, _len, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23,_ref24,_ref25,_ref26,_ref27, _ref28, _ref29, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
+      var component, exist, form, result, _i, _len, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23,_ref24,_ref25,_ref26,_ref27, _ref28, _ref29, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _ref30,_ref31;
       if (formObject == null) {
         formObject = {};
       }
@@ -1833,6 +1841,8 @@
         columnOptions: (_ref27 = formObject.columnOptions) != null ? _ref27 : component.columnOptions,
         equation: (_ref27 = formObject.equation) != null ? _ref28 : component.equation,
         required: (_ref6 = formObject.required) != null ? _ref6 : component.required,
+        displayGrid: (_ref30 = formObject.displayGrid) != null ? _ref30 : component.displayGrid,
+        savecrm: (_ref31 = formObject.savecrm) != null ? _ref31 : component.savecrm,		
         isRepeatable: (_ref29 = formObject.isRepeatable) != null ? _ref29 : component.isRepeatable,
         validation: (_ref7 = formObject.validation) != null ? _ref7 : component.validation,
         multiple: (_ref8 = formObject.multiple) != null ? _ref8 : component.multiple,

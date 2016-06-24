@@ -25,6 +25,8 @@ public class CustomizationDataValue extends Model {
 	public String keyValue;
 	public Long leadId;
 	public Long leadType;
+	public String saveCrm;
+	public String displayGrid;
 	
 	@ManyToOne
 	public Location locations;
@@ -48,6 +50,22 @@ public class CustomizationDataValue extends Model {
 
 	public String getKeyValue() {
 		return keyValue;
+	}
+
+	public String getSaveCrm() {
+		return saveCrm;
+	}
+
+	public void setSaveCrm(String saveCrm) {
+		this.saveCrm = saveCrm;
+	}
+
+	public String getDisplayGrid() {
+		return displayGrid;
+	}
+
+	public void setDisplayGrid(String displayGrid) {
+		this.displayGrid = displayGrid;
 	}
 
 	public void setKeyValue(String keyValue) {
@@ -97,6 +115,14 @@ public class CustomizationDataValue extends Model {
 		public static List<CustomizationDataValue> findByScheduler() {
 		return find.where().eq("schedule_email", 0).findList();
 	}
+		
+		public static List<CustomizationDataValue> findByCustomeSaveCRMLead(Long leadType,Long leadId) {
+			return find.where().eq("leadType", leadType).eq("leadId", leadId).eq("saveCrm", "true").findList();
+		}
+		
+		public static List<CustomizationDataValue> findByCustomeLead(Long leadType,Long leadId) {
+			return find.where().eq("leadType", leadType).eq("leadId", leadId).findList();
+		}
 		
 		public static List<CustomizationDataValue> findByLeadIdWise(Long leadId) {
 			return find.where().eq("leadId", leadId).findList();

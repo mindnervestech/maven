@@ -67,6 +67,11 @@ public class LeadType extends Model {
 	public static LeadType findByLocations(Long location) {
 		return find.where().eq("locations.id", location).findUnique();
 	}
+	
+	public static LeadType findByName(String name) {
+		return find.where().eq("lead_name", name).findUnique();
+	}
+	
 	public static List<LeadType> findByLocationsAndSelected(Long location) {
 		return find.where().eq("shows", 1).eq("locations.id", location).findList();
 	}

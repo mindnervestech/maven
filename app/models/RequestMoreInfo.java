@@ -313,7 +313,7 @@ public void setMessage(String message) {
 	}
 	
 	public static List<RequestMoreInfo> findAllData() {
-		return find.where().eq("isContactusType", null).findList();
+		return find.where().eq("isContactusType", "1").findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllOtherLeadIdWise(String leadId) {
@@ -326,7 +326,7 @@ public void setMessage(String message) {
 	
 	
 	public static List<RequestMoreInfo> findAllLocationData(Long locationId) {
-		return find.where().eq("status", null).eq("isRead", 0).eq("premiumFlag", 0).eq("assignedTo", null).eq("isContactusType", null).eq("locations.id", locationId).findList();
+		return find.where().eq("status", null).eq("isRead", 0).eq("premiumFlag", 0).eq("assignedTo", null).eq("isContactusType", "1").eq("locations.id", locationId).findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllLocationAndOtherLeadData(Long locationId,String leadId) {
@@ -338,7 +338,7 @@ public void setMessage(String message) {
 	}
 	
 	public static List<RequestMoreInfo> findAllLocationDataManager(Long locationId) {
-		return find.where().eq("status", null).eq("locations.id", locationId).eq("premiumFlag", 0).eq("isContactusType", null).findList();
+		return find.where().eq("status", null).eq("locations.id", locationId).eq("premiumFlag", 0).eq("isContactusType", "1").findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllLocationAndOtherLeadDataManager(Long locationId,String leadId) {
@@ -354,7 +354,7 @@ public void setMessage(String message) {
 	}
 	
 	public static List<RequestMoreInfo> findAllSeen(AuthUser user) {
-		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).eq("isContactusType", null).eq("isScheduled", false).orderBy("requestDate desc").findList();
+		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).eq("isContactusType", "1").eq("isScheduled", false).orderBy("requestDate desc").findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllOtherLead(AuthUser user) {

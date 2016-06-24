@@ -34,9 +34,19 @@
             </div>
              <div class="checkbox">
                 <label>
+                    <input type='checkbox' ng-model="displayGrid" />
+                    Display in Grid</label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type='checkbox' ng-model="savecrm" />
+                    Add to CRM</label>
+            </div>
+             <!-- <div class="checkbox">
+                <label>
                     <input type='checkbox' ng-model="isRepeatable" />
                     Is Repeatable</label>
-            </div>
+            </div> -->
             <div class="form-group" ng-if="validationOptions.length > 0">
                 <label class='control-label'>Validation</label>
                 <select ng-model="$parent.validation" class='form-control' ng-options="option.rule as option.label for option in validationOptions"></select>
