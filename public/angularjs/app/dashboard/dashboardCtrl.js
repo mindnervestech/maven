@@ -2230,7 +2230,7 @@ angular.module('newApp')
    	 }
    	  	
    	  		$scope.editleads = function(){
-   	  			
+   	  		$scope.customList = [];
    	  		$scope.customData.setTime = $("#bestTimes").val()
 			if($scope.customData.setTime == undefined){
 				delete $scope.customData.setTime;
@@ -4341,10 +4341,14 @@ angular.module('newApp')
 	    		}*/
 	    		$scope.customData = {};
 	    		$scope.createLead = function() {
-	    			$scope.customData.setTime = $("#bestTimes").val()
+	    			$scope.customList =[];
+	    			$scope.customData.setTime = $("#bestTimes").val();
+	    			console.log($scope.customData.setTime);
 	    			if($scope.customData.setTime == undefined){
 	    				delete $scope.customData.setTime;
 	    			}
+	    			console.log($scope.customData);
+	    			
 	    			console.log($('#exCustoms_value').val());
 	    			$scope.customData.custName = $('#exCustoms_value').val();
 	    			if($scope.customData.custName == undefined){
@@ -4355,13 +4359,18 @@ angular.module('newApp')
 	    				delete $scope.customData.autocompleteText;
 	    			}
 	    			$scope.josnData = 0;
+	    			
+	    			
 	    			$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
 	    				$scope.josnData = angular.fromJson(response.jsonData);
 	    				console.log($scope.josnData);
+	    				console.log("7777");
 	    				
 	    					$.each($scope.customData, function(attr, value) {
 	    						angular.forEach($scope.josnData, function(value1, key) {
-	    							if(value1.key == attr){
+	    							console.log(attr);
+	    							console.log(value1.label);
+	    							if(value1.label == attr){
 		    							$scope.customList.push({
 				    		   	  			key:attr,
 				    		   	  			value:value,
@@ -4372,58 +4381,55 @@ angular.module('newApp')
 		    						} 
 		    					});
 			    			   });
+	    					
+	    					
+	    					
+	    					console.log($("#bestTimes").val());
+	    	    			console.log($scope.customData);
+	    	    			console.log($scope.customList);
+	    	    			 
+	    	    			
+	    	    			$scope.lead.customData = $scope.customList;
+	    	    			console.log($scope.lead);
+	    	    			console.log($("#autocomplete").val());
+	    	    			
+	    	    			if($scope.lead.custName == ''){
+	    	    				$scope.lead.custName = $('#ex1_value').val();
+	    	    			}
+	    	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' ||  
+	    	    					 $scope.lead.leadType =='') {
+	    	    				$scope.isInValid = true;
+	    	    			} else {
+	    	    				$scope.isInValid = false;
+	    	    			
+	    		    			if($scope.lead.leadType=='1') {
+	    		    				
+	    	    					$scope.makeLead();
+	    		    			} else if($scope.lead.leadType=='2') {
+	    		    				$scope.lead.bestDay = $("#leadBestDay").val();
+	    			    			$scope.lead.bestTime = $("#leadBestTime").val();
+	    			    			if($("input[name=leadPreffered]:checked").val())
+	    			    				$scope.lead.prefferedContact = $("input[name=leadPreffered]:checked").val();
+	    			    			
+	    			    			if(!$scope.lead.bestDay || $scope.lead.bestDay == '' ||!$scope.lead.bestTime || $scope.lead.bestTime=='' || !$scope.lead.prefferedContact ||$scope.lead.prefferedContact=='') {
+	    			    				$scope.isInValid = true;
+	    			    			} else {
+	    			    				$scope.makeLead();
+	    			    			}
+	    		    			} else if($scope.lead.leadType=='3') {
+	    		    				$("#createLeadPopup").modal('hide');
+	    		    				$("#tradeInApp").modal();
+	    		    			}else{
+	    		    				$scope.makeLead();
+	    		    			}
+	    	    			}
+	    	    			if($scope.lead.leadType != '3'){
+	    	    				//window.location.reload();
+	    	    			}
 	      	  		});
 	    			
-	    			/*$.each($scope.customData, function(attr, value) {
-    							$scope.customList.push({
-		    		   	  			key:attr,
-		    		   	  			value:value,
-		    					});
-	    			   });*/
 	    			
 	    			
-	    			console.log($("#bestTimes").val());
-	    			console.log($scope.customData);
-	    			 
-	    			
-	    			$scope.lead.customData = $scope.customList;
-	    			console.log($scope.lead);
-	    			console.log($("#autocomplete").val());
-	    			
-	    			//$scope.lead.leadType = '1';
-	    			if($scope.lead.custName == ''){
-	    				$scope.lead.custName = $('#ex1_value').val();
-	    			}
-	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' ||  
-	    					 $scope.lead.leadType =='') {
-	    				$scope.isInValid = true;
-	    			} else {
-	    				$scope.isInValid = false;
-	    			
-		    			if($scope.lead.leadType=='1') {
-		    				
-	    					$scope.makeLead();
-		    			} else if($scope.lead.leadType=='2') {
-		    				$scope.lead.bestDay = $("#leadBestDay").val();
-			    			$scope.lead.bestTime = $("#leadBestTime").val();
-			    			if($("input[name=leadPreffered]:checked").val())
-			    				$scope.lead.prefferedContact = $("input[name=leadPreffered]:checked").val();
-			    			
-			    			if(!$scope.lead.bestDay || $scope.lead.bestDay == '' ||!$scope.lead.bestTime || $scope.lead.bestTime=='' || !$scope.lead.prefferedContact ||$scope.lead.prefferedContact=='') {
-			    				$scope.isInValid = true;
-			    			} else {
-			    				$scope.makeLead();
-			    			}
-		    			} else if($scope.lead.leadType=='3') {
-		    				$("#createLeadPopup").modal('hide');
-		    				$("#tradeInApp").modal();
-		    			}else{
-		    				$scope.makeLead();
-		    			}
-	    			}
-	    			if($scope.lead.leadType != '3'){
-	    				//window.location.reload();
-	    			}
 	    		};
 	    		
 	    		$scope.makeLeadEdit = function(){
@@ -4458,19 +4464,17 @@ angular.module('newApp')
 	    			
 	    			
 	    			var files = [];
-	    			
+	    			console.log("^^^%%%*&&&&&&");
+	    			//console.log($scope.lead);
 	    			if($rootScope.fileCustom != undefined){
 	    				console.log($rootScope.fileCustom);
 	    				files = $rootScope.fileCustom;
-	    				console.log($scope.lead);
+	    				
 	    				
 	    				console.log(files.length);
 	    				console.log(files);
 	    				console.log("bothfile");
 	    				
-	    				// delete $scope.lead.customData;
-	    				// delete $scope.lead.options;
-	    				// delete $scope.lead.stockWiseData;
 	    				
 	    				 $upload.upload({
 	    		            url : '/createLead',
@@ -4479,9 +4483,10 @@ angular.module('newApp')
 	    		            data:$scope.lead
 	    		         }).success(function(data) {
 	    		   			console.log('success');
-	    		   			
 	    		   		 });
 	    				}else{
+	    					console.log($scope.lead);
+	    					
 	    					$http.post('/createLead',$scope.lead).success(function(response) {
 	    	    				$scope.topVisitedDataDatewise();
 	    	    				 $scope.findMystatisData(startD,endD,'person');

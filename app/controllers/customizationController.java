@@ -103,7 +103,10 @@ public class customizationController extends Controller {
 	
 	public static Result getCustomizationform(String type) {
 		CustomizationForm cForm = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")),type);
-		
+		if(cForm == null){
+			int flag = 0;
+			return ok(Json.toJson(flag));
+		}
 		return ok(Json.toJson(cForm));
 	}
 	
