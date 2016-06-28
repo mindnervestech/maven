@@ -4364,13 +4364,11 @@ angular.module('newApp')
 	    			$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
 	    				$scope.josnData = angular.fromJson(response.jsonData);
 	    				console.log($scope.josnData);
-	    				console.log("7777");
-	    				
 	    					$.each($scope.customData, function(attr, value) {
 	    						angular.forEach($scope.josnData, function(value1, key) {
 	    							console.log(attr);
-	    							console.log(value1.label);
-	    							if(value1.label == attr){
+	    							console.log(value1.key);
+	    							if(value1.key == attr){
 		    							$scope.customList.push({
 				    		   	  			key:attr,
 				    		   	  			value:value,

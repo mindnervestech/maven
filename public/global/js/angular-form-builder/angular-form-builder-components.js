@@ -29,6 +29,7 @@
       $builderProvider.registerComponent('textArea', {
         group: 'Default',
         label: 'Text Area', 
+        key:'text_area',
         description: '* instructions',
         required: false,
         template: "<div class=\"form-group\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\" ng-class=\"{'fb-required':required}\">{{label}}</label>\n    <div class=\"col-md-6\">\n        <textarea type=\"text\" ng-model=\"inputText\" validator-required=\"{{required}}\" validator-group=\"{{formName}}\" id=\"{{formName+index}}\" class=\"form-control\" rows='6' placeholder=\"{{placeholder}}\"/>\n        <p class='help-block'>{{description}}</p>\n    </div>\n</div>",
@@ -60,6 +61,7 @@
     $builderProvider.registerComponent('textInput', {
         group: 'Default',
         label: 'Text Input',
+        key:'text_input',
         description: '',
         readOnly: false,
         minLength: 0,
@@ -86,6 +88,7 @@
     $builderProvider.registerComponent('date', {
         group: 'Default',
         label: 'Date Selector',
+        key:'date_selector',
         description: '',
         required: false,
         disableWeekends: false,
@@ -99,6 +102,7 @@
       $builderProvider.registerComponent('select', {
         group: 'Default',
         label: 'Dropdown',
+        key:'dropdown',
         required: false,
         options: ['value one', 'value two'],
         template: "<div class=\"form-group col-sm-12\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\">{{label}}</label>\n    <div class=\"col-md-6\">\n        <select ng-options=\"value for value in options\" id=\"{{formName+index}}\" class=\"form-control\"\n            ng-model=\"inputText\" ng-init=\"inputText = options[0]\"/>\n        <p class='help-block'>{{description}}</p>\n    </div>\n</div>",
@@ -109,6 +113,7 @@
       $builderProvider.registerComponent('financialcalculator', {
           group: 'Default',
           label: 'Financial Calculator',
+          key:'financial_calculator',
           description: '',
           disableWeekends: false,
           readOnly: false,
@@ -119,6 +124,7 @@
       $builderProvider.registerComponent('daterange', {
           group: 'Default',
           label: 'Date Range',
+          key:'date_range',
           description: '',
           required: false,
           disableWeekends: false,
@@ -131,6 +137,7 @@
       $builderProvider.registerComponent('autocompleteText', {
           group: 'Default',
           label: 'Address bar',
+          key:'address_bar',
           description: '',
           readOnly: false,
           required: false,
@@ -142,6 +149,7 @@
       $builderProvider.registerComponent('contactssearch', {
           group: 'Default',
           label: 'Contacts Search',
+          key:'contacts_search',
           description: '',
           disableWeekends: false,
           readOnly: false,
@@ -153,6 +161,7 @@
       $builderProvider.registerComponent('inventorysearch', {
           group: 'Default',
           label: 'Inventory Search',
+          key:'inventory_search',
           description: '',
           disableWeekends: false,
           readOnly: false,
@@ -163,6 +172,7 @@
       $builderProvider.registerComponent('fileuploaders', {
           group: 'Default',
           label: 'File uploader',
+          key:'file_uploader',
           description: '',
           disableWeekends: false,
           readOnly: false,
@@ -173,6 +183,7 @@
       $builderProvider.registerComponent('timerange', {
     	  group: 'Default',
           label: 'Time Range',
+          key:'time_range',
           description: '',
           required: false,
           disableWeekends: false,
