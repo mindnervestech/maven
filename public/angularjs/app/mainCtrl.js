@@ -882,7 +882,6 @@ angular.module('newApp').controller('customizationCtrl',
 	           var placeSearch, autocomplete;
 	            
 	            $scope.initAutocomplete = function() {
-	            	
 	            	 autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),
 	            	     {types: ['geocode']});
 	            	 autocomplete.addListener('place_changed', fillInAddress);

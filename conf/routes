@@ -125,7 +125,6 @@ GET   /getCustomizationform/:type	  controllers.customizationController.getCusto
 
 
 
-
 GET		/getCustomerPdfForVehicle/:vin 	controllers.Application.getCustomerPdfForVehicle(vin:String)
 GET		/getSocialMediadetail		controllers.Application.getSocialMediadetail()
 GET		/deletePdfById/:id	   controllers.Application.deletePdfById(id:Long)

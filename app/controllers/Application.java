@@ -392,6 +392,11 @@ public class Application extends Controller {
 			
 		}
 	public static Result login() {
+		
+		  response().setHeader("Access-Control-Allow-Origin", "*");
+    	  response().setHeader("Access-Control-Allow-Methods", "POST");
+    	  response().setHeader("Access-Control-Allow-Headers", "accept, origin, Content-type, x-json, x-prototype-version, x-requested-with");
+		
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		String email = Form.form().bindFromRequest().get("email");
 		String password= Form.form().bindFromRequest().get("password");
@@ -3401,10 +3406,20 @@ public class Application extends Controller {
     			diff = date.getTime() - loc.createdDate.getTime();
     			days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     		}
-    	
+    		
+    	/*------------------Demo test-----------------------*/
+    		
+    	/*List<SqlRow> rows = Vehicle.getDataInAutodealar();
+	    	for(SqlRow row : rows) {
+	    		String pass = (String) row.get("password");
+	    		String pass1 = (String) row.get("userName");
+	    		
+	    	}*/
     		return ok(Json.toJson(days));
     	}
     }
+    
+   
     
     public static Result uploadLocationImageFile(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -15867,14 +15882,7 @@ private static void cancelTestDriveMail(Map map) {
 	    	return ok();
     	}
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     public static Result saveUser() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

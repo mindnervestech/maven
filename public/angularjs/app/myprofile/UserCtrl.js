@@ -577,51 +577,100 @@ angular.module('newApp')
 		$scope.user.imageUrl = $scope.img;
 		//console.log(logofile);
 		//console.log($scope.user);
-		if(angular.isUndefined(logofile)) {
-			if($scope.emailMsg == "") {
-				$http.post('/uploadImageFile',$scope.user)
-				.success(function(data) {
-					$scope.user.firstName=" ";
-		            $scope.user.lastName=" ";
-		            $scope.user.email=" ";
-		            $scope.user.phone=" ";
-		            $scope.user.userType=" ";
-		            $scope.user.img=" ";
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "User saved successfully",
+		if($scope.user.userType == "Photographer"){
+			if(angular.isUndefined(logofile)) {
+				if($scope.emailMsg == "") {
+					$http.post('http://www.glider-autos.com:7071/uploadImageFile',$scope.user)
+					.success(function(data) {
+						$scope.user.firstName=" ";
+			            $scope.user.lastName=" ";
+			            $scope.user.email=" ";
+			            $scope.user.phone=" ";
+			            $scope.user.userType=" ";
+			            $scope.user.img=" ";
+			            $('#btnClose').click();
+			            $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "User saved successfully",
+						});
+			            $scope.init();
 					});
-		            $scope.init();
-				});
+				}
+			} else {
+				if($scope.emailMsg == "") {
+				   $upload.upload({
+			            url : 'http://www.glider-autos.com:7071/uploadImageFile',
+			            method: 'post',
+			            file:logofile,
+			            data:$scope.user
+			        }).success(function(data, status, headers, config) {
+			            console.log('success');
+			            $scope.user.firstName=" ";
+			            $scope.user.lastName=" ";
+			            $scope.user.email=" ";
+			            $scope.user.phone=" ";
+			            $scope.user.userType=" ";
+			            $scope.user.img=" ";
+			            $("#file").val('');
+			            $('#btnClose').click();
+			            $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "User saved successfully",
+						});
+			            $scope.init();
+			        });
+				}
 			}
-		} else {
-			if($scope.emailMsg == "") {
-			   $upload.upload({
-		            url : '/uploadImageFile',
-		            method: 'post',
-		            file:logofile,
-		            data:$scope.user
-		        }).success(function(data, status, headers, config) {
-		            console.log('success');
-		            $scope.user.firstName=" ";
-		            $scope.user.lastName=" ";
-		            $scope.user.email=" ";
-		            $scope.user.phone=" ";
-		            $scope.user.userType=" ";
-		            $scope.user.img=" ";
-		            $("#file").val('');
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "User saved successfully",
+		}else{
+			if(angular.isUndefined(logofile)) {
+				if($scope.emailMsg == "") {
+					$http.post('/uploadImageFile',$scope.user)
+					.success(function(data) {
+						$scope.user.firstName=" ";
+			            $scope.user.lastName=" ";
+			            $scope.user.email=" ";
+			            $scope.user.phone=" ";
+			            $scope.user.userType=" ";
+			            $scope.user.img=" ";
+			            $('#btnClose').click();
+			            $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "User saved successfully",
+						});
+			            $scope.init();
 					});
-		            $scope.init();
-		        });
+				}
+			} else {
+				if($scope.emailMsg == "") {
+				   $upload.upload({
+			            url : '/uploadImageFile',
+			            method: 'post',
+			            file:logofile,
+			            data:$scope.user
+			        }).success(function(data, status, headers, config) {
+			            console.log('success');
+			            $scope.user.firstName=" ";
+			            $scope.user.lastName=" ";
+			            $scope.user.email=" ";
+			            $scope.user.phone=" ";
+			            $scope.user.userType=" ";
+			            $scope.user.img=" ";
+			            $("#file").val('');
+			            $('#btnClose').click();
+			            $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "User saved successfully",
+						});
+			            $scope.init();
+			        });
+				}
 			}
 		}
+		
 		
 		
 		/*$scope.operation.typeOfOperation='sales';

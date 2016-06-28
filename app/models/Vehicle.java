@@ -1026,4 +1026,10 @@ public class Vehicle extends Model {
 		return rows;
 	}
 	
+	/*public static List<SqlRow> getDataInAutodealar() {
+		SqlQuery q = Ebean.createSqlQuery("select  * from travel_portal.adminuser");
+		List<SqlRow> rows = q.findList();
+		return rows;
+	}*/
+	
 }
