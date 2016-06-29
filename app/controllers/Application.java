@@ -15896,7 +15896,7 @@ private static void cancelTestDriveMail(Map map) {
 	    	return ok();
     	}
     }
-   //@RequireCSRFCheck
+   @RequireCSRFCheck
     public static Result saveUser() {
     	
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
