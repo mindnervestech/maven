@@ -526,7 +526,7 @@ angular.module('newApp')
 	$scope.saveImage = function() {
 		console.log("%%%%%%6666666666666666666677777777777777777777");
 		console.log(userKey);
-		$http.get('/findLocation)
+		$http.get('/findLocation')
 		.success(function(data) {
 			console.log(data);
 			$scope.user.locationId = data;
