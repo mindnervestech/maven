@@ -15900,19 +15900,17 @@ private static void cancelTestDriveMail(Map map) {
     public static Result saveUser() {
     	
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
-    		//AuthUser users = (AuthUser) getLocalUser();
     		MultipartFormData body = request().body().asMultipartFormData();
     		
     		
 	    	AuthUser userObj = new AuthUser();
 	    	UserVM vm = form.get();
-	    	//List<String> aa= new ArrayList<>();
 	    	
 	    	userObj.firstName = vm.firstName;
 	    	userObj.lastName = vm.lastName;
 	    	userObj.email = vm.email;
 	    	userObj.account = "active";
-	    	userObj.communicationemail = vm.email;
+	    	/*userObj.communicationemail = vm.email;
 	    	userObj.phone = vm.phone;
 	    	userObj.role = vm.userType;
 	    	userObj.location = Location.findById(vm.locationId);
@@ -15955,7 +15953,6 @@ private static void cancelTestDriveMail(Map map) {
 	    	   userObj.setPassword(sb.toString());
 	    	   List<Permission> permissionList = Permission.getAllPermission();
 	    	   if(vm.userType.equals("General Manager")) {
-	    		  //userObj.permission = permissionList;
 	    		   List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
 	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Show Location")) {
@@ -15969,7 +15966,6 @@ private static void cancelTestDriveMail(Map map) {
 	    	   
 	    	   if(vm.userType.equals("Sales Person")) {
 	    		   
-	    		  // String aa = vm.permissions.get(0);
 	    		   List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
 	    			   if(body != null) {
@@ -15987,10 +15983,6 @@ private static void cancelTestDriveMail(Map map) {
     				   
 	    				   }
 	    			   }
-	    			   
-	    			   /*if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
-	    				   permissionData.add(obj);
-	    			   }*/
 	    			   
 	    		   }
 	    		   userObj.setPermission(permissionData);
@@ -16173,7 +16165,7 @@ private static void cancelTestDriveMail(Map map) {
 		  			 throw new RuntimeException(e);
 		  		}
 	    	   
-	    	return ok();
+*/	    	return ok();
     }
     
     /*public static Result getUserLocationByDateInfo(String startDate,String endDate,String locOrPer){
