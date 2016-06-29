@@ -148,6 +148,7 @@ import play.data.Form;
 import play.filters.csrf.RequireCSRFCheck;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
@@ -15896,7 +15897,11 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     @RequireCSRFCheck
-    public static Result saveUser() {
+    public static Result saveUser(Http.Context ctx) {
+    	
+    	Http.Response response = ctx.response();
+        response.setHeader("Access-Control-Allow-Origin", "*");
+    	
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
