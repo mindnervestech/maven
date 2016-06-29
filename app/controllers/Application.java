@@ -15900,7 +15900,7 @@ private static void cancelTestDriveMail(Map map) {
     public static Result saveUser() {
     	
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
-    		AuthUser users = (AuthUser) getLocalUser();
+    		//AuthUser users = (AuthUser) getLocalUser();
     		MultipartFormData body = request().body().asMultipartFormData();
     		
     		
@@ -15908,14 +15908,14 @@ private static void cancelTestDriveMail(Map map) {
 	    	UserVM vm = form.get();
 	    	//List<String> aa= new ArrayList<>();
 	    	
-/*	    	userObj.firstName = vm.firstName;
+	    	userObj.firstName = vm.firstName;
 	    	userObj.lastName = vm.lastName;
 	    	userObj.email = vm.email;
 	    	userObj.account = "active";
 	    	userObj.communicationemail = vm.email;
 	    	userObj.phone = vm.phone;
 	    	userObj.role = vm.userType;
-	    	userObj.location = Location.findById(Long.parseLong(session("USER_LOCATION")));
+	    	userObj.location = Location.findById(vm.locationId);
 	    	userObj.age = vm.age;
 	    	userObj.commission =vm.commission;
 	    	userObj.contractDur = vm.contractDur;
@@ -15988,9 +15988,9 @@ private static void cancelTestDriveMail(Map map) {
 	    				   }
 	    			   }
 	    			   
-	    			   if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
+	    			   /*if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
 	    				   permissionData.add(obj);
-	    			   }
+	    			   }*/
 	    			   
 	    		   }
 	    		   userObj.setPermission(permissionData);
@@ -16054,7 +16054,7 @@ private static void cancelTestDriveMail(Map map) {
 			    			}
 				    	
 			    			pOperation.user = AuthUser.findById(userObj.id);
-			    			pOperation.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			    			pOperation.locations = Location.findById(vm.locationId);
 			    			
 					} catch (ParseException e1) {
 						// TODO Auto-generated catch block
@@ -16071,16 +16071,16 @@ private static void cancelTestDriveMail(Map map) {
 	    		FilePart picture = body.getFile("file0");
 		    	  if (picture != null) {
 		    	    String fileName = picture.getFilename();
-		    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto");
+		    	    File fdir = new File(rootDir+File.separator+vm.locationId+File.separator+userObj.id+File.separator+"userPhoto");
 		    	    if(!fdir.exists()) {
 		    	    	fdir.mkdir();
 		    	    }
-		    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+		    	    String filePath = rootDir+File.separator+vm.locationId+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
 		    	    File file = picture.getFile();
 		    	    try {
 		    	    		FileUtils.moveFile(file, new File(filePath));
 		    	    		AuthUser user = AuthUser.findById(userObj.id);
-		    	    		user.setImageUrl("/"+session("USER_LOCATION")+"/"+user.id+"/"+"userPhoto"+"/"+fileName);
+		    	    		user.setImageUrl("/"+vm.locationId+"/"+user.id+"/"+"userPhoto"+"/"+fileName);
 		    	    		user.setImageName(fileName);
 		    	    		user.update();	
 		    	    		
@@ -16093,14 +16093,14 @@ private static void cancelTestDriveMail(Map map) {
 	    	   } 
 	    	   InternalPdf iPdf = null;
 	    	   
-	    	   EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	   EmailDetails details=EmailDetails.findByLocation(vm.locationId);
 	    		String emailName=details.name;
 	    		String port=details.port;
 	    		String gmail=details.host;
 	    	final	String emailUser=details.username;
 	    	final	String emailPass=details.passward;
 	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
-	    	   SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(logoUser);
+	    	   SiteLogo logo = SiteLogo.findByLocation(vm.locationId);  //findByUser(logoUser);
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
@@ -16172,7 +16172,7 @@ private static void cancelTestDriveMail(Map map) {
 		       		} catch (MessagingException e) {
 		  			 throw new RuntimeException(e);
 		  		}
-	*/    	   
+	    	   
 	    	return ok();
     }
     

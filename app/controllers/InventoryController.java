@@ -364,6 +364,10 @@ public class InventoryController extends Controller {
 	    	}	
 	    }
 	   
+	   public static Result findLocation(){
+		   return ok(Json.toJson(Long.valueOf(session("USER_LOCATION"))));
+	   }
+	   
 	   public static Result getOnlyReadyMade() {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));

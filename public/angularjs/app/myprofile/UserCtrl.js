@@ -524,7 +524,13 @@ angular.module('newApp')
 	   
 		$scope.hOperation = {};
 	$scope.saveImage = function() {
-		
+		console.log("%%%%%%6666666666666666666677777777777777777777");
+		console.log(userKey);
+		$http.get('/findLocation)
+		.success(function(data) {
+			console.log(data);
+			$scope.user.locationId = data;
+		});
 		$scope.user.permissions = $scope.permission;
 		$scope.user.pdfIds = $scope.pdfDoc;
 		
