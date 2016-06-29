@@ -56,20 +56,12 @@ import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
 
 import models.ActionAdd;
-import models.AddCollection;
 import models.AddProduct;
 import models.AuthUser;
 import models.AutoPortal;
 import models.Blog;
 import models.CampaignsVM;
 import models.ClickyActionList;
-import models.ClickyContentDomain;
-import models.ClickyContentDownLoad;
-import models.ClickyContentEvent;
-import models.ClickyContentExit;
-import models.ClickyContentMedia;
-import models.ClickyEntranceList;
-import models.ClickyPagesActionList;
 import models.ClickyPagesList;
 import models.ClickyVisitorsList;
 import models.Comments;
@@ -79,6 +71,7 @@ import models.Contacts;
 import models.CoverImage;
 import models.CreateNewForm;
 import models.CustomerPdf;
+import models.CustomizationDataValue;
 import models.Domain;
 import models.EmailDetails;
 import models.FeaturedImage;
@@ -130,11 +123,9 @@ import models.VehicleImageConfig;
 import models.Video;
 import models.VirtualTour;
 import models.Warranty;
-import models.CustomizationDataValue;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.net.ftp.FTPClient;
@@ -154,6 +145,7 @@ import org.json.JSONObject;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
+import play.filters.csrf.RequireCSRFCheck;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
@@ -162,7 +154,6 @@ import play.mvc.Result;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
-import viewmodel.AddProductVM;
 import viewmodel.AssignToVM;
 import viewmodel.AudioVM;
 import viewmodel.AutoPortalVM;
@@ -192,7 +183,6 @@ import viewmodel.PinVM;
 import viewmodel.PlanScheduleVM;
 import viewmodel.PriceChangeVM;
 import viewmodel.PriceFormatDate;
-import viewmodel.RegisterVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.SalepeopleMonthPlanVM;
 import viewmodel.ScheduleTestVM;
@@ -264,6 +254,7 @@ import com.mnt.dataone.Specification;
 import com.mnt.dataone.Specification_;
 import com.mnt.dataone.Value;
 
+
 public class Application extends Controller {
   
 	final static String rootDir = Play.application().configuration()
@@ -292,7 +283,7 @@ public class Application extends Controller {
 			//public static int userId = -1361609913;
 			
 	static String simulatevin = "{    'success': true,    'specification': {        'vin': 'WDDNG7KB7DA494890',        'year': '2013',        'make': 'Mercedes-Benz',        'model': 'S-Class',        'trim_level': 'S65 AMG',        'engine': '6.0L V12 SOHC 36V TURBO',        'style': 'SEDAN 4-DR',        'made_in': 'GERMANY',        'steering_type': 'R&P',        'anti_brake_system': '4-Wheel ABS',        'tank_size': '23.80 gallon',        'overall_height': '58.00 in.',        'overall_length': '206.50 in.',        'overall_width': '73.70 in.',        'standard_seating': '5',        'optional_seating': null,        'highway_mileage': '19 miles/gallon',        'city_mileage': '12 miles/gallon'    },    'vin': 'WDDNG7KB7DA494890'}";
-
+	
 	private static boolean simulate = false;
     /*public static Result index() {
         return ok(index.render("Your new application is ready."));
@@ -329,6 +320,13 @@ public class Application extends Controller {
 		public void setEvents(Set<Event> events) {
 			this.events = events;
 		}
+		
+
+		/*public class Filters extends DefaultHttpFilters {
+		    @Inject public Filters(CORSFilter corsFilter) {
+		        super(corsFilter);
+		    }
+		}*/
 		
 		public static Result locationWise(Long locationId){
 			AuthUser user = AuthUser.getOnlyGM();
@@ -393,9 +391,6 @@ public class Application extends Controller {
 		}
 	public static Result login() {
 		
-		  response().setHeader("Access-Control-Allow-Origin", "*");
-    	  response().setHeader("Access-Control-Allow-Methods", "POST");
-    	  response().setHeader("Access-Control-Allow-Headers", "accept, origin, Content-type, x-json, x-prototype-version, x-requested-with");
 		
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		String email = Form.form().bindFromRequest().get("email");
@@ -3385,6 +3380,24 @@ public class Application extends Controller {
 	    	return ok(Json.toJson(vehicle.id));
     	}	
     }
+    
+   /* public static Result getAutoDealerTableData(){
+    	List<AuthUser> auUser = AuthUser.getOnlyPhotographer();
+    	List<UserVM> userlist = new ArrayList<>();
+    	System.out.println("(((())0909090");
+    	for(AuthUser au:auUser){
+    		UserVM use = new UserVM();
+    		use.firstName = au.firstName;
+    		use.lastName = au.lastName;
+    		use.locationId = au.location.id;
+    		use.password = au.password;
+    		use.role = au.role;
+    		use.email = au.email;
+    		userlist.add(use);
+    	}
+    	return ok(Json.toJson(userlist));
+    }*/
+    
     public static Result getLocationDays(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -15882,8 +15895,7 @@ private static void cancelTestDriveMail(Map map) {
 	    	return ok();
     	}
     }
-
-    
+    @RequireCSRFCheck
     public static Result saveUser() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
