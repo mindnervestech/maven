@@ -15897,10 +15897,13 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     @RequireCSRFCheck
-    public static Result saveUser(Http.Context ctx) {
-    	
-    	Http.Response response = ctx.response();
-        response.setHeader("Access-Control-Allow-Origin", "*");
+    public static Result saveUser() {
+
+
+    	 response().setHeader("Access-Control-Allow-Origin", "*");
+         response().setHeader("Allow", "*");
+         response().setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+         response().setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Referer, User-Agent");
     	
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
