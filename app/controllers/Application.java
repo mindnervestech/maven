@@ -15896,18 +15896,9 @@ private static void cancelTestDriveMail(Map map) {
 	    	return ok();
     	}
     }
-    @RequireCSRFCheck
+   //@RequireCSRFCheck
     public static Result saveUser() {
-
-
-    	 response().setHeader("Access-Control-Allow-Origin", "*");
-         response().setHeader("Allow", "*");
-         response().setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-         response().setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Referer, User-Agent");
     	
-    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render("",userRegistration));
-    	} else {
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
     		AuthUser users = (AuthUser) getLocalUser();
     		MultipartFormData body = request().body().asMultipartFormData();
@@ -15917,7 +15908,7 @@ private static void cancelTestDriveMail(Map map) {
 	    	UserVM vm = form.get();
 	    	//List<String> aa= new ArrayList<>();
 	    	
-	    	userObj.firstName = vm.firstName;
+/*	    	userObj.firstName = vm.firstName;
 	    	userObj.lastName = vm.lastName;
 	    	userObj.email = vm.email;
 	    	userObj.account = "active";
@@ -15997,9 +15988,9 @@ private static void cancelTestDriveMail(Map map) {
 	    				   }
 	    			   }
 	    			   
-	    			   /*if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
+	    			   if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
 	    				   permissionData.add(obj);
-	    			   }*/
+	    			   }
 	    			   
 	    		   }
 	    		   userObj.setPermission(permissionData);
@@ -16181,9 +16172,8 @@ private static void cancelTestDriveMail(Map map) {
 		       		} catch (MessagingException e) {
 		  			 throw new RuntimeException(e);
 		  		}
-	    	   
+	*/    	   
 	    	return ok();
-    	}
     }
     
     /*public static Result getUserLocationByDateInfo(String startDate,String endDate,String locOrPer){
