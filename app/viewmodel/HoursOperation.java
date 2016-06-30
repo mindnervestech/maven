@@ -33,7 +33,7 @@ public class HoursOperation {
 	public int satFlag;
 	public int checkForSunday;
 	public int checkForMonday;
-public String portalName;	
+	public String portalName;	
 	
 	public String getTypeOfOperation() {
 		return typeOfOperation;

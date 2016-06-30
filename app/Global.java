@@ -7,6 +7,10 @@ import scheduler.ClickyDataScheduler;
 import scheduler.MeetingAndTestDriveScheduler;
 import scheduler.NewsLetter;
 import scheduler.TestDriveScheduler;
+import play.libs.F.Promise;
+import play.mvc.Action;
+import play.mvc.Http;
+import play.mvc.SimpleResult;
 
 public class Global extends GlobalSettings {
 	public static final int CHAR_LEN = 200;
@@ -16,6 +20,20 @@ public class Global extends GlobalSettings {
 	public <T extends EssentialFilter> Class<T>[] filters() {
         return new Class[]{GzipFilter.class};
     }
+
+	private class ActionWrapper extends Action.Simple {
+	        public ActionWrapper(Action<?> action) {
+	            this.delegate = action;
+	        }
+
+	        @Override
+	        public Promise<SimpleResult> call(Http.Context ctx) throws java.lang.Throwable {
+	            Promise<SimpleResult> result = this.delegate.call(ctx);
+	            Http.Response response = ctx.response();
+	            response.setHeader("Access-Control-Allow-Origin", "*");
+	            return result;
+	        }
+	    }
 	
 	@Override
 	public void onStart(Application app) {

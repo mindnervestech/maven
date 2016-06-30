@@ -566,7 +566,7 @@ angular.module('newApp')
 			if($scope.user.hOperation.satOpen == undefined){
 				$scope.user.hOperation.satOpen = false;
 			}
-			$scope.user.hOperationportalName = "MavenFurniture";
+			
 			$scope.user.contractDurStartDate = $("#cnfstartDateValue").val();
 			$scope.user.contractDurEndDate = $("#cnfendDateValue").val();
 		}
