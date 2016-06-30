@@ -524,13 +524,11 @@ angular.module('newApp')
 	   
 		$scope.hOperation = {};
 	$scope.saveImage = function() {
-		console.log("%%%%%%6666666666666666666677777777777777777777");
-		console.log(userKey);
 		$http.get('/findLocation')
 		.success(function(data) {
 			console.log(data);
 			$scope.user.locationId = data;
-		});
+		
 		$scope.user.permissions = $scope.permission;
 		$scope.user.pdfIds = $scope.pdfDoc;
 		
@@ -546,7 +544,7 @@ angular.module('newApp')
 			$scope.user.hOperation.thuOpenTime = $('#thuOpen').val();
 			$scope.user.hOperation.friOpenTime = $('#friOpen').val();
 			$scope.user.hOperation.satOpenTime = $('#satOpen').val();
-			
+
 			if($scope.user.hOperation.sunOpen == undefined){
 				$scope.user.hOperation.sunOpen = false;
 			}
@@ -568,6 +566,8 @@ angular.module('newApp')
 			if($scope.user.hOperation.satOpen == undefined){
 				$scope.user.hOperation.satOpen = false;
 			}
+			$scope.user.contractDurStartDate = $("#cnfstartDateValue").val();
+			$scope.user.contractDurEndDate = $("#cnfendDateValue").val();
 		}
 		
 		if($scope.contactVal=="Employee"){
@@ -581,8 +581,6 @@ angular.module('newApp')
 			$scope.user.contractDur = $scope.num+" "+$scope.duration;
 		}
 		$scope.user.imageUrl = $scope.img;
-		//console.log(logofile);
-		//console.log($scope.user);
 		if($scope.user.userType == "Photographer"){
 			if(angular.isUndefined(logofile)) {
 				if($scope.emailMsg == "") {
@@ -600,7 +598,7 @@ angular.module('newApp')
 						    type:'success',
 						    text: "User saved successfully",
 						});
-			            $scope.init();
+			          //  $scope.init();
 					});
 				}
 			} else {
@@ -625,7 +623,7 @@ angular.module('newApp')
 						    type:'success',
 						    text: "User saved successfully",
 						});
-			            $scope.init();
+			            //$scope.init();
 			        });
 				}
 			}
@@ -706,7 +704,7 @@ angular.module('newApp')
 				});
 	            //$scope.init();
 			});*/
-		
+		});
 	   }
 	
 	$scope.openClick = function(){

@@ -473,6 +473,16 @@ public class Application extends Controller {
 	    		}
 	    		
 	    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
+			}else if(user.role.equalsIgnoreCase("Photographer")){
+				session("USER_KEY", user.id+"");
+				session("USER_ROLE", user.role+"");
+				HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+	    		List<Permission> userPermissions = user.getPermission();
+	    		for(Permission per: userPermissions) {
+	    			permission.put(per.name, true);
+	    		}
+	    		
+	    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
 			}else if(user.role.equalsIgnoreCase("General Manager")){
 				if(user.getNewUser()== 1){
 
@@ -15910,7 +15920,7 @@ private static void cancelTestDriveMail(Map map) {
 	    	userObj.lastName = vm.lastName;
 	    	userObj.email = vm.email;
 	    	userObj.account = "active";
-	    	/*userObj.communicationemail = vm.email;
+	    	userObj.communicationemail = vm.email;
 	    	userObj.phone = vm.phone;
 	    	userObj.role = vm.userType;
 	    	userObj.location = Location.findById(vm.locationId);
@@ -15989,10 +15999,9 @@ private static void cancelTestDriveMail(Map map) {
 	    	   }
 	    	   
 	    	   userObj.save();
-	    	   
+	    	   DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 	    	   if(vm.userType.equals("Photographer")){
 	    		   PhotographerHoursOfOperation pOperation = new PhotographerHoursOfOperation();
-			    	
 			    	
 			    	try {
 			    			
@@ -16045,6 +16054,9 @@ private static void cancelTestDriveMail(Map map) {
 			    				pOperation.satOpen = 0;
 			    			}
 				    	
+			    			pOperation.portalName = "MavenFurniture";
+			    			pOperation.contractDurEndDate = df.parse(vm.contractDurEndDate);
+			    			pOperation.contractDurStartDate = df.parse(vm.contractDurStartDate);
 			    			pOperation.user = AuthUser.findById(userObj.id);
 			    			pOperation.locations = Location.findById(vm.locationId);
 			    			
@@ -16165,7 +16177,7 @@ private static void cancelTestDriveMail(Map map) {
 		  			 throw new RuntimeException(e);
 		  		}
 	    	   
-*/	    	return ok();
+	    	return ok();
     }
     
     /*public static Result getUserLocationByDateInfo(String startDate,String endDate,String locOrPer){

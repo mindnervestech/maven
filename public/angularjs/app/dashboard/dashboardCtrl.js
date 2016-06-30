@@ -17,7 +17,7 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
 angular.module('newApp')
   .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder','$rootScope',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder, $rootScope) {
 	  
-	  
+	  $scope.showFormly = "1";
 	  var ele = document.getElementById('loadingmanual');	
    	$(ele).hide();
 	$http.get('/getLocationDays')

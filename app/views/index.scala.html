@@ -43,6 +43,8 @@
         <link href="/assets/textAngular/textAngular.css" rel="stylesheet" /> -->
        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
          <link href="/assets/global/css/bootstrap-timepicker.min.css" rel="stylesheet" />
+        <!--  <link href="/assets/global/js/fullcalendar/fullcalendar.css" rel="stylesheet" />
+         <link href="/assets/global/js/fullcalendar/fullcalendar.print.css" rel="stylesheet" /> -->
         <!-- <link href="/assets/angular-nvd3/nv.d3.css" rel="stylesheet" /> -->
         <!-- BEGIN ANGULARJS STYLE -->
         <!-- <link href="/dealerjs/css/angular-theme.css" rel="stylesheet"> -->
@@ -154,6 +156,7 @@
                         <!-- <li ng-sec = "Add Vehicle" ng-class="{ active  : isActive('/addVehicle')}"><a href="#addVehicle"><i class="fa fa-car"></i><span>Add Vehicle</span></a></li> -->
 						<!-- <li ng-sec = "Inventory" ng-class="{ active  : isActive('/viewVehicles')}"><a href="#viewVehicles"><i class="fa fa-bus"></i><span>Inventory</span></a></li> -->
 						 <li ng-sec="Add Product" ng-class="{ active  : isActive('/addProduct')}"><a href="#addProduct"><i class="glyphicon glyphicon-plus-sign"></i><span>ADD PRODUCT</span></a></li>
+						 <li ng-sec="My Calendar" ng-class="{ active  : isActive('/myCalendar')}"><a href="#myCalendar"><i class="glyphicon glyphicon-plus-sign"></i><span>My Calendar</span></a></li>
                           <li ng-sec="Inventory" ng-class="{ active  : isActive('/inventory')}"><a href="#inventory"><i class="glyphicon glyphicon-list-alt"></i><span>Inventory</span></a></li>
 						<li ng-sec = "Registration" ng-class="{ active  : isActive('/viewRegistration')}"><a href="#viewRegistration"><i class="glyphicon glyphicon-retweet"></i><span>Registration</span></a></li>
 						<li ng-sec = "Client" ng-class="{ active  : isActive('/viewClient')}"><a href="#viewClient"><i class="glyphicon glyphicon-user"></i><span>Client</span></a></li>
@@ -533,6 +536,8 @@
         <script src="/assets/global/js/ngAutocomplete.js"></script>
         <script src="/assets/global/js/angucomplete.js"></script>
         <script src="/assets/global/js/angucomplete-alt.js"></script>
+       <!--  <script src="/assets/global/js/page-calendar.js"></script> -->
+        <!-- <script src="/assets/global/js/fullcalendar/fullcalendar.min.js"></script> -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfEwhaiqr_2ezqmQhTHQhV1_RN3k6eY0g&libraries=places" async defer></script>
         <!-- <script src="/dealerjs/plugins/angular/angular.min.js"></script> -->
         <!-- <script src="/dealerjs/plugins/json3/lib/json3.min.js"></script> -->
@@ -549,11 +554,17 @@
 		<script src="/assets/angular-nvd3/nv.d3.min.js"></script> or use another assembly
 		<script src="/assets/angular-nvd3/angular-nvd3.js"></script> -->
         
+        <!-- <script src="/assets/global/js/jquery-1.10.2.min.js"></script> -->
+        <!-- <script src="/assets/global/js/jquery-ui.js"></script> -->
+        <!-- <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js"></script> -->
+        <!-- <script src="/assets/global/js/responsive-tabs/responsive-tabs.js"></script> -->
+        
+        <!-- <script src="/assets/global/plugins/jquery/jquery-migrate-1.2.1.min.js"></script> -->
         <!-- END ANGULARJS SCRIPTS -->
-        <!-- <script src="/assets/global/plugins/jquery/jquery-1.11.1.min.js"></script>
-        <script src="/assets/global/plugins/jquery/jquery-migrate-1.2.1.min.js"></script>
+        <!-- 
+        
         <script src="/assets/global/plugins/jquery-ui/jquery-ui-1.11.2.min.js"></script>
-        <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js"></script> -->
+         -->
         <script src="/assets/global/plugins/gsap/main-gsap.min.js"></script>
         <!-- <script src="/assets/global/plugins/jquery-cookies/jquery.cookies.min.js"></script> -->
         <!-- <script src="/assets/global/plugins/jquery-block-ui/jquery.blockUI.min.js"></script> -->
@@ -630,6 +641,9 @@
 		<script src="/assets/global/js/angular-validator/angular-validator-rules.js"></script>
 		<script src="/assets/global/js/angular-validator/angular-validator.js"></script> 
 		
+		<!-- <script type="text/javascript" src="/assets/global/js/metisMenu/jquery.metisMenu.js"></script>
+		<script type="text/javascript" src="/assets/global/js/slimScroll/jquery.slimscroll.js"></script>
+		<script type="text/javascript" src="/assets/global/js/jquery-cookie/jquery.cookie.js"></script> -->
 		<script src="/assets/global/js/api-check/api-check.js"></script>
 		<script type="text/javascript" src="/assets/global/js/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 		<script type="text/javascript" src="/assets/global/js/iCheck/icheck.js"></script>
@@ -637,7 +651,7 @@
 	 	<script src="/assets/global/js/angular-ui-router/release/angular-ui-router.js"></script>
 		<script type="text/javascript" src="/assets/global/js/ng-dialog/js/ngDialog.js"></script>
     	<script src="/assets/angular-ui-grid/ui-grid.js"></script>
-    	
+    	<!-- <script type="text/javascript" src="/assets/global/js/jquery-highcharts/highcharts.js"></script> -->
     	 
     	<!-- <script type="text/javascript" src="/assets/global/js/summernote/dist/summernote.min.js"></script> -->
     	<!-- <script type-"text/javascript" src="/assets/global/js/angular-summernote/dist/angular-summernote.min.js"></script> -->
@@ -685,6 +699,7 @@
         <script src="/dealerjs/js/quickview.js"></script>
         <script src="/dealer/dashboard/dashboardCtrl.js"></script>
         <script src="/dealer/myprofile/UserCtrl.js"></script>
+         <script src="/dealer/myCalendar/myCalendarCtrl.js"></script>
         <script src="/dealer/myprofile/LocationCtrl.js"></script>
         <script src="/dealer/customizationForm/customizationFormCtrl.js"></script>
         
