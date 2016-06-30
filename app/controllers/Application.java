@@ -16054,7 +16054,7 @@ private static void cancelTestDriveMail(Map map) {
 			    				pOperation.satOpen = 0;
 			    			}
 				    	
-			    			pOperation.portalName = "MavenFurniture";
+			    			pOperation.portalName = vm.hOperation.portalName;
 			    			pOperation.contractDurEndDate = df.parse(vm.contractDurEndDate);
 			    			pOperation.contractDurStartDate = df.parse(vm.contractDurStartDate);
 			    			pOperation.user = AuthUser.findById(userObj.id);
