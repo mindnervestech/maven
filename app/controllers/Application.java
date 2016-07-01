@@ -15916,7 +15916,6 @@ private static void cancelTestDriveMail(Map map) {
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
     		MultipartFormData body = request().body().asMultipartFormData();
     		
-    		
 	    	AuthUser userObj = new AuthUser();
 	    	UserVM vm = form.get();
 	    	
@@ -15970,6 +15969,16 @@ private static void cancelTestDriveMail(Map map) {
 	    		   List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
 	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Show Location")) {
+	    				   permissionData.add(obj);
+	    			   }
+	    		   }
+	    		   userObj.permission = permissionData;
+	    	   }
+	    	   
+	    	   if(vm.userType.equals("Photographer")) {
+	    		   List<Permission> permissionData = new ArrayList<>();
+	    		   for(Permission obj: permissionList) {
+	    			   if(obj.name.equals("My Calendar") || obj.name.equals("Dashboard") || obj.name.equals("Inventory")) {
 	    				   permissionData.add(obj);
 	    			   }
 	    		   }
@@ -16058,7 +16067,7 @@ private static void cancelTestDriveMail(Map map) {
 			    				pOperation.satOpen = 0;
 			    			}
 				    	
-			    			pOperation.portalName = "MavenFurniture";
+			    			pOperation.portalName = vm.portalName;
 			    			pOperation.contractDurEndDate = df.parse(vm.contractDurEndDate);
 			    			pOperation.contractDurStartDate = df.parse(vm.contractDurStartDate);
 			    			pOperation.user = AuthUser.findById(userObj.id);
