@@ -107,9 +107,9 @@ GET     /getImagesByCollection/:id	     controllers.InventoryController.getImage
 GET		/getAllSectionTypes/:id		     controllers.InventoryController.getAllSectionTypes(id:Long)
 GET		/getSectionCollectionData/:id    controllers.InventoryController.getSectionCollectionData(id:Long)
 GET     /getSelectedLeadType		     controllers.InventoryController.getSelectedLeadType()
-GET     /getAllOtherLeadInfo/:leadId		     controllers.CustomersRequestController.getAllOtherLeadInfo(leadId:String)
-GET     /getAllSalesPersonOtherLead/:id               controllers.CustomersRequestController.getAllSalesPersonOtherLead(id:Integer)
-
+GET     /getAllOtherLeadInfo/:leadId	 controllers.CustomersRequestController.getAllOtherLeadInfo(leadId:String)
+GET     /getAllSalesPersonOtherLead/:id  controllers.CustomersRequestController.getAllSalesPersonOtherLead(id:Integer)
+GET     /getTimeTableOfPhotos	         controllers.MyCalendarController.getTimeTableOfPhotos()
 
 
 #--------------------------customization------------------------------

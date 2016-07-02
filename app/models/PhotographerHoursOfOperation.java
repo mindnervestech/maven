@@ -21,6 +21,15 @@ public class PhotographerHoursOfOperation extends Model {
 	public Date thuOpenTime;
 	public Date friOpenTime;
 	public Date satOpenTime;
+	
+	public Date friCloseTime;
+	public Date monCloseTime;
+	public Date tueCloseTime;
+	public Date wedCloseTime;
+	public Date thuCloseTime;
+	public Date satCloseTime;
+	public Date sunCloseTime;
+	
 	public Integer sunOpen;
 	public Integer monOpen;
 	public Integer tueOpen;
@@ -120,7 +129,62 @@ public class PhotographerHoursOfOperation extends Model {
 	public void setSatOpenTime(Date satOpenTime) {
 		this.satOpenTime = satOpenTime;
 	}
-	
+
+	public Date getFriCloseTime() {
+		return friCloseTime;
+	}
+
+	public void setFriCloseTime(Date friCloseTime) {
+		this.friCloseTime = friCloseTime;
+	}
+
+	public Date getMonCloseTime() {
+		return monCloseTime;
+	}
+
+	public void setMonCloseTime(Date monCloseTime) {
+		this.monCloseTime = monCloseTime;
+	}
+
+	public Date getTueCloseTime() {
+		return tueCloseTime;
+	}
+
+	public void setTueCloseTime(Date tueCloseTime) {
+		this.tueCloseTime = tueCloseTime;
+	}
+
+	public Date getWedCloseTime() {
+		return wedCloseTime;
+	}
+
+	public void setWedCloseTime(Date wedCloseTime) {
+		this.wedCloseTime = wedCloseTime;
+	}
+
+	public Date getThuCloseTime() {
+		return thuCloseTime;
+	}
+
+	public void setThuCloseTime(Date thuCloseTime) {
+		this.thuCloseTime = thuCloseTime;
+	}
+
+	public Date getSatCloseTime() {
+		return satCloseTime;
+	}
+
+	public void setSatCloseTime(Date satCloseTime) {
+		this.satCloseTime = satCloseTime;
+	}
+
+	public Date getSunCloseTime() {
+		return sunCloseTime;
+	}
+
+	public void setSunCloseTime(Date sunCloseTime) {
+		this.sunCloseTime = sunCloseTime;
+	}
 
 	public Integer getSunOpen() {
 		return sunOpen;
