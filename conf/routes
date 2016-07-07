@@ -118,13 +118,8 @@ GET     /getTimeTableOfPhotos	         controllers.MyCalendarController.getTimeT
 POST  /getLeadCrateForm       controllers.customizationController.getLeadCrateForm()
 POST  /getLeadCrateFormTitle	  controllers.customizationController.getLeadCrateFormTitle()
 GET   /getCustomizationform/:type	  controllers.customizationController.getCustomizationform(type:String)
-
-
-#------------------------------------------
-
-
-
-
+POST  /saveNewEvent		  	      controllers.MyCalendarController.saveNewEvent()
+POST  /deleteEvent		  	      controllers.MyCalendarController.deleteEvent()
 
 GET		/getCustomerPdfForVehicle/:vin 	controllers.Application.getCustomerPdfForVehicle(vin:String)
 GET		/getSocialMediadetail		controllers.Application.getSocialMediadetail()

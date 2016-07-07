@@ -1,6 +1,7 @@
 package viewmodel;
 
 public class HoursOperation {
+	public String id;
 	public String friCloseTime;
 	public String friOpenTime;
 	public String monOpenTime;
@@ -36,8 +37,11 @@ public class HoursOperation {
 	public String portalName;	
 	public String contractDurStartDate;
 	public String contractDurEndDate;
+	public String originStartDate;
+	public String originEndDate;
 	public String closeTime;
 	public String openTime;
+	public Long locationId;
 	public String setColor;
 	
 	public String getTypeOfOperation() {
