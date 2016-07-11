@@ -12,6 +12,12 @@ angular.module('newApp')
 		 $scope.user = {};
 		});
 	
+	
+	$http.get('/getColl').success(function(response) {
+		 $scope.collectionList = response[0];
+		 console.log($scope.collectionList);
+	});
+	
 	$scope.vinErr = false;
    $scope.vehicleInit = function() {
  	  $http.get('/getAllSites')
@@ -306,7 +312,8 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route', function ($filter,$scope,$http,$location,$routeParams,$upload,$route) {
       
-	
+	$scope.userFields = [];
+	$scope.customData = {};
       var ele = document.getElementById('loadingmanual');	
   	$(ele).hide();
 	$scope.publishVehicle = function(id){
@@ -319,6 +326,20 @@ angular.module('newApp')
 				   $location.path('/viewVehicles');
 		   });
 	   }
+	
+	
+	$http.get('/getColl').success(function(response) {
+		 $scope.collectionList = response[0];
+		 console.log($scope.collectionList);
+	});
+	
+	$http.get('/getCustomizationform/'+'Inventory').success(function(response) {
+		 $scope.editInput = response;
+		 //$scope.josnData = angular.fromJson(response.jsonData);
+		 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
+		 console.log($scope.userFields);
+		 $scope.user = {};
+		});
 	
 	$scope.gridsterOpts = {
 		    columns: 6, // the width of the grid, in columns
@@ -400,7 +421,21 @@ angular.module('newApp')
 		
 		$http.get('/getVehicleById/'+$routeParams.id)
 		.success(function(data) {
+			console.log(data);
+			
 			 $scope.vinData = data;
+			 $scope.customData = $scope.vinData.specification.customMapData;
+			 console.log($scope.customData);
+			 if($scope.customData.time_range != undefined){
+				 $("#bestTimes").val($scope.customData.time_range);
+			 }
+			 
+			 if($scope.customData.address_bar != undefined){
+				 $("#autocomplete").val($scope.customData.address_bar);
+			 }
+			 
+			 
+			 
 			 $('#comingsoonDateEdit').val(data.specification.comingSoonDate);
 			 if(data.specification.comingSoonFlag ==1){
 				 $scope.master=true;
@@ -595,7 +630,46 @@ angular.module('newApp')
 		}	
 	   
 	$scope.updateVehicle = function() {
-		$scope.vinData.specification.model = $('#modelSearch_value').val();
+		$scope.customList = [];
+		console.log($("#autocomplete").val());
+		   console.log($scope.vinData.specification);
+		   $scope.customData.custName = $('#exCustoms_value').val();
+			if($scope.customData.custName == undefined){
+				delete $scope.customData.custName;
+			}
+			$scope.customData.address_bar = $("#autocomplete").val();
+			if($scope.customData.address_bar == undefined){
+				delete $scope.customData.address_bar;
+			}
+			$scope.customData.time_range = $("#bestTimes").val();
+			if($scope.customData.time_range == undefined){
+				delete $scope.customData.time_range;
+			}
+			
+			console.log($scope.customData);
+			console.log($scope.userFields);
+		
+		$.each($scope.customData, function(attr, value) {
+			angular.forEach($scope.userFields, function(value1, key) {
+				if(value1.key == attr){
+					$scope.customList.push({
+		   	  			key:attr,
+		   	  			value:value,
+		   	  			savecrm:value1.savecrm,
+		   	  			displayGrid:value1.displayGrid,
+		   	  			
+					});
+				} 
+			});
+		   });
+		
+		 
+		
+		console.log($scope.customList);
+		$scope.vinData.specification.customData = $scope.customList;
+		
+		
+		/*$scope.vinData.specification.model = $('#modelSearch_value').val();
 		   $scope.vinData.specification.make = $('#makeSearch_value').val();
 		   $scope.vinData.specification.trim_level = $('#trimSearch_value').val();
 		   $scope.vinData.specification.label = $('#labelSearch_value').val();
@@ -603,15 +677,15 @@ angular.module('newApp')
 		   $scope.vinData.specification.made_in = $('#madeInSearch_value').val();
 		   $scope.vinData.specification.extColor = $('#extColorSearch_value').val();
 		   $scope.vinData.specification.stereo = $('#stereoSearch_value').val();
-		   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
+		   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();*/
 		   
 		   if($scope.vinData.specification.price == null || $scope.vinData.specification.price == ""){
 			   $scope.vinData.specification.price = 0;
 		   }
 		   
-		   var saveFlag = 0;
+		   //var saveFlag = 0;
 		   
-		   if($scope.vinData.specification.commingSoonVehicle == true){
+		   /*if($scope.vinData.specification.commingSoonVehicle == true){
 			   	$scope.vinData.specification.comingSoonFlag = 1;
 				  $scope.vinData.specification.comingSoonDate = $('#comingsoonDateEdit').val();
 				  saveFlag = 1;
@@ -627,11 +701,12 @@ angular.module('newApp')
 				  }else{
 					  	saveFlag = 1;
 				  }
-			  }
+			  }*/
 		   
-		 if(saveFlag == 1){
+		   console.log($scope.vinData.specification);
+		// if(saveFlag == 1){
 			   
-		   if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
+		  // if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
 				if(pdfFile != undefined){
 					$http.post('/updateVehicleById',$scope.vinData.specification)
 					.success(function(data) {
@@ -677,14 +752,14 @@ angular.module('newApp')
 						});
 					});
 			 	 }
-		   }else{
+		   /*}else{
 			   $.pnotify({
 				    title: "Success",
 				    type:'Error',
 				    text: "Please select all fields",
 				});
-		   }
-	}  
+		   }*/
+	//}  
 	}
 	
 	$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
