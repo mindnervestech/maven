@@ -44,16 +44,16 @@ public class customizationController extends Controller {
 	public static Result getLeadCrateForm() {
 		JsonNode json = request().body().asJson();
 		
-		CustomizationForm cForm = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")),"Create Lead");
+		CustomizationForm cForm = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")),json.findPath("formType").textValue());
 		if(cForm == null){
 			CustomizationForm cust = new CustomizationForm();
-			cust.setDataType("Create Lead");
-			cust.setJsonData(json.toString());
+			cust.setDataType(json.findPath("formType").textValue());
+			cust.setJsonData(json.findPath("jsonform").toString());
 			cust.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 			cust.save();
 		}else{
 			//cForm.setDataType("Create Lead");
-			cForm.setJsonData(json.toString());
+			cForm.setJsonData(json.findPath("jsonform").toString());
 			//cForm.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 			cForm.update();
 		}
@@ -66,7 +66,7 @@ public class customizationController extends Controller {
 		Form<CreateFormVM> form = DynamicForm.form(CreateFormVM.class).bindFromRequest();
 		CreateFormVM vm = form.get();
 		
-		CustomizationForm cForm = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")),"Create Lead");
+		CustomizationForm cForm = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")),vm.formType);
 		if(cForm == null){
 			CustomizationForm cust = new CustomizationForm();
 			cust.setMainTitle(vm.mainTitle);

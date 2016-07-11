@@ -1,5 +1,6 @@
 package viewmodel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SpecificationVM {
@@ -94,8 +95,10 @@ public class SpecificationVM {
 	
 	/*---------------------*/
 	
+	public String productId;
 	public String designer;
 	public String primaryTitle;
+	public List<KeyValueDataVM> customData  = new ArrayList<KeyValueDataVM>();
 
 	
 }

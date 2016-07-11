@@ -167,6 +167,9 @@
                         if(form.component === "timerange"){
                          	 formFields.push(getJsonBForTimeRange(form));
                          }
+                        if(form.component === "headerlabel"){
+                        	 formFields.push(getJsonBForheaderlabel(form));
+                        }
                         
                       });
                       /* form_details.name = subSectons[i];
@@ -201,6 +204,28 @@
         	        }
         	   	}
 
+              	
+              	function getJsonBForheaderlabel(jsonObject){
+              		var key;
+                	if(jsonObject.key === ""){
+                  		key = jsonObject.label;
+                  		key = key.replace(" ","_");
+        		        key = key.toLowerCase();
+        		   	}else{
+        		    	key = jsonObject.key;
+        		  	}
+
+                	var properties = getPropertiesForEditable(jsonObject.editable);
+                	var convertedObject = {
+                  		"key": key,
+                    	"type": 'headerlabel',
+                    	"templateOptions": {
+                      		"label": jsonObject.label,
+                    	},	
+                	};
+                	return convertedObject;
+                }
+              	
               	function getJsonBForTextInput(jsonObject){
                 	var key;
                 	if(jsonObject.key === ""){
@@ -783,7 +808,6 @@
                      var columnDefs1 = [];
                      var properties = getPropertiesForEditable(jsonObject.editable);
                      columnDefs = getPropertiesForColumnDefs1(jsonObject.columnOptions);
-                     // columnDefs1 = getPropertiesForColumnDefs1(jsonObject.columnOptions);
                      columnDef = columnDefs;
                      equation = jsonObject.equation;
                      
@@ -799,7 +823,6 @@
                      return convertedObject;
                 }
                 
-              
                 $scope.saveJsonObject = function(object){
                   if($stateParams.templateId === ''){
                     service.saveJsonObject(object).then(

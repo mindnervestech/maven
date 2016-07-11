@@ -42,15 +42,19 @@ var MakeApp = angular
             templateUrl: '/dealer/dashboard/dashboard.html',
             controller: 'dashboardCtrl'
         })
-        .when('/leadCreateForm/:pageType', {
+        .when('/CreateLeadForm/:pageType/:formType', {
             templateUrl: '/dealer/customizationForm/createLeadForm.html',
             controller: 'customizationFormCtrl'
         })
+        .when('/InventoryForm/:pageType/:formType', {
+            templateUrl: '/dealer/customizationForm/createInventoryForm.html',
+            controller: 'customizationFormCtrl'
+        })
         
-       /* .when('/addVehicle', {
+        .when('/addVehicle', {
             templateUrl: '/dealer/addVehicle/addVehicle.html',
             controller: 'addVehicleCtrl'
-        })*/
+        })
         .when('/homePage', {
             templateUrl: '/dealer/homePage/homePage.html',
             controller: 'HomePageCtrl'

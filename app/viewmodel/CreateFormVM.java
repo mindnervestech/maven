@@ -13,5 +13,6 @@ public class CreateFormVM {
 	public String searchTitle;
 	public String searchSubTitle;
 	public String leadTypeTitle;
+	public String formType;
 	
 }

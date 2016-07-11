@@ -12,14 +12,21 @@ angular.module('newApp')
   .controller('customizationFormCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder','$routeParams',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder,$routeParams) {
 
 	  	$scope.showSaveButton = $routeParams.pageType;
-	  	
+	  	console.log($routeParams.formType);
 	  
 		   $scope.initFunction = function(){
-			   $http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
+			   $http.get('/getCustomizationform/'+$routeParams.formType).success(function(response) {
+					console.log(response);
+					if(response == 0){
+						$scope.setjson = null;
+						$scope.setjson.jsonData = null;
+						$scope.initComponent = null;
+					}else{
+						$scope.setjson = response;
+						$scope.setjson.jsonData = angular.fromJson(response.jsonData);
+						$scope.initComponent = angular.fromJson(response.jsonData);
+					}
 					
-					$scope.setjson = response;
-					$scope.setjson.jsonData = angular.fromJson(response.jsonData);
-					$scope.initComponent = angular.fromJson(response.jsonData);
 			});
 		   }
 	  
@@ -67,12 +74,14 @@ angular.module('newApp')
 		         console.log('$builder.forms',$builder.forms);
 		       }, true);
 		       
-		       
+		       $scope.editform = {};
 		  $scope.saveCreateLeadForm = function(){
 			 console.log($scope.form);
 			 console.log($builder.forms['default']);
-			 $scope.form = $builder.forms['default'];
-			  $http.post('/getLeadCrateForm', $scope.form)
+			 $scope.editform.formType = $routeParams.formType;
+			 $scope.editform.jsonform = $builder.forms['default'];
+			 console.log($scope.editform);
+			  $http.post('/getLeadCrateForm', $scope.editform)
 				 .success(function(data) {
 					 $.pnotify({
 	    				    title: "Success",
@@ -91,6 +100,7 @@ angular.module('newApp')
 			  delete $scope.setjson.locations;
 			  delete $scope.setjson.showFild;
 			  delete $scope.setjson.jsonData;
+			  $scope.setjson.formType = $routeParams.formType;
 			  $http.post('/getLeadCrateFormTitle', $scope.setjson)
 				 .success(function(data) {
 					 $.pnotify({
