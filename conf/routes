@@ -50,7 +50,9 @@ GET     /dealer/*file               controllers.Assets.at(path="/public/angularj
 GET		/getVehicleInfo/:vin		controllers.Application.getVehicleInfo(vin:String)
 GET		/getAllSites				controllers.Application.getAllSites()
 POST	/saveVehicle				controllers.AddEditInventoryController.saveVehicle()
-POST		/saveVehiclePdf/:id				controllers.AddEditInventoryController.saveVehiclePdf(id:Long)
+POST	/saveVehiclePdf/:id				controllers.AddEditInventoryController.saveVehiclePdf(id:Long)
+GET		/getVehicleById/:id			controllers.AddEditInventoryController.getVehicleById(id: Long)
+POST	/updateVehicleById			controllers.AddEditInventoryController.updateVehicleById()
 
 POST   /saveInternalPdf				controllers.Application.saveInternalPdf()
 POST   /saveCustomerPdf				controllers.Application.saveCustomerPdf()
@@ -183,7 +185,7 @@ GET 	/getVehicleHistory/:vin		controllers.Application.getVehicleHistory(vin: Str
 GET 	/getPriceHistory/:vin		controllers.Application.getPriceHistory(vin: String)
 GET    	/updateVehicleStatus/:id/:status    controllers.Application.updateVehicleStatus(id: Long,status:String)
 POST   	/updateVehicle              controllers.Application.updateVehicle()
-GET		/getVehicleById/:id			controllers.Application.getVehicleById(id: Long)
+
 GET		/removeVehiclePdf/:id			controllers.Application.removeVehiclePdf(id: Long)
 GET     /saveAction/:actionV		controllers.Application.saveAction(actionV: String)
 #GET     /sendComingSoonPOpUp			controllers.Application.sendComingSoonPOpUp()
@@ -191,7 +193,7 @@ GET     /saveAction/:actionV		controllers.Application.saveAction(actionV: String
 #GET     /setArrivelDate/:vId/:aDate			controllers.Application.setArrivelDate(vId:Long,aDate:String)
 #GET     /sendComingSoonEmail/:vin					controllers.Application.sendComingSoonEmail(vin:String)
 GET     /getAllAction				controllers.Application.getAllAction()
-POST	/updateVehicleById			controllers.Application.updateVehicleById()
+
 POST	/updateVehicleByIdPdf/:id			controllers.Application.updateVehicleByIdPdf(id:Long)
 POST	/uploadSoundFile			controllers.Application.uplaodSoundFile()
 GET		/getAllAudio/:vin			controllers.Application.getAllAudio(vin:String)

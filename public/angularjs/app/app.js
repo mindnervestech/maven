@@ -52,8 +52,8 @@ var MakeApp = angular
         })
         
         .when('/addVehicle', {
-            templateUrl: '/dealer/addVehicle/addVehicle.html',
-            controller: 'addVehicleCtrl'
+            templateUrl: '/dealer/addInventory/addInventory.html',
+            controller: 'addInventoryCtrl'
         })
         .when('/homePage', {
             templateUrl: '/dealer/homePage/homePage.html',
@@ -455,8 +455,8 @@ var MakeApp = angular
             controller: 'ManagePhotoCtrl'
         })
         .when('/editVehicle/:id/:temp', {
-            templateUrl: '/dealer/addVehicle/editVehicle.html',
-            controller: 'EditVehicleCtrl'
+            templateUrl: '/dealer/addInventory/editInventory.html',
+            controller: 'EditInventoryCtrl'
         })
          /*.when('/viewVehicles', {
             templateUrl: '/dealer/viewVehicle/viewVehicles.html',

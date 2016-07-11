@@ -89,6 +89,10 @@ public class CustomizationInventory extends Model {
 		return find.where().eq("id", id).eq("status", null).findUnique();
 	}
 	
+	public static List<CustomizationInventory> findByIdList(Long id) {
+		return find.where().eq("InventoryId", id).findList();
+	}
+	
 	public static CustomizationInventory findByKeyAndLeadId(String key,Long InventoryId) {
 		return find.where().eq("keyValue", key).eq("InventoryId", InventoryId).findUnique();
 	}
