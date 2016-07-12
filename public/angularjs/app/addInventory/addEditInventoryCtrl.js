@@ -91,13 +91,26 @@ angular.module('newApp')
 		$.each($scope.customData, function(attr, value) {
 			angular.forEach($scope.userFields, function(value1, key) {
 				if(value1.key == attr){
-					$scope.customList.push({
-		   	  			key:attr,
-		   	  			value:value,
-		   	  			savecrm:value1.savecrm,
-		   	  			displayGrid:value1.displayGrid,
-		   	  			
-					});
+					if(angular.isObject(value) == true){
+						console.log(value);
+						console.log(angular.toJson(value));
+						$scope.customList.push({
+			   	  			key:attr,
+			   	  			value:angular.toJson(value),
+			   	  			savecrm:value1.savecrm,
+			   	  			displayGrid:value1.displayGrid,
+			   	  			
+						});
+					}else{
+						$scope.customList.push({
+			   	  			key:attr,
+			   	  			value:value,
+			   	  			savecrm:value1.savecrm,
+			   	  			displayGrid:value1.displayGrid,
+			   	  			
+						});
+					}
+					
 				} 
 			});
 		   });
@@ -162,6 +175,20 @@ angular.module('newApp')
 			 if($scope.customData.address_bar != undefined){
 				 $("#autocomplete").val($scope.customData.address_bar);
 			 }
+			 
+			
+			 
+			 $.each($scope.customData, function(attr, value) {
+				 var res = value.split("[");
+					 if(res[1] != undefined){
+						 console.log(JSON.parse(value));
+						 $scope.customData[attr] = JSON.parse(value);
+				   	  			
+					 }
+							
+				 });
+			 
+			 console.log($scope.customData);
 			 $scope.setDropZone();
 		});
 		
@@ -320,13 +347,25 @@ angular.module('newApp')
 		$.each($scope.customData, function(attr, value) {
 			angular.forEach($scope.userFields, function(value1, key) {
 				if(value1.key == attr){
-					$scope.customList.push({
-		   	  			key:attr,
-		   	  			value:value,
-		   	  			savecrm:value1.savecrm,
-		   	  			displayGrid:value1.displayGrid,
-		   	  			
-					});
+					if(angular.isObject(value) == true){
+						console.log(value);
+						console.log(angular.toJson(value));
+						$scope.customList.push({
+			   	  			key:attr,
+			   	  			value:angular.toJson(value),
+			   	  			savecrm:value1.savecrm,
+			   	  			displayGrid:value1.displayGrid,
+			   	  			
+						});
+					}else{
+						$scope.customList.push({
+			   	  			key:attr,
+			   	  			value:value,
+			   	  			savecrm:value1.savecrm,
+			   	  			displayGrid:value1.displayGrid,
+			   	  			
+						});
+					}
 				} 
 			});
 		   });

@@ -175,6 +175,12 @@
                        	 formFields.push(getJsonBForNumberInput(form));
                        }
                         
+                        if(form.component === "multipleselect"){
+                          	 formFields.push(getJsonBForMultipleselect(form));
+                          }
+                        
+                        
+                        
                       });
                       /* form_details.name = subSectons[i];
                        form_details.isRepeatable  = true;
@@ -250,12 +256,7 @@
                           		"placeholder": jsonObject.placeholder,
                           		"required": jsonObject.required
                         	},	
-                           // controller: 'formState.textCtrl',
-                        	"expressionProperties": properties,
-                          "hideExpression" : function($viewValue, $modelValue, scope) {
-                            console.log("getJsonBForTextInput====", jsonObject);
-                            return isHideComponent(jsonObject); 
-                          }
+                          
                     	};
                 	return convertedObject;
                 }
@@ -555,6 +556,38 @@
                   }
                   return convertedObject;
                 }
+                
+                function getJsonBForMultipleselect(jsonObject){
+                    var key;
+                    if(jsonObject.key === ""){
+                      key = jsonObject.label;
+                      key = key.replace(" ","_");
+                      key = key.toLowerCase();
+                    }else{
+                      key = jsonObject.key;
+                    }
+                    var properties = getPropertiesForEditable(jsonObject.editable);
+                    var options = [];
+                    options = getPropertiesForSelectOptions(jsonObject.options);
+                    var convertedObject = {
+                      "key": key,
+                      "type": jsonObject.component,
+                      "templateOptions": {
+                        "label": jsonObject.label,
+                        "options": options,
+                        "valueProp": "id",
+                        "labelProp": "label",
+                        "required": jsonObject.required
+                        },
+                        "expressionProperties": properties,
+                        "hideExpression" : function($viewValue, $modelValue, scope) {
+                          return isHideComponent(jsonObject);
+                        }
+                    }
+                    return convertedObject;
+                  }
+                
+                
 
                 function getJsonBForDate(jsonObject){
                   var key;
