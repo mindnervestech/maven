@@ -137,7 +137,6 @@ public class AddEditInventoryController extends Controller {
 		    	
 		    	saveCustomInventoryData(inventory.id,vm);
 		    	
-		    	
 		    	return ok(Json.toJson(inventory.id));
 	    	}	
 	    }
@@ -273,8 +272,8 @@ public class AddEditInventoryController extends Controller {
 	    		Identity user = getLocalUser();
 		    	AuthUser userObj = (AuthUser)user;
 	    		MultipartFormData body = request().body().asMultipartFormData();
-	    		Vehicle vehicle = Vehicle.findById(id);
-	    		if(vehicle != null) {
+	    		Inventory inv = Inventory.findById(id);
+	    		if(inv != null) {
 	    	       	
 	    	       	if(body != null){
 	    	       		FilePart picture = body.getFile("file0");
@@ -282,25 +281,25 @@ public class AddEditInventoryController extends Controller {
 	    	       			String fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
 	    	       			File file = picture.getFile();
 	    	       			try {
-	    	       				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"customization_data"+File.separator+fileName);
+	    	       				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+inv.productId+File.separator+"customization_data"+File.separator+fileName);
 	    	       	    	    if(!fdir.exists()) {
 	    	       	    	    	fdir.mkdir();
 	    	       	    	    }
-	    	       	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"customization_data"+File.separator+fileName;
+	    	       	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+inv.productId+File.separator+"customization_data"+File.separator+fileName;
 	    	       	    	    FileUtils.moveFile(file, new File(filePath));
 	    	       	    	    
 	    	       	    	 CustomizationInventory cDataValueEdit = CustomizationInventory.findByKeyAndLeadId("fileupload",id);
 	    	       	    		if(cDataValueEdit == null){
 	    	       	    			CustomizationInventory cValue = new CustomizationInventory();
 	    	       	    				cValue.keyValue = "fileupload";
-	    	       	    				cValue.value = session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"customization_data"+File.separator+fileName;
+	    	       	    				cValue.value = session("USER_LOCATION")+File.separator+inv.productId+File.separator+"customization_data"+File.separator+fileName;
 	    	       	    				cValue.InventoryId = id;
 	    	       	    				cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    	       	    				cValue.save();
 	    	       	    			
 	    	       	    		}else{
 	    	       	    			//cDataValue.setKeyValue(custom.key);
-	    	       	    			cDataValueEdit.setValue(session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"customization_data"+File.separator+fileName);
+	    	       	    			cDataValueEdit.setValue(session("USER_LOCATION")+File.separator+inv.productId+File.separator+"customization_data"+File.separator+fileName);
 	    	       	    			cDataValueEdit.update();
 	    	       	    		}
 	    	       				
@@ -309,9 +308,8 @@ public class AddEditInventoryController extends Controller {
 	    	   				}
 	    	       		}
 	    	       	}
-	    			
-	    		
 	    		}
+	    		
 	    	}
 	    	return ok();
 	    }
