@@ -495,12 +495,12 @@ public class AddEditInventoryController extends Controller {
 			    	FilePart picture = body.getFile("file");
 			    	  if (picture != null) {
 			    	    String fileName = picture.getFilename();
-			    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+productId);
+			    	    File fdir = new File(pdfRootDir+File.separator+session("USER_LOCATION")+File.separator+productId);
 			    	    if(!fdir.exists()) {
 			    	    	fdir.mkdir();
 			    	    }
-			    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+productId+File.separator+fileName;
-			    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+productId+File.separator+"thumbnail_"+fileName;
+			    	    String filePath = pdfRootDir+File.separator+session("USER_LOCATION")+File.separator+productId+File.separator+fileName;
+			    	    String thumbnailPath = pdfRootDir+File.separator+session("USER_LOCATION")+File.separator+productId+File.separator+"thumbnail_"+fileName;
 			    	    File thumbFile = new File(thumbnailPath);
 			    	    File file = picture.getFile();
 			    	    
