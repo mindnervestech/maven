@@ -171,6 +171,10 @@
                         	 formFields.push(getJsonBForheaderlabel(form));
                         }
                         
+                        if(form.component === "numberInput"){
+                       	 formFields.push(getJsonBForNumberInput(form));
+                       }
+                        
                       });
                       /* form_details.name = subSectons[i];
                        form_details.isRepeatable  = true;
@@ -226,6 +230,35 @@
                 	return convertedObject;
                 }
               	
+              	function getJsonBForNumberInput(jsonObject){
+              		var key;
+                	if(jsonObject.key === ""){
+                  		key = jsonObject.label;
+                  		key = key.replace(" ","_");
+        		        key = key.toLowerCase();
+        		   	}else{
+        		    	key = jsonObject.key;
+        		  	}
+
+                	var properties = getPropertiesForEditable(jsonObject.editable);
+                	var convertedObject = {
+                      		"key": key,
+                        	"type": 'stacked-input',
+                        	"templateOptions": {
+                          		"type": "number",
+                          		"label": jsonObject.label,
+                          		"placeholder": jsonObject.placeholder,
+                          		"required": jsonObject.required
+                        	},	
+                           // controller: 'formState.textCtrl',
+                        	"expressionProperties": properties,
+                          "hideExpression" : function($viewValue, $modelValue, scope) {
+                            console.log("getJsonBForTextInput====", jsonObject);
+                            return isHideComponent(jsonObject); 
+                          }
+                    	};
+                	return convertedObject;
+                }
               	function getJsonBForTextInput(jsonObject){
                 	var key;
                 	if(jsonObject.key === ""){

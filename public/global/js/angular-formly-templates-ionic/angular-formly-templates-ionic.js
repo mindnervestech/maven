@@ -2,7 +2,7 @@ angular.module('formlyIonic', ['formly'], ["formlyConfigProvider", function conf
     'use strict';
 
 
-    angular.forEach(['checkbox', 'input', 'radio', 'range', 'textarea', 'toggle', 'select', 'floating-input', 'stacked-input', 'inline-input','signature','ui-grid','image','financialcalculator','daterange','autocompleteText','contactssearch','inventorysearch','fileuploaders','timerange','headerlabel'], function (fieldName) {
+    angular.forEach(['checkbox', 'input', 'radio', 'range', 'textarea', 'toggle', 'select', 'floating-input', 'stacked-input', 'inline-input','signature','ui-grid','image','financialcalculator','daterange','autocompleteText','contactssearch','inventorysearch','fileuploaders','timerange','headerlabel','numberInput'], function (fieldName) {
         if(fieldName === 'signature'){
             formlyConfigProvider.setType({
                 name: fieldName,
@@ -28,7 +28,15 @@ angular.module('formlyIonic', ['formly'], ["formlyConfigProvider", function conf
                 templateUrl: getFieldTemplateUrl(fieldName),
                controller:'customizationCtrl'
             });
-        }else if(fieldName === 'autocompleteText'){
+        } 
+        else if(fieldName === 'numberInput'){
+            formlyConfigProvider.setType({
+                name: fieldName,
+                templateUrl: getFieldTemplateUrl(fieldName),
+                controller:'customizationCtrl'
+            });
+        }
+        else if(fieldName === 'autocompleteText'){
             formlyConfigProvider.setType({
                 name: fieldName,
                 templateUrl: getFieldTemplateUrl(fieldName),
@@ -147,7 +155,7 @@ $templateCache.put("fields/inventorysearch.html","<div class=\"row\"><div class=
 $templateCache.put("fields/fileuploaders.html","<div class=\"form-group col-sm-12\"><label class=\"col-sm-2 control-label\" style=\"padding-left: 0px;text-align: right;\">{{options.templateOptions.label}}</label><div class=\"col-sm-6\"><input type=\"file\" ng-model=\"model['files']\" name=\"logoFile\" ng-file-select=\"onLogoFileSelect($files)\" accept=\"application/msword,application/pdf\"/></div>");
 $templateCache.put("fields/timerange.html","<div class=\"form-group col-sm-12\"><label class=\"col-sm-2 control-label\" style=\"padding-left: 0px;text-align: right;\">{{options.templateOptions.label}}</label><div class=\"form-group col-sm-4 prepend-icon\"><input type=\"text\" name=\"timepicker\" class=\"timepicker form-control hasDatepicker\" ng-model=\"model['timeSet']\"  placeholder=\"Choose a time...\" ng-click=\"showtimepick()\" data-format=\"am-pm\" id=\"bestTimes\"><i class=\"icon-clock\"></i></div>");
 $templateCache.put("fields/headerlabel.html","<label class=\"item item-input item-stacked-label form-group col-sm-12\" style=\"padding-left: 0px;\"><h2><span class=\"input-label form-group col-sm-12\"><b>{{options.templateOptions.label}}</b></span></h2></label>");
-
+$templateCache.put("fields/numberInput.html","<div   style=\"padding: 0px;\" class=\"col-sm-12\"><label for=\"{{formName+index}}\" class=\"col-md-4 control-label\">{{label}}</label> <div  style=\"padding: 0px;\" class=\"col-sm-7\">\n    <input type=\"number\" class=\"form-control m-b\" />\n </div></div>");
 
 
 $templateCache.put("fields/toggle.html","<ion-toggle ng-model=\"model[options.key]\" toggle-class=\"toggle-{{options.templateOptions.toggleClass}}\">{{options.templateOptions.label}}</ion-toggle>");}]);
