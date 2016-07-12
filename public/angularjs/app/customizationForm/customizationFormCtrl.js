@@ -92,14 +92,14 @@ angular.module('newApp')
 			 $scope.editform.jsonform = $builder.forms['default'];
 			 
 			 console.log($scope.editform);
-			  /*$http.post('/getLeadCrateForm', $scope.editform)
+			  $http.post('/getLeadCrateForm', $scope.editform)
 				 .success(function(data) {
 					 $.pnotify({
 	    				    title: "Success",
 	    				    type:'success',
 	    				    text: "Form Created successfully",
 	    				});
-					});*/
+					});
 		  }     
 		  $scope.editLeadInfo = function(title){
 			   $scope.setjson.showFild = title;

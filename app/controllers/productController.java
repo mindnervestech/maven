@@ -14,7 +14,7 @@ import models.AuthUser;
 import models.FeaturedImageConfig;
 import models.ProductImages;
 import models.Sections;
-import models.VehicleImage;
+import models.InventoryImage;
 import models.VehicleImageConfig;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FileUtils;

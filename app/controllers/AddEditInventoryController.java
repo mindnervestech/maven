@@ -1,7 +1,9 @@
 package controllers;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.imageio.ImageIO;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.Multipart;
@@ -28,6 +31,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.ftp.FTPClient;
@@ -44,6 +49,7 @@ import models.AuthUser;
 import models.CustomizationDataValue;
 import models.CustomizationInventory;
 import models.EmailDetails;
+import models.FeaturedImageConfig;
 import models.FollowBrand;
 import models.Inventory;
 import models.Location;
@@ -51,10 +57,11 @@ import models.MyProfile;
 import models.PhotographerHoursOfOperation;
 import models.PriceAlert;
 import models.PriceChange;
+import models.ProductImages;
 import models.Site;
 import models.SiteLogo;
 import models.Vehicle;
-import models.VehicleImage;
+import models.InventoryImage;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -64,7 +71,9 @@ import play.mvc.Result;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import securesocial.core.Identity;
+import viewmodel.EditImageVM;
 import viewmodel.HoursOperation;
+import viewmodel.ImageVM;
 import viewmodel.InventoryVM;
 import viewmodel.KeyValueDataVM;
 import viewmodel.LeadVM;
@@ -100,14 +109,9 @@ public class AddEditInventoryController extends Controller {
 	final static String emailPassword = Play.application().configuration()
 			.getString("mail.password");
 
-	static String simulatevin = "{    'success': true,    'specification': {        'vin': 'WDDNG7KB7DA494890',        'year': '2013',        'make': 'Mercedes-Benz',        'model': 'S-Class',        'trim_level': 'S65 AMG',        'engine': '6.0L V12 SOHC 36V TURBO',        'style': 'SEDAN 4-DR',        'made_in': 'GERMANY',        'steering_type': 'R&P',        'anti_brake_system': '4-Wheel ABS',        'tank_size': '23.80 gallon',        'overall_height': '58.00 in.',        'overall_length': '206.50 in.',        'overall_width': '73.70 in.',        'standard_seating': '5',        'optional_seating': null,        'highway_mileage': '19 miles/gallon',        'city_mileage': '12 miles/gallon'    },    'vin': 'WDDNG7KB7DA494890'}";
-
-	private static boolean simulate = false;
 
 	
-	 
-	
-	   public static Result saveVehicle() throws IOException {
+	   public static Result saveInventory() throws IOException {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
@@ -180,7 +184,7 @@ public class AddEditInventoryController extends Controller {
 			    		List<VehicleVM> vehicleVMList = new ArrayList<>();
 			    		
 			    		for(Vehicle vehicle: vehicleList) {
-			    			VehicleImage defaultImage = VehicleImage.getDefaultImage(vehicle.vin);
+			    			InventoryImage defaultImage = InventoryImage.getDefaultImage(vehicle.vin);
 			    			VehicleVM vm = new VehicleVM();
 			    			vm.vin = vehicle.vin;
 			    			vm.make = vehicle.make;
@@ -262,7 +266,7 @@ public class AddEditInventoryController extends Controller {
 	    	}
 	    }
 	   
-	    public static Result saveVehiclePdf(Long id) throws IOException {
+	    public static Result saveInventoryPdf(Long id) throws IOException {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
@@ -306,26 +310,7 @@ public class AddEditInventoryController extends Controller {
 	    	       		}
 	    	       	}
 	    			
-	    		/*	if(body != null){
-			    		FilePart picture = body.getFile("file0");
-			    		if (picture != null) {
-			    			String fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
-			    			File file = picture.getFile();
-			    			try {
-			    				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure");
-			    	    	    if(!fdir.exists()) {
-			    	    	    	fdir.mkdir();
-			    	    	    }
-			    	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure"+fileName;
-			    	    	    FileUtils.moveFile(file, new File(filePath));
-			    	    	    vehicle.setPdfBrochureName(fileName);
-			    	    	    vehicle.setPdfBrochurePath(session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure"+fileName);
-			    	    	    vehicle.update();
-			    			} catch (Exception e) {
-								e.printStackTrace();
-							}
-			    		}
-			    	}*/
+	    		
 	    		}
 	    	}
 	    	return ok();
@@ -386,7 +371,7 @@ public class AddEditInventoryController extends Controller {
 	    	inventoryvm.customMapData = mapCar;
 	    }
 	    
-	    public static Result updateVehicleById() throws SocketException, IOException{
+	    public static Result updateInventoryById() throws SocketException, IOException{
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
@@ -411,6 +396,159 @@ public class AddEditInventoryController extends Controller {
 	    	}	
 	    }  
 	    
+	    public static Result getImagesByProductId(String productId) {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	List<InventoryImage> imageList = InventoryImage.getByProductId(productId);
+		    	//Application.reorderImagesForFirstTime(imageList);
+		    	List<ImageVM> vmList = new ArrayList<>();
+		    	for(InventoryImage image : imageList) {
+		    		ImageVM vm = new ImageVM();
+		    		vm.id = image.id;
+		    		vm.imgName = image.imgName;
+		    		vm.defaultImage = image.defaultImage;
+		    		vm.row = image.row;
+		    		vm.col = image.col;
+		    		vm.path = image.path;
+		    		vmList.add(vm);
+		    	}
+		    	return ok(Json.toJson(vmList));
+	    	}	
+	    }
+	    
+	    public static Result getImageInv(Long id, String type) {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	File file = null;
+		    	InventoryImage image = InventoryImage.findById(id);
+		    	if(type.equals("thumbnail")) {
+			    	file = new File(rootDir+image.thumbPath.replaceAll("%20"," "));
+		    	}
+		    	
+		    	if(type.equals("full")) {
+		    		file = new File(rootDir+image.path.replaceAll("%20"," "));
+		    	}
+		    	return ok(file);
+	    	}	
+	    }
+	    
+		  public static Result getInventoryImageById(Long id) throws IOException {
+			  if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+		    		AuthUser user = (AuthUser) getLocalUser();
+		    		InventoryImage image = InventoryImage.findById(id);
+			    	File file = new File(rootDir+image.path);
+			    	
+			    	BufferedImage originalImage = ImageIO.read(file);
+			    	//FeaturedImageConfig featuredConfig = FeaturedImageConfig.findByUser(user);
+			    	List<FeaturedImageConfig> featuredCon = FeaturedImageConfig.findByUser();
+			    	FeaturedImageConfig featuredConfig = new FeaturedImageConfig();
+			    	featuredConfig = featuredCon.get(0);
+			    	ImageVM vm = new ImageVM();
+					vm.id = image.id;
+					//vm.imgName = image.imageName;
+					vm.defaultImage = image.defaultImage;
+					vm.row = originalImage.getHeight();
+					vm.col = originalImage.getWidth();
+					vm.path = image.path;
+		    		vm.height = featuredConfig.cropHeight;
+		    		vm.width = featuredConfig.cropWidth;
+					//vm.vin = image.vin;
+			    	return ok(Json.toJson(vm));
+		    	}	
+		    }
+		  
+		  public static Result editInventoryImage() throws IOException {
+			  if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+			    	AuthUser user = (AuthUser) getLocalUser();
+			    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+			    	EditImageVM vm = form.get();
+			    	
+			    	InventoryImage image = InventoryImage.findById(vm.imageId);
+			    	File file = new File(rootDir+image.path);
+			    	File thumbFile = new File(rootDir+image.thumbPath);
+			    	
+			    	BufferedImage originalImage = ImageIO.read(file);
+			    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+			    	Thumbnails.of(croppedImage).scale(1.0).toFile(file);
+			    	
+			    	Thumbnails.of(croppedImage).height(155).toFile(thumbFile);
+			    	
+			    	return ok();
+		    	}	
+		    }
+	    
+		  
+		  public static Result uploadPhotos() {
+		    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+			    	MultipartFormData body = request().body().asMultipartFormData();
+			    	String productId = request().getHeader("productId");
+			    	
+			    	Identity user = getLocalUser();
+			    	AuthUser userObj = (AuthUser)user;
+			    	
+			    	FilePart picture = body.getFile("file");
+			    	  if (picture != null) {
+			    	    String fileName = picture.getFilename();
+			    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+productId);
+			    	    if(!fdir.exists()) {
+			    	    	fdir.mkdir();
+			    	    }
+			    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+productId+File.separator+fileName;
+			    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+productId+File.separator+"thumbnail_"+fileName;
+			    	    File thumbFile = new File(thumbnailPath);
+			    	    File file = picture.getFile();
+			    	    
+			    	    try {
+			    	    BufferedImage originalImage = ImageIO.read(file);
+			    	    Thumbnails.of(originalImage).size(originalImage.getWidth(), originalImage.getHeight()).toFile(thumbFile);
+			    	    File _f = new File(filePath);
+						Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+						
+						InventoryImage imageObj = InventoryImage.getByImagePath("/"+session("USER_LOCATION")+"/"+productId+"/"+fileName);
+						if(imageObj == null) {
+							InventoryImage vImage = new InventoryImage();
+							vImage.productId = productId;
+							vImage.imgName = fileName;
+							vImage.path = "/"+session("USER_LOCATION")+"/"+productId+"/"+fileName;
+							vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+productId+"/"+"thumbnail_"+fileName;
+							vImage.user = userObj;
+							vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+							vImage.save();
+						}
+			    	  } catch (FileNotFoundException e) {
+			  			e.printStackTrace();
+				  		} catch (IOException e) {
+				  			e.printStackTrace();
+				  		} 
+			    	  } 
+			    	return ok();
+		    	}	
+		    }
+		  
+		  public static Result deleteInventoryImage(Long id) {
+		    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+			    	AuthUser user = (AuthUser) getLocalUser();
+			    	InventoryImage image = InventoryImage.findById(id);
+			    	File file = new File(rootDir+image.path);
+			    	File thumbFile = new File(rootDir+image.thumbPath);
+			    	file.delete();
+			    	thumbFile.delete();
+			    	image.delete();
+			    	return ok();
+		    	}
+		    }
+		  
+		  
 	  public static AuthUser getLocalUser() {
 	    	String id = session("USER_KEY");
 	    	AuthUser user = AuthUser.find.byId(Integer.parseInt(id));

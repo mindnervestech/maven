@@ -118,7 +118,7 @@ import models.UserNotes;
 import models.Vehicle;
 import models.VehicleAudio;
 import models.VehicleHeader;
-import models.VehicleImage;
+import models.InventoryImage;
 import models.VehicleImageConfig;
 import models.Video;
 import models.VirtualTour;
@@ -3238,79 +3238,8 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result uploadPhotos() {
-    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render("",userRegistration));
-    	} else {
-	    	MultipartFormData body = request().body().asMultipartFormData();
-	    	String vin = request().getHeader("vinNum");
-	    	
-	    	Identity user = getLocalUser();
-	    	AuthUser userObj = (AuthUser)user;
-	    	
-	    	FilePart picture = body.getFile("file");
-	    	  if (picture != null) {
-	    	    String fileName = picture.getFilename();
-	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+vin+"-"+userObj.id);
-	    	    if(!fdir.exists()) {
-	    	    	fdir.mkdir();
-	    	    }
-	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vin+"-"+userObj.id+File.separator+fileName;
-	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vin+"-"+userObj.id+File.separator+"thumbnail_"+fileName;
-	    	    File thumbFile = new File(thumbnailPath);
-	    	    File file = picture.getFile();
-	    	    
-	    	    try {
-	    	    BufferedImage originalImage = ImageIO.read(file);
-	    	    Thumbnails.of(originalImage).size(originalImage.getWidth(), originalImage.getHeight()).toFile(thumbFile);
-	    	    File _f = new File(filePath);
-				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
-				
-				VehicleImage imageObj = VehicleImage.getByImagePath("/"+session("USER_LOCATION")+"/"+vin+"-"+userObj.id+"/"+fileName);
-				if(imageObj == null) {
-					VehicleImage vImage = new VehicleImage();
-					vImage.vin = vin;
-					vImage.imgName = fileName;
-					vImage.path = "/"+session("USER_LOCATION")+"/"+vin+"-"+userObj.id+"/"+fileName;
-					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+vin+"-"+userObj.id+"/"+"thumbnail_"+fileName;
-					vImage.user = userObj;
-					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-					vImage.save();
-				}
-	    	  } catch (FileNotFoundException e) {
-	  			e.printStackTrace();
-		  		} catch (IOException e) {
-		  			e.printStackTrace();
-		  		} 
-	    	  } 
-	    	return ok();
-    	}	
-    }
     
-    
-    public static Result getImagesByVin(String vin) {
-    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render("",userRegistration));
-    	} else {
-	    	List<VehicleImage> imageList = VehicleImage.getByVin(vin);
-	    	reorderImagesForFirstTime(imageList);
-	    	List<ImageVM> vmList = new ArrayList<>();
-	    	for(VehicleImage image : imageList) {
-	    		ImageVM vm = new ImageVM();
-	    		vm.id = image.id;
-	    		vm.imgName = image.imgName;
-	    		vm.defaultImage = image.defaultImage;
-	    		vm.row = image.row;
-	    		vm.col = image.col;
-	    		vm.path = image.path;
-	    		vmList.add(vm);
-	    	}
-	    	return ok(Json.toJson(vmList));
-    	}	
-    }
-    
-    
-    private static void reorderImagesForFirstTime(List<VehicleImage> imageList) {
+    private static void reorderImagesForFirstTime(List<InventoryImage> imageList) {
     	if(imageList.size() > 0) {
     		if(imageList.get(0).row == null) {
     			for(int i = 0, col = 0 ; i < imageList.size() ; i++) {
@@ -3332,7 +3261,7 @@ public class Application extends Controller {
     		return ok(home.render("",userRegistration));
     	} else {
 	    	File file = null;
-	    	VehicleImage image = VehicleImage.findById(id);
+	    	InventoryImage image = InventoryImage.findById(id);
 	    	if(type.equals("thumbnail")) {
 		    	file = new File(rootDir+image.thumbPath);
 	    	}
@@ -3353,9 +3282,9 @@ public class Application extends Controller {
     		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
-	    	VehicleImage image = VehicleImage.findById(id);
-	    	File file = new File(rootDir+File.separator+image.vin+"-"+user.id+File.separator+image.imgName);
-	    	File thumbFile = new File(rootDir+File.separator+image.vin+"-"+user.id+File.separator+"thumbnail_"+image.imgName);
+	    	InventoryImage image = InventoryImage.findById(id);
+	    	File file = new File(rootDir+File.separator+image.productId+"-"+user.id+File.separator+image.imgName);
+	    	File thumbFile = new File(rootDir+File.separator+image.productId+"-"+user.id+File.separator+"thumbnail_"+image.imgName);
 	    	file.delete();
 	    	thumbFile.delete();
 	    	image.delete();
@@ -3368,7 +3297,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-	    	VehicleImage image = VehicleImage.findById(id);
+	    	InventoryImage image = InventoryImage.findById(id);
 	    	image.defaultImage = (true);
 	    	image.update();
 	    	return ok();
@@ -3381,11 +3310,11 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-	    	VehicleImage image = VehicleImage.findById(old);
+	    	InventoryImage image = InventoryImage.findById(old);
 	    	image.defaultImage = (false);
 	    	image.update();
 	    	
-	    	VehicleImage newImage = VehicleImage.findById(newId);
+	    	InventoryImage newImage = InventoryImage.findById(newId);
 	    	newImage.defaultImage = (true);
 	    	newImage.update();
 	    	return ok();
@@ -3711,7 +3640,7 @@ public class Application extends Controller {
 	    	    		}*/
 	        		
 	        		
-	        		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
+	        		InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle.getVin());
 	        		
 	        		AuthUser defaultUser = getLocalUser();
 	        		//AuthUser defaultUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
@@ -4714,9 +4643,9 @@ public class Application extends Controller {
 	    	JsonNode nodes = ctx().request().body().asJson();
 	    	ObjectMapper mapper = new ObjectMapper();
 	    	try {
-	    		List<VehicleImage> images = mapper.readValue(nodes.toString(), new TypeReference<List<VehicleImage>>() {});
+	    		List<InventoryImage> images = mapper.readValue(nodes.toString(), new TypeReference<List<InventoryImage>>() {});
 				
-		    	for(VehicleImage image : images) {
+		    	for(InventoryImage image : images) {
 		    		image.update();
 		    	}
 			} catch (JsonParseException e) {
@@ -5024,7 +4953,7 @@ public class Application extends Controller {
 	    	String params = "&date=last-28-days&type=visitors-list&limit=all";
 	     	for(Vehicle vm : vehicleObjList){
 	     		
-	     		VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+	     		InventoryImage vehicleImg = InventoryImage.getDefaultImage(vm.vin);
 	     		
 	     		SpecificationVM vehicle = new SpecificationVM();
 	     		vehicle.id = vm.id;
@@ -5105,7 +5034,7 @@ public class Application extends Controller {
 		    		vehicle.salesRep = userData.firstName +" "+userData.lastName;
 		    		break;
 		    	}
-		    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin);
+		    	vehicle.vehicleCnt = InventoryImage.getVehicleImageCountByVIN(vm.vin);
 		    	NewVMs.add(vehicle);
 	    	}
 	     	
@@ -5321,7 +5250,7 @@ public class Application extends Controller {
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	ArrayList<SpecificationVM> soldVMs = new ArrayList<>(); 
 	     	for(Vehicle vm : soldVehicleObjList){
-	     		VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+	     		InventoryImage vehicleImg = InventoryImage.getDefaultImage(vm.vin);
 	     		SpecificationVM vehicle = new SpecificationVM();
 	     		vehicle.id = vm.id;
 		    	vehicle.category = vm.category;
@@ -5350,7 +5279,7 @@ public class Application extends Controller {
 		    	vehicle.transmission = vm.transmission;
 		    	vehicle.location = vm.location;
 		    	vehicle.status  =  vm.status;
-		    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin);
+		    	vehicle.vehicleCnt = InventoryImage.getVehicleImageCountByVIN(vm.vin);
 		    	vehicle.sold = true;
 		    	vehicle.imagePath = vehicleImg.thumbPath;
 		    	vehicle.imgId = vehicleImg.id;
@@ -5371,7 +5300,7 @@ public class Application extends Controller {
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	ArrayList<SpecificationVM> draftVMs = new ArrayList<>(); 
 	     	for(Vehicle vm : draftVehicleObjList){
-	     		VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+	     		InventoryImage vehicleImg = InventoryImage.getDefaultImage(vm.vin);
 	     		SpecificationVM vehicle = new SpecificationVM();
 	     		vehicle.id = vm.id;
 		    	vehicle.category = vm.category;
@@ -5400,7 +5329,7 @@ public class Application extends Controller {
 		    	vehicle.transmission = vm.transmission;
 		    	vehicle.location = vm.location;
 		    	vehicle.status  =  vm.status;
-		    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin);
+		    	vehicle.vehicleCnt = InventoryImage.getVehicleImageCountByVIN(vm.vin);
 		    	vehicle.sold = true;
 		    	if(vehicleImg != null){
 		    		vehicle.imagePath = vehicleImg.thumbPath;
@@ -5423,7 +5352,7 @@ public class Application extends Controller {
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	ArrayList<SpecificationVM> soldVMs = new ArrayList<>(); 
 	     	for(Vehicle vm : soldVehicleObjList){
-	     		VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+	     		InventoryImage vehicleImg = InventoryImage.getDefaultImage(vm.vin);
 	     		SpecificationVM vehicle = new SpecificationVM();
 	     		vehicle.id = vm.id;
 		    	vehicle.category = vm.category;
@@ -5452,7 +5381,7 @@ public class Application extends Controller {
 		    	vehicle.transmission = vm.transmission;
 		    	vehicle.location = vm.location;
 		    	vehicle.status  =  vm.status;
-		    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin);
+		    	vehicle.vehicleCnt = InventoryImage.getVehicleImageCountByVIN(vm.vin);
 		    	vehicle.sold = true;
 		    	if(vehicleImg != null){
 		    		vehicle.imagePath = vehicleImg.thumbPath;
@@ -5476,7 +5405,7 @@ public class Application extends Controller {
 	    	Vehicle vm = Vehicle.findById(id);
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	if(vm != null){
-	    		List<VehicleImage> v = VehicleImage.getByVin(vm.vin);
+	    		List<InventoryImage> v = InventoryImage.getByProductId(vm.vin);
 	    		if(v.size() != 0){
 	    			Ebean.delete(v);
 	    		}
@@ -5658,13 +5587,13 @@ public class Application extends Controller {
 			List<Vehicle> sameBodyList = Vehicle.getRandom(vehicle.vin);
 			
 			Vehicle sameBodyStyle = sameBodyList.get(0);
-			VehicleImage sameBodyStyleDefault = VehicleImage.getDefaultImage(sameBodyStyle.vin);
+			InventoryImage sameBodyStyleDefault = InventoryImage.getDefaultImage(sameBodyStyle.vin);
 			
 			Vehicle sameEngine = sameBodyList.get(1);
-			VehicleImage sameEngineDefault = VehicleImage.getDefaultImage(sameEngine.vin);
+			InventoryImage sameEngineDefault = InventoryImage.getDefaultImage(sameEngine.vin);
 			
 			Vehicle sameMake =  sameBodyList.get(2);
-			VehicleImage sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin);
+			InventoryImage sameMakeDefault = InventoryImage.getDefaultImage(sameMake.vin);
 			
 			 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
 				String emailName=details.name;
@@ -5836,7 +5765,7 @@ public class Application extends Controller {
 		        } else {
 		        	context.put("sameMakeDefault", "/no-image.jpg");
 		        }
-		        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+		        InventoryImage image = InventoryImage.getDefaultImage(vehicle.vin);
 		        if(image != null) {
 		        	context.put("defaultImage", image.path);
 		        } else {
@@ -8705,7 +8634,7 @@ public class Application extends Controller {
     	} else {
     		
     		AuthUser user = (AuthUser) getLocalUser();
-	    	VehicleImage image = VehicleImage.findById(id);
+	    	InventoryImage image = InventoryImage.findById(id);
 	    	File file = new File(rootDir+image.path);
 	    	
 	    	BufferedImage originalImage = ImageIO.read(file);
@@ -8717,7 +8646,7 @@ public class Application extends Controller {
 			vm.row = originalImage.getHeight();
 			vm.col = originalImage.getWidth();
 			vm.path = image.path;
-			vm.vin = image.vin;
+			vm.vin = image.productId;
 			VehicleImageConfig config = VehicleImageConfig.findByUser(user);
 			vm.width = config.cropWidth;
 			vm.height = config.cropHeight;
@@ -9262,9 +9191,9 @@ public class Application extends Controller {
 	    		}
 	    		
 	    		row[18] = standardOptions;
-	    		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicle.vin);
+	    		List<InventoryImage> vImageList = InventoryImage.getByProductId(vehicle.vin);
 	    		String str = "";
-	    		for(VehicleImage img : vImageList) {
+	    		for(InventoryImage img : vImageList) {
 	    			str = str +imageUrlPath+img.path+",";
 	    		}
 	    		row[19] = str;
@@ -9355,9 +9284,9 @@ public class Application extends Controller {
 	    		row[3] = vehicle.year+" "+vehicle.make+" "+vehicle.model;
 	    		row[4] = "http://www.domain.com/cars/12345679.html";
 	    		row[5] = vehicle.category;
-	    		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicle.vin);
+	    		List<InventoryImage> vImageList = InventoryImage.getByProductId(vehicle.vin);
 	    		String str = "";
-	    		for(VehicleImage img : vImageList) {
+	    		for(InventoryImage img : vImageList) {
 	    			str = str +rootDir+img.path+"|";
 	    		}
 	    		row[6] = str;
@@ -9577,9 +9506,9 @@ public class Application extends Controller {
 	    		row[4] = vehicle.trim;
 	    		row[5] = vehicle.price.toString();
 	    		row[6] = vehicle.mileage;
-	    		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicle.vin);
+	    		List<InventoryImage> vImageList = InventoryImage.getByProductId(vehicle.vin);
 	    		String str = "";
-	    		for(VehicleImage img : vImageList) {
+	    		for(InventoryImage img : vImageList) {
 	    			str = str +rootDir+img.path+",";
 	    		}
 	    		row[7] = str;
@@ -10160,7 +10089,7 @@ public class Application extends Controller {
         			vm.year = vehicle.year;
         			vm.mileage = vehicle.mileage;
     				vm.price = vehicle.price;
-    				VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+    				InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle.vin);
             		if(vehicleImage!=null) {
             			vm.imgId = vehicleImage.getId().toString();
             		}
@@ -10264,7 +10193,7 @@ public class Application extends Controller {
     			vm.mileage = vehicle.mileage;
     			vm.year = vehicle.year;
 				vm.price = vehicle.price;
-				VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+				InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle.vin);
         		if(vehicleImage!=null) {
         			vm.imgId = vehicleImage.getId().toString();
         		}
@@ -10362,7 +10291,7 @@ public class Application extends Controller {
     			vm.mileage = vehicle.mileage;
     			vm.year = vehicle.year;
 				vm.price = vehicle.price;
-				VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+				InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle.vin);
         		if(vehicleImage!=null) {
         			vm.imgId = vehicleImage.getId().toString();
         		}
@@ -10778,7 +10707,7 @@ public class Application extends Controller {
 	    			vm.drivetrain = vehicle.drivetrain;
 	    			vm.engine = vehicle.engine;
 	    			vm.transmission = vehicle.transmission;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	    			InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle.vin);
 	        		if(vehicleImage!=null) {
 	        			vm.imgId = vehicleImage.getId().toString();
 	        		}
@@ -10857,7 +10786,7 @@ public class Application extends Controller {
 	    			rList1.mileage = vehicle1.mileage;
 	    			rList1.price = vehicle1.price;
 	    			rList1.bodyStyle =vehicle1.bodyStyle;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    			InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle1.vin);
 	        		if(vehicleImage!=null) {
 	        			rList1.imgId = vehicleImage.getId().toString();
 	        		}
@@ -10898,7 +10827,7 @@ public class Application extends Controller {
 	    			rList1.mileage = vehicle1.mileage;
 	    			rList1.price = vehicle1.price;
 	    			rList1.bodyStyle =vehicle1.bodyStyle;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    			InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle1.vin);
 	        		if(vehicleImage!=null) {
 	        			rList1.imgId = vehicleImage.getId().toString();
 	        		}
@@ -10937,7 +10866,7 @@ public class Application extends Controller {
     			rList1.mileage = vehicle1.mileage;
     			rList1.price = vehicle1.price;
     			rList1.bodyStyle =vehicle1.bodyStyle;
-    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+    			InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle1.vin);
         		if(vehicleImage!=null) {
         			rList1.imgId = vehicleImage.getId().toString();
         		}
@@ -10984,7 +10913,7 @@ public class Application extends Controller {
 	    			rList1.mileage = vehicle1.mileage;
 	    			rList1.price = vehicle1.price;
 	    			rList1.bodyStyle =vehicle1.bodyStyle;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    			InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle1.vin);
 	        		if(vehicleImage!=null) {
 	        			rList1.imgId = vehicleImage.getId().toString();
 	        		}
@@ -11026,7 +10955,7 @@ public class Application extends Controller {
 	    			rList1.mileage = vehicle1.mileage;
 	    			rList1.price = vehicle1.price;
 	    			rList1.bodyStyle =vehicle1.bodyStyle;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    			InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle1.vin);
 	        		if(vehicleImage!=null) {
 	        			rList1.imgId = vehicleImage.getId().toString();
 	        		}
@@ -11066,7 +10995,7 @@ public class Application extends Controller {
     			rList1.mileage = vehicle1.mileage;
     			rList1.price = vehicle1.price;
     			rList1.bodyStyle =vehicle1.bodyStyle;
-    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+    			InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle1.vin);
         		if(vehicleImage!=null) {
         			rList1.imgId = vehicleImage.getId().toString();
         		}
@@ -11459,7 +11388,7 @@ public class Application extends Controller {
 	    			vm.drivetrain = vehicle.drivetrain;
 	    			vm.engine = vehicle.engine;
 	    			vm.transmission = vehicle.transmission;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	    			InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle.vin);
 	        		if(vehicleImage!=null) {
 	        			vm.imgId = vehicleImage.getId().toString();
 	        		}
@@ -11817,7 +11746,7 @@ public class Application extends Controller {
 	    			vm.drivetrain = vehicle.drivetrain;
 	    			vm.engine = vehicle.engine;
 	    			vm.transmission = vehicle.transmission;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	    			InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle.vin);
 	        		if(vehicleImage!=null) {
 	        			vm.imgId = vehicleImage.getId().toString();
 	        		}
@@ -11877,7 +11806,7 @@ public class Application extends Controller {
 	    			vm.drivetrain = vehicle.drivetrain;
 	    			vm.engine = vehicle.engine;
 	    			vm.transmission = vehicle.transmission;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	    			InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle.vin);
 	        		if(vehicleImage!=null) {
 	        			vm.imgId = vehicleImage.getId().toString();
 	        		}
@@ -14013,7 +13942,7 @@ private static void cancelTestDriveMail(Map map) {
 	        String temp=arr1[1];
 	        context.put("nature",nature);
 	        context.put("temp", temp);*/
-	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+	        InventoryImage image = InventoryImage.getDefaultImage(vehicle.vin);
 	        if(image!=null) {
 	        	context.put("defaultImage", image.path);
 	        } else {
@@ -14151,7 +14080,7 @@ private static void cancelTestDriveMail(Map map) {
 	        String temp=arr1[1];
 	        context.put("nature",nature);
 	        context.put("temp", temp);
-	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+	        InventoryImage image = InventoryImage.getDefaultImage(vehicle.vin);
 	        if(image!=null) {
 	        	context.put("defaultImage", image.path);
 	        } else {
@@ -14289,7 +14218,7 @@ private static void cancelTestDriveMail(Map map) {
 	        String temp=arr1[1];
 	        context.put("nature",nature);
 	        context.put("temp", temp);
-	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+	        InventoryImage image = InventoryImage.getDefaultImage(vehicle.vin);
 	        if(image!=null) {
 	        	context.put("defaultImage", image.path);
 	        } else {
@@ -18667,7 +18596,7 @@ private static void cancelTestDriveMail(Map map) {
  				
  			}
 	        
-	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+	        InventoryImage image = InventoryImage.getDefaultImage(vehicle.vin);
  	        if(image!=null) {
  	        	context.put("defaultImage", image.path);
  	        } else {
@@ -20022,7 +19951,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			vm.engine = vehicle.engine;
 	    			vm.transmission = vehicle.transmission;
 	    			vm.price = vehicle.price;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	    			InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle.vin);
 	        		if(vehicleImage!=null) {
 	        			vm.imgId = vehicleImage.getId().toString();
 	        		}
@@ -21961,7 +21890,7 @@ private static void cancelTestDriveMail(Map map) {
 		        
 	        }
 	        
-	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+	        InventoryImage image = InventoryImage.getDefaultImage(vehicle.vin);
 	        if(image!=null) {
 	        	context.put("path", image.path);
 	        } else {
@@ -25470,7 +25399,7 @@ if(vehicles.equals("All")){
     		
     		analyticalVM.vehicleStatus=vehicle.getStatus();
     		analyticalVM.price = vehicle.getPrice();
-    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
+    		InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle.getVin());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
     			analyticalVM.isImage = true;
@@ -25526,7 +25455,7 @@ if(vehicles.equals("All")){
 			}
     		analyticalVM.price = vehicle.getPrice();
     		analyticalVM.stockNumber = vehicle.stock;
-    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
+    		InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle.getVin());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
     			analyticalVM.isImage = true;
@@ -25568,7 +25497,7 @@ if(vehicles.equals("All")){
     	for(Vehicle vehicle:aVehicles) {
     		VehicleAnalyticalVM anVm = new VehicleAnalyticalVM();
     		//anVm.count = pagesCount1.get(vehicle.getVin());
-    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
+    		InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle.getVin());
     		if(vehicleImage!=null) {
     			anVm.id = vehicleImage.getId();
     			anVm.isImage = true;
@@ -29204,7 +29133,7 @@ if(vehicles.equals("All")){
         			sTestVM.engine = vehicle.engine;
         			sTestVM.transmission = vehicle.transmission;
         			sTestVM.price = vehicle.price;
-	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	    			InventoryImage vehicleImage = InventoryImage.getDefaultImage(vehicle.vin);
 	        		if(vehicleImage!=null) {
 	        			sTestVM.imgId = vehicleImage.getId().toString();
 	        		}
@@ -34476,7 +34405,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		        String temp=arr1[1];
 		        context.put("nature",nature);
 		        context.put("temp", temp);*/
-		        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+		        InventoryImage image = InventoryImage.getDefaultImage(vehicle.vin);
 		        if(image!=null) {
 		        	context.put("defaultImage", image.path);
 		        } else {
@@ -36608,7 +36537,7 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 	        String temp=arr1[1];
 	        context.put("nature",nature);
 	        context.put("temp", temp);*/
-	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+	        InventoryImage image = InventoryImage.getDefaultImage(vehicle.vin);
 	        if(image!=null) {
 	        	context.put("defaultImage", image.path);
 	        } else {

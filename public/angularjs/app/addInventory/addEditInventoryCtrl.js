@@ -31,7 +31,7 @@ angular.module('newApp')
      		
      		pdffile = $rootScope.fileCustom;
      		
- 	 		$http.post('/saveVehicle',$scope.specification)
+ 	 		$http.post('/saveInventory',$scope.specification)
  			.success(function(data) {
  				$.pnotify({
  				    title: "Success",
@@ -41,7 +41,7 @@ angular.module('newApp')
  				
  				$scope.dataBeforePdf=data;
  				$upload.upload({
- 		 	         url : '/saveVehiclePdf/'+data,
+ 		 	         url : '/saveInventoryPdf/'+data,
  		 	         method: 'POST',
  		 	         file:pdffile,
  		 	      }).success(function(data) {
@@ -50,18 +50,18 @@ angular.module('newApp')
  		 	  			    type:'success',
  		 	  			    text: "Inventory saved successfully",
  		 	  			});
- 		 	  		$location.path('/editVehicle/'+$scope.dataBeforePdf+"/"+true);
+ 		 	  		$location.path('/editInventory/'+$scope.dataBeforePdf+"/"+true);
  		 	      });
  			});
  	 	 }else{
- 	 		$http.post('/saveVehicle',$scope.specification)
+ 	 		$http.post('/saveInventory',$scope.specification)
  			.success(function(data) {
  				$.pnotify({
  				    title: "Success",
  				    type:'success',
  				    text: "Inventory saved successfully",
  				});
- 				$location.path('/editVehicle/'+data+"/"+true);
+ 				$location.path('/editInventory/'+data+"/"+true);
  			});
  	 	 }
 	   
@@ -131,6 +131,8 @@ angular.module('newApp')
 	
 	$http.get('/getColl').success(function(response) {
 		 $scope.collectionList = response[0];
+		
+		 $scope.getImages();
 		 console.log($scope.collectionList);
 	});
 	
@@ -160,6 +162,7 @@ angular.module('newApp')
 			 if($scope.customData.address_bar != undefined){
 				 $("#autocomplete").val($scope.customData.address_bar);
 			 }
+			 $scope.setDropZone();
 		});
 		
 	}
@@ -218,7 +221,7 @@ angular.module('newApp')
 	$scope.setDropZone = function() {
 		myDropzone = new Dropzone("#dropzoneFrm",{
 			   parallelUploads: 30,
-			   headers: { "vinNum": $scope.vinData.specification.vin },
+			   headers: { "productId": $scope.specification.productId },
 			   acceptedFiles:"image/*",
 			   addRemoveLinks:true,
 			   autoProcessQueue:false,
@@ -244,9 +247,11 @@ angular.module('newApp')
 	   }
 	
 	$scope.getImages = function() {
-		$scope.isUpdated = false;
-		$http.get('/getImagesByVin/'+$scope.vinData.specification.vin)
+		
+		$http.get('/getImagesByProductId/'+$scope.specification.productId)
 		.success(function(data) {
+			console.log("dddd");
+			console.log(data);
 			$scope.imageList = data;
 		});
 	}
@@ -335,9 +340,8 @@ angular.module('newApp')
 		
 		   
 				if(pdfFile != undefined){
-					$http.post('/updateVehicleById',$scope.specification)
+					$http.post('/updateInventoryById',$scope.specification)
 					.success(function(data) {
-						//$scope.isUpdated = true;
 						$.pnotify({
 						    title: "Success",
 						    type:'success',
@@ -349,18 +353,11 @@ angular.module('newApp')
 				 	         method: 'POST',
 				 	         file:pdfFile,
 				 	      }).success(function(data) {
-				 	  			/*$http.get('/getPriceHistory/'+data.vin)
-								.success(function(data) {
-									$scope.priceHistory = data;
-									angular.forEach($scope.priceHistory, function(value, key) {
-										value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
-									});
-									//$route.reload();
-								});*/
+				 	  			
 				 	      });
 					});
 			 	 }else{
-			 		$http.post('/updateVehicleById',$scope.specification)
+			 		$http.post('/updateInventoryById',$scope.specification)
 					.success(function(data) {
 						$scope.isUpdated = true;
 						$.pnotify({
@@ -368,14 +365,7 @@ angular.module('newApp')
 						    type:'success',
 						    text: "Inventory updated successfuly",
 						});
-						/*$http.get('/getPriceHistory/'+data.vin)
-						.success(function(data) {
-							$scope.priceHistory = data;
-							angular.forEach($scope.priceHistory, function(value, key) {
-								value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
-							});
-							
-						});*/
+						
 					});
 			 	 }
 		  
@@ -420,7 +410,7 @@ $scope.setAsDefault = function(image,index) {
 	}
 	
 	$scope.deleteImage = function(img) {
-		$http.get('/deleteImage/'+img.id)
+		$http.get('/deleteInventoryImage/'+img.id)
 		.success(function(data) {
 			$scope.imageList.splice($scope.imageList.indexOf(img),1);
 		});
@@ -451,7 +441,7 @@ $scope.setAsDefault = function(image,index) {
 	$scope.deleteVehicleRow = function() {
 		$http.get('/deleteVehicleById/'+$routeParams.id)
 		.success(function(data) {
-			$location.path('/addVehicle');
+			$location.path('/addInventory');
 		});
 	}
 	
@@ -460,7 +450,7 @@ $scope.setAsDefault = function(image,index) {
 		file = $files;
 	}
 	
-	$scope.uploadAudio = function() {
+	/*$scope.uploadAudio = function() {
 		$upload.upload({
             url : '/uploadSoundFile',
             method: 'post',
@@ -474,7 +464,7 @@ $scope.setAsDefault = function(image,index) {
 			    text: "Saved successfully",
 			});
         });
-	}
+	}*/
 	
 	$scope.confirmFileDelete = function(id) {
 		$scope.audioFileId = id;
@@ -488,13 +478,13 @@ $scope.setAsDefault = function(image,index) {
 		});
 	}
 	
-	$scope.getAllAudio = function() {
+	/*$scope.getAllAudio = function() {
 		$http.get('/getAllAudio/'+$scope.vinData.specification.vin)
 		.success(function(data) {
 			$scope.audioList = data;
 		});
-	}
-	$scope.vData = {};
+	}*/
+	/*$scope.vData = {};
 	$scope.videoData={};
 	$scope.getVirtualTourData = function() {
 		$http.get('/getVirtualTour/'+$scope.vinData.specification.id)
@@ -503,9 +493,9 @@ $scope.setAsDefault = function(image,index) {
 			$scope.vData = data.virtualTour;
 			$scope.videoData = data.video;
 		});
-	}
+	}*/
 	
-	$scope.saveVData = function() {
+	/*$scope.saveVData = function() {
 		
 		$scope.vData.vin = $scope.vinData.specification.vin;
 		$scope.vData.vehicleId = $scope.vinData.specification.id;
@@ -517,10 +507,10 @@ $scope.setAsDefault = function(image,index) {
 			    text: "Saved successfully",
 			});
 		});
-	}
+	}*/
 	
 	
-	$scope.saveVideoData = function() {
+	/*$scope.saveVideoData = function() {
 		
 		$scope.videoData.vin = $scope.vinData.specification.vin;
 		$scope.videoData.vehicleId = $scope.vinData.specification.id;
@@ -532,11 +522,11 @@ $scope.setAsDefault = function(image,index) {
 			    text: "Saved successfully",
 			});
 		});
-	}
+	}*/
 	
 	
 	$scope.editImage = function(image) {
-		$location.path('/cropImage/'+image.id+'/'+$routeParams.id);
+		$location.path('/cropInventoryImage/'+image.id+'/'+$routeParams.id);
 	}
 	
 }]);	

@@ -33,7 +33,7 @@ import models.AuthUser;
 import models.Registration;
 import models.SiteLogo;
 import models.Vehicle;
-import models.VehicleImage;
+import models.InventoryImage;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
