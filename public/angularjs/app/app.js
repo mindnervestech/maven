@@ -460,7 +460,7 @@ var MakeApp = angular
             templateUrl: '/dealer/addPhotos/managePhotos.html',
             controller: 'ManagePhotoCtrl'
         })
-        .when('/editInventory/:id/:temp', {
+ 	.when('/editInventory/:id/:temp', {
             templateUrl: '/dealer/addInventory/editInventory.html',
             controller: 'EditInventoryCtrl'
         })

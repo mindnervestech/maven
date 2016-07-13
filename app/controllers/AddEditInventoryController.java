@@ -414,9 +414,7 @@ public class AddEditInventoryController extends Controller {
 	    }  
 	    
 	    public static Result getImagesByProductId(String productId) {
-	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-	    		return ok(home.render("",userRegistration));
-	    	} else {
+	    	
 		    	List<InventoryImage> imageList = InventoryImage.getByProductId(productId);
 		    	//Application.reorderImagesForFirstTime(imageList);
 		    	List<ImageVM> vmList = new ArrayList<>();
@@ -431,13 +429,9 @@ public class AddEditInventoryController extends Controller {
 		    		vmList.add(vm);
 		    	}
 		    	return ok(Json.toJson(vmList));
-	    	}	
 	    }
 	    
 	    public static Result getImageInv(Long id, String type) {
-	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-	    		return ok(home.render("",userRegistration));
-	    	} else {
 		    	File file = null;
 		    	InventoryImage image = InventoryImage.findById(id);
 		    	if(type.equals("thumbnail")) {
@@ -448,13 +442,9 @@ public class AddEditInventoryController extends Controller {
 		    		file = new File(rootDir+image.path.replaceAll("%20"," "));
 		    	}
 		    	return ok(file);
-	    	}	
 	    }
 	    
 		  public static Result getInventoryImageById(Long id) throws IOException {
-			  if(session("USER_KEY") == null || session("USER_KEY") == "") {
-		    		return ok(home.render("",userRegistration));
-		    	} else {
 		    		AuthUser user = (AuthUser) getLocalUser();
 		    		InventoryImage image = InventoryImage.findById(id);
 			    	File file = new File(rootDir+image.path);
@@ -475,13 +465,9 @@ public class AddEditInventoryController extends Controller {
 		    		vm.width = featuredConfig.cropWidth;
 					//vm.vin = image.vin;
 			    	return ok(Json.toJson(vm));
-		    	}	
 		    }
 		  
 		  public static Result editInventoryImage() throws IOException {
-			  if(session("USER_KEY") == null || session("USER_KEY") == "") {
-		    		return ok(home.render("",userRegistration));
-		    	} else {
 			    	AuthUser user = (AuthUser) getLocalUser();
 			    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
 			    	EditImageVM vm = form.get();
@@ -497,14 +483,10 @@ public class AddEditInventoryController extends Controller {
 			    	Thumbnails.of(croppedImage).height(155).toFile(thumbFile);
 			    	
 			    	return ok();
-		    	}	
 		    }
 	    
 		  
 		  public static Result uploadPhotos() {
-		    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-		    		return ok(home.render("",userRegistration));
-		    	} else {
 			    	MultipartFormData body = request().body().asMultipartFormData();
 			    	String productId = request().getHeader("productId");
 			    	
@@ -547,13 +529,9 @@ public class AddEditInventoryController extends Controller {
 				  		} 
 			    	  } 
 			    	return ok();
-		    	}	
 		    }
 		  
 		  public static Result deleteInventoryImage(Long id) {
-		    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-		    		return ok(home.render("",userRegistration));
-		    	} else {
 			    	AuthUser user = (AuthUser) getLocalUser();
 			    	InventoryImage image = InventoryImage.findById(id);
 			    	File file = new File(rootDir+image.path);
@@ -562,7 +540,6 @@ public class AddEditInventoryController extends Controller {
 			    	thumbFile.delete();
 			    	image.delete();
 			    	return ok();
-		    	}
 		    }
 		  
 		  

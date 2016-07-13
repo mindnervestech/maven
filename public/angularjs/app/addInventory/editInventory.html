@@ -1,7 +1,7 @@
 <div ng-init="init()">
 <h2>Edit Inventory</h2>
 <tabset class="nav-tabs2">
-                                <tab>
+                                <tab ng-if="userRole != 'Photographer'">
                                     <tab-heading>
                                         <button type="button" class="btn btn-blue">Details</button>
                                     </tab-heading>
