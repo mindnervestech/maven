@@ -227,7 +227,6 @@
           popoverTemplateUrl: '/dealer/template/select.html'
         });
       
-    }
      $builderProvider.registerComponent('singleSelect', {
           group: 'Default',
           label: 'single Selector',
