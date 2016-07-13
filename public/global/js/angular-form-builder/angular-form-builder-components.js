@@ -153,7 +153,7 @@
           description: '',
           disableWeekends: false,
           readOnly: false,
-          template: "<div class=\"col-md-12\"><div ng-show=\"isInValid\" style=\"color: red;\">Please provide all mandatory fields.</div><h3 style=\"margin-top:10px; margin-bottom: 10px;\"><strong>{{editInput.mainTitle}}</strong></h3><div class=\"col-md-6\"><div class=\"col-md-12\" style=\"margin: 10px 0 10px 0;\"><angucomplete-alt id=\"ex1\" placeholder=\"Search Name\" pause=\"10\" selected-object=\"selectedObj\" local-data=\"searchList\" search-fields=\"fullName\" title-field=\"fullName\" minlength=\"3\" focus-out=\"focusOut()\" input-class=\"form-control form-control-small\"></angucomplete-alt></div><div class=\"col-md-12\" style=\"margin: 10px 0 10px 0;\"><input type=\"text\" ng-model=\"lead.custNumber\" placeholder=\"PHONE NUMBER\" required/> <span style=\"color: red;\">*</span></div></div><div class=\"col-md-6\"><div class=\"col-md-12\" style=\"margin: 10px 0 10px 0;\"><input type=\"text\" ng-model=\"lead.custEmail\" placeholder=\"EMAIL\" required/> <span style=\"color: red;\">*</span></div><div class=\"col-md-12\" style=\"margin: 10px 0 10px 0;\"><input type=\"text\" ng-model=\"lead.custZipCode\" placeholder=\"ZIP CODE\" required/> <span style=\"color: red;\">*</span></div></div></div>",
+          template: "<div class=\"col-md-12\"><div ng-show=\"isInValid\" style=\"color: red;\">Please provide all mandatory fields.</div><h3 style=\"margin-top:10px; margin-bottom: 10px;\"><strong>{{editInput.mainTitle}}</strong></h3><div class=\"col-md-6\"><div class=\"col-md-12\" style=\"margin: 10px 0 10px 0;\"><angucomplete-alt id=\"ex1\" placeholder=\"Search Name\" pause=\"10\" selected-object=\"selectedObj\" local-data=\"searchList\" search-fields=\"fullName\" title-field=\"fullName\" minlength=\"3\" focus-out=\"focusOut()\" input-class=\"form-control form-control-small\"></angucomplete-alt></div><div class=\"col-md-12\" style=\"margin: 10px 0 10px 0;\"><input type=\"text\" ng-model=\"lead.custNumber\" placeholder=\"PHONE NUMBER\" required/> <span style=\"color: red;\">*</span></div></div><div class=\"col-md-6\"><div class=\"col-md-12\" style=\"margin: 10px 0 10px 0;\"><input type=\"text\" ng-model=\"lead.custEmail\" placeholder=\"EMAIL\" required/> <span style=\"color: red;\">*</span></div><div class=\"col-md-12\" style=\"margin: 10px 0 10px 0;\"><input type=\"text\" ng-model=\"lead.custZipCode\" placeholder=\"ZIP CODE\" required/> <span style=\"color: red;\">*</span></div></div> <div class='col-sm-12'> <hr> </div> </div>",
           popoverTemplateUrl: '/dealer/template/textInput.html'
         });
       
@@ -228,6 +228,25 @@
         });
       
     }
+     $builderProvider.registerComponent('singleSelect', {
+          group: 'Default',
+          label: 'single Selector',
+          key:'single_select',
+          required: false,
+          options: ['value one', 'value two'],
+          template: "<div class=\"form-group col-sm-12\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\">{{label}}</label>\n    <div class=\"col-md-6\">\n        <select  style=\"width: 125px\"  id=\"{{formName}}\" data-ng-attr-size=\"{{options.length}}\" ><option  ng-repeat=\"value in options\">{{value}}</option></select>\n </div>\n <div class='col-sm-12'> <hr> </div></div>",
+          //popoverTemplate: "<form>\n    <div class=\"form-group\">\n        <label class='control-label'>Label</label>\n        <input type='text' ng-model=\"label\" validator=\"[required]\" class='form-control'/>\n    </div>\n    <div class=\"form-group\">\n        <label class='control-label'>Description</label>\n        <input type='text' ng-model=\"description\" class='form-control'/>\n    </div>\n   <div class=\"form-group\">\n        <label class='control-label'>Name</label>\n        <input type='text' ng-model=\"key\" class='form-control'/>\n    </div>\n   <div class=\"form-group\">\n        <label class='control-label'>Options</label>\n        <textarea class=\"form-control\" rows=\"3\" ng-model=\"optionsText\"/>\n    </div>\n\n    <hr/>\n    <div class='form-group'>\n        <input type='submit' ng-click=\"popover.save($event)\" class='btn btn-primary' value='Save'/>\n        <input type='button' ng-click=\"popover.cancel($event)\" class='btn btn-default' value='Cancel'/>\n        <input type='button' ng-click=\"popover.remove($event)\" class='btn btn-danger' value='Delete'/>\n    </div>\n</form>"
+          popoverTemplateUrl: '/dealer/template/select.html'
+        });
+     
+      /*<div  class=\"dropdown open\"> <ul class=\"dropdown-menu\"><li ng-repeat=\"value in options\" id=\"{{formName+index}}\"><a >{{value}}</a></li>    </ul> </div>
+*/      
+      /*template: "<div class=\"form-group col-sm-12\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\">{{label}}</label>\n    <div class=\"col-md-6\">\n        <select ng-options=\"value for value in options\" id=\"{{formName+index}}\" class=\"form-control\"\n            ng-model=\"inputText\" ng-init=\"inputText = options[0]\"/>\n        <p class='help-block'>{{description}}</p>\n    </div>\n <div class='col-sm-12'> <hr> </div></div>",
+      <li><a href=\"#\">Another action</a></li>  <li><a href=\"#\">Something else here</a></li>  <li class=\"divider\"></li>  <li><a href=\"#\">Separated link</a></li>
+          */
+     
+    }
+    
   ]);
 
 }).call(this);

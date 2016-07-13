@@ -2,7 +2,7 @@ angular.module('formlyIonic', ['formly'], ["formlyConfigProvider", function conf
     'use strict';
 
 
-    angular.forEach(['checkbox', 'input', 'radio', 'range', 'textarea', 'toggle', 'select', 'floating-input', 'stacked-input', 'inline-input','signature','ui-grid','image','financialcalculator','daterange','autocompleteText','contactssearch','inventorysearch','fileuploaders','timerange','headerlabel','numberInput','multipleselect'], function (fieldName) {
+    angular.forEach(['checkbox', 'input', 'radio', 'range', 'textarea', 'toggle', 'select', 'floating-input', 'stacked-input', 'inline-input','signature','ui-grid','image','financialcalculator','daterange','autocompleteText','contactssearch','inventorysearch','fileuploaders','timerange','headerlabel','numberInput','multipleselect','singleSelect'], function (fieldName) {
         if(fieldName === 'signature'){
             formlyConfigProvider.setType({
                 name: fieldName,
@@ -36,6 +36,15 @@ angular.module('formlyIonic', ['formly'], ["formlyConfigProvider", function conf
                 controller:'customizationCtrl'
             });
         }
+        
+        else if(fieldName === 'singleSelect'){
+            formlyConfigProvider.setType({
+                name: fieldName,
+                templateUrl: getFieldTemplateUrl(fieldName),
+                controller:'customizationCtrl'
+            });
+        }
+        
         else if(fieldName === 'autocompleteText'){
             formlyConfigProvider.setType({
                 name: fieldName,
@@ -163,6 +172,13 @@ $templateCache.put("fields/timerange.html","<div class=\"form-group col-sm-12\">
 $templateCache.put("fields/headerlabel.html","<label class=\"item item-input item-stacked-label form-group col-sm-12\" style=\"padding-left: 0px;\"><h2><span class=\"input-label form-group col-sm-12\"><b>{{options.templateOptions.label}}</b></span></h2></label>");
 $templateCache.put("fields/numberInput.html","<div   style=\"padding: 0px;\" class=\"col-sm-12\"><label for=\"{{formName+index}}\" class=\"col-md-4 control-label\">{{label}}</label> <div  style=\"padding: 0px;\" class=\"col-sm-7\">\n    <input type=\"number\" class=\"form-control m-b\" />\n </div></div>");
 $templateCache.put("fields/multipleselect.html","<label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div class=\"col-sm-4 form-group\"><select class=\"col-sm-10 form-control form-white\" ng-model=\"model[options.key]\" ng-options=\"option[to.valueProp || \'value\'] as option[to.labelProp || \'name\'] group by 			  option[to.groupProp || \'group\'] for option in to.options\" multiple></select></div></label>");
+
+$templateCache.put("fields/singleSelect.html","<div class=\"form-group col-sm-12\" > <label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div   class=\"col-sm-4 form-group\"> <select  style=\"width: 125px\"  ng-model=\"model[options.key]\" data-ng-attr-size=\"{{to.options.length}}\"><option  ng-repeat=\"option in to.options\">{{option[to.labelProp || \'name\']}}</option></select></div></label></div>");
+
+/*<div  class=\"dropdown open\"> <ul class=\"dropdown-menu\"><li ng-repeat=\"option in to.options\" ng-model=\"model[options.key]\" id=\"{{formName+index}}\"><a >{{option[to.labelProp || \'name\']}}</a></li>  </ul></div>
+*/
+/*ng-model=\"model[options.key]\" ng-options=\"option[to.valueProp || \'value\'] as option[to.labelProp || \'name\'] group by 			  option[to.groupProp || \'group\'] for option in to.options\"></select></div></label>");*/
+
 
 $templateCache.put("fields/toggle.html","<ion-toggle ng-model=\"model[options.key]\" toggle-class=\"toggle-{{options.templateOptions.toggleClass}}\">{{options.templateOptions.label}}</ion-toggle>");}]);
 

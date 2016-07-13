@@ -178,9 +178,10 @@
                         if(form.component === "multipleselect"){
                           	 formFields.push(getJsonBForMultipleselect(form));
                           }
-                        
-                        
-                        
+                          if(form.component === "singleSelect"){
+                        	console.log("insisdeee");
+                          	 formFields.push(getJsonBForSingleSelect(form));
+                          }
                       });
                       /* form_details.name = subSectons[i];
                        form_details.isRepeatable  = true;
@@ -508,7 +509,6 @@
                       // controller: 'formState.textCtrl',
                       "expressionProperties": properties,
                       "hideExpression" : function($viewValue, $modelValue, scope) {
-                        console.log("-?>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", jsonObject);
                         return isHideComponent(jsonObject); 
                       }
                   }
@@ -558,6 +558,36 @@
                 }
                 
                 function getJsonBForMultipleselect(jsonObject){
+                    var key;
+                    if(jsonObject.key === ""){
+                      key = jsonObject.label;
+                      key = key.replace(" ","_");
+                      key = key.toLowerCase();
+                    }else{
+                      key = jsonObject.key;
+                    }
+                    var properties = getPropertiesForEditable(jsonObject.editable);
+                    var options = [];
+                    options = getPropertiesForSelectOptions(jsonObject.options);
+                    var convertedObject = {
+                      "key": key,
+                      "type": jsonObject.component,
+                      "templateOptions": {
+                        "label": jsonObject.label,
+                        "options": options,
+                        "valueProp": "id",
+                        "labelProp": "label",
+                        "required": jsonObject.required
+                        },
+                        "expressionProperties": properties,
+                        "hideExpression" : function($viewValue, $modelValue, scope) {
+                          return isHideComponent(jsonObject);
+                        }
+                    }
+                    return convertedObject;
+                  }
+                
+                function  getJsonBForSingleSelect(jsonObject){
                     var key;
                     if(jsonObject.key === ""){
                       key = jsonObject.label;
