@@ -337,9 +337,6 @@ public class AddEditInventoryController extends Controller {
 	    }
 	    
 	    public static Result getAllInventory(Long locationId) {
-	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-	    		return ok(home.render("",userRegistration));
-	    	} else {
 		    	List<Inventory> inventoryList = Inventory.getByLocation(Location.findById(locationId));
 				List<InventoryVM> iList = new ArrayList<>();
 		    	for(Inventory  inventory:inventoryList){
@@ -355,7 +352,6 @@ public class AddEditInventoryController extends Controller {
 		    	}
 				
 		    	return ok(Json.toJson(iList));
-	    	}	
 	    }
 	    
 	    
