@@ -128,6 +128,7 @@ angular.module('newApp')
       
 	$scope.userFields = [];
 	$scope.customData = {};
+	$scope.specification = {};
     /*  var ele = document.getElementById('loadingmanual');	
   	$(ele).hide();
 	$scope.publishVehicle = function(id){
@@ -157,9 +158,35 @@ angular.module('newApp')
 		 $scope.user = {};
 		});
 	
-	
+	$scope.photoUrl = {};
 	
 	$scope.init = function() {
+		
+		
+		$http.get('/findLocation')
+		.success(function(data) {
+			console.log($routeParams.productId);
+			$scope.productId=$routeParams.productId;
+			$scope.userLocationId = data;
+			$scope.photoUrl.locationId=$scope.userLocationId;
+			$scope.photoUrl.vin=$scope.vinForUrl;
+			console.log($scope.userLocationId);
+			//$scope.photoUrl=$scope.userLocationId+"/"+$scope.vinForUrl;
+			 if(userRole == "Photographer"){
+				 var element1 = angular.element("<form  role='form' id='dropzoneFrm' action='http://www.glider-autos.com:9889/uploadPhotos'  method='POST' class='dropzone'> <div> <input type='text'style='display: none;'name='productId' value='"+$scope.productId+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
+				 $("#showDiv").append(element1);
+				 $scope.getImages();
+				 $scope.setDropZone();
+				 		//$scope.uploadPhotoUrl="http://www.glider-autos.com/uploadPhotos/"+$scope.userLocationId;	
+			 }
+			else{
+				 var element1 = angular.element("<form role='form' id='dropzoneFrm' action='/uploadPhotos' method='POST' class='dropzone'> <div> <input type='text'style='display: none;'name='vin' value='"+$routeParams.vinNew+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
+				 $("#showDiv").append(element1);
+				 $scope.getImages();
+				 $scope.setDropZone();
+			 }
+		});
+		
 		
 		$http.get('/getVehicleById/'+$routeParams.id)
 		.success(function(data) {
@@ -168,7 +195,6 @@ angular.module('newApp')
 			 $scope.specification = data;
 			 $scope.customData = data.customMapData;
 			 console.log($scope.customData);
-			 $scope.specification.collection=data.collection;
 			 if($scope.customData.time_range != undefined){
 				 $("#bestTimes").val($scope.customData.time_range);
 			 }
@@ -190,7 +216,7 @@ angular.module('newApp')
 				 });
 			 
 			 console.log($scope.customData);
-			 $scope.setDropZone();
+			 
 		});
 		
 	}
@@ -249,7 +275,6 @@ angular.module('newApp')
 	$scope.setDropZone = function() {
 		myDropzone = new Dropzone("#dropzoneFrm",{
 			   parallelUploads: 30,
-			   headers: { "productId": $scope.specification.productId },
 			   acceptedFiles:"image/*",
 			   addRemoveLinks:true,
 			   autoProcessQueue:false,
@@ -276,13 +301,26 @@ angular.module('newApp')
 	
 	$scope.getImages = function() {
 		
-		$http.get('/getImagesByProductId/'+$scope.specification.productId)
-		.success(function(data) {
-			console.log("dddd");
-			console.log(data);
-			$scope.imageList = data;
-		});
+		if(userRole == "Photographer"){
+			 $http.get('http://www.glider-autos.com:9889/getImagesByProductId/'+$routeParams.productId)
+				.success(function(data) {
+					console.log("dddd");
+					console.log(data);
+					$scope.imageList = data;
+				});
+			 }
+			 else{
+				 $http.get('getImagesByProductId/'+$routeParams.productId)
+					.success(function(data) {
+						console.log("dddd");
+						console.log(data);
+						$scope.imageList = data;
+					});
+			 }
+		
 	}
+	
+	
 	
 	  /* $scope.setSiteId = function(id,flag) {
 	 	  if(flag == true) {
@@ -450,10 +488,21 @@ $scope.setAsDefault = function(image,index) {
 	}
 	
 	$scope.deleteImage = function(img) {
-		$http.get('/deleteInventoryImage/'+img.id)
-		.success(function(data) {
-			$scope.imageList.splice($scope.imageList.indexOf(img),1);
-		});
+		
+		
+		if(userRole == "Photographer"){	
+			  	$http.get('http://www.glider-autos.com:9889/deleteInventoryImage/'+img.id)
+			  	.success(function(data) {
+			  			$scope.imageList.splice($scope.imageList.indexOf(img),1);
+			  	});
+		}else{
+					
+		    	 $http.get('/deleteImage/'+img.id)
+					.success(function(data) {
+						$scope.imageList.splice($scope.imageList.indexOf(img),1);
+					});
+					
+		}
 		
 	}
 	
