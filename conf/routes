@@ -59,6 +59,7 @@ GET		/getInventoryImageById/:id		  controllers.AddEditInventoryController.getInv
 POST    /editInventoryImage		    	  controllers.AddEditInventoryController.editInventoryImage()
 POST	/uploadPhotos					  controllers.AddEditInventoryController.uploadPhotos()
 GET		/deleteInventoryImage/:id		  controllers.AddEditInventoryController.deleteInventoryImage(id:Long)
+GET     /getAllInventory/:locationId      controllers.AddEditInventoryController.getAllInventory(locationId:Long)
 
 POST   /saveInternalPdf				controllers.Application.saveInternalPdf()
 POST   /saveCustomerPdf				controllers.Application.saveCustomerPdf()

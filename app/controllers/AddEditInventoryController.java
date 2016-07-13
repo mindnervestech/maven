@@ -336,6 +336,29 @@ public class AddEditInventoryController extends Controller {
 	    	}	
 	    }
 	    
+	    public static Result getAllInventory(Long locationId) {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	List<Inventory> inventoryList = Inventory.getByLocation(Location.findById(locationId));
+				List<InventoryVM> iList = new ArrayList<>();
+		    	for(Inventory  inventory:inventoryList){
+		    		InventoryVM inventoryVm = new InventoryVM();
+					inventoryVm.id = inventory.getId();
+					inventoryVm.title = inventory.getTitle();
+					inventoryVm.description = inventory.getDescription();
+					inventoryVm.cost = inventory.getCost();
+					inventoryVm.price = inventory.getPrice();
+					inventoryVm.productId = inventory.getProductId();
+					findCustomeInventoryData(inventoryVm.id,inventoryVm);
+					iList.add(inventoryVm);
+		    	}
+				
+		    	return ok(Json.toJson(iList));
+	    	}	
+	    }
+	    
+	    
 	    
 	    public static void findCustomeInventoryData(Long id,InventoryVM inventoryvm){
 	    	List<CustomizationInventory> custData = CustomizationInventory.findByIdList(id);

@@ -111,4 +111,9 @@ public class Inventory extends Model {
 		return find.where().eq("collection", collection).findList();
 	}
 	
+	public static List<Inventory> getByLocation(Location locations) {
+		return find.where().eq("locations", locations).findList();
+	}
+	
+	
 }
