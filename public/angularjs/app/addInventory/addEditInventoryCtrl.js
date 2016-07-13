@@ -615,7 +615,7 @@ $scope.setAsDefault = function(image,index) {
 	
 	
 	$scope.editImage = function(image) {
-		$location.path('/cropInventoryImages/'+image.id+'/'+$routeParams.id+'/'$routeParams.productId);
+		$location.path('/cropInventoryImages/'+image.id+'/'+$routeParams.id+'/'+$routeParams.productId);
 	}
 	
 }]);	
