@@ -6,7 +6,12 @@ angular.module('newApp')
 	console.log($routeParams.pId);
 	
 	$scope.coords = {};
-	$scope.imgId = "/getImageInv/"+$routeParams.id+"/full?d=" + Math.random();
+	if(userRole == "Photographer"){
+		$scope.imgId = "http://www.glider-autos.com:9889/getImageInv/"+$routeParams.id+"/full?d=" + Math.random();
+		}
+		else{
+			$scope.imgId = "/getImageInv/"+$routeParams.id+"/full?d=" + Math.random();
+		}
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
 		 $http.get('/getInventoryImageById/'+$routeParams.id)

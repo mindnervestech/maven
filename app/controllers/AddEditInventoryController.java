@@ -328,7 +328,6 @@ public class AddEditInventoryController extends Controller {
 				inventoryVm.cost = inventory.getCost();
 				inventoryVm.price = inventory.getPrice();
 				inventoryVm.productId = inventory.getProductId();
-				inventoryVm.collection=inventory.collection.id;
 				findCustomeInventoryData(inventoryVm.id,inventoryVm);
 				
 				
@@ -403,9 +402,7 @@ public class AddEditInventoryController extends Controller {
 		    		inventory.setPrice(vm.price);
 		    		inventory.setTitle(vm.title);
 		    		inventory.setDescription(vm.description);
-		    		if(vm.collection != null){
 		    		inventory.setCollection(AddCollection.findById(vm.collection));
-		    		}
 		    		inventory.update();
 			    	
 			    	saveCustomInventoryData(inventory.id,vm);
@@ -491,43 +488,39 @@ public class AddEditInventoryController extends Controller {
 		  
 		  public static Result uploadPhotos() {
 			    	MultipartFormData body = request().body().asMultipartFormData();
-			    	String productId = request().getHeader("productId");
-			    	
+			    	DynamicForm requestData = Form.form().bindFromRequest();
+			    	String productId = requestData.get("productId");
+			    	 String locationIdNew = requestData.get("locationIdNew");
 			    	Identity user = getLocalUser();
 			    	AuthUser userObj = (AuthUser)user;
 			    	
 			    	FilePart picture = body.getFile("file");
 			    	  if (picture != null) {
 			    	    String fileName = picture.getFilename();
-			    	    File fdir = new File(pdfRootDir+File.separator+session("USER_LOCATION")+File.separator+productId);
+			    	    File fdir = new File(pdfRootDir+File.separator+locationIdNew+File.separator+productId);
 			    	    if(!fdir.exists()) {
 			    	    	fdir.mkdir();
 			    	    }
-			    	    String filePath = pdfRootDir+File.separator+session("USER_LOCATION")+File.separator+productId+File.separator+fileName;
-			    	    String thumbnailPath = pdfRootDir+File.separator+session("USER_LOCATION")+File.separator+productId+File.separator+"thumbnail_"+fileName;
+			    	    String filePath = pdfRootDir+File.separator+locationIdNew+File.separator+productId+File.separator+fileName;
+			    	    String thumbnailPath = pdfRootDir+File.separator+locationIdNew+File.separator+productId+File.separator+"thumbnail_"+fileName;
 			    	    File thumbFile = new File(thumbnailPath);
 			    	    File file = picture.getFile();
 			    	    
 			    	    try {
 			    	    BufferedImage originalImage = ImageIO.read(file);
-			    	  //  Thumbnails.of(originalImage).size(originalImage.getWidth(), originalImage.getHeight()).toFile(thumbFile);
-			    	   // File _f = new File(filePath);
-						//Thumbnails.of(originalImage).scale(1.0).toFile(_f);
-						
-						//BufferedImage originalImage = ImageIO.read(file);
-			    	    Thumbnails.of(originalImage).size(150, 150).toFile(thumbFile);
+			    	    Thumbnails.of(originalImage).size(originalImage.getWidth(), originalImage.getHeight()).toFile(thumbFile);
 			    	    File _f = new File(filePath);
 						Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 						
-						InventoryImage imageObj = InventoryImage.getByImagePath("/"+session("USER_LOCATION")+"/"+productId+"/"+fileName);
+						InventoryImage imageObj = InventoryImage.getByImagePath("/"+locationIdNew+"/"+productId+"/"+fileName);
 						if(imageObj == null) {
 							InventoryImage vImage = new InventoryImage();
 							vImage.productId = productId;
 							vImage.imgName = fileName;
-							vImage.path = "/"+session("USER_LOCATION")+"/"+productId+"/"+fileName;
-							vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+productId+"/"+"thumbnail_"+fileName;
+							vImage.path = "/"+locationIdNew+"/"+productId+"/"+fileName;
+							vImage.thumbPath = "/"+locationIdNew+"/"+productId+"/"+"thumbnail_"+fileName;
 							vImage.user = userObj;
-							vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+							vImage.locations = Location.findById(Long.valueOf(locationIdNew));
 							vImage.save();
 						}
 			    	  } catch (FileNotFoundException e) {
