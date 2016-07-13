@@ -328,6 +328,7 @@ public class AddEditInventoryController extends Controller {
 				inventoryVm.cost = inventory.getCost();
 				inventoryVm.price = inventory.getPrice();
 				inventoryVm.productId = inventory.getProductId();
+				inventoryVm.collection=inventory.collection.id;
 				findCustomeInventoryData(inventoryVm.id,inventoryVm);
 				
 				
@@ -402,7 +403,9 @@ public class AddEditInventoryController extends Controller {
 		    		inventory.setPrice(vm.price);
 		    		inventory.setTitle(vm.title);
 		    		inventory.setDescription(vm.description);
+		    		if(vm.collection != null){
 		    		inventory.setCollection(AddCollection.findById(vm.collection));
+		    		}
 		    		inventory.update();
 			    	
 			    	saveCustomInventoryData(inventory.id,vm);
@@ -507,7 +510,12 @@ public class AddEditInventoryController extends Controller {
 			    	    
 			    	    try {
 			    	    BufferedImage originalImage = ImageIO.read(file);
-			    	    Thumbnails.of(originalImage).size(originalImage.getWidth(), originalImage.getHeight()).toFile(thumbFile);
+			    	  //  Thumbnails.of(originalImage).size(originalImage.getWidth(), originalImage.getHeight()).toFile(thumbFile);
+			    	   // File _f = new File(filePath);
+						//Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+						
+						//BufferedImage originalImage = ImageIO.read(file);
+			    	    Thumbnails.of(originalImage).size(150, 150).toFile(thumbFile);
 			    	    File _f = new File(filePath);
 						Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 						

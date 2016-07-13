@@ -168,6 +168,7 @@ angular.module('newApp')
 			 $scope.specification = data;
 			 $scope.customData = data.customMapData;
 			 console.log($scope.customData);
+			 $scope.specification.collection=data.collection;
 			 if($scope.customData.time_range != undefined){
 				 $("#bestTimes").val($scope.customData.time_range);
 			 }
