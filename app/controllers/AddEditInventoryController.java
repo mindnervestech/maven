@@ -468,7 +468,6 @@ public class AddEditInventoryController extends Controller {
 		    }
 		  
 		  public static Result editInventoryImage() throws IOException {
-			    	AuthUser user = (AuthUser) getLocalUser();
 			    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
 			    	EditImageVM vm = form.get();
 			    	

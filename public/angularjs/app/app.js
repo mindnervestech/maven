@@ -404,7 +404,7 @@ var MakeApp = angular
             controller: 'ImageCropCtrl'
         })
         
-        .when('/cropInventoryImage/:id/:pId', {
+        .when('/cropInventoryImages/:id/:pId/:productId', {
             templateUrl: '/dealer/addInventory/cropInventoryImage.html',
             controller: 'InventoryImageCropCtrl'
         })
