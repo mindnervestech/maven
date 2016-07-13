@@ -491,8 +491,8 @@ public class AddEditInventoryController extends Controller {
 			    	DynamicForm requestData = Form.form().bindFromRequest();
 			    	String productId = requestData.get("productId");
 			    	 String locationIdNew = requestData.get("locationIdNew");
-			    	Identity user = getLocalUser();
-			    	AuthUser userObj = (AuthUser)user;
+			    	//Identity user = getLocalUser();
+			    	//AuthUser userObj = (AuthUser)user;
 			    	
 			    	FilePart picture = body.getFile("file");
 			    	  if (picture != null) {
@@ -519,7 +519,7 @@ public class AddEditInventoryController extends Controller {
 							vImage.imgName = fileName;
 							vImage.path = "/"+locationIdNew+"/"+productId+"/"+fileName;
 							vImage.thumbPath = "/"+locationIdNew+"/"+productId+"/"+"thumbnail_"+fileName;
-							vImage.user = userObj;
+							//vImage.user = userObj;
 							vImage.locations = Location.findById(Long.valueOf(locationIdNew));
 							vImage.save();
 						}
