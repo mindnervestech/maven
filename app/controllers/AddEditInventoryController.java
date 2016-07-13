@@ -445,7 +445,6 @@ public class AddEditInventoryController extends Controller {
 	    }
 	    
 		  public static Result getInventoryImageById(Long id) throws IOException {
-		    		AuthUser user = (AuthUser) getLocalUser();
 		    		InventoryImage image = InventoryImage.findById(id);
 			    	File file = new File(rootDir+image.path);
 			    	
