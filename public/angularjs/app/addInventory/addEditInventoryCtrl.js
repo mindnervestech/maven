@@ -62,7 +62,7 @@ angular.module('newApp')
  				    text: "Inventory saved successfully",
  				});
  				console.log(data);
- 				$location.path('/editInventory/'+$scope.data+"/"+true+"/"+$scope.specification.productId);
+ 				$location.path('/editInventory/'+data+"/"+true+"/"+$scope.specification.productId);
  			});
  	 	 }
 	   
