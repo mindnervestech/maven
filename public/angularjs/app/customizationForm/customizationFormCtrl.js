@@ -12,6 +12,7 @@ angular.module('newApp')
   .controller('customizationFormCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder','$routeParams',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder,$routeParams) {
 
 	  	$scope.showSaveButton = $routeParams.pageType;
+	  	$scope.formType = $routeParams.formType;
 	  	console.log($routeParams.formType);
 	  
 		   $scope.initFunction = function(){

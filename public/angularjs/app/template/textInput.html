@@ -1,4 +1,4 @@
-<form>
+<form ng-app="newApp" ng-controller="customizationFormCtrl">
 	<ul id = "myTab" class = "nav nav-tabs">
 	   <li class = "active">
 	      <a href = "#textinput" data-toggle = "tab" style= "padding-left: 5px; width: 75px;">
@@ -38,7 +38,7 @@
                     <input type='checkbox' ng-model="displayGrid" />
                     Display in Grid</label>
             </div>
-            <div class="checkbox">
+            <div class="checkbox" ng-if="formType == 'Create Lead'">
                 <label>
                     <input type='checkbox' ng-model="savecrm" />
                     Add to CRM</label>

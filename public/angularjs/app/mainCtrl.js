@@ -283,10 +283,9 @@
                     	},	
                        // controller: 'formState.textCtrl',
                     	"expressionProperties": properties,
-                      "hideExpression" : function($viewValue, $modelValue, scope) {
-                        console.log("getJsonBForTextInput====", jsonObject);
-                        return isHideComponent(jsonObject); 
-                      }
+                        "hideExpression" : function($viewValue, $modelValue, scope) {
+                          return isHideComponent(jsonObject);
+                        }
                 	};
                 	return convertedObject;
               	}
