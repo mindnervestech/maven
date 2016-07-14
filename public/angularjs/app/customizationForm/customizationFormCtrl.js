@@ -75,9 +75,6 @@ angular.module('newApp')
 		         console.log('$builder.forms',$builder.forms);
 		       }, true);
 		       
-		       
-		      
-		       
 		       $scope.editform = {};
 		  $scope.saveCreateLeadForm = function(){
 			 console.log($scope.form);

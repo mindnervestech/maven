@@ -14383,8 +14383,13 @@ private static void cancelTestDriveMail(Map map) {
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
     		MultipartFormData body = request().body().asMultipartFormData();
     		
-	    	AuthUser userObj = new AuthUser();
 	    	UserVM vm = form.get();
+	    	
+	    	AuthUser uAuthUser = AuthUser.findByEmail(vm.email);
+	    	AuthUser userObj = new AuthUser();
+	    	if(uAuthUser == null){
+	    		
+	    	
 	    	
 	    	userObj.firstName = vm.firstName;
 	    	userObj.lastName = vm.lastName;
@@ -14445,7 +14450,7 @@ private static void cancelTestDriveMail(Map map) {
 	    	   if(vm.userType.equals("Photographer")) {
 	    		   List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
-	    			   if(obj.name.equals("My Calendar") || obj.name.equals("Dashboard") || obj.name.equals("Inventory")) {
+	    			   if(obj.name.equals("My Calendar") || obj.name.equals("Dashboard") || obj.name.equals("Inventory Photographer")) {
 	    				   permissionData.add(obj);
 	    			   }
 	    		   }
@@ -14479,6 +14484,7 @@ private static void cancelTestDriveMail(Map map) {
 	    	   }
 	    	   
 	    	   userObj.save();
+	    	}
 	    	   DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 	    	   if(vm.userType.equals("Photographer")){
 	    		   PhotographerHoursOfOperation pOperation = new PhotographerHoursOfOperation();
@@ -14581,7 +14587,12 @@ private static void cancelTestDriveMail(Map map) {
 			    		pOperation.portalName = vm.portalName;
 			    			pOperation.contractDurEndDate = df.parse(vm.contractDurEndDate);
 			    			pOperation.contractDurStartDate = df.parse(vm.contractDurStartDate);
-			    			pOperation.user = AuthUser.findById(userObj.id);
+			    			if(uAuthUser == null){
+			    				pOperation.user = AuthUser.findById(userObj.id);
+			    			}else{
+			    				pOperation.user = AuthUser.findById(uAuthUser.id);
+			    			}
+			    			
 			    			pOperation.locations = Location.findById(vm.locationId);
 			    			
 					} catch (ParseException e1) {
