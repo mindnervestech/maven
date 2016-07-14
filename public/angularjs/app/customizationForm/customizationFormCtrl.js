@@ -74,6 +74,35 @@ angular.module('newApp')
 		         console.log('$builder.forms',$builder.forms);
 		       }, true);
 		       
+		       
+		       $scope.editform = {};
+				  $scope.saveCreateCrmForm = function(){
+					 console.log($scope.form);
+					 angular.forEach($builder.forms['default'], function(value, key) {
+						 var key;
+		               		key = value.label;
+		               		key = key.replace("  ","_");
+		               		key = key.replace(" ","_");
+		               		key = key.toLowerCase();
+		               		value.key = key;
+		               		console.log(key);
+						 console.log(value.key);
+					 });
+					 console.log($builder.forms['default']);
+					 $scope.editform.formType = $routeParams.formType;
+					 $scope.editform.jsonform = $builder.forms['default'];
+					 
+					 console.log($scope.editform);
+					  $http.post('/getLeadCrateForm', $scope.editform)
+						 .success(function(data) {
+							 $.pnotify({
+			    				    title: "Success",
+			    				    type:'success',
+			    				    text: "Form Created successfully",
+			    				});
+							});
+				  }  
+		       
 		       $scope.editform = {};
 		  $scope.saveCreateLeadForm = function(){
 			 console.log($scope.form);
