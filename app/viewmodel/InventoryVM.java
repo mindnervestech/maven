@@ -13,6 +13,7 @@ public class InventoryVM {
 	public double cost;
 	public String productId;
 	public Long collection;
+	public String collectionName;
 	
 	public List<KeyValueDataVM> customData  = new ArrayList<KeyValueDataVM>();
 	public Map<String, String> customMapData;

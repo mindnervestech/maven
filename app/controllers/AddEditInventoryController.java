@@ -347,6 +347,9 @@ public class AddEditInventoryController extends Controller {
 					inventoryVm.description = inventory.getDescription();
 					inventoryVm.cost = inventory.getCost();
 					inventoryVm.price = inventory.getPrice();
+					AddCollection collection = AddCollection.findById(inventory.getCollection().id);
+					inventoryVm.collection = inventory.getCollection().id;
+					inventoryVm.collectionName = collection.title;
 					inventoryVm.productId = inventory.getProductId();
 					findCustomeInventoryData(inventoryVm.id,inventoryVm);
 					iList.add(inventoryVm);

@@ -465,11 +465,10 @@ var MakeApp = angular
             controller: 'EditInventoryCtrl'
         })
        
-         /*.when('/viewVehicles', {
-            templateUrl: '/dealer/viewVehicle/viewVehicles.html',
-            controller: 'ViewVehiclesCtrl'
-        })*/
-        
+         .when('/viewInventory', {
+            templateUrl: '/dealer/viewVehicle/viewInventory.html',
+            controller: 'viewInventoryCtrl'
+        })
         
         .when('/viewRegistration', {
             templateUrl: '/dealer/viewRegistration/viewRegistration.html',

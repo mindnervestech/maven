@@ -9096,9 +9096,9 @@ angular.module('newApp')
 	}
 	
 }]);
-
+/*
 angular.module('newApp')
-.controller('ViewVehiclesCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
+.controller('viewInventoryCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
 	$scope.tempDate = new Date().getTime();
 	$scope.type = "All";
 	$scope.vType;
@@ -9592,7 +9592,7 @@ angular.module('newApp')
 		});
    }
    
-}]);
+}]);*/
 
 
 
