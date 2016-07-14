@@ -84,7 +84,7 @@ angular.module('newApp')
 				});
 				console.log($routeParams.pId);
 				console.log($routeParams.id);
-				$location.path('/editInventory/'+$routeParams.pId+'/'+true);
+				$location.path('/editInventory/'+$routeParams.pId+'/'+true+"/"+$routeParams.productId);
 			});
 		}        
 }]);

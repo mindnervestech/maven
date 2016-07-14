@@ -104,15 +104,15 @@ public class InventoryImage extends Model {
 		return find.byId(id);
 	}
 	
-	public static InventoryImage findByRowCol(Integer row,Integer col,String vin) {
-		return find.where().eq("vin", vin).eq("row", row).eq("col", col).findUnique();
-	}
-	
 	public static InventoryImage getDefaultImage(String vin) {
-		return find.where().eq("vin", vin).eq("defaultImage", true).findUnique();
+		return find.where().eq("productId", vin).eq("defaultImage", true).findUnique();
 	}
 	
-		public static   int getVehicleImageCountByVIN(String vin){
-		return find.where().eq("vin", vin).findList().size();
+	public static InventoryImage findByRowCol(Integer row,Integer col,String vin) {
+		return find.where().eq("productId", vin).eq("row", row).eq("col", col).findUnique();
+	}
+	
+		public static int getVehicleImageCountByVIN(String vin){
+		return find.where().eq("productId", vin).findList().size();
 	} 
 }
