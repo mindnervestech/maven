@@ -14638,8 +14638,8 @@ private static void cancelTestDriveMail(Map map) {
 	    		String gmail=details.host;
 	    	final	String emailUser=details.username;
 	    	final	String emailPass=details.passward;
-	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
-	    	   SiteLogo logo = SiteLogo.findByLocation(vm.locationId);  //findByUser(logoUser);
+	    	   AuthUser logoUser = AuthUser.findById(userObj.id);
+	    	   SiteLogo logo = SiteLogo.findByLocation(vm.locationId);
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
@@ -14653,7 +14653,7 @@ private static void cancelTestDriveMail(Map map) {
 		 			}
 		 		  });
 		  
-		 		try{
+		 		/*try{
 		 			
 		  			Message message = new MimeMessage(session);
 		  			try {
@@ -14710,7 +14710,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			Transport.send(message);
 		       		} catch (MessagingException e) {
 		  			 throw new RuntimeException(e);
-		  		}
+		  		}*/
 	    	   
 	    	return ok();
     }
