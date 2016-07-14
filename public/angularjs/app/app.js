@@ -54,6 +54,11 @@ var MakeApp = angular
             templateUrl: '/dealer/customizationForm/createCrmForm.html',
             controller: 'customizationFormCtrl'
         })
+        
+        .when('/NewUserForm/:pageType/:formType', {
+            templateUrl: '/dealer/customizationForm/newUser.html',
+            controller: 'customizationFormCtrl'
+        })
         .when('/addInventory', {
             templateUrl: '/dealer/addInventory/addInventory.html',
             controller: 'addInventoryCtrl'
