@@ -46,6 +46,21 @@ var MakeApp = angular
             templateUrl: '/dealer/customizationForm/createLeadForm.html',
             controller: 'customizationFormCtrl'
         })
+        .when('/RequestMoreInfoForm/:pageType/:formType', {
+            templateUrl: '/dealer/customizationForm/allLead.html',
+            controller: 'customizationFormCtrl'
+        })
+        
+        .when('/ContactUsForm/:pageType/:formType', {
+            templateUrl: '/dealer/customizationForm/allLead.html',
+            controller: 'customizationFormCtrl'
+        })
+        
+        .when('/RequestAppointmentForm/:pageType/:formType', {
+            templateUrl: '/dealer/customizationForm/allLead.html',
+            controller: 'customizationFormCtrl'
+        })
+        
         .when('/InventoryForm/:pageType/:formType', {
             templateUrl: '/dealer/customizationForm/createInventoryForm.html',
             controller: 'customizationFormCtrl'

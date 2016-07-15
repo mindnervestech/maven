@@ -14,7 +14,11 @@ angular.module('newApp')
 	  	$scope.showSaveButton = $routeParams.pageType;
 	  	$scope.formType = $routeParams.formType;
 	  	console.log($routeParams.formType);
-	  
+	  	
+	  if($routeParams.formType == "Request Appointment"){
+		  $scope.appointFlag=1;
+		  
+	  }
 		   $scope.initFunction = function(){
 			   $http.get('/getCustomizationform/'+$routeParams.formType).success(function(response) {
 					console.log(response);

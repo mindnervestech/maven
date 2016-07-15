@@ -215,12 +215,15 @@ $scope.leadTypeAll = function(){
 
 			$location.path('/'+'CRMForm/'+"Edit"+"/"+'CRM');
 			
-		}else{
-			var str = row.entity.name.replace(" ","");
-			$location.path('/'+str+'Form/'+"Edit"+"/"+row.entity.name);
+		}else if(row.entity.name == "Request More Info"){
+			$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.name);
 		}
-		
-		console.log(str);
+		else if(row.entity.name == "Contact Us"){
+			$location.path('/ContactUsForm/'+"Edit"+"/"+row.entity.name);
+		}
+		else if(row.entity.name == "Request Appointment"){
+			$location.path('/RequestAppointmentForm/'+"Edit"+"/"+row.entity.name);
+		}
 			
 	}
 
