@@ -71,7 +71,9 @@ import models.Contacts;
 import models.CoverImage;
 import models.CreateNewForm;
 import models.CustomerPdf;
+import models.CustomizationCrm;
 import models.CustomizationDataValue;
+import models.CustomizationInventory;
 import models.Domain;
 import models.EmailDetails;
 import models.FeaturedImage;
@@ -171,6 +173,7 @@ import viewmodel.HeardAboutUsVm;
 import viewmodel.HoursOperation;
 import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
+import viewmodel.InventoryVM;
 import viewmodel.KeyValueDataVM;
 import viewmodel.LeadDateWiseVM;
 import viewmodel.LeadTypeVM;
@@ -28459,12 +28462,39 @@ if(vehicles.equals("All")){
     			}*/
  		   contacts.setNewsLetter(1);
     			contacts.save();
+    			saveCustomCrmData(contacts.contactId,vm);
     		} else {
     			msg = "Email already exists";
     		}
+    		 
     		return ok(msg);
     	}
 	}
+	
+	
+	 private static void saveCustomCrmData(Long InventoryId,ContactsVM vm) {
+	       	
+	       	for(KeyValueDataVM custom:vm.customData){
+	       		
+	       		CustomizationCrm cDataValue = CustomizationCrm.findByKeyAndLeadId(custom.key,InventoryId);
+	       		if(cDataValue == null){
+	       			CustomizationCrm cValue = new CustomizationCrm();
+	       			cValue.keyValue = custom.key;
+	       			cValue.value = custom.value;
+	       			cValue.crmId = InventoryId;
+	       			cValue.displayGrid = custom.displayGrid;
+	       			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	       			cValue.save();
+	       			
+	       		}else{
+	       			cDataValue.setKeyValue(custom.key);
+	       			cDataValue.setValue(custom.value);
+	       			cDataValue.setDisplayGrid(custom.displayGrid);
+	       			cDataValue.update();
+	       		}
+	   			
+	   		}
+	       }
 	
 	public static Result saveNewsletterDate(String date,String time,Long id,String newsTimeZone) throws ParseException {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {

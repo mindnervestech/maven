@@ -10,59 +10,60 @@
 
 	
 	<hr>
-	<form ng-submit="saveVehicle()">
-		<div class="form-group col-sm-12">
-			<label class="col-sm-2 control-label" style="text-align: right;">Title
-				*</label>
-			<div class="col-sm-5">
-				<input class="form-control form-white" type="text"
-					style="border-color: red;" ng-model="specification.title"
-					placeholder="Title" required>
-			</div>
-		</div>
-		<div class="form-group col-sm-12">
-			<label class="col-sm-2 control-label" style="text-align: right;">Product Id</label>
-			<div class="col-sm-5">
-				<input class="form-control form-white" type="text"
-					style="border-color: red;" ng-model="specification.productId"
-					placeholder="VIN Number" minlength="17" required>
-			</div>
-			
-		</div>
-		<div class="form-group col-sm-12">
-			<label class="col-sm-2 control-label" style="text-align: right;">Description</label>
-			<div class="col-sm-5">
-				<textarea class="form-control form-white"
-					ng-model="specification.description" rows="5"></textarea>
-			</div>
-		</div>
-		<div class="form-group col-sm-12">
-			<label class="col-sm-2 control-label" style="text-align: right;">Collection this item is in</label>
-			<div class="col-sm-5">
-				<input class="form-control form-white" type="text"
-					style="border-color: red;" ng-model="specification.collectionItem" required>
-			</div>
-			
-		</div>
-		<div class="form-group col-sm-12">
-			<label class="col-sm-2 control-label" style="text-align: right;">Cost</label>
-			<div class="col-sm-5">
-				<input class="form-control form-white" type="text"
-					style="border-color: red;" ng-model="specification.cost"
-					placeholder="COST" required>
-			</div>
-			
-		</div>
-		<div class="form-group col-sm-12">
-			<label class="col-sm-2 control-label" style="text-align: right;">Price</label>
-			<div class="col-sm-5">
-				<input class="form-control form-white" type="text"
-					style="border-color: red;" ng-model="specification.price"
-					placeholder="PRICE" required>
-			</div>
-			
-		</div>
-
+	                 <form ng-submit="saveVehicle()">
+					<div class="form-group col-sm-12">
+					               	<div class="col-sm-6">
+							<label class="col-sm-2 control-label">	First Name</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control form-white" ng-model="contactsDetails.firstName" >
+								</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-sm-2 control-label">Last Name</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control form-white" ng-model="contactsDetails.lastName" >
+								</div>
+						</div>
+					</div>
+					   <div class="col-sm-12">
+					   <div class="col-sm-6">
+							<label class="col-sm-2 control-label">Assigned to</label>
+							<select class="from-control form-white col-sm-4" style="height: 35px;margin-left:16px;" ng-model="contactsDetails.assignedTo" required>
+												<option ng-repeat="alUser in allUser" value="{{alUser.id}}">{{alUser.fullName}}</option>
+					</select>
+					</div>
+						</div>
+					<div class="form-group col-sm-12">
+						<div class="col-sm-6">
+							<label class="col-sm-12 control-label">Email</label>
+							<div class="col-sm-8">
+								<input type="email" class="form-control form-white" ng-model="contactsDetails.email" required>
+							</div>
+							<div class="col-sm-4">
+								<select class="from-control form-white" style="height: 35px;" ng-model="contactsDetails.workEmail" required>
+																		<option value="Work">Work</option>
+																		<option value="Personal">Personal</option>
+								   </select>
+							</div>
+							
+						</div>
+						
+					</div>
+                           <div class="form-group col-sm-12">
+								<div class="col-sm-6">
+									<label class="col-sm-12 control-label">Phone</label>
+									<div class="col-sm-8">
+										<input type="text" class="form-control form-white" ng-model="contactsDetails.phone" >
+									</div>
+									<div class="col-sm-4">
+										<select id="sectionId" class="from-control form-white" style="height: 35px;" ng-model="contactsDetails.workPhone" required>
+  																		<option value="Work">Work</option>
+  																		<option value="Personal">Personal</option>
+										   </select>
+									</div>
+								</div>
+								
+							</div>
 	</form>
 	<div class="form-group col-sm-12">
 		<div class="row">
