@@ -207,7 +207,7 @@
       
       $builderProvider.registerComponent('numberInput', {
           group: 'Default',
-          label: 'Number Input', 
+          label: 'Price', 
           key:'number_input',
           description: '',
           required: false,
