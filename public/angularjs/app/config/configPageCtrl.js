@@ -206,9 +206,22 @@ $scope.leadTypeAll = function(){
 	
 	$scope.ShowCreateNewForm = function(row){
 		console.log(row);
-		var str = row.entity.name.replace(" ","");
-		console.log(str);
+		if(row.entity.name == "Add Product"){
+
+			$location.path('/'+'InventoryForm/'+"Edit"+"/"+'Inventory');
+			
+		}
+		else if(row.entity.name == "Add to CRM"){
+
+			$location.path('/'+'CRMForm/'+"Edit"+"/"+'CRM');
+			
+		}else{
+			var str = row.entity.name.replace(" ","");
 			$location.path('/'+str+'Form/'+"Edit"+"/"+row.entity.name);
+		}
+		
+		console.log(str);
+			
 	}
 
 	$scope.ShowCreateNewForm1 = function(row){
