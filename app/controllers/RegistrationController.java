@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.StringWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import javax.mail.BodyPart;
@@ -30,10 +33,11 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import models.AuthUser;
+import models.Location;
 import models.Registration;
 import models.SiteLogo;
 import models.Vehicle;
-import models.InventoryImage;
+import models.VehicleImage;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -163,7 +167,39 @@ public class RegistrationController extends Controller {
 		Date date = new Date();
 		
 		Registration regi = Registration.findById(vm.id);
-		    	 
+		    regi.setLastTimeLoggedIn(vm.lastTimeLoggedIn);
+		    regi.setWebsite(vm.website);
+		    regi.setActiveUser(vm.activeUser);
+    	   regi.setName(vm.name);
+    	   regi.setEmail(vm.email);
+    	   regi.setPhone(vm.phone);
+    	   regi.setBusinessAdd(vm.businessAdd);
+    	   regi.setBusinessName(vm.businessName);
+    	   regi.setLocation(vm.oneLocation);
+    	   regi.setOptions(vm.options);
+    	   
+    	   regi.setRegistrationDate(date);
+    	   //regi.sendDemoFlag = 0;
+    	   
+    	   regi.update();
+   		
+    	   //String subject= "Successfully registered";
+          //String comments="Successfully registered";
+    	 //sendEmail(vm.email,subject,comments);
+    	   
+		
+		return ok();
+	}	
+	
+	public static Result updateClientUser() {
+		Form<RegisterVM> form = DynamicForm.form(RegisterVM.class).bindFromRequest();
+		RegisterVM vm=form.get();
+		Date date = new Date();
+		
+		Registration regi = Registration.findById(vm.id);
+		    regi.setLastTimeLoggedIn(vm.lastTimeLoggedIn);
+		    regi.setWebsite(vm.website);
+		    regi.setActiveUser(vm.activeUser);
     	   regi.setName(vm.name);
     	   regi.setEmail(vm.email);
     	   regi.setPhone(vm.phone);
@@ -186,6 +222,17 @@ public class RegistrationController extends Controller {
 	}	
 	
 	public static Result getRegistrList() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	List<Registration> regi = Registration.getPending();
+	    	
+	    	return ok(Json.toJson(regi));
+    	}	
+    }
+	
+	public static Result getClientList() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
@@ -247,6 +294,26 @@ public class RegistrationController extends Controller {
 public static Result getStatus(Long userId) {
 		
 		Registration regi = Registration.findById(userId);
+    	Date date = new Date();
+    	
+
+/*		DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		
+		Date curDates = null;
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		
+			Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+			String date1=df2.format(date);
+			try {
+				curDates = formatter.parse(date1);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+*/		
+    	
+    	regi.setClientsince(date);
     	
     	regi.setStatus("Live");
     	regi.update();
@@ -435,7 +502,7 @@ public static Result getStatus(Long userId) {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	List <Registration> registrationObjList = Registration.findByCarAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-		    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+		    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 		    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 		     	for(Registration vm : registrationObjList){
 		     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -447,6 +514,7 @@ public static Result getStatus(Long userId) {
 		     		vehicle.businessName=vm.businessName;
 		     		vehicle.businessAdd=vm.businessAdd;
 		     		vehicle.options=vm.options;
+		     		vehicle.oneLocation = vm.location;
 		     		if(vm.activity != null){
 			     		vehicle.activity=df.format(vm.activity);
 			     		}
@@ -466,7 +534,7 @@ public static Result getStatus(Long userId) {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	List <Registration> registrationObjList = Registration.findByMotorcyclesAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-		    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+		    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 		    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 		     	for(Registration vm : registrationObjList){
 		     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -478,6 +546,7 @@ public static Result getStatus(Long userId) {
 		     		vehicle.businessName=vm.businessName;
 		     		vehicle.businessAdd=vm.businessAdd;
 		     		vehicle.options=vm.options;
+		     		vehicle.oneLocation = vm.location;
 		     		if(vm.activity != null){
 			     		vehicle.activity=df.format(vm.activity);
 			     		}
@@ -494,7 +563,7 @@ public static Result getStatus(Long userId) {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	List <Registration> registrationObjList = Registration.findByBoatAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-		    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+		    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 		    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 		     	for(Registration vm : registrationObjList){
 		     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -506,7 +575,7 @@ public static Result getStatus(Long userId) {
 		     		vehicle.businessName=vm.businessName;
 		     		vehicle.businessAdd=vm.businessAdd;
 		     		vehicle.options=vm.options;
-		     		
+		     		vehicle.oneLocation = vm.location;
 		     		if(vm.activity != null){
 			     		vehicle.activity=df.format(vm.activity);
 			     		}
@@ -524,7 +593,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByDesignerFurnitureAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -536,6 +605,7 @@ public static Result getStatus(Long userId) {
 			     		vehicle.businessName=vm.businessName;
 			     		vehicle.businessAdd=vm.businessAdd;
 			     		vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -553,7 +623,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByRealStateAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
@@ -566,6 +636,7 @@ public static Result getStatus(Long userId) {
 			     		vehicle.businessName=vm.businessName;
 			     		vehicle.businessAdd=vm.businessAdd;
 			     		vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
 			     		//vehicle.activity=vm.activity;
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
@@ -584,7 +655,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByAirplanesAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -596,6 +667,7 @@ public static Result getStatus(Long userId) {
 			     		vehicle.businessName=vm.businessName;
 			     		vehicle.businessAdd=vm.businessAdd;
 			     		vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
 			     		if(vm.activity != null){
 			     		vehicle.activity=df.format(vm.activity);
 			     		}
@@ -613,7 +685,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByServiceProviderAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -625,6 +697,7 @@ public static Result getStatus(Long userId) {
 			     		vehicle.businessName=vm.businessName;
 			     		vehicle.businessAdd=vm.businessAdd;
 			     		vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -642,7 +715,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByLuxuryProductsAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -654,6 +727,7 @@ public static Result getStatus(Long userId) {
 			     		vehicle.businessName=vm.businessName;
 			     		vehicle.businessAdd=vm.businessAdd;
 			     		vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -671,18 +745,22 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByCarAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -700,18 +778,22 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByBoatAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -729,18 +811,22 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByMotorcyclesAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -758,18 +844,22 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByDesignerFurnitureAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -787,18 +877,22 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByAirplanesAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 			     		vehicle.activity=df.format(vm.activity);
 			     		}
@@ -816,20 +910,24 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByRealStateAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
 			     		//vehicle.activity=vm.activity;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -847,18 +945,22 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByServiceProviderAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     	}
@@ -877,18 +979,23 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByLuxuryProductsAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		//vehicle.clientsince=df.format(vm.clientsince);
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     	}
