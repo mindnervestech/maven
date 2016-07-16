@@ -8923,6 +8923,27 @@ public class Application extends Controller {
 		    	   return ok();
 		    	   
 		    }
+		 
+		 public static Result getEditFormWebsite() {
+				Form<NewFormWebsiteVM> form = DynamicForm.form(NewFormWebsiteVM.class).bindFromRequest();
+				NewFormWebsiteVM  vm=form.get();
+				
+				Date date = new Date();
+				
+				NewFormWebsite lead =  NewFormWebsite.findById(vm.id);
+				    	 
+		    	   //if(lead != null){
+		    		   lead.setTitle(vm.title);
+		    		   lead.setForm_type(vm.form_type);
+		    		   lead.setLead_name(vm.lead_name);
+		    	   //lead.setOutcome(vm.outcome);
+		    	  // }
+		    	   lead.update();
+		   		
+		    	   return ok();
+		    	   
+		    }
+		 
 		 public static Result getFormWebSiteData(){
 		    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 		    		return ok(home.render("",userRegistration));
@@ -8948,6 +8969,13 @@ public class Application extends Controller {
 		    		
 		    	}
 		    }
+		 
+		 public static Result showEditData(Long id) {
+				
+				NewFormWebsite  formname = NewFormWebsite.findById(id);
+				return ok(Json.toJson(formname)); 
+				
+			}
 		 
 		public static Result getLeadTypeList() {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
