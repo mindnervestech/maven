@@ -401,6 +401,19 @@ $scope.leadTypeAll = function(){
 			 
 			 $scope.allLeadRender = function(row){
 					console.log(row);
+					 if(row.entity.lead_name == "Request More Info"){
+						$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.lead_name);
+					}
+					else if(row.entity.lead_name == "Contact Us"){
+						$location.path('/ContactUsForm/'+"Edit"+"/"+row.entity.lead_name);
+					}
+					else if(row.entity.lead_name == "Request Appointment"){
+						$location.path('/RequestAppointmentForm/'+"Edit"+"/"+row.entity.lead_name);
+					}
+					else{
+						$location.path('/otherForm/'+"Edit"+"/"+row.entity.lead_name);
+					}
+					
 					
 				}
 			 
