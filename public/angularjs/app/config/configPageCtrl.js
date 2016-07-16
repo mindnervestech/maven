@@ -134,7 +134,7 @@ angular.module('newApp')
 		                                 },
 		                                 
 		                                 { name: 'edit', displayName: ' ', width:'30%',
-    		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil"  title="Edit"></i> ', 
+    		                                 cellTemplate:'<div><i class="glyphicon glyphicon-pencil"  ng-click="grid.appScope.ShowCreateNewForm(row)" title="Edit"></i></div> ', 
     		                                 /*ng-if="(row.entity.leadName != "Request More Info" || row.entity.leadName != "Schedule Test" || row.entity.leadName != "Trade In")"*/
 		                                 },
 		                                    ];
