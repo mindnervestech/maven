@@ -28321,7 +28321,7 @@ if(vehicles.equals("All")){
        			vm.workPhone1 = contact.workPhone1;
        			vm.email1 = contact.email1;
        			vm.phone1 = contact.phone1;
-       			
+       			findCustomCrmData(contact.contactId,vm);
     			if(contact.newsLetter == 0) {
     				vm.newsletter = false;
     			} else {
@@ -28332,6 +28332,40 @@ if(vehicles.equals("All")){
     		return ok(Json.toJson(contactsVMList));
     	}
 	}
+	
+	
+
+    public static void findCustomCrmData(Long id,ContactsVM inventoryvm){
+    	List<CustomizationCrm> custData = CustomizationCrm.findByIdList(id);
+    	List<KeyValueDataVM> keyValueList = new ArrayList<>();
+    	Map<String, String> mapCar = new HashMap<String, String>();
+    	for(CustomizationCrm custD:custData){
+    		mapCar.put(custD.keyValue, custD.value);
+    		//if(custD.displayGrid.equals("true")){
+    			//if(keyValueList.size() == 0){
+    				KeyValueDataVM keyValue = new KeyValueDataVM();
+            		keyValue.key = custD.keyValue;
+            		keyValue.value = custD.value;
+            		keyValue.displayGrid = custD.displayGrid;
+            		keyValueList.add(keyValue);
+    			//}else{
+            		/*for(KeyValueDataVM ks:keyValueList){
+    					if(!ks.equals(custD.keyValue)){
+    						KeyValueDataVM keyValue = new KeyValueDataVM();
+    	            		keyValue.key = custD.keyValue;
+    	            		keyValue.value = custD.value;
+    	            		keyValue.displayGrid = custD.displayGrid;
+    	            		keyValueList.add(keyValue);
+    					}
+    				}
+    			}*/
+    			
+    		//}
+    		
+    	}
+    	inventoryvm.customData = keyValueList;
+    	inventoryvm.customMapData = mapCar;
+    }
 	
 	public static Result updateContactsData() {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -28374,6 +28408,7 @@ if(vehicles.equals("All")){
     			contacts.setRelationships(vm.relationships);
     			contacts.setNotes(vm.notes);
     			contacts.update();
+    			saveCustomCrmData(contacts.contactId,vm);
     		return ok();
     	}
 	}
