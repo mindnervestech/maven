@@ -245,6 +245,54 @@ angular.module('newApp')
    		 
 	   $scope.updateContacts = function() {
 		   console.log("grfe");
+		   $scope.customList =[];
+		   console.log($("#autocomplete").val());
+		   console.log($scope.specification);
+		   $scope.customData.custName = $('#exCustoms_value').val();
+			if($scope.customData.custName == undefined){
+				delete $scope.customData.custName;
+			}
+			$scope.customData.address_bar = $("#autocomplete").val();
+			if($scope.customData.address_bar == undefined){
+				delete $scope.customData.address_bar;
+			}
+			$scope.customData.time_range = $("#bestTimes").val();
+			if($scope.customData.time_range == undefined){
+				delete $scope.customData.time_range;
+			}
+			
+			console.log($scope.customData);
+			console.log($scope.userFields);
+		
+		$.each($scope.customData, function(attr, value) {
+			angular.forEach($scope.userFields, function(value1, key) {
+				if(value1.key == attr){
+					if(angular.isObject(value) == true){
+						console.log(value);
+						console.log(angular.toJson(value));
+						$scope.customList.push({
+			   	  			key:attr,
+			   	  			value:angular.toJson(value),
+			   	  			savecrm:value1.savecrm,
+			   	  			displayGrid:value1.displayGrid,
+			   	  			
+						});
+					}else{
+						$scope.customList.push({
+			   	  			key:attr,
+			   	  			value:value,
+			   	  			savecrm:value1.savecrm,
+			   	  			displayGrid:value1.displayGrid,
+			   	  			
+						});
+					}
+					
+				} 
+			});
+		   });
+		console.log($scope.customList);
+		$scope.contactsDetails.customData = $scope.customList;
+		   
 		   $http.post('/updateContactsData',$scope.contactsDetails)
 			 .success(function(data) {
 				 $('#contactsModal').modal('hide');
