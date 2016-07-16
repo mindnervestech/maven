@@ -14458,7 +14458,6 @@ private static void cancelTestDriveMail(Map map) {
 	    	AuthUser uAuthUser = AuthUser.findByEmail(vm.email);
 	    	AuthUser userObj = new AuthUser();
 	    	if(uAuthUser == null){
-	    		
 	    	
 	    	
 	    	userObj.firstName = vm.firstName;
@@ -14569,7 +14568,7 @@ private static void cancelTestDriveMail(Map map) {
 	   				user = AuthUser.findById(uAuthUser.id);
 	   			}
 	   	    	
-	   	    	PhotographerHoursOfOperation php = PhotographerHoursOfOperation.findByUserAndLocation(user, Location.findById(vm.locationId));
+	   	    	PhotographerHoursOfOperation php = PhotographerHoursOfOperation.findByUserAndLocation(user, Location.findById(vm.locationId),"MavenFurniture");
 	   	    	if(php == null){
 	   	    		
 	    		   PhotographerHoursOfOperation pOperation = new PhotographerHoursOfOperation();
