@@ -344,6 +344,9 @@ $scope.leadTypeAll = function(){
 					console.log(data);
 					
 					 $("#completedPopup").modal('hide');
+					 $scope.showEditData();
+					 $scope.webSiteinfo();
+					 
 					});
 				
 				
@@ -355,10 +358,10 @@ $scope.leadTypeAll = function(){
 				$http.post("/updatenewWebSiteForm",$scope.website).success(function(data){
 					$scope.form = data;
 					console.log(data);
-					//$('#outcome').click();
-					 $("#outcome").modal('hide');
+					$('#outcome').click();
+					// $("#outcome").modal('hide');
 					});
-				
+				 	$scope.webSiteinfo();
 				
 				}
 			$scope.webSiteinfo = function(){
@@ -379,9 +382,10 @@ $scope.leadTypeAll = function(){
 				                                 { name: 'lead_name', displayName: 'Lead Name ', width:'15%' },
 				                                 { name: 'outcome', displayName: 'Outcome ', width:'15%' },
 				                                 {name:'or', displayName:'', width:'15%',
-				                                	 cellTemplate:'<div class="link-domain"ng-click="grid.appScope.outcome(row)" >Outcome  &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click=""  title="Edit"></i></div>',
+				                                	 /*cellTemplate:'<div><div class="link-domain"ng-click="grid.appScope.outcome(row)">Outcome &nbsp;&nbsp;&nbsp </div><i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i></div>',*/
+				                                	 cellTemplate:'<i class="link-domain"ng-click="grid.appScope.outcome(row)">Outcome</i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i> ',
 				                                 }, 
-				                                 {name:'ab', displayName:'LeadRender', width:'10%',
+								  {name:'ab', displayName:'LeadRender', width:'10%',
 				                                	 cellTemplate:'<div class="link-domain" ><i class="glyphicon glyphicon-edit" ng-click="grid.appScope.allLeadRender(row)"  title="Edit"></i></div>',
 				                                 }, 
 				                                 
@@ -424,6 +428,45 @@ $scope.leadTypeAll = function(){
 					$scope.rowDataVal = row.entity;
 				};
 			 
+				$scope.editData = {};
+				 $scope.updateAllFormWebsite = function(row){
+					 $('#editPopupwebsite').click();
+					 console.log(row.entity)
+					 $scope.editData = row.entity;
+					 $scope.leadTypeAllData();
+					 $scope.showEditData();
+				 }
+				 
+				/* $scope.viewRegiInit = function(){
+					 $scope.pendingUser();
+				 }*/
+				 
+				 $scope.editFormWebsite = function(website){
+					 console.log($scope.editData);
+					 $scope.website.id = $scope.editData.id;
+					 $http.post("/getEditFormWebsite",$scope.website).success(function(data){
+		         		$.pnotify({
+							    title: "Success",
+							    type:'success',
+							    text: "Update successfully",
+							});
+		         		$("#editPopupswebsite").modal('hide');
+		         		 $scope.webSiteinfo();
+		    		});
+				 }
+				
+				 $scope.showEditData = function(){
+					 $scope.website.id = $scope.editData.id;
+					 console.log($scope.website.id);
+					 console.log("ddddddddd");
+						$http.get('/showEditData/'+$scope.website.id)
+						.success(function(data){
+							//$scope.gridOptions.data=data;
+							console.log(data);
+							$scope.website = data;
+						})
+					}	
+				 
 			 $scope.leadTypeAllData = function(){
 					
 					console.log("sdfghjkp0000");
@@ -435,16 +478,18 @@ $scope.leadTypeAll = function(){
 				}
 			 
 			 $scope.showOtherFild = 0;
-			 $scope.selectOption = function(){
-					var type = $('#form_type').val();
+			 $scope.selectOption = function(type){
+					//var type = $('#form_type').val();
 					console.log(type);
 					
 					if(type == "Contact Form"){
 						$scope.showOtherFild = 1;
 						
 					}
+					
 				}
 				
+			 
 				
 		 $scope.EditUser = function(row){
 			
