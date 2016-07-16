@@ -141,6 +141,37 @@ angular.module('newApp')
    			 $http.get('/getAllContactsData').success(function(data){
    				$scope.gridOptions.data = data;
    				$scope.contactsList = data;
+   				
+   				$scope.customData = data.customMapData;
+   			 console.log($scope.customData);
+   			 $scope.contactsList.collection=data.collection;
+   			 if($scope.customData.time_range != undefined){
+   				 $("#bestTimes").val($scope.customData.time_range);
+   			 }
+   			 
+   			 if($scope.customData.address_bar != undefined){
+   				 $("#autocomplete").val($scope.customData.address_bar);
+   			 }
+   			 
+   			
+   			 
+   			 $.each($scope.customData, function(attr, value) {
+   				 var res = value.split("[");
+   					 if(res[1] != undefined){
+   						 console.log(JSON.parse(value));
+   						 $scope.customData[attr] = JSON.parse(value);
+   				   	  			
+   					 }
+   							
+   				 });
+   			 
+   			 console.log($scope.customData);
+   				
+   				
+   				
+   				
+   				
+   				
    			 });
    		 }
    		 

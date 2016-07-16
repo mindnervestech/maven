@@ -225,6 +225,9 @@ $scope.leadTypeAll = function(){
 		else if(row.entity.name == "Request Appointment"){
 			$location.path('/RequestAppointmentForm/'+"Edit"+"/"+row.entity.name);
 		}
+		else{
+			$location.path('/otherForm/'+"Edit"+"/"+row.entity.name);
+		}
 			
 	}
 
@@ -372,12 +375,16 @@ $scope.leadTypeAll = function(){
 				                                 },
 				                                 { name: 'title', displayName: 'Title', width:'20%',cellEditableCondition: false
 				                                 },
-				                                 {name:'form_type', displayName:'Form Type', width:'20%'},
-				                                 { name: 'lead_name', displayName: 'Lead Name ', width:'20%' },
+				                                 {name:'form_type', displayName:'Form Type', width:'15%'},
+				                                 { name: 'lead_name', displayName: 'Lead Name ', width:'15%' },
 				                                 { name: 'outcome', displayName: 'Outcome ', width:'15%' },
 				                                 {name:'or', displayName:'', width:'15%',
 				                                	 cellTemplate:'<div class="link-domain"ng-click="grid.appScope.outcome(row)" >Outcome  &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click=""  title="Edit"></i></div>',
 				                                 }, 
+				                                 {name:'ab', displayName:'LeadRender', width:'10%',
+				                                	 cellTemplate:'<div class="link-domain" ><i class="glyphicon glyphicon-edit" ng-click="grid.appScope.allLeadRender(row)"  title="Edit"></i></div>',
+				                                 }, 
+				                                 
 				                                 ];
 			}
 			
@@ -389,6 +396,28 @@ $scope.leadTypeAll = function(){
 					$scope.leadTypeAllData();
 					
 				}
+			 
+			 
+			 
+			 $scope.allLeadRender = function(row){
+					console.log(row);
+					 if(row.entity.lead_name == "Request More Info"){
+						$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.lead_name);
+					}
+					else if(row.entity.lead_name == "Contact Us"){
+						$location.path('/ContactUsForm/'+"Edit"+"/"+row.entity.lead_name);
+					}
+					else if(row.entity.lead_name == "Request Appointment"){
+						$location.path('/RequestAppointmentForm/'+"Edit"+"/"+row.entity.lead_name);
+					}
+					else{
+						$location.path('/otherForm/'+"Edit"+"/"+row.entity.lead_name);
+					}
+					
+					
+				}
+			 
+			 
 			 $scope.outcome = function(row){
 					console.log(row.entity);
 					$('#outcome').click();

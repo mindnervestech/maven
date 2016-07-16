@@ -28534,6 +28534,7 @@ if(vehicles.equals("All")){
     		Contacts contacts = new Contacts();
     		 contacts.setFirstName(vm.firstName);
  		    contacts.setCompanyName(vm.companyName);
+ 		   contacts.setLastName(vm.lastName);
  		    contacts.setEmail(vm.email);
  		    contacts.setPhone(vm.phone);
  		    contacts.setWebsite(vm.website);
@@ -28588,9 +28589,9 @@ if(vehicles.equals("All")){
  		   contacts.setNewsLetter(1);
     			contacts.save();
     			saveCustomCrmData(contacts.contactId,vm);
-    		} else {
+    		} /*else {
     			msg = "Email already exists";
-    		}
+    		}*/
     		 
     		return ok(msg);
     	}
