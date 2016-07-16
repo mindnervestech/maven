@@ -189,7 +189,7 @@ angular.module('newApp')
 		});
 		
 		
-		$http.get('/getVehicleById/'+$routeParams.id)
+		$http.get('/getInventoryById/'+$routeParams.id)
 		.success(function(data) {
 			console.log(data);
 			

@@ -315,7 +315,7 @@ public class AddEditInventoryController extends Controller {
 	    }
 	
 
-	    public static Result getVehicleById(Long id) {
+	    public static Result getInventoryById(Long id) {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
