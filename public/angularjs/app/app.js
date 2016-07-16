@@ -56,6 +56,12 @@ var MakeApp = angular
             controller: 'customizationFormCtrl'
         })
         
+        .when('/otherForm/:pageType/:formType', {
+            templateUrl: '/dealer/customizationForm/other.html',
+            controller: 'customizationFormCtrl'
+        })
+        
+        
         .when('/RequestAppointmentForm/:pageType/:formType', {
             templateUrl: '/dealer/customizationForm/allLead.html',
             controller: 'customizationFormCtrl'
