@@ -19,6 +19,7 @@ public class InventoryVM {
 	public String imagePath;
 	public String imgId;
 	public String stockNumber;
+	public String year;
 	
 	public List<KeyValueDataVM> customData  = new ArrayList<KeyValueDataVM>();
 	public Map<String, String> customMapData;

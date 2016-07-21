@@ -55,7 +55,6 @@ public class RequestMoreInfo extends Model {
 public String testDriveStatus;
 public String isContactusType;
 public String message;
-
 public String productId;
 	
 	
