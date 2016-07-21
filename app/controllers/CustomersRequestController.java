@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.AddCollection;
 import models.AddProduct;
 import models.AuthUser;
 import models.CustomizationForm;
@@ -84,6 +85,10 @@ public class CustomersRequestController extends Controller {
 		    		if(productInfo != null) {
 		    			vm.title = productInfo.title;
 		    			vm.price = (int) productInfo.price;
+		    			vm.description = productInfo.description;
+		    			vm.cost = String.valueOf(productInfo.cost);
+		    			AddCollection aCollection = AddCollection.findById(productInfo.collection.id);
+		    			vm.collectionName = aCollection.title;
 		    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
 		        		if(pImage!=null) {
 		        			vm.imgId = pImage.getId().toString();
@@ -156,6 +161,10 @@ public class CustomersRequestController extends Controller {
 		    		if(productInfo != null) {
 		    			vm.title = productInfo.title;
 		    			vm.price = (int) productInfo.price;
+		    			vm.description = productInfo.description;
+		    			vm.cost = String.valueOf(productInfo.cost);
+		    			AddCollection aCollection = AddCollection.findById(productInfo.collection.id);
+		    			vm.collectionName = aCollection.title;
 		    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
 		        		if(pImage!=null) {
 		        			vm.imgId = pImage.getId().toString();
