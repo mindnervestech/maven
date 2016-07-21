@@ -14,15 +14,22 @@ angular.module('newApp')
 		}
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
-		 $http.get('/getInventoryImageById/'+$routeParams.id)
+		if(userRole == "Photographer"){
+			 $http.get('/findLocation')
+				.success(function(data) {
+					console.log(data);
+					$scope.userLocationId = data;
+			$http.get('http://www.glider-autos.com:9889/getInventoryImageById/'+$routeParams.id)
 			.success(function(data) {
-				imageW = data.width;
-				imageH = data.height;
+				imageW = data.col;
+				imageH = data.row;
+				
 				$('#set-height').val(data.height);
 				$('#set-width').val(data.width);
 				$scope.image = data;
 				$('#target').css({
-					height: Math.round((727)/(data.col/data.row)) + 'px'
+					width: Math.round(727) + 'px',
+					height: Math.round(727*(imageH/imageW)) + 'px'
 				});
 				    $('#target').Jcrop({
 				        onSelect: showCoords,
@@ -31,9 +38,7 @@ angular.module('newApp')
 				        minSize:[data.width,data.height],
 				        allowSelect: false,
 				        trueSize: [data.col,data.row],
-				        aspectRatio:   data.width/data.height
-				        
-				      
+				        aspectRatio: data.width/data.height
 				    },function(){
 				    	var bounds = this.getBounds();
 				        boundx = bounds[0];
@@ -41,6 +46,42 @@ angular.module('newApp')
 				        //$('#preview')
 				    });
 			});
+				});
+		}else{
+			$http.get('/findLocation')
+			.success(function(data) {
+				console.log(data);
+				$scope.userLocationId = data;
+			
+			$http.get('/getInventoryImageById/'+$routeParams.id)
+			.success(function(data) {
+				imageW = data.col;
+				imageH = data.row;
+				
+				$('#set-height').val(data.height);
+				$('#set-width').val(data.width);
+				$scope.image = data;
+				$('#target').css({
+					width: Math.round(727) + 'px',
+					height: Math.round(727*(imageH/imageW)) + 'px'
+				});
+				    $('#target').Jcrop({
+				        onSelect: showCoords,
+				        onChange: showCoords,
+				        setSelect:   [ 0, 0, data.width, data.height ],
+				        minSize:[data.width,data.height],
+				        allowSelect: false,
+				        trueSize: [data.col,data.row],
+				        aspectRatio: data.width/data.height
+				    },function(){
+				    	var bounds = this.getBounds();
+				        boundx = bounds[0];
+				        boundy = bounds[1];
+				        //$('#preview')
+				    });
+			});
+			});
+		}
 		 
 	}
 		 function showCoords(c)
@@ -74,18 +115,29 @@ angular.module('newApp')
 			$scope.coords.imageId = $routeParams.id;
 			console.log($scope.coords);
 			
-			$http.post('/editInventoryImage',$scope.coords)
-			.success(function(data) {
-				console.log('success');
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Saved successfully",
+	if(userRole == "Photographer"){
+				
+				$http.post('http://www.glider-autos.com:9889/editInventoryImage',$scope.coords)
+				.success(function(data) {
+					$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Saved successfully",
+					});
+					$location.path('/editInventory/'+$routeParams.vid+'/'+true+"/"+$routeParams.productId);
 				});
-				console.log($routeParams.pId);
-				console.log($routeParams.id);
-				$location.path('/editInventory/'+$routeParams.pId+'/'+true+"/"+$routeParams.productId);
-			});
+				
+			}else{
+				$http.post('/editInventoryImage',$scope.coords)
+				.success(function(data) {
+					$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Saved successfully",
+					});
+					$location.path('/editInventory/'+$routeParams.vid+'/'+true+"/"+$routeParams.productId);
+				});
+			}
 		}        
 }]);
 

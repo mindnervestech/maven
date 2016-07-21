@@ -8,15 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+
 import models.AddCollection;
 import models.AddProduct;
 import models.AuthUser;
 import models.FeaturedImageConfig;
+import models.InventoryImage;
 import models.ProductImages;
 import models.Sections;
-import models.InventoryImage;
-import models.VehicleImageConfig;
 import net.coobird.thumbnailator.Thumbnails;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
@@ -362,7 +363,7 @@ public class productController extends Controller {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	File file = null;
-		    	ProductImages image = ProductImages.findById(id);
+		    	InventoryImage image = InventoryImage.findById(id);
 		    	if(type.equals("thumbnail")) {
 			    	file = new File(rootDir+image.thumbPath.replaceAll("%20"," "));
 		    	}

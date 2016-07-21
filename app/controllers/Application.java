@@ -5,7 +5,6 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -56,6 +55,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
 
 import models.ActionAdd;
+import models.AddCollection;
 import models.AddProduct;
 import models.AuthUser;
 import models.AutoPortal;
@@ -73,16 +73,16 @@ import models.CreateNewForm;
 import models.CustomerPdf;
 import models.CustomizationCrm;
 import models.CustomizationDataValue;
-import models.CustomizationInventory;
 import models.Domain;
 import models.EmailDetails;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
-import models.FollowBrand;
 import models.GroupTable;
 import models.HeardAboutUs;
 import models.HoursOfOperation;
 import models.InternalPdf;
+import models.Inventory;
+import models.InventoryImage;
 import models.LeadType;
 import models.LeadsDateWise;
 import models.Location;
@@ -121,7 +121,6 @@ import models.UserNotes;
 import models.Vehicle;
 import models.VehicleAudio;
 import models.VehicleHeader;
-import models.InventoryImage;
 import models.VehicleImageConfig;
 import models.Video;
 import models.VirtualTour;
@@ -131,7 +130,6 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.commons.net.ftp.FTPClient;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -148,10 +146,8 @@ import org.json.JSONObject;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
-import play.filters.csrf.RequireCSRFCheck;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Http;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
@@ -3354,14 +3350,14 @@ public class Application extends Controller {
 	    	int parentFlag = 0;
 	    	Long parentLeadId = 0L;
 	    	Date reqDate = null;
-	    	for(VehicleVM productVM:vm.stockWiseData){
+	    	for(InventoryVM inventoryVM:vm.stockWiseData){
 	    		if(parentFlag == 0){
 	    			
 		    	if(vm.leadType.equals("Schedule Test Drive")){
 		    		ScheduleTest sInfo = ScheduleTest.findById(Long.parseLong(vm.id));
 		    		if(sInfo != null){
-		    			sInfo.setVin(productVM.vin);
 		    			//sInfo
+		    			sInfo.setProductId(inventoryVM.productId);
 		    			sInfo.setName(vm.custName);
 		    			sInfo.setEmail(vm.custEmail);
 		    			sInfo.setPhone(vm.custNumber);
@@ -3389,7 +3385,7 @@ public class Application extends Controller {
 		    	}else if(vm.leadType.equals("Trade-In Appraisal")){
 		    		TradeIn tInfo = TradeIn.findById(Long.parseLong(vm.id));
 		    		if(tInfo != null){
-		    			tInfo.setVin(productVM.vin);
+		    			tInfo.setProductId(inventoryVM.productId);
 		    			tInfo.setFirstName(vm.custName);
 		    			tInfo.setEmail(vm.custEmail);
 		    			tInfo.setPhone(vm.custNumber);
@@ -3417,8 +3413,7 @@ public class Application extends Controller {
 		    	}else {
 		    		RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
 		    		if(rInfo != null){
-		    			rInfo.setVin(productVM.vin);
-		    			rInfo.setProductId(productVM.productId);
+		    			rInfo.setProductId(inventoryVM.productId);
 		    			rInfo.setName(vm.custName);
 		    			rInfo.setEmail(vm.custEmail);
 		    			rInfo.setPhone(vm.custNumber);
@@ -3482,8 +3477,8 @@ public class Application extends Controller {
 	    	    		//test.setScheduleDate(new Date());
 	    	    		test.setScheduleDate(reqDate);
 	    	    		test.setPreferredContact(sInfo.preferredContact);
-	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(productVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
-	    	    		test.setVin(vehicle.getVin());
+	    	    		Inventory inventory = Inventory.findById(inventoryVM.id);
+	    	    		test.setProductId(inventory.productId);
 	    	    		test.setAssignedTo(user);
 	    	    		test.setOnlineOrOfflineLeads(1);
 	    	    		//test.setVin(vehicles.get(0).getVin());
@@ -3534,11 +3529,11 @@ public class Application extends Controller {
 	    	    		map.put("email",user.getEmail());
 	    	    		map.put("confirmDate", confirmDate);
 	    	    		map.put("confirmTime",sInfo.bestTime);
-	    	    		map.put("vin", vehicle.getVin());
+	    	    		map.put("productId", inventory.getProductId());
 	    	    		map.put("uname", user.firstName+" "+user.lastName);
 	    	    		map.put("uphone", user.phone);
 	    	    		map.put("uemail", user.email);
-	    	    		makeToDo(productVM.id);
+	    	    		makeToDo(inventoryVM.id);
 	    	    		/*if(test.premiumFlag == 1){
 	    	    			sendMailpremium();
 	    	    		}*/
@@ -4574,7 +4569,7 @@ public class Application extends Controller {
 	    	    		//info.setProductId(product.getId());
 	    	    		//AddProduct product = AddProduct.findByProductIdOne(productVM.title, Location.findById(Long.valueOf(session("USER_LOCATION"))));
 	    	    		//info.setVin();
-	    	    		info.setProductId(productVM.id);
+	    	    		info.setProductId(inventoryVM.productId);
 	    	    		info.setUser(user);
 	    				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    	    		info.setIsScheduled(false);
@@ -5069,91 +5064,35 @@ public class Application extends Controller {
     		return ok(Json.toJson(true));    		
     	}
     }
-	public static Result getAllVehicles() {
+	public static Result getAllInventory() {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		int visitorCount = 0;
-	    	/*List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");*/
     		
-    		List <AddProduct> productObjList = AddProduct.findProductsNotSale(Long.valueOf(session("USER_LOCATION")));
+    		List <Inventory> productObjList = Inventory.findProductsNotSale(Long.valueOf(session("USER_LOCATION")));
     		
-	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-	    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>();
-	    	String params = "&date=last-28-days&type=visitors-list&limit=all";
-	     	for(AddProduct vm : productObjList){
+	    	ArrayList<InventoryVM> NewVMs = new ArrayList<>();
+	     	for(Inventory vm : productObjList){
 	     		
-	     		ProductImages productImg = ProductImages.findDefaultImg(vm.id);
+	     		InventoryImage productImg = InventoryImage.getDefaultImage(vm.productId);
 	     		
-	     		SpecificationVM product = new SpecificationVM();
+	     		InventoryVM product = new InventoryVM();
 	     		product.id = vm.id;
 	     		product.title=vm.getTitle();
 	     		product.description = vm.description;
-	     		product.designer = vm.designer;
-	     		product.year = vm.year;
-	     		product.primaryTitle = vm.primaryTitle;
-		    //	vehicle.price = vm.price;
-		    	//vehicle.trim_level = vm.cost;
-		    	
-		    	
+	     		product.cost = String.valueOf(vm.cost);
+	     		product.price = String.valueOf(vm.price);
+	     		product.collection = vm.collection.id;
+	     		AddCollection aCollection = AddCollection.findById(vm.collection.id);
+	     		product.collectionName = aCollection.title;
+		   
 		    	if(productImg != null){
 		    		product.imagePath = productImg.thumbPath;
-		    		product.imgId = productImg.id;
+		    		product.imgId = productImg.id.toString();
 		    	}	
-		    	
-		    	product.sold = false;
-		    	visitorCount = 0;
-		    	
-        		/*try {
-    				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
-    				for(int j=0;j<jsonArray.length();j++){
-    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
-    	    			String arr[] = data.split("/");
-    	    			if(arr.length > 5){
-    	    			  if(arr[5] != null){
-    	    			  if(arr[5].equals(vm.vin)){
-    	    					  visitorCount = visitorCount + 1;
-    	    				  }
-    	    			  }
-    	    			}
-    				}	
-    				
-    			} catch (JSONException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			}*/
-		    	
-		    	product.pageViewCount = visitorCount;
-		    	
-		    /*	List<SqlRow> rows = Vehicle.getDriveTimeAndName(product.vin);
-		    	for(SqlRow row : rows) {
-		    		Date date = (Date) row.get("confirm_date");
-		    		Date timeObj = (Date) row.get("confirm_time");
-		    		product.testDrive = df.format(date) +" ";
-		    		Calendar time = Calendar.getInstance();
-		    		if(timeObj != null){
-		    			time.setTime(timeObj);
-		    		}
-		    		
-	    			String ampm = "";
-	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
-	    				ampm = "PM";
-	    			} else {
-	    				ampm = "AM";
-	    			}
-	    			product.testDrive = product.testDrive + time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
-		    		Integer userId = (Integer) row.get("assigned_to_id");
-		    		AuthUser userData = AuthUser.findById(userId);
-		    		product.salesRep = userData.firstName +" "+userData.lastName;
-		    		break;
-		    	}*/
-		    	//vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin);
+		    
 		    	NewVMs.add(product);
 	    	}
-	     	
-	     	
-	     	
-	     	
 	     	
 	    	return ok(Json.toJson(NewVMs));
     	}	
@@ -9728,14 +9667,12 @@ public class Application extends Controller {
 	    	for(RequestMoreInfo info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		Inventory productInfo = Inventory.getByProductId(info.productId);
 	    		vm.productId = info.productId;
 	    		if(productInfo != null) {
 	    			vm.title = productInfo.title;
-	    			vm.designer = productInfo.designer;
 	    			vm.price = (int) productInfo.price;
-	    			vm.year = productInfo.year;
-	    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+	    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
 	        		if(pImage!=null) {
 	        			vm.imgId = pImage.getId().toString();
 	        		}
@@ -9805,13 +9742,11 @@ public class Application extends Controller {
 	    	for(RequestMoreInfo info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		Inventory inventoryInfo = Inventory.getByProductId(info.productId);
 	    		vm.productId = info.productId;
-	    		if(productInfo != null) {
-	    			vm.title = productInfo.title;
-	    			vm.designer = productInfo.designer;
-	    			vm.price = (int) productInfo.price;
-	    			vm.year = productInfo.year;
+	    		if(inventoryInfo != null) {
+	    			vm.title = inventoryInfo.title;
+	    			vm.price = (int) inventoryInfo.price;
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -11163,19 +11098,17 @@ public class Application extends Controller {
 				
 				RequestInfoVM rList1 = new RequestInfoVM();
 				rList1.id = rMoreInfo.id;
-	    		AddProduct product1 = AddProduct.findByIdNotSale(rMoreInfo.productId);
-	    		rList1.productId = rMoreInfo.productId;
-	    		if(product1 != null) {
-	    			rList1.title = product1.title;
-	    			rList1.designer = product1.designer;
-	    			rList1.year = product1.year;
-	    			rList1.price = (int) product1.price;
-	    			ProductImages pImage = ProductImages.findDefaultImg(product1.id);
+				Inventory productInfo = Inventory.getByProductId(rMoreInfo.productId);
+	    		vm.productId = info.productId;
+	    		if(productInfo != null) {
+	    			vm.title = productInfo.title;
+	    			vm.price = (int) productInfo.price;
+	    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
 	        		if(pImage!=null) {
-	        			rList1.imgId = pImage.getId().toString();
+	        			vm.imgId = pImage.getId().toString();
 	        		}
 	        		else {
-	        			rList1.imgId = "/assets/images/no-image.jpg";
+	        			vm.imgId = "/assets/images/no-image.jpg";
 	        		}
 	    		}
 	    		if(rMoreInfo.confirmDate != null){
@@ -11201,19 +11134,17 @@ public class Application extends Controller {
 			if(!info1.getId().equals(info.getId())){
 			RequestInfoVM rList1 = new RequestInfoVM();
 			rList1.id = info1.id;
-			AddProduct product1 = AddProduct.findByIdNotSale(info1.productId);
-    		rList1.productId = info1.productId;
-    		if(product1 != null) {
-    			rList1.title = product1.title;
-    			rList1.designer = product1.designer;
-    			rList1.year = product1.year;
-    			rList1.price = (int) product1.price;
-    			ProductImages pImage = ProductImages.findDefaultImg(product1.id);
+			Inventory productInfo = Inventory.getByProductId(info1.productId);
+    		vm.productId = info.productId;
+    		if(productInfo != null) {
+    			vm.title = productInfo.title;
+    			vm.price = (int) productInfo.price;
+    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
         		if(pImage!=null) {
-        			rList1.imgId = pImage.getId().toString();
+        			vm.imgId = pImage.getId().toString();
         		}
         		else {
-        			rList1.imgId = "/assets/images/no-image.jpg";
+        			vm.imgId = "/assets/images/no-image.jpg";
         		}
     		}
     		if(info1.confirmDate != null){
@@ -11237,19 +11168,17 @@ public class Application extends Controller {
 		for(RequestMoreInfo info1:requestMoreInfo){
 			RequestInfoVM rList1 = new RequestInfoVM();
 			rList1.id = info1.id;
-			AddProduct product1 = AddProduct.findByIdNotSale(info1.productId);
-    		rList1.productId = info1.productId;
-    		if(product1 != null) {
-    			rList1.title = product1.title;
-    			rList1.designer = product1.designer;
-    			rList1.year = product1.year;
-    			rList1.price = (int) product1.price;
-    			ProductImages pImage = ProductImages.findDefaultImg(product1.id);
+			Inventory productInfo = Inventory.getByProductId(info1.productId);
+    		vm.productId = info.productId;
+    		if(productInfo != null) {
+    			vm.title = productInfo.title;
+    			vm.price = (int) productInfo.price;
+    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
         		if(pImage!=null) {
-        			rList1.imgId = pImage.getId().toString();
+        			vm.imgId = pImage.getId().toString();
         		}
         		else {
-        			rList1.imgId = "/assets/images/no-image.jpg";
+        			vm.imgId = "/assets/images/no-image.jpg";
         		}
     		}
     		
@@ -11293,14 +11222,14 @@ public class Application extends Controller {
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		
+	    		
+	    		Inventory productInfo = Inventory.getByProductId(info.productId);
 	    		vm.productId = info.productId;
 	    		if(productInfo != null) {
 	    			vm.title = productInfo.title;
-	    			vm.designer = productInfo.designer;
 	    			vm.price = (int) productInfo.price;
-	    			vm.year = productInfo.year;
-	    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+	    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
 	        		if(pImage!=null) {
 	        			vm.imgId = pImage.getId().toString();
 	        		}
@@ -11308,6 +11237,7 @@ public class Application extends Controller {
 	        			vm.imgId = "/assets/images/no-image.jpg";
 	        		}
 	    		}
+	    		
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
@@ -11771,14 +11701,12 @@ public class Application extends Controller {
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		Inventory productInfo = Inventory.getByProductId(info.productId);
 	    		vm.productId = info.productId;
 	    		if(productInfo != null) {
 	    			vm.title = productInfo.title;
-	    			vm.designer = productInfo.designer;
 	    			vm.price = (int) productInfo.price;
-	    			vm.year = productInfo.year;
-	    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+	    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
 	        		if(pImage!=null) {
 	        			vm.imgId = pImage.getId().toString();
 	        		}
@@ -11992,14 +11920,12 @@ public class Application extends Controller {
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		Inventory productInfo = Inventory.getByProductId(info.productId);
 	    		vm.productId = info.productId;
 	    		if(productInfo != null) {
 	    			vm.title = productInfo.title;
-	    			vm.designer = productInfo.designer;
 	    			vm.price = (int) productInfo.price;
-	    			vm.year = productInfo.year;
-	    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+	    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
 	        		if(pImage!=null) {
 	        			vm.imgId = pImage.getId().toString();
 	        		}
@@ -12399,14 +12325,12 @@ public class Application extends Controller {
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		Inventory productInfo = Inventory.getByProductId(info.productId);
 	    		vm.productId = info.productId;
 	    		if(productInfo != null) {
 	    			vm.title = productInfo.title;
-	    			vm.designer = productInfo.designer;
 	    			vm.price = (int) productInfo.price;
-	    			vm.year = productInfo.year;
-	    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+	    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
 	        		if(pImage!=null) {
 	        			vm.imgId = pImage.getId().toString();
 	        		}
@@ -12497,14 +12421,12 @@ public class Application extends Controller {
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+	    		Inventory productInfo = Inventory.getByProductId(info.productId);
 	    		vm.productId = info.productId;
 	    		if(productInfo != null) {
 	    			vm.title = productInfo.title;
-	    			vm.designer = productInfo.designer;
 	    			vm.price = (int) productInfo.price;
-	    			vm.year = productInfo.year;
-	    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+	    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
 	        		if(pImage!=null) {
 	        			vm.imgId = pImage.getId().toString();
 	        		}
@@ -13753,7 +13675,7 @@ public class Application extends Controller {
     private static void saveBilndVm(LeadVM leadVM,MultipartFormData bodys,Form<LeadVM> form) {
     	 
     	 JSONArray jArr,jArr1;
-    	 List<VehicleVM> vmList = new ArrayList<>();
+    	 List<InventoryVM> vmList = new ArrayList<>();
     	 List<KeyValueDataVM> vmList1 = new ArrayList<>();
 		try {
 			form.data().get("stockWiseData");
@@ -13761,13 +13683,12 @@ public class Application extends Controller {
 			jArr = new JSONArray(form.data().get("stockWiseData"));
 			
 			for (int i=0; i < jArr.length(); i++) {
-				VehicleVM vm = new VehicleVM();
+				InventoryVM vm = new InventoryVM();
 				JSONObject jsonObj = jArr.getJSONObject(i);
 				vm.id = Long.parseLong(String.valueOf(jsonObj.get("id")));
 				vm.imgId = String.valueOf(jsonObj.get("imgId")); 
 				vm.title = String.valueOf(jsonObj.get("title"));
 				vm.price =  String.valueOf(jsonObj.get("price"));
-				vm.stockNumber = String.valueOf(jsonObj.get("stockNumber"));
 				vmList.add(vm);
 				leadVM.stockWiseData.add(vm);
 			}
@@ -17460,14 +17381,14 @@ private static void cancelTestDriveMail(Map map) {
     			
         		TradeIn info = TradeIn.findById(vm.infoId);
         		keyValue = CustomizationDataValue.findByCustomeSaveCRMLead(3L, vm.infoId);
-        		AddProduct product = AddProduct.findById(info.productId);
-	    		if(product != null){
+        		Inventory product = Inventory.getByProductId(info.productId);
+	    		/*if(product != null){
 	    			product.setSale("sale");
 	    			product.setSoldDate(date);
 	    			product.setSoldUser(user);
 	    			product.setPrice(Integer.parseInt(vm.price));
 	    			product.update();
-	    		}
+	    		}*/
         		info.setStatus("COMPLETE");
         		info.setCustZipCode(vm.custZipCode);
         		info.setEnthicity(vm.enthicity);
@@ -17501,11 +17422,11 @@ private static void cancelTestDriveMail(Map map) {
         		schedule.setEnthicity(vm.enthicity);
         		schedule.update();
         		
-        		AddProduct product = AddProduct.findById(schedule.productId);
+        		Inventory product = Inventory.getByProductId(schedule.productId);
 	    		if(product != null){
-	    			product.setSale("sale");
+	    			/*product.setSale("sale");
 	    			product.setSoldDate(date);
-	    			product.setSoldUser(user);
+	    			product.setSoldUser(user);*/
 	    			product.setPrice(Integer.parseInt(vm.price));
 	    			product.update();
 	    		}
@@ -17519,7 +17440,7 @@ private static void cancelTestDriveMail(Map map) {
         		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
         		uNotes.save();
         		otherParentChildLeadsStatus(vm,user,currDate);
-        		lostLeadsFunction(schedule.parentId, currDate);
+        		lostLeadsFunction(schedule.parentId.toString(), currDate);
     		}else {
     			/*if(vm.typeOfLead.equals("Request More Info")){
     				
@@ -17527,11 +17448,11 @@ private static void cancelTestDriveMail(Map map) {
     			LeadType lType = LeadType.findByName(vm.typeOfLead);
 	    		RequestMoreInfo info = RequestMoreInfo.findById(vm.infoId);
 	    		keyValue = CustomizationDataValue.findByCustomeSaveCRMLead(lType.id, vm.infoId);
-	    		AddProduct product = AddProduct.findById(info.productId);
+	    		Inventory product = Inventory.getByProductId(info.productId);
 	    		if(product != null){
-	    			product.setSale("sale");
+	    			/*product.setSale("sale");
 	    			product.setSoldDate(date);
-	    			product.setSoldUser(user);
+	    			product.setSoldUser(user);*/
 	    			product.setPrice(Integer.parseInt(vm.price));
 	    			product.update();
 	    		}
@@ -17782,7 +17703,7 @@ private static void cancelTestDriveMail(Map map) {
     	return ok();
     }
     
-    public static void lostLeadsFunction(Long pId, Date currDate){
+    public static void lostLeadsFunction(String pId, Date currDate){
     	List<String> emailList = new ArrayList<>();
     	List<String> vinList = new ArrayList<>();
     	List<RequestInfoVM>vinAndEmailList =new ArrayList<>();
@@ -17834,7 +17755,7 @@ private static void cancelTestDriveMail(Map map) {
 			}
 		}
 		
-		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByProductIdAndLocation(pId, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByProductIdAndLocation(pId.toString(), Location.findById(Long.parseLong(session("USER_LOCATION"))));
 		for(RequestMoreInfo rMoreInfo:rInfos){
 			if(rMoreInfo.status == null){
 				
@@ -17884,7 +17805,7 @@ private static void cancelTestDriveMail(Map map) {
 		}
 		
 		
-		List<ScheduleTest> sTests = ScheduleTest.findByProductAndLocation(pId, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+		List<ScheduleTest> sTests = ScheduleTest.findByProductAndLocation(pId.toString(), Location.findById(Long.parseLong(session("USER_LOCATION"))));
 		for(ScheduleTest scheduleTest:sTests){
 			if(scheduleTest.leadStatus == null){
 				scheduleTest.setLeadStatus("LOST");
@@ -19479,14 +19400,12 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct product = AddProduct.findByIdNotSale(info.productId);
+	    		Inventory product = Inventory.getByProductId(info.productId);
 	    		vm.productId = info.productId;
 	    		if(product != null) {
 	    			vm.title = product.title;
-	    			vm.designer = product.designer;
-	    			vm.year = product.year;
 	    			vm.price = (int) product.price;
-	    			ProductImages pImage = ProductImages.findDefaultImg(product.id);
+	    			InventoryImage pImage = InventoryImage.getDefaultImage(product.productId);
 	        		if(pImage!=null) {
 	        			vm.imgId = pImage.getId().toString();
 	        		}
@@ -19632,14 +19551,12 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(TradeIn info: tradeIns) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct product = AddProduct.findByIdNotSale(info.productId);
+	    		Inventory product = Inventory.getByProductId(info.productId);
 	    		vm.productId = info.productId;
 	    		if(product != null) {
 	    			vm.title = product.title;
-	    			vm.designer = product.designer;
-	    			vm.year = product.year;
 	    			vm.price = (int) product.price;
-	    			ProductImages pImage = ProductImages.findDefaultImg(product.id);
+	    			InventoryImage pImage = InventoryImage.getDefaultImage(product.productId);
 	        		if(pImage!=null) {
 	        			vm.imgId = pImage.getId().toString();
 	        		}
@@ -19899,14 +19816,12 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(RequestMoreInfo info: requestMoreInfos) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct product = AddProduct.findByIdNotSale(info.productId);
+	    		Inventory product = Inventory.getByProductId(info.productId);
 	    		vm.productId = info.productId;
 	    		if(product != null) {
 	    			vm.title = product.title;
-	    			vm.designer = product.designer;
-	    			vm.year = product.year;
 	    			vm.price = (int) product.price;
-	    			ProductImages pImage = ProductImages.findDefaultImg(product.id);
+	    			InventoryImage pImage = InventoryImage.getDefaultImage(product.productId);
 	        		if(pImage!=null) {
 	        			vm.imgId = pImage.getId().toString();
 	        		}
@@ -20154,14 +20069,12 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(RequestMoreInfo info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct product = AddProduct.findByIdNotSale(info.productId);
+	    		Inventory product = Inventory.getByProductId(info.productId);
 	    		vm.productId = info.productId;
 	    		if(product != null) {
 	    			vm.title = product.title;
-	    			vm.designer = product.designer;
-	    			vm.year = product.year;
 	    			vm.price = (int) product.price;
-	    			ProductImages pImage = ProductImages.findDefaultImg(product.id);
+	    			InventoryImage pImage = InventoryImage.getDefaultImage(product.productId);
 	        		if(pImage!=null) {
 	        			vm.imgId = pImage.getId().toString();
 	        		}
@@ -20303,14 +20216,12 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct product = AddProduct.findByIdNotSale(info.productId);
+	    		Inventory product = Inventory.getByProductId(info.productId);
 	    		vm.productId = info.productId;
 	    		if(product != null) {
 	    			vm.title = product.title;
-	    			vm.designer = product.designer;
-	    			vm.year = product.year;
 	    			vm.price = (int) product.price;
-	    			ProductImages pImage = ProductImages.findDefaultImg(product.id);
+	    			InventoryImage pImage = InventoryImage.getDefaultImage(product.productId);
 	        		if(pImage!=null) {
 	        			vm.imgId = pImage.getId().toString();
 	        		}
@@ -21540,11 +21451,10 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(RequestMoreInfo info: requestData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct product = AddProduct.findById(info.productId);
+	    		Inventory product = Inventory.getByProductId(info.productId);
 	    		vm.vin = info.vin;
 	    		if(product != null) {
 	    			vm.title = product.title;
-	    			vm.designer = product.designer;
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -21705,11 +21615,10 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(RequestMoreInfo info: requestData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct product = AddProduct.findById(info.productId);
+	    		Inventory product = Inventory.getByProductId(info.productId);
 	    		vm.vin = info.vin;
 	    		if(product != null) {
 	    			vm.title = product.title;
-	    			vm.designer = product.designer;
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -25866,19 +25775,19 @@ if(vehicles.equals("All")){
     }
     
     public static Result getStockDetails(String productName) {
-    	List<AddProduct> product = AddProduct.findByProductId(productName,Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    	List<Inventory> product = Inventory.findByProductTitle(productName,Location.findById(Long.valueOf(session("USER_LOCATION"))));
     	Map map = new HashMap();
     	if(product.size()>0) {
     		map.put("isData", true);
     		map.put("title", product.get(0).getTitle());
-    		map.put("year", product.get(0).getYear());
+    		map.put("cost", product.get(0).getCost());
     		map.put("price", product.get(0).getPrice());
-    		map.put("primaryTitle", product.get(0).getPrimaryTitle());
-    		map.put("designer", product.get(0).getDesigner());
+    		map.put("collectionId", product.get(0).getCollection().getId());
+    		AddCollection addCollection = AddCollection.findById(product.get(0).getCollection().getId());
+    		map.put("collectionName", addCollection.getTitle());
+    		map.put("productId", product.get(0).getProductId());
     		map.put("id", product.get(0).getId());
-    		map.put("productId", product.get(0).getId());
-    		//map.put("vehicleImage", vehicles.get(0).getDrivetrain());
-    		ProductImages productImage = ProductImages.findDefaultImg(product.get(0).getId());
+    		InventoryImage productImage = InventoryImage.getDefaultImage(product.get(0).getProductId());
     		if(productImage!=null) {
     			map.put("imgId",productImage.getId());
     		}
@@ -26872,9 +26781,9 @@ if(vehicles.equals("All")){
     	int parentFlag = 0;
     	long parentLeadId = 0L;
     	
-    	List<Vehicle> vehicles = Vehicle.findByMakeAndModel(makestr, model);
+    	//List<Vehicle> vehicles = Vehicle.findByMakeAndModel(makestr, model);
     	if(!leadVM.leadType.equals("2") && !leadVM.leadType.equals("3")) {
-    		for(VehicleVM vehicleVM:leadVM.stockWiseData){
+    		for(InventoryVM inventoryVM:leadVM.stockWiseData){
 	    		RequestMoreInfo info = new RequestMoreInfo();
 	    		info.setIsReassigned(true);
 	    		info.setLeadStatus(null);
@@ -26884,8 +26793,8 @@ if(vehicles.equals("All")){
 	    		info.setCustZipCode(leadVM.custZipCode);
 	    		info.setEnthicity(leadVM.enthicity);
 	    		info.setAssignedTo(user);
-	    		AddProduct product = AddProduct.findById(vehicleVM.id);
-	    		info.setProductId(product.getId());
+	    		Inventory product = Inventory.findById(inventoryVM.id);
+	    		info.setProductId(product.productId);
 	    		info.setUser(user);
 				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		info.setIsScheduled(false);
@@ -26896,9 +26805,9 @@ if(vehicles.equals("All")){
 	    		info.setOnlineOrOfflineLeads(0);
 	    		info.setRequestDate(new Date());
 	    		info.setRequestTime(new Date());
-	    		/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    			PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    		if(pLeads != null){
-	    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
+	    				if(Integer.parseInt(pLeads.premium_amount) <= product.price){
 	    					info.setPremiumFlag(1);
 	    				}else{
 	    					info.setPremiumFlag(0);
@@ -26914,7 +26823,7 @@ if(vehicles.equals("All")){
 	    		}else{
 					info.setPremiumFlag(0);
 						info.setAssignedTo(user);
-				}*/
+				}
 	    		info.setIsContactusType(leadVM.leadType);
 	    		if(parentFlag == 1){
 	    			info.setParentId(parentLeadId);
@@ -26952,7 +26861,7 @@ if(vehicles.equals("All")){
     		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     	
     		
-    		for(VehicleVM vehicleVM:leadVM.stockWiseData){
+    		for(InventoryVM inventoryVM:leadVM.stockWiseData){
 	    		ScheduleTest test = new ScheduleTest();
 	    		
 	    		test.setIsReassigned(true);
@@ -26983,8 +26892,8 @@ if(vehicles.equals("All")){
 	    		test.setScheduleDate(new Date());
 	    		test.setScheduleTime(new Date());
 	    		test.setPreferredContact(leadVM.prefferedContact);
-	    		AddProduct product = AddProduct.findById(vehicleVM.id);
-	    		test.setProductId(product.getId());
+	    		Inventory product = Inventory.getByProductId(inventoryVM.productId);
+	    		test.setProductId(product.productId);
 	    		test.setAssignedTo(user);
 	    		test.setPremiumFlag(0);
 	    		test.setOnlineOrOfflineLeads(0);
@@ -27068,7 +26977,7 @@ if(vehicles.equals("All")){
     			buffer.deleteCharAt(buffer.length()-1);
     		}
     		
-    		for(VehicleVM vehicleVM:leadVM.stockWiseData){
+    		for(InventoryVM inventoryVM:leadVM.stockWiseData){
     			
     			TradeIn tradeIn = new TradeIn();
         		tradeIn.setAccidents(leadVM.accidents);
@@ -27113,8 +27022,8 @@ if(vehicles.equals("All")){
         		tradeIn.setUser(user);
     			tradeIn.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		tradeIn.setVehiclenew(leadVM.vehiclenew);
-        		AddProduct product = AddProduct.findById(vehicleVM.id);
-        		tradeIn.setProductId(product.getId());
+        		Inventory product = Inventory.findById(inventoryVM.id);
+        		tradeIn.setProductId(product.getProductId());
         		tradeIn.setAssignedTo(user);
         		tradeIn.setPremiumFlag(0);
         		tradeIn.setOnlineOrOfflineLeads(0);

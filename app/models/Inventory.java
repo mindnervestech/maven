@@ -21,17 +21,11 @@ public class Inventory extends Model {
 	public double cost;
 	public String productId;
 	
-	
 	@ManyToOne
 	public Location locations;
 	
-	
 	@ManyToOne
 	public AddCollection collection;
-	
-	
-	
-	
 	
 	public Long getId() {
 		return id;
@@ -105,6 +99,14 @@ public class Inventory extends Model {
 	
 	public static Inventory getByProductId(String productId) {
 		return find.where().eq("productId", productId).findUnique();
+	}
+	
+	public static List<Inventory> findByProductTitle(String productTitle, Location locations) {
+		return find.where().eq("title", productTitle).eq("locations", locations).findList();
+	}
+	
+	public static List<Inventory> findProductsNotSale(Long locations) {
+		return find.where().eq("locations.id", locations).findList();
 	}
 	
 	public static List<Inventory> getAllAccessories(AddCollection collection) {

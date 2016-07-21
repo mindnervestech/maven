@@ -34,7 +34,7 @@ public class ScheduleTest extends Model {
 	public Date confirmDate;
 	public Date confirmTime;
 	public Date confirmEndTime;
-	public Long productId;
+	public String productId;
 	public String leadStatus;
 	public String reason;
 	public String declineUser;
@@ -90,10 +90,10 @@ public class ScheduleTest extends Model {
 		this.confirmEndTime = confirmEndTime;
 	}
 	
-	public Long getProductId() {
+	public String getProductId() {
 		return productId;
 	}
-	public void setProductId(Long productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 	public String getTestDriveStatus() {
@@ -580,7 +580,7 @@ public class ScheduleTest extends Model {
 		return find.where().eq("vin", vin).eq("leadStatus", null).eq("locations", location).findList();
 	}
 	
-	public static List<ScheduleTest>  findByProductAndLocation(Long pId,Location location) {
+	public static List<ScheduleTest>  findByProductAndLocation(String pId,Location location) {
 		return find.where().eq("productId", pId).eq("leadStatus", null).eq("locations", location).findList();
 	}
 	

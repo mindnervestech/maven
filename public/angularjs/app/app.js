@@ -27,6 +27,9 @@ var MakeApp = angular
     'angucomplete-alt',
     'builder',
     'builder.components',
+    'starter.apiservice',
+    'app.apiserviceUser',
+    'app.apiserviceAddEditInventory',
     //'validator.rules',
     //'textAngular',
     'nvd3',
@@ -76,10 +79,11 @@ var MakeApp = angular
             controller: 'customizationFormCtrl'
         })
         
-        .when('/addInventory', {
+	.when('/addInventory', {
             templateUrl: '/dealer/addInventory/addInventory.html',
             controller: 'addInventoryCtrl'
         })
+        
         .when('/homePage', {
             templateUrl: '/dealer/homePage/homePage.html',
             controller: 'HomePageCtrl'
@@ -494,8 +498,8 @@ var MakeApp = angular
             controller: 'EditInventoryCtrl'
         })
        
-         .when('/viewInventory', {
-            templateUrl: '/dealer/viewVehicle/viewInventory.html',
+.when('/viewInventory', {
+            templateUrl: '/dealer/viewInventory/viewInventory.html',
             controller: 'viewInventoryCtrl'
         })
         

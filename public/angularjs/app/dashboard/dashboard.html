@@ -5676,10 +5676,10 @@ float: right !important;
 															    	</angucomplete-alt>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="stockRp.designer" disabled="disabled" placeholder="Designer"/>
+								                    				<input type="text" ng-model="stockRp.collectionName" disabled="disabled" placeholder="collection"/>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="stockRp.year" disabled="disabled" placeholder="Year"/>
+								                    				<input type="text" ng-model="stockRp.price" disabled="disabled" placeholder="price"/>
 								                    			</div>
 								                    		</div>
 								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;" ng-if="stockRp.id != null">
@@ -5689,10 +5689,9 @@ float: right !important;
 								    								</div>
 								    								<div class="col-md-7" style="padding: 0px;">
 								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockRp.title}}</label>
-								    										<label class="col-md-6">designer:</label><label class="col-md-6">{{stockRp.designer}}</label>
+								    										<label class="col-md-6">productId:</label><label class="col-md-6" ng-if="stockRp.productId != null">{{stockRp.productId}}</label><label class="col-md-6" ng-if="stockRp.productId == null">_</label>
+								    										<label class="col-md-6">collection:</label><label class="col-md-6" ng-if="stockRp.collectionName != null">{{stockRp.collectionName}}</label><label class="col-md-6" ng-if="stockRp.collectionName == null">_</label>
 								    										<label class="col-md-6">price:</label><label class="col-md-6" ng-if="stockRp.price != null">{{stockRp.price}}</label><label class="col-md-6" ng-if="stockRp.price == null">_</label>
-								    										 <label class="col-md-6">Primary Title:</label><label class="col-md-6" ng-if="stockRp.primaryTitle != null">{{stockRp.primaryTitle}}</label><label class="col-md-6" ng-if="stockRp.primaryTitle == null">_</label>
-								    									     <label class="col-md-6">year:</label><label class="col-md-6" ng-if="stockRp.year != null">{{stockRp.year}}</label><label class="col-md-6" ng-if="stockRp.year == null">_</label>
 								    									     <label class="col-md-6">-</label><label class="col-md-6">_</label>
 								    								</div>
 								                    				
@@ -5735,10 +5734,9 @@ float: right !important;
 								    								</div>
 								    								<div class="col-md-7" style="padding: 0px;">
 								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{childL.title}}</label>
-								    										<label class="col-md-6">designer:</label><label class="col-md-6">{{childL.designer}}</label>
+								    										<label class="col-md-6">productId:</label><label class="col-md-6">{{childL.productId}}</label>
+								    										<label class="col-md-6">collection:</label><label class="col-md-6">{{childL.collectionName}}</label>
 								    										<label class="col-md-6">price:</label><label class="col-md-6" ng-if="childL.price != null">{{stockRp.price}}</label><label class="col-md-6" ng-if="childL.price == null">_</label>
-								    										 <label class="col-md-6">Primary Title:</label><label class="col-md-6" ng-if="childL.primaryTitle != null">{{stockRp.primaryTitle}}</label><label class="col-md-6" ng-if="childL.primaryTitle == null">_</label>
-								    									     <label class="col-md-6">year:</label><label class="col-md-6" ng-if="childL.year != null">{{stockRp.year}}</label><label class="col-md-6" ng-if="childL.year == null">_</label>
 								    									     <label class="col-md-6">-</label><label class="col-md-6">_</label>
 								    								</div>
 								                    				
@@ -5760,9 +5758,10 @@ float: right !important;
 								                    		
 								                    	</div>
 								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;">
-								                    	<a ng-click="pushRecord()">ADD ITEM</a>
+								                    	
 								                    	</div>
 								                    </div>
+								                    <a ng-click="pushRecord()">ADD ITEM1</a>
 								                    	<div class="col-md-12" style="margin-top: 32px;">
 								                				<formly-form model="customData" fields="userFields">
   																</formly-form>
@@ -8553,230 +8552,7 @@ float: right !important;
 								            </div>
 								        </div>
 								    </div>
-								    <div class="modal fade" id="createLeadPopup" tabindex="-1" role="dialog" aria-hidden="true" style="top:-75px;">
-								        <div class="modal-dialog" style="width: 850px;">
-								            <div class="modal-content">
-								                <form ng-submit="createLead()">
-								                <div class="modal-header">
-								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-								                    <h2 class="modal-title" style="font-size: 25px;"><strong>CREATE NEW LEAD</strong></h2>
-								                </div>
-								                <div class="modal-body">
-								                	
-								                    <div class="row">
-								                    	<div class="col-md-12">
-								                    		<div class="" ng-show="isInValid" style="color: red;">
-								                    			Please provide all mandatory fields.
-								                    		</div>
-								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.mainTitle}}</strong></h3>
-								                    		<div class="col-md-6">
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				
-								                    				<angucomplete-alt id="ex1"
-														              placeholder="Search Name"
-														              pause="10"
-														              selected-object="selectedObj"
-														              local-data="searchList"
-														              search-fields="fullName"
-														              title-field="fullName"
-														              minlength="3"
-														              focus-out="focusOut()"
-														              input-class="form-control form-control-small">
-															    </angucomplete-alt>
-															    
-								                    			</div>
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.custNumber" placeholder="PHONE NUMBER" required/> <span style="color: red;">*</span>
-								                    			</div>
-								                    			
-								                    		</div>
-								                    		<div class="col-md-6">
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.custEmail" placeholder="EMAIL" required/> <span style="color: red;">*</span>
-								                    			</div>	
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.custZipCode" placeholder="ZIP CODE" required/> <span style="color: red;">*</span>
-								                    			</div>
-								                    		</div>	
-								                    	</div>
-								                    </div>
-								                    <div class="row">
-								                    	<div class="col-md-12" ng-repeat="stockRp in stockWiseData">
-								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.searchTitle}}<span style="color: red;">*</span></strong></h3>
-								                    		<div class="col-md-4">
-								                    			<div class="col-md-12"><label>{{editInput.searchSubTitle}}</label></div>
-								                    			<div ng-show="isStockError" style="color: red;">Furniture Not Found.</div>
-								                    			<!-- <div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="stockRp.stockNumber" ng-blur="getStockDetails(stockRp)"/>
-								                    			</div> -->
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<angucomplete-alt id="vinSearch1"
-														              placeholder="Title"
-														              pause="10"
-														              selected-object="selectedVin"
-														              local-data="prodSearchList"
-														              search-fields="title"
-														              title-field="title"
-														              minlength="3"
-														              focus-Out="focusIn11($index, stockRp)"
-														              input-class="form-control form-control-small">
-															    	</angucomplete-alt>
-								                    			</div>
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="stockRp.designer" disabled="disabled" placeholder="Designer"/>
-								                    			</div>
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="stockRp.year" disabled="disabled" placeholder="Year"/>
-								                    			</div>
-								                    		</div>
-								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;" ng-if="stockRp.id != null">
-								                    			<div>
-								                    				<div class="col-md-5" style="padding-left: 0px;">
-								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
-								    									<img class="preview" style="margin-top: 7px;width: 174px;height: 121px;" src="/getImage/{{stockRp.imgId}}/thumbnail">
-								    								</div>
-								    								<div class="col-md-7" style="padding: 0px;">
-								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockRp.title}}</label>
-								    										<label class="col-md-6">designer:</label><label class="col-md-6">{{stockRp.designer}}</label>
-								    										<label class="col-md-6">price:</label><label class="col-md-6" ng-if="stockRp.price != null">{{stockRp.price}}</label><label class="col-md-6" ng-if="stockRp.price == null">_</label>
-								    										 <label class="col-md-6">Primary Title:</label><label class="col-md-6" ng-if="stockRp.primaryTitle != null">{{stockRp.primaryTitle}}</label><label class="col-md-6" ng-if="stockRp.primaryTitle == null">_</label>
-								    									     <label class="col-md-6">year:</label><label class="col-md-6" ng-if="stockRp.year != null">{{stockRp.year}}</label><label class="col-md-6" ng-if="stockRp.year == null">_</label>
-								    										<!-- <label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="stockRp.engine != null">{{stockRp.engine}}</label><label class="col-md-6" ng-if="stockRp.engine == null">_</label>  -->
-								    								</div>
-								                    				
-								                    			</div>
-								                    			
-								                    		</div> 
-								                    		<div class="col-md-1" style="font-size: 29px;margin-top: 54px;" ng-show="stockWiseData.length  > 1">
-								                    			<a ng-click="removeLead($index)"><span class="glyphicon glyphicon-trash"></span></a>
-								                    		</div>
-								                    		
-								                    	</div>
-								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;" ng-if="stockWiseData[0].id != null">
-								                    	<a ng-click="pushRecord()">ADD ITEM</a>
-								                    	</div>
-								                    </div>
-								                    <div>
-								                    	<!-- <div class="col-md-12">
-								                    		<div class="col-md-5" style="width: 50%;">
-								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>Ethnicity <span style="color: red;">*</span></strong></h3>
-								                    			<div>
-								                    				<select placeholder="TYPE OF REQUEST" ng-model="lead.enthicity">
-								                    					<option value="White">White</option>
-								                    					<option value="Hispanic or Latino">Hispanic or Latino</option>
-								                    					<option value="Black or African American">Black or African American</option>
-								                    					<option value="Native American or American Indian">Native American or American Indian</option>
-								                    					<option value="Asian / Pacific Islander">Asian / Pacific Islander</option>
-								                    					<option value="Other">Other</option>
-								                    				</select>
-								                    			</div>
-								                    		</div>
-								                    	</div> -->
-								                    	<div class="col-md-12">
-								                    		 <div class="col-md-5" style="width: 50%;">
-								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.leadTypeTitle}}<span style="color: red;">*</span></strong></h3>
-								                    			<div>
-								                    				<select placeholder="TYPE OF REQUEST" ng-model="lead.leadType">
-								                    					<option ng-repeat="lType in leadList" value="{{lType.id}}">{{lType.leadName}}</option>
-								                    				</select>
-								                    			</div>
-								                    		</div> 
-								                    		 <div class="col-md-5" ng-show="lead.leadType==2">
-									                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST DAY</strong> <span style="color: red;">*</span></h3>
-								                    			<div>
-																	<div>
-																		<input data-provide="datepicker" id="leadBestDay" ng-model="lead.bestDay" name="bestDay" class="form-control input-sm" data-date-format="dd-mm-yyyy">
-																	</div>
-																</div>
-								                    		</div> 
-								                    	</div>
-								                    	<div class="col-md-12">
-								                    		<div class="col-md-5" style="width: 50%;">
-								                    		</div>
-								                    		<div class="col-md-5" ng-show="lead.leadType==2">
-								                    			<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST TIME</strong> <span style="color: red;">*</span></h3>
-								                    			<div>
-																	<div>
-																		<div class="prepend-icon">
-								                              				<input type="text" name="timepicker" ng-model="lead.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="leadBestTime">
-								                              				<i class="icon-clock"></i>
-								                            			</div>
-																	</div>
-																</div>
-								                    		</div>
-								                    	</div>
-								                    	<div class="col-md-12" style="margin-top: 32px;">
-								                				<formly-form model="customData" fields="userFields">
-  																</formly-form>
-								                    	</div>	
-								                    	<!-- <div class="row">
-                          									<div class="col-sm-12">
-									                            <div class="form-group">
-									                             <div class="col-md-5">
-									                             </div>
-									                             <div class="col-md-5">
-									                             <div id="meetingnature1">
-									                              </div>
-									                             </div>
-									                              
-									                            </div>
-									                          </div>
-									                         </div> -->
-								                    </div>
-								                    <!-- <div>
-								                    	<div class="col-md-12">
-								                    		
-								                    		<div class="col-md-5" style="width: 50%;">
-								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>HOW DID HE/SHE HEAR ABOUT US?</strong></h3>
-								                    			<div>
-								                    				<select ng-model="lead.hearedFrom">
-								                    					<option ng-repeat="item in heardAboutUs" value="{{item.value}}">{{item.value}}</option>
-								                    				</select>
-								                    			</div>
-								                    		</div>
-								                    		<div class="col-md-5" ng-show="lead.leadType==2">
-								                    			<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST TIME</strong> <span style="color: red;">*</span></h3>
-								                    			<div>
-																	<div>
-																		<div class="prepend-icon">
-								                              				<input type="text" name="timepicker" ng-model="lead.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="leadBestTime">
-								                              				<i class="icon-clock"></i>
-								                            			</div>
-																	</div>
-																</div>
-								                    		</div>
-								                    	</div>
-								                    	<div class="col-md-12" ng-if="lead.hearedFrom=='Other'" style="margin: 5px 0 0 10px;">
-								                    				<input type="text" id="othertxt" ng-model="othertxt" placeholder="HEAR ABOUT US?"/>
-								                    	</div>
-								                    </div> -->
-								                  <!--   <div>
-								                    	<div class="col-md-12">
-								                    		<div class="col-md-5" style="width: 50%;">
-								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>HOW DID HE/SHE CONTACTED US? <span style="color: red;">*</span></strong></h3>
-								                    			<div>
-								                    				<select ng-model="lead.contactedFrom">
-								                    					<option value="">Select</option>
-								                    					<option value="Phone">Phone</option>
-								                    					<option value="Walk In">Walk In</option>
-								                    					<option value="Email">Email</option>
-								                    					<option value="Facebook">Facebook</option>
-								                    					<option value="Online">Online</option>
-								                    				</select>
-								                    			</div>
-								                    		</div>
-								                    		
-								                    	</div>
-								                    </div> -->
-								                    
-								                </div>
-								                <div class="modal-footer">
-								                    <button type="submit" class="btn btn-primary btn-embossed" id="lead-first-step">{{lead.leadType=='3'?'NEXT':'SUBMIT'}}</button>
-								                </div>
-								                </form>
-								            </div>
-								        </div>
-								    </div>
+								    
 								    <div class="modal fade" id="tradeInApp" role="dialog" style="top:-75px;">
     									<div class="modal-dialog" style="width: 961px">
      										<form method="post" ng-submit="makeLead()">
@@ -9777,6 +9553,229 @@ float: right !important;
             </div>
         </div>
     </div>
+<div class="modal fade" id="createLeadPopup" tabindex="-1" role="dialog" aria-hidden="true" style="top:-75px;">
+								        <div class="modal-dialog" style="width: 850px;">
+								            <div class="modal-content">
+								                <form ng-submit="createLead()">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h2 class="modal-title" style="font-size: 25px;"><strong>CREATE NEW LEAD</strong></h2>
+								                </div>
+								                <div class="modal-body">
+								                	
+								                    <div class="row">
+								                    	<div class="col-md-12">
+								                    		<div class="" ng-show="isInValid" style="color: red;">
+								                    			Please provide all mandatory fields.
+								                    		</div>
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.mainTitle}}</strong></h3>
+								                    		<div class="col-md-6">
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				
+								                    				<angucomplete-alt id="ex1"
+														              placeholder="Search Name"
+														              pause="10"
+														              selected-object="selectedObj"
+														              local-data="searchList"
+														              search-fields="fullName"
+														              title-field="fullName"
+														              minlength="3"
+														              focus-out="focusOut()"
+														              input-class="form-control form-control-small">
+															    </angucomplete-alt>
+															    
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="lead.custNumber" placeholder="PHONE NUMBER" required/> <span style="color: red;">*</span>
+								                    			</div>
+								                    			
+								                    		</div>
+								                    		<div class="col-md-6">
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="lead.custEmail" placeholder="EMAIL" required/> <span style="color: red;">*</span>
+								                    			</div>	
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="lead.custZipCode" placeholder="ZIP CODE" required/> <span style="color: red;">*</span>
+								                    			</div>
+								                    		</div>	
+								                    	</div>
+								                    </div>
+								                    <div class="row">
+								                    	<div class="col-md-12" ng-repeat="stockRp in stockWiseData">
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.searchTitle}}<span style="color: red;">*</span></strong></h3>
+								                    		<div class="col-md-4">
+								                    			<div class="col-md-12"><label>{{editInput.searchSubTitle}}</label></div>
+								                    			<div ng-show="isStockError" style="color: red;">Furniture Not Found.</div>
+								                    			<!-- <div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="stockRp.stockNumber" ng-blur="getStockDetails(stockRp)"/>
+								                    			</div> -->
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<angucomplete-alt id="vinSearch1"
+														              placeholder="Title"
+														              pause="10"
+														              selected-object="selectedVin"
+														              local-data="prodSearchList"
+														              search-fields="title"
+														              title-field="title"
+														              minlength="3"
+														              focus-Out="focusIn11($index, stockRp)"
+														              input-class="form-control form-control-small">
+															    	</angucomplete-alt>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="stockRp.collectionName" disabled="disabled" placeholder="collection"/>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="stockRp.price" disabled="disabled" placeholder="price"/>
+								                    			</div>
+								                    		</div>
+								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;" ng-if="stockRp.id != null">
+								                    			<div>
+								                    				<div class="col-md-5" style="padding-left: 0px;">
+								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
+								    									<img class="preview" style="margin-top: 7px;width: 174px;height: 121px;" src="/getImage/{{stockRp.imgId}}/thumbnail">
+								    								</div>
+								    								<div class="col-md-7" style="padding: 0px;">
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockRp.title}}</label>
+								    										<label class="col-md-6">productId:</label><label class="col-md-6" ng-if="stockRp.productId != null">{{stockRp.productId}}</label><label class="col-md-6" ng-if="stockRp.productId == null">_</label>
+								    										<label class="col-md-6">collection:</label><label class="col-md-6" ng-if="stockRp.collectionName != null">{{stockRp.collectionName}}</label><label class="col-md-6" ng-if="stockRp.collectionName == null">_</label>
+								    										<label class="col-md-6">price:</label><label class="col-md-6" ng-if="stockRp.price != null">{{stockRp.price}}</label><label class="col-md-6" ng-if="stockRp.price == null">_</label>
+								    									     <label class="col-md-6">-</label><label class="col-md-6">_</label>
+								    								</div>
+								                    				
+								                    			</div>
+								                    			
+								                    		</div> 
+								                    		<div class="col-md-1" style="font-size: 29px;margin-top: 54px;" ng-show="stockWiseData.length  > 1">
+								                    			<a ng-click="removeLead($index)"><span class="glyphicon glyphicon-trash"></span></a>
+								                    		</div>
+								                    		
+								                    	</div>
+								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;" ng-if="stockWiseData[0].id != null">
+								                    	<a ng-click="pushRecord()">ADD ITEM</a>
+								                    	</div>
+								                    </div>
+								                    <div>
+								                    	<!-- <div class="col-md-12">
+								                    		<div class="col-md-5" style="width: 50%;">
+								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>Ethnicity <span style="color: red;">*</span></strong></h3>
+								                    			<div>
+								                    				<select placeholder="TYPE OF REQUEST" ng-model="lead.enthicity">
+								                    					<option value="White">White</option>
+								                    					<option value="Hispanic or Latino">Hispanic or Latino</option>
+								                    					<option value="Black or African American">Black or African American</option>
+								                    					<option value="Native American or American Indian">Native American or American Indian</option>
+								                    					<option value="Asian / Pacific Islander">Asian / Pacific Islander</option>
+								                    					<option value="Other">Other</option>
+								                    				</select>
+								                    			</div>
+								                    		</div>
+								                    	</div> -->
+								                    	<div class="col-md-12">
+								                    		 <div class="col-md-5" style="width: 50%;">
+								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.leadTypeTitle}}<span style="color: red;">*</span></strong></h3>
+								                    			<div>
+								                    				<select placeholder="TYPE OF REQUEST" ng-model="lead.leadType">
+								                    					<option ng-repeat="lType in leadList" value="{{lType.id}}">{{lType.leadName}}</option>
+								                    				</select>
+								                    			</div>
+								                    		</div> 
+								                    		 <div class="col-md-5" ng-show="lead.leadType==2">
+									                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST DAY</strong> <span style="color: red;">*</span></h3>
+								                    			<div>
+																	<div>
+																		<input data-provide="datepicker" id="leadBestDay" ng-model="lead.bestDay" name="bestDay" class="form-control input-sm" data-date-format="dd-mm-yyyy">
+																	</div>
+																</div>
+								                    		</div> 
+								                    	</div>
+								                    	<div class="col-md-12">
+								                    		<div class="col-md-5" style="width: 50%;">
+								                    		</div>
+								                    		<div class="col-md-5" ng-show="lead.leadType==2">
+								                    			<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST TIME</strong> <span style="color: red;">*</span></h3>
+								                    			<div>
+																	<div>
+																		<div class="prepend-icon">
+								                              				<input type="text" name="timepicker" ng-model="lead.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="leadBestTime">
+								                              				<i class="icon-clock"></i>
+								                            			</div>
+																	</div>
+																</div>
+								                    		</div>
+								                    	</div>
+								                    	<div class="col-md-12" style="margin-top: 32px;">
+								                				<formly-form model="customData" fields="userFields">
+  																</formly-form>
+								                    	</div>	
+								                    	<!-- <div class="row">
+                          									<div class="col-sm-12">
+									                            <div class="form-group">
+									                             <div class="col-md-5">
+									                             </div>
+									                             <div class="col-md-5">
+									                             <div id="meetingnature1">
+									                              </div>
+									                             </div>
+									                              
+									                            </div>
+									                          </div>
+									                         </div> -->
+								                    </div>
+								                    <!-- <div>
+								                    	<div class="col-md-12">
+								                    		
+								                    		<div class="col-md-5" style="width: 50%;">
+								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>HOW DID HE/SHE HEAR ABOUT US?</strong></h3>
+								                    			<div>
+								                    				<select ng-model="lead.hearedFrom">
+								                    					<option ng-repeat="item in heardAboutUs" value="{{item.value}}">{{item.value}}</option>
+								                    				</select>
+								                    			</div>
+								                    		</div>
+								                    		<div class="col-md-5" ng-show="lead.leadType==2">
+								                    			<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST TIME</strong> <span style="color: red;">*</span></h3>
+								                    			<div>
+																	<div>
+																		<div class="prepend-icon">
+								                              				<input type="text" name="timepicker" ng-model="lead.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="leadBestTime">
+								                              				<i class="icon-clock"></i>
+								                            			</div>
+																	</div>
+																</div>
+								                    		</div>
+								                    	</div>
+								                    	<div class="col-md-12" ng-if="lead.hearedFrom=='Other'" style="margin: 5px 0 0 10px;">
+								                    				<input type="text" id="othertxt" ng-model="othertxt" placeholder="HEAR ABOUT US?"/>
+								                    	</div>
+								                    </div> -->
+								                  <!--   <div>
+								                    	<div class="col-md-12">
+								                    		<div class="col-md-5" style="width: 50%;">
+								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>HOW DID HE/SHE CONTACTED US? <span style="color: red;">*</span></strong></h3>
+								                    			<div>
+								                    				<select ng-model="lead.contactedFrom">
+								                    					<option value="">Select</option>
+								                    					<option value="Phone">Phone</option>
+								                    					<option value="Walk In">Walk In</option>
+								                    					<option value="Email">Email</option>
+								                    					<option value="Facebook">Facebook</option>
+								                    					<option value="Online">Online</option>
+								                    				</select>
+								                    			</div>
+								                    		</div>
+								                    		
+								                    	</div>
+								                    </div> -->
+								                    
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="submit" class="btn btn-primary btn-embossed" id="lead-first-step">{{lead.leadType=='3'?'NEXT':'SUBMIT'}}</button>
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div>
    						
 <style>
 

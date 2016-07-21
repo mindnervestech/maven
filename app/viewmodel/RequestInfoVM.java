@@ -79,7 +79,7 @@ public class RequestInfoVM {
 	public String designer;
 	public String title;
 	public String isContactusType; 
-	public Long productId;
+	public String productId;
 	public List<KeyValueDataVM> customData;
 	public Map<String, String> customMapData;
 	

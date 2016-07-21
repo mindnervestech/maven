@@ -1,21 +1,19 @@
 
 angular.module('newApp')
-.controller('addInventoryCtrl', ['$scope','$http','$location','$upload','$rootScope', function ($scope,$http,$location,$upload,$rootScope) {
+.controller('addInventoryCtrl', ['$scope','$http','$location','$upload','$rootScope','apiserviceAddEditInventory', function ($scope,$http,$location,$upload,$rootScope,apiserviceAddEditInventory) {
   
-	  
-	$http.get('/getCustomizationform/'+'Inventory').success(function(response) {
-		console.log(response);
-		 $scope.editInput = response;
-		 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
+	apiserviceAddEditInventory.getCustomizationform('Inventory').then(function(success){
+		$scope.editInput = success;
+		 $scope.userFields = $scope.addFormField(angular.fromJson(success.jsonData));
 		 console.log($scope.userFields);
 		 $scope.user = {};
-		});
+	});
 	
-	
-	$http.get('/getColl').success(function(response) {
-		 $scope.collectionList = response[0];
+	apiserviceAddEditInventory.getColl().then(function(success){
+		$scope.collectionList = success[0];
 		 console.log($scope.collectionList);
 	});
+	
 	
 	
    var pdffile;
@@ -30,39 +28,16 @@ angular.module('newApp')
 	   if($rootScope.fileCustom != undefined){
      		
      		pdffile = $rootScope.fileCustom;
-     		
- 	 		$http.post('/saveInventory',$scope.specification)
- 			.success(function(data) {
- 				$.pnotify({
- 				    title: "Success",
- 				    type:'success',
- 				    text: "Inventory saved successfully",
+     		apiserviceAddEditInventory.saveInventory($scope.specification).then(function(success){
+ 				$scope.dataBeforePdf=success;
+ 				apiserviceAddEditInventory.saveInventoryPdf(success,pdffile).then(function(success1){
+ 					
+		 	  		$location.path('/editInventory/'+$scope.dataBeforePdf+"/"+true+"/"+$scope.specification.productId);
  				});
- 				
- 				$scope.dataBeforePdf=data;
- 				$upload.upload({
- 		 	         url : '/saveInventoryPdf/'+data,
- 		 	         method: 'POST',
- 		 	         file:pdffile,
- 		 	      }).success(function(data) {
- 		 	  			$.pnotify({
- 		 	  			    title: "Success",
- 		 	  			    type:'success',
- 		 	  			    text: "Inventory saved successfully",
- 		 	  			});
- 		 	  		$location.path('/editInventory/'+$scope.dataBeforePdf+"/"+true+"/"+$scope.specification.productId);
- 		 	      });
- 			});
+     		});
  	 	 }else{
- 	 		$http.post('/saveInventory',$scope.specification)
- 			.success(function(data) {
- 				$.pnotify({
- 				    title: "Success",
- 				    type:'success',
- 				    text: "Inventory saved successfully",
- 				});
- 				console.log(data);
- 				$location.path('/editInventory/'+data+"/"+true+"/"+$scope.specification.productId);
+ 	 		apiserviceAddEditInventory.saveInventory($scope.specification).then(function(success){
+ 				$location.path('/editInventory/'+success+"/"+true+"/"+$scope.specification.productId);
  			});
  	 	 }
 	   
@@ -125,7 +100,7 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('EditInventoryCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route', function ($filter,$scope,$http,$location,$routeParams,$upload,$route) {
+.controller('EditInventoryCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route','apiserviceAddEditInventory', function ($filter,$scope,$http,$location,$routeParams,$upload,$route,apiserviceAddEditInventory) {
       
 	$scope.userFields = [];
 	$scope.customData = {};
@@ -144,29 +119,27 @@ angular.module('newApp')
 	   }*/
 	
 	
-	$http.get('/getColl').success(function(response) {
-		 $scope.collectionList = response[0];
-		
-		 $scope.getImages();
+	
+	apiserviceAddEditInventory.getCustomizationform('Inventory').then(function(success){
+		$scope.editInput = success;
+		 $scope.userFields = $scope.addFormField(angular.fromJson(success.jsonData));
+		 console.log($scope.userFields);
+		 $scope.user = {};
+	});
+	
+	apiserviceAddEditInventory.getColl().then(function(success){
+		$scope.collectionList = success[0];
+		$scope.getImages();
 		 console.log($scope.collectionList);
 	});
 	
-	$http.get('/getCustomizationform/'+'Inventory').success(function(response) {
-		 $scope.editInput = response;
-		 //$scope.josnData = angular.fromJson(response.jsonData);
-		 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
-		 console.log($scope.userFields);
-		 $scope.user = {};
-		});
 	
 	$scope.photoUrl = {};
 	
 	$scope.init = function() {
 		
-		
-		$http.get('/findLocation')
-		.success(function(data) {
-			console.log($routeParams.productId);
+		apiserviceAddEditInventory.findLocation().then(function(data){
+
 			$scope.productId=$routeParams.productId;
 			$scope.userLocationId = data;
 			$scope.photoUrl.locationId=$scope.userLocationId;
@@ -188,9 +161,7 @@ angular.module('newApp')
 			 }
 		});
 		
-		
-		$http.get('/getInventoryById/'+$routeParams.id)
-		.success(function(data) {
+		apiserviceAddEditInventory.getInventoryById($routeParams.id).then(function(data){
 			console.log(data);
 			
 			 $scope.specification = data;
@@ -205,8 +176,6 @@ angular.module('newApp')
 				 $("#autocomplete").val($scope.customData.address_bar);
 			 }
 			 
-			
-			 
 			 $.each($scope.customData, function(attr, value) {
 				 var res = value.split("[");
 					 if(res[1] != undefined){
@@ -220,7 +189,7 @@ angular.module('newApp')
 			 console.log($scope.customData);
 			 
 		});
-		
+				
 	}
 	
 	   
@@ -363,37 +332,17 @@ angular.module('newApp')
 	   }
 	
 	$scope.getImages = function() {
-		
-		if(userRole == "Photographer"){
-			 $http.get('http://www.glider-autos.com:9889/getImagesByProductId/'+$routeParams.productId)
-				.success(function(data) {
-					console.log("dddd");
-					console.log(data);
-					$scope.imageList = data;
-				});
-			 }
-			 else{
-				 $http.get('getImagesByProductId/'+$routeParams.productId)
-					.success(function(data) {
-						console.log("dddd");
-						console.log(data);
-						$scope.imageList = data;
-					});
-			 }
+		apiserviceAddEditInventory.getImagesByProductId($routeParams.productId,userRole).then(function(data){
+			console.log("dddd");
+			console.log(data);
+			$scope.imageList = data;
+		});
 		
 	}
 	
 	
 	
-	  /* $scope.setSiteId = function(id,flag) {
-	 	  if(flag == true) {
-	 		 $scope.vinData.specification.siteIds.push(id);
-	 	  } 
-	 	  if(flag == false) {
-	 		 $scope.vinData.specification.siteIds.splice($scope.vinData.specification.siteIds.indexOf(id),1);
-	 	  }
-	 	  
-	   };*/
+	 
 	
 	   var pdfFile;
 		/*$scope.onPdfFileSelect = function($files) {
@@ -415,16 +364,7 @@ angular.module('newApp')
 		
 		$scope.vinData = {};
 		
-		/*$scope.dataShow = function(check){
-			if(check == undefined){
-				$('#comingsoonDateEdit').val('');
-			}
-			
-			if(check == true){
-				
-				$('#comingsoonDateEdit').val('');
-			}
-		}	*/
+		
 	   
 	$scope.updateInventory = function() {
 		$scope.customList = [];
@@ -477,35 +417,20 @@ angular.module('newApp')
 		console.log($scope.customList);
 		$scope.specification.customData = $scope.customList;
 		
-		
-		
 		   
 				if(pdfFile != undefined){
-					$http.post('/updateInventoryById',$scope.specification)
-					.success(function(data) {
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Inventory updated successfuly",
-						});
-						
-						$upload.upload({
-				 	         url : '/updateVehicleByIdPdf/'+$scope.specification.id,
-				 	         method: 'POST',
-				 	         file:pdfFile,
-				 	      }).success(function(data) {
-				 	  			
-				 	      });
-					});
+					
+					apiserviceAddEditInventory.updateInventoryById($scope.specification).then(function(data){
+							
+							apiserviceAddEditInventory.updateVehicleByIdPdf($scope.specification.id,pdffile).then(function(success1){
+								
+							});
+						 			
+			 		});
+					
 			 	 }else{
-			 		$http.post('/updateInventoryById',$scope.specification)
-					.success(function(data) {
+			 		apiserviceAddEditInventory.updateInventoryById($scope.specification).then(function(data){
 						$scope.isUpdated = true;
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Inventory updated successfuly",
-						});
 						
 					});
 			 	 }
@@ -521,13 +446,13 @@ angular.module('newApp')
 		}
 	});
 	
-$scope.setAsDefault = function(image,index) {
+	$scope.setAsDefault = function(image,index) {
 		
 		for(var i=0;i<$scope.imageList.length;i++) {
 			if($scope.imageList[i].defaultImage == true) {
-				$http.get('/removeDefault/'+$scope.imageList[i].id+'/'+image.id)
-				.success(function(data) {
+				apiserviceAddEditInventory.removeDefault($scope.imageList[i].id,image.id).then(function(data){
 				});
+				
 				$('#imgId'+i).removeAttr("style","");
 				$scope.imageList[i].defaultImage = false;
 				image.defaultImage = true;
@@ -538,34 +463,22 @@ $scope.setAsDefault = function(image,index) {
 		}
 		
 		if(i == $scope.imageList.length) {
-			$http.get('/setDefaultImage/'+image.id)
-			.success(function(data) {
+			apiserviceAddEditInventory.setDefaultImage(image.id).then(function(data){
+				
 			});
-			
+						
 			image.defaultImage = true;
 			$('#imgId'+index).css("border","3px solid");
 			$('#imgId'+index).css("color","red");
 		}
 		
-		
 	}
 	
 	$scope.deleteImage = function(img) {
 		
-		
-		if(userRole == "Photographer"){	
-			  	$http.get('http://www.glider-autos.com:9889/deleteInventoryImage/'+img.id)
-			  	.success(function(data) {
-			  			$scope.imageList.splice($scope.imageList.indexOf(img),1);
-			  	});
-		}else{
-					
-		    	 $http.get('/deleteImage/'+img.id)
-					.success(function(data) {
-						$scope.imageList.splice($scope.imageList.indexOf(img),1);
-					});
-					
-		}
+		apiserviceAddEditInventory.deleteInventoryImage(img.id,userRole).then(function(data){
+			$scope.imageList.splice($scope.imageList.indexOf(img),1);
+		});
 		
 	}
 	
@@ -574,7 +487,7 @@ $scope.setAsDefault = function(image,index) {
 		$scope.imageName = image.imgName;
 	}
 	
-	$scope.updateVehicleStatus = function(){
+	/*$scope.updateVehicleStatus = function(){
 		   $http.get('/updateVehicleStatus/'+$routeParams.id+'/'+"Sold")
 			.success(function(data) {
 				$.pnotify({
@@ -583,98 +496,40 @@ $scope.setAsDefault = function(image,index) {
 				    text: "Status saved successfully",
 				});
 			});
-	   }
+	   }*/
 	
-	$scope.deleteVehicle = function(){
+	/*$scope.deleteVehicle = function(){
 		 $('#deleteModal').click();
 		   
-	   }
+	   }*/
 	
-	$scope.deleteVehicleRow = function() {
+	/*$scope.deleteVehicleRow = function() {
 		$http.get('/deleteVehicleById/'+$routeParams.id)
 		.success(function(data) {
 			$location.path('/addInventory');
 		});
-	}
+	}*/
 	
 	var file;
 	$scope.onFileSelect = function($files) {
 		file = $files;
 	}
 	
-	/*$scope.uploadAudio = function() {
-		$upload.upload({
-            url : '/uploadSoundFile',
-            method: 'post',
-            file:file,
-            data:{"vinNum":$scope.vinData.specification.vin}
-        }).success(function(data, status, headers, config) {
-            $scope.getAllAudio();
-            $.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Saved successfully",
-			});
-        });
-	}*/
+	
 	
 	$scope.confirmFileDelete = function(id) {
 		$scope.audioFileId = id;
 		$('#deleteModal2').click();
 	}
 	
-	$scope.deleteAudioFile = function() {
+	/*$scope.deleteAudioFile = function() {
 		$http.get('/deleteAudioFile/'+$scope.audioFileId)
 		.success(function(data) {
 			$scope.getAllAudio();
 		});
-	}
-	
-	/*$scope.getAllAudio = function() {
-		$http.get('/getAllAudio/'+$scope.vinData.specification.vin)
-		.success(function(data) {
-			$scope.audioList = data;
-		});
-	}*/
-	/*$scope.vData = {};
-	$scope.videoData={};
-	$scope.getVirtualTourData = function() {
-		$http.get('/getVirtualTour/'+$scope.vinData.specification.id)
-		.success(function(data) {
-			
-			$scope.vData = data.virtualTour;
-			$scope.videoData = data.video;
-		});
-	}*/
-	
-	/*$scope.saveVData = function() {
-		
-		$scope.vData.vin = $scope.vinData.specification.vin;
-		$scope.vData.vehicleId = $scope.vinData.specification.id;
-		$http.post('/saveVData',$scope.vData)
-		.success(function(data) {
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Saved successfully",
-			});
-		});
 	}*/
 	
 	
-	/*$scope.saveVideoData = function() {
-		
-		$scope.videoData.vin = $scope.vinData.specification.vin;
-		$scope.videoData.vehicleId = $scope.vinData.specification.id;
-		$http.post('/saveVideoData',$scope.videoData)
-		.success(function(data) {
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Saved successfully",
-			});
-		});
-	}*/
 	
 	
 	$scope.editImage = function(image) {

@@ -7,6 +7,8 @@ import java.util.List;
 import models.AddProduct;
 import models.AuthUser;
 import models.CustomizationForm;
+import models.Inventory;
+import models.InventoryImage;
 import models.LeadType;
 import models.Location;
 import models.ProductImages;
@@ -77,14 +79,12 @@ public class CustomersRequestController extends Controller {
 		    	for(RequestMoreInfo info: listData) {
 		    		RequestInfoVM vm = new RequestInfoVM();
 		    		vm.id = info.id;
-		    		AddProduct productInfo = AddProduct.findByIdNotSale(info.productId);
+		    		Inventory productInfo = Inventory.getByProductId(info.productId);
 		    		vm.productId = info.productId;
 		    		if(productInfo != null) {
 		    			vm.title = productInfo.title;
-		    			vm.designer = productInfo.designer;
 		    			vm.price = (int) productInfo.price;
-		    			vm.year = productInfo.year;
-		    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+		    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
 		        		if(pImage!=null) {
 		        			vm.imgId = pImage.getId().toString();
 		        		}
@@ -151,14 +151,12 @@ public class CustomersRequestController extends Controller {
 		    			
 		    		RequestInfoVM vm = new RequestInfoVM();
 		    		vm.id = info.id;
-		    		AddProduct product = AddProduct.findByIdNotSale(info.productId);
+		    		Inventory productInfo = Inventory.getByProductId(info.productId);
 		    		vm.productId = info.productId;
-		    		if(product != null) {
-		    			vm.title = product.title;
-		    			vm.designer = product.designer;
-		    			vm.year = product.year;
-		    			vm.price = (int) product.price;
-		    			ProductImages pImage = ProductImages.findDefaultImg(product.id);
+		    		if(productInfo != null) {
+		    			vm.title = productInfo.title;
+		    			vm.price = (int) productInfo.price;
+		    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
 		        		if(pImage!=null) {
 		        			vm.imgId = pImage.getId().toString();
 		        		}

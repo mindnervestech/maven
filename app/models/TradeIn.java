@@ -89,7 +89,7 @@ public class TradeIn extends Model {
 	public String testDriveCompletedDuration;
 	public int onlineOrOfflineLeads;
 public String testDriveStatus;
-	public Long productId;
+public String productId;
 	
 	
 	
@@ -218,10 +218,10 @@ public String testDriveStatus;
 		this.workPhone = workPhone;
 	}
 	
-	public Long getProductId() {
+	public String getProductId() {
 		return productId;
 	}
-	public void setProductId(Long productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 	public String getPhone() {
@@ -695,7 +695,7 @@ public String testDriveStatus;
 		return find.where().eq("vin", vin).eq("status", null).eq("locations", location).findList();
 	}
 	
-	public static List<TradeIn>  findByProductIdAndLocation(Long pId,Location location) {
+	public static List<TradeIn>  findByProductIdAndLocation(String pId,Location location) {
 		return find.where().eq("productId", pId).eq("status", null).eq("locations", location).findList();
 	}
 	

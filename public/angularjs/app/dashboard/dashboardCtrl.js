@@ -68,7 +68,7 @@ angular.module('newApp')
 		
 	}
 	var autocomplete;
-	$http.get('/getAllVehicles')
+	$http.get('/getAllInventory')
 		.success(function(data) {
 			$scope.prodSearchList = data;
 		});
@@ -4562,12 +4562,11 @@ angular.module('newApp')
 	    				console.log(response);
 	    				if(response.isData) {
 	    					$scope.isStockError = false;
-	    					stockRp.designer = response.designer;
 	    					stockRp.price = response.price;
-	    					stockRp.vehicleImage = response.vehicleImage;
+	    					stockRp.cost = response.cost;
+	    					stockRp.collectionName = response.collectionName;
+	    					stockRp.collection = response.collectionId;
 	    					stockRp.imgId = response.imgId;
-	    					stockRp.year = response.year;
-	    					stockRp.primaryTitle = response.primaryTitle;
 	    					stockRp.title = response.title; 
 	    					stockRp.id = response.id;
 	    					stockRp.productId = response.productId;

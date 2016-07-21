@@ -104,8 +104,8 @@ public class InventoryImage extends Model {
 		return find.byId(id);
 	}
 	
-	public static InventoryImage getDefaultImage(String vin) {
-		return find.where().eq("productId", vin).eq("defaultImage", true).findUnique();
+	public static InventoryImage getDefaultImage(String pId) {
+		return find.where().eq("productId", pId).eq("defaultImage", true).findUnique();
 	}
 	
 	public static InventoryImage findByRowCol(Integer row,Integer col,String vin) {
