@@ -49,7 +49,7 @@ public class LeadVM {
 	public String salvage;
 	public String paint;
 	public String enthicity;
-	public Long productId;
+	public String productId;
 	public List<InventoryVM> stockWiseData = new ArrayList<InventoryVM>();
 	public List<KeyValueDataVM> customData  = new ArrayList<KeyValueDataVM>();
 }

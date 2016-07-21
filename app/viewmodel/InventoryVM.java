@@ -20,6 +20,7 @@ public class InventoryVM {
 	public String imgId;
 	public String stockNumber;
 	public String year;
+	public String designer;
 	
 	public List<KeyValueDataVM> customData  = new ArrayList<KeyValueDataVM>();
 	public Map<String, String> customMapData;
