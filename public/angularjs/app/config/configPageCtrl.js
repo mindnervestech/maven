@@ -130,11 +130,11 @@ angular.module('newApp')
 		
 		$scope.gridOptions.columnDefs = [
 		                                 { name: 'name', displayName: 'Name', width:'70%',
-		                                	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.editName(row)">{{row.entity.name}}</label></div>',
+		                                	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.ShowCreateNewForm1(row)">{{row.entity.name}}</label></div>',
 		                                 },
 		                                 
 		                                 { name: 'edit', displayName: ' ', width:'30%',
-    		                                 cellTemplate:'<div><i class="glyphicon glyphicon-pencil"  ng-click="grid.appScope.ShowCreateNewForm(row)" title="Edit"></i></div> ', 
+    		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.ShowCreateNewForm(row)" title="Edit"></i> ', 
     		                                 /*ng-if="(row.entity.leadName != "Request More Info" || row.entity.leadName != "Schedule Test" || row.entity.leadName != "Trade In")"*/
 		                                 },
 		                                    ];
@@ -149,9 +149,9 @@ $scope.leadTypeAll = function(){
 			$scope.leadtypeObjList = data;
  			$scope.gridOptions.data = data;
  			angular.forEach($scope.gridOptions.data, function(obj, index){
-				if(obj.checkValue == 1){
+				if(obj.checkValue == true){
 					obj.checkValue = true;
-				}else if(obj.checkValue == 0){
+				}else if(obj.checkValue == false){
 					obj.checkValue = false;
 				}
 			});
@@ -167,10 +167,10 @@ $scope.leadTypeAll = function(){
 		                                 { name: 'leadName', displayName: 'Lead Type', width:'50%',cellEditableCondition: false
 		                                 },
 		                                 {name:'org', displayName:'Show on Website', width:'15%',
-		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Contact Us\' || row.entity.leadName == \'Request More Info\' || row.entity.leadName == \'Request For Appointment\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row,checkValue)">  </div>',
+		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Contact Us\' || row.entity.leadName == \'Request More Info\' || row.entity.leadName == \'Request For Appointment\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row)">  </div>',
 		                                 },
 		                                 { name: 'edit', displayName: ' ', width:'20%',
-    		                                 cellTemplate:'<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test\' && row.entity.leadName != \'Trade In\'  && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.removeUser(row)"  title="Delete"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test\' && row.entity.leadName != \'Trade In\' && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i> ', 
+    		                                 cellTemplate:'<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Request For Appointment\' && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.removeUser(row)"  title="Delete"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Request For Appointment\' && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i> ', 
     		                                 /*ng-if="(row.entity.leadName != "Request More Info" || row.entity.leadName != "Schedule Test" || row.entity.leadName != "Trade In")"*/
 		                                 },
 		                                    ];
@@ -184,17 +184,21 @@ $scope.leadTypeAll = function(){
 		})
 	}	
 	
-	$scope.selectCheck = function(row,checkValue){
-		$scope.entityId=row.entity.id;
+	
+	
+	$scope.selectCheckbox = function(row){
 		console.log(row);
-		console.log(checkValue);
+		$scope.entityId=row.entity.id;
+		console.log($scope.entityId);
+		console.log(row);
+		console.log(row.entity.checkValue);
 		var intValue = 0;
-		if(checkValue == undefined){
+		if(row.entity.checkValue == undefined){
 			intValue = 1;
 		}
-		if(checkValue == true){
+		if(row.entity.checkValue == true){
 			intValue = 0;
-		}else if(checkValue == false){
+		}else if(row.entity.checkValue == false){
 			intValue = 1;
 		}
 		
@@ -203,10 +207,14 @@ $scope.leadTypeAll = function(){
 			//$scope.gridOptions.data=data;
 			//console.log(data);
 		})
+		
 	}
 	
 	$scope.ShowCreateNewForm = function(row){
 		console.log(row);
+		if(row.entity.name == "Create Lead"){
+			$location.path('/'+'CreateLeadForm/'+"Preview"+"/"+'Create Lead');
+		}else
 		if(row.entity.name == "Add Product"){
 
 			$location.path('/'+'InventoryForm/'+"Edit"+"/"+'Inventory');
@@ -228,12 +236,36 @@ $scope.leadTypeAll = function(){
 		else{
 			$location.path('/otherForm/'+"Edit"+"/"+row.entity.name);
 		}
-			
+		
 	}
 
 	$scope.ShowCreateNewForm1 = function(row){
-		var str = row.entity.name.replace(" ","");
-			$location.path('/'+str+'Form/'+"Preview"+"/"+row.entity.name);
+		//$location.path('/leadCreateForm/'+"Preview");
+		console.log($scope.entityname);
+
+		if(row.entity.name == "Create Lead"){
+			$location.path('/'+'CreateLeadForm/'+"Preview"+"/"+'Create Lead');
+			}else if(row.entity.name == "Add Product"){
+
+			$location.path('/'+'InventoryForm/'+"Preview"+"/"+'Inventory');
+			
+		}
+		else if(row.entity.name == "Add to CRM"){
+
+			$location.path('/'+'CRMForm/'+"Preview"+"/"+'CRM');
+			
+		}else if(row.entity.name == "Request More Info"){
+			$location.path('/RequestMoreInfoForm/'+"Preview"+"/"+row.entity.name);
+		}
+		else if(row.entity.name == "Contact Us"){
+			$location.path('/ContactUsForm/'+"Preview"+"/"+row.entity.name);
+		}
+		else if(row.entity.name == "Request Appointment"){
+			$location.path('/RequestAppointmentForm/'+"Preview"+"/"+row.entity.name);
+		}
+		else{
+			$location.path('/otherForm/'+"Preview"+"/"+row.entity.name);
+		}
 	}
 	
 	
@@ -260,7 +292,7 @@ $scope.leadTypeAll = function(){
 			 console.log("::::::success")
 				
 			 $("#completedPopup").modal('hide');
-			 $scope.allLeaddata();
+			 $scope.leadTypeAll();
 			});
 		}
 		
@@ -284,44 +316,49 @@ $scope.leadTypeAll = function(){
 						    text: "Remove User",
 						});
 					 
-					 $scope.allLeaddata();
+					 $scope.leadTypeAll();
 					 
 					 
 
 				});
 		 }
 		 
-		 $scope.editName = function(row){
+		 $scope.selectCheck = function(row){
 				
-			 $('#editPopup').click();
+			 $('#editPopupcheck').click();
 			 console.log(row.entity)
-			 $scope.name = row.entity.name;
+			
 			 $scope.editleadtype.id = row.entity.id;
+			 $scope.editleadtype.profile = row.entity.profile;
+			 console.log($scope.editleadtype.profile);
+			 $scope.selectCheckbox(row);
 			 
 		 }
 			
 		 $scope.editleadtype={};
-		 $scope.Updatename = function(name){
+		 $scope.Updatecheckbox = function(){
 			 console.log($scope.editleadtype);
 			 console.log("out of funtion");
-			 $scope.editleadtype.name = name;
-			 $http.post("/UpdateName",$scope.editleadtype)
+			 
+			 $http.post("/Updatecheckbox",$scope.editleadtype)
 			 .success(function(data){
+				 console.log(data);
 				 console.log("in of funtion");
 				 $.pnotify({
 					    title: "Success",
 					    type:'success',
 					    text: "Update successfully",
 					});
-         		$("#editPopups").modal('hide');
-         		$scope.allFormName();
+         		$("#editPopupscheck").modal('hide');
+         		
     		});
+			
 		 }
 		 
 		 $scope.addNewForm = function(){
 				console.log("Checkkkk");
 				$scope.addform={"name":""};
-				//$('#createLeadPopup').click();
+				
 				$('#completedPopup').modal('show');
 			}
 		 
@@ -334,7 +371,7 @@ $scope.leadTypeAll = function(){
 				 $scope.allFormName();
 				});
 			}
-			//$scope.formweb = {}
+			
 			$scope.flagForChart1 = true;
 			$scope.website = {};
 			$scope.savedNewFormWebsite = function(){
@@ -344,6 +381,9 @@ $scope.leadTypeAll = function(){
 					console.log(data);
 					
 					 $("#completedPopup").modal('hide');
+					 $scope.showEditData();
+					 $scope.webSiteinfo();
+					 
 					});
 				
 				
@@ -355,10 +395,11 @@ $scope.leadTypeAll = function(){
 				$http.post("/updatenewWebSiteForm",$scope.website).success(function(data){
 					$scope.form = data;
 					console.log(data);
-					//$('#outcome').click();
-					 $("#outcome").modal('hide');
+					$('#outcome').click();
+					// $("#outcome").modal('hide');
+					$scope.webSiteinfo();
 					});
-				
+				 	
 				
 				}
 			$scope.webSiteinfo = function(){
@@ -379,9 +420,11 @@ $scope.leadTypeAll = function(){
 				                                 { name: 'lead_name', displayName: 'Lead Name ', width:'15%' },
 				                                 { name: 'outcome', displayName: 'Outcome ', width:'15%' },
 				                                 {name:'or', displayName:'', width:'15%',
-				                                	 cellTemplate:'<div class="link-domain"ng-click="grid.appScope.outcome(row)" >Outcome  &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click=""  title="Edit"></i></div>',
+				                                	 /*cellTemplate:'<div><div class="link-domain"ng-click="grid.appScope.outcome(row)">Outcome &nbsp;&nbsp;&nbsp </div><i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i></div>',*/
+				                                	 cellTemplate:'<i class="link-domain"ng-click="grid.appScope.outcome(row)">Outcome</i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i> ',
 				                                 }, 
-				                                 {name:'ab', displayName:'LeadRender', width:'10%',
+				                                 {name:'10', displayName:'LeadLink', width:'15%',
+				                                	 /*cellTemplate:'<div><div class="link-domain"ng-click="grid.appScope.outcome(row)">Outcome &nbsp;&nbsp;&nbsp </div><i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i></div>',*/
 				                                	 cellTemplate:'<div class="link-domain" ><i class="glyphicon glyphicon-edit" ng-click="grid.appScope.allLeadRender(row)"  title="Edit"></i></div>',
 				                                 }, 
 				                                 
@@ -396,34 +439,75 @@ $scope.leadTypeAll = function(){
 					$scope.leadTypeAllData();
 					
 				}
-			 
-			 
-			 
-			 $scope.allLeadRender = function(row){
-					console.log(row);
-					 if(row.entity.lead_name == "Request More Info"){
-						$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.lead_name);
-					}
-					else if(row.entity.lead_name == "Contact Us"){
-						$location.path('/ContactUsForm/'+"Edit"+"/"+row.entity.lead_name);
-					}
-					else if(row.entity.lead_name == "Request Appointment"){
-						$location.path('/RequestAppointmentForm/'+"Edit"+"/"+row.entity.lead_name);
-					}
-					else{
-						$location.path('/otherForm/'+"Edit"+"/"+row.entity.lead_name);
-					}
-					
-					
-				}
-			 
-			 
 			 $scope.outcome = function(row){
 					console.log(row.entity);
+					$scope.website.outcome = row.entity.outcome;
 					$('#outcome').click();
+					 
+
 					$scope.rowDataVal = row.entity;
 				};
+				
+				 $scope.allLeadRender = function(row){
+						console.log(row);
+						if(row.entity.lead_name != ""){
+						 if(row.entity.lead_name == "Request More Info"){
+							$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.lead_name);
+						}
+						else if(row.entity.lead_name == "Contact Us"){
+							$location.path('/ContactUsForm/'+"Edit"+"/"+row.entity.lead_name);
+						}
+						else if(row.entity.lead_name == "Request Appointment"){
+							$location.path('/RequestAppointmentForm/'+"Edit"+"/"+row.entity.lead_name);
+						}
+						else{
+							$location.path('/otherForm/'+"Edit"+"/"+row.entity.lead_name);
+						}
+						}
+						
+					}
+				 
 			 
+				$scope.editData = {};
+				 $scope.updateAllFormWebsite = function(row){
+					 $('#editPopupwebsite').click();
+					 console.log(row.entity)
+					 $scope.editData = row.entity;
+					 $scope.leadTypeAllData();
+					 $scope.showEditData();
+				 }
+				 
+				/* $scope.viewRegiInit = function(){
+					 $scope.pendingUser();
+				 }*/
+				 
+				 $scope.editFormWebsite = function(website){
+					 console.log($scope.editData);
+					 $scope.website.id = $scope.editData.id;
+					 $http.post("/getEditFormWebsite",$scope.website).success(function(data){
+		         		$.pnotify({
+							    title: "Success",
+							    type:'success',
+							    text: "Update successfully",
+							});
+		         		$("#editPopupswebsite").modal('hide');
+		         		$scope.webSiteinfo();
+		    		});
+					 
+				 }
+				
+				 $scope.showEditData = function(){
+					 $scope.website.id = $scope.editData.id;
+					 console.log($scope.website.id);
+					 console.log("ddddddddd");
+						$http.get('/showEditData/'+$scope.website.id)
+						.success(function(data){
+							//$scope.gridOptions.data=data;
+							console.log(data);
+							$scope.website = data;
+						})
+					}	
+				 
 			 $scope.leadTypeAllData = function(){
 					
 					console.log("sdfghjkp0000");
@@ -435,16 +519,19 @@ $scope.leadTypeAll = function(){
 				}
 			 
 			 $scope.showOtherFild = 0;
-			 $scope.selectOption = function(){
-					var type = $('#form_type').val();
+			 $scope.selectOption = function(type){
+					//var type = $('#form_type').val();
 					console.log(type);
 					
 					if(type == "Contact Form"){
 						$scope.showOtherFild = 1;
-						
+					}
+					if(type == "Call to Action" || type == "Survey"){
+						$scope.showOtherFild = 0;
 					}
 				}
 				
+			 
 				
 		 $scope.EditUser = function(row){
 			
@@ -469,7 +556,9 @@ $scope.leadTypeAll = function(){
 					    text: "Update successfully",
 					});
          		$("#editPopups").modal('hide');
-         		$scope.allLeaddata();
+         		//$scope.allLeaddata();
+         		//$scope.selectCheckbox();
+         		$scope.leadTypeAll();
     		});
 		 }
 		 
