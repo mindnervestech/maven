@@ -76,13 +76,13 @@ public class InventoryController extends Controller {
 			List<AddCollectionVM> collectionVMList = new ArrayList<>();
 			for (AddCollection collection : collectionList) {
 				AddCollectionVM aCollectionVM = new AddCollectionVM();
-				aCollectionVM.setId(collection.getId());
+				/*aCollectionVM.setId(collection.getId());
 				aCollectionVM.setDescription(collection.getDescription());
 				aCollectionVM.setSection(collection.getSection());
 				aCollectionVM.setTitle(collection.getTitle());
 				aCollectionVM.setPath(collection.getPath());
 				aCollectionVM.setWebsite(collection.getWebsite());
-				aCollectionVM.setImage_name(collection.getImageName());
+				aCollectionVM.setImage_name(collection.getImageName());*/
 				collectionVMList.add(aCollectionVM);
 
 			}
@@ -104,7 +104,7 @@ public class InventoryController extends Controller {
 	    			
 	    			AddCollection cl = AddCollection.findById(id);
 	    			if(cl !=null){
-	    				cl.setCollectionOrder(i);
+	    				//cl.setCollectionOrder(i);
 	    				cl.update();
 	    			}
 			}
@@ -155,7 +155,7 @@ public class InventoryController extends Controller {
 			    		 vm.delete();
 			    	}
 			    	
-			    	File file = new File(rootDir+File.separator+id+"collection"+File.separator+vmcoll.imageName);
+			    	//File file = new File(rootDir+File.separator+id+"collection"+File.separator+vmcoll.imageName);
 			    	vmcoll.delete();
 			    	
 			    	return ok();
@@ -166,7 +166,7 @@ public class InventoryController extends Controller {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
-	    		AuthUser userObj = (AuthUser) getLocalUser();
+	    		/*AuthUser userObj = (AuthUser) getLocalUser();
 		    	List<AddCollection> collectionList = AddCollection.getAllReadyMade();
 		    	List<AddProductVM> productVMList = new ArrayList<>(); 
 		    	for(AddCollection collection : collectionList) {
@@ -192,9 +192,9 @@ public class InventoryController extends Controller {
 		    			productVMList.add(vm);
 		    		}
 		    	}
-		    	return ok(Json.toJson(productVMList));
+		    	return ok(Json.toJson(productVMList));*/
 	    	}
-	    	
+	    	return ok();
 	    }
 	   
 	   public static Result moveProductById(Long id ){
@@ -234,7 +234,7 @@ public class InventoryController extends Controller {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
-	    		AuthUser userObj = (AuthUser) getLocalUser();
+	    		/*AuthUser userObj = (AuthUser) getLocalUser();
 		    	List<AddCollection> collectionList = AddCollection.getAllReadyMade();
 		    	List<AddProductVM> productVMList = new ArrayList<>(); 
 		    	for(AddCollection collection : collectionList) {
@@ -258,9 +258,9 @@ public class InventoryController extends Controller {
 		    			productVMList.add(vm);
 		    		}
 		    	}
-		    	return ok(Json.toJson(productVMList));
+		    	return ok(Json.toJson(productVMList));*/
 	    	}
-	    	
+	    	return ok();
 	    }
 	   
 	   public static Result updateProduct(){
@@ -372,7 +372,7 @@ public class InventoryController extends Controller {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
-	    		AuthUser userObj = (AuthUser) getLocalUser();
+	    /*		AuthUser userObj = (AuthUser) getLocalUser();
 		    	List<AddCollection> collectionList = AddCollection.getAllReadyMade();
 		    	List<AddProductVM> productVMList = new ArrayList<>(); 
 		    	for(AddCollection collection : collectionList) {
@@ -396,16 +396,16 @@ public class InventoryController extends Controller {
 		    			productVMList.add(vm);
 		    		}
 		    	}
-		    	return ok(Json.toJson(productVMList));
+		    	return ok(Json.toJson(productVMList));*/
 	    	}
-	    	
+	    	return ok();
 	    }
 	   
 	   public static Result getAllAccessories() {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	       		return ok(home.render("",userRegistration));
 	       	} else {
-	       		AuthUser userObj = (AuthUser) getLocalUser();
+	       		/*AuthUser userObj = (AuthUser) getLocalUser();
 	    	    	List<AddCollection> collectionList = AddCollection.getAllAccessories();
 	    	    	
 	    	    	List<AddCollectionVM> collectionVMList = new ArrayList<>(); 
@@ -421,16 +421,16 @@ public class InventoryController extends Controller {
 	    	    			collectionVMList.add(aCollectionVM);
 	    	    		
 	    	    	}
-	    	    	return ok(Json.toJson(collectionVMList));
+	    	    	return ok(Json.toJson(collectionVMList));*/
 	       	}
-	    	    	
+	    	return ok();
    }
 	   
 	   public static Result getAllProductTypes() {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
-	    		AuthUser userObj = (AuthUser) getLocalUser();
+	    		/*AuthUser userObj = (AuthUser) getLocalUser();
 		    	List<AddCollection> collectionList = AddCollection.getAllProducts();
 		    	List<AddProductVM> productVMList = new ArrayList<>(); 
 		    	for(AddCollection collection : collectionList) {
@@ -454,26 +454,27 @@ public class InventoryController extends Controller {
 		    			productVMList.add(vm);
 		    		}
 		    	}
-		    	return ok(Json.toJson(productVMList));
+		    	return ok(Json.toJson(productVMList));*/
 	    	}
-	    	
+	    	return ok();
 	    }
 	   
 	   public static Result getProductCollectionId(Long id) {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
-	    		AuthUser userObj = (AuthUser) getLocalUser();
+	    		/*AuthUser userObj = (AuthUser) getLocalUser();
 	    		AddProduct product = AddProduct.findById(id);
 	    		AddCollection coll = AddCollection.findById(product.collection.id);
-	    		return ok(Json.toJson(coll.section));
+	    		return ok(Json.toJson(coll.section));*/
 	    	}
+	    	return ok();
 	    }
 	   public static Result getProductCollection() {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	       		return ok(home.render("",userRegistration));
 	       	} else {
-	       		AuthUser userObj = (AuthUser) getLocalUser();
+	       		/*AuthUser userObj = (AuthUser) getLocalUser();
 	    	    	List<AddCollection> collectionList = AddCollection.getAllProductCollection();
 	    	    	
 	    	    	List<AddCollectionVM> collectionVMList = new ArrayList<>(); 
@@ -489,8 +490,9 @@ public class InventoryController extends Controller {
 	    	    			collectionVMList.add(aCollectionVM);
 	    	    		
 	    	    	}
-	    	    	return ok(Json.toJson(collectionVMList));
+	    	    	return ok(Json.toJson(collectionVMList));*/
 	       	}
+	    	return ok();
 	    	    	
 	}
 	   
@@ -510,7 +512,7 @@ public class InventoryController extends Controller {
 
 	    		AddCollection cl = AddCollection.findById(vm.collectionId);
 	    		if(cl!=null){
-	    			if(cl.section.equalsIgnoreCase("product")){
+	    			/*if(cl.section.equalsIgnoreCase("product")){
 	    				sec = "product";
 	    			}else if(cl.section.equalsIgnoreCase("readymade")){
 	    				sec = "readymade";
@@ -520,7 +522,7 @@ public class InventoryController extends Controller {
 	    				sec = "disable";
 	    			}else{
 	    				sec = "section";
-	    			}
+	    			}*/
 	    			
 	    		}
 	    		vm.collectionTitle = sec;
@@ -541,7 +543,7 @@ public class InventoryController extends Controller {
 	   
 	   public static Result collectionList(){
 	    	AuthUser userObj = (AuthUser) getLocalUser();
-			List<AddCollection> listData = AddCollection.findAllCollection();
+			/*List<AddCollection> listData = AddCollection.findAllCollection();
 	    	List<AddCollectionVM> addVMList = new ArrayList<>();
 	    	for(AddCollection coll: listData) {
 	    		if(coll.section.equals("readymade") || coll.section.equals("product")){
@@ -551,7 +553,8 @@ public class InventoryController extends Controller {
 	    			addVMList.add(vm);
 	    		}
 	    	}
-			return ok(Json.toJson(addVMList));
+			return ok(Json.toJson(addVMList));*/
+	    	return ok();
 	    
 	    }
 
@@ -619,7 +622,7 @@ public class InventoryController extends Controller {
 		   	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 		   		return ok(home.render("",userRegistration));
 		   	} else {
-		   		AuthUser userObj = (AuthUser) getLocalUser();
+		   		/*AuthUser userObj = (AuthUser) getLocalUser();
 			    	List<AddCollection> collectionList = AddCollection.findAllcollection();
 			    	
 			    	List<AddCollectionVM> collectionVMList = new ArrayList<>(); 
@@ -633,9 +636,9 @@ public class InventoryController extends Controller {
 			    			collectionVMList.add(aCollectionVM);
 			    		
 			    	}
-			    	return ok(Json.toJson(collectionVMList));
+			    	return ok(Json.toJson(collectionVMList));*/
 		   	}
-		   	
+		   	return ok();
 		   }
 	   
 	   public static Result getCollectionData(Long id) {
@@ -645,7 +648,7 @@ public class InventoryController extends Controller {
 	    		
 	    		AddCollection collection = AddCollection.findById(id);
 	    		AddCollectionVM vm =new AddCollectionVM();
-	    		vm.setTitle(collection.getTitle());
+	    		/*vm.setTitle(collection.getTitle());
 	    		vm.setDescription(collection.getDescription());
 	    		vm.setSection(collection.getSection());
 	    		vm.setNewFlag(collection.getNewFlag());
@@ -653,7 +656,7 @@ public class InventoryController extends Controller {
 	    		vm.setWebsite(collection.getWebsite());
 	    		vm.setThumbnailImageName(collection.thumbnailImageName);
 	    		vm.setThumbnailPath(collection.thumbnailPath);
-	    		vm.setThumbnailThumbPath(collection.thumbnailThumbPath);
+	    		vm.setThumbnailThumbPath(collection.thumbnailThumbPath);*/
 	    		return ok(Json.toJson(vm));
 	    	}
 	    
@@ -701,23 +704,23 @@ public class InventoryController extends Controller {
 		    	    AddCollection coll = AddCollection.findById(vm.id);
 		    	    String pathName = "/"+userObj.id+"/"+"collection"+"/"+fileName;
 		    	    String thumbPath ="/"+userObj.id+"/"+"collection"+"/"+"thumbnail_"+fileName;
-		      		coll.setPath(pathName);
+		      		/*coll.setPath(pathName);
 		      		coll.setThumbPath(thumbPath);
 		      		coll.setTitle(vm.title);//.title = vm.title;
 		      		coll.setDescription(vm.description);//.description =vm.description;
 		      		coll.setSection(vm.section);//.section =vm.section;
 		      		coll.setWebsite(vm.website);
 		      		coll.setNewFlag(vm.newFlag);
-		      		coll.setImageName(fileName);
+		      		coll.setImageName(fileName);*/
 		      		coll.update();
 		    	  } 
 		    	}else{
 		    		AddCollection coll = AddCollection.findById(vm.id);
 		    		coll.setTitle(vm.title);//.title = vm.title;
-		      		coll.setDescription(vm.description);//.description =vm.description;
+		      		/*coll.setDescription(vm.description);//.description =vm.description;
 		      		coll.setSection(vm.section);//.section =vm.section;
 		      		coll.setWebsite(vm.website);
-		      		coll.setNewFlag(vm.newFlag);
+		      		coll.setNewFlag(vm.newFlag);*/
 		      		coll.update();
 		    	}
 		
@@ -736,10 +739,10 @@ public class InventoryController extends Controller {
 		    	AuthUser userObj = (AuthUser) getLocalUser();
 		    	if(body != null){
 		    		coll.setTitle(vm.title);
-		      		coll.setDescription(vm.description);
+		      		/*coll.setDescription(vm.description);
 		      		coll.setSection(vm.section);
 		      		coll.setWebsite(vm.website);
-		      		coll.setNewFlag(vm.newFlag);
+		      		coll.setNewFlag(vm.newFlag);*/
 		      		
 		    		List<FilePart> list = body.getFiles();
 		    		if(list.get(0).getKey().equalsIgnoreCase("featured")){
@@ -763,9 +766,9 @@ public class InventoryController extends Controller {
 						}
 				    	    String pathName = "/"+userObj.id+"/"+"collection"+"/"+fileName;
 				    	    String thumbPath ="/"+userObj.id+"/"+"collection"+"/"+"thumbnail_"+fileName;
-				      		coll.setPath(pathName);
+				      		/*coll.setPath(pathName);
 				      		coll.setThumbPath(thumbPath);
-				      		coll.setImageName(fileName);
+				      		coll.setImageName(fileName);*/
 		    		}
 		    		if(list.get(1).getKey().equalsIgnoreCase("thumbnail")){
 		    			FilePart picture = list.get(1);
@@ -789,17 +792,17 @@ public class InventoryController extends Controller {
 						}
 				    	    String pathName = "/"+userObj.id+"/"+"collection"+"/"+fileName;
 				    	    String thumbPath ="/"+userObj.id+"/"+"collection"+"/"+"thumbnail_"+fileName;
-				      		coll.setThumbnailPath(pathName);
+				      		/*coll.setThumbnailPath(pathName);
 				      		coll.setThumbnailThumbPath(thumbPath);
-				      		coll.setThumbnailImageName(fileName);
+				      		coll.setThumbnailImageName(fileName);*/
 		    		}
 		    		coll.update();
 		    	}else{
 		    		coll.setTitle(vm.title);
-		      		coll.setDescription(vm.description);
+		      		/*coll.setDescription(vm.description);
 		      		coll.setSection(vm.section);
 		      		coll.setWebsite(vm.website);
-		      		coll.setNewFlag(vm.newFlag);
+		      		coll.setNewFlag(vm.newFlag);*/
 		      		coll.update();
 		    	}
 		    	  return ok();
@@ -811,7 +814,7 @@ public class InventoryController extends Controller {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
-		    	Identity user = getLocalUser();
+		    	/*Identity user = getLocalUser();
 		    	AuthUser userObj = (AuthUser)user;
 		    	//AddProduct product = AddProduct.findById(id);
 		    	AddCollection imageList = AddCollection.findById(id);
@@ -829,7 +832,8 @@ public class InventoryController extends Controller {
 		    		vm.path = imageList.path;
 		    		vm.section = imageList.section;
 		    	return ok(Json.toJson(vm));
-		    	}
+		    	}*/
+	    		return ok();
 		    	//reorderImagesForFirstTime(imageList);
 		    	
 	    	}	
@@ -839,7 +843,7 @@ public class InventoryController extends Controller {
 			if(session("USER_KEY") == null || session("USER_KEY") == "") {
 				return ok(home.render("",userRegistration));
 			} else {
-				AuthUser userObj = (AuthUser) getLocalUser();
+				/*AuthUser userObj = (AuthUser) getLocalUser();
 				Sections sec = Sections.findById(id);
 		    	List<AddCollection> collectionList = AddCollection.getAllBySection(sec.value);
 		    	List<AddProductVM> productVMList = new ArrayList<>(); 
@@ -864,9 +868,9 @@ public class InventoryController extends Controller {
 		    			productVMList.add(vm);
 		    		}
 		    	}
-		    	return ok(Json.toJson(productVMList));
+		    	return ok(Json.toJson(productVMList));*/
 			}
-			
+			return ok();
 		}
 	   
 	   
@@ -874,7 +878,7 @@ public class InventoryController extends Controller {
 			if(session("USER_KEY") == null || session("USER_KEY") == "") {
 		   		return ok(home.render("", userRegistration));
 		   	} else {
-		   		AuthUser userObj = (AuthUser) getLocalUser();
+		   		/*AuthUser userObj = (AuthUser) getLocalUser();
 		   		
 		   		Sections sec = Sections.findById(id);
 			    	List<AddCollection> collectionList = AddCollection.getAllBySection(sec.value);
@@ -892,8 +896,9 @@ public class InventoryController extends Controller {
 			    			collectionVMList.add(aCollectionVM);
 			    		
 			    	}
-			    	return ok(Json.toJson(collectionVMList));
+			    	return ok(Json.toJson(collectionVMList));*/
 		   	}
+			return ok();
 		}
 	   
 	   

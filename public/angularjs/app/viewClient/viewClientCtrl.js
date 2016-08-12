@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('ViewClientCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('ViewClientCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceViewClient', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceViewClient) {
 	
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -80,8 +80,8 @@ angular.module('newApp')
 		 
 		 $scope.pendingUser = function(){
 			 $scope.doShow = 0;
-			 $http.get('/getRegistrList')
-				.success(function(data) {
+			 apiserviceViewClient.getRegistrList().then(function(data){
+			 
 				$scope.gridOptions.data = data;
 				$scope.pendingList = data;
 			});
@@ -102,8 +102,8 @@ angular.module('newApp')
 		 }*/
 		 
 		 $scope.removeUser = function(row){
-			 $http.get('/getRemoveUser/'+row.entity.id)
-				.success(function(data) {
+			 apiserviceViewClient.getRemoveUser(row.entity.id).then(function(data){
+			 
 					 $.pnotify({
 						    title: "Success",
 						    type:'success',
@@ -137,8 +137,8 @@ angular.module('newApp')
 		 }
 		 
 		 $scope.sendDemoUrl = function(row){
-			 $http.get('/getSendDemoLink/'+row.entity.id)
-				.success(function(data) {
+			 apiserviceViewClient.getSendDemoLink(row.entity.id).then(function(data){
+			 
 					 $.pnotify({
 						    title: "Success",
 						    type:'success',
@@ -186,7 +186,8 @@ angular.module('newApp')
 		 
 		 $scope.UpdateRegisterUser = function(){
 			 console.log($scope.register);
-			 $http.post("/updateRegisterUser",$scope.register).success(function(data){
+			 apiserviceViewClient.updateRegisterUser($scope.register).then(function(data){
+			 
          		$.pnotify({
 					    title: "Success",
 					    type:'success',
@@ -200,8 +201,8 @@ angular.module('newApp')
 		 $scope.goTocars = function() {
 			 
 			 $scope.doPublic = 0;
-			 $http.get('/getCarsDetails')
-		 		.success(function(data) {
+			 apiserviceViewClient.getCarsDetails().then(function(data){
+			 
 		 			//for(var i=0;i<data.length;i++) {
 		 			//	data[i].price = "$ "+data[i].price;
 		 			//}
@@ -219,8 +220,8 @@ angular.module('newApp')
 		 $scope.goToBoat = function() {
 			 
 			 $scope.doPublic = 0;
-			 $http.get('/getBoat')
-		 		.success(function(data) {
+			 apiserviceViewClient.getBoat().then(function(data){
+			 
 		 			$scope.registrationObjList = data;
 		 			$scope.gridOptions.data = data;
 		 			
@@ -229,8 +230,8 @@ angular.module('newApp')
 			 $scope.goToMotorcycles = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getMotorcycles')
-			 		.success(function(data) {
+				 apiserviceViewClient.getMotorcycles().then(function(data){
+				 
 			 			$scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
 			 			
@@ -240,8 +241,8 @@ angular.module('newApp')
 			$scope.goToDesignerFurniture = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getDesignerFurniture')
-			 		.success(function(data) {
+				 apiserviceViewClient.getDesignerFurniture().then(function(data){
+				 
 			 			$scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
 			 			
@@ -251,8 +252,8 @@ angular.module('newApp')
 			$scope.goToRealState = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getRealState')
-			 		.success(function(data) {
+				 apiserviceViewClient.getRealState().then(function(data){
+				 
 			 			$scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
 			 			
@@ -262,8 +263,8 @@ angular.module('newApp')
 			$scope.goToAirplanes = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getAirplanes')
-			 		.success(function(data) {
+				 apiserviceViewClient.getAirplanes().then(function(data){
+				 
 			 			$scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
 			 			
@@ -273,8 +274,8 @@ angular.module('newApp')
 			$scope.goToServiceProvider = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getServiceProvider')
-			 		.success(function(data) {
+				 apiserviceViewClient.getServiceProvider().then(function(data){
+				 
 			 			$scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
 			 			
@@ -284,8 +285,8 @@ angular.module('newApp')
 			$scope.goToLuxuryProducts = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getLuxuryProducts')
-			 		.success(function(data) {
+				 apiserviceViewClient.getLuxuryProducts().then(function(data){
+				 
 			 			$scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
 			 			

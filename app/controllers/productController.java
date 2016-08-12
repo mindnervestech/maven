@@ -1,41 +1,15 @@
 package controllers;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
 import models.AddCollection;
-import models.AddProduct;
 import models.AuthUser;
-import models.FeaturedImageConfig;
-import models.InventoryImage;
-import models.ProductImages;
-import models.Sections;
-import net.coobird.thumbnailator.Thumbnails;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-
 import play.Play;
-import play.data.DynamicForm;
-import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Http.MultipartFormData;
-import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import securesocial.core.Identity;
 import viewmodel.AddCollectionVM;
-import viewmodel.AddProductVM;
-import viewmodel.EditImageVM;
-import viewmodel.ImageVM;
-import viewmodel.SectionsVM;
-import views.html.home;
 
 
 
@@ -69,7 +43,7 @@ public class productController extends Controller {
 
 	private static boolean simulate = false;
     
-	public static Result getSectionCollection(Long id){
+/*	public static Result getSectionCollection(Long id){
 		
 		
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -89,43 +63,22 @@ public class productController extends Controller {
 			}
 			return ok(Json.toJson(collectionVM));
 		}
-	}
+	}*/
 	
 	 public static Result getCollectionList(){
-	    	AuthUser userObj = (AuthUser) getLocalUser();
-	    	List collection = new ArrayList<>();
-			List<AddCollection> listData = AddCollection.findAllCollection();
-	    	List<AddCollectionVM> proList = new ArrayList<>();
-	    	List<AddCollectionVM> readyList = new ArrayList<>();
-	    	List<AddCollectionVM> sectionList = new ArrayList<>();
+			List<AddCollection> listData = AddCollection.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	List<AddCollectionVM> collList = new ArrayList<>();
 	    	for(AddCollection coll: listData) {
-	    		if(coll.section.equals("readymade")){
 	    			AddCollectionVM vm = new AddCollectionVM();
 	    			vm.title = coll.title;
 	    			vm.id = coll.id;
-	    			readyList.add(vm);
-	    		}else if(coll.section.equals("product")){
-	    			AddCollectionVM vm = new AddCollectionVM();
-	    			vm.title = coll.title;
-	    			vm.id = coll.id;
-	    			proList.add(vm);
-	    		}else if(coll.section.equals("accessories") || coll.section.equals("disable")){
-	    			
-	    		}else{
-	    			AddCollectionVM vm = new AddCollectionVM();
-	    			vm.title = coll.title;
-	    			vm.id = coll.id;
-	    			sectionList.add(vm);
-	    		}
+	    			collList.add(vm);
 	    	}
-	    	collection.add(readyList);
-	    	collection.add(proList);
-	    	collection.add(sectionList);
-			return ok(Json.toJson(collection));
+			return ok(Json.toJson(collList));
 	    
 	    }
 	 
-	 public static Result getSections(){
+	/* public static Result getSections(){
 			if(session("USER_KEY") == null || session("USER_KEY") == "") {
 				return ok(home.render("",userRegistration));
 			} else {
@@ -141,7 +94,7 @@ public class productController extends Controller {
 				}
 				return ok(Json.toJson(list));
 			}
-		}
+		}*/
 	
 	
 	 public static AuthUser getLocalUser() {
@@ -151,7 +104,7 @@ public class productController extends Controller {
 		}
 	 
 	 
-	 public static Result addProduct(){
+	/* public static Result addProduct(){
 			MultipartFormData body = request().body().asMultipartFormData();
 	    	Form<AddProductVM> form = DynamicForm.form(AddProductVM.class).bindFromRequest();
 	    	AddProductVM vm = form.get();
@@ -247,10 +200,10 @@ public class productController extends Controller {
 	    	}
 	    		
 	    		return ok(Json.toJson(productVM));
-	    }
+	    }*/
 	 
 	 
-	  public static Result removeDefaultProduct(Long newId) {
+	  /*public static Result removeDefaultProduct(Long newId) {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
@@ -266,9 +219,9 @@ public class productController extends Controller {
 		    	newImage.update();
 		    	return ok();
 	    	}	
-	    }
+	    }*/
 	  
-	  public static Result deleteImage(Long id) {
+	 /* public static Result deleteImage(Long id) {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
@@ -363,7 +316,7 @@ public class productController extends Controller {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	File file = null;
-		    	InventoryImage image = InventoryImage.findById(id);
+		    	ProductImages image = ProductImages.findById(id);
 		    	if(type.equals("thumbnail")) {
 			    	file = new File(rootDir+image.thumbPath.replaceAll("%20"," "));
 		    	}
@@ -422,6 +375,6 @@ public class productController extends Controller {
 		    	
 		    	return ok();
 	    	}	
-	    }
+	    }*/
 	
 	}

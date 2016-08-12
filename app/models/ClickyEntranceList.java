@@ -147,7 +147,9 @@ public class ClickyEntranceList extends Model {
 		return find.byId(id);
 	}
 	
-	
+	public static List<ClickyEntranceList> findByTitleAndDate(String url, Date startdate, Date enddate) {
+		return find.where().eq("url", url).between("saveDate", startdate, enddate).findList();
+	}
 	
 	
 	

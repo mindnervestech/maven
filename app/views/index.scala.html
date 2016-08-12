@@ -43,8 +43,6 @@
         <link href="/assets/textAngular/textAngular.css" rel="stylesheet" /> -->
        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
          <link href="/assets/global/css/bootstrap-timepicker.min.css" rel="stylesheet" />
-        <!--  <link href="/assets/global/js/fullcalendar/fullcalendar.css" rel="stylesheet" />
-         <link href="/assets/global/js/fullcalendar/fullcalendar.print.css" rel="stylesheet" /> -->
         <!-- <link href="/assets/angular-nvd3/nv.d3.css" rel="stylesheet" /> -->
         <!-- BEGIN ANGULARJS STYLE -->
         <!-- <link href="/dealerjs/css/angular-theme.css" rel="stylesheet"> -->
@@ -54,7 +52,7 @@
         <!-- END LAYOUT STYLE -->
         <!-- <script src="/assets/global/plugins/modernizr/modernizr-2.6.2-respond-1.1.0.min.js"></script> -->
     </head>
-    <body ng-app="newApp" class="sidebar-condensed fixed-topbar fixed-sidebar theme-sdtl color-default" ng-controller="mainCtrl">
+    <body ng-app="newApp" class="sidebar-condensed fixed-topbar fixed-sidebar theme-sdtl color-default" ng-controller="mainCtrl" ng-init="indexInitFunction()">
         <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -152,7 +150,7 @@
                     </div> -->
                     <ul class="nav nav-sidebar">
                         <li ng-sec = "Dashboard" ng-class="{ active  : isActive('/')}"><a href="#/"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-                        <!-- <li ng-sec = "Website Editing" ng-class="{ active  : isActive('/sliderImages')}"><a href="#sliderImages"><i class="icon-home"></i><span>Website Editing</span></a></li> -->
+                         <li ng-sec = "Website Editing" ng-class="{ active  : isActive('/sliderImages')}"><a href="#sliderImages"><i class="icon-home"></i><span>Website Editing</span></a></li> 
                          <li ng-sec = "Add Inventory" ng-class="{ active  : isActive('/addInventory')}"><a href="#addInventory"><i class="fa fa-car"></i><span>Add PRODUCT</span></a></li>
 						<!-- <li ng-sec = "Inventory" ng-class="{ active  : isActive('/viewVehicles')}"><a href="#viewVehicles"><i class="fa fa-bus"></i><span>Inventory</span></a></li> -->
 						 <!-- <li ng-sec="Add Product" ng-class="{ active  : isActive('/addProduct')}"><a href="#addProduct"><i class="glyphicon glyphicon-plus-sign"></i><span>ADD PRODUCT</span></a></li> -->
@@ -700,19 +698,41 @@
         <script src="/dealerjs/js/plugins.js"></script> 
         <script src="/dealerjs/js/quickview.js"></script>
         <script src="/dealer/dashboard/dashboardCtrl.js"></script>
-         <script src="/dealer/config/configPageCtrl.js"></script>
+         <script src="/dealer/config/ConfigPageCtrl.js"></script>
          <script src="/dealer/viewInventory/viewInventoryCtrl.js"></script>
-         
+         <script src="/dealer/addPhotos/photoUploadCtrl.js"></script>
          <script src="/dealer/addInventory/addEditInventoryCtrl.js"></script>
          <script src="/dealer/addInventory/addCropInventoryCtrl.js"></script>
         <script src="/dealer/myprofile/UserCtrl.js"></script>
+        <script src="/dealer/myprofile/myProfileCtrl.js"></script>
          <script src="/dealer/myCalendar/myCalendarCtrl.js"></script>
          <script src="/dealer/myCalendar/apiservice.js"></script>
          <script src="/dealer/addInventory/apiserviceAddEditInventory.js"></script>
          <script src="/dealer/myprofile/apiserviceUser.js"></script>
-         
+         <script src="/dealer/myprofile/apiserviceProfile.js"></script>
+         <script src="/dealer/addVehicle/apiserviceAddEditVehicle.js"></script>
+         <script src="/dealer/dashboard/apiserviceDashborad.js"></script>
+         <script src="/dealer/CRM/apiserviceCrm.js"></script>
+         <script src="/dealer/moreInfo/apiserviceMoreInfo.js"></script>
+         <script src="/dealer/viewInventory/apiserviceViewInventory.js"></script>
+         <script src="/dealer/viewClient/apiserviceViewClient.js"></script>
+         <script src="/dealer/viewVehicle/apiserviceViewVehicle.js"></script>
+         <script src="/dealer/inventory/apiserviceInventory.js"></script>
+         <script src="/dealer/customizationForm/apiserviceCustomizationForm.js"></script> 
+         <script src="/dealer/viewRegistration/apiserviceRegistration.js"></script>
+         <script src="/dealer/homePage/apiserviceHomePage.js"></script>
+         <script src="/dealer/config/apiserviceConfigPage.js"></script>
+         <script src="/dealer/addInventory/apiserviceAddCropInventory.js"></script>
+         <script src="/dealer/myprofile/apiserviceLocation.js"></script>
         <script src="/dealer/myprofile/LocationCtrl.js"></script>
+         <script src="/dealer/addPhotos/cropImageCtrl.js"></script>
+         <script src="/dealer/homePage/homePageCtrl.js"></script>
         <script src="/dealer/customizationForm/customizationFormCtrl.js"></script>
+        
+        <!-- *********************************API services******************************* -->
+        <script src="/dealer/blogs/apiserviceBlog.js"></script>
+        
+        
         
         <!-- <script src="/dealer/charts/charts/chartsCtrl.js"></script>
         <script src="/dealer/charts/financialCharts/financialChartsCtrl.js"></script> -->

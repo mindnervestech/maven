@@ -188,7 +188,7 @@ h1, h2 {
 </head>
 <body ng-app="newApp" ng-controller="mainLoginCtrl">
 
-<div class="container" id="container">
+<div class="container" id="container" ng-init="test()">
     <div class="inner">
     	<h1 class="animated fadeIn">Welcome<br/>to<br/><span class="highlight">glider enterprise</span></h1>
         <form action="authenticate" method="POST">
@@ -198,7 +198,7 @@ h1, h2 {
             <div class="row">
             	<p id="messg" style="color:red;display:none;">@message</p>
                 <input type="submit" value="login" ng-click="test()">
-                <a style="font-size: 18px;" class="register" >Register</a>
+                <a style="font-size: 18px; cursor:pointer;" class="register" >Register</a>
                 <a href="#" class="remind">Forgot password?</a>
             </div>
         </form>
@@ -217,9 +217,9 @@ h1, h2 {
 </div>
 
 
-<div class="register-pop popsReg">
+<div id="registerModel" class="register-pop popsReg">
 <form ng-submit="registerUser(register)">
-    <a href="#" class="close-button"></a>
+    <a href="#" id="registerPopClose" class="close-button"></a>
    			 <h2>Register</h2>
     							<div class="col-md-12" style="margin-bottom: 8px;margin-top: 8px;">
     							      <div class="col-md-2"></div>
@@ -276,11 +276,25 @@ h1, h2 {
 								   <div class="col-md-2"></div>
                                   <div class="col-md-2" style="text-align: left;" >
 								  			<label style="margin-top: 20%">	Business Name</label>
+								  			<label style="margin-top: 1%; font-size:12px;">*like it's displayed on Google Maps</label>
 								  		</div>
 								     <div class="col-md-6" >
-		         				<input type="text" ng-model="register.businessName" class="form-control" placeholder="Business Name" required/> 
+		         				<input type="text" ng-model="register.businessName" id="autocomplete" list="comicstitle" ng-change="getbusinessname(register.businessName)" class="form-control" placeholder="Business Name" required/> 
 								      	</div>
-								    </div>    
+								      	<datalist id="comicstitle">
+    												<option  data-ng-repeat="ttl in locationNameList" value="{{ttl.description}}" >
+  												</datalist>
+								    </div> 
+								    
+								    <!--  <div class="col-md-12">
+								    	<table border=1px align="center">
+								    		<tr ng-repeat="list in locationNameList">
+								    			<td>&nbsp;<input type="radio" name="radio" value="{{list.description}}" ng-model="check" ng-click="businessAddress(list.description)"> &nbsp;</td>
+								    			<td> {{list.description}}</td>
+								    		</tr>
+								    	</table>
+								    </div> -->
+								       
 								    <div class="col-md-12">
 								    <div class="col-md-2"></div>
                                   <div class="col-md-2" style="text-align: left;">
@@ -294,8 +308,8 @@ h1, h2 {
     <p id="msg" style="color:red;display:none;"><b>Invalid User</b></p>
     <p id="msg1" style="color:green;display:none;"><b>Email send successfully</b></p>
     <div class="col-md-12">
-    <input type="submit" id="submitData" value="submit">
-    <label style="color: #006bb6;margin-left: 5px">Login</label>
+    <input type="submit" id="submitData" value="submit" >
+   <!--  <label style="color: #006bb6;margin-left: 5px">Login</label> -->
 </div>
 </form>
 </div>
@@ -443,15 +457,13 @@ first written above
 </div>
 
 </div>
-
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUNed71Bq6SCyI5SauRA7Rs9xT319HPP0&libraries=places"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="/assets/loginPage/particles.min.js"></script>
 <script src="/dealerjs/plugins/angular/angular.min.js"></script>
 <script src="/dealer/mainLoginCtrl.js"></script>
 <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
-<script src="/assets/global/plugins/bootstrap/js/angular-form-builder/dist/angular-form-builder-components.js"></script>
-<script src="/assets/global/plugins/bootstrap/js/angular-form-builder/dist/angular-form-builder.js"></script>
-
+<script src="/assets/global/plugins/google-maps/gmaps.js"></script>
 <script>
 	
 	$( document ).ready(function() {
@@ -502,9 +514,9 @@ first written above
             $('.page_overlay, .popss').fadeOut(500);
         }); */
         
-        $('#submitData').click(function() {
+       /*  $('#submitData').click(function() {
             $('.page_overlay, .pops, .popsReg').fadeOut(500);
-        });
+        }); */
 	
 	
 	

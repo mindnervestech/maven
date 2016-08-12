@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('InventoryImageCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('InventoryImageCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddCropInventory', function ($scope,$http,$location,$filter,$routeParams,apiserviceAddCropInventory) {
 
 
 	
@@ -15,10 +15,11 @@ angular.module('newApp')
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
 		if(userRole == "Photographer"){
-			 $http.get('/findLocation')
-				.success(function(data) {
+			apiserviceAddCropInventory.findLocation().then(function(data){
+			 
 					console.log(data);
 					$scope.userLocationId = data;
+					apiserviceAddCropInventory.getInventoryImageById($routeParams.id).then(function(data){
 			$http.get('http://www.glider-autos.com:9889/getInventoryImageById/'+$routeParams.id)
 			.success(function(data) {
 				imageW = data.col;
@@ -48,13 +49,12 @@ angular.module('newApp')
 			});
 				});
 		}else{
-			$http.get('/findLocation')
-			.success(function(data) {
+			apiserviceAddCropInventory.findLocation().then(function(data){
+				
 				console.log(data);
 				$scope.userLocationId = data;
+				apiserviceAddCropInventory.getInventoryImageById($routeParams.id).then(function(data){
 			
-			$http.get('/getInventoryImageById/'+$routeParams.id)
-			.success(function(data) {
 				imageW = data.col;
 				imageH = data.row;
 				
@@ -116,28 +116,14 @@ angular.module('newApp')
 			console.log($scope.coords);
 			
 	if(userRole == "Photographer"){
-				
-				$http.post('http://www.glider-autos.com:9889/editInventoryImage',$scope.coords)
-				.success(function(data) {
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Saved successfully",
-					});
-					$location.path('/editInventory/'+$routeParams.vid+'/'+true+"/"+$routeParams.productId);
+		apiserviceAddCropInventory.editInventoryImage($scope.coords).then(function(data){
+				$location.path('/editInventory/'+$routeParams.vid+'/'+true+"/"+$routeParams.productId);
 				});
 				
 			}else{
-				$http.post('/editInventoryImage',$scope.coords)
-				.success(function(data) {
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Saved successfully",
-					});
+				apiserviceAddCropInventory.editInventoryImage($scope.coords).then(function(data){
 					$location.path('/editInventory/'+$routeParams.vid+'/'+true+"/"+$routeParams.productId);
 				});
 			}
 		}        
 }]);
-

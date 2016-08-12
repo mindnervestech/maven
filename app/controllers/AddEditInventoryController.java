@@ -44,6 +44,12 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import play.Play;
 import play.data.DynamicForm;
@@ -521,9 +527,9 @@ public class AddEditInventoryController extends Controller {
 		  public static Result deleteInventoryImage(Long id) {
 			    	AuthUser user = (AuthUser) getLocalUser();
 			    	InventoryImage image = InventoryImage.findById(id);
-			    	File file = new File(rootDir+image.path);
+			    	File files = new File(rootDir+image.path);
 			    	File thumbFile = new File(rootDir+image.thumbPath);
-			    	file.delete();
+			    	files.delete();
 			    	thumbFile.delete();
 			    	image.delete();
 			    	return ok();
@@ -535,6 +541,94 @@ public class AddEditInventoryController extends Controller {
 	    	AuthUser user = AuthUser.find.byId(Integer.parseInt(id));
 			return user;
 		}
-
-	
+	  
+	  public static Result savePosition() {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	JsonNode nodes = ctx().request().body().asJson();
+		    	ObjectMapper mapper = new ObjectMapper();
+		    	try {
+		    		List<InventoryImage> images = mapper.readValue(nodes.toString(), new TypeReference<List<InventoryImage>>() {});
+					
+			    	for(InventoryImage image : images) {
+			    		image.update();
+			    	}
+				} catch (JsonParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonMappingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    	
+		    	
+		    	return ok();
+	    	}
+	    }
+	  
+	  public static Result updateVehicleByIdPdf(Long id) throws SocketException, IOException{
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+	    		
+	    		AuthUser userObj = (AuthUser) getLocalUser();
+		    	MultipartFormData body = request().body().asMultipartFormData();
+		    	Vehicle vehicle = Vehicle.findById(id);
+		    	if(vehicle != null) {
+		    		
+		    		if(body != null){
+			    		FilePart picture = body.getFile("file0");
+			    		if (picture != null) {
+			    			String fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
+			    			File file = picture.getFile();
+			    			try {
+			    				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure");
+			    	    	    if(!fdir.exists()) {
+			    	    	    	fdir.mkdir();
+			    	    	    }
+			    	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure"+fileName;
+			    	    	    FileUtils.moveFile(file, new File(filePath));
+			    	    	    vehicle.setPdfBrochureName(fileName);
+			    	    	    vehicle.setPdfBrochurePath(session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure"+fileName);
+			    	    	    vehicle.update();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+			    		}
+			    	}
+		    	}	
+	    		
+	    		return ok();
+	    	}
+	    }
+	  
+	  public static Result setDefaultImage(Long id) {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	InventoryImage image = InventoryImage.findById(id);
+		    	image.defaultImage = (true);
+		    	image.update();
+		    	return ok();
+	    	}
+	    }
+	  
+	  public static Result removeDefault(Long old,Long newId) {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	InventoryImage image = InventoryImage.findById(old);
+		    	image.defaultImage = (false);
+		    	image.update();
+		    	
+		    	InventoryImage newImage = InventoryImage.findById(newId);
+		    	newImage.defaultImage = (true);
+		    	newImage.update();
+		    	return ok();
+	    	}	
+	    }
 }

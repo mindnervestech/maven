@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('VisitorsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
+.controller('VisitorsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope,apiserviceAnalytics) {
 	
 	$scope.engTimeTitle=$routeParams.engTimeTitle;
 	$scope.trafficSourceTitle = $routeParams.trafficSourceTitle;
@@ -36,7 +36,7 @@ angular.module('newApp')
 	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
 	                        'Last 7 Days': [moment().subtract('days', 6), moment()],
 	                        'Last 14 Days':[moment().subtract('days', 13), moment()],
-	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 27), moment()],
 	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
 	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
 	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
@@ -100,6 +100,140 @@ angular.module('newApp')
 	     
 	    }
 
+	 $scope.selectedData = function(){
+		 $scope.gridOptions3.data = [];
+		 apiserviceAnalytics.getVisitorList($scope.startDateFilter, $scope.endDateFilter).then(function(data){
+		 
+				console.log(data);
+				angular.forEach(data, function(value, key) {
+					var array = value.timePretty.split(',');
+					var timeNew= value.timePretty.split(' ');
+					var newTimePretty;
+					value.timeSet = array[1];
+					value.newTimePretty=timeNew[1]+" "+timeNew[2]+" "+timeNew[3]+" "+timeNew[4];
+					
+					value.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.timeTotal)), 'HH:mm:ss');
+					 var splitTime   = value.timeTotal.split(":");
+					 if(splitTime[0] == 00){
+						 value.timeTotal = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					
+				});
+				
+				angular.forEach(data,function(value, key){
+					
+					if($scope.engActionTitle != undefined){
+						var newactions = $scope.engActionTitle.split(" ");
+						console.log(value.actions);
+						console.log(newactions[1]);
+						if(newactions[1] == "actions" ||newactions[1] == "action"){
+							console.log(value.actions);
+							console.log(newactions[0]);
+							if(value.actions == newactions[0]){
+								$scope.gridOptions3.data.push(value);
+							}
+							else{
+								console.log("is else condition");
+							}
+						}
+					}
+					
+					if($scope.engTimeTitle != undefined){
+						
+						var newtime = $scope.engTimeTitle.split('');
+						console.log(newtime);
+						if($scope.engTimeTitle.length == 3){
+							
+							timedata = value.timeTotal.split("m");
+							timedata = parseInt(timedata);
+							newtime = parseInt(newtime[1]);
+								if(timedata < newtime){
+									$scope.gridOptions3.data.push(value);
+								}
+						}
+						if($scope.engTimeTitle.length >= 4){
+							
+							var newtime = $scope.engTimeTitle.split(" ");
+							var timedata = value.timeTotal.split(" ");
+							
+							timedata1 = timedata[0].split("m");
+							timedata1 = parseInt(timedata1);
+							
+							if(newtime[0].length == 2){
+								var	newtimedata = "0"+newtime[0];
+								newdata = newtimedata.split("m");
+								newdata = parseInt(newdata);
+									if(newdata == timedata1){
+										$scope.gridOptions3.data.push(value);
+									}
+							}
+							else{
+								newtime1 = newtime[0].split("m");
+								newtime2 = newtime[2].split("m");
+								newtime2 = parseInt(newtime2);
+								newtime1 = parseInt(newtime1);
+									if(newtime1 <= timedata1 && newtime2 >= timedata1){
+										$scope.gridOptions3.data.push(value);
+									}
+							}
+						}
+					
+					}
+					
+					if($scope.trafficSourceTitle != undefined){
+						if($scope.trafficSourceTitle == "Direct"){
+							$scope.gridOptions3.data.push(value);
+						}
+						else if($scope.trafficSourceTitle == "Links"){
+							$scope.gridOptions3.data.push(value);
+						}
+						else if($scope.trafficSourceTitle == "Searches"){
+							$scope.gridOptions3.data.push(value);
+						}
+					}
+					
+					});
+					
+			$scope.gridOptions3.data = $filter('orderBy')($scope.gridOptions3.data,'dateClick');
+			$scope.gridOptions3.data = $scope.gridOptions3.data.reverse();
+			console.log($scope.gridOptions3.data);
+			
+			 console.log($scope.gridOptions3.data);
+			$scope.visitiorList = data;
+		});
+		
+		
+		$scope.gridOptions3.columnDefs = [
+		                                 {name: 'newTimePretty', displayName: 'Date & Time', width:'12%'},
+		                                 {name: 'geolocation', displayName: 'Location', width:'10%',
+		                                	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geolocation)">{{row.entity.geolocation}}</label></div>',
+		                                 },
+		                                 {name:'organization', displayName:'Internet Provider', width:'15%',
+		                                	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></div>',
+		                                 },
+		                                  {name:'actions', displayName:'Actions', width:'8%',
+		                                	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
+		                                	 
+		                                 },
+		                                 {name:'timeTotal', displayName:'Time Spent', width:'10%'},
+		                                 {name:'abc', displayName:'Searches & Refferals', width:'40%',
+		                                	 cellTemplate:'<div ng-if="row.entity.referrerUrl != null"><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"></span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a><a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">{{row.entity.referrerDomain}}</a>&nbsp;&nbsp;<a  class="link-domain"  ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</a></div>',
+		                                	 
+		                                },
+		                                 {name:'Sear', displayName:'Page', width:'10%',
+		                                	 cellTemplate:'<a  target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
+		                                 }
+		                                 
+		                             ];  
+		 
+		
+		 
+	 }
+	 
 	    function loadScript() {
 	      var script = document.createElement("script");
 	      script.type = "text/javascript";
@@ -130,8 +264,8 @@ angular.module('newApp')
 			$scope.longitude=undefined;
 			 google.maps.event.addDomListener(window, 'load', initialized);
 			 if($scope.visitorInfos != undefined){
-			$http.get('/getVisitorData/'+$scope.visitorInfos)
-			.success(function(data) {
+				 apiserviceAnalytics.getVisitorData($scope.visitorInfos).then(function(data){
+			
 			$scope.latitude=data.latitude; 
 			$scope.longitude=data.longitude;
 			initialized();
@@ -149,11 +283,9 @@ angular.module('newApp')
 			 $scope.sessionId=data.sessionId;
 			 if($scope.sessionId != null && $scope.sessionId != undefined){
 				 
-				 console.log($scope.startDate1);
-				 console.log($scope.startDate1);
-				 console.log($scope.endDateFilter);
-				 $http.get('/getSessionData/'+$scope.sessionId+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
-					.success(function(data) {
+				 
+				 apiserviceAnalytics.getSessionData($scope.sessionId, $scope.startDateFilter, $scope.endDateFilter).then(function(data){
+				 
 						
 						$scope.gridOptions1.data=data;
 						 console.log($scope.gridOptions1.data);
@@ -162,24 +294,24 @@ angular.module('newApp')
 						
 						
 						$scope.gridOptions1.columnDefs = [
-						                                 {name: 'newTimePretty', displayName: '', width:'20%',
+						                                 {name: 'newTimePretty', displayName: '', width:'15%',
 						                                	 cellTemplate:'<div ><label >{{row.entity.newDate}}</label> </br>   <label ">{{row.entity.newTime}}</label> </div>',	 
 						                                 },
-						                                 {name: 'actionUrl', displayName: '', width:'40%',
-						                                	 cellTemplate:'<div ><a   target="_blank"   href="{{row.entity.actionUrl}}" >{{row.entity.newActionUrl}}</a> </br>   <label>{{row.entity.actionTitle}}</label> </div>',
+						                                 {name: 'actionUrl', displayName: '', width:'10%',
+						                                	 cellTemplate:'<div ><a   target="_blank"   href="{{row.entity.geolocation}}" >{{row.entity.geolocation}}</a> </br>   <label>{{row.entity.actionTitle}}</label> </div>',
 						                                 },
-						                                /* {name:'organization', displayName:'Internet Provider', width:'15%',
+						                                 {name:'organization', displayName:'Internet Provider', width:'15%',
 						                                	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></div>',
 						                                 },
-						                                 {name:'actions', displayName:'Actions', width:'8%',
+						                                 {name:'actions', displayName:'Actions', width:'10%',
 						                                	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
 						                                	 
 						                                 },
 						                                 {name:'timeTotal', displayName:'Time Spent', width:'10%'},
 						                                 {name:'referrerUrl', displayName:'Searches & Refferals', width:'40%',
-						                                	 cellTemplate:'<div ><label ng-if="row.entity.referrerUrl != null" ><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"> </span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a> <a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">google.com</a> &nbsp;&nbsp;<span ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</span> </label></div>',
+						                                	 cellTemplate:'<div ng-if="row.entity.referrerUrl != null"><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"></span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a><a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">{{row.entity.referrerDomain}}</a>&nbsp;&nbsp;<a  class="link-domain"  ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</a></div>',
 						                                	 },
-						                                 {name:'Sear', displayName:'Page', width:'10%',
+						                                 /*{name:'Sear', displayName:'Page', width:'40%',
 						                                	 cellTemplate:'<a   target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
 						                                 }*/
 						                                 
@@ -196,8 +328,8 @@ angular.module('newApp')
 			 else if($scope.ipAddressInfo != undefined){
 			
 				console.log($scope.ipAddressInfo);
-				$http.get('/getIPAddress/'+$scope.ipAddressInfo)
-				.success(function(data){
+				apiserviceAnalytics.getIPAddress($scope.ipAddressInfo).then(function(data){
+				
 					console.log("ip Address");
 					$scope.latitude=data.latitude; 
 					$scope.longitude=data.longitude;
@@ -227,13 +359,13 @@ angular.module('newApp')
 			
 			else if( $scope.trafficSourceTitle != undefined ){
 	        	$scope.typeOfInfo="";	
-	        	$http.get('/getTrafficSourceData/'+$scope.trafficSourceTitle+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
-				.success(function(data){
+	        	apiserviceAnalytics.getTrafficSourceData($scope.trafficSourceTitle, $rootScope.startDateFilter, $rootScope.endDateFilter).then(function(data){
+	        	
 					console.log(data);
-					$scope.gridOptions1.data = data;
+					$scope.gridOptions2.data = data;
 					$scope.browserObjList = data;
 					
-					angular.forEach($scope.gridOptions1.data, function(value, key) {
+					angular.forEach($scope.gridOptions2.data, function(value, key) {
 						if(value.title=="totalT"){
 							value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
 							 var splitTime   = value.these_visitors.split(":");
@@ -281,7 +413,7 @@ angular.module('newApp')
 							 
 							}	 
 					});
-					 $scope.gridOptions1.columnDefs = [
+					 $scope.gridOptions2.columnDefs = [
 					                                   {name: 'tt', displayName: 'Summary of filtered visitors', width:'40%',
 					                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>', 
 					                                   },
@@ -293,6 +425,7 @@ angular.module('newApp')
 											          ]
 				
 				});	
+	        	$scope.selectedData();
 				}
 		
 			
@@ -303,13 +436,13 @@ angular.module('newApp')
 		        	$scope.typeOfInfo="";	
 		        	console.log($scope.startDate);
 		        	console.log($scope.endDate);
-		        	$http.get('/getEngTimeData/'+$scope.engTimeTitle+"/"+$scope.startDate+"/"+$scope.endDate)
-					.success(function(data){
+		        	apiserviceAnalytics.getEngTimeData($scope.engTimeTitle, $scope.startDate, $scope.endDate).then(function(data){
+		        	
 						console.log(data);
-						$scope.gridOptions1.data = data;
+						$scope.gridOptions2.data = data;
 						$scope.browserObjList = data;
-						
-						angular.forEach($scope.gridOptions1.data, function(value, key) {
+						console.log($scope.gridOptions2.data);
+						angular.forEach($scope.gridOptions2.data, function(value, key) {
 							if(value.title=="totalT"){
 								value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
 								 var splitTime   = value.these_visitors.split(":");
@@ -357,7 +490,7 @@ angular.module('newApp')
 								 
 								}	 
 						});
-						 $scope.gridOptions1.columnDefs = [
+						 $scope.gridOptions2.columnDefs = [
 						                                   {name: 'tit', displayName: 'Summary of filtered visitors', width:'40%',
 						                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',   
 						                                   },
@@ -369,6 +502,7 @@ angular.module('newApp')
 												          ]
 					
 					});	
+		        	$scope.selectedData();
 					}
 					
 			
@@ -377,14 +511,14 @@ angular.module('newApp')
 			  else if( $scope.engActionTitle != undefined ){
         	$scope.typeOfInfo="";	
         	console.log("out of engaction function");
-        	$http.get('/getEngActionData/'+$scope.engActionTitle+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
-			.success(function(data){
+        	apiserviceAnalytics.getEngActionData($scope.engActionTitle, $rootScope.startDateFilter, $rootScope.endDateFilter).then(function(data){
+        	
 				console.log(data);
 				console.log("in get engaction function");
-				$scope.gridOptions1.data = data;
+				$scope.gridOptions2.data = data;
 				$scope.browserObjList = data;
 				
-				angular.forEach($scope.gridOptions1.data, function(value, key) {
+				angular.forEach($scope.gridOptions2.data, function(value, key) {
 					if(value.title=="totalT"){
 						value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
 						 var splitTime   = value.these_visitors.split(":");
@@ -432,7 +566,7 @@ angular.module('newApp')
 						 
 						}	 
 				});
-				 $scope.gridOptions1.columnDefs = [
+				 $scope.gridOptions2.columnDefs = [
 				                                   {name: 'titl', displayName: 'Summary of filtered visitors', width:'40%',
 				                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',
 				                                   },
@@ -442,15 +576,17 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.difference.toFixed(2)}}%</span></div>',
 										             },
 										          ]
+			
 			});	
+        	 $scope.selectedData();
 			}
 			
 			
 			
 			if($scope.typeOfReferrer != undefined && $scope.typeOfReferrer != null){
 				console.log("in domain functon");
-				$http.get('/getreferrerTypeData/'+$scope.typeOfReferrer+"/"+$scope.locationFlag+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
-				.success(function(data) {
+				apiserviceAnalytics.getreferrerTypeData($scope.typeOfReferrer,$scope.locationFlag, $rootScope.startDateFilter, $rootScope.endDateFilter).then(function(data){
+				
 				$scope.chartFlag1=false;
 				console.log("out domain functon"+$scope.gridOptions1.data);
 				$scope.gridOptions1.data = data;
@@ -518,8 +654,12 @@ angular.module('newApp')
 												{name: 'tt', displayName: 'Summary of filtered visitors', width:'40%',
 													   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>', 
 												},
-												  {name:'these_visitors', displayName:'These Visitors', width:'20%' },
-												  {name:'all_visitors', displayName:'All Visitors', width:'20%' },
+												  {name:'these_visitors', displayName:'These Visitors', width:'20%',
+													cellTemplate:'<div><span>{{row.entity.these_visitors}}</span></div>',
+												  },
+												  {name:'all_visitors', displayName:'All Visitors', width:'20%',
+													  cellTemplate:'<div><span>{{row.entity.all_visitors}}</span></div>',
+												  },
 												  {name:'these', displayName:'Difference', width:'20%',
 												 	 cellTemplate:'<div><span>{{row.entity.difference.toFixed(2)}}%</span></div>',
 												  },
@@ -539,8 +679,8 @@ angular.module('newApp')
 			if($scope.idForDomain != undefined && $scope.idForDomain != null){
 				console.log("in domain functon");
 				$scope.flagForLanding="ForDomain";
-				$http.get('/getVisitorDataForLanding/'+$scope.idForDomain+"/"+$scope.flagForLanding+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
-				.success(function(data) {
+				apiserviceAnalytics.getVisitorDataForLanding($scope.idForDomain,$scope.flagForLanding, $rootScope.startDateFilter, $rootScope.endDateFilter).then(function(data){
+				
 				$scope.chartFlag1=false;
 				console.log("out domain functon"+$scope.gridOptions1.data);
 				$scope.gridOptions1.data = data;
@@ -622,8 +762,8 @@ angular.module('newApp')
 			if($scope.idForRefferal != undefined && $scope.idForRefferal != null){
 				console.log("in domain functon");
 				$scope.flagForLanding="ForRefferalUrl";
-				$http.get('/getVisitorDataForLanding/'+$scope.idForRefferal+"/"+$scope.flagForLanding+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
-				.success(function(data) {
+				apiserviceAnalytics.getVisitorDataForLanding($scope.idForRefferal,$scope.flagForLanding, $rootScope.startDateFilter, $rootScope.endDateFilter).then(function(data){
+				
 				$scope.chartFlag1=false;
 				console.log("out domain functon"+$scope.gridOptions1.data);
 				$scope.gridOptions1.data = data;
@@ -718,6 +858,22 @@ angular.module('newApp')
 	 		    useExternalFiltering: true,
 	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
 	 		 };
+	
+	$scope.gridOptions2 = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
+	
+	$scope.gridOptions3 = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
 	     $scope.showVisitorsInfo = function(typeOfInfo){
 	    	
 	    	 $location.path('/visitorsAnalytics/'+typeOfInfo);
@@ -753,8 +909,8 @@ angular.module('newApp')
 				$scope.tabClickFlag=1;
 				console.log($scope.startDateFilter);
 				console.log($scope.endDateFilter);
-				 $http.get('/getVisitorList/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
-					.success(function(data) {
+				apiserviceAnalytics.getVisitorList($scope.startDateFilter, $scope.endDateFilter).then(function(data){
+				 
 					$scope.gridOptions.data = data;
 					console.log(data);
 					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
@@ -797,11 +953,12 @@ angular.module('newApp')
 				                                	 
 				                                 },
 				                                 {name:'timeTotal', displayName:'Time Spent', width:'10%'},
-				                                 {name:'referrerUrl', displayName:'Searches & Refferals', width:'40%',
-				                                	 cellTemplate:'<div ><label ng-if="row.entity.referrerUrl != null" ><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"> </span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a> <a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">{{row.entity.referrerDomain}}</a> &nbsp;&nbsp;<a  class="link-domain"  ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</a> </label></div>',
-				                                	 },
+				                                 {name:'abc', displayName:'Searches & Refferals', width:'40%',
+				                                	 cellTemplate:'<div ng-if="row.entity.referrerUrl != null"><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"></span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a><a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">{{row.entity.referrerDomain}}</a>&nbsp;&nbsp;<a  class="link-domain"  ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</a></div>',
+				                                	 
+				                                },
 				                                 {name:'Sear', displayName:'Page', width:'10%',
-				                                	 cellTemplate:'<a   target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
+				                                	 cellTemplate:'<a  target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
 				                                 }
 				                                 
 				                             ];  
@@ -811,8 +968,8 @@ angular.module('newApp')
 				$scope.tabClickFlag=2;
 				console.log($scope.startDateFilter);
 				console.log($scope.endDateFilter);
-				 $http.get('/getActionListData/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
-					.success(function(data) {
+				apiserviceAnalytics.getActionListData($scope.startDateFilter,$scope.endDateFilter).then(function(data){
+				 
 					$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
@@ -838,8 +995,8 @@ angular.module('newApp')
 				$scope.tabClickFlag=3;
 				console.log($scope.startDateFilter);
 				console.log($scope.endDateFilter);
-				 $http.get('/getEngagementAct/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
-					.success(function(data) {
+				apiserviceAnalytics.getEngagementAct($scope.startDateFilter,$scope.endDateFilter).then(function(data){
+				 
 						console.log(data);
 					$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
@@ -877,7 +1034,7 @@ angular.module('newApp')
 								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.newValuePrecentage.toFixed(2)}}%)</span></div>',
 								             },
 								             {name:'statsUrl', displayName:'', width:'20%',
-								            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+								            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 								             },
 								             {name:'Per', displayName:'', width:'10%',		
 								            	 cellTemplate:'<div  style="margin-left:47px;"><span title="{{row.entity.secondCount}}" ng-click="grid.appScope.showEngagementActionChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -891,8 +1048,8 @@ angular.module('newApp')
 			
 			else if($scope.typeOfInfo == 'Engagement time'){
 				$scope.tabClickFlag=4;
-				$http.get('/getEngagementTime/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
-				.success(function(data) {
+				apiserviceAnalytics.getEngagementTime($scope.startDateFilter,$scope.endDateFilter).then(function(data){
+				
 				$scope.gridOptions.data = data;
 				$scope.visitiorList = data;
 				angular.forEach($scope.gridOptions.data, function(value, key) {
@@ -956,7 +1113,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div  ><span > {{row.entity.newValuePrecentage.toFixed(2)}}% </span></div>',
 									            	 },
 									             {name:'stats_url', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'url', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEngagementTimeChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -970,8 +1127,8 @@ angular.module('newApp')
 				$scope.tabClickFlag=6;
 				console.log($scope.startDateFilter);
 				console.log($scope.endDateFilter);
-				$http.get('/getTrafficScoures/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
-				.success(function(data) {
+				apiserviceAnalytics.getTrafficScoures($scope.startDateFilter,$scope.endDateFilter).then(function(data){
+				
 				$scope.gridOptions.data = data;
 				console.log(data);
 				$scope.visitiorList = data;
@@ -1020,7 +1177,7 @@ angular.module('newApp')
 									             {name: 'totTime', displayName: 'Total Time', width:'15%'},
 									             {name: 'bounceRate', displayName: 'Bounce Rate', width:'10%'},
 									             {name:'stats_url', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'Percent', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showTrafficScouresChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -1033,8 +1190,8 @@ angular.module('newApp')
 				$scope.tabClickFlag=5;
 				console.log($scope.startDateFilter);
 				console.log($scope.endDateFilter);
-				$http.get('/getActiveVisitors/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
-				.success(function(data) {
+				apiserviceAnalytics.getActiveVisitors($scope.startDateFilter,$scope.endDateFilter).then(function(data){
+				
 					console.log(data);
 				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
@@ -1052,7 +1209,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
 									             {name:'stats_url', displayName:'', width:'30%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									            
 									         ]
@@ -1157,20 +1314,22 @@ angular.module('newApp')
 		 }
 		 
 		 $scope.referrerTypeDataForIpAdress = function(type) {
-			 console.log(type);
+			
 			 var startDate = $("#cnfstartDateValue").val();
-				var endDate = $("#cnfendDateValue").val();
-				console.log($scope.startDate1);
+			 var endDate = $("#cnfendDateValue").val();
+			 console.log($scope.startDate1);
 			 $scope.flagForLocation='IP';
 			// $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
-			 
-				$http.get('/getreferrerTypeData/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDate1+"/"+$scope.endDate1)
-				.success(function(data) {
+			 $scope.latitude=undefined;
+			 $scope.longitude=undefined;
+			 google.maps.event.addDomListener(window, 'load', initialized);
 				
-				console.log("::::::::");
-				console.log(data);
-				$scope.flagForIpAdressData=1;
-			    $scope.typeOfInfo == 'Visitor log';
+			 apiserviceAnalytics.getreferrerTypeData(type, $scope.flagForLocation, $scope.startDate1,$scope.endDate1).then(function(data){
+				
+					$scope.latitude=$scope.visitorInfo.latitude; 
+					$scope.longitude=$scope.visitorInfo.longitude;
+					initialized();
+				$scope.typeOfInfo == 'Visitor log';
 				$scope.DateWiseFind();
 				
 			});
@@ -1259,9 +1418,8 @@ angular.module('newApp')
 			var endDate = $("#cnfendDateValue").val();	 
 				console.log(endDate);
 				$scope.flagForLanding="ForSearch";
-			 $http.get('/getVisitorDataForLanding/'+id+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter+"/"+$scope.flagForLanding)
-				.success(function(data) {
-				
+				apiserviceAnalytics.getVisitorDataForLanding(id, $scope.startDateFilter, $scope.endDateFilter,$scope.flagForLanding).then(function(data){
+			 
 				console.log("::::::::");
 				console.log(data);
 				
@@ -1295,17 +1453,13 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
-				console.log(endDate);
-				console.log(startDate);
-				console.log(title);
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.url=title;
-				
 				$scope.flagForChart=0;
-				$http.post('/getEngActionChart', $scope.urlobj)
-				.success(function(data) {
+				apiserviceAnalytics.getEngActionChart($scope.urlobj).then(function(data){
+				
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
@@ -1329,17 +1483,13 @@ angular.module('newApp')
 			 }
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
-				console.log(endDate);
-				console.log(startDate);
-				console.log(title);
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.url=title;
-				
 				$scope.flagForChart=0;
-				$http.post('/getEngTimeChart', $scope.urlobj)
-				.success(function(data) {
+				apiserviceAnalytics.getEngTimeChart($scope.urlobj).then(function(data){
+				
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
@@ -1362,17 +1512,13 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
-				console.log(endDate);
-				console.log(startDate);
-				console.log(title);
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.url=title;
-				
 				$scope.flagForChart=0;
-				$http.post('/getTrafficChart', $scope.urlobj)
-				.success(function(data) {
+				apiserviceAnalytics.getTrafficChart($scope.urlobj).then(function(data){
+				
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
@@ -1476,7 +1622,7 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('goToContentInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
+.controller('goToContentInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope,apiserviceAnalytics) {
 	
 	$scope.urlForMedia=$routeParams.idForMedia;
 	console.log($rootScope.startDateFilter);
@@ -1505,6 +1651,14 @@ angular.module('newApp')
 	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
 	 		 };
 	
+	$scope.gridOptions2 = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
+	
 	
 	  setTimeout(function(){
 
@@ -1513,15 +1667,15 @@ angular.module('newApp')
 	                    ranges: {
 	                        'Today': [moment(), moment()],
 	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
-	                        'Last 14 Days':[moment().subtract('days', 14), moment()],
-	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 7 Days': [moment().subtract('days', 6), moment()],
+	                        'Last 14 Days':[moment().subtract('days', 13), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 27), moment()],
 	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
 	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
 	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
 	                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
 	                    },
-	                    startDate: moment().subtract('days', 7),
+	                    startDate: moment().subtract('days', 6),
 	                    endDate: moment()
 	                },
 	                function(start, end) {
@@ -1542,12 +1696,12 @@ angular.module('newApp')
 	                    $scope.$apply();
 	                }
 	            );
-	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
-	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD');
+	                console.log(moment().subtract('days', 6).format('YYYY-MM-DD '));
+	                $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD');
 	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 
-	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
-	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 7).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
+	            $('.reportrange span').html(moment().subtract('days', 6).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
+	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 6).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
 
 	    }, 2000);
 	
@@ -1566,7 +1720,7 @@ angular.module('newApp')
 		}
 	else{
 		console.log("in else");
-		 $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+		 $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD ');
          $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 	}
 		
@@ -1581,8 +1735,8 @@ angular.module('newApp')
 			
 			if($scope.idForGrid != undefined){
 				console.log($scope.idForGrid);
-				$http.get('/getEntranceData/'+$scope.idForGrid+"/"+$scope.startDate+"/"+$scope.endDate)
-				.success(function(data) {
+				apiserviceAnalytics.getEntranceData($scope.idForGrid, $scope.startDate, $scope.endDate).then(function(data){
+				
 				console.log(data);
 				$scope.gridOptions1.data = data;
 				$scope.browserObjList = data;
@@ -1648,13 +1802,13 @@ angular.module('newApp')
 			
 			});	
 				
-				
+				$scope.contentVisitorData();	
 		}
 		
 			if($scope.idForPages != undefined){
 				console.log($scope.idForPages);
-				$http.get('/getPagesData/'+$scope.idForPages+"/"+$scope.startDate+"/"+$scope.endDate)
-				.success(function(data) {
+				apiserviceAnalytics.getPagesData($scope.idForPages, $scope.startDate, $scope.endDate).then(function(data){
+				
 				console.log("In pages function");
 				$scope.gridOptions1.data = data;
 				$scope.pagesObjList = data;
@@ -1719,14 +1873,14 @@ angular.module('newApp')
 										          ]
 			
 			});	
-				
+				$scope.contentVisitorData();	
 				
 		}
 			
 			if($scope.idForEvent != undefined){
 				console.log($scope.idForEvent);
-				$http.get('/getEventData/'+$scope.idForEvent+"/"+$scope.startDate+"/"+$scope.endDate)
-				.success(function(data) {
+				apiserviceAnalytics.getEventData($scope.idForEvent, $scope.startDate, $scope.endDate).then(function(data){
+				
 				console.log(data);
 				$scope.gridOptions1.data = data;
 				$scope.browserObjList = data;
@@ -1791,14 +1945,15 @@ angular.module('newApp')
 										          ]
 			
 			});	
+				$scope.contentVisitorData();
 			}
 			
 			
 			if($scope.idForExit != undefined){
 				console.log($scope.idForExit);
 				console.log("inside exit");
-				$http.get('/getExitData/'+$scope.idForExit+"/"+$scope.startDate+"/"+$scope.endDate)
-				.success(function(data) {
+				apiserviceAnalytics.getExitData($scope.idForExit, $scope.startDate, $scope.endDate).then(function(data){
+				
 				console.log(data);
 				$scope.gridOptions1.data = data;
 				$scope.browserObjList = data;
@@ -1863,6 +2018,7 @@ angular.module('newApp')
 										          ]
 			
 			});	
+				$scope.contentVisitorData();
 			}
 			
 			 $scope.gridOptions.onRegisterApi = function(gridApi){
@@ -1878,7 +2034,62 @@ angular.module('newApp')
 	
 	  }
 	
-	
+		 $scope.contentVisitorData = function(){
+			 apiserviceAnalytics.getVisitorList($scope.startDateFilter, $scope.endDateFilter).then(function(data){
+			
+				$scope.gridOptions2.data = data;
+				console.log($scope.gridOptions2.data);
+				$scope.gridOptions2.data = $filter('orderBy')($scope.gridOptions2.data,'dateClick');
+				$scope.gridOptions2.data = $scope.gridOptions2.data.reverse();
+				//console.log($scope.gridOptions.data);
+				//cellFilter: 'date:"yyyy-MM-dd"',enableSorting: true,
+				angular.forEach($scope.gridOptions2.data, function(value, key) {
+					var array = value.timePretty.split(',');
+					var timeNew= value.timePretty.split(' ');
+					var newTimePretty;
+					value.timeSet = array[1];
+					value.newTimePretty=timeNew[1]+" "+timeNew[2]+" "+timeNew[3]+" "+timeNew[4];
+					//value.timeTotal = $filter('date')(value.timeTotal, 'hh:mm:ss');
+					value.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.timeTotal)), 'HH:mm:ss');
+					 var splitTime   = value.timeTotal.split(":");
+					 if(splitTime[0] == 00){
+						 value.timeTotal = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					
+				});
+				 console.log($scope.gridOptions2.data);
+				$scope.visitiorList = data;
+			});
+			
+			
+			$scope.gridOptions2.columnDefs = [
+			                              {name: 'newTimePretty', displayName: 'Date & Time', width:'12%'},
+			                              {name: 'geolocation', displayName: 'Location', width:'10%',
+			                             	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geolocation)">{{row.entity.geolocation}}</label></div>',
+			                              },
+			                              {name:'organization', displayName:'Internet Provider', width:'15%',
+			                             	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></div>',
+			                              },
+			                              {name:'actions', displayName:'Actions', width:'8%',
+			                             	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
+			                             	 
+			                              },
+			                              {name:'timeTotal', displayName:'Time Spent', width:'10%'},
+			                              {name:'abc', displayName:'Searches & Refferals', width:'40%',
+			                             	 cellTemplate:'<div ng-if="row.entity.referrerUrl != null"><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"></span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a><a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">{{row.entity.referrerDomain}}</a>&nbsp;&nbsp;<a  class="link-domain"  ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</a></div>',
+			                             	 
+			                             },
+			                              {name:'Sear', displayName:'Page', width:'10%',
+			                             	 cellTemplate:'<a  target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
+			                              }
+			                              
+			                          ];
+			 
+			 }
 		
   		
 	
@@ -1902,14 +2113,38 @@ angular.module('newApp')
 				$scope.gridOptions.data = [];
 				console.log(startDate);
 				console.log(endDate);
-				
-				 $http.get('/getPagesListDale/'+startDate+"/"+endDate)
-					.success(function(data) {
+				apiserviceAnalytics.getPagesListDale(startDate, endDate).then(function(data){
+				 
 					$scope.gridOptions.data = data;
 					//console.log($scope.gridOptions.data);
 					
 					 console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+					angular.forEach($scope.gridOptions.data, function(value, key) {
+						
+						value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+						value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+						 var splitTime   = value.totalTime.split(":");
+						 var splitTime1   = value.averageTime.split(":");
+						 if(splitTime[0] == 00){
+							 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 
+						 if(splitTime1[0] == 00){
+							 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 else{
+							 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 
+						
+					});
+					
 				});
 				
 				 $scope.gridOptions.columnDefs = [
@@ -1941,12 +2176,35 @@ angular.module('newApp')
 				
 			}else if($scope.typeOfInfo == 'Entrance'){
 				$scope.gridOptions.data = [];
-				
-				 $http.get('/getEntranceList/'+startDate+"/"+endDate)
-					.success(function(data) {
+				apiserviceAnalytics.getEntranceList(startDate, endDate).then(function(data){
+				 
 						$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+					angular.forEach($scope.gridOptions.data, function(value, key) {
+						
+						value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+						value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+						 var splitTime   = value.totalTime.split(":");
+						 var splitTime1   = value.averageTime.split(":");
+						 if(splitTime[0] == 00){
+							 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 
+						 if(splitTime1[0] == 00){
+							 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 else{
+							 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 
+						
+					});
 				});
 				 
 				 
@@ -1971,11 +2229,35 @@ angular.module('newApp')
 										         ]
 			}else if($scope.typeOfInfo == 'Exit'){
 				$scope.gridOptions.data = [];
-				 $http.get('/getExit/'+startDate+"/"+endDate)
-					.success(function(data) {
+				apiserviceAnalytics.getExit(startDate, endDate).then(function(data){
+				 
 					console.log(data);	
 					$scope.gridOptions.data = data;
 					$scope.visitiorList = data;
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+					angular.forEach($scope.gridOptions.data, function(value, key) {
+						
+						value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+						value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+						 var splitTime   = value.totalTime.split(":");
+						 var splitTime1   = value.averageTime.split(":");
+						 if(splitTime[0] == 00){
+							 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 
+						 if(splitTime1[0] == 00){
+							 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 else{
+							 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 
+						
+					});
 					
 				});
 				 
@@ -1987,7 +2269,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										             {name:'stats_url', displayName:'', width:'20%',
-										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										             },
 										             {name:'percentage', displayName:'', width:'10%',		
 										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showExitChart(row.entity.url)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -1998,12 +2280,36 @@ angular.module('newApp')
 				 
 			}else if($scope.typeOfInfo == 'Downloads'){
 				$scope.gridOptions.data = [];
-				$http.get('/getDownloads/'+startDate+"/"+endDate)
-				.success(function(data) {
+				apiserviceAnalytics.getDownloads(startDate, endDate).then(function(data){
+				
 				$scope.gridOptions.data = data/*[0].dates[0].items*/;
 				console.log($scope.gridOptions.data);
 				console.log("fghjhhhhhhhhhhhhhhhhh");
 				$scope.visitiorList = data/*[0].dates[0].items*/;
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+				angular.forEach($scope.gridOptions.data, function(value, key) {
+					
+					value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+					value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+					 var splitTime   = value.totalTime.split(":");
+					 var splitTime1   = value.averageTime.split(":");
+					 if(splitTime[0] == 00){
+						 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					 if(splitTime1[0] == 00){
+						 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 else{
+						 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 
+					
+				});
 				
 			});
 			 
@@ -2015,7 +2321,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
 									             {name:'statsUrl', displayName:'', width:'15%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'point', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showDownloadsChart(row.entity.url)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -2026,11 +2332,35 @@ angular.module('newApp')
 				
 			}else if($scope.typeOfInfo == 'Event'){
 				$scope.gridOptions.data = [];
-				$http.get('/getEvent/'+startDate+"/"+endDate)
-				.success(function(data) {
+				apiserviceAnalytics.getEvent(startDate, endDate).then(function(data){
+				
 				$scope.gridOptions.data = data/*[0].dates[0].items*/;
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data/*[0].dates[0].items*/;
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+				angular.forEach($scope.gridOptions.data, function(value, key) {
+					
+					value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+					value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+					 var splitTime   = value.totalTime.split(":");
+					 var splitTime1   = value.averageTime.split(":");
+					 if(splitTime[0] == 00){
+						 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					 if(splitTime1[0] == 00){
+						 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 else{
+						 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 
+					
+				});
 				
 			});
 			 
@@ -2042,7 +2372,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
 									             },
 									             {name:'statsUrl', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'po', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEventChart(row.entity.url)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -2053,12 +2383,36 @@ angular.module('newApp')
 				
 			}else if($scope.typeOfInfo == 'Media'){
 				$scope.gridOptions.data = [];
-				$http.get('/getMediaDetails/'+startDate+"/"+endDate)
-				.success(function(data) {
+				apiserviceAnalytics.getMediaDetails(startDate, endDate).then(function(data){
+				
 					console.log(data);
 			    $scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+				angular.forEach($scope.gridOptions.data, function(value, key) {
+					
+					value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+					value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+					 var splitTime   = value.totalTime.split(":");
+					 var splitTime1   = value.averageTime.split(":");
+					 if(splitTime[0] == 00){
+						 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					 if(splitTime1[0] == 00){
+						 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 else{
+						 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 
+					
+				});
 				
 			});
 			 
@@ -2069,7 +2423,7 @@ angular.module('newApp')
 									             {name:'value', displayName:'Views', width:'10%'},
 									             {name:'valuePercent', displayName:'value_Percent', width:'10%'},
 									             {name:'statsUrl', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'poi', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showMediaChart(row.entity.url)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -2080,12 +2434,36 @@ angular.module('newApp')
 				
 			}else if($scope.typeOfInfo == 'Domains'){
 				$scope.gridOptions.data = [];
-				$http.get('/getDomains/'+startDate+"/"+endDate)
-				.success(function(data) {
+				apiserviceAnalytics.getDomains(startDate, endDate).then(function(data){
+				
 					console.log(data);
 				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+				angular.forEach($scope.gridOptions.data, function(value, key) {
+					
+					value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+					value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+					 var splitTime   = value.totalTime.split(":");
+					 var splitTime1   = value.averageTime.split(":");
+					 if(splitTime[0] == 00){
+						 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					 if(splitTime1[0] == 00){
+						 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 else{
+						 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 
+					
+				});
 				
 			});
 			 
@@ -2097,7 +2475,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
 									             },
 									             {name:'statsUrl', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'p', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showDomainsChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -2118,11 +2496,8 @@ angular.module('newApp')
 				 console.log(endDate);
 				 console.log($scope.urlForMedia);
 				
-					 
-				 $http.get('/getMediaData/'+$scope.urlForMedia+'/'+startDate+'/'+endDate)
-				 .success(function(data){
-					 console.log("in the function data");
-					 console.log(data);
+				 apiserviceAnalytics.getMediaData($scope.urlForMedia, startDate, endDate).then(function(data){ 
+				 
 						$scope.gridOptions.data = data;
 						$scope.mediaObjList = data;
 						
@@ -2233,44 +2608,22 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
-				console.log(endDate);
-				console.log(startDate);
-				console.log(url);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.url=url;
-				
 				$scope.flagForChart=0;
-				$http.post('/getPagesChart', $scope.urlobj)
-				.success(function(data) {
+				apiserviceAnalytics.getPagesChart($scope.urlobj).then(function(data){
+				
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 $scope.urlobj={};
@@ -2280,44 +2633,22 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;
-				console.log(endDate);
-				console.log(startDate);
-				console.log(url);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.url=url;
-				
 				$scope.flagForChart=0;
-				$http.post('/getEntranceChart', $scope.urlobj)
-				.success(function(data) {
+				apiserviceAnalytics.getEntranceChart($scope.urlobj).then(function(data){
+				
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 $scope.urlobj={};
@@ -2327,44 +2658,22 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;
-				console.log(endDate);
-				console.log(startDate);
-				console.log(url);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.url=url;
-				
 				$scope.flagForChart=0;
-				$http.post('/getExitChart', $scope.urlobj)
-				.success(function(data) {
+				apiserviceAnalytics.getExitChart($scope.urlobj).then(function(data){
+				
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 
@@ -2375,44 +2684,22 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
-				console.log(endDate);
-				console.log(startDate);
-				console.log(url);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.url=url;
-				
 				$scope.flagForChart=0;
-				$http.post('/getDownloadsChart', $scope.urlobj)
-				.success(function(data) {
+				apiserviceAnalytics.getDownloadsChart($scope.urlobj).then(function(data){
+				
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 
@@ -2423,44 +2710,22 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
-				console.log(endDate);
-				console.log(startDate);
-				console.log(url);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.url=url;
-				
 				$scope.flagForChart=0;
-				$http.post('/getEventChart', $scope.urlobj)
-				.success(function(data) {
+				apiserviceAnalytics.getEventChart($scope.urlobj).then(function(data){
+				
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 $scope.urlobj={};
@@ -2470,44 +2735,22 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
-				console.log(endDate);
-				console.log(startDate);
-				console.log(title);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.title=title;
-				
 				$scope.flagForChart=0;
-				$http.post('/getMediaChart', $scope.urlobj)
-				.success(function(data) {
+				apiserviceAnalytics.getMediaChart($scope.urlobj).then(function(data){
+				
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 $scope.urlobj={};
@@ -2517,44 +2760,20 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;
-				console.log(endDate);
-				console.log(startDate);
-				console.log(title);
-				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.title=title;
-				
 				$scope.flagForChart=0;
-				$http.post('/getshowDomainsChart', $scope.urlobj)
-				.success(function(data) {
+				apiserviceAnalytics.getshowDomainsChart($scope.urlobj).then(function(data){
+				
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 
@@ -2657,7 +2876,7 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('VideoAnalyticsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
+.controller('VideoAnalyticsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope,apiserviceAnalytics) {
 
 	
 	
@@ -2772,8 +2991,8 @@ angular.module('newApp')
 			
 			if($scope.typeOfInfo == 'video&video_meta=1'){
 				console.log(">>>>>>>");
-				 $http.get('/getVideoAction/'+startDate+"/"+endDate)
-					.success(function(data) {
+				apiserviceAnalytics.getVideoAction(startDate, endDate).then(function(data){
+				 
 					$scope.gridOptions.data = data[0].dates[0].items;
 					
 					angular.forEach($scope.gridOptions.data, function(obj, index){
@@ -2881,7 +3100,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										             {name:'stats_url', displayName:'', width:'25%',
-										            	 cellTemplate:'<div><span> {{row.entity.value_percent}}% &nbsp;&nbsp; <img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										            	 cellTemplate:'<div><span> {{row.entity.value}}% &nbsp;&nbsp; <img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										            	 						             },
 										            
 										         ]
@@ -2948,7 +3167,7 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('allPlatformsInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
+.controller('allPlatformsInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope,apiserviceAnalytics) {
 	
 	$scope.titleForBrowser=$routeParams.idForBrowser;
 	$scope.titleForOS=$routeParams.idForOS;
@@ -2966,15 +3185,15 @@ angular.module('newApp')
 	                    ranges: {
 	                        'Today': [moment(), moment()],
 	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
+	                        'Last 7 Days': [moment().subtract('days', 6), moment()],
 	                        'Last 14 Days':[moment().subtract('days', 13), moment()],
-	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 27), moment()],
 	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
 	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
 	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
 	                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
 	                    },
-	                    startDate: moment().subtract('days', 7),
+	                    startDate: moment().subtract('days', 6),
 	                    endDate: moment()
 	                },
 	                function(start, end) {
@@ -2995,12 +3214,12 @@ angular.module('newApp')
 	                    $scope.$apply();
 	                }
 	            );
-	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
-	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+	                console.log(moment().subtract('days', 6).format('YYYY-MM-DD '));
+	                $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD ');
 	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 
-	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
-	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 7).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
+	            $('.reportrange span').html(moment().subtract('days', 6).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
+	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 6).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
 
 	    }, 2000);
 	  if($rootScope.startDateFilter != undefined && $rootScope.endDateFilter !=undefined )
@@ -3011,7 +3230,7 @@ angular.module('newApp')
 		}
 	else{
 		console.log("in else");
-		 $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+		 $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD ');
        $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 	}
 	
@@ -3027,7 +3246,19 @@ angular.module('newApp')
 		$scope.startDate=$rootScope.startDateFilter;
 		$scope.endDate=$rootScope.endDateFilter;
 	
-	
+		$scope.gridOptions1 = {
+		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+		 		    paginationPageSize: 150,
+		 		    enableFiltering: true,
+		 		    useExternalFiltering: true,
+		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+		 		 };
+		
+		
+		 $scope.gridOptions1.enableHorizontalScrollbar = 0;
+			 $scope.gridOptions1.enableVerticalScrollbar = 2;
+		
+		
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 	 		    paginationPageSize: 150,
@@ -3068,15 +3299,7 @@ angular.module('newApp')
 		};
 	
 	
-		/*$http.get('/getAllVehicleDemographicsInData').success(function(data) {
-		console.log(data);
-		$scope.langmap = data.language;
-		$scope.webBrosmap = data.webBrowser;
-		$scope.operatingSystem = data.operatingSystem;
-		$scope.location = data.location;
-		$scope.screenResoluations = data.screenResoluation;
-		$scope.changeTab('browser');
-	});*/
+		
 	
 	$scope.valueSet = {};
 	$scope.typSet = [];
@@ -3100,16 +3323,40 @@ angular.module('newApp')
 			var endDate = $scope.endDate;
 	}
 	if($scope.typeOfInfo == 'browser'){
-		$http.get('/getbrowser/'+startDate+"/"+endDate)
-			.success(function(data) {
+		apiserviceAnalytics.getbrowser(startDate, endDate).then(function(data){
+		
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.visitiorList = data;
+			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+			angular.forEach($scope.gridOptions.data, function(value, key) {
+				
+				value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+				value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+				 var splitTime   = value.totalTime.split(":");
+				 var splitTime1   = value.averageTime.split(":");
+				 if(splitTime[0] == 00){
+					 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+				 }
+				 else{
+					 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+				 }
+				 
+				 if(splitTime1[0] == 00){
+					 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+				 }
+				 else{
+					 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+				 }
+				 
+				
+			});
 		});
 		 
 		 $scope.gridOptions.columnDefs = [
-								              {name: 'title', displayName: 'Actions', width:'40%',
-								            	  cellTemplate: '<div><span ng-click="grid.appScope.goToBrowserpage(row.entity.title)">{{row.entity.title}}</span></div>',
+								              {name: 'title', displayName: 'browser', width:'40%',
+								            	  cellTemplate: '<div><span style="color:#319DB5;cursor:pointer;" ng-click="grid.appScope.goToBrowserpage(row.entity.title)">{{row.entity.title}}</span></div>',
 								              },
 								             {name:'value', displayName:'Visitors', width:'10%',
 								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
@@ -3128,16 +3375,40 @@ angular.module('newApp')
 								            	 ]
 	}
 	else if($scope.typeOfInfo == 'os'){
-		$http.get('/getOperatingSystem/'+startDate+"/"+endDate)
-			.success(function(data) {
+		apiserviceAnalytics.getOperatingSystem(startDate, endDate).then(function(data){
+		
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.visitiorList = data;
+			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+			angular.forEach($scope.gridOptions.data, function(value, key) {
+							
+							value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+							value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+							 var splitTime   = value.totalTime.split(":");
+							 var splitTime1   = value.averageTime.split(":");
+							 if(splitTime[0] == 00){
+								 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 else{
+								 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 
+							 if(splitTime1[0] == 00){
+								 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 else{
+								 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 
+							
+				});
 		});
 		 
 		 $scope.gridOptions.columnDefs = [
-								             {name: 'titl', displayName: 'Actions', width:'40%',
-								            	 cellTemplate: '<div><span ng-click="grid.appScope.goToOperatingSystempage(row.entity.title)">{{row.entity.title}}</span></div>',
+								             {name: 'titl', displayName: 'Operating System', width:'40%',
+								            	 cellTemplate: '<div><span style="color:#319DB5;cursor:pointer;" ng-click="grid.appScope.goToOperatingSystempage(row.entity.title)">{{row.entity.title}}</span></div>',
 								             },
 								             {name:'value', displayName:'Visitors', width:'10%',
 									        	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
@@ -3156,16 +3427,40 @@ angular.module('newApp')
 								            	 ]
 	}
 	else if($scope.typeOfInfo == 'resolution'){
-		$http.get('/getScreenResolution/'+startDate+"/"+endDate)
-			.success(function(data) {
+		apiserviceAnalytics.getScreenResolution(startDate, endDate).then(function(data){
+		
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.visitiorList = data;
+			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+			angular.forEach($scope.gridOptions.data, function(value, key) {
+							
+							value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+							value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+							 var splitTime   = value.totalTime.split(":");
+							 var splitTime1   = value.averageTime.split(":");
+							 if(splitTime[0] == 00){
+								 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 else{
+								 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 
+							 if(splitTime1[0] == 00){
+								 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 else{
+								 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 
+							
+				});
 		});
 		 
 		 $scope.gridOptions.columnDefs = [
-		                                  {name: 'tit', displayName: 'Actions', width:'40%',
-		                                	  cellTemplate: '<div><span ng-click="grid.appScope.goToResolutionpage(row.entity.title)">{{row.entity.title}}</span></div>',
+		                                  {name: 'tit', displayName: 'Screen Resolution', width:'40%',
+		                                	  cellTemplate: '<div><span style="color:#319DB5;cursor:pointer;" ng-click="grid.appScope.goToResolutionpage(row.entity.title)">{{row.entity.title}}</span></div>',
 		                                  },
 								             {name:'value', displayName:'Visitors', width:'10%',
 									        	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
@@ -3185,16 +3480,40 @@ angular.module('newApp')
 	}
 	
 	else if($scope.typeOfInfo == 'hardware'){
-		$http.get('/getHardware/'+startDate+"/"+endDate)
-			.success(function(data) {
+		apiserviceAnalytics.getHardware(startDate, endDate).then(function(data){
+		
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.visitiorList = data;
+			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+			angular.forEach($scope.gridOptions.data, function(value, key) {
+							
+							value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+							value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+							 var splitTime   = value.totalTime.split(":");
+							 var splitTime1   = value.averageTime.split(":");
+							 if(splitTime[0] == 00){
+								 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 else{
+								 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 
+							 if(splitTime1[0] == 00){
+								 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 else{
+								 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 
+							
+			});
 		});
 		 
 		 $scope.gridOptions.columnDefs = [
-		                                   {name: 'ti', displayName: 'Actions', width:'40%',
-		                                	   cellTemplate: '<div><span ng-click="grid.appScope.goToHardwarepage(row.entity.title)">{{row.entity.title}}</span></div>',
+		                                   {name: 'ti', displayName: 'Hardware', width:'40%',
+		                                	   cellTemplate: '<div><span style="color:#319DB5;cursor:pointer;" ng-click="grid.appScope.goToHardwarepage(row.entity.title)">{{row.entity.title}}</span></div>',
 		                                   },
 								             {name:'value', displayName:'Visitors', width:'10%',
 									        	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
@@ -3213,8 +3532,62 @@ angular.module('newApp')
 								            	 ]
 	}
  }
- 
-
+			 $scope.platformVisitorData = function(){
+				 apiserviceAnalytics.getVisitorList($scope.startDateFilter, $scope.endDateFilter).then(function(data){
+			 
+				$scope.gridOptions1.data = data;
+				console.log($scope.gridOptions1.data);
+				$scope.gridOptions1.data = $filter('orderBy')($scope.gridOptions1.data,'dateClick');
+				$scope.gridOptions1.data = $scope.gridOptions1.data.reverse();
+				//console.log($scope.gridOptions.data);
+				//cellFilter: 'date:"yyyy-MM-dd"',enableSorting: true,
+				angular.forEach($scope.gridOptions1.data, function(value, key) {
+					var array = value.timePretty.split(',');
+					var timeNew= value.timePretty.split(' ');
+					var newTimePretty;
+					value.timeSet = array[1];
+					value.newTimePretty=timeNew[1]+" "+timeNew[2]+" "+timeNew[3]+" "+timeNew[4];
+					//value.timeTotal = $filter('date')(value.timeTotal, 'hh:mm:ss');
+					value.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.timeTotal)), 'HH:mm:ss');
+					 var splitTime   = value.timeTotal.split(":");
+					 if(splitTime[0] == 00){
+						 value.timeTotal = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					
+				});
+				 console.log($scope.gridOptions1.data);
+				$scope.visitiorList = data;
+			});
+			
+			
+			$scope.gridOptions1.columnDefs = [
+			                              {name: 'newTimePretty', displayName: 'Date & Time', width:'12%'},
+			                              {name: 'geolocation', displayName: 'Location', width:'10%',
+			                             	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geolocation)">{{row.entity.geolocation}}</label></div>',
+			                              },
+			                              {name:'organization', displayName:'Internet Provider', width:'15%',
+			                             	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></div>',
+			                              },
+			                              {name:'actions', displayName:'Actions', width:'8%',
+			                             	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
+			                             	 
+			                              },
+			                              {name:'timeTotal', displayName:'Time Spent', width:'10%'},
+			                              {name:'abc', displayName:'Searches & Refferals', width:'40%',
+			                             	 cellTemplate:'<div ng-if="row.entity.referrerUrl != null"><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"></span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a><a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">{{row.entity.referrerDomain}}</a>&nbsp;&nbsp;<a  class="link-domain"  ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</a></div>',
+			                             	 
+			                             },
+			                              {name:'Sear', displayName:'Page', width:'10%',
+			                             	 cellTemplate:'<a  target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
+			                              }
+			                              
+			                          ];
+			 
+			 }
 	$scope.initFunction = function(){
 		console.log("in init function");
 		 var startDate = $rootScope.startDateFilter;
@@ -3222,9 +3595,8 @@ angular.module('newApp')
 		 console.log(startDate);
 		 console.log(endDate);
 		 if($scope.titleForBrowser != undefined){
-			 
-		 $http.get('/getbrowserdata/'+$scope.titleForBrowser+'/'+startDate+'/'+endDate).success(function(data){
-			 console.log("in the function");
+			 apiserviceAnalytics.getbrowserdata($scope.titleForBrowser,startDate, endDate).then(function(data){ 
+		 
 			 console.log(data);
 				$scope.gridOptions.data = data;
 				$scope.browserObjList = data;
@@ -3293,11 +3665,11 @@ angular.module('newApp')
 											        
 										            	 ]
 		 });
+		 $scope.platformVisitorData();
 		 }
 		 else if($scope.titleForOS != undefined){
+			 apiserviceAnalytics.getOperatingSystemdata($scope.titleForOS,startDate, endDate).then(function(data){
 			 
-			 $http.get('/getOperatingSystemdata/'+$scope.titleForOS+'/'+startDate+'/'+endDate).success(function(data){
-				 console.log("in the operating function");
 				 console.log(data);
 					$scope.gridOptions.data = data;
 					$scope.operatingObjList = data;
@@ -3373,12 +3745,12 @@ angular.module('newApp')
 												        
 											            	 ]
 			 });
+			 $scope.platformVisitorData();
 			 }
 		 
 		 else if($scope.titleForScreen != undefined){
+			 apiserviceAnalytics.getResolutiondata($scope.titleForScreen,startDate, endDate).then(function(data){
 			 
-			 $http.get('/getResolutiondata/'+$scope.titleForScreen+'/'+startDate+'/'+endDate).success(function(data){
-				 console.log("in the Screen function");
 				 console.log(data);
 					$scope.gridOptions.data = data;
 					$scope.screenObjList = data;
@@ -3454,12 +3826,12 @@ angular.module('newApp')
 												        
 											            	 ]
 			 });
+			 $scope.platformVisitorData();
 			 }
 		  
 		 else if($scope.titleForHardware != undefined){
+			 apiserviceAnalytics.getHardwaredata($scope.titleForHardware,startDate, endDate).then(function(data){
 			 
-			 $http.get('/getHardwaredata/'+$scope.titleForHardware+'/'+startDate+'/'+endDate).success(function(data){
-				 console.log("in the Screen function");
 				 console.log(data);
 					$scope.gridOptions.data = data;
 					$scope.hardwareObjList = data;
@@ -3535,6 +3907,7 @@ angular.module('newApp')
 												        
 											            	 ]
 			 });
+			 $scope.platformVisitorData();
 			 }
 		 
 		 
@@ -3552,44 +3925,22 @@ angular.module('newApp')
 	 console.log(">>>>>>>>");
 	 var startDate =$rootScope.startDateFilter;
 		var endDate =$rootScope.endDateFilter;
-		console.log(endDate);
-		console.log(startDate);
-		console.log(title);
+		
 		
 		$scope.urlobj.startDate=startDate;
 		$scope.urlobj.endDate=endDate;
 		$scope.urlobj.title=title;
-		
 		$scope.flagForChart=0;
-		$http.post('/getBrowserChart', $scope.urlobj)
-		.success(function(data) {
+		apiserviceAnalytics.getBrowserChart($scope.urlobj).then(function(data){
+		
 			console.log(data);
 			$scope.flagForChart=1;
 			$scope.flagForChart1 = false;
 			createChart(data);
-			//$('#functional-chart').css('height', '500px');
-			//$('#functional-chart').css('width','500px');
+			
 			$scope.value = [];
 			$scope.dates = [];
-			/*angular.forEach(data, function(obj, index){
-				if(parseInt(obj.value)>0){
-					var val=1;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-				}
-				else{
-					var val=0;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-					
-				}
-				
-			
-			});*/
-		
 	});
-		
-	 
 	}
  
  
@@ -3600,44 +3951,22 @@ angular.module('newApp')
 	 console.log(">>>>>>>>");
 	 var startDate =$rootScope.startDateFilter;
 		var endDate =$rootScope.endDateFilter;
-		console.log(endDate);
-		console.log(startDate);
-		console.log(title);
+		
 		
 		$scope.urlobj.startDate=startDate;
 		$scope.urlobj.endDate=endDate;
 		$scope.urlobj.title=title;
-		
 		$scope.flagForChart=0;
-		$http.post('/getshowOperatingSystemChart', $scope.urlobj)
-		.success(function(data) {
+		apiserviceAnalytics.getshowOperatingSystemChart($scope.urlobj).then(function(data){
+		
 			console.log(data);
 			$scope.flagForChart=1;
 			$scope.flagForChart1 = false;
 			createChart(data);
-			//$('#functional-chart').css('height', '500px');
-			//$('#functional-chart').css('width','500px');
+			
 			$scope.value = [];
 			$scope.dates = [];
-			/*angular.forEach(data, function(obj, index){
-				if(parseInt(obj.value)>0){
-					var val=1;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-				}
-				else{
-					var val=0;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-					
-				}
-				
-			
-			});*/
-		
 	});
-		
-	 
 	}
  
  $scope.urlobj={};
@@ -3647,44 +3976,22 @@ angular.module('newApp')
 	 console.log(">>>>>>>>");
 	 var startDate =$rootScope.startDateFilter;
 		var endDate =$rootScope.endDateFilter;
-		console.log(endDate);
-		console.log(startDate);
-		console.log(title);
+		
 		
 		$scope.urlobj.startDate=startDate;
 		$scope.urlobj.endDate=endDate;
 		$scope.urlobj.title=title;
-		
 		$scope.flagForChart=0;
-		$http.post('/getScreenResolutionChart', $scope.urlobj)
-		.success(function(data) {
+		apiserviceAnalytics.getScreenResolutionChart($scope.urlobj).then(function(data){
+		
 			console.log(data);
 			$scope.flagForChart=1;
 			$scope.flagForChart1 = false;
 			createChart(data);
-			//$('#functional-chart').css('height', '500px');
-			//$('#functional-chart').css('width','500px');
+			
 			$scope.value = [];
 			$scope.dates = [];
-			/*angular.forEach(data, function(obj, index){
-				if(parseInt(obj.value)>0){
-					var val=1;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-				}
-				else{
-					var val=0;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-					
-				}
-				
-			
-			});*/
-		
 	});
-		
-	 
 	}
  
  $scope.urlobj={};
@@ -3694,44 +4001,22 @@ angular.module('newApp')
 	 console.log(">>>>>>>>");
 	 var startDate =$rootScope.startDateFilter;
 		var endDate =$rootScope.endDateFilter;
-		console.log(endDate);
-		console.log(startDate);
-		console.log(title);
+		
 		
 		$scope.urlobj.startDate=startDate;
 		$scope.urlobj.endDate=endDate;
 		$scope.urlobj.title=title;
-		
 		$scope.flagForChart=0;
-		$http.post('/getHardwareChart', $scope.urlobj)
-		.success(function(data) {
+		apiserviceAnalytics.getHardwareChart($scope.urlobj).then(function(data){
+		
 			console.log(data);
 			$scope.flagForChart=1;
 			$scope.flagForChart1 = false;
 			createChart(data);
-			//$('#functional-chart').css('height', '500px');
-			//$('#functional-chart').css('width','500px');
+			
 			$scope.value = [];
 			$scope.dates = [];
-			/*angular.forEach(data, function(obj, index){
-				if(parseInt(obj.value)>0){
-					var val=1;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-				}
-				else{
-					var val=0;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-					
-				}
-				
-			
-			});*/
-		
 	});
-		
-	 
 	}
 
  
@@ -3776,7 +4061,9 @@ angular.module('newApp')
      });
  };
  
- 
+ $scope.goToContentInfo = function(){
+		$location.path('/goToContentInfo');
+	}
  
  $scope.goToVisitors = function() {
 		$location.path('/visitorsAnalytics');
@@ -3893,7 +4180,7 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('CampaignsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
+.controller('CampaignsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope,apiserviceAnalytics) {
 	
 	
 
@@ -3965,16 +4252,15 @@ angular.module('newApp')
 	$scope.savecampaign = function(campaign){
 		$scope.campaign = campaign;
 		console.log($scope.campaign);
-		$http.post("/saveCampaigns",$scope.campaign).success(function(data){
-			 console.log("yessssssss");
+		apiserviceAnalytics.saveCampaigns($scope.campaign).then(function(data){
+		
 		});
 		
 		$scope.showSet = 0;
 	}
 	
-	 $http.get('/getCampaign')
-		.success(function(data) {
-			$scope.listCamp = data;
+	apiserviceAnalytics.getCampaign().then(function(data){
+		$scope.listCamp = data;
 		});
 	
 	$scope.showSetup = function(){
@@ -3993,7 +4279,7 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('ActionsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('ActionsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceAnalytics) {
 
 	
 	$scope.gridOptions = {
@@ -4063,9 +4349,8 @@ angular.module('newApp')
 	   		
  		};
  		
- 		
-		 $http.get('/getActionList/'+30)
-			.success(function(data) {
+ 		apiserviceAnalytics.getActionList(30).then(function(data){
+		 
 				console.log(data[0].dates[0].items);
 			$scope.gridOptions.data = data[0].dates[0].items;
 			$scope.ActionList = data[0].dates[0].items;
@@ -4074,8 +4359,8 @@ angular.module('newApp')
 	
 		 
 		 $scope.lastDays = function(value){
-			 $http.get('/getActionList/'+value)
-				.success(function(data) {
+			 apiserviceAnalytics.getActionList(value).then(function(data){
+			 	
 					console.log(data[0].dates[0].items);
 				$scope.gridOptions.data = data[0].dates[0].items;
 				$scope.visitiorList = data[0].dates[0].items;
@@ -4123,7 +4408,7 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('BasicsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('BasicsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceAnalytics) {
 
 	$scope.goToVisitors = function() {
 		$location.path('/visitorsAnalytics');
@@ -4169,7 +4454,7 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('SearchesCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
+.controller('SearchesCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope,apiserviceAnalytics) {
     
 	$scope.idForSearch=$routeParams.idForSearch;
 	$scope.idForEngine=$routeParams.idForEngine;
@@ -4185,15 +4470,15 @@ angular.module('newApp')
 	                    ranges: {
 	                        'Today': [moment(), moment()],
 	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
+	                        'Last 7 Days': [moment().subtract('days', 6), moment()],
 	                        'Last 14 Days':[moment().subtract('days', 13), moment()],
-	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 27), moment()],
 	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
 	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
 	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
 	                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
 	                    },
-	                    startDate: moment().subtract('days', 7),
+	                    startDate: moment().subtract('days', 6),
 	                    endDate: moment()
 	                },
 	                function(start, end) {
@@ -4214,12 +4499,12 @@ angular.module('newApp')
 	                    $scope.$apply();
 	                }
 	            );
-	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
-	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+	                console.log(moment().subtract('days', 6).format('YYYY-MM-DD '));
+	                $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD ');
 	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 
-	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
-	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 7).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
+	            $('.reportrange span').html(moment().subtract('days', 6).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
+	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 6).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
 
 	    }, 2000);
 	  if($rootScope.startDateFilter != undefined && $rootScope.endDateFilter !=undefined )
@@ -4230,7 +4515,7 @@ angular.module('newApp')
 		}
 	else{
 		console.log("in else");
-		 $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+		 $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD ');
        $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 	}
 	
@@ -4255,7 +4540,13 @@ angular.module('newApp')
 	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
 	 		 };
 	
-	
+	$scope.gridOptions2 = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
 	
 		 $scope.gridOptions.onRegisterApi = function(gridApi){
 			 $scope.gridApi = gridApi;
@@ -4286,9 +4577,8 @@ angular.module('newApp')
 					var endDate = $scope.endDate;
 			}
 			if($scope.typeOfInfo == 'Searches'){
-				
-				 $http.get('/getSearchesListDale/'+startDate+"/"+endDate)
-					.success(function(data) {
+				apiserviceAnalytics.getSearchesListDale(startDate, endDate).then(function(data){
+				 
 						$scope.gridOptions.data = data;
 						console.log(data);
 						$scope.visitiorList = data;
@@ -4337,7 +4627,7 @@ angular.module('newApp')
 											            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 											             },*/
 											             {name:'Percent', displayName:'', width:'10%',		
-											            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showTrafficScouresChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+											            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.getSearchesPagesChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 											            
 											             }
 											            
@@ -4345,9 +4635,8 @@ angular.module('newApp')
 					
 			}else if($scope.typeOfInfo == 'Keywords'){
 				
-				
-				 $http.get('/getKeywordsList/'+startDate+"/"+endDate)
-					.success(function(data) {
+				apiserviceAnalytics.getKeywordsList(startDate, endDate).then(function(data){
+				 
 						$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
@@ -4362,7 +4651,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
 										             },
 										             {name:'stats_url', displayName:'Rank', width:'20%',
-										            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										             },
 										            
 										         ]
@@ -4370,11 +4659,13 @@ angular.module('newApp')
 			}else if($scope.typeOfInfo == 'Engines'){
 				
 				$scope.gridOptions.data=[];
-				 $http.get('/getEngines/'+startDate+"/"+endDate)
-					.success(function(data) {
+				apiserviceAnalytics.getEngines(startDate, endDate).then(function(data){
+				 
 						console.log(data);
 					$scope.gridOptions.data = data;
 					$scope.visitiorList = data;
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 					angular.forEach($scope.gridOptions.data, function(value, key) {
 						
 						value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -4416,7 +4707,7 @@ angular.module('newApp')
 										             {name: 'totalTime', displayName: 'Total Time', width:'15%'},
 										             {name: 'bounceRate', displayName: 'Bounce Rate', width:'10%'},
 										             {name:'statsUrl', displayName:'', width:'15%',
-										            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										             },
 										             {name:'url', displayName:'', width:'10%',		
 										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEnginesChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -4429,8 +4720,8 @@ angular.module('newApp')
 				 
 			}else if($scope.typeOfInfo == 'Recent'){
 				$scope.gridOptions.data=[];
-				$http.get('/getRecent/'+startDate+"/"+endDate)
-				.success(function(data) {
+				apiserviceAnalytics.getRecent(startDate, endDate).then(function(data){
+				
 				$scope.gridOptions.data = data;
 				$scope.visitiorList = data;
 				
@@ -4446,8 +4737,8 @@ angular.module('newApp')
 				
 			}else if($scope.typeOfInfo == 'Newest Unique'){
 				$scope.gridOptions.data=[];
-				$http.get('/getNewestUni/'+startDate+"/"+endDate)
-				.success(function(data) {
+				apiserviceAnalytics.getNewestUni(startDate, endDate).then(function(data){
+				
 				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
@@ -4463,8 +4754,8 @@ angular.module('newApp')
 									         ]
 				
 			}else if($scope.typeOfInfo == 'Local Searches'){
-				$http.get('/getSearchesLocal/'+startDate+"/"+endDate)
-				.success(function(data) {
+				apiserviceAnalytics.getSearchesLocal(startDate, endDate).then(function(data){
+				
 				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
@@ -4479,8 +4770,8 @@ angular.module('newApp')
 				
 			}else if($scope.typeOfInfo == 'Rankings'){
 				$scope.gridOptions.data=[];
-				$http.get('/getRankings/'+startDate+"/"+endDate)
-				.success(function(data) {
+				apiserviceAnalytics.getRankings(startDate, endDate).then(function(data){
+				
 					console.log(data);
 				$scope.gridOptions.data = data/*[0].dates[0].items*/;
 				console.log($scope.gridOptions.data);
@@ -4496,7 +4787,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
 									             {name:'stats_url', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'chart', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showRankingsChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -4516,8 +4807,8 @@ angular.module('newApp')
 			console.log(startDate);
 				console.log(endDate);
 				$scope.flagForLanding="ForSearch";
-			$http.get('/getDataForSearch/'+url+"/"+startDate+"/"+endDate)
-				.success(function(data) {
+				apiserviceAnalytics.getDataForSearch(url, startDate, endDate).then(function(data){
+			
 				
 				console.log("::::::::");
 				console.log(data);
@@ -4596,15 +4887,70 @@ angular.module('newApp')
 		 
 	 }	 
 		 
-		 
+		 $scope.searchVisitorData = function(){
+			 apiserviceAnalytics.getVisitorList($scope.startDateFilter, $scope.endDateFilter).then(function(data){
+			 
+				$scope.gridOptions2.data = data;
+				console.log($scope.gridOptions2.data);
+				$scope.gridOptions2.data = $filter('orderBy')($scope.gridOptions2.data,'dateClick');
+				$scope.gridOptions2.data = $scope.gridOptions2.data.reverse();
+				//console.log($scope.gridOptions.data);
+				//cellFilter: 'date:"yyyy-MM-dd"',enableSorting: true,
+				angular.forEach($scope.gridOptions2.data, function(value, key) {
+					var array = value.timePretty.split(',');
+					var timeNew= value.timePretty.split(' ');
+					var newTimePretty;
+					value.timeSet = array[1];
+					value.newTimePretty=timeNew[1]+" "+timeNew[2]+" "+timeNew[3]+" "+timeNew[4];
+					//value.timeTotal = $filter('date')(value.timeTotal, 'hh:mm:ss');
+					value.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.timeTotal)), 'HH:mm:ss');
+					 var splitTime   = value.timeTotal.split(":");
+					 if(splitTime[0] == 00){
+						 value.timeTotal = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					
+				});
+				 console.log($scope.gridOptions2.data);
+				$scope.visitiorList = data;
+			});
+			
+			
+			$scope.gridOptions2.columnDefs = [
+			                              {name: 'newTimePretty', displayName: 'Date & Time', width:'12%'},
+			                              {name: 'geolocation', displayName: 'Location', width:'10%',
+			                             	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geolocation)">{{row.entity.geolocation}}</label></div>',
+			                              },
+			                              {name:'organization', displayName:'Internet Provider', width:'15%',
+			                             	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></div>',
+			                              },
+			                              {name:'actions', displayName:'Actions', width:'8%',
+			                             	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
+			                             	 
+			                              },
+			                              {name:'timeTotal', displayName:'Time Spent', width:'10%'},
+			                              {name:'abc', displayName:'Searches & Refferals', width:'40%',
+			                             	 cellTemplate:'<div ng-if="row.entity.referrerUrl != null"><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"></span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a><a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">{{row.entity.referrerDomain}}</a>&nbsp;&nbsp;<a  class="link-domain"  ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</a></div>',
+			                             	 
+			                             },
+			                              {name:'Sear', displayName:'Page', width:'10%',
+			                             	 cellTemplate:'<a  target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
+			                              }
+			                              
+			                          ];
+			 
+			 }
 		 
 		 
 		 $scope.uniqueDataForAllTab = function(){
 			 
 			console.log($scope.idForSearch) ;
 			 if($scope.idForSearch != undefined){
-					$http.get('/getsearchInfo/'+$scope.idForSearch+"/"+$scope.startDate+"/"+$scope.endDate)
-						.success(function(data) {
+				 apiserviceAnalytics.getsearchInfo($scope.idForSearch, $scope.startDate, $scope.endDate).then(function(data){
+					
 							$scope.gridOptions.data=data;
 							console.log($scope.gridOptions.data);
 							angular.forEach($scope.gridOptions.data, function(value, key) {
@@ -4664,7 +5010,7 @@ angular.module('newApp')
 					 
 					 
 				});
-					
+					$scope.searchVisitorData();
 					
 					 $scope.gridOptions.columnDefs = [
 					                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%',
@@ -4679,13 +5025,14 @@ angular.module('newApp')
 												        
 											            	 ]
 			 
+					 
 		 }
 			 
 			 
 			 
 			 if($scope.idForEngine != undefined){
-					$http.get('/getEngineInfo/'+$scope.idForEngine+"/"+$scope.startDate+"/"+$scope.endDate)
-						.success(function(data) {
+				 apiserviceAnalytics.getEngineInfo($scope.idForEngine, $scope.startDate, $scope.endDate).then(function(data){
+					
 							$scope.gridOptions.data=data;
 							console.log($scope.gridOptions.data);
 							angular.forEach($scope.gridOptions.data, function(value, key) {
@@ -4746,7 +5093,7 @@ angular.module('newApp')
 					 
 				});
 					
-					
+					 $scope.searchVisitorData();
 					 $scope.gridOptions.columnDefs = [
 					                                   {name: 'tit', displayName: 'Summary of filtered visitors', width:'55%',
 					                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',			
@@ -4759,13 +5106,13 @@ angular.module('newApp')
 												        
 												        
 											            	 ]
-			 
+					
 		 }
 			 
 
 			 if($scope.idForRecent != undefined){
-					$http.get('/getRecentInfo/'+$scope.idForRecent+"/"+$scope.startDate+"/"+$scope.endDate)
-						.success(function(data) {
+				 apiserviceAnalytics.getRecentInfo($scope.idForRecent, $scope.startDate, $scope.endDate).then(function(data){
+					
 							$scope.gridOptions.data=data;
 							console.log($scope.gridOptions.data);
 							angular.forEach($scope.gridOptions.data, function(value, key) {
@@ -4826,7 +5173,7 @@ angular.module('newApp')
 					 
 				});
 					
-					
+					 $scope.searchVisitorData();
 					 $scope.gridOptions.columnDefs = [
 					                                   {name: 'tea', displayName: 'Summary of filtered visitors', width:'55%',
 					                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',			
@@ -4839,13 +5186,13 @@ angular.module('newApp')
 												        
 												        
 											            	 ]
-			 
+					
 		 }
 			 
 			 
 			 if($scope.idForNewest != undefined){
-					$http.get('/getNewestInfo/'+$scope.idForNewest+"/"+$scope.startDate+"/"+$scope.endDate)
-						.success(function(data) {
+				 apiserviceAnalytics.getNewestInfo($scope.idForNewest, $scope.startDate, $scope.endDate).then(function(data){
+					
 							$scope.gridOptions.data=data;
 							console.log($scope.gridOptions.data);
 							angular.forEach($scope.gridOptions.data, function(value, key) {
@@ -4905,7 +5252,7 @@ angular.module('newApp')
 					 
 					 
 				});
-					
+					 $scope.searchVisitorData();
 					
 					 $scope.gridOptions.columnDefs = [
 					                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%',
@@ -4919,14 +5266,14 @@ angular.module('newApp')
 												        
 												        
 											            	 ]
-			 
+					
 		 }
 		 
 
 			 
 			 if($scope.idForRanking != undefined){
-					$http.get('/getRankingInfo/'+$scope.idForRanking+"/"+$scope.startDate+"/"+$scope.endDate)
-						.success(function(data) {
+				 apiserviceAnalytics.getRankingInfo($scope.idForRanking, $scope.startDate, $scope.endDate).then(function(data){
+					
 							$scope.gridOptions.data=data;
 							console.log($scope.gridOptions.data);
 							angular.forEach($scope.gridOptions.data, function(value, key) {
@@ -4986,7 +5333,7 @@ angular.module('newApp')
 					 
 					 
 				});
-					
+					 $scope.searchVisitorData();
 					
 					 $scope.gridOptions.columnDefs = [
 					                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%',
@@ -4998,7 +5345,7 @@ angular.module('newApp')
 												        
 												        
 											            	 ]
-			 
+					
 		 }
 		
 			 
@@ -5012,17 +5359,14 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;
-				console.log(endDate);
-				console.log(startDate);
-				console.log(title);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.title=title;
-				
 				$scope.flagForChart=0;
-				$http.post('/getSearchesPagesChart', $scope.urlobj)
-				.success(function(data) {
+				apiserviceAnalytics.getSearchesPagesChart($scope.urlobj).then(function(data){
+				
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
@@ -5047,17 +5391,14 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;
-				console.log(endDate);
-				console.log(startDate);
-				console.log(title);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.title=title;
-				
 				$scope.flagForChart=0;
-				$http.post('/getEnginesChart', $scope.urlobj)
-				.success(function(data) {
+				apiserviceAnalytics.getEnginesChart($scope.urlobj).then(function(data){
+				
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
@@ -5078,17 +5419,14 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;
-				console.log(endDate);
-				console.log(startDate);
-				console.log(title);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.title=title;
-				
 				$scope.flagForChart=0;
-				$http.post('/getRankingsChart', $scope.urlobj)
-				.success(function(data) {
+				apiserviceAnalytics.getRankingsChart($scope.urlobj).then(function(data){
+				
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
@@ -5190,7 +5528,7 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('RefferersCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('RefferersCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceAnalytics) {
 
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -5260,9 +5598,8 @@ angular.module('newApp')
 	   		
  		};
  		
- 		
-		 $http.get('/getVisitorList/'+30)
-			.success(function(data) {
+ 		apiserviceAnalytics.getVisitorList(30).then(function(data){
+		 
 				console.log(data[0].dates[0].items);
 			$scope.gridOptions.data = data[0].dates[0].items;
 			$scope.visitiorList = data[0].dates[0].items;
@@ -5270,8 +5607,8 @@ angular.module('newApp')
 		});
 		 
 		 $scope.lastDays = function(value){
-			 $http.get('/getVisitorList/'+value)
-				.success(function(data) {
+			 apiserviceAnalytics.getVisitorList(value).then(function(data){
+			 
 					console.log(data[0].dates[0].items);
 				$scope.gridOptions.data = data[0].dates[0].items;
 				$scope.visitiorList = data[0].dates[0].items;
@@ -5323,11 +5660,10 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('ContentCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('ContentCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceAnalytics) {
 
+	apiserviceAnalytics.getContentList().then(function(data){
 	
-	$http.get('/getContentList')
-	.success(function(data) {
 		console.log(data);
 		//$scope.gridOptions.data = data[0].dates[0].items;
 		//$scope.SearchList = data[0].dates[0].items;
@@ -5376,10 +5712,11 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('VehicleDateWiseCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('VehicleDateWiseCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceAnalytics) {
 console.log("....................");
 
-$http.get('/getVehiclePriceLogs/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status).success(function(data) {
+apiserviceAnalytics.getVehiclePriceLogs($routeParams.id, $routeParams.vin, $routeParams.status).then(function(data){
+
 	console.log("succeess");
 	console.log(data);
 	$scope.listingLog = data;;
@@ -5407,11 +5744,11 @@ $('#viewsChartS').css("text-decoration","underline");
 		if(endDate == ""){
 			endDate = "0";
 		}
+		apiserviceAnalytics.getCustomerRequest($routeParams.id, $routeParams.vin, $routeParams.status, startDate, endDate).then(function(data){
 		
-		$http.get('/getCustomerRequest/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 			console.log("succeess");
+			apiserviceAnalytics.getCustomerRequestFlag($routeParams.id, $routeParams.vin, $routeParams.status, startDate, endDate).then(function(data){
 			
-			$http.get('/getCustomerRequestFlag/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data1) {
 				console.log("succeess");
 				console.log(data1);
 				
@@ -5440,12 +5777,13 @@ $scope.showLeads = function(){
 		if(endDate == ""){
 			endDate = "0";
 		}
+		apiserviceAnalytics.getCustomerRequestLeads($routeParams.id, $routeParams.vin, $routeParams.status, startDate, endDate).then(function(data){
 		
-		$http.get('/getCustomerRequestLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 			console.log("succeess");
 			//$scope.dataValue = data;
 			console.log(data);
-			$http.get('/getCustomerRequestFlag/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data1) {
+			apiserviceAnalytics.getCustomerRequestFlag($routeParams.id, $routeParams.vin, $routeParams.status, startDate, endDate).then(function(data){
+			
 				console.log("succeess");
 				console.log(data1);
 				data.push(data1);
@@ -5472,15 +5810,18 @@ $scope.showLeads = function(){
 				endDate = "0";
 			}
 			$scope.obj =  [];
-			$http.get('/getviniewsChartLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
+			apiserviceAnalytics.getviniewsChartLeads($routeParams.id, $routeParams.vin, $routeParams.status, startDate, endDate).then(function(data){
+			
 				console.log("succeess");
 				console.log(data);
-				$http.get('/getCustomerRequestFlag/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data1) {
+				apiserviceAnalytics.getCustomerRequestFlag($routeParams.id, $routeParams.vin, $routeParams.status, startDate, endDate).then(function(data){
+				
 					console.log("succeess");
 					console.log(data1);
 					//$scope.obj.push(data1);
 					data.push(data1);
-					$http.get('/getCustomerLounchDateFlag/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data2) {
+					apiserviceAnalytics.getCustomerLounchDateFlag($routeParams.id, $routeParams.vin, $routeParams.status, startDate, endDate).then(function(data){
+					
 						console.log(data2);
 						//$scope.obj.push(data2);
 						console.log($scope.obj);
@@ -5511,11 +5852,12 @@ $scope.showLeads = function(){
 			if(endDate == ""){
 				endDate = "0";
 			}
+			apiserviceAnalytics.getFollowerLeads($routeParams.id, $routeParams.vin, $routeParams.status, startDate, endDate).then(function(data){
 			
-			$http.get('/getFollowerLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 				console.log("succeess");
 				console.log(data);
-				$http.get('/getCustomerRequestFlag/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data1) {
+				apiserviceAnalytics.getCustomerRequestFlag($routeParams.id, $routeParams.vin, $routeParams.status, startDate, endDate).then(function(data){
+				
 					console.log("succeess");
 					console.log(data1);
 					
@@ -5597,7 +5939,7 @@ $scope.showLeads = function(){
 
 
 angular.module('newApp')
-.controller('SessionsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('SessionsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceAnalytics) {
 console.log("....................");
 console.log($routeParams.vin);
 $scope.lineChartweek = 0;
@@ -5607,7 +5949,8 @@ $scope.lineChartday = 0;
 
 $scope.lineChartMap = function(lasttime){
 	console.log(lasttime);
-	$http.get('/getSessionDaysVisitorsStats/'+$routeParams.vin+'/'+lasttime).success(function(response){
+	apiserviceAnalytics.getSessionDaysVisitorsStats($routeParams.vin,lasttime).then(function(data){
+	
 			
 		var randomScalingFactor = [10,20,30,40,50,60,70,80];
 		var lineChartData = {
@@ -5756,8 +6099,8 @@ var lineChartData1 = {
 	});
 	
 
+	apiserviceAnalytics.getStatusList($routeParams.vin).then(function(data){
 
-$http.get('/getStatusList/'+$routeParams.vin).success(function(data) {
 	$scope.lineChartMap("day");
 	$scope.lineChartday = 1;
 	console.log("data");
@@ -5819,7 +6162,8 @@ $http.get('/getStatusList/'+$routeParams.vin).success(function(data) {
 
 $scope.langshow = 0;
 $scope.webBroshow = 0;
-$http.get('/getDemographics/'+$routeParams.vin).success(function(data) {
+apiserviceAnalytics.getDemographics($routeParams.vin).then(function(data){
+
 	$scope.selectedTab = 1;
 	$scope.langshow = 1;
 	console.log(data);
@@ -5896,8 +6240,8 @@ $scope.analyType = "";
 	}
 	
 	$scope.analylineChartMap = function(lastTime,analyType){
+		apiserviceAnalytics.getSessionDaysUserStats($routeParams.vin, lastTime, analyType).then(function(data){
 		
-		$http.get('/getSessionDaysUserStats/'+$routeParams.vin+'/'+lastTime+'/'+analyType).success(function(response){
 			
 			var randomScalingFactor = [10,20,30,40,50,60,70,80];
 			var analyLineChartData = {
@@ -5947,7 +6291,8 @@ $scope.analyType = "";
 
 	
 $scope.maillineChartMap = function(lastTime,analyType){
-		$http.get('/getMailDaysUserStats/'+$routeParams.vin+'/'+lastTime+'/'+analyType).success(function(response){
+	apiserviceAnalytics.getMailDaysUserStats($routeParams.vin, lastTime, analyType).then(function(data){
+		
 			var randomScalingFactor = [10,20,30,40,50,60,70,80];
 			var mailLineChartData = {
 			    labels: response.months,
@@ -6086,7 +6431,7 @@ $scope.mailmonthFunction = function(){
 
 
 angular.module('newApp')
-.controller('heatMapInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('heatMapInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceAnalytics) {
 	$scope.showHeatMap = 0;
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -6137,9 +6482,8 @@ angular.module('newApp')
 	   		
  		};
  		
- 		
-		 $http.get('/getHeatMapList/'+30)
-			.success(function(data) {
+ 		apiserviceAnalytics.getHeatMapList(30).then(function(data){
+		 
 				//console.log(data[0].dates[0].items);
 				
 				$scope.gridOptions.data = data[0].dates[0].items;
@@ -6209,7 +6553,7 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('allVehicleSessionsDataCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('allVehicleSessionsDataCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceAnalytics) {
 	
 	$scope.lineChartweek = 0;
 	$scope.lineChartmonth = 0;
@@ -6217,8 +6561,8 @@ angular.module('newApp')
 
 	$scope.lineChartMap = function(lasttime){
 		console.log(lasttime);
-		$http.get('/getAllVehicleSession/'+lasttime).success(function(response){
-				
+		apiserviceAnalytics.getAllVehicleSession(lasttime).then(function(data){
+		
 			var randomScalingFactor = [10,20,30,40,50,60,70,80];
 			var lineChartData = {
 			    labels: response.months,
@@ -6367,8 +6711,8 @@ angular.module('newApp')
 		});
 		
 
-
-	$http.get('/getAllvehicleStatusList').success(function(data) {
+		apiserviceAnalytics.getAllvehicleStatusList().then(function(data){
+	
 		$scope.lineChartMap("day");
 		$scope.lineChartday = 1;
 		console.log("data");
@@ -6429,7 +6773,8 @@ angular.module('newApp')
 
 	$scope.langshow = 0;
 	$scope.webBroshow = 0;
-	$http.get('/getAllVehicleDemographics').success(function(data) {
+	apiserviceAnalytics.getAllVehicleDemographics().then(function(data){
+	
 		$scope.selectedTab = 1;
 		$scope.langshow = 1;
 		console.log(data);
@@ -6534,8 +6879,8 @@ angular.module('newApp')
 
 	
 $scope.analylineChartMap = function(lastTime,analyType){
+	apiserviceAnalytics.getSessionDaysAllStats(lastTime, analyType).then(function(data){
 		
-		$http.get('/getSessionDaysAllStats/'+lastTime+'/'+analyType).success(function(response){
 			var randomScalingFactor = [10,20,30,40,50,60,70,80];
 			var analyLineChartData = {
 			    labels: response.months,
@@ -6608,7 +6953,8 @@ $scope.openEmailpopup = function(mailType){
 
 $scope.maillineChartMap = function(lastTime,analyType){
 	console.log("hii printtttt");
-	$http.get('/getAllMailDaysUserStats/'+lastTime+'/'+analyType).success(function(response){
+	apiserviceAnalytics.getAllMailDaysUserStats(lastTime, analyType).then(function(data){
+	
 		var randomScalingFactor = [10,20,30,40,50,60,70,80];
 		var mailLineChartData = {
 		    labels: response.months,

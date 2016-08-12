@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$upload','$routeParams', function ($scope,$http,$location,$filter,$upload,$routeParams) {
+.controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$upload','$routeParams','apiserviceConfigPage', function ($scope,$http,$location,$filter,$upload,$routeParams,apiserviceConfigPage) {
 	$scope.premium = {};
 	
 	
@@ -20,9 +20,8 @@ angular.module('newApp')
 	}
 	
 	$scope.init = function() {
+		apiserviceConfigPage.getImageConfig().then(function(data){
 		
-		$http.get('/getImageConfig')
-		.success(function(data) {
 			$scope.cover=data.coverData;
 			$scope.vehSize=data.vehicleImageConfig;
 			$scope.slider = data.slider;
@@ -43,8 +42,8 @@ angular.module('newApp')
 			}
 		});
 		
+		apiserviceConfigPage.getAllSalesUsers().then(function(data){
 		
-		$http.get('/getAllSalesUsers').success(function(data){
 			$scope.salesPersonList =data;
 		
 			
@@ -64,9 +63,7 @@ angular.module('newApp')
 	}*/
 	
 		
-		
-			$http.get('/getSocialMediadetail')
-			.success(function(data) {
+		apiserviceConfigPage.getSocialMediadetail().then(function(data){
 				/*$.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -76,9 +73,7 @@ angular.module('newApp')
 				//$scope.customerPdfList=data;
 				
 			});	
-		
-		$http.get('/getCustomerPdfData')
-			.success(function(data) {
+		apiserviceConfigPage.getCustomerPdfData().then(function(data){
 				/*$.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -88,16 +83,12 @@ angular.module('newApp')
 				
 			});
 			
-		
-		$http.get('/getEmailDetails')
-			.success(function(data) {
-				
+		apiserviceConfigPage.getEmailDetails().then(function(data){
 				$scope.email=data;
 				
 			});	
-		
-			$http.get('/getInternalPdfData')
-			.success(function(data) {
+		apiserviceConfigPage.getInternalPdfData().then(function(data){
+			
 				/*$.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -105,10 +96,8 @@ angular.module('newApp')
 				});*/
 				$scope.internalPdfList=data;
 			});	
-			
-			$http.get('/getAllSites')
-	 		.success(function(data) {
-	 			$scope.siteList = data;
+		apiserviceConfigPage.getAllSites().then(function(data){
+				$scope.siteList = data;
 	 			
 	 		});
 		
@@ -119,7 +108,8 @@ angular.module('newApp')
 	$scope.flagForChart1 = true;
 	$scope.systemInfo = function(){
 		console.log("sdfghjkp0000");
-		$http.get('/getsystemInfo').success(function(data){
+		apiserviceConfigPage.getsystemInfo().then(function(data){
+		
 			console.log("systemInfo");
 			console.log(data);
 			$scope.leadtypeObjList = data;
@@ -140,10 +130,11 @@ angular.module('newApp')
 		                                    ];
 	}
 	$scope.flagForChart1 = true;
-$scope.leadTypeAll = function(){
+	$scope.leadTypeAll = function(){
 		
 		console.log("sdfghjkp0000");
-		$http.get('/getLeadTypeData').success(function(data){
+		apiserviceConfigPage.getLeadTypeData().then(function(data){
+		
 			console.log("lead type data");
 			console.log(data);
 			$scope.leadtypeObjList = data;
@@ -167,18 +158,18 @@ $scope.leadTypeAll = function(){
 		                                 { name: 'leadName', displayName: 'Lead Type', width:'50%',cellEditableCondition: false
 		                                 },
 		                                 {name:'org', displayName:'Show on Website', width:'15%',
-		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Contact Us\' || row.entity.leadName == \'Request More Info\' || row.entity.leadName == \'Request For Appointment\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row)">  </div>',
+		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Trade-In Appraisal\' || row.entity.leadName == \'Request More Info\' || row.entity.leadName == \'Schedule Test Drive\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row)">  </div>',
 		                                 },
 		                                 { name: 'edit', displayName: ' ', width:'20%',
-    		                                 cellTemplate:'<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Request For Appointment\' && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.removeUser(row)"  title="Delete"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Request For Appointment\' && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i> ', 
+    		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test Drive\' && row.entity.leadName != \'Trade-In Appraisal\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i> ', 
     		                                 /*ng-if="(row.entity.leadName != "Request More Info" || row.entity.leadName != "Schedule Test" || row.entity.leadName != "Trade In")"*/
 		                                 },
 		                                    ];
 	}
-	
+/*<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test Drive\' && row.entity.leadName != \'Trade-In Appraisal\'" ng-click="grid.appScope.removeUser(row)"  title="Delete"></i>*/
 	$scope.allFormName = function(){
-		$http.get('/allFormName')
-		.success(function(data){
+		apiserviceConfigPage.allFormName().then(function(data){
+		
 			$scope.gridOptions.data=data;
 			console.log(data);
 		})
@@ -201,11 +192,8 @@ $scope.leadTypeAll = function(){
 		}else if(row.entity.checkValue == false){
 			intValue = 1;
 		}
+		apiserviceConfigPage.getCheckButton($scope.entityId, intValue).then(function(data){
 		
-		$http.get('/getCheckButton/'+$scope.entityId+"/"+intValue)
-		.success(function(data){
-			//$scope.gridOptions.data=data;
-			//console.log(data);
 		})
 		
 	}
@@ -213,16 +201,16 @@ $scope.leadTypeAll = function(){
 	$scope.ShowCreateNewForm = function(row){
 		console.log(row);
 		if(row.entity.name == "Create Lead"){
-			$location.path('/'+'CreateLeadForm/'+"Preview"+"/"+'Create Lead');
+			$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create Lead');
 		}else
 		if(row.entity.name == "Add Product"){
 
-			$location.path('/'+'InventoryForm/'+"Edit"+"/"+'Inventory');
+			$location.path('/InventoryForm/'+"Edit"+"/"+'Inventory');
 			
 		}
 		else if(row.entity.name == "Add to CRM"){
 
-			$location.path('/'+'CRMForm/'+"Edit"+"/"+'CRM');
+			$location.path('/CRMForm/'+"Edit"+"/"+'CRM');
 			
 		}else if(row.entity.name == "Request More Info"){
 			$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.name);
@@ -270,8 +258,8 @@ $scope.leadTypeAll = function(){
 	
 	
 	$scope.allLeaddata = function(){
-		$http.get('/getAllLeadData')
-		.success(function(data){
+		apiserviceConfigPage.getAllLeadData().then(function(data){
+		
 			$scope.gridOptions.data=data;
 			console.log(data);
 		})
@@ -287,7 +275,8 @@ $scope.leadTypeAll = function(){
 		$scope.saveCompleted = function(){
 		console.log("::::::insideRegester");
 		console.log($scope.leadcreate);
-		$http.post("/addnewrUser",$scope.leadcreate).success(function(data){
+		apiserviceConfigPage.addnewrUser($scope.leadcreate).then(function(data){
+		
 				$scope.form = data;
 			 console.log("::::::success")
 				
@@ -305,22 +294,13 @@ $scope.leadTypeAll = function(){
 			 
 		 }
 		
-		 $scope.deletelead = function(){
+		 	$scope.deletelead = function(){
 			 console.log("in deletend functio");
-			 $http.get('/getdeletelead/'+$scope.entityId)
-				.success(function(data) {
+			 apiserviceConfigPage.getdeletelead($scope.entityId).then(function(data){
+			 
 					 console.log("out deletend functio");
-					 $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Remove User",
-						});
-					 
 					 $scope.leadTypeAll();
-					 
-					 
-
-				});
+			 });
 		 }
 		 
 		 $scope.selectCheck = function(row){
@@ -339,21 +319,13 @@ $scope.leadTypeAll = function(){
 		 $scope.Updatecheckbox = function(){
 			 console.log($scope.editleadtype);
 			 console.log("out of funtion");
+			 apiserviceConfigPage.Updatecheckbox($scope.editleadtype).then(function(data){
 			 
-			 $http.post("/Updatecheckbox",$scope.editleadtype)
-			 .success(function(data){
 				 console.log(data);
 				 console.log("in of funtion");
-				 $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Update successfully",
-					});
-         		$("#editPopupscheck").modal('hide');
-         		
-    		});
-			
-		 }
+				 $("#editPopupscheck").modal('hide');
+         	});
+		}
 		 
 		 $scope.addNewForm = function(){
 				console.log("Checkkkk");
@@ -365,7 +337,7 @@ $scope.leadTypeAll = function(){
 		
 		 
 			$scope.savedNewForm = function(){
-			$http.post("/addnewForm",$scope.addform).success(function(data){
+				apiserviceConfigPage.addnewForm($scope.addform).then(function(data){
 				$scope.form = data;
 				$("#completedPopup").modal('hide');
 				 $scope.allFormName();
@@ -376,11 +348,10 @@ $scope.leadTypeAll = function(){
 			$scope.website = {};
 			$scope.savedNewFormWebsite = function(){
 				console.log($scope.website);
-				$http.post("/addnewWebSiteForm",$scope.website).success(function(data){
+				apiserviceConfigPage.addnewWebSiteForm($scope.website).then(function(data){
 					$scope.form = data;
 					console.log(data);
-					
-					 $("#completedPopup").modal('hide');
+					$("#completedPopup").modal('hide');
 					 $scope.showEditData();
 					 $scope.webSiteinfo();
 					 
@@ -392,7 +363,8 @@ $scope.leadTypeAll = function(){
 				console.log($scope.website);
 				console.log($scope.rowDataVal);
 				$scope.website.id = $scope.rowDataVal.id;
-				$http.post("/updatenewWebSiteForm",$scope.website).success(function(data){
+				apiserviceConfigPage.updatenewWebSiteForm($scope.website).then(function(data){
+				
 					$scope.form = data;
 					console.log(data);
 					$('#outcome').click();
@@ -403,11 +375,9 @@ $scope.leadTypeAll = function(){
 				
 				}
 			$scope.webSiteinfo = function(){
-				$http.get('/getFormWebSiteData').success(function(data){
-					
+				apiserviceConfigPage.getFormWebSiteData().then(function(data){
 					console.log(data);
-					
-		 			$scope.gridOptions.data = data;
+					$scope.gridOptions.data = data;
 		 			console.log($scope.gridOptions.data);
 		 			console.log("grid data")
 				});
@@ -421,11 +391,11 @@ $scope.leadTypeAll = function(){
 				                                 { name: 'outcome', displayName: 'Outcome ', width:'15%' },
 				                                 {name:'or', displayName:'', width:'15%',
 				                                	 /*cellTemplate:'<div><div class="link-domain"ng-click="grid.appScope.outcome(row)">Outcome &nbsp;&nbsp;&nbsp </div><i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i></div>',*/
-				                                	 cellTemplate:'<i class="link-domain"ng-click="grid.appScope.outcome(row)">Outcome</i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i> ',
+				                                	 cellTemplate:'<i class="link-domain" ng-click="grid.appScope.outcome(row)">Outcome</i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-if="row.entity.lead_name != \'Request More Info\' && row.entity.lead_name != \'Schedule Test Drive\' && row.entity.lead_name != \'Trade-In Appraisal\'" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i> ',
 				                                 }, 
 				                                 {name:'10', displayName:'LeadLink', width:'15%',
 				                                	 /*cellTemplate:'<div><div class="link-domain"ng-click="grid.appScope.outcome(row)">Outcome &nbsp;&nbsp;&nbsp </div><i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i></div>',*/
-				                                	 cellTemplate:'<div class="link-domain" ><i class="glyphicon glyphicon-edit" ng-click="grid.appScope.allLeadRender(row)"  title="Edit"></i></div>',
+				                                	 cellTemplate:'<div class="link-domain"><i class="glyphicon glyphicon-edit" ng-click="grid.appScope.allLeadRender(row)"  title="Edit"></i></div>',
 				                                 }, 
 				                                 
 				                                 ];
@@ -454,10 +424,10 @@ $scope.leadTypeAll = function(){
 						 if(row.entity.lead_name == "Request More Info"){
 							$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.lead_name);
 						}
-						else if(row.entity.lead_name == "Contact Us"){
-							$location.path('/ContactUsForm/'+"Edit"+"/"+row.entity.lead_name);
+						else if(row.entity.lead_name == "Trade-In Appraisal"){
+							$location.path('/TradeIn/'+"Edit"+"/"+row.entity.lead_name);
 						}
-						else if(row.entity.lead_name == "Request Appointment"){
+						else if(row.entity.lead_name == "Schedule Test Drive"){
 							$location.path('/RequestAppointmentForm/'+"Edit"+"/"+row.entity.lead_name);
 						}
 						else{
@@ -484,12 +454,8 @@ $scope.leadTypeAll = function(){
 				 $scope.editFormWebsite = function(website){
 					 console.log($scope.editData);
 					 $scope.website.id = $scope.editData.id;
-					 $http.post("/getEditFormWebsite",$scope.website).success(function(data){
-		         		$.pnotify({
-							    title: "Success",
-							    type:'success',
-							    text: "Update successfully",
-							});
+					 apiserviceConfigPage.getEditFormWebsite($scope.website).then(function(data){
+					 
 		         		$("#editPopupswebsite").modal('hide');
 		         		$scope.webSiteinfo();
 		    		});
@@ -500,18 +466,16 @@ $scope.leadTypeAll = function(){
 					 $scope.website.id = $scope.editData.id;
 					 console.log($scope.website.id);
 					 console.log("ddddddddd");
-						$http.get('/showEditData/'+$scope.website.id)
-						.success(function(data){
-							//$scope.gridOptions.data=data;
+					 apiserviceConfigPage.showEditData($scope.website.id).then(function(data){
+						
 							console.log(data);
 							$scope.website = data;
 						})
 					}	
 				 
 			 $scope.leadTypeAllData = function(){
+				 apiserviceConfigPage.getLeadTypeData().then(function(data){
 					
-					console.log("sdfghjkp0000");
-					$http.get('/getLeadTypeData').success(function(data){
 						console.log("lead type data");
 						console.log(data);
 						$scope.leadtypeObjList = data;
@@ -547,15 +511,10 @@ $scope.leadTypeAll = function(){
 			 console.log($scope.editleadtype);
 			 console.log("out of funtion");
 			 $scope.editleadtype.leadName = leadName;
-			 $http.post("/UpdateLeadType",$scope.editleadtype)
-			 .success(function(data){
+			 apiserviceConfigPage.UpdateLeadType($scope.editleadtype).then(function(data){
+			 
 				 console.log("in of funtion");
-				 $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Update successfully",
-					});
-         		$("#editPopups").modal('hide');
+				$("#editPopups").modal('hide');
          		//$scope.allLeaddata();
          		//$scope.selectCheckbox();
          		$scope.leadTypeAll();
@@ -620,16 +579,18 @@ $scope.leadTypeAll = function(){
 		
 	}
 	
+	$scope.websiteAnalytics= function() {
+		$location.path('/webAnalytics');
+		
+	}
+	
+	$scope.mailchimp= function() {
+		$location.path('/mailchimpPage');
+		
+	}
+	
 	$scope.saveEmailDetails= function(auto) {
-		$http.post('/saveEmailDetails',auto)
-		.success(function(data) {
-
-            $.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Email Info saved successfully",
-			});
-            
+		apiserviceConfigPage.saveEmailDetails(auto).then(function(data){
 		});
 		
 		
@@ -645,59 +606,55 @@ $scope.leadTypeAll = function(){
 	}
 	
 	$scope.saveDomain= function(sitenameData) {
-				
-		$http.post('/saveDomain',sitenameData)
-		.success(function(data) {
-
-            $.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Domain saved successfully",
-			});
-            
+		apiserviceConfigPage.saveDomain(sitenameData).then(function(data){	
 		});
-		
-		
 		
 	}
 	
+	$scope.saveWebsite= function(webanlyatics) {
+		console.log(webanlyatics);
+		
+		console.log("web analytics");
+		apiserviceConfigPage.saveWebsite(webanlyatics).then(function(data){
+		console.log("In Function web analytics");
+        });
+		
+	}
 	
+	$scope.websiteAnalyticsData = function(){
+		apiserviceConfigPage.getwebsiteAnalyticsData().then(function(data){
+		$scope.webanlyatics = data;
+		console.log($scope.webanlyatics);
+		
+	});	
 	
+	}
 	
+	$scope.mailchimpPage= function(schedular) {
+		apiserviceConfigPage.savemailchimpPage(schedular).then(function(data){
+		});
+	}
+	$scope.mailchimpData = function(){
+		apiserviceConfigPage.getmailchimpData().then(function(data){
+		$scope.schedular = data;
+		console.log($scope.schedular);
+		
+	});	
 	
-	
-	
+	}
 	
 	$scope.autoPort={};
 	$scope.saveAutoPortal= function(auto,siteName) {
 		auto.sitename=siteName;
 		$scope.autoPort=auto;
-		//$scope.autoPort.siteName=siteName;
-		$http.post('/saveAutoPortal',$scope.autoPort)
-		.success(function(data) {
-
-            $.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Autoportal details saved successfully",
-			});
-            
+		apiserviceConfigPage.saveAutoPortal($scope.autoPort).then(function(data){
 		});
 		
 	}
 	
 	$scope.saveEmailLinks= function(email) {
 		console.log(email);
-		//$scope.autoPort.siteName=siteName;
-		$http.post('/saveEmailLinks',email)
-		.success(function(data) {
-
-            $.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Social Links saved successfully",
-			});
-            
+		apiserviceConfigPage.saveEmailLinks(email).then(function(data){
 		});
 	}
 	
@@ -708,20 +665,8 @@ $scope.leadTypeAll = function(){
 	$scope.acountDetails= function(auto,siteName) {
 		auto.sitename=siteName;
 		$scope.autoPort1=auto;
-		//$scope.autoPort.siteName=siteName;
-		$http.post('/acountDetails',$scope.autoPort1)
-		.success(function(data) {
-
-            $.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Username and Passward saved successfully",
-			});
-            
+		apiserviceConfigPage.acountDetails($scope.autoPort1).then(function(data){
 		});
-		
-		
-		
 	}
 	
 	
@@ -740,10 +685,7 @@ $scope.leadTypeAll = function(){
 		 	  			    type:'success',
 		 	  			    text: "pdf saved successfully",
 		 	  			});
-			
-		 	  			$http.get('/getInternalPdfData')
-		 	  			.success(function(data) {
-		 	  				
+		 	  			apiserviceConfigPage.getInternalPdfData().then(function(data){
 		 	  				$scope.internalPdfList=data;
 		 	  			});		
 		 	  			
@@ -764,9 +706,8 @@ $scope.leadTypeAll = function(){
 		 	  			    type:'success',
 		 	  			    text: "pdf saved successfully",
 		 	  			});
-			
-		 	  			$http.get('/getCustomerPdfData')
-		 	  			.success(function(data) {
+		 	  			apiserviceConfigPage.getCustomerPdfData().then(function(data){
+		 	  			
 		 	  				/*$.pnotify({
 		 	  				    title: "Success",
 		 	  				    type:'success',
@@ -780,10 +721,8 @@ $scope.leadTypeAll = function(){
 		}
 		
 		$scope.deletePdf = function(id) {
-			
-			$http.get('/getCustomerPdfDataById/'+id)
-  			.success(function(data) {
-		        $scope.customerPdfName=data;
+			apiserviceConfigPage.getCustomerPdfDataById(id).then(function(data){
+				$scope.customerPdfName=data;
   			});
 			
 			$('#btndeleteCustomerPdf').click();
@@ -794,27 +733,16 @@ $scope.leadTypeAll = function(){
 		
 		$scope.deletePdfCustomer = function() {
 			console.log("$scope.customerPdfId"+$scope.customerPdfId);
-			
-			$http.get('/deletePdfById/'+$scope.customerPdfId)
-	  			.success(function(data) {
-	  				$.pnotify({
-	  				    title: "Success",
-	  				    type:'success',
-	  				    text: "PDF deleted successfully",
-	  				});
-			
-	  			});
+			apiserviceConfigPage.deletePdfById($scope.customerPdfId).then(function(data){
+			});
 		}
 		
 		
 
 		$scope.deleteInternalPdf = function(id) {
-			
-			$http.get('/getInternalPdfDataById/'+id)
-  			.success(function(data) {
-		        $scope.internalPdfName=data;
+			apiserviceConfigPage.getInternalPdfDataById(id).then(function(data){
+				$scope.internalPdfName=data;
   			});
-			
 			$('#btndeleteInternalPdf').click();
 			$scope.internalPdfId = id;
 		}
@@ -822,69 +750,34 @@ $scope.leadTypeAll = function(){
 		
 		
           $scope.deletePdfInternal = function() {
-			
+        	  apiserviceConfigPage.deleteInternalPdf($scope.internalPdfId).then(function(data){
         	  console.log("$scope.internalPdfId"+$scope.internalPdfId);
-			$http.get('/deleteInternalPdf/'+$scope.internalPdfId)
-	  			.success(function(data) {
-	  				$.pnotify({
-	  				    title: "Success",
-	  				    type:'success',
-	  				    text: "PDF deleted successfully",
-	  				});
-			
-	  			});
+			});
 		}
 		
 		$scope.permiumAss = function(saleP){
-		$http.get('/setPermiumFlag/'+saleP.id).success(function(data){
-			console.log("Yesssss");
+			apiserviceConfigPage.setPermiumFlag(saleP.id).then(function(data){
+				console.log("Yesssss");
 		});
 	}
 	
 	$scope.saveSlider = function() {
-		$http.get('/saveSliderConfig/'+$scope.slider.width+'/'+$scope.slider.height)
-		.success(function(data) {
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Slider config saved successfully",
-			});
+		apiserviceConfigPage.saveSliderConfig($scope.slider.width, $scope.slider.height).then(function(data){
 		});
 	}
 	
 	$scope.saveFeatured = function() {
-		$http.get('/saveFeaturedConfig/'+$scope.featured.width+'/'+$scope.featured.height)
-		.success(function(data) {
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Featured config saved successfully",
-			});
+		apiserviceConfigPage.saveFeaturedConfig($scope.featured.width, $scope.featured.height).then(function(data){
 		});
 	}
 	
 	$scope.saveVehicleSize = function() {
-		$http.get('/saveVehicleConfig/'+$scope.vehSize.width+'/'+$scope.vehSize.height)
-		.success(function(data) {
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Vehicle config saved successfully",
-			});
+		apiserviceConfigPage.saveVehicleConfig($scope.vehSize.width, $scope.vehSize.height).then(function(data){
 		});
 	}
 	
-	
-	
-	
 	$scope.saveCoverImageSize = function() {
-		$http.get('/setCoverImage/'+$scope.cover.width+'/'+$scope.cover.height)
-		.success(function(data) {
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Vehicle config saved successfully",
-			});
+		apiserviceConfigPage.setCoverImage($scope.cover.width, $scope.cover.height).then(function(data){
 		});
 	}
 	
@@ -892,26 +785,16 @@ $scope.leadTypeAll = function(){
 		if($scope.premium.premiumFlag == undefined || $scope.premium.premiumFlag == null){
 			$scope.premium.premiumFlag = "0";
 		}
-		$http.get('/savePremiumConfig/'+$scope.premium.priceVehical+'/'+$scope.premium.premiumFlag)
-		.success(function(data) {
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Premium saved successfully",
-			});
+		apiserviceConfigPage.savePremiumConfig($scope.premium.priceVehical, $scope.premium.premiumFlag).then(function(data){
 		});
 	}
 	
 	$scope.saveDayOfMonth = function() {
 		$scope.newsletterTime = $('#newsTime').val();
-		$http.get('/saveNewsletterDate/'+$scope.newsletterDay+'/'+$scope.newsletterTime+'/'+$scope.newsletterId+'/'+$scope.newsletterTimeZone)
-		.success(function(data) {
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Newsletter date saved successfully",
-			});
+		apiserviceConfigPage.saveNewsletterDate($scope.newsletterDay, $scope.newsletterTime, $scope.newsletterId, $scope.newsletterTimeZone).then(function(data){
 		});
 	}
+	
+	
 	
 }]);	

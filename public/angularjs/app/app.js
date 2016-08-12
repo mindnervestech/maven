@@ -30,8 +30,21 @@ var MakeApp = angular
     'starter.apiservice',
     'app.apiserviceUser',
     'app.apiserviceAddEditInventory',
-    //'validator.rules',
-    //'textAngular',
+    'app.apiserviceBlog',
+    'app.apiserviceProfile',
+    'app.apiserviceLocation',
+    'app.apiserviceRegistration',
+    'app.apiserviceDashborad',
+    'app.apiserviceCrm',
+    'app.apiserviceMoreInfo',
+    'app.apiserviceViewInventory',
+    'app.apiserviceViewClient',
+    'app.apiserviceInventory',
+    'app.apiserviceCustomizationForm',
+    'app.apiserviceHomePage',
+    'app.apiserviceConfigPage',
+    'app.apiserviceAddCropInventory',
+   // 'textAngular',
     'nvd3',
     'formly',
     'ionic',
@@ -191,6 +204,15 @@ var MakeApp = angular
         
         .when('/premiumLeads', {
             templateUrl: '/dealer/config/leads.html',
+            controller: 'ConfigPageCtrl'
+        })
+        
+         .when('/webAnalytics', {
+            templateUrl: '/dealer/config/websiteAnalytics.html',
+            controller: 'ConfigPageCtrl'
+        })
+         .when('/mailchimpPage', {
+            templateUrl: '/dealer/config/mailchimp.html',
             controller: 'ConfigPageCtrl'
         })
         

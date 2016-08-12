@@ -1,11 +1,15 @@
 package viewmodel;
 
+import java.util.Date;
+
 public class ClickyPagesVM {
 
 	public Long id;
+	public Long vid;
 	public String value;
 	public String urlForGraph;
 	public String newPrecentage;
+	public double newValuePrecentage;
 	public String value_percent;
 	public String valuePercent;
 	public String title;
@@ -17,9 +21,14 @@ public class ClickyPagesVM {
 	public String city;
 	public String showUrl;
 	public String visitors;
+	public double visitor;
 	public String uniqueVisitors;
+	public double uniqueV;
 	public String actions;
+	public double action;
 	public String averageActions;
+	public double averageAct;
+	public double secondCount;
 	public String time;
 	public String newTime;
 	public String newDate;
@@ -27,20 +36,55 @@ public class ClickyPagesVM {
 	public String ipAddress;
 	public String uid;
 	public String sessionId;
+	public String customSessionId;
 	public String actionType;
 	public String actionUrl;
 	public String newActionUrl;
 	public String actionTitle;
 	public String totalTime;
+	public String timeTotal;
+	public double totalT;
 	public String averageTime;
+	public double averageT;
 	public String bounceRate;
+	public double bounceR;
 	public String geoLocation;
+	public String geolocation;
+	public String latitude;
+	public String heatmapUrl;
+	public String longitude;
+	public String country;
+	public String hostname;
+	public String totalVisits;
 	public String organization;
+	public Date dateClick;
 	public String value_percent2;
 	public String chartDate;
 	public String startDate;
 	public String endDate;
 	public double averagePercent;
-	
-	
+	public String visitors1;
+	public String uniqueVisitors1;
+	public String actions1;
+	public String averageActions1;
+	public String totalTime1;
+	public String averageTime1;
+	public String bounceRate1;
+	public String operatingSystem;
+	public String webBrowser;
+	public String screenResolution;
+	public String language;
+	public String landingPage;
+	public String referrerDomain;
+	public String referrerType;
+	public String referrerUrl;
+	public String locationFlag;
+	public String typeOfReferrer;
+	public String startDateFilter;
+	public String endDateFilter;
+	public Date curr_Date;
+	public double percentage;
+	public double avgaction;
+	public double avgtime;
+	public double totTime;
 }
