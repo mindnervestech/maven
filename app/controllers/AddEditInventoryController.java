@@ -60,6 +60,7 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import securesocial.core.Identity;
+import viewmodel.AddCollectionVM;
 import viewmodel.EditImageVM;
 import viewmodel.ImageVM;
 import viewmodel.InventoryVM;
@@ -630,5 +631,18 @@ public class AddEditInventoryController extends Controller {
 		    	newImage.update();
 		    	return ok();
 	    	}	
+	    }
+	  
+	  public static Result getCollectionList(){
+			List<AddCollection> listData = AddCollection.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	List<AddCollectionVM> collList = new ArrayList<>();
+	    	for(AddCollection coll: listData) {
+	    			AddCollectionVM vm = new AddCollectionVM();
+	    			vm.title = coll.title;
+	    			vm.id = coll.id;
+	    			collList.add(vm);
+	    	}
+			return ok(Json.toJson(collList));
+	    
 	    }
 }

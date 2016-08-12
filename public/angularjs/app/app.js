@@ -112,20 +112,20 @@ var MakeApp = angular
         })
         */
         
-        .when('/addProduct', {
+       /* .when('/addProduct', {
             templateUrl: 'dealer/addProduct/add_product.html',
             controller: 'addProductCtrl'
-        })
+        })*/
         
         .when('/myCalendar', {
             templateUrl: 'dealer/myCalendar/myCalendar.html',
             controller: 'myCalendarCtrl'
         })
         
-        .when('/addProductImages/:id', {
+       /* .when('/addProductImages/:id', {
             templateUrl: 'dealer/addProduct/productImages.html',
             controller: 'ProductImagesCtrl'
-        })
+        })*/
         .when('/createUser', {
             templateUrl: '/dealer/myprofile/createUser.html',
             controller: 'createUserCtrl'
@@ -542,7 +542,7 @@ var MakeApp = angular
         
         /*----------------------------------------*/
         
-        .when('/inventory', {
+       /* .when('/inventory', {
             templateUrl: '/dealer/inventory/readyMadeInventory.html',
             controller: 'ReadyMadeInventoryCtrl'
         })
@@ -574,28 +574,28 @@ var MakeApp = angular
         .when('/readyMadeOnly', {
             templateUrl: 'dealer/inventory/readyMadeInventory.html',
             controller: 'OnlyReadyMadeInventoryCtrl'
-        })
+        })*/
         
-        .when('/collection', {
+        /*.when('/collection', {
             templateUrl: 'dealer/inventory/collectionInventory.html',
             controller: 'collectionInventoryCtrl'
-        })
+        })*/
         
-        .when('/allProductCollection', {
+        /*.when('/allProductCollection', {
             templateUrl: 'dealer/inventory/productInventory.html',
             controller: 'ProductCollectionCtrl'
-        })
+        })*/
         
        .when('/editProduct/:id/:flag', {
             templateUrl: 'dealer/inventory/editProduct.html',
             controller: 'EditProductsCtrl',
         })  
-        .when('/allReadyMadeCollection', {
+       /* .when('/allReadyMadeCollection', {
             templateUrl: 'dealer/inventory/readyMadeInventory.html',
             controller: 'ReadyMadeCollectionCtrl'
-        })
+        })*/
         
-        .when('/editcollection/:id/:flag', {
+        /*.when('/editcollection/:id/:flag', {
         	templateUrl: 'dealer/inventory/editcollection.html',
         	controller: 'EditCollectionCtrl',
         })
@@ -606,7 +606,7 @@ var MakeApp = angular
         .when('/editCollectionImg/:id', {
             templateUrl: 'dealer/inventory/editCollectionImages.html',
             controller: 'AddCollectionImgCtrl'
-        })
+        })*/
         
         .otherwise({
             redirectTo: '/'

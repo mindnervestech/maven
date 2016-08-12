@@ -85,7 +85,7 @@ GET   /getCheckButton/:leadId/:intValue				 controllers.ConfigPagesController.ge
 
 
 #GET 	/getSectionCollection/:id	     controllers.productController.getSectionCollection(id:Long)
-#GET     /getColl				         controllers.productController.getCollectionList()
+GET     /getColl				         controllers.AddEditInventoryController.getCollectionList()
 #GET 	/getSections			         controllers.productController.getSections()
 #POST    /saveProduct                     controllers.productController.addProduct()
 #GET     /removeDefaultProduct/:newId	 controllers.productController.removeDefaultProduct(newId:Long)

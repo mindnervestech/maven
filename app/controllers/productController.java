@@ -65,18 +65,6 @@ public class productController extends Controller {
 		}
 	}*/
 	
-	 public static Result getCollectionList(){
-			List<AddCollection> listData = AddCollection.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	    	List<AddCollectionVM> collList = new ArrayList<>();
-	    	for(AddCollection coll: listData) {
-	    			AddCollectionVM vm = new AddCollectionVM();
-	    			vm.title = coll.title;
-	    			vm.id = coll.id;
-	    			collList.add(vm);
-	    	}
-			return ok(Json.toJson(collList));
-	    
-	    }
 	 
 	/* public static Result getSections(){
 			if(session("USER_KEY") == null || session("USER_KEY") == "") {
