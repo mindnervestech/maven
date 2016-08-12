@@ -20,6 +20,7 @@ angular.module('newApp')
 					console.log(data);
 					$scope.userLocationId = data;
 					apiserviceAddCropInventory.getInventoryImageById($routeParams.id).then(function(data){
+			
 				imageW = data.col;
 				imageH = data.row;
 				
@@ -114,7 +115,7 @@ angular.module('newApp')
 			console.log($scope.coords);
 			
 	if(userRole == "Photographer"){
-	         	apiserviceAddCropInventory.editInventoryImage($scope.coords).then(function(data){
+		apiserviceAddCropInventory.editInventoryImage($scope.coords).then(function(data){
 				$location.path('/editInventory/'+$routeParams.vid+'/'+true+"/"+$routeParams.productId);
 				});
 				

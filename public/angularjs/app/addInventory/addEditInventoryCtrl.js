@@ -288,13 +288,8 @@ angular.module('newApp')
 					    		   delete $scope.imageList[i].height;
 					    		   delete $scope.imageList[i].link;
 					    	   } 
-					    	   $http.post('/savePosition',$scope.imageList)
-						   		.success(function(data) {
-						   			$.pnotify({
-									    title: "Success",
-									    type:'success',
-									    text: "Position saved successfully",
-									});
+					    	   apiserviceAddEditInventory.savePosition($scope.imageList).then(function(data){
+					    	   
 						   		});
 					    	   
 					       } // optional callback fired when item is finished dragging

@@ -1,9 +1,9 @@
 angular.module('newApp')
 .controller('premiumCtrl', ['$scope','$http','$location','$filter','$interval', function ($scope,$http,$location,$filter,$interval) {
 	$scope.leadList = [];
-	$http.get('/getSelectedLeadType').success(function(response) {
+	apiserviceMoreInfo.getSelectedLeadType().then(function(response){
+	
 		console.log(response);
-		
 		angular.forEach(response, function(value, key) {
 			if(value.id > 3){
 				$scope.leadList.push(value); 
@@ -126,21 +126,14 @@ angular.module('newApp')
 				
 				console.log(userKey);
 				console.log(row.leadType);
-		        	$http.get('/changeAssignedUser/'+row.id+'/'+userKey+'/'+row.leadType)
-					.success(function(data) {
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Claimed Successfully",
-						});
-						 $scope.getAllPremiumData();
+				apiserviceMoreInfo.changeAssignedUser(row.id, userKey, row.leadType).then(function(data){
+		        		$scope.getAllPremiumData();
 					});
 			}
 			
 		  }
+		apiserviceMoreInfo.getSalesUserValue().then(function(data){
 		
-		$http.get('/getSalesUserValue')
-		.success(function(data){
 			console.log(data);
 			$scope.salesPersonPerf = data;
 			
@@ -151,14 +144,10 @@ angular.module('newApp')
 			 console.log($scope.leadlId);
 			 console.log($scope.leadType);
 			 console.log($scope.changedUser);
-	        	$http.get('/changeAssignedUser/'+$scope.leadlId+'/'+$scope.changedUser+'/'+$scope.leadType)
-				.success(function(data) {
+			 apiserviceMoreInfo.changeAssignedUser($scope.leadlId, $scope.changedUser, $scope.leadType).then(function(data){
+	        	
 					$('#assignUserModal').modal('hide');
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "User assigned successfully",
-					});
+					
 					 $scope.getAllPremiumData();
 				});
 	        	
@@ -175,15 +164,10 @@ angular.module('newApp')
 		 $scope.deletePremiumLead = function(){
 			 console.log($scope.leadId);
 			 console.log($scope.leadType);
-			 $http.get('/deletePremiumLead/'+$scope.leadId+'/'+$scope.leadType)
-				.success(function(data) {
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Delete successfully",
-					});
-					$http.get('/getAllPremiumIn')
-					.success(function(data) {
+			 apiserviceMoreInfo.deletePremiumLead($scope.leadId, $scope.leadType).then(function(data){
+			 
+				 apiserviceMoreInfo.getAllPremiumIn().then(function(data){
+					
 					$scope.gridOptions.data = data;
 					$scope.tradeInList = data;
 					if(data.length > 0){
@@ -194,21 +178,16 @@ angular.module('newApp')
 		 };
 		 
 		 $scope.releaseLead = function(entity){
-			 $http.get('/releaseLeads/'+entity.id+'/'+entity.leadType)
-				.success(function(data) {
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Premium lead has been successfully released for everyone to claim ",
-					});
-					 $scope.getAllPremiumData();
+			 apiserviceMoreInfo.releaseLeads(entity.id, entity.leadType).then(function(data){
+			 
+				 $scope.getAllPremiumData();
 				});
 		 }
 		
  		    	
 		 $scope.userRole = null;
-	  $http.get('/getAllPremiumIn')
-			.success(function(data) {
+		 apiserviceMoreInfo.getAllPremiumIn().then(function(data){
+	  
 			$scope.gridOptions.data = data;
 			$scope.tradeInList = data;
 			if(data.length > 0){
@@ -217,16 +196,16 @@ angular.module('newApp')
 		});
   
 	  $scope.getAllPremiumData = function() {
-		  $http.get('/getAllPremiumIn')
-			.success(function(data) {
+		  apiserviceMoreInfo.getAllPremiumIn().then(function(data){
+		  
 			$scope.gridOptions.data = data;
 			//$scope.tradeInList = data;
 		});
 	  }
 	  
 	  var promo =  $interval(function(){
-			  $http.get('/getAllPremiumIn')
-				.success(function(data) {
+		  apiserviceMoreInfo.getAllPremiumIn().then(function(data){
+			  
 				$scope.gridOptions.data = data;
 				$scope.tradeInList = data;
 			});

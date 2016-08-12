@@ -1,9 +1,9 @@
 angular.module('newApp')
-.controller('TradeInCtrl', ['$scope','$http','$location','$filter','$interval', function ($scope,$http,$location,$filter,$interval) {
+.controller('TradeInCtrl', ['$scope','$http','$location','$filter','$interval','apiserviceMoreInfo', function ($scope,$http,$location,$filter,$interval,apiserviceMoreInfo) {
 	$scope.leadList = [];
-	$http.get('/getSelectedLeadType').success(function(response) {
-		console.log(response);
-		
+	
+	apiserviceMoreInfo.getSelectedLeadType().then(function(response){
+	
 		angular.forEach(response, function(value, key) {
 			if(value.id > 3){
 				$scope.leadList.push(value); 
@@ -180,9 +180,8 @@ angular.module('newApp')
  				console.log($scope.gridOptions.data);
  		  }
     	
- 		 
-	  $http.get('/getAllTradeIn')
-			.success(function(data) {
+ 		 apiserviceMoreInfo.getAllTradeIn().then(function(data){ 
+	  
 			//$scope.gridOptions.data = data;
 				$scope.editgirdData(data);
 			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
@@ -198,8 +197,8 @@ angular.module('newApp')
 		});
   
 	  $scope.getAllTradeInData = function() {
-		  $http.get('/getAllTradeIn')
-			.success(function(data) {
+		  apiserviceMoreInfo.getAllTradeIn().then(function(data){
+		  
 			//$scope.gridOptions.data = data;
 				$scope.editgirdData(data);
 			$scope.tradeInList = data;
@@ -215,8 +214,8 @@ angular.module('newApp')
 	  }
 	  
 	  var promo =  $interval(function(){
-			  $http.get('/getAllTradeIn')
-				.success(function(data) {
+		  apiserviceMoreInfo.getAllTradeIn().then(function(data){
+			  
 				//$scope.gridOptions.data = data;
 					$scope.editgirdData(data);
 				$scope.tradeInList = data;
@@ -224,12 +223,11 @@ angular.module('newApp')
 		},60000);
 	  
 	  $scope.setAsRead = function(flag,id) {
+		  apiserviceMoreInfo.tradeInMarkRead(flag, id).then(function(data){
 		  
-		  $http.get('/tradeInMarkRead/'+flag+'/'+id)
-			.success(function(data) {
 				//$scope.gridOptions.data = data;
-				$http.get('/getAllTradeIn')
-				.success(function(data) {
+				apiserviceMoreInfo.getAllTradeIn().then(function(data){
+				
 					//$scope.gridOptions.data = data;
 					$scope.editgirdData(data);
 					$scope.tradeInList = data;

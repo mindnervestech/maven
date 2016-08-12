@@ -159,4 +159,18 @@ angular.module('app.apiserviceAddEditInventory', [])
 		return defer.promise;
 	};
 	
+	this.savePosition = function(imageList){
+		var defer = $q.defer();
+		$http.post('/savePosition',imageList).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Position saved successfully",
+			});
+			 	defer.resolve(data);
+    	});
+		
+		return defer.promise;
+	};
+	
 })

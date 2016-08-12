@@ -1,9 +1,8 @@
 angular.module('newApp')
-.controller('RequestMoreInfoCtrl', ['$scope','$http','$location','$filter','$interval', function ($scope,$http,$location,$filter,$interval) {
+.controller('RequestMoreInfoCtrl', ['$scope','$http','$location','$filter','$interval','apiserviceMoreInfo', function ($scope,$http,$location,$filter,$interval,apiserviceMoreInfo) {
 	$scope.leadList = [];
-	$http.get('/getSelectedLeadType').success(function(response) {
-		console.log(response);
-		
+	apiserviceMoreInfo.getSelectedLeadType().then(function(response){
+	
 		angular.forEach(response, function(value, key) {
 			if(value.id > 3){
 				$scope.leadList.push(value); 
@@ -106,12 +105,9 @@ angular.module('newApp')
 		        });
 	   		
   		};
- 		 
-	  $http.get('/getAllRequestInfo')
-			.success(function(data) {
-				console.log(data);
-				
-			
+  		apiserviceMoreInfo.getAllRequestInfo().then(function(data){ 
+	  
+			console.log(data);
 			$scope.editgirdData(data);
 			
 			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
@@ -176,8 +172,8 @@ angular.module('newApp')
 	  }
 	  
 	  $scope.getAllRequestInfo = function() {
-		  $http.get('/getAllRequestInfo')
-			.success(function(data) {
+		  apiserviceMoreInfo.getAllRequestInfo().then(function(data){
+		  
 			//$scope.gridOptions.data = data;
 				$scope.editgirdData(data);
 			$scope.requsetMoreList = data;
@@ -186,9 +182,8 @@ angular.module('newApp')
 	  }
 	  
 	  var promo =  $interval(function(){
-			  $http.get('/getAllRequestInfo')
-				.success(function(data) {
-				//$scope.gridOptions.data = data;
+		  apiserviceMoreInfo.getAllRequestInfo().then(function(data){
+			  
 					$scope.editgirdData(data);
 				$scope.requsetMoreList = data;
 			});
@@ -196,12 +191,10 @@ angular.module('newApp')
 	  
 	  $scope.premiumFlagForSale = 0;
   $scope.setAsRead = function(flag,id) {
+	  apiserviceMoreInfo.requestInfoMarkRead(flag, id).then(function(data){
 	  
-	  $http.get('/requestInfoMarkRead/'+flag+'/'+id)
-		.success(function(data) {
-			//$scope.gridOptions.data = data;
-			$http.get('/getAllRequestInfo')
-			.success(function(data) {
+			apiserviceMoreInfo.getAllRequestInfo().then(function(data){
+			
 				console.log(data);
 			//$scope.gridOptions.data = data;
 				$scope.editgirdData(data);

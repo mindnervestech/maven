@@ -15,17 +15,16 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder','$rootScope',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder, $rootScope) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder','$rootScope','apiserviceDashborad', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder, $rootScope, apiserviceDashborad) {
 	  
 	  $scope.showFormly = "1";
 	  var ele = document.getElementById('loadingmanual');	
    	$(ele).hide();
-	$http.get('/getLocationDays')
-	.success(function(data) {
-		$scope.locationDays = data;
+   	apiserviceDashborad.getLocationDays().then(function(data){
+   		$scope.locationDays = data;
 	});
-	$http.get('/getDealerProfile').success(function(data) {
-		$scope.userProfile = data.dealer;
+   	apiserviceDashborad.getDealerProfile().then(function(data){
+   		$scope.userProfile = data.dealer;
 	});
 	
 	$scope.txt = false;
@@ -68,9 +67,8 @@ angular.module('newApp')
 		
 	}
 	var autocomplete;
-	$http.get('/getAllInventory')
-		.success(function(data) {
-			$scope.prodSearchList = data;
+	apiserviceDashborad.getAllInventory().then(function(data){
+		$scope.prodSearchList = data;
 		});
 		//$scope.stockRp = {};
 		
@@ -111,8 +109,8 @@ angular.module('newApp')
 			$('#vinSearch_value').val($scope.item.vin);
 		}
 	};
-	$http.get('/getUserType')
-	  .success(function(data) {
+	apiserviceDashborad.getUserType().then(function(data){
+	
 	 	$scope.userType = data;
 	 	if($scope.userType == "Manager") {
 	 		$scope.getGMData();
@@ -273,18 +271,17 @@ angular.module('newApp')
 	
 	$scope.saveComment = function(){
 		if($scope.userComment !=null && $scope.userComment !=""){
-			$http.get('/updateUserComment/'+$scope.userId+"/"+$scope.userComment)
-			.success(function(data) {
+			apiserviceDashborad.updateUserComment($scope.userId, $scope.userComment).then(function(data){
+			
 			});
 		}
 		$scope.userId = null;
 		$scope.userComment = null;
 	};
-	
-	$http.get('/getUserPermission').success(function(data){
+	apiserviceDashborad.getUserPermission().then(function(data){
 		$scope.userPer = data;
-	 });	
-	$http.get('/getDataFromCrm').success(function(data){
+	 });
+	apiserviceDashborad.getDataFromCrm().then(function(data){
 		$scope.searchList = data;
 	 });
 	$scope.editPrice = function(vin,index,id){
@@ -304,26 +301,26 @@ angular.module('newApp')
 	$scope.setLable = function(price,vin){
 		$scope.priceLbl = 'true';
 		$scope.priceTxt = 'false';
-		$http.get('/updateVehiclePrice/'+vin+"/"+price)
-		.success(function(data) {
+		apiserviceDashborad.updateVehiclePrice(vin, price).then(function(data){
+		
 		});
 	};
 	$scope.setName = function(name,vin){
 		$scope.nameLbl = 'true';
 		$scope.nameTxt = 'false';
-		$http.get('/updateVehicleName/'+vin+"/"+name)
-		.success(function(data) {
+		apiserviceDashborad.updateVehicleName(vin, name).then(function(data){
+		
 		});
 	};
 	$scope.showBackGmButton = 0;
-		$http.get('/getUserRole').success(function(data) {
+	apiserviceDashborad.getUserRole().then(function(data){
+		
 			
 			$scope.userRole = data.role;
 			 var startD = $('#cnfstartDateValue').val();
 			   var endD = $('#cnfendDateValue').val();
+			   apiserviceDashborad.getfindGmIsManager().then(function(data){
 			
-			$http.get('/getfindGmIsManager')
-			.success(function(data) {
 				$scope.showBackGmButton = data;
 			});
 			
@@ -364,8 +361,8 @@ angular.module('newApp')
 			$scope.bestTm = $('#cnfmeetingtime').val();
 			$scope.bestEndTm = $('#cnfmeetingtimeEnd').val();
 			if(($scope.bestDt != null && $scope.bestDt != "")  && ($scope.bestTm !=null && $scope.bestTm !="") && ($scope.bestEndTm !=null && $scope.bestEndTm !="")){
-				$http.get('/getUserAppointment/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
-				.success(function(data) {
+				apiserviceDashborad.getUserAppointment($scope.bestDt, $scope.bestTm, $scope.bestEndTm).then(function(data){
+				
 					if(data.length > 0){
 						if(data[0].meetingStatus != null){
 							$scope.appoTitle = data[0].name +"(Meeting)";
@@ -384,8 +381,8 @@ angular.module('newApp')
 						});
 					}
 				});
-				$http.get('/getUserForMeeting/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
-				.success(function(data) {
+				apiserviceDashborad.getUserForMeeting($scope.bestDt, $scope.bestTm, $scope.bestEndTm).then(function(data){
+				
 					$scope.gridOptions11.data = data;
 					angular.forEach($scope.gridOptions11.data, function(obj, index){
 						if(obj.userStatus == 'N/A'){
@@ -410,8 +407,8 @@ angular.module('newApp')
 			$scope.bestTm = $('#cnfmeetingtime').val();
 			$scope.bestEndTm = $('#cnfmeetingtimeEnd').val();
 			if(($scope.bestDt != null && $scope.bestDt != "")  && ($scope.bestTm !=null && $scope.bestTm !="") && ($scope.bestEndTm !=null && $scope.bestEndTm !="")){
-				$http.get('/getUserAppointment/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
-				.success(function(data) {
+				apiserviceDashborad.getUserAppointment($scope.bestDt, $scope.bestTm, $scope.bestEndTm).then(function(data){
+				
 					if(data.length > 0){
 						if(data[0].meetingStatus != null){
 							$scope.appoTitle = data[0].name +"(Meeting)";
@@ -431,8 +428,8 @@ angular.module('newApp')
 						});
 					}
 				});
-				$http.get('/getUserForMeeting/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
-				.success(function(data) {
+				apiserviceDashborad.getUserForMeeting($scope.bestDt, $scope.bestTm, $scope.bestEndTm).then(function(data){
+				
 					$scope.gridOptions11.data = data;
 					angular.forEach($scope.gridOptions11.data, function(obj, index){
 						if(obj.userStatus == 'N/A'){
@@ -539,8 +536,8 @@ angular.module('newApp')
 														];
 	
 	$scope.topLocations = function(timeSet){
-		$http.get('/getAllLocation/'+timeSet)
-		.success(function(data) {
+		apiserviceDashborad.getAllLocation(timeSet).then(function(data){
+		
 			
 			if(locationId == 0){
 				$scope.showSelectLocationDash = $scope.locationValue;
@@ -573,13 +570,12 @@ angular.module('newApp')
 	$scope.findMystatisData = function(startD,endD,locOrPer){
 		
 		if(locationId != 0){
-			$http.get('/gmLocationManager/'+locationId)
-			.success(function(data) {
-				$http.get('/getUserLocationByDateInfo/'+data.id+"/"+startD+'/'+endD+'/'+locOrPer)
-				.success(function(data) {
+			apiserviceDashborad.gmLocationManager(locationId).then(function(data){
+				apiserviceDashborad.getUserLocationByDateInfo(data.id, startD, endD, locOrPer).then(function(data){
+				
 					$scope.flagForBestSale=data.flagForBestSaleIcon;
-					$http.get('/getPlanTarget/'+locOrPer)
-					.success(function(data1) {
+					apiserviceDashborad.getPlanTarget(locOrPer).then(function(data){
+					
 						data.sendData[0].plan = data1.data[0].price;
 						$scope.stackchart = data.sendData;
 						if($scope.stackchart[0].data[0] == 0){
@@ -607,12 +603,11 @@ angular.module('newApp')
 			});
 			
 		}else{
+			apiserviceDashborad.getUserLocationByDateInfo($scope.userKey, startD, endD, locOrPer).then(function(data){
 			
-			$http.get('/getUserLocationByDateInfo/'+$scope.userKey+"/"+startD+'/'+endD+'/'+locOrPer)
-			.success(function(data) {
 				$scope.flagForBestSale=data.flagForBestSaleIcon;
-				$http.get('/getPlanTarget/'+locOrPer)
-				.success(function(data1) {
+				apiserviceDashborad.getPlanTarget(locOrPer).then(function(data){
+				
 					data.sendData[0].plan = data1.data[0].price;
 					$scope.stackchart = data.sendData;
 					if($scope.stackchart[0].data[0] == 0){
@@ -693,8 +688,8 @@ angular.module('newApp')
 		
 		 var startD = $('#cnfstartDateValue').val();
 		   var endD = $('#cnfendDateValue').val();
-		   
-		$http.post("/saveLeads",$scope.leadsTime).success(function(data){
+		   apiserviceDashborad.saveLeads($scope.leadsTime).then(function(data){  
+		
 			 $('#Locationwise-model').modal("toggle");
 			 if($scope.userRole == "Manager"){
 					//$scope.userLocationData('Week','location');
@@ -773,9 +768,8 @@ angular.module('newApp')
     	  var startDate =  $("#vstartDate").val();
 		   var endDate = $("#vendDate").val();
     	  
-		   
-    	  $http.get('/getVisitorList/'+$scope.startDateV+"/"+$scope.endDateV)
-  		.success(function(data) {
+		   apiserviceDashborad.getVisitorList($scope.startDateV, $scope.endDateV).then(function(data){
+    	  
   			
   			$scope.gridOptions.data = data;
   			$scope.visitiorList = data;
@@ -838,8 +832,8 @@ angular.module('newApp')
     		  volumeStatStartDateId = $('#volumeStatStartDateId').val();
     		  volumeStatEndDateId = $('#volumeStatEndDateId').val();
     	  }
-    	$http.get('/getSoldVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId)
-   		.success(function(data) {
+    	  apiserviceDashborad.getSoldVehicleDetails(volumeStatStartDateId, volumeStatEndDateId).then(function(data){
+    	
    		$scope.locationDataList = data;	
        if(data.length == 0){
     	   $scope.msgShow = 1;
@@ -917,7 +911,8 @@ angular.module('newApp')
 		  
     	  $scope.showBarvehical = 0;
     	  $scope.showvehical = 1;
-    	  	$http.get('/getFinancialVehicleDetailsByBodyStyle/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
+    	  apiserviceDashborad.getFinancialVehicleDetailsByBodyStyle(volumeStatStartDateId, volumeStatEndDateId).then(function(data){
+    	  	
     	  		$scope.msgShow = 1;
     	  		angular.forEach(data, function(value, key) {
     	  			if(value.data.length != 0){
@@ -937,8 +932,8 @@ angular.module('newApp')
     	  
     	  var volumeStatStartDateId = $('#volumeStatStartDateId').val();
 		  var volumeStatEndDateId = $('#volumeStatEndDateId').val();
-    	  
-    	  	$http.get('/getFinancialVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
+		  apiserviceDashborad.getFinancialVehicleDetails(volumeStatStartDateId, volumeStatEndDateId).then(function(data){
+    	  	
     	  		$scope.msgShow = 1;
     	  		angular.forEach(data.data, function(value, key) {
     	  			if(value.data.length != 0){
@@ -1080,9 +1075,8 @@ angular.module('newApp')
     	  
     	  $scope.showBarvehical = 1;
     	  $scope.showvehical = 0;
+    	  apiserviceDashborad.getSoldVehicleDetailsAvgSale(volumeStatStartDateId, volumeStatEndDateId).then(function(data){
     	  
-    	  $http.get('/getSoldVehicleDetailsAvgSale/'+volumeStatStartDateId+"/"+volumeStatEndDateId)
-  		.success(function(data) {
   			$scope.locationDataList = data;	
   			if(data.length == 0){
 	     	   $scope.msgShow = 1;
@@ -2045,15 +2039,13 @@ angular.module('newApp')
      			 		 		$('#cnfDate').val(new Date());
      			 		 		$('#timepicker1').timepicker(); 
      			 		 		
-     			 		 		
-    		  $http.get('/getAllRequestInfoSeen')
-    				.success(function(data) {
+     		  apiserviceDashborad.getAllRequestInfoSeen().then(function(data){ 		 		
+    		 
     				$scope.gridOptions5.data = data;
     				$scope.AllRequestInfoSeenList = data;
     			});
+     		 apiserviceDashborad.getAllContactUsSeen().then(function(data){
     		  
-    		  $http.get('/getAllContactUsSeen')
-				.success(function(data) {
 				$scope.gridOptions8.data = data;
 				$scope.AllContactUsInfoSeenList = data;
 			});
@@ -2086,9 +2078,8 @@ angular.module('newApp')
     			        });
     		   		
     	  		};
+    	  		apiserviceDashborad.getAllLostAndCompLeads().then(function(data){
     	  		
-    	  		 $http.get('/getAllLostAndCompLeads')
- 				.success(function(data) {
  				$scope.gridOptions6.data = data;
  				$scope.AllLostAndCompl = data;
  			});
@@ -2104,8 +2095,8 @@ angular.module('newApp')
    	  		};
    	  		
    	  		$scope.allVehical = null;
-   	  	$http.get('/getAllVehical')
-		.success(function(data) {
+   	  	apiserviceDashborad.getAllVehical().then(function(data){
+   	  	
 			$scope.allVehicalss = data;
 		});
    	  		/*$scope.getAllVehical = function(){
@@ -2118,14 +2109,8 @@ angular.module('newApp')
    	  	
    	  	
    	  	$scope.saveCompleted = function(){
-	   	  	 $http.get('/saveCompletedLeads/'+$scope.testCompleted.duration+'/'+$scope.testCompleted.comment+'/'+$scope.testCompleted.id+'/'+$scope.testCompleted.typeOfLead)
-				.success(function(data) {
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Completed successfully",
-					});
-					$("#completedPopup").modal('hide');
+   	  	apiserviceDashborad.saveCompletedLeads($scope.testCompleted.duration, $scope.testCompleted.comment, $scope.testCompleted.id, scope.testCompleted.typeOfLead).then(function(data){
+	   	  	 		$("#completedPopup").modal('hide');
 					$scope.getAllSalesPersonRecord($scope.salesPerson);
 					
 			});
@@ -2156,7 +2141,8 @@ angular.module('newApp')
    	  		$scope.customData = entity.customMapData;
    	  	
    	  			console.log($scope.customData);
-   	  		$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
+   	  		apiserviceDashborad.saveCompletedLeads('Create Lead').then(function(response){
+   	  		
 				 $scope.editInput = response;
 				 //$scope.josnData = angular.fromJson(response.jsonData);
 				 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
@@ -2302,14 +2288,8 @@ angular.module('newApp')
 	   			
 	   		 });
 			}else{ 
-   	  			$http.post('/editLeads',$scope.editLeads).success(function(data) {
-	   	  			 	$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Lead's information has been successfully saved.",
-						    //text: "Email with updated information has been sent to"+" "+$scope.editLeads.custName,
-						});
-	   	  			$("#editLeads").modal('hide');
+				apiserviceDashborad.editLeads($scope.editLeads).then(function(data){
+   	  				$("#editLeads").modal('hide');
 	   	  			$scope.getAllSalesPersonRecord($scope.salesPerson);
 				 });
 			 }
@@ -2334,24 +2314,18 @@ angular.module('newApp')
     			  $scope.contactsDetails.phone = entity.phone;
     			  $('#createcontactsModal').modal();
     		  }
-    		  
-    		  $http.get('/getUsers').success(function(data){
-    				$scope.allUser = data;
+    		  apiserviceDashborad.getUsers().then(function(data){
+    			  $scope.allUser = data;
     			 });
-
-    	   		$http.get('/getgroupInfo').success(function(data){
-    				$scope.allGroup = data;
+    		  apiserviceDashborad.getgroupInfo().then(function(data){
+    	   			$scope.allGroup = data;
     			 });
     	   		
     	   	 $scope.saveGroup = function(createGroup){
-    			   $http.get('/saveGroup/'+createGroup)
-    				.success(function(data) {
-    					$.pnotify({
-    					    title: "Success",
-    					    type:'success',
-    					    text: "group saved successfully",
-    					});
-    					$http.get('/getgroupInfo').success(function(data){
+    	   		apiserviceDashborad.saveGroup(createGroup).then(function(data){
+    			   
+    	   			apiserviceDashborad.getgroupInfo().then(function(data){
+    					
     						$scope.allGroup = data;
     					 });
     				});
@@ -2359,14 +2333,9 @@ angular.module('newApp')
     		   }
     		   
     		   $scope.deleteGroup = function(groupId){
-    			   $http.get('/deleteGroup/'+groupId)
-    				.success(function(data) {
-    					$.pnotify({
-    					    title: "Success",
-    					    type:'success',
-    					    text: "group deleted successfully",
-    					});
-    					$http.get('/getgroupInfo').success(function(data){
+    			   apiserviceDashborad.deleteGroup(groupId).then(function(data){
+    				   apiserviceDashborad.getgroupInfo().then(function(data){
+    					
     						$scope.allGroup = data;
     					 });
     				});
@@ -2374,15 +2343,11 @@ angular.module('newApp')
     		   
     		  
     		  $scope.saveContact = function() {
-    			   $http.post('/saveContactsData',$scope.contactsDetails)
-    				 .success(function(data) {
+    			  apiserviceDashborad.saveContactsData($scope.contactsDetails).then(function(data){
+    			   
 	    					 if(data == "") {
 		    					 $('#createcontactsModal').modal('hide');
-		    					 $.pnotify({
-		    						    title: "Success",
-		    						    type:'success',
-		    						    text: "contact saved successfully",
-		    						});
+		    					 
 	    					 } else {
 	    						 $scope.contactMsg = data;
 	    					 }
@@ -2425,7 +2390,8 @@ angular.module('newApp')
      			$scope.comparisonperson = [];
      			
      			angular.forEach($scope.arrId, function(value, key) {
-     				$http.get('/getComperSalePersonData/'+value+"/"+startDate+"/"+endDate).success(function(response) {
+     				apiserviceDashborad.getComperSalePersonData(value, startDate, endDate).then(function(response){
+     				
 					 	$scope.comparisonperson.push(response);
 				 });
      			});
@@ -2456,7 +2422,8 @@ angular.module('newApp')
     					 if(values == false || values == undefined){
     						 $scope.flagvalue++;
     						 item.flag = 1;
-    						 $http.get('/getComperSalePersonData/'+item.id+"/"+startDate+"/"+endDate).success(function(response) {
+    						 apiserviceDashborad.getComperSalePersonData(item.id, startDate, endDate).then(function(response){
+    						 
     							 	$scope.comparisonperson.push(response);
     	    						
     						 });
@@ -2496,17 +2463,15 @@ angular.module('newApp')
   			 arr1 = endD.split('-');
   			 var startDate = arr[2]+"-"+arr[1]+"-"+arr[0];
   			 var endDate = arr1[2]+"-"+arr1[1]+"-"+arr1[0];
-    			 
- 				$http.get('/getComperSalePersonData/'+$scope.salesPerson+"/"+startDate+"/"+endDate).success(function(response) {
-				 	$scope.comparisonperson.push(response);
+  			apiserviceDashborad.getComperSalePersonData($scope.salesPerson, startDate, endDate).then(function(response){
+  					$scope.comparisonperson.push(response);
  				});
- 				
- 				$http.get('/getDateRangSalePerson/'+startDate+"/"+endDate).success(function(response) {
- 					if(response != $scope.salesPerson){
- 						$http.get('/getComperSalePersonData/'+response+"/"+startDate+"/"+endDate).success(function(response) {
- 						 	$scope.comparisonperson.push(response);
+  			apiserviceDashborad.getDateRangSalePerson(startDate, endDate).then(function(response){
+  					if(response != $scope.salesPerson){
+ 						apiserviceDashborad.getComperSalePersonData(response, startDate, endDate).then(function(response){
+ 							$scope.comparisonperson.push(response);
  						 	$scope.flagvalue = 2;
- 						 	 $scope.comparisonPassSalePerson($scope.comparisonperson);
+ 						 	$scope.comparisonPassSalePerson($scope.comparisonperson);
  		 				});
  					}else{
  						$('#btncomparisonBest').click();
@@ -2535,10 +2500,9 @@ angular.module('newApp')
     			 
     			 $scope.heatMapShow(startDate,endDate);
     			
-    			 
-    			  $http.get('/getMonthlyVisitorsStats/'+startDate+"/"+endDate).success(function(response) {
-    				  
-  			        $scope.onlineVisitorsCount = response.onlineVisitors;
+    			 apiserviceDashborad.getMonthlyVisitorsStats(startDate, endDate).then(function(response){
+    			  
+    				$scope.onlineVisitorsCount = response.onlineVisitors;
 			        $scope.totalVisitorsCount = response.totalVisitors;
 			        $scope.actionsCount = response.actions;
 			        $scope.averageActionsCount = response.averageActions;
@@ -2628,9 +2592,8 @@ angular.module('newApp')
     			  
     			  $scope.stringArray = [];
     			  $scope.visitiorListMap = [];
-    			  $http.get('/getVisitorList/'+startDate+"/"+endDate)
-    		  		.success(function(data) {
-    		  			
+    			  apiserviceDashborad.getVisitorList(startDate, endDate).then(function(data){
+    			  
     		  			$scope.gridOptions.data = data;
     		  			$scope.visitiorList = data;
     		  			angular.forEach($scope.visitiorList, function(value, key) {
@@ -2684,8 +2647,8 @@ angular.module('newApp')
     			}, 10000)
     		  
     		$scope.onlineVisitorFind = function(){
+    			  apiserviceDashborad.getVisitorOnline().then(function(response){
     			  
-    			  $http.get('/getVisitorOnline').success(function(response) {
     				  $scope.onlineVisitorsCount = response;
     			  });
     		  }	
@@ -2762,10 +2725,8 @@ angular.module('newApp')
    			   	
    			   	$scope.schedulmultidatepicker();
    			   
-    		  
-		    		  $http.get('/getUsersToAssign')
-						.success(function(data) {
-						$scope.usersList = data;
+   			 apiserviceDashborad.getUsersToAssign().then(function(data){
+		    		  $scope.usersList = data;
 					});  
 		    		  $scope.getToDoList();
 		    		  $scope.getMonthChart();
@@ -2782,7 +2743,8 @@ angular.module('newApp')
     		  };  
     		  
     		  $scope.getClickyVisitorListData = function(){
-    			  $http.get('/getClickyVisitorList').success(function(data) {
+    			  apiserviceDashborad.getClickyVisitorList().then(function(data){
+    			  
 					});
     		  }
     		  
@@ -2802,16 +2764,14 @@ angular.module('newApp')
     		  month[10] = "November";
     		  month[11] = "December";
     		  var monthNam = month[d.getMonth()];
-    		  $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+monthNam)
-				.success(function(data) {
+    		  apiserviceDashborad.getPlanByMonthAndUser($scope.userKey, monthNam).then(function(data){
+    		  
 					if(data == 1){
 						$scope.flagForPlan = 1;
 					}
 				});
-    		  
-    		  $http.get('/getPlanByMonthAndUserForLocation/'+$scope.userKey+'/'+monthNam)
-				.success(function(data) {
-					if(data == 1){
+    		  apiserviceDashborad.getPlanByMonthAndUserForLocation($scope.userKey, monthNam).then(function(data){
+    			  if(data == 1){
 						$scope.flagForPlanForLocation = 1;
 					}
 				});
@@ -2866,10 +2826,8 @@ angular.module('newApp')
     				   		
     			 		};
     			 		
-    			 		
-    					 $http.get('/getHeatMapListDale/'+startD+"/"+endD)
-    						.success(function(data) {
-    							
+    			 		apiserviceDashborad.getHeatMapListDale(startD, endD).then(function(data){
+    					 
     							$scope.gridOptions12.data = data;
     							$scope.heatMapList = data;
     							/*$scope.gridOptions12.data = data[0].dates[0].items;
@@ -2896,11 +2854,8 @@ angular.module('newApp')
 				 }
 
 			$scope.likeMsg = function() {
-
-								$http
-										.get('/getcommentLike')
-										.success(
-												function(data) {
+										apiserviceDashborad.getcommentLike().then(function(data){
+								
 													angular.forEach(data, function(value, key) {
 														var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
 															+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h2 style="color: goldenrod;margin-top: 0px;">Congratulations!</h2></div><span class="col-md-12" style="margin-left: 22px;text-align: center;"><h3 style="margin-top: 0px;"><span>'+value.firstName+'  '+ value.lastName+'</span><br><span> just Liked your work!</span><br><span>'+value.userComment+'</span></h3></span><p class="pull-left" style="margin-left:85%;"><a class="f-12">Close&nbsp;</a></p></div></div>'
@@ -2954,9 +2909,8 @@ angular.module('newApp')
 			
 			
 			$scope.planMsg = function(){
+				apiserviceDashborad.getPlanMsg().then(function(data){
 				
-				$http.get('/getPlanMsg')
-	    		.success(function(data){
 	    				var notifContent;
 	    				angular.forEach(data, function(value, key) {
 	    					var month=value.month;
@@ -3022,9 +2976,8 @@ angular.module('newApp')
 			}
 			
 			$scope.updateMeeting = function(){
-
-				$http.get('/getUpdateMeeting')
-	    		.success(function(data){
+				apiserviceDashborad.getUpdateMeeting().then(function(data){
+				
 	    				var notifContent;
 	    				angular.forEach(data, function(value, key) {
 	    				var t = $filter('date')(value.confirmTime,"hh:mm a");
@@ -3061,9 +3014,8 @@ angular.module('newApp')
 			
 			$scope.acceptMsg = function(){
 
+				apiserviceDashborad.getaccepted().then(function(data){
 				
-				$http.get('/getaccepted')
-	    		.success(function(data){
 	    			
 	    				var notifContent;
 	    				angular.forEach(data, function(value, key) {
@@ -3099,10 +3051,7 @@ angular.module('newApp')
 			$scope.decline = function(){
 				
 				
-				
-				$http.get('/getdecline')
-	    		.success(function(data){
-
+				apiserviceDashborad.getdecline().then(function(data){
 	    				var notifContent;
 	    				angular.forEach(data, function(value, key) {
 	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> Your invitation to "+value.assignedTo.firstName+"&nbsp;&nbsp;"+value.assignedTo.lastName+" has been declined</span><br><span> Reason: "+value.declineReason+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
@@ -3226,8 +3175,8 @@ angular.module('newApp')
 		    		});
 			 }	*/	
 			$scope.PlanOnMonday = function(){
-				$http.get('/getPlanMonday')
-	    		.success(function(data){
+				apiserviceDashborad.getPlanMonday().then(function(data){
+				
 	    			if(data == 1){
 	    				$scope.callForLocalCheck();
 	    				if($scope.aValue == false){
@@ -3307,10 +3256,7 @@ angular.module('newApp')
 			
 			
 			$scope.deleteMeeting = function(){
-				
-				$http.get('/getdeleteMeeting')
-	    		.success(function(data){
-
+				apiserviceDashborad.getdeleteMeeting().then(function(data){
 	    				var notifContent;
 	    				angular.forEach(data, function(value, key) {
 	    					if(value.declineUser == 'Host'){
@@ -3377,11 +3323,8 @@ angular.module('newApp')
 			
 			
 			$scope.invitationMsg = function() {
-
-				$http
-						.get('/getinvitationMsg')
-						.success(
-								function(data) {
+				apiserviceDashborad.getinvitationMsg().then(function(data){
+				
 									angular.forEach(data, function(value, key) {
 										var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
 											+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;">New meeting invitation received</h3></div><span class="col-md-12" style="margin-left: 22px;text-align: center;border-bottom: solid;"><h3><span>'+value.name+'</span><br><span style="color: cornflowerblue;"><b>'+value.confirmDate+'&nbsp;&nbsp;&nbsp;&nbsp;'+value.confirmTime+' </b></span></h3></span><hr><p class="pull-left" style="margin-left:85%;"></p></div></div>'
@@ -3452,17 +3395,10 @@ angular.module('newApp')
 			
 			$scope.acceptDate = function(value){
 				var reason = null;
-				
-				 $http.get('/getAcceptAndDecline/'+value.id+"/"+reason+"/"+"accept")
-					.success(function(data) {
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Meeting invitation has been accepted",
-						});
-						
+				apiserviceDashborad.getAcceptAndDecline(value.id, reason, "accept").then(function(data){
 						$scope.schedulmultidatepicker();
-						$http.get("/getscheduletest").success(function(data){
+						apiserviceDashborad.getscheduletest().then(function(data){
+						
 							   $scope.scheduleListData = data;
 						   });
 						
@@ -3476,16 +3412,8 @@ angular.module('newApp')
 			}
 			
 			$scope.declineMeeting = function(reason){
-				
-				$http.get('/getAcceptAndDecline/'+$scope.valueId.id+"/"+reason+"/"+"decline")
-				.success(function(data) {
-					 $('#decline-model').modal("toggle");
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Meeting invitation has been declined",
-					});
-					
+				apiserviceDashborad.getAcceptAndDecline($scope.valueId.id, reason, "decline").then(function(data){
+					$('#decline-model').modal("toggle");
 				});
 			}
 			
@@ -3600,9 +3528,8 @@ angular.module('newApp')
     		  $scope.schedulmultidatepicker = function(){
     			  $scope.showToDoList = false;
 				  $scope.showCalendar = true;
-				  
-		    		  $http.get('/getScheduleDates')
-						.success(function(data) {
+				  apiserviceDashborad.getScheduleDates().then(function(data){
+		    		  
 						$scope.scheduleDates = data;
 						 var datesArray = [];
 						 for(var i=0;i<$scope.scheduleDates.length;i++) {
@@ -3638,9 +3565,8 @@ angular.module('newApp')
     		  }
     		  
     		  $scope.getToDoList = function() {
-    			  $http.get('/getToDoList')
-					.success(function(data) {
-					$scope.toDoList = data;
+    			  apiserviceDashborad.getToDoList().then(function(data){
+    				  $scope.toDoList = data;
 				});  
     		  }
     		  
@@ -3960,38 +3886,25 @@ angular.module('newApp')
     		  
     		  $scope.restoreLead = function(entity){
     			  console.log(entity);
-    			  $http.get('/restoreLead/'+entity.id+'/'+entity.typeOfLead)
-					.success(function(data) {
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Lead Restore successfully",
-						});
+    			  apiserviceDashborad.restoreLead(entity.id, entity.typeOfLead).then(function(data){
+    			  
 						$scope.getAllCanceledLeads();
 				});
     		  }
     		  
     		  $scope.deleteMyLead = function() {
-    			  $http.get('/deleteCanceledLead/'+$scope.leadId+'/'+$scope.leadType)
-					.success(function(data) {
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Lead deleted successfully",
-						});
+    			  apiserviceDashborad.deleteCanceledLead($scope.leadId, $scope.leadType).then(function(data){
+    			  
 						$scope.getAllCanceledLeads();
 				});
     		  }
     		  
     		  $scope.getScheduleBySelectedDate = function(date) {
-    			  $http.get('/getScheduleBySelectedDate/'+date)
-					.success(function(data) {
-					$scope.scheduleList = data;
+    			  apiserviceDashborad.getScheduleBySelectedDate(date).then(function(data){
+    				  $scope.scheduleList = data;
 				});  
-    			  
-    			  $http.get('/getToDoBySelectedDate/'+date)
-					.success(function(data) {
-					$scope.toDoDateList = data;
+    			  apiserviceDashborad.getToDoBySelectedDate(date).then(function(data){
+    				  $scope.toDoDateList = data;
 				}); 
     			  
     		  }
@@ -4039,9 +3952,8 @@ angular.module('newApp')
   	  		};*/
       	  		
       	  	
-    			  
-	    		$http.get('/getUserType')
-	  			  .success(function(data) {
+    		  apiserviceDashborad.getUserType().then(function(data){ 
+	    		
 	  			 	$scope.userType = data;
 	  			 	if($scope.userType == "Manager") {
 	  			 		$scope.getGMData();
@@ -4063,10 +3975,8 @@ angular.module('newApp')
 	    		},900000);
 	    		
 	    		$scope.reminderPopup = function(){
+	    			apiserviceDashborad.getReminderPopup().then(function(data){
 	    			
-	    			$http.get('/getReminderPopup').success(function(data) {
-		  				  
-		  				  
 		  				var notifContent;
 	    				angular.forEach(data, function(value, key) {
 	    					if(value.action == "Test drive reminder"){
@@ -4151,7 +4061,8 @@ angular.module('newApp')
 	    		$scope.visitors = [];
 	    		$scope.newUsers = [];
 	    		$scope.bounceRate = [];
-	    		$http.get('/getVisitorStats').success(function(response) {
+	    		apiserviceDashborad.getVisitorStats().then(function(response){
+	    		
 	    			$scope.visitors[0] = {'title':'Visit Today','value':response[0].dates[0].items[0].value};
 		    		$scope.visitors[1] = {'title':'Visit Yesterday','value':response[0].dates[1].items[0].value};
 		    		$scope.newUsers[0] = Math.round($scope.visitors[0].value==0?0:(response[1].dates[0].items[0].value/$scope.visitors[0].value)*100);
@@ -4198,9 +4109,9 @@ angular.module('newApp')
 	    		$scope.notchange = 0;
 	    		$scope.getVisitedData = function(type,filterBy,search,searchBy,vehicles,startD,endD) {
 	    			if(locationId != 0){
-		    				$http.get('/gmLocationManager/'+locationId)
-		    				.success(function(data) {
-		    						$http.get('/getVisitedData/'+data.id+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles+'/'+startD+'/'+endD).success(function(response) {
+	    				apiserviceDashborad.gmLocationManager(locationId).then(function(data){
+	    					apiserviceDashborad.getVisitedData(data.id, type, filterBy, search, searchBy, vehicles, startD, endD).then(function(response){
+		    						
 		    				$scope.weekData = response;
 		    				
 		    				if(response.topVisited.length == 0){
@@ -4222,7 +4133,8 @@ angular.module('newApp')
 		    					
 		    				});
 	    			}else{
-	    				$http.get('/getVisitedData/'+$scope.userKey+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles+'/'+startD+'/'+endD).success(function(response) {
+	    				apiserviceDashborad.getVisitedData($scope.userKey, type, filterBy, search, searchBy, vehicles, startD, endD).then(function(response){
+	    				
 	    				$scope.weekData = response;
 	    				
 	    				if(response.topVisited.length == 0){
@@ -4252,7 +4164,8 @@ angular.module('newApp')
 		    			$scope.lead.custZipCode = $scope.item.zip;
 	    			}
 	    		};
-	    			$http.get('/getHeardAboutUs').success(function(response) {
+	    		apiserviceDashborad.getHeardAboutUs().then(function(response){
+	    			
 	    				$scope.heardAboutUs = response;
 	    			});
 	    			$scope.othertxt=null;
@@ -4264,14 +4177,14 @@ angular.module('newApp')
 	    			
 	    			$scope.stockWiseData = [];
 	    			$scope.stockWiseData = [{}];
+	    			apiserviceDashborad.getSelectedLeadType().then(function(response){
 	    			
-	    			$http.get('/getSelectedLeadType').success(function(response) {
 	    				console.log(response);
 	    				$scope.leadList = response; 
 	    			
 	    			});
+	    			apiserviceDashborad.getCustomizationform('Create Lead').then(function(response){
 	    			
-	    			$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
 	    				console.log(response);
 	    				console.log(angular.fromJson(response.jsonData));
 	    				
@@ -4286,7 +4199,8 @@ angular.module('newApp')
 	    		}	
 	    		$scope.openCreateNewLeads = function(item) {
 	    			$scope.stockWiseData = [];
-	    			$http.get('/getStockDetails/'+item).success(function(response) {
+	    			apiserviceDashborad.getStockDetails(item).then(function(response){
+	    			
 	    				if(response.isData) {
 	    					
 	    					 $scope.stockWiseData.push({
@@ -4383,8 +4297,8 @@ angular.module('newApp')
 	    			}
 	    			$scope.josnData = 0;
 	    			
+	    			apiserviceDashborad.getCustomizationform('Create Lead').then(function(response){
 	    			
-	    			$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
 	    				$scope.josnData = angular.fromJson(response.jsonData);
 	    				console.log($scope.josnData);
 	    					$.each($scope.customData, function(attr, value) {
@@ -4455,7 +4369,7 @@ angular.module('newApp')
 	    		
 	    		$scope.makeLeadEdit = function(){
 	    				$scope.lead.leadType = '3';
-	    			$http.post('/createLead',$scope.lead).success(function(response) {
+	    				apiserviceDashborad.createLead($scope.lead).then(function(data){
 	    					$("#tradeInAppEdit").modal('hide');
 	    			});
 	    		}
@@ -4468,9 +4382,9 @@ angular.module('newApp')
 	    					$scope.lead.hearedFrom = "Other";
 	    				}else{
 	    					$scope.lead.hearedFrom = $scope.othertxt;
-	    					$http.get('/addHeard/'+$scope.lead.hearedFrom).success(function(response) {
-	    						$http.get('/getHeardAboutUs').success(function(response) {
-	    		    				$scope.heardAboutUs = response;
+	    					apiserviceDashborad.addHeard($scope.lead.hearedFrom).then(function(response){
+	    						apiserviceDashborad.getHeardAboutUs().then(function(response){
+	    							$scope.heardAboutUs = response;
 	    		    			});
 	    					});
 	    				}
@@ -4507,8 +4421,8 @@ angular.module('newApp')
 	    		   		 });
 	    				}else{
 	    					console.log($scope.lead);
+	    					apiserviceDashborad.createLead($scope.lead).then(function(data){
 	    					
-	    					$http.post('/createLead',$scope.lead).success(function(response) {
 	    	    				$scope.topVisitedDataDatewise();
 	    	    				 $scope.findMystatisData(startD,endD,'person');
 	    	    				$scope.getAllSalesPersonRecord($scope.salesPerson);
@@ -4538,7 +4452,8 @@ angular.module('newApp')
 	    		$scope.getModelsByMake = function(makeSelect) {
 	    			$scope.lead.makeSelect = makeSelect;
 	    			$scope.lead.modelSelect = '';
-	    			$http.get('/getModels/'+makeSelect).success(function(response) {
+	    			apiserviceDashborad.getModels(makeSelect).then(function(response){
+	    			
 	    				$scope.models = response;
 	    			});
 	    		};
@@ -4581,7 +4496,8 @@ angular.module('newApp')
 	    		$scope.getStockDetails = function(stockRp) {
 	    			$scope.isStockError = false;
 	    			console.log(stockRp);
-	    			$http.get('/getStockDetails/'+stockRp.stockNumber).success(function(response) {
+	    			apiserviceDashborad.getStockDetails(stockRp.stockNumber).then(function(response){
+	    			
 	    				console.log(response);
 	    				if(response.isData) {
 	    					$scope.isStockError = false;
@@ -4607,7 +4523,8 @@ angular.module('newApp')
 	    		$scope.makes = [];
 	    		$scope.models = [];
 	    		$scope.getMakes = function() {
-	    			$http.get('/getMakes').success(function(response) {
+	    			apiserviceDashborad.getMakes().then(function(response){
+	    			
 	    				$scope.makes = response.makes;
 	    			});
 	    		};
@@ -4677,7 +4594,8 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.getAnalystData = function() {
-	    			$http.get('/getAnalystData').success(function(response) {
+	    			apiserviceDashborad.getAnalystData().then(function(data){
+	    			
 	    			});
 	    		};
 	    		
@@ -4687,8 +4605,8 @@ angular.module('newApp')
 	 			    }
 	    			
 	    			$scope.locationValue = locationValue;
-	    			$http.get('/getSalesUserOnly/'+locationValue)
-		    		.success(function(data){
+	    			apiserviceDashborad.getSalesUserOnly(locationValue).then(function(data){
+	    			
 		    			$scope.salesPersonPerf = data;
 		    			 $scope.gridOptionsValue.data = $scope.salesPersonPerf;
 		    			angular.forEach($scope.salesPersonPerf, function(value, key) {
@@ -4698,8 +4616,8 @@ angular.module('newApp')
 	    		}
 
 	    		$scope.getGMData1 = function() {
-		    		$http.get('/getSalesUserList/'+locationId)
-		    		.success(function(data){
+	    			apiserviceDashborad.getSalesUserList(locationId).then(function(data){
+		    		
 		    			$scope.salesPersonList =data;
 		    			$scope.user=data;
 		    			if($scope.salesPersonList.length > 0){
@@ -4709,16 +4627,16 @@ angular.module('newApp')
 	    		}
 	    		
 	    		$scope.getGMData = function() {
-		    		$http.get('/getSalesUser')
-		    		.success(function(data){
+	    			apiserviceDashborad.getSalesUser().then(function(data){
+		    		
 		    			$scope.salesPersonList =data;
 		    			$scope.getAllSalesPersonRecord($scope.salesPersonList[0].id);
 		    		});
 	    		}
 	    		
 	    		$scope.getAssignedLeads = function() {
-	    			$http.get('/getAssignedLeads')
-		    		.success(function(data){
+	    			apiserviceDashborad.getAssignedLeads().then(function(data){
+	    			
 		    			$scope.leadCount = data.count;
 		    			if($scope.leadCount != '0') {
 		    				var notifContent;
@@ -4798,8 +4716,8 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.getToDoNotification = function() {
-	    			$http.get('/getNewToDoCount')
-		    		.success(function(data){
+	    			apiserviceDashborad.getNewToDoCount().then(function(data){
+	    			
 		    			$scope.toDoCount = data.count;
 		    			if($scope.toDoCount != '0'&& $scope.flagForPopUp !=1) {
 		    				var notifContent;
@@ -4855,18 +4773,16 @@ angular.module('newApp')
 	    		}
 	    		
 	    		$scope.setLeadSeen = function() {
-	    			$http.get('/setLeadSeen')
-		    		.success(function(data){
+	    			apiserviceDashborad.setLeadSeen().then(function(data){
+	    			
 		    		});
 	    		};
 	    		
 	    		
 	    		
 	    		$scope.setTodoSeen = function() {
-	    			$http.get('/setTodoSeen')
-		    		.success(function(data){
-		    			
-		    		});
+	    			apiserviceDashborad.setTodoSeen().then(function(data){
+	    			});
 	    		}
 	    		
 	    		$scope.showSalesStats = true;
@@ -5052,15 +4968,14 @@ angular.module('newApp')
         }*/
         
         $scope.getAllLostAndComLeads = function(){
-        	$http.get('/getAllLostAndCompLeads')
-			.success(function(data) {
-				$scope.gridOptions6.data = data;
+        	apiserviceDashborad.getAllLostAndCompLeads().then(function(data){
+        		$scope.gridOptions6.data = data;
 			});
         }
         
         $scope.getAllCanceledLeads = function() {
-        	$http.get('/getAllCanceledLeads')
-			.success(function(data) {
+        	apiserviceDashborad.getAllCanceledLeads().then(function(data){
+        	
 				$scope.gridOptions4.data = data;
 				$scope.canceledLead = data;
 			});
@@ -5083,14 +4998,8 @@ angular.module('newApp')
         }
         
         $scope.changeAssignedUser = function() {
-        	$http.get('/changeAssignedUser/'+$scope.cancelId+'/'+$scope.changedUser+'/'+$scope.leadType)
-			.success(function(data) {
-				$('#closeChangeUser').click();
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "User assigned successfully",
-				});
+        	apiserviceDashborad.changeAssignedUser($scope.cancelId, $scope.changedUser, $scope.leadType).then(function(data){
+        		$('#closeChangeUser').click();
 				//$scope.getAllCanceledLeads();
 				$route.reload();
 			});
@@ -5106,8 +5015,8 @@ angular.module('newApp')
     	};*/
     	
     	$scope.getRequestMoreData = function() {
-    		$http.get('/getAllRequestInfoSeen')
-			.success(function(data) {
+    		apiserviceDashborad.getAllRequestInfoSeen().then(function(data){
+    		
 			$scope.gridOptions.data = data;
 			$scope.AllRequestInfoSeenList = data;
 		});
@@ -5133,8 +5042,8 @@ angular.module('newApp')
 		
 		$scope.getScheduleData = function(id){
 			var deferred = $q.defer();
-			$http.get('/getAllSalesPersonScheduleTestAssigned/'+id)
-			.success(function(data) {
+			apiserviceDashborad.getAllSalesPersonScheduleTestAssigned(id).then(function(data){
+			
 			$scope.gridOptions2.data = data;
 			
 			$scope.gridMapObect = [];
@@ -5215,8 +5124,8 @@ angular.module('newApp')
 		$scope.gridMapObect = [];
 		$scope.getRequestData = function(id){
 			var deferred = $q.defer();
-			$http.get('/getAllSalesPersonRequestInfoSeen/'+id)
-			.success(function(data) {
+			apiserviceDashborad.getAllSalesPersonRequestInfoSeen(id).then(function(data){
+			
 				var countUnReadLead = 0;
 			$scope.gridOptions5.data = data;
 			
@@ -5288,8 +5197,8 @@ angular.module('newApp')
 		
 		$scope.getOtherLeadInfo = function(id){
 			var deferred = $q.defer();
-			$http.get('/getAllSalesPersonOtherLead/'+id)
-			.success(function(data) {
+			apiserviceDashborad.getAllSalesPersonOtherLead(id).then(function(data){
+			
 				$scope.otherLead = data;
 				//$scope.gridOptions13.data = data;
 				//$scope.AllOtherLeadSeenList = data;
@@ -5312,8 +5221,8 @@ angular.module('newApp')
 		
 		$scope.getContactUsData = function(id){
 			var deferred = $q.defer();
-			$http.get('/getAllSalesPersonContactUsSeen/'+id)
-			.success(function(data) {
+			apiserviceDashborad.getAllSalesPersonContactUsSeen(id).then(function(data){
+			
 				var countUnReadLead = 0;
 			$scope.gridOptions8.data = data;
 			$scope.AllContactUsInfoSeenList = data;
@@ -5337,8 +5246,8 @@ angular.module('newApp')
 		$scope.getTradeInData = function(id){
 			
 			var deferred = $q.defer();
-			 $http.get('/getAllSalesPersonTradeInSeen/'+id)
-				.success(function(data) {
+			apiserviceDashborad.getAllSalesPersonTradeInSeen(id).then(function(data){
+			 
 					var countUnReadLead = 0;
 			 		$scope.gridOptions3.data = data;
 			 		
@@ -5479,15 +5388,13 @@ angular.module('newApp')
 		    		    				        	        	console.log($scope.otherLead);
 		    		    				        	        	//$scope.gridOptions13.data = $scope.otherLead; 
 		    		    				        	        	//console.log($scope.gridOptions13.data);
+		    		    				        	        	apiserviceDashborad.getAllCanceledLeads(id).then(function(data){
 		    		    				           	        	
-		    		    				           	        	$http.get('/getAllCanceledLeads/'+id)
-		    		    				           				.success(function(data) {
 		    		    				           					$scope.gridOptions4.data = data;
 		    		    				           					$scope.canceledLead = data;
 		    		    				           				});
-		    		    				           	        	
-		    		    						       			 $http.get('/getAllSalesPersonLostAndComp/'+id)
-		    		    						       				.success(function(data) {
+		    		    				        	        	apiserviceDashborad.getAllSalesPersonLostAndComp(id).then(function(data){
+		    		    						       			 
 		    		    						       			 		$scope.gridOptions6.data = data;
 		    		    						       			 		$scope.AllTradeInSeenList = data;
 		    		    						       			 });
@@ -5548,15 +5455,8 @@ angular.module('newApp')
 			$scope.flagForMsg=0;
 			
 			if($scope.pdfDoc.length != 0 || $scope.pdf.vin != null){
-			$http.post('/sendPdfEmail',$scope.pdf)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "PDF sent successfully",
-				});
-				
-				
+				apiserviceDashborad.sendPdfEmail($scope.pdf).then(function(data){
+			
 				console.log("$scope.customePdfmodel"+$scope.customePdfmodel);
 				
 				/* model value undefined */
@@ -5568,8 +5468,8 @@ angular.module('newApp')
 				console.log(" after $scope.customePdfmodel"+$scope.customePdfmodel);
 				if($scope.customePdfmodel == true && $scope.customePdfId != null && $scope.customePdfId != undefined ){
 					console.log("iiiiinnnnn");
-					$http.get('/deletePdfById/'+$scope.customePdfId)
-		  			.success(function(data) {
+					apiserviceDashborad.deletePdfById($scope.customePdfId).then(function(data){
+					
 		  				/*$.pnotify({
 		  				    title: "Success",
 		  				    type:'success',
@@ -5599,9 +5499,8 @@ angular.module('newApp')
 		$scope.actionOnPdf= function (entity,option){
 			console.log("inside pdf");
 			console.log(entity);
+			apiserviceDashborad.getCustomerPdfForVehicle(entity.vin).then(function(data){
 			
-			$http.get('/getCustomerPdfForVehicle/'+entity.vin)
-				.success(function(data) {
 					$scope.vehiclePdfList=data;
 					console.log(data);
 				
@@ -5630,9 +5529,8 @@ angular.module('newApp')
 					console.log($scope.SendPdfemail);
 					$('#sendPdfRequest').click();
 					
+					apiserviceDashborad.getCustomerPdfData().then(function(data){
 					
-					$http.get('/getCustomerPdfData')
-       				.success(function(data) {
        					$scope.customerPdfList=data;
        					console.log(data);
        				
@@ -5709,9 +5607,8 @@ angular.module('newApp')
 		 	  				    text: "Slider config saved successfully",
 		 	  				});*/
 		 	  				$scope.flagForUpload=1;
-		 	  				$http.get('/getCustomerPdfData')
-		       				.success(function(data) {
-		       				  console.log("ddddddddd");
+		 	  				apiserviceDashborad.getCustomerPdfData().then(function(data){
+		 	  				
 		       				  console.log(data);
 		       					$scope.lengths=data.length-1;
 			 	  				$scope.uploadData=data;
@@ -5834,15 +5731,9 @@ angular.module('newApp')
     	
     	
     	$scope.cancelScheduleTestDriveComfir = function(){
+    		apiserviceDashborad.setScheduleConfirmClose($scope.entityVar.id, $scope.entityVar.typeOfLead).then(function(data){
     		
-    		$http.get('/setScheduleConfirmClose/'+$scope.entityVar.id+'/'+$scope.entityVar.typeOfLead)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Cancel successfully",
-				});
-    	});
+    		});
     		$route.reload();
     	}
     	
@@ -5861,15 +5752,10 @@ angular.module('newApp')
     	}
     	
     	$scope.saveScheduleClose = function() {
-	    		$http.get('/setScheduleStatusClose/'+$scope.scheduleStatusCancel.id+'/'+$scope.scheduleStatusCancel.typeOfLead+'/'+$scope.reasonToCancel)
-				.success(function(data) {
+    		apiserviceDashborad.setScheduleStatusClose($scope.scheduleStatusCancel.id, $scope.scheduleStatusCancel.typeOfLead, $scope.reasonToCancel).then(function(data){
+	    		
 					//$scope.getScheduleTestData();
 					$('#scheduleCancelBtn').click();
-					$.pnotify({
-    				    title: "Success",
-    				    type:'success',
-    				    text: "Status changed successfully",
-    				});
 					//$scope.getAllSalesPersonRecord($scope.salesPerson);
 					$route.reload();
 					/*for(var i=0;i<$scope.scheduleList.length;i++) {
@@ -5925,14 +5811,9 @@ angular.module('newApp')
     	};
     	
     	$scope.saveRequestStatusCancel = function() {
-    		$http.get('/setRequestStatusCancel/'+$scope.requestStatusCancel.id+'/'+$scope.reasonToCancel)
-			.success(function(data) {
+    		apiserviceDashborad.setRequestStatusCancel($scope.requestStatusCancel.id, $scope.reasonToCancel).then(function(data){
+    		
 				$('#requestCancelBtn').click();
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Status changed successfully",
-				});
 				$scope.getAllSalesPersonRecord($scope.salesPerson);
 			});
     	};
@@ -5971,8 +5852,8 @@ angular.module('newApp')
     	$scope.saveRequestStatus = function() {
     		console.log($scope.soldContact);
     		$('#soldBtn').attr("disabled", true);
-    		$http.post('/setRequestStatusComplete',$scope.soldContact)
-			.success(function(data) {
+    		apiserviceDashborad.setRequestStatusComplete($scope.soldContact).then(function(data){
+    		
 				$route.reload();
 				if(data=='contact error'){
 					$.pnotify({
@@ -6002,14 +5883,8 @@ angular.module('newApp')
     			leads.option = 2;
     		}
     		var change = "0";
-    		$http.get('/setScheduleStatusClose/'+leads.id+'/'+leads.typeOfLead+'/'+change)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Status changed successfully",
-				});
-				
+    		apiserviceDashborad.setScheduleStatusClose(leads.id, leads.typeOfLead, change).then(function(data){
+    		
 			});
     		
     		$scope.editLeads.parentChildLead.splice(index, 1);
@@ -6027,14 +5902,8 @@ angular.module('newApp')
     			leads.option = 2;
     		}
     		var change = "0";
-    		$http.get('/setScheduleStatusClose/'+leads.id+'/'+leads.option+'/'+change)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Status changed successfully",
-				});
-				
+    		apiserviceDashborad.setScheduleStatusClose(leads.id, leads.option, change).then(function(data){
+    		
 			});
     		$scope.soldContact.parentChildLead.splice(index, 1);
     		
@@ -6049,13 +5918,8 @@ angular.module('newApp')
     			leads.option = 2;
     		}
     		var change = "0";
-    		$http.get('/setScheduleStatusClose/'+leads.id+'/'+leads.option+'/'+change)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Status changed successfully",
-				});
+    		apiserviceDashborad.setScheduleStatusClose(leads.id, leads.option, change).then(function(data){
+    		
 			});
     		$scope.testDriveData.parentChildLead.splice(index, 1);
     	}
@@ -6067,15 +5931,9 @@ angular.module('newApp')
     	}
     	
     	$scope.saveCancelTradeInStatus = function() {
-    		$http.get('/setTradeInStatusCancel/'+$scope.tradeInStatusCancel.id+'/'+$scope.reasonToCancel)
-			.success(function(data) {
+    		apiserviceDashborad.setTradeInStatusCancel($scope.tradeInStatusCancel.id, $scope.reasonToCancel).then(function(data){
+    		
 				$('#tradeInCancelBtn').click();
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Trad in Lead Cancelled successfully",
-				});
-				//$scope.getTradeInData();
 			});
     	}
     	
@@ -6091,7 +5949,8 @@ angular.module('newApp')
     		  $scope.scheduleTestData.option = entity.option;
     		  $scope.scheduleTestData.vin = entity.vin;
 			   var sDate = entity.confirmDate;
-			   $http.get("/getScheduleTime/"+entity.vin+'/'+sDate).success(function(data){
+			   apiserviceDashborad.getScheduleTime(entity.vin, sDate).then(function(data){
+			   
 				   $scope.cnTimeList = data;
 				   $scope.timeList = [];
 				   $.each(data, function(i, el){
@@ -6104,8 +5963,8 @@ angular.module('newApp')
     		  $scope.scheduleTestData.confirmDate = $("#cnfDate").val();
     		  $scope.scheduleTestData.confirmTime = $("#timePick").val();
     		  $scope.scheduleTestData.cnfDateNature=$scope.cnfDateNature;
-    		  $http.post('/saveConfirmData',$scope.scheduleTestData)
-    	 		.success(function(data) {
+    		  apiserviceDashborad.saveConfirmData($scope.scheduleTestData).then(function(data){
+    		  
     	 			$scope.flagForPopUp=1;
     	 			if(data.mesg == "success"){
         	 			$.pnotify({
@@ -6130,13 +5989,8 @@ angular.module('newApp')
     	
     	  $scope.saveToDoData = function() {
     		  $scope.todoData.dueDate = $("#cnftodoDate").val();
-    		  $http.post('/saveToDoData',$scope.todoData)
-    	 		.success(function(data) {
-    	 			$.pnotify({
-    				    title: "Success",
-    				    type:'success',
-    				    text: "Saved successfully",
-    				});
+    		  apiserviceDashborad.saveToDoData($scope.todoData).then(function(data){
+    		  
     	 			$('#modaltodoClose').click();
     	 			$scope.getToDoList();
     	 			$scope.init();
@@ -6155,15 +6009,9 @@ angular.module('newApp')
     	  }
     	  
     	  $scope.saveCompleteTodoStatus = function() {
-    		  $http.get('/saveCompleteTodoStatus/'+$scope.toDoId)
-				.success(function(data) {
+    		  apiserviceDashborad.saveCompleteTodoStatus($scope.toDoId).then(function(data){
+    		  
 					$scope.getToDoList();
-					$.pnotify({
-    				    title: "Success",
-    				    type:'success',
-    				    text: "Status changed successfully",
-    				});
-					
 					for(var i=0;i<$scope.toDoDateList.length;i++) {
 						if($scope.toDoId == $scope.toDoDateList[i].id) {
 							$scope.toDoDateList.splice(i,1);
@@ -6175,15 +6023,9 @@ angular.module('newApp')
     	  }
     	  
     	  $scope.saveCancelTodoStatus = function() {
-    		  $http.get('/saveCancelTodoStatus/'+$scope.toDoId)
-				.success(function(data) {
+    		  apiserviceDashborad.saveCancelTodoStatus($scope.toDoId).then(function(data){
+    		 
 					$scope.getToDoList();
-					$.pnotify({
-    				    title: "Success",
-    				    type:'success',
-    				    text: "Status changed successfully",
-    				});
-					
 					for(var i=0;i<$scope.toDoDateList.length;i++) {
 						if($scope.toDoId == $scope.toDoDateList[i].id) {
 							$scope.toDoDateList.splice(i,1);
@@ -6239,8 +6081,8 @@ angular.module('newApp')
     		   } else {
     			   userId = $scope.graphUserId;
     		   }
-    		   $http.get('/getWeekChartData/'+userId)
-    	 		.success(function(data) {
+    		   apiserviceDashborad.getWeekChartData(userId).then(function(data){
+    		   
     	 			$scope.data = data.map(function(series) {
     	 	    	                     series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
     	 	    	                     return series;
@@ -6255,8 +6097,8 @@ angular.module('newApp')
     		   } else {
     			   userId = $scope.graphUserId;
     		   }
-    		   $http.get('/getMonthChartData/'+userId)
-	   	 		.success(function(data) {
+    		   apiserviceDashborad.getMonthChartData(userId).then(function(data){
+    		   
 	   	 			$scope.data = data.map(function(series) {
 	                     series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
  	                     return series;
@@ -6271,8 +6113,8 @@ angular.module('newApp')
     		   } else {
     			   userId = $scope.graphUserId;
     		   }
-    		   $http.get('/getThreeMonthChartData/'+userId)
-	   	 		.success(function(data) {
+    		   apiserviceDashborad.getThreeMonthChartData(userId).then(function(data){
+    		   
 	   	 			$scope.data = data.map(function(series) {
 	                     series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
  	                     return series;
@@ -6287,8 +6129,8 @@ angular.module('newApp')
     		   } else {
     			   userId = $scope.graphUserId;
     		   }
-    		   $http.get('/getSixMonthChartData/'+userId)
-	   	 		.success(function(data) {
+    		   apiserviceDashborad.getSixMonthChartData(userId).then(function(data){
+    		   
 	   	 			$scope.data = data.map(function(series) {
 	                     series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
  	                     return series;
@@ -6303,8 +6145,8 @@ angular.module('newApp')
     		   } else {
     			   userId = $scope.graphUserId;
     		   }
-    		   $http.get('/getYearChartData/'+userId)
-	   	 		.success(function(data) {
+    		   apiserviceDashborad.getYearChartData(userId).then(function(data){
+    		   
 	   	 			$scope.data = data.map(function(series) {
 	                     series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
  	                     return series;
@@ -6326,8 +6168,8 @@ angular.module('newApp')
     		   } else {
     			   userId = $scope.graphUserId;
     		   }
-    		   $http.get('/getRangeChartData/'+userId+'/'+startDate+'/'+endDate)
-	   	 		.success(function(data) {
+    		   apiserviceDashborad.getRangeChartData(userId, startDate, endDate).then(function(data){
+    		   
 	   	 			$scope.data = data.map(function(series) {
 	                     series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
  	                     return series;
@@ -6418,8 +6260,8 @@ angular.module('newApp')
 			   if(angular.isUndefined($scope.salesPersonUser) || $scope.salesPersonUser == "") {
 				   $scope.salesPersonUser = 0;
 			   }
-				   $http.get('/getUserRole').success(function(data) {
-						if($scope.userRole != "General Manager"){
+			   apiserviceDashborad.getUserRole().then(function(data){
+				   		if($scope.userRole != "General Manager"){
 							$scope.locationValue = data.location.id;
 						}else{
 							if(locationId != 0){
@@ -6428,9 +6270,8 @@ angular.module('newApp')
 								$scope.locationValue = 0;
 							}
 						}
+				   		apiserviceDashborad.getPerformanceOfUser($scope.topPerformers, $scope.worstPerformers, $scope.weekPerformance, $scope.monthPerformance, $scope.yearPerformance, $scope.allTimePerformance, $scope.salesPersonUser, $scope.locationValue, startD, endD).then(function(data){
 						
-						$http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+"/"+ $scope.allTimePerformance+'/'+$scope.salesPersonUser+'/'+$scope.locationValue+'/'+startD+'/'+endD)
-				 		.success(function(data) {
 				 			$scope.userPerformanceList = data;
 				 		});
 					});
@@ -6450,7 +6291,8 @@ angular.module('newApp')
 			   
 			   $scope.userNoteList = entity.note;
 			   $scope.userNote = "";
-			   $http.get('/getAllAction').success(function(data) {
+			   apiserviceDashborad.getAllAction().then(function(data){
+			   
 				   $scope.allAction = data;
 		   		});
 			   $('#btnUserNote').click();
@@ -6469,13 +6311,9 @@ angular.module('newApp')
 				   $scope.errMsg = 1;
 			   }else{
 				   $scope.errMsg = 0;
-				   $http.get('/saveAction/'+actionValue).success(function(data) {
-					   $.pnotify({
-	   				    title: "Success",
-	   				    type:'success',
-	   				    text: "Action saved successfully",
-	   				});
-					   $http.get('/getAllAction').success(function(data) {
+				   apiserviceDashborad.saveAction(actionValue).then(function(data){
+					   apiserviceDashborad.getAllAction().then(function(data){
+					   
 						   $scope.allAction = data;
 				   		});
 					   
@@ -6486,13 +6324,9 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.saveUserNote = function() {
-			   $http.get('/saveNoteOfUser/'+$scope.userNoteId+'/'+$scope.typeOfNote+'/'+$scope.userNote+'/'+$scope.action)
-		 		.success(function(data) {
-		 			$.pnotify({
-    				    title: "Success",
-    				    type:'success',
-    				    text: "Note saved successfully",
-    				});
+			   apiserviceDashborad.saveNoteOfUser($scope.userNoteId, $scope.typeOfNote, $scope.userNote, $scope.action).then(function(data){
+			   
+		 			
 		 			 $scope.getAllSalesPersonRecord($scope.salesPerson);
 					$('#noteClose').click();
 					/*if($scope.typeOfNote == 'scheduleTest') {
@@ -6556,12 +6390,13 @@ angular.module('newApp')
 			   	});  
 			   
 			   $scope.testDriveData.prefferedContact = $("input:radio[name=preffered]:checked").val();
-			   $http.post('/saveTestDrive',$scope.testDriveData)
-				.success(function(data) {
+			   apiserviceDashborad.saveTestDrive($scope.testDriveData).then(function(data){
+			   
 					$('#clsPop').click();
 					if(data == "success"){
 						  $scope.schedulmultidatepicker();
-						   $http.get("/getscheduletest").success(function(data){
+						  apiserviceDashborad.getscheduletest().then(function(data){
+						   
 							   $scope.scheduleListData = data;
 						   });
 						$scope.getAllSalesPersonRecord($scope.salesPerson);
@@ -6598,8 +6433,7 @@ angular.module('newApp')
 				   $(".cal-report").show();
 			   }
 		   };
-		   
-		   $http.get("/getscheduletest").success(function(data){
+		   apiserviceDashborad.getscheduletest().then(function(data){
 			   $scope.scheduleListData = data;
 		   });
 		   
@@ -6619,8 +6453,8 @@ angular.module('newApp')
 			   $scope.data1.confirmDate = $filter('date')($scope.data1.confirmDate,"MM-dd-yyyy");
 			   $scope.data1.confirmTime = $filter('date')($scope.data1.confirmTime,"hh:mm a");
 			   $scope.data1.confirmEndTime = $filter('date')($scope.data1.confirmEndTime,"hh:mm a");
-			   $http.get('/getUserForMeeting/'+$scope.data1.confirmDate+"/"+$scope.data1.confirmTime+"/"+$scope.data1.confirmEndTime)
-				.success(function(data) {
+			   apiserviceDashborad.getUserForMeeting($scope.data1.confirmDate, $scope.data1.confirmTime, $scope.data1.confirmEndTime).then(function(data){
+			   
 					$scope.gridOptions11.data = data;
 					angular.forEach($scope.gridOptions11.data, function(obj, index){
 						if(obj.userStatus == 'N/A'){
@@ -6663,9 +6497,11 @@ angular.module('newApp')
 		   $scope.deleteFutureAppointment = function(){
 			   if($scope.appointData.meetingStatus != "meeting"){
 				   var resone = "changes";
-				   $http.get("/deleteAppointById/"+$scope.appointData.id+"/"+$scope.appointData.typeOfLead+"/"+resone).success(function(data){
+				   apiserviceDashborad.deleteAppointById($scope.appointData.id, $scope.appointData.typeOfLead, resone).then(function(data){
+				   
 					   $scope.schedulmultidatepicker();
-					   $http.get("/getscheduletest").success(function(data){
+					   apiserviceDashborad.getscheduletest().then(function(data){
+					   
 						   $scope.scheduleListData = data;
 					   });
 				   }); 
@@ -6675,10 +6511,11 @@ angular.module('newApp')
 		   };
 		   
 		   $scope.deleteFutureAppointmentReason = function(reason){
-			   $http.get("/deleteAppointById/"+$scope.appointData.id+"/"+$scope.appointData.typeOfLead+"/"+reason).success(function(data){
+			   apiserviceDashborad.deleteAppointById($scope.appointData.id, $scope.appointData.typeOfLead, resone).then(function(data){
+			   
 				   $scope.schedulmultidatepicker();
 				   $('#deleteMeeting-model').modal('hide');
-				   $http.get("/getscheduletest").success(function(data){
+				   apiserviceDashborad.getscheduletest().then(function(data){
 					   $scope.scheduleListData = data;
 				   });
 			   });
@@ -6725,7 +6562,8 @@ angular.module('newApp')
 			   
 			   $('#testDriveDate').on('changeDate', function(e) {
 				   var sDate = $('#testDriveDate').val();
-				   $http.get("/getScheduleTime/"+$scope.testDriveData.vin+'/'+sDate).success(function(data){
+				   apiserviceDashborad.getScheduleTime($scope.testDriveData.vin, sDate).then(function(data){
+				   
 					   $scope.timeList = [];
 					   $.each(data, function(i, el){
 					       if($.inArray(el, $scope.timeList) === -1) $scope.timeList.push(el);
@@ -6773,7 +6611,8 @@ angular.module('newApp')
 			   
 			   $('#cnfDate').on('changeDate', function(e) {
 				   var sDate = $('#cnfDate').val();
-				   $http.get("/getScheduleTime/"+$scope.scheduleTestData.vin+'/'+sDate).success(function(data){
+				   apiserviceDashborad.getScheduleTime($scope.scheduleTestData.vin, sDate).then(function(data){
+				   
 					   $scope.cnTimeList = data;
 					   $scope.timeList = [];
 					   $.each(data, function(i, el){
@@ -6925,8 +6764,8 @@ angular.module('newApp')
 			   if(locationId != 0){
 				   $scope.locationValue = locationId;
 			   }
-   			$http.get('/getSalesUserOnly/'+$scope.locationValue)
-	    		.success(function(data){
+			   apiserviceDashborad.getSalesUserOnly($scope.locationValue).then(function(data){
+   			
 	    			$scope.salesPersonPerf = data;
 	    			 $scope.gridOptionsValue.data = $scope.salesPersonPerf;
 	    			angular.forEach($scope.salesPersonPerf, function(value, key) {
@@ -6951,7 +6790,8 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.schPlan.scheduleBy = 'location';
-			   $http.get("/getLocationPlan/"+locationId).success(function(data){
+			   apiserviceDashborad.getLocationPlan(locationId).then(function(data){
+			   
 				   
 				   $scope.MonthTotal = {};
 				   	$scope.totalLocationPlanData = data;
@@ -7015,8 +6855,8 @@ angular.module('newApp')
 		   
 		   $scope.planForsalePerson = function(){
 			   $('#salepersonPlanModel').modal();
-			   $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+$scope.parLocationData.monthCurr)
-				.success(function(data) {
+			   apiserviceDashborad.getPlanByMonthAndUser($scope.userKey, $scope.parLocationData.monthCurr).then(function(data){
+			   
 					$scope.saleMonthTotalPer=data;
 					$scope.monthFlagForSale=0;
 				});
@@ -7025,8 +6865,8 @@ angular.module('newApp')
 		  
 		   $scope.planForsalePersonForMonth = function(month){
 			   $('#salepersonPlanModelForMonth').modal();
-			   $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+month)
-				.success(function(data) {
+			   apiserviceDashborad.getPlanByMonthAndUser($scope.userKey, month).then(function(data){
+			   
 					if(data != null){
 						$scope.monthFlagForSale=1;
 					}
@@ -7036,8 +6876,8 @@ angular.module('newApp')
 		   
 		   $scope. planForLocationManager = function(){
 			   $('#locationPlanModel').modal();
-			   $http.get('/getPlanByMonthAndUserForLocation/'+$scope.userKey+'/'+$scope.parLocationData.monthCurr)
-				.success(function(data) {
+			   apiserviceDashborad.getPlanByMonthAndUserForLocation($scope.userKey, $scope.parLocationData.monthCurr).then(function(data){
+			   
 					$scope.locationTotalPer=data;
 				});
 		   }
@@ -7050,8 +6890,8 @@ angular.module('newApp')
 			   value = $scope.leadsTime.totalEarning;
 			   
 			   if(locationId != 0){
-				   $http.get('/gmLocationManager/'+locationId)
-					.success(function(data) {
+				   apiserviceDashborad.gmLocationManager(locationId).then(function(data){
+				   
 						$scope.leadsTime.userkey = data.id;
 					});
 				}else{
@@ -7059,7 +6899,8 @@ angular.module('newApp')
 				}
 			   
 			   $scope.leadsTime.month = month;
-			   $http.post("/saveLocationPlan",$scope.leadsTime).success(function(data){
+			   apiserviceDashborad.saveLocationPlan($scope.leadsTime).then(function(data){
+			   
 				   $scope.janOpen = 0;
 				   $scope.julyOpen = 0;
 				   $scope.februaryOpen = 0;
@@ -7103,42 +6944,28 @@ angular.module('newApp')
 			   if(locationId != 0){
 				   locationIds = locationId;
 			   }
+			   apiserviceDashborad.saveLocationTotal(total, locationIds).then(function(data){
 			   
-			   $http.get("/saveLocationTotal/"+total+"/"+locationIds).success(function(data){
 				   $('#plan-model').modal("toggle");
-				   $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Plan Scheduled successfully",
-					});
-			   });
+				});
 		   }
 		   
 		   $scope.saveSalesTotal = function(total){
 			   $scope.userkey=$scope.userKeyforSalestotal;
 			   if(locationId != 0){
-				   $http.get('/gmLocationManager/'+locationId)
-					.success(function(data) {
-						$http.get("/saveSalesTotal/"+total+"/"+data.id).success(function(data){
+				   apiserviceDashborad.gmLocationManager(locationId).then(function(data){
+					   apiserviceDashborad.saveSalesTotal(total, data.id).then(function(data){
+						
 							   $('#plan-model').modal("toggle");
-							   $.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Plan Scheduled successfully",
-								});
-						   });
+							});
 					});
 				   
 				   
 			   }else{
-				   $http.get("/saveSalesTotal/"+total+"/"+$scope.userkey).success(function(data){
+				   apiserviceDashborad.saveSalesTotal(total, $scope.userkey).then(function(data){
+				   
 					   $('#plan-model').modal("toggle");
-					   $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Plan Scheduled successfully",
-						});
-				   });
+					});
 			   }
 			   
 		   }
@@ -7151,7 +6978,8 @@ angular.module('newApp')
 			  value = $scope.saleleadsTime.totalBrought;
 			   $scope.saleleadsTime.salesList = $scope.salesList;
 			   $scope.saleleadsTime.month = month;
-			   $http.post("/saveSalePlan",$scope.saleleadsTime).success(function(data){
+			   apiserviceDashborad.saveSalePlan($scope.saleleadsTime).then(function(response){
+			   
 				   $scope.janOpen = 0;
 				   $scope.julyOpen = 0;
 				   $scope.februaryOpen = 0;
@@ -7233,7 +7061,8 @@ angular.module('newApp')
 			   $scope.saleMonthTotal = {};
 			   $scope.salePerId = saleId;
 			   $scope.userKeyforSalestotal=saleId;
-			   $http.get("/getSaleMonthlyPlan/"+saleId).success(function(data){
+			   apiserviceDashborad.getSaleMonthlyPlan(saleId).then(function(data){
+			   
 				   $scope.totalLocationPlanData = data;
 				   var d = new Date();
 				   var n = d.getMonth()+1;
@@ -7489,8 +7318,8 @@ angular.module('newApp')
 			   if(locationId != 0){
 				   $scope.locationValue = locationId;
 			   }
-   			$http.get('/getSalesUserOnly/'+$scope.locationValue)
-	    		.success(function(data){
+			   apiserviceDashborad.getSalesUserOnly($scope.locationValue).then(function(data){
+   			
 	    			$scope.salesPersonPerf = data;
 	    			 $scope.gridOptionsValue.data = $scope.salesPersonPerf;
 	    			angular.forEach($scope.salesPersonPerf, function(value, key) {
@@ -7523,9 +7352,9 @@ angular.module('newApp')
 			   var d = new Date();
 			   var n = d.getMonth()+1;
 			   if(locationId != 0){
-				   $http.get('/gmLocationManager/'+locationId)
-					.success(function(datas) {
-						 $http.get("/getlocationsMonthlyPlan/"+datas.id).success(function(data){
+				   apiserviceDashborad.gmLocationManager(locationId).then(function(data){
+					   apiserviceDashborad.getlocationsMonthlyPlan(data.id).then(function(data){
+						 
 							   $scope.totalLocationPlanData = data;
 							   var d = new Date();
 							   var n = d.getMonth()+1;
@@ -7707,7 +7536,8 @@ angular.module('newApp')
 					});
 				  
 			   }else{
-				   $http.get("/getlocationsMonthlyPlan/"+$scope.userKey).success(function(data){
+				   apiserviceDashborad.getlocationsMonthlyPlan($scope.userKey).then(function(data){
+				   
 					   $scope.totalLocationPlanData = data;
 					   angular.forEach(data, function(obj, index){
 						   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
@@ -7910,7 +7740,8 @@ angular.module('newApp')
 			  
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"january").success(function(data){
+			   apiserviceDashborad.getSalePerson("january").then(function(data){
+			   
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -7964,7 +7795,8 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"july").success(function(data){
+			   apiserviceDashborad.getSalePerson("july").then(function(data){
+			   
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8021,7 +7853,8 @@ angular.module('newApp')
 			   
 			   
 			   $scope.salesList = [];
-				   $http.get("/getSalePerson/"+"february").success(function(data){
+			   apiserviceDashborad.getSalePerson("february").then(function(data){
+				   
 					  angular.forEach($scope.salesPersonPerf, function(obj, index){
 						  angular.forEach(data, function(obj1, index1){
 							  if(obj.id == obj1.user.id){
@@ -8077,7 +7910,8 @@ angular.module('newApp')
 			   
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"august").success(function(data){
+			   apiserviceDashborad.getSalePerson("august").then(function(data){
+			   
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8139,7 +7973,8 @@ angular.module('newApp')
 			   
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"march").success(function(data){
+			   apiserviceDashborad.getSalePerson("march").then(function(data){
+			   
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8194,7 +8029,8 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"september").success(function(data){
+			   apiserviceDashborad.getSalePerson("september").then(function(data){
+			   
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8250,7 +8086,8 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"april").success(function(data){
+			   apiserviceDashborad.getSalePerson("april").then(function(data){
+			   
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8308,7 +8145,8 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"october").success(function(data){
+			   apiserviceDashborad.getSalePerson("october").then(function(data){
+			   
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8363,7 +8201,8 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"may").success(function(data){
+			   apiserviceDashborad.getSalePerson("may").then(function(data){
+			   
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8418,7 +8257,8 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"november").success(function(data){
+			   apiserviceDashborad.getSalePerson("november").then(function(data){
+			   
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8473,7 +8313,8 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"june").success(function(data){
+			   apiserviceDashborad.getSalePerson("june").then(function(data){
+			   
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8529,8 +8370,8 @@ angular.module('newApp')
 			   angular.forEach($scope.salesPersonPerf, function(obj, index){
 				   obj.isSelected = false;
 			   });
+			   apiserviceDashborad.getSalePerson("december").then(function(data){
 			   
-			   $http.get("/getSalePerson/"+"december").success(function(data){
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8574,8 +8415,8 @@ angular.module('newApp')
 			   $scope.planIs = "save";
 			   $scope.nextbutton = 1;
 		   }
+		   apiserviceDashborad.getlocations().then(function(data){
 		   
-		   $http.get("/getlocations").success(function(data){
 			   $scope.locationdata = data;
 			   angular.forEach($scope.locationdata, function(obj, index){
 				   obj.isSelected = false;
@@ -8625,7 +8466,8 @@ angular.module('newApp')
 			   }
 			  
 			if($scope.planIs == "save"){
-				$http.post("/savePlan",$scope.schPlan).success(function(data){
+				apiserviceDashborad.savePlan($scope.schPlan).then(function(data){
+				
 					if(data == 1){
 						$.pnotify({
 							  title: "Error",
@@ -8644,7 +8486,8 @@ angular.module('newApp')
 					   
 				   }); 
 			}else if($scope.planIs == "update"){
-				$http.post("/updatePlan",$scope.schPlan).success(function(data){
+				apiserviceDashborad.updatePlan($scope.schPlan).then(function(data){
+				
 					if(data == 1){
 						$.pnotify({
 							  title: "Error",
@@ -8667,11 +8510,13 @@ angular.module('newApp')
 			
 		   $scope.checkManagerLogin = function(){
 			   if(angular.equals($scope.userType,"Manager") || angular.equals($scope.userType,"Sales Person")){
-				   $http.get("/getloginuserinfo").success(function(data){
+				   apiserviceDashborad.getloginuserinfo().then(function(data){
+				   
 					  //alert(JSON.stringify(data));
 					  $scope.schmeeting.location = data.location.id;
 					  $scope.locationValueForPlan=data.location.id;
-					  $http.get("/getuser/"+$scope.schmeeting.location).success(function(data){
+					  apiserviceDashborad.getuser($scope.schmeeting.location).then(function(data){
+					  
 						   $scope.user = data;
 					   });
 				   });
@@ -8697,8 +8542,8 @@ angular.module('newApp')
 			   }
 			   
 			   if($scope.schPlan.scheduleBy == "location"){
+				   apiserviceDashborad.isValidDatecheck($scope.schPlan.location, startD, $scope.schPlan.scheduleBy).then(function(data){
 				   
-				   $http.get("/isValidDatecheck/"+$scope.schPlan.location+'/'+startD+'/'+$scope.schPlan.scheduleBy).success(function(data){
 					   if(data == 1){
 						   if($scope.planIs != "update"){
 							   $('#cnfstartdate').val("");
@@ -8714,7 +8559,8 @@ angular.module('newApp')
 				   
 			   }
 			   if($scope.schPlan.scheduleBy == "salePerson"){
-				   $http.get("/isValidDatecheck/"+$scope.schPlan.salePerson+'/'+startD+'/'+$scope.schPlan.scheduleBy).success(function(data){
+				   apiserviceDashborad.isValidDatecheck($scope.schPlan.salePerson, startD, $scope.schPlan.scheduleBy).then(function(data){
+				   
 						   if(data == 1){
 							   if($scope.planIs != "update"){
 								   $('#cnfstartdate').val("");
@@ -8735,8 +8581,8 @@ angular.module('newApp')
 				   $scope.schPlan.scheduleBy = "location"; 
 			   }
 			   if($scope.schPlan.scheduleBy == "location"){
+				   apiserviceDashborad.isValidDatecheck($scope.schPlan.location, endD, $scope.schPlan.scheduleBy).then(function(data){
 				   
-				   $http.get("/isValidDatecheck/"+$scope.schPlan.location+'/'+endD+'/'+$scope.schPlan.scheduleBy).success(function(data){
 					   if(data == 1){
 						   if($scope.planIs != "update"){
 							   $('#cnfstartdate').val("");
@@ -8750,7 +8596,8 @@ angular.module('newApp')
 				   });
 			   }
 			   if($scope.schPlan.scheduleBy == "salePerson"){
-				   $http.get("/isValidDatecheck/"+$scope.schPlan.salePerson+'/'+endD+'/'+$scope.schPlan.scheduleBy).success(function(data){
+				   apiserviceDashborad.isValidDatecheck($scope.schPlan.salePerson, endD, $scope.schPlan.scheduleBy).then(function(data){
+				   
 						   if(data == 1){
 							   if($scope.planIs != "update"){
 								   $('#cnfstartdate').val("");
@@ -8774,7 +8621,8 @@ angular.module('newApp')
 			   $scope.locationList = [];
 			   if(checkAll == false){
 				   angular.forEach($scope.locationdata, function(obj, index){
-					   $http.get("/isValidCheckbok/"+obj.id+'/'+startD+'/'+endD).success(function(data){
+					   apiserviceDashborad.isValidDatecheck(obj.id, startD, endD).then(function(data){
+					   
 						   if(data == 0){
 							   obj.isSelected = true;
 							   $scope.locationList.push(obj.id);
@@ -8804,7 +8652,8 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.showuser = function(location){
-			   $http.get("/getmanager/"+location).success(function(data){
+			   apiserviceDashborad.getmanager(location).then(function(data){
+			   
 				   $scope.user = data;
 			   });
 		   };
@@ -8815,15 +8664,12 @@ angular.module('newApp')
 				   $scope.schmeeting.bestDay = $('#cnfmeetingdate').val();
 				   $scope.schmeeting.bestTime = $('#cnfmeetingtime').val();
 				   $scope.schmeeting.bestEndTime = $('#cnfmeetingtimeEnd').val();
-				   $http.post("/savemeeting",$scope.schmeeting).success(function(data){
+				   apiserviceDashborad.savemeeting($scope.schmeeting).then(function(data){
+				   
 					   $('#meeting-model').modal("toggle");
-					   $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Meeting invitation has been sent",
-						});
 					   
-					   $http.get("/getscheduletest").success(function(data){
+					   apiserviceDashborad.getscheduletest().then(function(data){
+					   
 						   $scope.scheduleListData = data;
 					   });
 					   $scope.schedulmultidatepicker();
@@ -8845,21 +8691,14 @@ angular.module('newApp')
 			   
 			  $scope.data1.usersList = $scope.checked;
 			  $scope.data1.isRead=0;
-			   $http.post("/updateScheduleTest",$scope.data1).success(function(data){
+			  apiserviceDashborad.updateScheduleTest($scope.data1).then(function(data){
+			   
 				   $('#colored-header').modal("toggle");
-				   $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Meeting's infomation has been updated",
-					});
-				   
 				   $scope.data1.confirmDate = $('#cnfReSchDate').val();
 				   $scope.data1.confirmTime = $('#timeSchPick').val();
 				   $scope.data1.confirmEndTime = $('#timeSchPickEnd').val();
 				   
-				   
-                 $http.get("/getscheduletest").success(function(data){
-					   
+				   apiserviceDashborad.getscheduletest().then(function(data){ 
 					   $scope.scheduleListData = data;
 				   });
 				   
@@ -8869,9 +8708,9 @@ angular.module('newApp')
 			   
 		   }
 		   $scope.leadList = [];
-		   $http.get('/getSelectedLeadType').success(function(response) {
+		   apiserviceDashborad.getSelectedLeadType().then(function(response){
+		   
 				console.log(response);
-				
 				angular.forEach(response, function(value, key) {
 					if(value.id > 3){
 						$scope.leadList.push(value); 
@@ -8966,158 +8805,9 @@ angular.module('newApp')
 
 
 
-angular.module('newApp')
-.controller('PhotoUploadCtrl', ['$scope','$routeParams','$location', function ($scope,$routeParams,$location) {
-   var myDropzone = new Dropzone("#dropzoneFrm",{
-	   parallelUploads: 30,
-	   headers: { "vinNum": $routeParams.num },
-	   acceptedFiles:"image/*",
-	   addRemoveLinks:true,
-	   autoProcessQueue:false,
-	   init:function () {
-		   this.on("queuecomplete", function (file) {
-		          
-		          $location.path('/managePhotos/'+$routeParams.num);
-		          $scope.$apply();
-		      });
-		   this.on("complete", function() {
-			   this.removeAllFiles();
-		   });
-	   }
-   });
-   $scope.uploadFiles = function() {
-	   Dropzone.autoDiscover = false;
-	   myDropzone.processQueue();
-	   
-   }
-   
-}]);
 
-angular.module('newApp')
-.controller('ManagePhotoCtrl', ['$scope','$routeParams','$location','$http','$timeout', function ($scope,$routeParams,$location,$http,$timeout) {
-	$scope.gridsterOpts = {
-		    columns: 6, // the width of the grid, in columns
-		    pushing: true, // whether to push other items out of the way on move or resize
-		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
-		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
-		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
-		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
-		    rowHeight: 'match', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
-		    margins: [10, 10], // the pixel distance between each widget
-		    outerMargin: true, // whether margins apply to outer edges of the grid
-		    isMobile: false, // stacks the grid items if true
-		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
-		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
-		    minColumns: 6, // the minimum columns the grid must have
-		    minRows: 1, // the minimum height of the grid, in rows
-		    maxRows: 100,
-		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
-		    defaultSizeY: 1, // the default height of a gridster item, if not specified
-		    resizable: {
-			       enabled: false,
-			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
-			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
-			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
-			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
-			    },
-		    /* minSizeX: 1, // minimum column width of an item
-		    maxSizeX: null, // maximum column width of an item
-		    minSizeY: 1, // minumum row height of an item
-		    maxSizeY: null, // maximum row height of an item
-		   */
-			    draggable: {
-				       enabled: true, // whether dragging items is supported
-				       handle: '.my-class', // optional selector for resize handle
-				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
-				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
-				       stop: function(event, $element, widget) {
-				    	   if($(event.target).html() == 'Set Default' || $(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
-				    		   return;
-				    	   };
-				    	   for(var i=0;i<$scope.imageList.length;i++) {
-				    		   delete $scope.imageList[i].description;
-				    		   delete $scope.imageList[i].width;
-				    		   delete $scope.imageList[i].height;
-				    		   delete $scope.imageList[i].link;
-				    	   } 
-				    	   $http.post('/savePosition',$scope.imageList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
-				    	   
-				       } // optional callback fired when item is finished dragging
-				    }
-		};
-	$scope.imageList = [];
-	$scope.init = function() {
-		 $timeout(function(){
-			$http.get('/getImagesByVin/'+$routeParams.num)
-			.success(function(data) {
-				$scope.imageList = data;
-			});
-		 }, 3000);
-	}
-   
-	$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
-		for(var i=0;i<$scope.imageList.length;i++) {
-			if($scope.imageList[i].defaultImage == true) {
-				$('#imgId'+i).css("border","3px solid");
-				$('#imgId'+i).css("color","red");
-			}
-		}
-	});
-	
-	$scope.setAsDefault = function(image,index) {
-		
-		for(var i=0;i<$scope.imageList.length;i++) {
-			if($scope.imageList[i].defaultImage == true) {
-				$http.get('/removeDefault/'+$scope.imageList[i].id+'/'+image.id)
-				.success(function(data) {
-				});
-				$('#imgId'+i).removeAttr("style","");
-				$scope.imageList[i].defaultImage = false;
-				image.defaultImage = true;
-				$('#imgId'+index).css("border","3px solid");
-				$('#imgId'+index).css("color","red");
-				break;
-			}
-		}
-		
-		if(i == $scope.imageList.length) {
-			$http.get('/setDefaultImage/'+image.id)
-			.success(function(data) {
-			});
-			
-			image.defaultImage = true;
-			$('#imgId'+index).css("border","3px solid");
-			$('#imgId'+index).css("color","red");
-		}
-		
-		
-	}
-	
-	$scope.deleteImage = function(img) {
-		$http.get('/deleteImage/'+img.id)
-		.success(function(data) {
-			$scope.imageList.splice($scope.imageList.indexOf(img),1);
-		});
-		
-	}
-	
-	$scope.showFullImage = function(image) {
-		$scope.imageId = image.id;
-		$scope.imageName = image.imgName;
-	}
-	
-	$scope.editImage = function(image) {
-		$location.path('/cropImage/'+image.id);
-	}
-	
-}]);
+
+
 /*
 angular.module('newApp')
 .controller('viewInventoryCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
@@ -9616,3179 +9306,4 @@ angular.module('newApp')
    
 }]);*/
 
-
-
-angular.module('newApp')
-.controller('HomePageCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload', function ($scope,$http,$location,$filter,$routeParams,$upload) {
-	if(!$scope.$$phase) {
-		$scope.$apply();
-	}
-	
-	
-	$scope.makeForUpload='/uploadVehiclePhotos?make='+$routeParams.makeValue;
-	if( $routeParams.makeValue != null || $routeParams.makeValue !=undefined ){
-		$scope.makeValue=$routeParams.makeValue;
-	}
-	else{
-		$scope.makeValue='all';
-	}
-	
-	$scope.tempDate = new Date().getTime();
-	console.log($routeParams.type);
-	$scope.vTypes = $routeParams.type;
-	
-	$scope.sliderList = [];
-	$scope.featuredList = [];
-	$scope.coverList = [];
-	$scope.blogList = [];
-	$scope.makeListForImage = [];
-	$scope.compareList = [];
-	$scope.warrantyList = [];
-	$scope.contactList = [];
-	$scope.vehicleProfileList = [];
-	$scope.gridsterOpts1 = {
-		    columns: 6, // the width of the grid, in columns
-		    pushing: true, // whether to push other items out of the way on move or resize
-		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
-		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
-		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
-		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
-		    rowHeight: 'match', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
-		    margins: [10, 10], // the pixel distance between each widget
-		    outerMargin: true, // whether margins apply to outer edges of the grid
-		    isMobile: false, // stacks the grid items if true
-		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
-		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
-		    minColumns: 6, // the minimum columns the grid must have
-		    minRows: 1, // the minimum height of the grid, in rows
-		    maxRows: 100,
-		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
-		    defaultSizeY: 1, // the default height of a gridster item, if not specified
-		    resizable: {
-			       enabled: false,
-			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
-			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
-			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
-			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
-			    },
-		    /* minSizeX: 1, // minimum column width of an item
-		    maxSizeX: null, // maximum column width of an item
-		    minSizeY: 1, // minumum row height of an item
-		    maxSizeY: null, // maximum row height of an item
-		   */
-			    draggable: {
-				       enabled: true, // whether dragging items is supported
-				       handle: '.my-class', // optional selector for resize handle
-				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
-				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
-				       stop: function(event, $element, widget) {
-				    	   if($(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
-				    		   return;
-				    	   };
-				    	   for(var i=0;i<$scope.sliderList.length;i++) {
-				    		   delete $scope.sliderList[i].description;
-				    		   delete $scope.sliderList[i].width;
-				    		   delete $scope.sliderList[i].height;
-				    		   delete $scope.sliderList[i].link;
-				    		   delete $scope.sliderList[i].vin;
-				    		   delete $scope.sliderList[i].defaultImage;
-				    	   }
-				    	   $http.post('/saveSliderPosition',$scope.sliderList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
-				    	   
-				       } // optional callback fired when item is finished dragging
-				    }
-		};
-	
-	$scope.gridsterOpts2 = {
-		    columns: 6, // the width of the grid, in columns
-		    pushing: true, // whether to push other items out of the way on move or resize
-		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
-		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
-		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
-		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
-		    rowHeight: 'match', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
-		    margins: [10, 10], // the pixel distance between each widget
-		    outerMargin: true, // whether margins apply to outer edges of the grid
-		    isMobile: false, // stacks the grid items if true
-		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
-		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
-		    minColumns: 6, // the minimum columns the grid must have
-		    minRows: 1, // the minimum height of the grid, in rows
-		    maxRows: 100,
-		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
-		    defaultSizeY: 1, // the default height of a gridster item, if not specified
-		    resizable: {
-			       enabled: false,
-			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
-			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
-			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
-			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
-			    },
-		    /* minSizeX: 1, // minimum column width of an item
-		    maxSizeX: null, // maximum column width of an item
-		    minSizeY: 1, // minumum row height of an item
-		    maxSizeY: null, // maximum row height of an item
-		   */
-			    draggable: {
-				       enabled: true, // whether dragging items is supported
-				       handle: '.my-class', // optional selector for resize handle
-				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
-				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
-				       stop: function(event, $element, widget) {
-				    	   
-				    	   if($(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
-				    		   return;
-				    	   };
-				    	   
-				    	   for(var i=0;i<$scope.featuredList.length;i++) {
-				    		   delete $scope.featuredList[i].description;
-				    		   delete $scope.featuredList[i].width;
-				    		   delete $scope.featuredList[i].height;
-				    		   delete $scope.featuredList[i].link;
-				    		   delete $scope.featuredList[i].vin;
-				    		   delete $scope.featuredList[i].defaultImage;
-				    	   }
-				    	   $http.post('/saveFeaturedPosition',$scope.featuredList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
-				    	   
-				       } // optional callback fired when item is finished dragging
-				    }
-		};
-	
-	
-	
-
-	$scope.gridsterOpts5 = {
-		    columns: 6, // the width of the grid, in columns
-		    pushing: true, // whether to push other items out of the way on move or resize
-		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
-		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
-		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
-		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
-		    rowHeight: '160px', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
-		    margins: [10, 10], // the pixel distance between each widget
-		    outerMargin: true, // whether margins apply to outer edges of the grid
-		    isMobile: false, // stacks the grid items if true
-		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
-		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
-		    minColumns: 6, // the minimum columns the grid must have
-		    minRows: 1, // the minimum height of the grid, in rows
-		    maxRows: 100,
-		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
-		    defaultSizeY: 1, // the default height of a gridster item, if not specified
-		    resizable: {
-			       enabled: false,
-			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
-			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
-			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
-			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
-			    },
-		    /* minSizeX: 1, // minimum column width of an item
-		    maxSizeX: null, // maximum column width of an item
-		    minSizeY: 1, // minumum row height of an item
-		    maxSizeY: null, // maximum row height of an item
-		   */
-			    draggable: {
-				       enabled: true, // whether dragging items is supported
-				       handle: '.my-class', // optional selector for resize handle
-				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
-				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
-				       stop: function(event, $element, widget) {
-				    	   
-				    	   if($(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
-				    		   return;
-				    	   };
-				    	   
-				    	   for(var i=0;i<$scope.coverList.length;i++) {
-				    		   delete $scope.coverList[i].description;
-				    		   delete $scope.coverList[i].width;
-				    		   delete $scope.coverList[i].height;
-				    		   delete $scope.coverList[i].link;
-				    		   delete $scope.coverList[i].vin;
-				    		   delete $scope.coverList[i].defaultImage;
-				    	   }
-				    	   $http.post('/saveCoveredPosition',$scope.coverList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
-				    	   
-				       } // optional callback fired when item is finished dragging
-				    }
-		};
-	
-	
-	$scope.gridsterOpts9 = {
-		    columns: 6, // the width of the grid, in columns
-		    pushing: true, // whether to push other items out of the way on move or resize
-		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
-		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
-		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
-		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
-		    rowHeight: '160px', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
-		    margins: [10, 10], // the pixel distance between each widget
-		    outerMargin: true, // whether margins apply to outer edges of the grid
-		    isMobile: false, // stacks the grid items if true
-		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
-		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
-		    minColumns: 6, // the minimum columns the grid must have
-		    minRows: 1, // the minimum height of the grid, in rows
-		    maxRows: 100,
-		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
-		    defaultSizeY: 1, // the default height of a gridster item, if not specified
-		    resizable: {
-			       enabled: false,
-			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
-			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
-			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
-			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
-			    },
-		    /* minSizeX: 1, // minimum column width of an item
-		    maxSizeX: null, // maximum column width of an item
-		    minSizeY: 1, // minumum row height of an item
-		    maxSizeY: null, // maximum row height of an item
-		   */
-			    draggable: {
-				       enabled: true, // whether dragging items is supported
-				       handle: '.my-class', // optional selector for resize handle
-				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
-				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
-				       stop: function(event, $element, widget) {
-				    	   
-				    	   if($(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
-				    		   return;
-				    	   };
-				    	   
-				    	   for(var i=0;i<$scope.compareList.length;i++) {
-				    		   delete $scope.compareList[i].description;
-				    		   delete $scope.compareList[i].width;
-				    		   delete $scope.compareList[i].height;
-				    		   delete $scope.compareList[i].link;
-				    		   delete $scope.compareList[i].vin;
-				    		   delete $scope.compareList[i].defaultImage;
-				    	   }
-				    	   $http.post('/saveComparePosition',$scope.compareList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
-				    	   
-				       } // optional callback fired when item is finished dragging
-				    }
-		};
-	
-	
-	
-
-	$scope.gridsterOpts6 = {
-		    columns: 6, // the width of the grid, in columns
-		    pushing: true, // whether to push other items out of the way on move or resize
-		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
-		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
-		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
-		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
-		    rowHeight: '160px', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
-		    margins: [10, 10], // the pixel distance between each widget
-		    outerMargin: true, // whether margins apply to outer edges of the grid
-		    isMobile: false, // stacks the grid items if true
-		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
-		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
-		    minColumns: 6, // the minimum columns the grid must have
-		    minRows: 1, // the minimum height of the grid, in rows
-		    maxRows: 100,
-		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
-		    defaultSizeY: 1, // the default height of a gridster item, if not specified
-		    resizable: {
-			       enabled: false,
-			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
-			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
-			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
-			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
-			    },
-		    /* minSizeX: 1, // minimum column width of an item
-		    maxSizeX: null, // maximum column width of an item
-		    minSizeY: 1, // minumum row height of an item
-		    maxSizeY: null, // maximum row height of an item
-		   */
-			    draggable: {
-				       enabled: true, // whether dragging items is supported
-				       handle: '.my-class', // optional selector for resize handle
-				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
-				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
-				       stop: function(event, $element, widget) {
-				    	   
-				    	   if($(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
-				    		   return;
-				    	   };
-				    	   
-				    	   for(var i=0;i<$scope.blogList.length;i++) {
-				    		   delete $scope.blogList[i].description;
-				    		   delete $scope.blogList[i].width;
-				    		   delete $scope.blogList[i].height;
-				    		   delete $scope.blogList[i].link;
-				    		   delete $scope.blogList[i].vin;
-				    		   delete $scope.blogList[i].defaultImage;
-				    	   }
-				    	   $http.post('/saveBlogPosition',$scope.blogList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
-				    	   
-				       } // optional callback fired when item is finished dragging
-				    }
-		};
-	
-
-	$scope.gridsterOpts10 = {
-		    columns: 6, // the width of the grid, in columns
-		    pushing: true, // whether to push other items out of the way on move or resize
-		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
-		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
-		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
-		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
-		    rowHeight: '160px', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
-		    margins: [10, 10], // the pixel distance between each widget
-		    outerMargin: true, // whether margins apply to outer edges of the grid
-		    isMobile: false, // stacks the grid items if true
-		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
-		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
-		    minColumns: 6, // the minimum columns the grid must have
-		    minRows: 1, // the minimum height of the grid, in rows
-		    maxRows: 100,
-		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
-		    defaultSizeY: 1, // the default height of a gridster item, if not specified
-		    resizable: {
-			       enabled: false,
-			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
-			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
-			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
-			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
-			    },
-		    /* minSizeX: 1, // minimum column width of an item
-		    maxSizeX: null, // maximum column width of an item
-		    minSizeY: 1, // minumum row height of an item
-		    maxSizeY: null, // maximum row height of an item
-		   */
-			    draggable: {
-				       enabled: true, // whether dragging items is supported
-				       handle: '.my-class', // optional selector for resize handle
-				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
-				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
-				       stop: function(event, $element, widget) {
-				    	   
-				    	   if($(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
-				    		   return;
-				    	   };
-				    	   
-				    	   for(var i=0;i<$scope.vehicleProfileList.length;i++) {
-				    		   delete $scope.vehicleProfileList[i].description;
-				    		   delete $scope.vehicleProfileList[i].width;
-				    		   delete $scope.vehicleProfileList[i].height;
-				    		   delete $scope.vehicleProfileList[i].link;
-				    		   delete $scope.vehicleProfileList[i].vin;
-				    		   delete $scope.vehicleProfileList[i].defaultImage;
-				    	   }
-				    	   $http.post('/saveVehiclePosition',$scope.vehicleProfileList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
-				    	   
-				       } // optional callback fired when item is finished dragging
-				    }
-		};
-	
-	
-	
-	
-	
-	
-	
-	$scope.gridsterOpts8 = {
-		    columns: 6, // the width of the grid, in columns
-		    pushing: true, // whether to push other items out of the way on move or resize
-		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
-		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
-		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
-		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
-		    rowHeight: '160px', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
-		    margins: [10, 10], // the pixel distance between each widget
-		    outerMargin: true, // whether margins apply to outer edges of the grid
-		    isMobile: false, // stacks the grid items if true
-		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
-		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
-		    minColumns: 6, // the minimum columns the grid must have
-		    minRows: 1, // the minimum height of the grid, in rows
-		    maxRows: 100,
-		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
-		    defaultSizeY: 1, // the default height of a gridster item, if not specified
-		    resizable: {
-			       enabled: false,
-			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
-			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
-			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
-			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
-			    },
-		    /* minSizeX: 1, // minimum column width of an item
-		    maxSizeX: null, // maximum column width of an item
-		    minSizeY: 1, // minumum row height of an item
-		    maxSizeY: null, // maximum row height of an item
-		   */
-			    draggable: {
-				       enabled: true, // whether dragging items is supported
-				       handle: '.my-class', // optional selector for resize handle
-				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
-				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
-				       stop: function(event, $element, widget) {
-				    	   
-				    	   if($(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
-				    		   return;
-				    	   };
-				    	   
-				    	   for(var i=0;i<$scope.warrantyList.length;i++) {
-				    		   delete $scope.warrantyList[i].description;
-				    		   delete $scope.warrantyList[i].width;
-				    		   delete $scope.warrantyList[i].height;
-				    		   delete $scope.warrantyList[i].link;
-				    		   delete $scope.warrantyList[i].vin;
-				    		   delete $scope.warrantyList[i].defaultImage;
-				    	   }
-				    	   $http.post('/saveWarrantyPosition',$scope.warrantyList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
-				    	   
-				       } // optional callback fired when item is finished dragging
-				    }
-		};
-	
-	
-	
-	
-	
-	$scope.gridsterOpts7 = {
-		    columns: 6, // the width of the grid, in columns
-		    pushing: true, // whether to push other items out of the way on move or resize
-		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
-		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
-		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
-		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
-		    rowHeight: '160px', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
-		    margins: [10, 10], // the pixel distance between each widget
-		    outerMargin: true, // whether margins apply to outer edges of the grid
-		    isMobile: false, // stacks the grid items if true
-		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
-		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
-		    minColumns: 6, // the minimum columns the grid must have
-		    minRows: 1, // the minimum height of the grid, in rows
-		    maxRows: 100,
-		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
-		    defaultSizeY: 1, // the default height of a gridster item, if not specified
-		    resizable: {
-			       enabled: false,
-			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
-			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
-			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
-			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
-			    },
-		    /* minSizeX: 1, // minimum column width of an item
-		    maxSizeX: null, // maximum column width of an item
-		    minSizeY: 1, // minumum row height of an item
-		    maxSizeY: null, // maximum row height of an item
-		   */
-			    draggable: {
-				       enabled: true, // whether dragging items is supported
-				       handle: '.my-class', // optional selector for resize handle
-				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
-				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
-				       stop: function(event, $element, widget) {
-				    	   
-				    	   if($(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
-				    		   return;
-				    	   };
-				    	   
-				    	   for(var i=0;i<$scope.contactList.length;i++) {
-				    		   delete $scope.contactList[i].description;
-				    		   delete $scope.contactList[i].width;
-				    		   delete $scope.contactList[i].height;
-				    		   delete $scope.contactList[i].link;
-				    		   delete $scope.contactList[i].vin;
-				    		   delete $scope.contactList[i].defaultImage;
-				    	   }
-				    	   $http.post('/saveContactPosition',$scope.contactList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
-				    	   
-				       } // optional callback fired when item is finished dragging
-				    }
-		};
-	
-	
-	$scope.header={};
-	$scope.header1={};
-	$scope.header2={};
-	$scope.header3={};
-	$scope.header4={};
-	$scope.profileHeader={};
-	$scope.siteDescription = {};
-	$scope.siteHeading = "";
-	$scope.inventoryImg = [];
-	$scope.init = function() {
-		
-		 $http.get('/getAllMakeList')
-			.success(function(data) {
-				console.log(">>>>>>>>>");
-				console.log(data);
-				$scope.makeList=data;
-				$scope.makeWiseData();
-				
-				
-			});
-		
-		 
-		 
-		 $scope.makeWiseData = function() {
-		 $http.get('/getMakeWiseData/'+$scope.makeValue)
-			.success(function(data) {
-				
-				console.log(data);
-				console.log(data.vehProfData);
-				$scope.vehProfDataByMake=data.vehProfData;
-				console.log($scope.makeList);
-				angular.forEach( $scope.makeList, function(value, key) {
-					var keepGoing = true;
-					// $scope.makeList[key].flagForMake=1;
-					angular.forEach( $scope.vehProfDataByMake, function(value1, key1) {
-						if(keepGoing) {
-						if(value1.makeValue == value.make && value1.path != null ){
-							
-							
-							$scope.makeList[key].flagForMake=0;
-							keepGoing = false;
-						}
-						else{
-							$scope.makeList[key].flagForMake=1;
-						}
-						}
-					});
-					
-				});
-				
-				
-				
-				
-				$scope.profileHeader.mainTitle=data.vehicleProfileData[0].mainTitle;
-				$scope.profileHeader.textData=data.vehicleProfileData[0].subtitle;
-				if(data.vehicleProfileData[0].socialFlag == 1){
-					$scope.profileHeader.socialFlag=true;
-				}
-				if(data.vehicleProfileData[0].makeFlag == 1){
-					$scope.profileHeader.makeFlag=true;
-				}
-				if(data.vehicleProfileData[0].financeFlag == 1){
-					$scope.profileHeader.financeFlag=true;
-				}
-				$scope.thumbPat=data.vehicleProfileData[0].thumbPath;
-				   if(data.vehicleProfileData[0].financeFlag == 1){
-					   $scope.financeFlag=true;
-				   }
-				   else{
-					   $scope.financeFlag=false;
-				   }
-				   
-				   if(data.vehicleProfileData[0].socialFlag == 1){
-					   $scope.socialFlag=true;
-				   }
-				   else{
-					   $scope.socialFlag=false;
-				   }
-				   
-				   if(data.vehicleProfileData[0].makeFlag == 1){
-					   $scope.makeFlag=true;
-				   }
-				   else{
-					   $scope.makeFlag=false;
-				   }
-				   
-				if($scope.thumbPat != null){
-					$scope.vehicleProfileList = data.vehicleProfileData;
-				}
-	
-			});
-		 }
-		
-		$scope.tempDate = new Date().getTime();
-		 $http.get('/getSliderAndFeaturedImages')
-			.success(function(data) {
-			
-				$scope.sliderList = data.sliderList;
-				$scope.featuredList = data.featuredList;
-				$scope.configList = data.configList;
-				$scope.coverConfig = data.coverImg;
-					angular.forEach(data.inventoryImg, function(value, key) {
-						if(value.vType == $scope.vTypes){
-							$scope.inventoryImg.push(value);
-							$scope.siteInventory = value;
-							if($scope.siteInventory.applyAll == "1"){
-								$scope.siteInventory.applyAll = true;
-							}else{
-								$scope.siteInventory.applyAll = false;
-							}
-						}
-						
-					});
-					console.log($scope.inventoryImg);
-				
-					$scope.header.mainTitle=data.siteAboutUs[0].headerTitle;
-				$scope.header.textData=data.siteAboutUs[0].subtitle;
-				$scope.thumbPath=data.siteAboutUs[0].thumbPath;
-				if($scope.thumbPath != null){
-				$scope.coverList = data.siteAboutUs;
-				}
-				$scope.configListForCvr=data.coverImageConf;
-				console.log(data.coverImageConf[2].width);
-				console.log(data.coverImageConf[2].height);
-				$scope.configWidth=data.coverImageConf[2].width;
-				$scope.configHeight=data.coverImageConf[2].height;
-				$scope.header1.mainTitle=data.blogData[0].mainTitle;
-				$scope.header1.textData=data.blogData[0].subtitle;
-				$scope.thumbPath1=data.blogData[0].thumbPath;
-				if($scope.thumbPath1 != null){
-				$scope.blogList = data.blogData;
-				}
-				
-				$scope.header2.mainTitle=data.contactData[0].mainTitle;
-				$scope.header2.textData=data.contactData[0].subtitle;
-				$scope.thumbPath2=data.contactData[0].thumbPath;
-				if($scope.thumbPath2 != null){
-				$scope.contactList = data.contactData;
-				}
-				
-				$scope.header3.mainTitle=data.warData[0].mainTitle;
-				$scope.header3.textData=data.warData[0].subtitle;
-				$scope.thumbPath3=data.warData[0].thumbPath;
-				if($scope.thumbPath3 != null){
-				$scope.warrantyList = data.warData;
-				}
-				
-	
-					if(data.warData[0].hideMenu == "1"){
-						$scope.header3.hideMenu = true;
-					}else{
-						$scope.header3.hideMenu = false;
-					}
-				//$scope.warrantyList = data.warData;
-				//}
-				
-				
-				$scope.header4.mainTitle=data.compareData[0].mainTitle;
-				$scope.header4.textData=data.compareData[0].subtitle;
-				$scope.thumbPath4=data.compareData[0].thumbPath;
-				if($scope.thumbPath4 != null){
-				$scope.compareList = data.compareData;
-				}
-				
-				$scope.siteHeading = data.contentVM[0].heading;
-				$scope.testiMonial = data.testiMonialVM[0];
-				$scope.aboutUs = data.siteAboutUs[0];
-				$scope.siteDescription.descHeading = data.contentVM[0].descHeading;
-				$scope.siteDescription.description = data.contentVM[0].description;
-			});
-		 
-		 
-	}
-	
-	var myDropzone2;
-	
-	$scope.uploadSliderImages = function() {
-		myDropzone2 = new Dropzone("#dropzoneFrm2",{
-			   parallelUploads: 1,
-			   acceptedFiles:"image/*",
-			   addRemoveLinks:true,
-			   autoProcessQueue:false,
-			   maxFiles:1,
-			   
-			   accept: function(file, done) {
-				   file.rejectDimensions = function() { done("Invalid dimension."); };
-				   file.acceptDimensions = done;
-				  
-				  },
-			   init:function () {
-				   this.on("queuecomplete", function (file) {
-				          
-					   $scope.init();
-				          $scope.$apply();
-				      });
-				   this.on("thumbnail", function(file) {
-					      // Do the dimension checks you want to do
-					      if (file.width < $scope.configList[0].width || file.height < $scope.configList[0].height) {
-					    	  $('#sliderBtnMsg').click();
-					    	  file.rejectDimensions()
-					      }
-					      else {
-					        file.acceptDimensions();
-					      }
-					    });
-				   this.on("complete", function() {
-					   
-					   this.removeAllFiles();
-				   });
-			   }
-				  
-		   });
-	}
-	   $scope.uploadFiles = function() {
-		   if($scope.sliderList.length>=3) {
-			   $('#btnMsg').click();
-		   } else {
-			   Dropzone.autoDiscover = false;
-			   myDropzone2.processQueue();
-		   }
-		   
-	   }
-	   
-	  
-	   
-	   
-	   
-	   var myDropzone5;
-	   $scope.coverImageUpload = function() {
-	   myDropzone5 = new Dropzone("#dropzoneFrm5",{
-		   parallelUploads: 30,
-		     headers: { "vinNum": 1 },
-		     acceptedFiles:"image/*",
-		     addRemoveLinks:true,
-		     autoProcessQueue:false,
-		     init:function () {
-				   this.on("queuecomplete", function (file) {
-				          
-					   $scope.init();
-				          $scope.$apply();
-				      });
-				   this.on("thumbnail", function(file) {
-					      // Do the dimension checks you want to do
-					   $scope.imgSmall = 0;
-					      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
-					    	  $scope.imgSmall = 1;
-					    	  //file.rejectDimensions()
-					      }
-					      else {
-					        file.acceptDimensions();
-					      }
-					    });
-				   this.on("complete", function() {
-					   
-					   this.removeAllFiles();
-				   });
-			   }
-		     });
-
-	   
-	   	   
-	 }
-
-
-	   var myDropzone6;
-	   $scope.blogImageUpload = function() {
-	   myDropzone6 = new Dropzone("#dropzoneFrm6",{
-		   parallelUploads: 30,
-		     headers: { "vinNum": 1 },
-		     acceptedFiles:"image/*",
-		     addRemoveLinks:true,
-		     autoProcessQueue:false,
-		     init:function () {
-				   this.on("queuecomplete", function (file) {
-				          
-					   $scope.init();
-				          $scope.$apply();
-				      });
-				   this.on("thumbnail", function(file) {
-					      // Do the dimension checks you want to do
-					   $scope.imgSmall = 0;
-					      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
-					    	  $scope.imgSmall = 1;
-					    	  //file.rejectDimensions()
-					      }
-					      else {
-					        file.acceptDimensions();
-					      }
-					    });
-				   this.on("complete", function() {
-					   
-					   this.removeAllFiles();
-				   });
-			   }
-		     });
-	   	   
-	 }
-      
-	   var myDropzone9;
-	   $scope.compareImageUpload = function() {
-	   myDropzone9 = new Dropzone("#dropzoneFrm9",{
-		   parallelUploads: 30,
-		     headers: { "vinNum": 1 },
-		     acceptedFiles:"image/*",
-		     addRemoveLinks:true,
-		     autoProcessQueue:false,
-		     init:function () {
-				   this.on("queuecomplete", function (file) {
-				          
-					   $scope.init();
-				          $scope.$apply();
-				      });
-				   this.on("thumbnail", function(file) {
-					      // Do the dimension checks you want to do
-					   $scope.imgSmall = 0;
-					      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
-					    	  $scope.imgSmall = 1;
-					    	  //file.rejectDimensions()
-					      }
-					      else {
-					        file.acceptDimensions();
-					      }
-					    });
-				   this.on("complete", function() {
-					   
-					   this.removeAllFiles();
-				   });
-			   }
-		     });
-	   	   
-	 }
-        
-	   
-	   
-	   
-	   var myDropzone8;
-	   $scope.warrantyImageUpload = function() {
-	   myDropzone8 = new Dropzone("#dropzoneFrm8",{
-		   parallelUploads: 30,
-		    /* headers: { "vinNum": 1 },
-		     acceptedFiles:"image/*",
-		     addRemoveLinks:true,
-		     autoProcessQueue:false,*/
-		   parallelUploads: 1,
-		   acceptedFiles:"image/*",
-		   addRemoveLinks:true,
-		   autoProcessQueue:false,
-		   maxFiles:1,
-		   
-		     init:function () {
-				   this.on("queuecomplete", function (file) {
-				          
-					   $scope.init();
-				          $scope.$apply();
-				      });
-				   this.on("thumbnail", function(file) {
-					      // Do the dimension checks you want to do
-					   $scope.imgSmall = 0;
-					      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
-					    	  $scope.imgSmall = 1;
-					    	  //file.rejectDimensions()
-					      }
-					      else {
-					        file.acceptDimensions();
-					      }
-					    });
-				   this.on("complete", function() {
-					   
-					   this.removeAllFiles();
-				   });
-			   }
-		     });
-	   	   
-	 }
-	   
-	   
-	   var myDropzone10;
-	   $scope.vehicleImageUpload = function() {
-	   myDropzone10 = new Dropzone("#dropzoneFrm10",{
-		   parallelUploads: 30,
-		     headers: { "vinNum": 1 },
-		     acceptedFiles:"image/*",
-		     addRemoveLinks:true,
-		     autoProcessQueue:false,
-		     init:function () {
-				   this.on("queuecomplete", function (file) {
-				          
-					   $scope.init();
-				          $scope.$apply();
-				      });
-				   this.on("thumbnail", function(file) {
-					      // Do the dimension checks you want to do
-					   $scope.imgSmall = 0;
-					      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
-					    	  $scope.imgSmall = 1;
-					    	  //file.rejectDimensions()
-					      }
-					      else {
-					        file.acceptDimensions();
-					      }
-					    });
-				   this.on("complete", function() {
-					   
-					   this.removeAllFiles();
-				   });
-			   }
-		     });
-	   	   
-	 }
-	   
-	   
-	   
-	   
-	   
-
-	   var myDropzone7;
-	   $scope.contactImageUpload = function() {
-	   myDropzone7 = new Dropzone("#dropzoneFrm7",{
-		   parallelUploads: 30,
-		     headers: { "vinNum": 1 },
-		     acceptedFiles:"image/*",
-		     addRemoveLinks:true,
-		     autoProcessQueue:false,
-		     init:function () {
-				   this.on("queuecomplete", function (file) {
-				          
-					   $scope.init();
-				          $scope.$apply();
-				      });
-				   this.on("thumbnail", function(file) {
-					      // Do the dimension checks you want to do
-					   $scope.imgSmall = 0;
-					      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
-					    	  $scope.imgSmall = 1;
-					    	  //file.rejectDimensions()
-					      }
-					      else {
-					        file.acceptDimensions();
-					      }
-					    });
-				   this.on("complete", function() {
-					   
-					   this.removeAllFiles();
-				   });
-			   }
-		     });
-	   	   
-	 }
-
- 
-	   
-	   
-	   
-	   
-	   
-	   var myDropzone3;
-	   $scope.uploadFeaturedImages = function() {
-		   
-		   myDropzone3 = new Dropzone("#dropzoneFrm3",{
-			   parallelUploads: 1,
-			   acceptedFiles:"image/*",
-			   addRemoveLinks:true,
-			   autoProcessQueue:false,
-			   maxFiles:1,
-			   accept: function(file, done) {
-				   file.rejectDimensions = function() { done("Invalid dimension."); };
-				   file.acceptDimensions = done;
-				  
-				  },
-			   init:function () {
-				   this.on("queuecomplete", function (file) {
-				          
-					   $scope.init();
-				          $scope.$apply();
-				      });
-				   
-				   this.on("thumbnail", function(file) {
-					      // Do the dimension checks you want to do
-					      if (file.width < $scope.configList[1].width || file.height < $scope.configList[1].height) {
-					    	  $('#featuredBtnMsg').click();
-					    	  file.rejectDimensions()
-					      }
-					      else {
-					        file.acceptDimensions();
-					      }
-					    });
-				   
-				   this.on("complete", function() {
-					   this.removeAllFiles();
-				   });
-			   }
-		   });
-	   }  
-	   
-	   $scope.coverImageFilesUpload = function() {
-		   console.log(">>>>>"+$scope.coverList.length);
-		  if($scope.coverList.length>=1) {
-		   $('#btnFeaturedMsg').click();
-		   } else {
-			   console.log("inside upload");
-			   Dropzone.autoDiscover = false;
-			   myDropzone5.processQueue();
-		   }
-		   
-	   }
-	   
-	   $scope.blogImageFilesUpload = function() {
-		   console.log(">>>>>"+$scope.blogList.length);
-		  if($scope.blogList.length>=1) {
-		   $('#btnFeaturedMsg').click();
-		   } else {
-			   console.log("inside upload");
-			   Dropzone.autoDiscover = false;
-			   myDropzone6.processQueue();
-		   }
-		   
-	   }
-	   
-	   $scope.compareImageFilesUpload = function() {
-		   console.log(">>>>>"+$scope.compareList.length);
-		  if($scope.compareList.length>=1) {
-		   $('#btnFeaturedMsg').click();
-		   } else {
-			   console.log("inside upload");
-			   Dropzone.autoDiscover = false;
-			   myDropzone9.processQueue();
-		   }
-		   
-	   }
-	   
-	   
-	   $scope.warrantyFilesUpload = function() {
-		  if($scope.warrantyList.length>=1) {
-		   $('#btnFeaturedMsg').click();
-		   } else {
-			   console.log("inside upload");
-			   Dropzone.autoDiscover = false;
-			   myDropzone8.processQueue();
-		   }
-		   
-	   }
-	   
-	   
-	   $scope.vehicleFilesUpload = function() {
-		   console.log(">>>>>"+$scope.vehicleProfileList.length);
-		  if($scope.vehicleProfileList.length>=1) {
-		   $('#btnFeaturedMsg').click();
-		   } else {
-			   console.log("inside upload");
-			   Dropzone.autoDiscover = false;
-			   myDropzone10.processQueue();
-		   }
-		   
-	   }
-	   
-	   
-	   
-	   $scope.contactImageFilesUpload = function() {
-		   console.log(">>>>>"+$scope.contactList.length);
-		   if($scope.contactList.length>=1) {
-		   $('#btnFeaturedMsg').click();
-		   } else {
-			   console.log("inside upload");
-			   Dropzone.autoDiscover = false;
-			   myDropzone7.processQueue();
-		   }
-		   
-	   }
-	   
-	   
-	   
-	   
-	   $scope.uploadFeaturedFiles = function() {
-		   if($scope.featuredList.length>=3) {
-			   $('#btnFeaturedMsg').click();
-		   } else {
-			   Dropzone.autoDiscover = false;
-			   myDropzone3.processQueue();
-		   }
-		   
-	   }
-	   
-	   
-	   $scope.uploadInventoryCoverFiles = function() {
-		   if($scope.inventoryImg.length>=1) {
-			   $('#btnFeaturedMsg').click();
-		   } else {
-			   console.log("3333333333333333333333");
-			   Dropzone.autoDiscover = false;
-			   myDropzone4.processQueue();
-		   }
-	   }
-	   
-	   
-	   $scope.deleteSliderImage = function(image) {
-		   $http.get('/deleteSliderImage/'+image.id)
-			.success(function(data) {
-				$scope.sliderList.splice($scope.sliderList.indexOf(image),1);
-			});
-	   }
-	   
-	   $scope.deleteFeaturedImage = function(image) {
-		   $http.get('/deleteFeaturedImage/'+image.id)
-			.success(function(data) {
-				$scope.featuredList.splice($scope.featuredList.indexOf(image),1);
-			});
-	   }
-	   
-	   $scope.deleteInventoryImage = function(image) {
-		   console.log($scope.vTypes);
-		   $http.get('/deleteInventoryImage/'+image.id)
-			.success(function(data) {
-				$scope.inventoryImg.splice($scope.inventoryImg.indexOf(image),1);
-			});
-	   }
-	   
-	    $scope.deleteCvrImage = function(image) {
-		   $http.get('/deleteCvrImage/'+image.id)
-			.success(function(data) {
-				$scope.coverList.splice($scope.coverList.indexOf(image),1);
-			});
-	   }
-
-	    $scope.deleteBlogImage = function(image) {
-			   $http.get('/deleteBlogImage/'+image.id)
-				.success(function(data) {
-					$scope.blogList.splice($scope.blogList.indexOf(image),1);
-				});
-		   }
-	    
-	    
-	    $scope.deleteVehicleImage = function(image) {
-			   $http.get('/deleteVehicleImage/'+image.id+"/"+$scope.makeValue)
-				.success(function(data) {
-					$scope.vehicleProfileList.splice($scope.vehicleProfileList.indexOf(image),1);
-				});
-		   }
-	    
-	    
-	    $scope.deleteCompareImage = function(image) {
-			   $http.get('/deleteCompareImage/'+image.id)
-				.success(function(data) {
-					$scope.compareList.splice($scope.compareList.indexOf(image),1);
-				});
-		   }
-	    
-	    $scope.deleteWarImage = function(image) {
-			   $http.get('/deleteWarImage/'+image.id)
-				.success(function(data) {
-					$scope.warrantyList.splice($scope.warrantyList.indexOf(image),1);
-				});
-		   }
-	    
-	    
-	    $scope.deleteContactImage = function(image) {
-			   $http.get('/deleteContactImage/'+image.id)
-				.success(function(data) {
-					$scope.contactList.splice($scope.contactList.indexOf(image),1);
-				});
-		   }
-	    
-	   
-	   $scope.showFullSliderImage = function(image) {
-		   $scope.sliderImgId = image.id;
-		   $scope.sliderImgName = image.imgName;
-	   }
-	   
-	   $scope.showFullFeaturedImage = function(image) {
-		   $scope.featuredImgId = image.id;
-		   $scope.featuredImgName = image.imgName;
-	   }
-	   
-	   $scope.editSliderImage = function(image) {
-		   $location.path('/cropSliderImage/'+image.id);
-	   }
-	   
-	   $scope.editFeaturedImage = function(image) {
-		   $location.path('/cropFeaturedImage/'+image.id);
-	   }
-
-	   $scope.editInventoryImage = function(image) {
-		   console.log($scope.vTypes);
-		   $location.path('/cropInventoryImage/'+image.id+"/"+image.findById+"/"+image.vType);
-	   }
-	 
-	   $scope.editCvrImage = function(image) {
-		   console.log("imageimageimage");
-		   console.log(image);
-		   $location.path('/cropCoverImage/'+image.id+"/"+image.findById);
-	   }
-	   
-	   $scope.editBlogImage = function(image) {
-		   console.log("imageimageimage");
-		   console.log(image);
-		   $location.path('/cropBlogImage/'+image.id+"/"+image.findById);
-	   }
-	   
-	   $scope.editCompareImage = function(image) {
-		   console.log("imageimageimage");
-		   console.log(image);
-		   $location.path('/cropCompareImage/'+image.id+"/"+image.findById);
-	   }
-	   
-	   $scope.editWarImage = function(image) {
-		   console.log("imageimageimage");
-		   console.log(image);
-		   $location.path('/cropWarImage/'+image.id+"/"+image.findById);
-	   }
-	   
-	   $scope.editVehicleImage = function(image) {
-		   console.log("imageimageimage");
-		   console.log(image);
-		   $location.path('/editVehicleImage/'+image.id+"/"+image.findById+"/"+image.makeValue);
-	   }
-	   
-	   
-	   
-	   $scope.editContactImage = function(image) {
-		   console.log("imageimageimage");
-		   console.log(image);
-		   $location.path('/editContactImage/'+image.id+"/"+image.findById);
-	   }
-	   
-	   $scope.saveSiteHeading = function(siteHeading) {
-		   $http.get('/saveSiteHeading/'+siteHeading)
-			.success(function(data) {
-			});
-	   }
-	   
-	   $scope.saveSiteTestimonials = function(){
-		   $http.post('/saveSitetestiMonial',$scope.testiMonial)
-	   		.success(function(data) {
-	   			console.log('success');
-	   			$.pnotify({
- 				    title: "Success",
- 				    type:'success',
- 				    text: "Testimonails have been successfully saved",
- 				});
-	   		});
-		   
-	   }
-	   var aboutUsfile;
-	   $scope.onAboutUsImgSelect = function ($files) {
-			aboutUsfile = $files;
-			
-		}	
-		
-	   
-	   $scope.saveAboutUsHeader = function(header) {
-		   console.log(header);
-		   $http.post('/saveSiteAboutUsHeader',header)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "AboutUs have been successfully saved",
-				});
-	            
-			}); 
-		   
-	   }
-	   
-	   $scope.saveBlogHeader = function(header) {
-		   console.log(header);
-		   $http.post('/saveBlogHeader',header)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Blog have been successfully saved",
-				});
-	            
-			}); 
-		   
-	   }
-	   
-	   $scope.saveCompareHeader = function(header1) {
-		   console.log(header1);
-		   console.log(header1.applyAll);
-		   if(header1.applyAll == undefined || header1.applyAll == true){
-			   header1.headerFlag =1;
-		   }
-		   else{
-			   header1.headerFlag =0;
-		   }
-		   $http.post('/saveCompareHeader',header1)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Compare have been successfully saved",
-				});
-	            
-			}); 
-		   
-	   }
-	   
-	   
-	   $scope.saveMakeFlag = function() {
-		   console.log($scope.makeFlag);
-		   
-		   if($scope.makeFlag == false){
-			   $scope.makeFlag1 =1;
-		   }
-		   else{
-			   $scope.makeFlag1=0;
-		   }
-		   
-		   
-		   $http.get('/saveMakeFlag/'+$scope.makeFlag1)
-			.success(function(data) {
-				
-			});
-	   }
-	   
-	   $scope.saveSocialFlag = function() {
-		   console.log($scope.socialFlag);
-		   
-		   if($scope.socialFlag ==false){
-			   $scope.socialFlag1=1;
-		   }
-		   else{
-			   $scope.socialFlag1=0;
-		   }
-		   
-		   $http.get('/saveSocialFlag/'+$scope.socialFlag1)
-			.success(function(data) {
-				
-			});
-	   }
-	   
-	   
-	   $scope.saveFinanceFlag = function() {
-		   console.log($scope.financeFlag);
-		   
-		   if($scope.financeFlag == false){
-			   $scope.financeFlag1=1;
-		   }
-		   else{
-			   $scope.financeFlag1=0;
-		   }
-		   
-		   
-		   $http.get('/saveFinanceFlag/'+$scope.financeFlag1)
-			.success(function(data) {
-				
-			});
-	   }
-	    
-	   
-	   
-	   
-	   
-	   
-	   
-	   $scope.saveProfileHeader = function(ProfileHeader) {
-		   console.log(ProfileHeader);
-		   console.log($scope.financeFlag);
-		   console.log($scope.socialFlag);
-		   console.log($scope.makeFlag);
-		   if($scope.makeFlag == false){
-			   ProfileHeader.makeFlag =1;
-		   }
-		   else{
-			   ProfileHeader.makeFlag=0;
-		   }
-		   if($scope.socialFlag == false){
-			   ProfileHeader.socialFlag =1;
-		   }
-		   else{
-			   ProfileHeader.socialFlag=0;
-		   }
-		   if($scope.financeFlag == false){
-			   ProfileHeader.financeFlag =1;
-		   }
-		   else{
-			   ProfileHeader.financeFlag=0;
-		   }
-		   
-			   
-				  
-				   
-				
-	     ProfileHeader.makeValue=$scope.makeValue;
-			
-		   $http.post('/saveprofileHeader',ProfileHeader)
-			.success(function(data) {
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "profileHeader have been successfully saved",
-				});
-	            
-			}); 
-		   
-	   }
-	   
-	   
-	   $scope.uploadImageForMake = function(make) {
-		   
-		   $scope.makeValue=make;
-		   console.log("LLLLLLLLL"+$scope.makeValue);
-		   $location.path('/goToMakeImageUpload/'+$scope.makeValue);
-		   
-	   }
-	   
-	   
-	   
-	   $scope.saveHeader = function(header) {
-		   console.log(header);
-		   if(header.hideMenu == undefined){
-			   header.hideMenu = false;
-		   }
-		   $http.post('/saveHeader',header)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Blog have been successfully saved",
-				});
-	            
-			}); 
-		   
-	   }
-
-	   
-	   $scope.saveContactHeader = function(header) {
-		   console.log(header);
-		   $http.post('/saveContactHeader',header)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Contact have been successfully saved",
-				});
-	            
-			}); 
-		   
-	   }
-	   
-	   
-		
-	$scope.saveSiteAboutUs = function() {
-		
-	
-	
-		if(angular.isUndefined(aboutUsfile)) {
-		
-			$http.post('/saveSiteAboutUs',$scope.aboutUs)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "AboutUs have been successfully saved",
-				});
-	            
-			});
-		} else {
-			$scope.aboutUs.id = 0;
-		
-		   $upload.upload({
-	            url : '/saveSiteAboutUs',
-	            method: 'post',
-	            file:aboutUsfile,
-	            data:$scope.aboutUs
-	        }).success(function(data, status, headers, config) {
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "AboutUs have been successfully saved",
-				});
-	            
-	        });
-		}
-		
-	}
-		
-	   
-	   /*$scope.saveSiteAboutUs = function(){
-		   $http.post('/saveSiteAboutUs',$scope.aboutUs)
-	   		.success(function(data) {
-	   			console.log('success');
-				$.pnotify({
- 				    title: "Success",
- 				    type:'success',
- 				    text: "AboutUs have been successfully saved",
- 				});
-	   		});
-	   }*/
-	   
-	   $scope.saveSiteDescription = function() {
-		   $http.post('/saveSiteDescription',$scope.siteDescription)
-	   		.success(function(data) {
-	   		});
-	   }
-	  
-	   $scope.getLogoData = function() {
-		   $http.get('/getLogoData')
-			.success(function(data) {
-				$scope.logoName = data.logoName;
-				$scope.feviconName = data.feviconName;
-				$scope.tabText = data.tabText;
-			});
-	   }
-	   
-	   var logofile;
-		$scope.onLogoFileSelect = function($files) {
-			logofile = $files;
-		}
-	   
-		 var feviconfile;
-			$scope.onFeviconFileSelect = function($files) {
-				feviconfile = $files;
-			}
-		
-	   $scope.saveLogoImage = function() {
-		   $upload.upload({
-	            url : '/uploadLogoFile',
-	            method: 'post',
-	            file:logofile,
-	        }).success(function(data, status, headers, config) {
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Logo image saved successfully",
-				});
-	            $scope.getLogoData();
-	        });
-	   }
-	   
-	   $scope.saveFeviconImage = function() {
-		   $upload.upload({
-	            url : '/uploadFeviconFile',
-	            method: 'post',
-	            file:feviconfile,
-	        }).success(function(data, status, headers, config) {
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Fevicon image saved successfully",
-				});
-	            $scope.getLogoData();
-	        });
-	   }
-	   $scope.tabText;
-	   $scope.saveTabText = function(tabText) {
-		   $http.get('/saveSiteTabText/'+tabText)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Tab text saved successfully",
-				});
-				$scope.getLogoData();
-			});
-	   }
-	   
-	   $scope.saveInventory = function(type){
-		   console.log(type);
-		   console.log($scope.siteInventory);
-		   if($scope.siteInventory.applyAll == undefined){
-			   $scope.siteInventory.applyAll = false;
-		   }
-		   $scope.siteInventory.vType = type;
-		   $http.post('/saveSiteInventory',$scope.siteInventory)
-	   		.success(function(data) {
-	   			$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Inventory saved successfully",
-				});
-	   		});
-		   
-	   }
-	   var myDropzone4;
-	   $scope.uploadCoverImages = function() {
-			myDropzone4 = new Dropzone("#dropzoneFrm4",{
-				parallelUploads: 30,
-				  /* headers: { "vinNum": 1 },
-				   acceptedFiles:"image/*",
-				   addRemoveLinks:true,
-				   autoProcessQueue:false,*/
-				   
-				   parallelUploads: 1,
-				   acceptedFiles:"image/*",
-				   addRemoveLinks:true,
-				   autoProcessQueue:false,
-				   maxFiles:1,
-				  
-				   init:function () {
-					   this.on("queuecomplete", function (file) {
-					          
-						   $scope.init();
-					          $scope.$apply();
-					      });
-					   this.on("thumbnail", function(file) {
-						      // Do the dimension checks you want to do
-						   $scope.imgSmall = 0;
-						      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
-						    	  $scope.imgSmall = 1;
-						    	  //file.rejectDimensions()
-						      }
-						      else {
-						        file.acceptDimensions();
-						      }
-						    });
-					   this.on("complete", function() {
-						   
-						   this.removeAllFiles();
-					   });
-				   }
-			   });
-					  
-		}
-	   
-	
-	   $scope.goToBlog = function() {
-		   $location.path('/blog');
-	   }
-	   
-	   $scope.goToContactUs = function() {
-		   $location.path('/contactUs');
-	   }
-	   
-	   $scope.goToWarranty = function() {
-		   $location.path('/warranty');
-	   }
-	   
-	   $scope.goToVehicleProfile = function() {
-		   $location.path('/vehicleProfile');
-	   }
-	   
-	   $scope.goToSlider = function() {
-		   $location.path('/sliderImages');
-	   }
-	   $scope.goToFeatured = function() {
-		   $location.path('/featuredImages');
-	   }
-	   $scope.goToSlogan = function() {
-		   $location.path('/siteSlogan');
-	   }
-	   $scope.goToDesc = function() {
-		   $location.path('/siteDescription');
-	   }
-	   $scope.goToLogo = function() {
-		   $location.path('/siteLogo');
-	   }
-	   $scope.goToTestiMonials = function() {
-		   $location.path('/siteTestiMonials');
-	   }
-	   $scope.goToAboutUs = function(){
-		   $location.path('/siteAboutUs');
-	   }
-	   
-	   $scope.goToPageContent = function(){
-		   console.log("::::::::");
-		   $location.path('/goToPageContent');
-	   }
-	   $scope.goToInventory = function(){
-		   $location.path('/goToInventoryNew/'+"New");
-	   }
-	   
-	   $scope.gotoHoursOfOperation = function() {
-			
-			$location.path('/hoursOfOperations');
-		}; 	
-	   
-	    $scope.goToInventoryCoverImg = function(type){
-		   if(type == "Used"){
-			   $location.path('/goToInventoryCoverImg/'+type);
-		   }
-			if(type == "New"){
-				 $location.path('/goToInventoryCoverImgNew/'+type);
-			}
-			if(type == "comingSoon"){
-				$location.path('/goToInventoryCoverImgComingSoon/'+type);  
-			}
-		   
-	   }
-	    
-	    $scope.goToCompare = function(){
-			   $location.path('/comparision');
-		   }
-	    
-	   $scope.goToInventoryUsed = function(){
-		   $location.path('/goToInventoryUsed/'+"Used");
-	   }
-	   $scope.goToInventorycomingSoon = function(){
-		   $location.path('/goToInventoryComingsoon/'+"comingSoon");
-	   }
-	   
-	   
-}]);
-
-angular.module('newApp')
-.controller('SliderCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
-
-	$scope.coords = {};
-	$scope.imgId = "/getSliderImage/"+$routeParams.id+"/full?d=" + Math.random();
-	var imageW, imageH, boundx, boundy;
-	$scope.init = function() {
-		 $http.get('/getSliderImageDataById/'+$routeParams.id)
-			.success(function(data) {
-				imageW = data.width;
-				imageH = data.height;
-				$('#set-height').val(data.height);
-				$('#set-width').val(data.width);
-				$('#target').css({
-					height: Math.round((727)/(data.col/data.row)) + 'px'
-				});
-				
-				$scope.image = data;
-				    $('#target').Jcrop({
-				        onSelect: showCoords,
-				        onChange: showCoords,
-				        setSelect:   [ 0, 0, data.width, data.height ],
-				        minSize:[data.width,data.height],
-				        allowSelect: false,
-				        trueSize: [data.col,data.row],
-				        aspectRatio: data.width/data.height
-				    },function(){
-				    	var bounds = this.getBounds();
-				        boundx = bounds[0];
-				        boundy = bounds[1];
-				        //$('#preview')
-				    });
-			});
-		 
-	}
-		 function showCoords(c)
-		    {
-			    var rx = 200 / c.w;
-				var ry = 200*(imageH/imageW) / c.h;
-				
-				$('#preview-container').css({
-					width: Math.round(200) + 'px',
-					height: Math.round(200*(imageH/imageW)) + 'px'
-				});
-				
-				$('#preview').css({
-					width: Math.round(rx * boundx) + 'px',
-					height: Math.round(ry * boundy) + 'px',
-					marginLeft: '-' + Math.round(rx * c.x) + 'px',
-					marginTop: '-' + Math.round(ry * c.y) + 'px'
-				});
-			 
-				 $scope.coords.x = c.x;
-				 $scope.coords.y = c.y;
-				 $scope.coords.x2 = c.x2;
-				 $scope.coords.y2 = c.y2;
-				 $scope.coords.w = c.w;
-				 $scope.coords.h = c.h;
-				 
-		    };
-		 
-		   
-		    
-		$scope.saveImage = function(image) {
-			$scope.coords.imageId = $routeParams.id;
-			$scope.coords.imgName = image.imgName;
-			$scope.coords.description = image.description;
-			$scope.coords.link = image.link;
-			
-			$http.post('/editSliderImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "All changed has been saved",
-				});
-				$location.path('/homePage');
-				$scope.$apply();
-			});
-		}    
-		 
-		
-}]);	
-
-
-angular.module('newApp')
-.controller('CoverCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
-	$scope.coords = {};
-	$scope.imgId = "/aboutUsCoverImageById/"+$routeParams.findById+"/full?d=" + Math.random();
-	var imageW, imageH, boundx, boundy;
-	$scope.init = function() {
-		
-		
-		 $http.get('/getCoverDataById/'+$routeParams.id)
-			.success(function(data) {
-				console.log(data);
-				imageW = data.col;
-				imageH = data.row;
-			//	$scope.thumbPath=data.thumbPath;
-				$('#set-height').val(data.height);
-				$('#set-width').val(data.width);
-				
-				$scope.image = data;
-				
-				 $('#target').css({
-					 width: Math.round(727) + 'px',
-					 height: Math.round(727*(imageH/imageW)) + 'px'
-					 });
-				
-				    $('#target').Jcrop({
-				        onSelect: showCoords,
-				        onChange: showCoords,
-				        setSelect:   [ 0, 0, data.width, data.height ],
-				        minSize:[data.width,data.height],
-				        allowSelect: false,
-				        trueSize: [data.col,data.row],
-				        aspectRatio: data.width/data.height
-				    },function(){
-				    	var bounds = this.getBounds();
-				        boundx = bounds[0];
-				        boundy = bounds[1];
-				        //$('#preview')
-				    });
-			});
-		 
-	}
-		 function showCoords(c)
-		    {
-			 
-			    console.log("??????????");
-			    console.log(c);
-			 	var rx = 200 / c.w;
-				var ry = 200*(imageH/imageW) / c.h;
-				
-				$('#preview-container').css({
-					width: Math.round(200) + 'px',
-					height: Math.round(200*(imageH/imageW)) + 'px'
-				});
-				
-				$('#preview').css({
-					width: Math.round(rx * boundx) + 'px',
-					height: Math.round(ry * boundy) + 'px',
-					marginLeft: '-' + Math.round(rx * c.x) + 'px',
-					marginTop: '-' + Math.round(ry * c.y) + 'px'
-				});
-			 
-				 $scope.coords.x = c.x;
-				 $scope.coords.y = c.y;
-				 $scope.coords.x2 = c.x2;
-				 $scope.coords.y2 = c.y2;
-				 $scope.coords.w = c.w;
-				 $scope.coords.h = c.h;
-				 
-		    };
-		    
-		$scope.saveImage = function(image) {
-			console.log(image);
-			console.log($scope.coords);
-			$scope.coords.imageId = $routeParams.id;
-			$scope.coords.imgName = image.imgName;
-			$scope.coords.description = image.description;
-			$scope.coords.link = image.link;
-			
-			$http.post('/editCovrImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Croped Image has been saved",
-				});
-				
-				$location.path('/siteAboutUs');
-				//$scope.$apply();
-			});
-		}    
-		 
-		
-}]);	
-
-
-
-
-
-angular.module('newApp')
-.controller('VehicleCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
-	$scope.coords = {};
-	$scope.imgId = "/vehicleProfileImageByIdForCrop/"+$routeParams.id+"/"+$routeParams.makeValue+"/full?d=" + Math.random();
-	var imageW, imageH, boundx, boundy;
-	$scope.minImgheight;
-	$scope.minImgwidth;
-	$scope.init = function() {
-		$scope.makeValue=$routeParams.makeValue;	
-		
-		 $http.get('/getVehicleProfileDataById/'+$routeParams.id)
-			.success(function(data) {
-				console.log(data);
-				imageW = data.col;
-				imageH = data.row;
-				$scope.minImgheight = data.height;
-				$scope.minImgwidth = data.width;
-			//	$scope.thumbPath=data.thumbPath;
-				$('#set-height').val(data.height);
-				$('#set-width').val(data.width);
-				
-				$scope.image = data;
-				
-				 $('#target').css({
-					 width: Math.round(727) + 'px',
-					 height: Math.round(727*(imageH/imageW)) + 'px'
-					 });
-				
-				    $('#target').Jcrop({
-				        onSelect: showCoords,
-				        onChange: showCoords,
-				        setSelect:   [ 0, 0, data.width, data.height ],
-				        minSize:[data.width,data.height],
-				        allowSelect: false,
-				        trueSize: [data.col,data.row],
-				        aspectRatio: 4/1
-				    },function(){
-				    	var bounds = this.getBounds();
-				        boundx = bounds[0];
-				        boundy = bounds[1];
-				        //$('#preview')
-				    });
-			});
-		 
-	}
-		 function showCoords(c)
-		    {
-			 
-			    console.log("??????????");
-			    console.log(c);
-			    if(c.x < 0 || c.y < 0){
-			    	$scope.showErrorMsg = 1;
-			    }
-			 	var rx = 200 / c.w;
-				var ry = 200*(imageH/imageW) / c.h;
-				
-				$('#preview-container').css({
-					width: Math.round(200) + 'px',
-					height: Math.round(200*(imageH/imageW)) + 'px'
-				});
-				
-				$('#preview').css({
-					width: Math.round(rx * boundx) + 'px',
-					height: Math.round(ry * boundy) + 'px',
-					marginLeft: '-' + Math.round(rx * c.x) + 'px',
-					marginTop: '-' + Math.round(ry * c.y) + 'px'
-				});
-			 
-				 $scope.coords.x = c.x;
-				 $scope.coords.y = c.y;
-				 $scope.coords.x2 = c.x2;
-				 $scope.coords.y2 = c.y2;
-				 $scope.coords.w = c.w;
-				 $scope.coords.h = c.h;
-				 
-		    };
-		    
-		$scope.saveImage = function(image) {
-			console.log(image);
-			console.log($scope.coords);
-			$scope.coords.imageId = $routeParams.id;
-			$scope.coords.imgName = image.imgName;
-			$scope.coords.description = image.description;
-			$scope.coords.link = image.link;
-			
-			$http.post('/editVehicleProfileImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Croped Image has been saved",
-				});
-				console.log("/vehicleProfile/"+$scope.makeValue);
-				//$location.path('/vehicleProfile/'+$scope.makeValue);
-				//$scope.$apply();
-			});
-		}    
-		 
-		
-}]);	
-
-
-
-
-
-
-angular.module('newApp')
-.controller('WarrantyCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
-	$scope.coords = {};
-	console.log("jjjjhhh");
-	console.log($routeParams.findById);
-	$scope.imgId = "/warrantyImageById/"+$routeParams.findById+"/full?d=" + Math.random();
-	var imageW, imageH, boundx, boundy;
-	$scope.minImgheight;
-	$scope.minImgwidth;
-	$scope.init = function() {
-		
-		
-		 $http.get('/getWarDataById/'+$routeParams.id)
-			.success(function(data) {
-				
-				console.log(data);
-				imageW = data.col;
-				imageH = data.row;
-				$scope.minImgheight = data.height;
-				$scope.minImgwidth = data.width;
-			//	$scope.thumbPath=data.thumbPath;
-				$('#set-height').val(data.height);
-				$('#set-width').val(data.width);
-				
-				$scope.image = data;
-				
-				 $('#target').css({
-					 width: Math.round(727) + 'px',
-					 height: Math.round(727*(imageH/imageW)) + 'px'
-					 });
-				
-				    $('#target').Jcrop({
-				        onSelect: showCoords,
-				        onChange: showCoords,
-				        setSelect:   [ 0, 0, data.width, data.height ],
-				        minSize:[data.width,data.height],
-				        allowSelect: false,
-				        trueSize: [data.col,data.row],
-				        aspectRatio: 4/1
-				    },function(){
-				    	var bounds = this.getBounds();
-				        boundx = bounds[0];
-				        boundy = bounds[1];
-				        //$('#preview')
-				    });
-			});
-		 
-	}
-		 function showCoords(c)
-		    {
-			 
-			    console.log(c);
-			    if(c.x < 0 || c.y < 0){
-			    	$scope.showErrorMsg = 1;
-			    }
-			    
-			 	var rx = 200 / c.w;
-				var ry = 200*(imageH/imageW) / c.h;
-				
-				$('#preview-container').css({
-					width: Math.round(200) + 'px',
-					height: Math.round(200*(imageH/imageW)) + 'px'
-				});
-				
-				$('#preview').css({
-					width: Math.round(rx * boundx) + 'px',
-					height: Math.round(ry * boundy) + 'px',
-					marginLeft: '-' + Math.round(rx * c.x) + 'px',
-					marginTop: '-' + Math.round(ry * c.y) + 'px'
-				});
-			 
-				 $scope.coords.x = c.x;
-				 $scope.coords.y = c.y;
-				 $scope.coords.x2 = c.x2;
-				 $scope.coords.y2 = c.y2;
-				 $scope.coords.w = c.w;
-				 $scope.coords.h = c.h;
-				 
-		    };
-		    
-		$scope.saveImage = function(image) {
-			console.log(image);
-			console.log($scope.coords);
-			$scope.coords.imageId = $routeParams.id;
-			$scope.coords.imgName = image.imgName;
-			$scope.coords.description = image.description;
-			$scope.coords.link = image.link;
-			
-			$http.post('/editWarImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Croped Image has been saved",
-				});
-				
-				$location.path('/warranty');
-				//$scope.$apply();
-			});
-		}    
-		 
-		
-}]);	
-
-
-
-
-
-
-angular.module('newApp')
-.controller('BlogCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
-	$scope.coords = {};
-	$scope.imgId = "/blogImageById/"+$routeParams.findById+"/full?d="+ Math.random();
-	var imageW, imageH, boundx, boundy;
-	$scope.minImgheight;
-	$scope.minImgwidth;
-	$scope.showErrorMsg = 0;
-	$scope.init = function() {
-		
-		
-		 $http.get('/getBlogDataById/'+$routeParams.id)
-			.success(function(data) {
-				console.log(data);
-				imageW = data.col;
-				imageH = data.row;
-				$scope.minImgheight = data.height;
-				$scope.minImgwidth = data.width;
-			//	$scope.thumbPath=data.thumbPath;
-				$('#set-height').val(data.height);
-				$('#set-width').val(data.width);
-				
-				$scope.image = data;
-				
-				 $('#target').css({
-					 width: Math.round(727) + 'px',
-					 height: Math.round(727*(imageH/imageW)) + 'px'
-					 });
-				
-				    $('#target').Jcrop({
-				        onSelect: showCoords,
-				        onChange: showCoords,
-				        setSelect:   [ 0, 0, data.width, data.height ],
-				        minSize:[data.width,data.height],
-				        allowSelect: false,
-				        trueSize: [data.col,data.row],
-				        aspectRatio: 4/1
-				    },function(){
-				    	var bounds = this.getBounds();
-				        boundx = bounds[0];
-				        boundy = bounds[1];
-				        //$('#preview')
-				    });
-			});
-		 
-	}
-		 function showCoords(c)
-		    {
-			 
-			    console.log("??????????");
-			    console.log(c);
-			    if(c.x < 0 || c.y < 0){
-			    	$scope.showErrorMsg = 1;
-			    }
-			 	var rx = 200 / c.w;
-				var ry = 200*(imageH/imageW) / c.h;
-				
-				$('#preview-container').css({
-					width: Math.round(200) + 'px',
-					height: Math.round(200*(imageH/imageW)) + 'px'
-				});
-				
-				$('#preview').css({
-					width: Math.round(rx * boundx) + 'px',
-					height: Math.round(ry * boundy) + 'px',
-					marginLeft: '-' + Math.round(rx * c.x) + 'px',
-					marginTop: '-' + Math.round(ry * c.y) + 'px'
-				});
-			 
-				 $scope.coords.x = c.x;
-				 $scope.coords.y = c.y;
-				 $scope.coords.x2 = c.x2;
-				 $scope.coords.y2 = c.y2;
-				 $scope.coords.w = c.w;
-				 $scope.coords.h = c.h;
-				 
-		    };
-		    
-		$scope.saveImage = function(image) {
-			console.log(image);
-			console.log($scope.coords);
-			$scope.coords.imageId = $routeParams.id;
-			$scope.coords.imgName = image.imgName;
-			$scope.coords.description = image.description;
-			$scope.coords.link = image.link;
-			
-			$http.post('/editBlogImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Croped Image has been saved",
-				});
-				
-				$location.path('/blog');
-				//$scope.$apply();
-			});
-		}    
-		 
-		
-}]);	
-
-
-angular.module('newApp')
-.controller('CompareCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
-	$scope.coords = {};
-	$scope.imgId = "/compareImageById/"+$routeParams.findById+"/full?d=" + Math.random();
-	var imageW, imageH, boundx, boundy;
-	$scope.init = function() {
-		
-		
-		 $http.get('/getCompareDataById/'+$routeParams.id)
-			.success(function(data) {
-				console.log(data);
-				imageW = data.col;
-				imageH = data.row;
-			//	$scope.thumbPath=data.thumbPath;
-				$('#set-height').val(data.height);
-				$('#set-width').val(data.width);
-				
-				$scope.image = data;
-				
-				 $('#target').css({
-					 width: Math.round(727) + 'px',
-					 height: Math.round(727*(imageH/imageW)) + 'px'
-					 });
-				
-				    $('#target').Jcrop({
-				        onSelect: showCoords,
-				        onChange: showCoords,
-				        setSelect:   [ 0, 0, data.width, data.height ],
-				        minSize:[data.width,data.height],
-				        allowSelect: false,
-				        trueSize: [data.col,data.row],
-				        aspectRatio: data.width/data.height
-				    },function(){
-				    	var bounds = this.getBounds();
-				        boundx = bounds[0];
-				        boundy = bounds[1];
-				        //$('#preview')
-				    });
-			});
-		 
-	}
-		 function showCoords(c)
-		    {
-			 
-			    console.log("??????????");
-			    console.log(c);
-			 	var rx = 200 / c.w;
-				var ry = 200*(imageH/imageW) / c.h;
-				
-				$('#preview-container').css({
-					width: Math.round(200) + 'px',
-					height: Math.round(200*(imageH/imageW)) + 'px'
-				});
-				
-				$('#preview').css({
-					width: Math.round(rx * boundx) + 'px',
-					height: Math.round(ry * boundy) + 'px',
-					marginLeft: '-' + Math.round(rx * c.x) + 'px',
-					marginTop: '-' + Math.round(ry * c.y) + 'px'
-				});
-			 
-				 $scope.coords.x = c.x;
-				 $scope.coords.y = c.y;
-				 $scope.coords.x2 = c.x2;
-				 $scope.coords.y2 = c.y2;
-				 $scope.coords.w = c.w;
-				 $scope.coords.h = c.h;
-				 
-		    };
-		    
-		$scope.saveImage = function(image) {
-			console.log(image);
-			console.log($scope.coords);
-			$scope.coords.imageId = $routeParams.id;
-			$scope.coords.imgName = image.imgName;
-			$scope.coords.description = image.description;
-			$scope.coords.link = image.link;
-			
-			$http.post('/editCompareImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Croped Image has been saved",
-				});
-				
-				$location.path('/comparision');
-				//$scope.$apply();
-			});
-		}    
-		 
-		
-}]);	
-
-
-
-
-
-
-
-
-angular.module('newApp')
-.controller('ContactCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
-	$scope.coords = {};
-	$scope.imgId = "/contactImageById/"+$routeParams.findById+"/full?d=" + Math.random();
-	var imageW, imageH, boundx, boundy;
-	$scope.minImgheight;
-	$scope.minImgwidth;
-	$scope.init = function() {
-		
-		
-		 $http.get('/getContactDataById/'+$routeParams.id)
-			.success(function(data) {
-				console.log(data);
-				imageW = data.col;
-				imageH = data.row;
-				$scope.minImgheight = data.height;
-				$scope.minImgwidth = data.width;
-			//	$scope.thumbPath=data.thumbPath;
-				$('#set-height').val(data.height);
-				$('#set-width').val(data.width);
-				
-				$scope.image = data;
-				
-				 $('#target').css({
-					 width: Math.round(727) + 'px',
-					 height: Math.round(727*(imageH/imageW)) + 'px'
-					 });
-				
-				    $('#target').Jcrop({
-				        onSelect: showCoords,
-				        onChange: showCoords,
-				        setSelect:   [ 0, 0, data.width, data.height ],
-				        minSize:[data.width,data.height],
-				        allowSelect: false,
-				        trueSize: [data.col,data.row],
-				        aspectRatio: 4/1
-				    },function(){
-				    	var bounds = this.getBounds();
-				        boundx = bounds[0];
-				        boundy = bounds[1];
-				        //$('#preview')
-				    });
-			});
-		 
-	}
-		 function showCoords(c)
-		    {
-			 
-			    console.log("??????????");
-			    console.log(c);
-			    if(c.x < 0 || c.y < 0){
-			    	$scope.showErrorMsg = 1;
-			    }
-			 	var rx = 200 / c.w;
-				var ry = 200*(imageH/imageW) / c.h;
-				
-				$('#preview-container').css({
-					width: Math.round(200) + 'px',
-					height: Math.round(200*(imageH/imageW)) + 'px'
-				});
-				
-				$('#preview').css({
-					width: Math.round(rx * boundx) + 'px',
-					height: Math.round(ry * boundy) + 'px',
-					marginLeft: '-' + Math.round(rx * c.x) + 'px',
-					marginTop: '-' + Math.round(ry * c.y) + 'px'
-				});
-			 
-				 $scope.coords.x = c.x;
-				 $scope.coords.y = c.y;
-				 $scope.coords.x2 = c.x2;
-				 $scope.coords.y2 = c.y2;
-				 $scope.coords.w = c.w;
-				 $scope.coords.h = c.h;
-				 
-		    };
-		    
-		$scope.saveImage = function(image) {
-			console.log(image);
-			console.log($scope.coords);
-			$scope.coords.imageId = $routeParams.id;
-			$scope.coords.imgName = image.imgName;
-			$scope.coords.description = image.description;
-			$scope.coords.link = image.link;
-			
-			$http.post('/editContactImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Croped Image has been saved",
-				});
-				
-				$location.path('/contactUs');
-				//$scope.$apply();
-			});
-		}    
-		 
-		
-}]);	
-
-
-
-
-
-
-
-
-
-
-
-angular.module('newApp')
-.controller('FeaturedCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
-
-	$scope.coords = {};
-	$scope.imgId = "/getFeaturedImage/"+$routeParams.id+"/full?d=" + Math.random();
-	var imageW, imageH, boundx, boundy;
-	$scope.init = function() {
-		 $http.get('/getFeaturedImageDataById/'+$routeParams.id)
-			.success(function(data) {
-				imageW = data.width;
-				imageH = data.height;
-				$('#set-height').val(data.height);
-				$('#set-width').val(data.width);
-				
-				$scope.image = data;
-				
-				$('#target').css({
-					height: Math.round((727)/(data.col/data.row)) + 'px'
-				});
-				
-				    $('#target').Jcrop({
-				        onSelect: showCoords,
-				        onChange: showCoords,
-				        setSelect:   [ 0, 0, data.width, data.height ],
-				        minSize:[data.width,data.height],
-				        allowSelect: false,
-				        trueSize: [data.col,data.row],
-				        aspectRatio: data.width/data.height
-				    },function(){
-				    	var bounds = this.getBounds();
-				        boundx = bounds[0];
-				        boundy = bounds[1];
-				        //$('#preview')
-				    });
-			});
-		 
-	}
-		 function showCoords(c)
-		    {
-			 	var rx = 200 / c.w;
-				var ry = 200*(imageH/imageW) / c.h;
-				
-				$('#preview-container').css({
-					width: Math.round(200) + 'px',
-					height: Math.round(200*(imageH/imageW)) + 'px'
-				});
-				
-				$('#preview').css({
-					width: Math.round(rx * boundx) + 'px',
-					height: Math.round(ry * boundy) + 'px',
-					marginLeft: '-' + Math.round(rx * c.x) + 'px',
-					marginTop: '-' + Math.round(ry * c.y) + 'px'
-				});
-			 
-				 $scope.coords.x = c.x;
-				 $scope.coords.y = c.y;
-				 $scope.coords.x2 = c.x2;
-				 $scope.coords.y2 = c.y2;
-				 $scope.coords.w = c.w;
-				 $scope.coords.h = c.h;
-				 
-		    };
-		 
-		$scope.saveImage = function(image) {
-			$scope.coords.imageId = $routeParams.id;
-			$scope.coords.imgName = image.imgName;
-			$scope.coords.description = image.description;
-			$scope.coords.link = image.link;
-			
-			$http.post('/editFeaturedImage',$scope.coords)
-			.success(function(data) {
-				$location.path('/homePage');
-				$scope.$apply();
-			});
-		}    
-		 
-		
-}]);	
-
-angular.module('newApp')
-.controller('InventoryCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
-
-	$scope.coords = {};
-	$scope.imgId = "/getInventoryImage/"+$routeParams.findById+"/"+$routeParams.vType+"/full?d=" + Math.random();
-	var imageW, imageH, boundx, boundy;
-	$scope.minImgheight;
-	$scope.minImgwidth;
-	$scope.init = function() {
-		 $http.get('/getInventoryImageDataById/'+$routeParams.id)
-			.success(function(data) {
-				console.log(data);
-				imageW = data.col;
-				imageH = data.row;
-				
-				$scope.minImgheight = data.height;
-				$scope.minImgwidth = data.width;
-				$('#set-height').val(data.height);
-				$('#set-width').val(data.width);
-				
-				$scope.image = data;
-				
-				$('#target').css({
-					width: Math.round(727) + 'px',
-					height: Math.round(727*(imageH/imageW)) + 'px'
-				});
-				
-				    $('#target').Jcrop({
-				        onSelect: showCoords,
-				        onChange: showCoords,
-				        setSelect: [ 0, 0, data.width, data.height],
-				        minSize:[data.width,data.height],
-				        allowSelect: false,
-				        trueSize: [data.col,data.row],
-				        aspectRatio: 4/1
-				    },function(){
-				    	var bounds = this.getBounds();
-				        boundx = bounds[0];
-				        boundy = bounds[1];
-				        //$('#preview')
-				    });
-			});
-		 
-	}
-		 function showCoords(c)
-		    {
-			 if(c.x < 0 || c.y < 0){
-			    	$scope.showErrorMsg = 1;
-			    }
-			 	var rx = 200 / c.w;
-				var ry = 200*(imageH/imageW) / c.h;
-				
-				$('#preview-container').css({
-					width: Math.round(200) + 'px',
-					height: Math.round(200*(imageH/imageW)) + 'px'
-				});
-				
-				$('#preview').css({
-					width: Math.round(rx * boundx) + 'px',
-					height: Math.round(ry * boundy) + 'px',
-					marginLeft: '-' + Math.round(rx * c.x) + 'px',
-					marginTop: '-' + Math.round(ry * c.y) + 'px'
-				});
-			 
-				 $scope.coords.x = c.x;
-				 $scope.coords.y = c.y;
-				 $scope.coords.x2 = c.x2;
-				 $scope.coords.y2 = c.y2;
-				 $scope.coords.w = c.w;
-				 $scope.coords.h = c.h;
-				 
-		    };
-		 
-		$scope.saveImage = function() {
-			console.log($scope.coords);
-			$scope.coords.imageId = $routeParams.id;
-			//$scope.coords.imgName = image.imgName;
-			//$scope.coords.description = image.description;
-			//$scope.coords.link = image.link;
-			
-			$http.post('/editInventoryImage',$scope.coords)
-			.success(function(data) {
-				$location.path('/goToInventoryNew/New');
-				$scope.$apply();
-			});
-		}    
-		 
-		
-}]);
-
-
-angular.module('newApp')
-.controller('myprofileCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
-	$scope.myprofile = {};
-	$scope.userKey = userKey;
-	var placeSearch, autocomplete;
-	$scope.imgGM="/assets/images/profile-pic.jpg ";
-	$http.get('/getUserRole').success(function(data) {
-		$scope.userRole = data.role;
-	});
-
-	$http.get('/getDealerProfile').success(function(data) {
-		$scope.myprofile = data.dealer;
-		$scope.user = data.user;
-		$scope.myprofile.dealer_id = data.user.location.id;
-		$scope.imgGM = "http://glider-autos.com/glivrImg/images"+$scope.user.imageUrl;
-	});
-	
-	$http.get('/getMyProfile')
-	.success(function(data) {
-		$scope.myprofile = data;
-		$scope.initAutocomplete();
-	});
-	
-	$scope.saveMyprofile = function() {
-		var geocoder = new google.maps.Geocoder(); 
-		var address = $scope.myprofile.address;
-		geocoder.geocode( { 'address': address}, function(results, status) { 
-			if (status == google.maps.GeocoderStatus.OK) 
-			{ 
-				var latitude = results[0].geometry.location.lat(); 
-				var longitude = results[0].geometry.location.lng();
-				$scope.myprofile.latlong = latitude+","+longitude;
-				$scope.getLatLong();
-			}else{
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Address not found on google map",
-				});
-				$scope.getLatLong();
-			} 
-		});
-		
-   }
-	$scope.init =function(){
-	
-		$http.get('/getSaleHourData')
-		.success(function(data) {
-			$scope.operation=data[0];
-			//$('#sunOpen').val($scope.operation.sunOpenTime);
-			
-		});
-		
-		
-		
-		$http.get('/getSaleHourDataForService')
-		.success(function(data) {
-			$scope.operation1=data[0];
-			//$('#sunOpen').val($scope.operation.sunOpenTime);
-			
-		});
-		
-		$http.get('/getSaleHourDataForParts')
-		.success(function(data) {
-			$scope.operation2=data[0];
-			//$('#sunOpen').val($scope.operation.sunOpenTime);
-			
-		});
-		
-		
-		
-		
-	}
-	
-	
-	var componentForm = {
-			  street_number: 'short_name',
-			  route: 'long_name',
-			  locality: 'long_name',
-			  administrative_area_level_1: 'short_name',
-			  country: 'long_name',
-			  postal_code: 'short_name'
-			};
-	$scope.initAutocomplete = function() {
-		  autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),
-		      {types: ['geocode']});
-		  autocomplete.addListener('place_changed', fillInAddress);
-		}
-	
-	function fillInAddress() {
-		  var place = autocomplete.getPlace();
-		  $scope.myprofile.address = place.formatted_address;
-		  for (var component in componentForm) {
-		    //document.getElementById(component).value = '';
-		    //document.getElementById(component).disabled = false;
-		  }
-		  for (var i = 0; i < place.address_components.length; i++) {
-		    var addressType = place.address_components[i].types[0];
-		    if (componentForm[addressType]) {
-		      var val = place.address_components[i][componentForm[addressType]];
-		      //document.getElementById(addressType).value = val;
-		    }
-		  }
-		}
-	
-	$scope.geolocate = function() {
-		  if (navigator.geolocation) {
-		    navigator.geolocation.getCurrentPosition(function(position) {
-		      var geolocation = {
-		        lat: position.coords.latitude,
-		        lng: position.coords.longitude
-		      };
-		      var circle = new google.maps.Circle({
-		        center: geolocation,
-		        radius: position.coords.accuracy
-		      });
-		      autocomplete.setBounds(circle.getBounds());
-		    });
-		  }
-		};
-	
-	
-	
-	
-	
-	
-	
-	$scope.managerP = {};
-	$scope.getLatLong = function() {
-	
-		if(angular.isUndefined(logofile1)) {
-			
-			$http.post('/myprofile',$scope.myprofile)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Location saved successfully",
-				});
-	            
-			});
-	} else {
-		   $upload.upload({
-	            url : '/myprofile',
-	            method: 'post',
-	            file:logofile1,
-	            data:$scope.myprofile
-	        }).success(function(data, status, headers, config) {
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Location saved successfully",
-				});
-	            
-	        });
-	}
-		
-		
-		
-	}
-	
-	$scope.goToLoaction = function() {
-		$location.path('/createLocation');
-	}
-	$scope.goToDeactivateLoaction = function() {
-			$location.path('/deactiveLocations');
-	};
-	$scope.goToUsers = function() {
-		$location.path('/createUser');
-	}
-	$scope.goToDeactive = function() {
-		$location.path('/deactiveUsers');
-	};
-	$scope.createGeneralManager =function(){
-		$scope.imgGM="/assets/images/profile-pic.jpg ";
-		
-	}
-	
-	
-	
-     	$scope.goToBlog = function() {
-		   $location.path('/blog');
-	   }
-	   
-	   $scope.goToContactUs = function() {
-		   $location.path('/contactUs');
-	   }
-       
-	   $scope.goToWarranty = function() {
-		   $location.path('/warranty');
-	   }
-	   
-	   
-	   
-	   $scope.goToVehicleProfile = function() {
-		   $location.path('/vehicleProfile');
-	   }
-	   
-	   $scope.goToSlider = function() {
-		   $location.path('/sliderImages');
-	   }
-	   $scope.goToFeatured = function() {
-		   $location.path('/featuredImages');
-	   }
-	   $scope.goToSlogan = function() {
-		   $location.path('/siteSlogan');
-	   }
-	   $scope.goToDesc = function() {
-		   $location.path('/siteDescription');
-	   }
-	   $scope.goToLogo = function() {
-		   $location.path('/siteLogo');
-	   }
-	   $scope.goToTestiMonials = function() {
-		   $location.path('/siteTestiMonials');
-	   }
-	   $scope.goToAboutUs = function(){
-		   $location.path('/siteAboutUs');
-	   }
-	   
-	   $scope.goToPageContent = function(){
-		   console.log("::::::::");
-		   $location.path('/goToPageContent');
-	   }
-	   
-	   
-	   $scope.goToInventory = function(){
-		   $location.path('/goToInventoryNew/'+"New");
-	   }
-	   
-	   $scope.gotoHoursOfOperation = function() {
-			
-			$location.path('/hoursOfOperations');
-		}; 	
-	   
-	   
-	   $scope.goToInventoryUsed = function(){
-		   $location.path('/goToInventoryUsed/'+"Used");
-	   }
-	   $scope.goToInventorycomingSoon = function(){
-		   $location.path('/goToInventoryComingsoon/'+"comingSoon");
-	   }
-	   
-      
-	   $scope.goToCompare = function(){
-		   $location.path('/comparision');
-	   }
-	
-	/*$scope.gotoHoursOfOperation = function() {
-		
-		$location.path('/hoursOfOperations');
-	};*/ 	
-	
-	
-	$scope.operation2={};
-	$scope.saveSalesHoursForParts = function() {
-		$scope.operation2.typeOfOperation='parts';
-		$scope.operation2.sunOpenTime = $('#sunOpen2').val();
-		$scope.operation2.sunCloseTime= $('#sunClose2').val();
-		$scope.operation2.monOpenTime = $('#monOpen2').val();
-		$scope.operation2.monCloseTime= $('#monClose2').val();   
-		$scope.operation2.tueOpenTime = $('#tueOpen2').val();
-		$scope.operation2.tueCloseTime= $('#tueClose2').val();   
-		$scope.operation2.wedOpenTime = $('#wedOpen2').val();
-		$scope.operation2.wedCloseTime= $('#wedClose2').val();
-		$scope.operation2.thuOpenTime = $('#thuOpen2').val();
-		$scope.operation2.thuCloseTime= $('#thuClose2').val();
-		$scope.operation2.friOpenTime = $('#friOpen2').val();
-		$scope.operation2.friCloseTime= $('#friClose2').val();
-		$scope.operation2.satOpenTime = $('#satOpen2').val();
-		$scope.operation2.satCloseTime= $('#satClose2').val();
-		   
-		   $http.post('/saveSalesHoursForParts',$scope.operation2)
-			.success(function(data) {
-				
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: " saved successfully",
-				});
-	            //$scope.init();
-			});
-		 
-	}; 	
-	
-	
-	
-	
-	
-	
-	$scope.operation={};
-	$scope.saveSalesHours = function() {
-		$scope.operation.typeOfOperation='sales';
-		$scope.operation.sunOpenTime = $('#sunOpen').val();
-		$scope.operation.sunCloseTime= $('#sunClose').val();
-		$scope.operation.monOpenTime = $('#monOpen').val();
-		$scope.operation.monCloseTime= $('#monClose').val();   
-		$scope.operation.tueOpenTime = $('#tueOpen').val();
-		$scope.operation.tueCloseTime= $('#tueClose').val();   
-		$scope.operation.wedOpenTime = $('#wedOpen').val();
-		$scope.operation.wedCloseTime= $('#wedClose').val();
-		$scope.operation.thuOpenTime = $('#thuOpen').val();
-		$scope.operation.thuCloseTime= $('#thuClose').val();
-		$scope.operation.friOpenTime = $('#friOpen').val();
-		$scope.operation.friCloseTime= $('#friClose').val();
-		$scope.operation.satOpenTime = $('#satOpen').val();
-		$scope.operation.satCloseTime= $('#satClose').val();
-		   
-		   $http.post('/saveHours',$scope.operation)
-			.success(function(data) {
-				
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: " saved successfully",
-				});
-	            //$scope.init();
-			});
-		 
-	}; 	
-	
-	
-	$scope.checkForService = function() {
-		$scope.checkForServiceValue=0;
-		$scope.operation1.typeOfOperation='service';
-		if($scope.operation1.serviceCheck == false || $scope.operation1.serviceCheck == undefined ){
-			$scope.checkForServiceValue=1;
-		}
-		else{
-			$scope.checkForServiceValue=0;
-		}
-		$http.get('/checkForService/'+$scope.checkForServiceValue)
-		.success(function(data) {
-			
-		});
-		
-	}
-	
-	$scope.checkForServiceForPart = function() {
-		$scope.checkForServiceValue=0;
-		$scope.operation1.typeOfOperation='parts';
-		if($scope.operation2.serviceCheck == false || $scope.operation2.serviceCheck == undefined ){
-			$scope.checkForServiceValue=1;
-		}
-		else{
-			$scope.checkForServiceValue=0;
-		}
-		$http.get('/checkForServiceForPart/'+$scope.checkForServiceValue)
-		.success(function(data) {
-			
-		});
-		
-	}
-	
-	$scope.operation1={};
-	$scope.saveSalesHoursForService = function() {
-		$scope.operation1.typeOfOperation='service';
-		$scope.operation1.sunOpenTime = $('#sunOpen1').val();
-		$scope.operation1.sunCloseTime= $('#sunClose1').val();
-		$scope.operation1.monOpenTime = $('#monOpen1').val();
-		$scope.operation1.monCloseTime= $('#monClose1').val();   
-		$scope.operation1.tueOpenTime = $('#tueOpen1').val();
-		$scope.operation1.tueCloseTime= $('#tueClose1').val();   
-		$scope.operation1.wedOpenTime = $('#wedOpen1').val();
-		$scope.operation1.wedCloseTime= $('#wedClose1').val();
-		$scope.operation1.thuOpenTime = $('#thuOpen1').val();
-		$scope.operation1.thuCloseTime= $('#thuClose1').val();
-		$scope.operation1.friOpenTime = $('#friOpen1').val();
-		$scope.operation1.friCloseTime= $('#friClose1').val();
-		$scope.operation1.satOpenTime = $('#satOpen1').val();
-		$scope.operation1.satCloseTime= $('#satClose1').val();
-		   
-		   $http.post('/saveSalesHoursForService',$scope.operation1)
-			.success(function(data) {
-				
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "saved successfully",
-				});
-	            //$scope.init();
-			});
-		 
-	}; 	
-	
-	
-	
-
-	 var logofile;
-		$scope.onLogoFileSelect = function ($files) {
-			logofile = $files;
-			for (var i = 0; i < $files.length; i++) {
-				var $file = $files[i];
-				if (window.FileReader && $file.type.indexOf('image') > -1) {
-					var fileReader = new FileReader();
-					fileReader.readAsDataURL($files[i]);
-					var loadFile = function (fileReader, index) {
-						fileReader.onload = function (e) {
-							$timeout(function () {
-								$scope.img = e.target.result;
-							});
-							
-						}
-					}(fileReader, i);
-				}
-			}
-		}	
-	
-	
-	$scope.saveImage = function() {
-		
-		$scope.user.id = $scope.userKey;
-		$scope.user.userType = "General Manager";
-		if(angular.isUndefined(logofile)) {
-				$http.post('/updateImageFile',$scope.user)
-				.success(function(data) {
-					$('#GM').click();
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "User saved successfully",
-					});
-		            //$scope.init();
-				});
-		} else {
-			//if($scope.emailMsg == "") {
-			   $upload.upload({
-		            url : '/updateImageFile',
-		            method: 'post',
-		            file:logofile,
-		            data:$scope.user
-		        }).success(function(data, status, headers, config) {
-		            $("#file").val('');
-		            $('#GM').click();
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "User saved successfully",
-					});
-		          //  $scope.init();
-		        });
-			//}
-		}
-	   }
-	
-	
-	
-/*--------------------------------Manager profile---------------------------*/
-	
-	$scope.managerProfile = null;
-	$scope.initManager = function() {
-		$http.get('/getMangerAndLocation')
-		.success(function(data) {
-			$scope.managerProfile = data;
-			$scope.imgLocation = "http://glider-autos.com/glivrImg/images/"+$scope.managerProfile.imageUrl;
-			$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.managerProfile.mImageUrl;
-		});
-	}
-	
-	
-	var logofile;
-	$scope.onLogoFileSelect = function ($files) {
-		logofile = $files;
-		for (var i = 0; i < $files.length; i++) {
-			var $file = $files[i];
-			if (window.FileReader && $file.type.indexOf('image') > -1) {
-				var fileReader = new FileReader();
-				fileReader.readAsDataURL($files[i]);
-				var loadFile = function (fileReader, index) {
-					fileReader.onload = function (e) {
-						$timeout(function () {
-							$scope.imgGM = e.target.result;
-						});
-						
-					}
-				}(fileReader, i);
-			}
-		}
-	}	
-	var logofile1;
-	$scope.onLogoFileLocationSelect = function ($files) {
-		logofile1 = $files;
-		for (var i = 0; i < $files.length; i++) {
-			var $file = $files[i];
-			if (window.FileReader && $file.type.indexOf('image') > -1) {
-				var fileReader = new FileReader();
-				fileReader.readAsDataURL($files[i]);
-				var loadFile = function (fileReader, index) {
-					fileReader.onload = function (e) {
-						$timeout(function () {
-							$scope.imgLocation = e.target.result;
-						});
-						
-					}
-				}(fileReader, i);
-			}
-		}
-	}	
-   
-$scope.managerObj = {};
-$scope.locationObj = {};
-	
-	
-	$scope.updateManagerProfile = function() {
-		$scope.managerProfile.userType = "Manager"
-		$scope.managerObj.id = $scope.managerProfile.managerId;
-		$scope.managerObj.userType = $scope.managerProfile.userType;
-		$scope.managerObj.firstName = $scope.managerProfile.firstName;
-		$scope.managerObj.lastName = $scope.managerProfile.lastName;
-		$scope.managerObj.email = $scope.managerProfile.email;
-		$scope.managerObj.phone = $scope.managerProfile.phone;
-		$scope.managerObj.mi = "false";
-			
-	if(angular.isUndefined(logofile)) {
-			
-			$http.post('/UpdateuploadManagerImageFile',$scope.managerObj)
-			.success(function(data) {
-				
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Manager saved successfully",
-				});
-	            
-			});
-	} else {
-		   $upload.upload({
-	            url : '/UpdateuploadManagerImageFile',
-	            method: 'post',
-	            file:logofile,
-	            data:$scope.managerObj
-	        }).success(function(data, status, headers, config) {
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Manager saved successfully",
-				});
-	        });
-	}
-	   }
-	
-	$scope.updateManager = function(){
-	
-	}
-	
-}]);	
 
