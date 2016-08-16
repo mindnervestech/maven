@@ -412,7 +412,7 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('WarrantyCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos' function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
+.controller('WarrantyCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos', function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
 	$scope.coords = {};
 	console.log("jjjjhhh");
 	console.log($routeParams.findById);
@@ -603,7 +603,7 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('CompareCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos' function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
+.controller('CompareCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos', function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
 	$scope.coords = {};
 	$scope.imgId = "/compareImageById/"+$routeParams.findById+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
