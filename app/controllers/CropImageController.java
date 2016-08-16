@@ -512,35 +512,6 @@ public class CropImageController extends Controller{
 	    	}	
 	    }
 	 
-	 public static Result editInventoryImages() throws IOException {
-	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-	    		return ok(home.render("",userRegistration));
-	    	} else {
-		    	AuthUser user = (AuthUser) getLocalUser();
-		    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
-		    	EditImageVM vm = form.get();
-		    	
-		    	SiteInventory image = SiteInventory.findById(vm.imageId);
-		    	/*image.setImgName(vm.imgName);
-		    	image.setDescription(vm.description);
-		    	image.setLink(vm.link);
-		    	image.update();*/
-		    	File file = new File(rootDir+image.imageUrl);
-		    	File thumbFile = new File(rootDir+image.thumbPath);
-		    	
-		    	BufferedImage originalImage = ImageIO.read(file);
-		    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
-		    	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
-		    	Thumbnails.of(croppedImage).size(vm.w.intValue(),vm.h.intValue()).toFile(file);
-		    	
-		    	Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
-		    	
-		    	return ok();
-		    	
-		
-	    	}	
-	    }
-	 
 	 
 	 
 	 public static Result deleteImage(Long id) {

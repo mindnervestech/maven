@@ -180,9 +180,9 @@ angular.module('app.apiserviceAddPhotos', [])
 		return defer.promise;
 	};
 	
-	this.editInventoryImages=function(coords){
+	this.editInventoryImage=function(coords){
 		var defer = $q.defer();
-		$http.post('/editInventoryImages',coords).success(function(data) {
+		$http.post('/editInventoryImage',coords).success(function(data) {
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
