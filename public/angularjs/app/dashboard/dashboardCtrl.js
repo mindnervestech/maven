@@ -606,7 +606,7 @@ angular.module('newApp')
 			apiserviceDashborad.getUserLocationByDateInfo($scope.userKey, startD, endD, locOrPer).then(function(data){
 			
 				$scope.flagForBestSale=data.flagForBestSaleIcon;
-				apiserviceDashborad.getPlanTarget(locOrPer).then(function(data){
+				apiserviceDashborad.getPlanTarget(locOrPer).then(function(data1){
 				
 					data.sendData[0].plan = data1.data[0].price;
 					$scope.stackchart = data.sendData;
