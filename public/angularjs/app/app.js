@@ -44,6 +44,7 @@ var MakeApp = angular
     'app.apiserviceConfigPage',
     'app.apiserviceAddCropInventory',
     'app.apiserviceAddPhotos',
+    'app.apiserviceAnalytics',
    // 'textAngular',
     'nvd3',
     'formly',
