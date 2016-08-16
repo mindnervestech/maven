@@ -4974,7 +4974,7 @@ angular.module('newApp')
         }
         
         $scope.getAllCanceledLeads = function() {
-        	apiserviceDashborad.getAllCanceledLeads().then(function(data){
+        	apiserviceDashborad.getAllCanceledLeaded().then(function(data){
         	
 				$scope.gridOptions4.data = data;
 				$scope.canceledLead = data;

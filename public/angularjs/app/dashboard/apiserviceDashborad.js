@@ -914,7 +914,7 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.getAllCanceledLeads = function(){
+	this.getAllCanceledLeaded = function(){
 		var defer = $q.defer();
 		$http.get('/getAllCanceledLeads').success(function(data) {
 			defer.resolve(data);

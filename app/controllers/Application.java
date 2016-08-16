@@ -2125,6 +2125,28 @@ public class Application extends Controller {
     	}	
     }
     
+	
+   
+	
+    
+    public static Result deleteImage(Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	InventoryImage image = InventoryImage.findById(id);
+	    	File file = new File(rootDir+File.separator+image.productId+"-"+user.id+File.separator+image.imgName);
+	    	File thumbFile = new File(rootDir+File.separator+image.productId+"-"+user.id+File.separator+"thumbnail_"+image.imgName);
+	    	file.delete();
+	    	thumbFile.delete();
+	    	image.delete();
+	    	return ok();
+    	}
+    }
+    
+   
+    
+    
     public static Result editLeads(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -5442,7 +5464,412 @@ public class Application extends Controller {
     	}
 		
     }
+    
+    public static Result getSliderImageDataById(Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	SliderImage image = SliderImage.findById(id);
+	    	File file = new File(rootDir+image.path);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.imgName = image.imgName;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.path;
+			vm.description = image.description;
+			vm.link = image.link;
+			SliderImageConfig config = SliderImageConfig.findByUser(user);
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
+    
+  
+    
+    public static Result getContactDataById(Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	ContactHeader image = ContactHeader.findById(id);
+	    	File file = new File(rootDir+image.path);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.imgName = image.coverImageName;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.path;
+			vm.thumbPath=image.thumbPath;
+			CoverImage config = CoverImage.findByUser(user);
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
+    
+    
 
+    public static Result getVehicleProfileDataById(Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	VehicleHeader image = VehicleHeader.findById(id);
+	    	File file = new File(rootDir+image.path);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.imgName = image.coverImageName;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.path;
+			vm.thumbPath=image.thumbPath;
+			CoverImage config = CoverImage.findByUser(user);
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
+
+    
+    
+    
+    public static Result getWarDataById(Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Warranty image = Warranty.findById(id);
+	    	File file = new File(rootDir+image.path);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.findNewId = image.findNewId;
+			vm.imgName = image.coverImageName;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.path;
+			vm.thumbPath=image.thumbPath;
+			CoverImage config = CoverImage.findByUser(user);
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
+   
+
+    public static Result getCompareDataById (Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	SiteComparison image = SiteComparison.findById(id);
+	    	File file = new File(rootDir+image.path);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.imgName = image.coverImageName;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.path;
+			vm.thumbPath=image.thumbPath;
+			CoverImage config = CoverImage.findByUser(user);
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
+    
+	
+    
+    
+    
+    public static Result getBlogDataById(Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Blog image = Blog.findById(id);
+	    	File file = new File(rootDir+image.path);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.imgName = image.coverImageName;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.path;
+			vm.thumbPath=image.thumbPath;
+			CoverImage config = CoverImage.findByUser(user);
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
+    
+	
+    
+    
+    
+    public static Result getCoverDataById(Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	SiteAboutUs image = SiteAboutUs.findById(id);
+	    	File file = new File(rootDir+image.path);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.imgName = image.imgName;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.path;
+			vm.thumbPath=image.thumbPath;
+			vm.description = image.description;
+			vm.link = image.link;
+			CoverImage config = CoverImage.findByUser(user);
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
+    
+	
+	
+    public static Result getInventoryImageDataById(Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	SiteInventory image = SiteInventory.findById(id);
+	    	File file = new File(rootDir+image.imageUrl);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.imgName = image.imageName;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.imageUrl;
+			//vm.description = image.description;
+			//vm.link = image.link;
+			CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
+    
+    public static Result getFeaturedImageDataById(Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	FeaturedImage image = FeaturedImage.findById(id);
+	    	File file = new File(rootDir+image.path);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.imgName = image.imgName;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.path;
+			vm.description = image.description;
+			vm.link = image.link;
+			FeaturedImageConfig config = FeaturedImageConfig.findByUser(user);
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
+   
+    
+
+    public static Result editContactImage() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+	    	EditImageVM vm = form.get();
+	    	
+	        ContactHeader image = ContactHeader.findById(vm.imageId);
+	    	image.setCoverImageName(vm.imgName);
+	    	image.update();
+	    	File file = new File(rootDir+image.path);
+	    	File thumbFile = new File(rootDir+image.thumbPath);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	       	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+	       	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	        Thumbnails.of(croppedImage).size(vm.w.intValue(),vm.h.intValue()).toFile(file);
+	       	
+	        Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+	    	
+	    	return ok();
+    	}	
+    }
+   
+
+    public static Result editVehicleProfileImage() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+	    	EditImageVM vm = form.get();
+	    	
+	       VehicleHeader image = VehicleHeader.findById(vm.imageId);
+	    	image.setCoverImageName(vm.imgName);
+	    	image.update();
+	    	File file = new File(rootDir+image.path);
+	    	File thumbFile = new File(rootDir+image.thumbPath);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	       	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+	       	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	        Thumbnails.of(croppedImage).size(vm.w.intValue(),vm.h.intValue()).toFile(file);
+	       	
+	        Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+	    	
+	    	return ok();
+    	}	
+    }
+   
+    
+
+    public static Result  editWarImage() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+	    	EditImageVM vm = form.get();
+	    	
+	       Warranty image = Warranty.findById(vm.imageId);
+	    	image.setCoverImageName(vm.imgName);
+	    	image.update();
+	    	File file = new File(rootDir+image.path);
+	    	File thumbFile = new File(rootDir+image.thumbPath);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	       	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+	       	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	        Thumbnails.of(croppedImage).size(vm.w.intValue(),vm.h.intValue()).toFile(file);
+	       	
+	        Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+	    	
+	    	return ok();
+    	}	
+    }
+   
+    
+    public static Result  editCompareImage() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+	    	EditImageVM vm = form.get();
+	    	
+	       SiteComparison image = SiteComparison.findById(vm.imageId);
+	    	image.setCoverImageName(vm.imgName);
+	    	image.update();
+	    	File file = new File(rootDir+image.path);
+	    	File thumbFile = new File(rootDir+image.thumbPath);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	       	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+	       	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	        Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	       	
+	        Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+	    	
+	    	return ok();
+    	}	
+    }
+    
+    
+    
+    public static Result editBlogImage() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+	    	EditImageVM vm = form.get();
+	    	
+	    Blog image = Blog.findById(vm.imageId);
+	    	image.setCoverImageName(vm.imgName);
+	    	image.update();
+	    	File file = new File(rootDir+image.path);
+	    	File thumbFile = new File(rootDir+image.thumbPath);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	       	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+	       	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	        Thumbnails.of(croppedImage).size(vm.w.intValue(),vm.h.intValue()).toFile(file);
+	       	
+	        Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+	    	
+	    	return ok();
+    	}	
+    }
+    
+    
+    
+    
+    public static Result editCovrImage() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+	    	EditImageVM vm = form.get();
+	    	
+	    	SiteAboutUs image = SiteAboutUs.findById(vm.imageId);
+	    	image.setImgName(vm.imgName);
+	    	image.update();
+	    	File file = new File(rootDir+image.path);
+	    	File thumbFile = new File(rootDir+image.thumbPath);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	       	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+	       	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	        Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	       	
+	        Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+	    	
+	    	return ok();
+    	}	
+    }
+    
+   
+	
+	
+	
     public static Result getImageDataById(Long id) throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -5469,6 +5896,65 @@ public class Application extends Controller {
     	}	
     }
     
+    
+    public static Result editSliderImage() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+	    	EditImageVM vm = form.get();
+	    	
+	    	SliderImage image = SliderImage.findById(vm.imageId);
+	    	image.setImgName(vm.imgName);
+	    	image.setDescription(vm.description);
+	    	image.setLink(vm.link);
+	    	image.update();
+	    	File file = new File(rootDir+image.path);
+	    	File thumbFile = new File(rootDir+image.thumbPath);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+	    	SliderImageConfig config = SliderImageConfig.findByUser(user);
+	    	//Thumbnails.of(croppedImage).scale(1.0).toFile(file);
+	    	Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	    	Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+	    	
+	    	return ok();
+    	}	
+    }
+    
+    
+    
+    
+    public static Result editFeaturedImage() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+	    	EditImageVM vm = form.get();
+	    	
+	    	FeaturedImage image = FeaturedImage.findById(vm.imageId);
+	    	image.setImgName(vm.imgName);
+	    	image.setDescription(vm.description);
+	    	image.setLink(vm.link);
+	    	image.update();
+	    	File file = new File(rootDir+image.path);
+	    	File thumbFile = new File(rootDir+image.thumbPath);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+	    	FeaturedImageConfig config = FeaturedImageConfig.findByUser(user);
+	    	//Thumbnails.of(croppedImage).size(150, 150).toFile(file);
+	    	Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	    	
+	    	Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+	    	
+	    	return ok();
+    	}	
+    }
+  
 		public static Result UpdateName() {
 			Form<CreateNewFormVM> form = DynamicForm.form(CreateNewFormVM.class).bindFromRequest();
 			CreateNewFormVM vm=form.get();
