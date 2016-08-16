@@ -39,7 +39,6 @@ var MakeApp = angular
     'app.apiserviceMoreInfo',
     'app.apiserviceViewInventory',
     'app.apiserviceViewClient',
-    'app.apiserviceInventory',
     'app.apiserviceCustomizationForm',
     'app.apiserviceHomePage',
     'app.apiserviceConfigPage',
