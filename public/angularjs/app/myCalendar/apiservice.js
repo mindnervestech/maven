@@ -35,6 +35,34 @@ angular.module('starter.apiservice', [])
 		return defer.promise;
 	};
 	
+	this.getTimeTableOf=function(){
+		var defer = $q.defer();
+		$http.get('/getTimeTableOf').success(function(data) {
+			defer.resolve(data);
+		}).error(function(error){
+			defer.reject(error);
+		});
+		return defer.promise;
+	};
+	
+	this.getTimeOfUser=function(calendraData){
+		var defer = $q.defer();
+		$http.get('/getTimeOfUser/'+calendraData).success(function(data) {
+			defer.resolve(data);
+		}).error(function(error){
+			defer.reject(error);
+		});
+		return defer.promise;
+	};
+	
+	this.getSalesPerson=function(){
+		var defer = $q.defer();
+		
+		$http.get('/getSalesPerson').success(function(data) {
+			defer.resolve(data);
+		});
 
+		return defer.promise;
+	};
 	
 })

@@ -1,6 +1,7 @@
 package viewmodel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ScheduleTestVM {
@@ -48,7 +49,8 @@ public class ScheduleTestVM {
 	public String typeofVehicle;
 	public String userRole;
 	public String declineUser;
-	
+	public String startTime;
+	public String endTime;
 	
 	
 	
@@ -62,6 +64,30 @@ public class ScheduleTestVM {
 	public String bestTime;
 	public String bestEndTime;
 	public String scheduleDate;
+	public Date scheduleTime;
+	
+	
+	
+	
+	
+	public String getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+	public Date getScheduleTime() {
+		return scheduleTime;
+	}
+	public void setScheduleTime(Date scheduleTime) {
+		this.scheduleTime = scheduleTime;
+	}
 	public String getBestEndTime() {
 		return bestEndTime;
 	}

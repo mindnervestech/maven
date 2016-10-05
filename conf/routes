@@ -126,7 +126,9 @@ GET     /getSelectedLeadType		     controllers.InventoryController.getSelectedLe
 GET     /getAllOtherLeadInfo/:leadId	 controllers.CustomersRequestController.getAllOtherLeadInfo(leadId:String)
 GET     /getAllSalesPersonOtherLead/:id  controllers.CustomersRequestController.getAllSalesPersonOtherLead(id:Integer)
 GET     /getTimeTableOfPhotos	         controllers.MyCalendarController.getTimeTableOfPhotos()
-
+GET     /getTimeTableOf	         controllers.CalendarController.getTimeTableOf()
+GET     /getTimeOfUser/:calendraData	         controllers.CalendarController.getTimeOfUser(calendraData:Integer)
+GET		/getSalesPerson				controllers.CalendarController.getSalesPerson()
 
 #--------------------------customization------------------------------
 
