@@ -13946,6 +13946,9 @@ private static void cancelTestDriveMail(Map map) {
 	        			vm.imgId = "/assets/images/no-image.jpg";
 	        		}
 	    		}
+	    		if(vm.title == null){
+	    			vm.title = info.section;
+	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;

@@ -52,10 +52,11 @@ public class RequestMoreInfo extends Model {
 	public Integer premiumFlag;
 	public Long parentId;
 	public int onlineOrOfflineLeads;
-public String testDriveStatus;
-public String isContactusType;
-public String message;
-public String productId;
+	public String testDriveStatus;
+	public String isContactusType;
+	public String message;
+	public String productId;
+	public String section;
 	
 	
 	
