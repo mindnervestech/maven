@@ -22,14 +22,14 @@ angular.module('newApp')
  		 $scope.gridOptions.enableHorizontalScrollbar = 2;
  		 $scope.gridOptions.enableVerticalScrollbar = 2;
  		 $scope.gridOptions.columnDefs = [
- 		                                 { name: 'title', displayName: 'Title', width:'12%',cellEditableCondition: false,
+ 		                                 { name: 'title', displayName: 'Section', width:'15%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
  		                                       if (row.entity.isRead === false) {
  		                                         return 'red';
  		                                       }
  		                                	} ,
  		                                 },
- 		                                 { name: 'designer', displayName: 'Designer', width:'8%',cellEditableCondition: false,
+ 		                                 /*{ name: 'designer', displayName: 'Designer', width:'8%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
@@ -42,51 +42,51 @@ angular.module('newApp')
   		                                         return 'red';
   		                                     }
  		                                	} ,
- 		                                 },
- 		                                 { name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
+ 		                                 },*/
+ 		                                 { name: 'name', displayName: 'Name', width:'13%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
   		                                     }
  		                                	} ,
  		                                 },
- 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'8%',cellEditableCondition: false,
+ 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'10%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
   		                                     }
  		                                	} ,
  		                                 },
- 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'10%',cellEditableCondition: false,
+ 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'18%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
   		                                     }
  		                                	} ,
  		                                 },
- 		                                 { name: 'requestDate', displayName: 'Request Date',enableFiltering: false, width:'10%',cellEditableCondition: false,
+ 		                                 { name: 'requestDate', displayName: 'Request Date',enableFiltering: false, width:'12%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
   		                                     }
  		                                	} ,
  		                                 },
- 		                                { name: 'price', displayName: 'Price',enableFiltering: false, width:'5%',cellEditableCondition: false,
+ 		                                /*{ name: 'price', displayName: 'Price',enableFiltering: false, width:'5%',cellEditableCondition: false,
  		                                	cellTemplate:'<div>{{row.entity.price | number:0}}</div>',
 	   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	    		                                       if (row.entity.isRead === false) {
 	    		                                         return 'red';
 	    		                                     }
 	   		                                	} ,
-	   		                             },
- 		                                { name: 'salesRep', displayName: 'Sales Rep',enableFiltering: false, width:'10%',cellEditableCondition: false,
+	   		                             },*/
+ 		                                { name: 'salesRep', displayName: 'Sales Rep',enableFiltering: false, width:'16%',cellEditableCondition: false,
   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
    		                                       if (row.entity.isRead === false) {
    		                                         return 'red';
    		                                     }
   		                                	} ,
   		                                 },
-  		                               { name: 'status', displayName: 'Status',enableFiltering: false, width:'8%',cellEditableCondition: false,
+  		                               { name: 'status', displayName: 'Status',enableFiltering: false, width:'10%',cellEditableCondition: false,
   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
    		                                       if (row.entity.isRead === false) {
    		                                         return 'red';
@@ -161,8 +161,8 @@ angular.module('newApp')
 	               });
 			});
 			
-			$scope.gridOptions.columnDefs.push({name: 'isRead', displayName: 'Claim',enableFiltering: false, width:'7%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-          	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" title="Claim this lead" style="margin-left:18%;"></div>', 
+			$scope.gridOptions.columnDefs.push({name: 'isRead', displayName: 'Claim',enableFiltering: false, width:'6%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+          	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" title="Claim this lead" style="margin-left:30%;"></div>', 
             	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
                     if (row.entity.isRead === false) {
                       return 'red';

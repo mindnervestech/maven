@@ -1305,7 +1305,7 @@ angular.module('newApp')
     	 		 $scope.gridOptions5.enableHorizontalScrollbar = 2;
     	 		 $scope.gridOptions5.enableVerticalScrollbar = 2;
     	 		 $scope.gridOptions5.columnDefs = [
-												{ name: 'title', displayName: 'Title', width:'14%',cellEditableCondition: false,
+												{ name: 'title', displayName: 'Section', width:'14%',cellEditableCondition: false,
 												  	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.title}}</a> ',
 												  	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 												         if (row.entity.noteFlag != 1) {
@@ -1321,15 +1321,15 @@ angular.module('newApp')
 												        }
 												  	} ,
 												   },
-												   { name: 'price', displayName: 'Price', width:'10%',cellEditableCondition: false,
+												   /*{ name: 'price', displayName: 'Price', width:'10%',cellEditableCondition: false,
 												  	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.price}}</a> ',
 												  	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 												          if (row.entity.noteFlag != 1) {
 												            return 'red';
 												        }
 												  	} ,
-												   },
-    	 		                                 { name: 'name', displayName: 'Name', width:'10%',cellEditableCondition: false,
+												   },*/
+    	 		                                 { name: 'name', displayName: 'Name', width:'11%',cellEditableCondition: false,
     	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.noteFlag != 1) {
@@ -1337,7 +1337,7 @@ angular.module('newApp')
     	  		                                     }
     	 		                                	} ,
     	 		                                 },
-    	 		                                 { name: 'phone', displayName: 'Phone', width:'7%',cellEditableCondition: false,
+    	 		                                 { name: 'phone', displayName: 'Phone', width:'10%',cellEditableCondition: false,
     	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.phone}}</a> ',
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.noteFlag != 1) {
@@ -1345,7 +1345,7 @@ angular.module('newApp')
     	  		                                     }
     	 		                                	} ,
     	 		                                 },
-    	 		                                 { name: 'email', displayName: 'Email', width:'9%',cellEditableCondition: false,
+    	 		                                 { name: 'email', displayName: 'Email', width:'12%',cellEditableCondition: false,
     	 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.noteFlag != 1) {
@@ -1353,7 +1353,7 @@ angular.module('newApp')
     	  		                                     }
     	 		                                	} ,
     	 		                                 },
-    	 		                                { name: 'requestDate', displayName: 'Date Added', width:'5%',cellEditableCondition: false,
+    	 		                                { name: 'requestDate', displayName: 'Date Added', width:'8%',cellEditableCondition: false,
     	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.requestDate}}</a> ',
 	 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	 		   		                                       if (row.entity.noteFlag != 1) {
