@@ -2929,7 +2929,15 @@ public class MyProfileController extends Controller{
 		    		   }
 		    		   userObj.permission = permissionData;
 		    	   }
-		    	   
+		    	   if(vm.userType.equals("Front Desk")) {
+		    		   List<Permission> permissionData = new ArrayList<>();
+		    		   for(Permission obj: permissionList) {
+		    			   if(obj.name.equals("Calendar")) {
+		    				   permissionData.add(obj);
+		    			   }
+		    		   }
+		    		   userObj.permission = permissionData;
+		    	   }
 		    	   
 		    	   if(vm.userType.equals("Sales Person")) {
 		    		   

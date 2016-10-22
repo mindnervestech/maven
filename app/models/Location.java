@@ -5,16 +5,9 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.Expr;
-import com.avaje.ebean.SqlQuery;
-import com.avaje.ebean.SqlRow;
-
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 public class Location extends Model {
@@ -162,6 +155,10 @@ public class Location extends Model {
 
 	public void setManager(AuthUser manager) {
 		this.manager = manager;
+	}
+	
+	public static List<Location> findByIdAndRole(Long valueOf) {
+		return find.where().eq("role","Sales Person").eq("id",valueOf).findList();
 	}
 
 

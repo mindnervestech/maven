@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.sun.org.apache.bcel.internal.generic.POP;
+
 import models.AuthUser;
 import models.Location;
 import models.PhotographerHoursOfOperation;
@@ -66,7 +68,7 @@ public class CalendarController extends Controller {
 	
 	 public static Result getSalesPerson() {
 	    	
-	    	List<AuthUser> authuser = AuthUser.findByLocatio(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    	List<AuthUser> authuser = AuthUser.findByLocatioion(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 	    	return ok(Json.toJson(authuser));
 	    }
 	 public static class DateUtil{
@@ -82,22 +84,54 @@ public class CalendarController extends Controller {
 	 public static Result getTimeTableOf(){
 		 AuthUser user = getLocalUser();
 		 DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		 
 		 System.out.println("user.>>>>>>>>>>"+user);
-		 List<ScheduleTest> pOfOperation = ScheduleTest.findAllAssigned(user);
+		 List<ScheduleTest> pOfOperation = ScheduleTest.findAllAssignedData(user);
 		 
 		 ArrayList<ScheduleTestVM> hList =  new ArrayList<>();
 		 for(ScheduleTest pOperation:pOfOperation){
 			 ScheduleTestVM hOperation = new ScheduleTestVM();
-			 hOperation.id = pOperation.id;
-			 hOperation.startTime = df.format(pOperation.scheduleTime);
-			 
-			 Date endTime = pOperation.scheduleTime;
-			 endTime = DateUtil.addDays(endTime, 1);
-			 hOperation.endTime = df.format(endTime);
-			 hOperation.name = pOperation.name;
-			 hOperation.email = pOperation.email;
-			 
-			 hList.add(hOperation);
+			 /*if(pOperation.meetingStatus.equals("meeting")){
+				hOperation.id = pOperation.id;
+				
+				Date test;
+				Date d1 = pOperation.confirmDate;
+				Date d2 = pOperation.confirmTime;
+				String dt = pOperation.confirmDate +" "+ pOperation.confirmTime.toString() ;
+				Date mydate = new Date();
+				mydate.setDate(d1.getDate());
+				mydate.setMonth(d1.getMonth());
+				mydate.setYear(d1.getYear());
+				mydate.setHours(d2.getHours());
+				mydate.setMinutes(d2.getMinutes());
+				mydate.setSeconds(d2.getSeconds());
+				System.out.println(mydate.toString());
+				System.out.println("date formate"+dt);
+				try {
+					test = df.parse(dt);
+					System.out.println("String formate"+test);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				hOperation.startTime = df.format(pOperation.confirmTime);
+				hOperation.endTime = df.format(pOperation.confirmEndTime);
+				hOperation.name = pOperation.name;
+				hOperation.email = pOperation.email;
+				
+				hList.add(hOperation);
+			 }
+			 else{*/
+				 hOperation.id = pOperation.id;
+				 hOperation.startTime = df.format(pOperation.scheduleTime);
+				 
+				 Date endTime = pOperation.scheduleTime;
+				 endTime = DateUtil.addDays(endTime, 1);
+				 hOperation.endTime = df.format(endTime);
+				 hOperation.name = pOperation.name;
+				 hOperation.email = pOperation.email;
+				 
+				 hList.add(hOperation);
+			// }
 		}
 		 return ok(Json.toJson(hList));
 	}
@@ -106,7 +140,7 @@ public class CalendarController extends Controller {
 		System.out.println("calendraData.>>>>>>>>>>"+users);
 		 AuthUser user = AuthUser.findById(users);
 		 DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		 List<ScheduleTest> pOfOperation = ScheduleTest.findAllAssigned(user);
+		 List<ScheduleTest> pOfOperation = ScheduleTest.findAllAssignedData(user);
 		 
 		 ArrayList<ScheduleTestVM> hList =  new ArrayList<>();
 		 for(ScheduleTest pOperation:pOfOperation){

@@ -273,6 +273,9 @@ angular.module('newApp')
 		var type = $('#userType').val();
 		console.log(type);
 		
+		if(type == "Front Desk"){
+			$scope.showOtherFild = 0;
+		}
 		if(type == "Sales Person"){
 			$scope.showOtherFild = 1;
 		}
@@ -433,7 +436,9 @@ angular.module('newApp')
 		//console.log($scope.num1);
 		//console.log($scope.duration1);
 		$scope.userData = row.entity;
-			
+		if($scope.userData.userType == "Front Desk"){
+			$scope.showOtherFild = 0;
+		}
 		
 		if($scope.userData.userType == "Sales Person"){
 			$scope.showOtherFild = 1;

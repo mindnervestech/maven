@@ -358,6 +358,9 @@ public class AuthUser extends Model implements Identity {
 	public static List<AuthUser> findByLocatio(Location locations) {
 		return find.where().eq("location", locations).eq("account", "active").findList();
 	}
+	public static List<AuthUser> findByLocatioion(Location locations) {
+		return find.where().eq("location", locations).eq("account", "active").or(Expr.eq("role", "Manager"), Expr.eq("role", "Sales Person")).findList();
+	}
 	public static List<AuthUser> findByLocatioUsers(Location locations) {
 		return find.where().eq("role", "Sales Person").eq("location", locations).eq("account", "active").findList();
 	}
@@ -368,11 +371,11 @@ public class AuthUser extends Model implements Identity {
 	
 	
 	public static List<AuthUser> findByLocatioUsersNotGM(Location locations, Integer id) {
-		return find.where().ne("role", "General Manager").ne("id", id).eq("location", locations).eq("account", "active").findList();
+		return find.where().ne("role", "General Manager").ne("id", id).ne("role", "Photographer").ne("role", "Front Desk").eq("location", locations).eq("account", "active").findList();
 	}
 	
 	public static List<AuthUser> findByLocatioUsersNotManager(Location locations) {
-		return find.where().or(Expr.eq("role", "General Manager"), Expr.eq("location", locations)).ne("role", "Manager").eq("account", "active").findList();
+		return find.where().or(Expr.eq("role", "General Manager"), Expr.eq("location", locations)).ne("role", "Manager").ne("role", "Photographer").ne("role", "Front Desk").eq("account", "active").findList();
 	}
 	
 	public static List<AuthUser> findByLocationDeactive(Location locations) {
@@ -413,5 +416,9 @@ public class AuthUser extends Model implements Identity {
 	
 	public static AuthUser getlocationAndManagerOne(Location locations) {
 		return find.where().eq("location", locations).eq("role", "Manager").eq("account", "active").findUnique();
+	}
+
+	public static List<AuthUser> findByIdAndRole() {
+		return find.where().eq("role", "Sales Person").eq("location", "16").findList();
 	}
 }

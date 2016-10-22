@@ -24,7 +24,7 @@ angular.module('newApp')
 	console.log("}}}}");
 	console.log($scope.engTimeTitle);
 	
-	//$rootScope.startDateFilter = moment().subtract('days', 7).format("YYYY-MM-DD");;
+	//$rootScope.startDateFilter = moment().subtract('days', 7).format("YYYY-MM-DD");
 	//$rootScope.endDateFilter = moment().add('days', -1).format("YYYY-MM-DD");
 	   
 	    setTimeout(function(){
