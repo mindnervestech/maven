@@ -84,43 +84,28 @@ public class CalendarController extends Controller {
 	 public static Result getTimeTableOf(){
 		 AuthUser user = getLocalUser();
 		 DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		 
+		 DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+		 DateFormat df2 = new SimpleDateFormat("hh:mm:ss");
 		 System.out.println("user.>>>>>>>>>>"+user);
 		 List<ScheduleTest> pOfOperation = ScheduleTest.findAllAssignedData(user);
 		 
 		 ArrayList<ScheduleTestVM> hList =  new ArrayList<>();
 		 for(ScheduleTest pOperation:pOfOperation){
 			 ScheduleTestVM hOperation = new ScheduleTestVM();
-			 /*if(pOperation.meetingStatus.equals("meeting")){
+			 if(pOperation.meetingStatus.equals("meeting")){
 				hOperation.id = pOperation.id;
 				
-				Date test;
-				Date d1 = pOperation.confirmDate;
-				Date d2 = pOperation.confirmTime;
-				String dt = pOperation.confirmDate +" "+ pOperation.confirmTime.toString() ;
-				Date mydate = new Date();
-				mydate.setDate(d1.getDate());
-				mydate.setMonth(d1.getMonth());
-				mydate.setYear(d1.getYear());
-				mydate.setHours(d2.getHours());
-				mydate.setMinutes(d2.getMinutes());
-				mydate.setSeconds(d2.getSeconds());
-				System.out.println(mydate.toString());
-				System.out.println("date formate"+dt);
-				try {
-					test = df.parse(dt);
-					System.out.println("String formate"+test);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				hOperation.startTime = df.format(pOperation.confirmTime);
-				hOperation.endTime = df.format(pOperation.confirmEndTime);
+				String startTime = df1.format(pOperation.confirmDate)+" "+ df2.format(pOperation.confirmTime);
+				String endTime = df1.format(pOperation.confirmDate)+" "+ df2.format(pOperation.confirmEndTime);
+				
+				hOperation.startTime = startTime;
+				hOperation.endTime = endTime;
 				hOperation.name = pOperation.name;
 				hOperation.email = pOperation.email;
 				
 				hList.add(hOperation);
 			 }
-			 else{*/
+			 else{
 				 hOperation.id = pOperation.id;
 				 hOperation.startTime = df.format(pOperation.scheduleTime);
 				 
@@ -131,7 +116,7 @@ public class CalendarController extends Controller {
 				 hOperation.email = pOperation.email;
 				 
 				 hList.add(hOperation);
-			// }
+			 }
 		}
 		 return ok(Json.toJson(hList));
 	}
@@ -140,21 +125,40 @@ public class CalendarController extends Controller {
 		System.out.println("calendraData.>>>>>>>>>>"+users);
 		 AuthUser user = AuthUser.findById(users);
 		 DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		 DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+		 DateFormat df2 = new SimpleDateFormat("hh:mm:ss");
 		 List<ScheduleTest> pOfOperation = ScheduleTest.findAllAssignedData(user);
 		 
 		 ArrayList<ScheduleTestVM> hList =  new ArrayList<>();
 		 for(ScheduleTest pOperation:pOfOperation){
 			 ScheduleTestVM hOperation = new ScheduleTestVM();
-			 hOperation.id = pOperation.id;
-			 hOperation.startTime = df.format(pOperation.scheduleTime);
-			 
-			 Date endTime = pOperation.scheduleTime;
-			 endTime = DateUtil.addDays(endTime, 1);
-			 hOperation.endTime = df.format(endTime);
-			 hOperation.name = pOperation.name;
-			 hOperation.email = pOperation.email;
-			 
-			 hList.add(hOperation);
+			 if(pOperation.meetingStatus.equals("meeting")){
+					hOperation.id = pOperation.id;
+					
+					String startTime = df1.format(pOperation.confirmDate)+" "+ df2.format(pOperation.confirmTime);
+					String endTime = df1.format(pOperation.confirmDate)+" "+ df2.format(pOperation.confirmEndTime);
+					System.out.println("date formate"+startTime);
+					System.out.println("date formate"+endTime);
+					
+					hOperation.startTime = startTime;
+					hOperation.endTime = endTime;
+					hOperation.name = pOperation.name;
+					hOperation.email = pOperation.email;
+					
+					hList.add(hOperation);
+				 }
+				 else{
+					 hOperation.id = pOperation.id;
+					 hOperation.startTime = df.format(pOperation.scheduleTime);
+					 
+					 Date endTime = pOperation.scheduleTime;
+					 endTime = DateUtil.addDays(endTime, 1);
+					 hOperation.endTime = df.format(endTime);
+					 hOperation.name = pOperation.name;
+					 hOperation.email = pOperation.email;
+					 
+					 hList.add(hOperation);
+				 }
 		}
 		 return ok(Json.toJson(hList));
 	}
