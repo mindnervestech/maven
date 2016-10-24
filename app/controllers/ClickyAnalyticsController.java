@@ -108,7 +108,7 @@ public class ClickyAnalyticsController extends Controller{
 	 private static String callClickAPI(String params) {
 	    	StringBuffer response = new StringBuffer();
 	    	try {
-	    		String url = "https://api.clicky.com/api/stats/4?output=json&site_id=100875513&sitekey=d6e7550038b4a34c"+params;
+	    		String url = "https://api.clicky.com/api/stats/4?output=json&site_id=100998608&sitekey=8ec4755ccd21800f"+params;
 			
 	    		URL obj = new URL(url);
 	    		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -134,6 +134,7 @@ public class ClickyAnalyticsController extends Controller{
 	    	List<Location> locations = Location.findAllData();
 	    	
 				SqlRow maxDate = ClickyVisitorsList.getMaxDate();
+				
 	    	    System.out.println(maxDate.get("maxdate"));
 	    	     Date curr = new Date();
 	    	     Long currtime = curr.getTime();
@@ -151,8 +152,13 @@ public class ClickyAnalyticsController extends Controller{
 	    		     	System.out.println(maxDate.get("maxdate"));
 	    		     	
 	    		     	GregorianCalendar gcal = new GregorianCalendar();
-	    				gcal.setTime(sampleDate);
-	    				while (gcal.getTime().before(newcurrDate)) {
+	    		     	if(sampleDate != null){
+	    		     		gcal.setTime(sampleDate);
+	    		     	}else{
+	    		     		gcal.setTime(curr);
+	    		     	}
+	    		     	int a=1;
+	    				while (a<10) {
 	    				    Date dateClicky = gcal.getTime();
 	    				    sDate=df.format(dateClicky);
 	    				   // startDateForList=d;
