@@ -134,10 +134,9 @@ public class ClickyAnalyticsController extends Controller{
 	    	List<Location> locations = Location.findAllData();
 	    	
 				SqlRow maxDate = ClickyVisitorsList.getMaxDate();
-				
-	    	    System.out.println(maxDate.get("maxdate"));
-	    	     Date curr = new Date();
-	    	     Long currtime = curr.getTime();
+				System.out.println(maxDate.get("maxdate"));
+	    	    Date curr = new Date();
+	    	    Long currtime = curr.getTime();
 	    	     
 	    	    String sDate = df.format(curr);
 	    	    Date newcurrDate = null;
@@ -152,13 +151,8 @@ public class ClickyAnalyticsController extends Controller{
 	    		     	System.out.println(maxDate.get("maxdate"));
 	    		     	
 	    		     	GregorianCalendar gcal = new GregorianCalendar();
-	    		     	if(sampleDate != null){
-	    		     		gcal.setTime(sampleDate);
-	    		     	}else{
-	    		     		gcal.setTime(curr);
-	    		     	}
-	    		     	int a=1;
-	    				while (a<10) {
+	    				gcal.setTime(sampleDate);
+	    				while (gcal.getTime().before(newcurrDate)) {
 	    				    Date dateClicky = gcal.getTime();
 	    				    sDate=df.format(dateClicky);
 	    				   // startDateForList=d;
