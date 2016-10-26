@@ -464,7 +464,7 @@ float: right !important;
 									     <h4 class="col-sm-12"><b>MY STATISTICS</b></h4>
 									     <div class="col-sm-12" ng-if="userRole == 'Manager'">
 									     <!--  -->
-									     	<a style="cursor: pointer;font-size: 18px;" ng-click="locationOrPersonData('person')" ng-class="dataLocOrPerWise == 'person' ?'underline':''">Personal</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-click="locationOrPersonData('location')" ng-class="dataLocOrPerWise == 'location' ?'underline':''" style="cursor: pointer;font-size: 18px;">Location</a>
+									     	<a style="cursor: pointer;font-size: 18px;" ng-click="locationOrPersonData('person')" ng-class="dataLocOrPerWise == 'person' ?'underline':''">Personal</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-click="locationOrPersonData('location')" ng-class="dataLocOrPerWise == 'location' ?'underline':''" style="cursor: pointer;font-size: 18px;">Business</a>
 									     </div>
 									    </div> 
 									     <form ng-submit="checkDatewsie(startDate,endDate)">
@@ -512,12 +512,15 @@ float: right !important;
 									       	<span class="glyphicon glyphicon-user col-sm-2" style="color: darkturquoise;" title="Total leads"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson | number:0}}</label>
 									       	<span class="glyphicon glyphicon-adjust col-sm-2" ng-if="parLocationData.AngSale != null" style="color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale != null" class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.AngSale | number:0}}%</label>
 									       	<span class="glyphicon glyphicon-adjust col-sm-2" ng-if="parLocationData.AngSale == null" style="color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale == null"class="col-sm-4 control-label" style="text-align: center;">N/A</label>
-									       	<span class="glyphicon glyphicon-usd col-sm-2" style="color: darkturquoise;" title="Sold Car Price"></span><label class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.totalSalePrice | number:0}}</label>
+									       	<span class="glyphicon glyphicon-usd col-sm-2" ng-if="parLocationData.totalSalePrice != 0" style="color: darkturquoise;" title="Sold Car Price"></span><label ng-if="parLocationData.totalSalePrice != 0" class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.totalSalePrice | number:0}}</label>
+									       	<span class="glyphicon glyphicon-usd col-sm-2" ng-if="parLocationData.totalSalePrice == 0" style="color: darkturquoise;" title="Sold Car Price"></span><label ng-if="parLocationData.totalSalePrice == 0" class="col-sm-4 control-label" style="text-align: center;">N/A</label>
 									       	<span class="glyphicon glyphicon-record col-sm-2" style="color: darkturquoise;" title="Success Rate"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.successRate | number:0}}%</label>
 									       	<span class="fa fa-car col-sm-2" style="color: darkturquoise;" title="Total Car Sold"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.totalsaleCar | number:0}}</label>
 									       	<!-- <span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label> -->
-									       	<span class="glyphicon glyphicon-shopping-cart col-sm-2" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.angSalePrice | number:0}}</label>
+									       	<span class="glyphicon glyphicon-shopping-cart col-sm-2" ng-if="parLocationData.angSalePrice != 0" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" ng-if="parLocationData.angSalePrice != 0" style="text-align: center;">${{parLocationData.angSalePrice | number:0}}</label>
+									       	<span class="glyphicon glyphicon-shopping-cart col-sm-2" ng-if="parLocationData.angSalePrice == 0" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" ng-if="parLocationData.angSalePrice == 0" style="text-align: center;">N/A</label>
 										</div>
+										
 										<div class="col-sm-4">
 											<p style="text-align: center;font-size: 22px;">{{parLocationData.monthCurr}}</p>
 											 <div id="container" style="height: 200px"></div>
@@ -772,15 +775,15 @@ float: right !important;
 					             <div class="panel">
 								    	    	<div class="col-sm-12"style=" margin-top: 10px;" >
 								    	    	<div class="col-sm-1" style="padding: 0px;">
-								    				<h4><b style="font-size:19px;">TOP LISTINGS</b></h4> 
+								    				<h4><b style="font-size:19px;">MANUFACTURES</b></h4> 
 								    			</div>
 								    			<div class="col-sm-2">
 								     						<h6 class="col-sm-12"><a style="cursor: pointer;font-size:17px;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;font-size: 17px;"ng-if="notchange == 0" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
 								     			</div>
 								     			<div class="col-sm-2" style="padding: 0px;width: 11%;">
 								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
-								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
-								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
+								     						<!-- <h6 class="col-sm-1"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
+								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6> -->
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-user" style="color: darkturquoise;font-size: 18px;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
 								     			</div>		
 								    	    	<div class="col-sm-2" style="padding:0px;width: 10%" >
@@ -797,7 +800,7 @@ float: right !important;
 												<div class="col-sm-2" style="padding: 0px;" > 
 								     						<h6 class="col-sm-12">
 								     								<span class="col-sm-12" style="padding: 0px;">
-								     									<span style="font-size: 16px;"> Search By : </span><a style="cursor:pointer;font-size: 18px;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">Model</a>
+								     									<span style="font-size: 16px;"> Search By : </span><a style="cursor:pointer;font-size: 18px;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Name</a> <!-- &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')"></a> -->
 								     								</span>
 																	<span class="col-sm-8" ng-if="search == 'Make'" style="padding: 0px;margin-left: 33%;width: 50%;">
 								     									<input placeholder="Make" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')" type="text" style="margin-top: 6px;padding: 0px; height:25px;" class="col-sm-11">
@@ -827,9 +830,9 @@ float: right !important;
 								     			<div class="col-sm-1" style="padding: 0px;" >
 								     						<h6 class="col-sm-12"> <!-- <a style="cursor:pointer;font-size: 18px;" id="weekPerf" ng-class="currentSelectedWeekDuration == 1 ?'underline':''" ng-click="showWeekVisited()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedMonthDuration == 1 ?'underline':''" ng-click="showMonthVisited()">Month</a>&nbsp;&nbsp;&nbsp;&nbsp; --><a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedAllTimeDuration == 1 ?'underline':''" ng-click="showAllTimeVisited()">All Time</a></h6>
 								     			</div>
-								    	    	<div class="col-sm-1" ng-if="userRole != 'General Manager'"  style="padding: 0px;" >
+								    	    	<!-- <div class="col-sm-1" ng-if="userRole != 'General Manager'"  style="padding: 0px;" >
 												<a class="btn btn-blue" href="#addVehicle" >Add Vehicle</a>
-												</div>	</div>
+												</div> -->	</div>
 										<div class="row">
 											<div class="col-sm-12" style="height: 360px;">
 												
@@ -2105,19 +2108,19 @@ float: right !important;
                           
                          </div>
                          <div class="row" ng-if="userType =='Manager' || showGmLocation == 1">
-						  <label class="col-sm-12">Plan Schedule by</label>
+						  <label class="col-sm-12" style="margin-left:40px;">Plan Schedule by</label>
                           <div class="col-sm-12" ng-if="nextbutton == 0">
                             <div class="form-group">
                              <div class="row">
 							  <div class="image col-sm-6" ng-click="getLocation(0)">
 							  <img  style="margin-top: 7px;width: 450px;height: 400PX;"  
-								src="../../../assets/global/images/PLAN - location image.jpg">  <h2 style="font-size: 30px" >Location </h2>
+								src="../../../assets/global/images/location (1).jpg">  <h2 style="font-size: 30px" >Business </h2>
 								</img>
 								
 							  </div>
 							  
 							  <div class="image col-sm-6" ng-click="getSalePersonData()" id="pln">
-							  <img  style="margin-top: 7px;width: 450px;height: 400PX;"  src="../../../assets/global/images/PLAN---Sales-Person-image (1).jpg"  > <h2  style="font-size: 30px" > Salesperson</h2>
+							  <img  style="margin-top: 7px;width: 450px;height: 400PX;"  src="../../../assets/global/images/sales-persons.jpg"  > <h2  style="font-size: 30px" > Salesperson</h2>
 							 </img>
 							  </div>
 							  </div>
@@ -2158,20 +2161,21 @@ float: right !important;
                          <div class="row">
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>JANUARY</label>
+                         			<label style="margin-left: 40px;">JANUARY</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.januaryFlag" name="january" class="form-control col-sm-6" ng-click="janrOpen()" ng-change="copyValue(MonthTotal.januaryTotalEarning)" placeholder="$$$" ng-model="MonthTotal.januaryTotalEarning">
+                         		
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.januaryFlag" name="january" class="form-control col-sm-6" ng-click="janrOpen()" ng-change="copyValue(MonthTotal.januaryTotalEarning)" placeholder="N/A" ng-model="MonthTotal.januaryTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="janOpen == 1">
                          	<hr>
                          	<form role="form" ng-submit="saveLocationPlan('january',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         				<label>Total Earning<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         				<input readonly="readonly" type="text" name="totalEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.totalEarning">
                          			</div>
                          			</div>
                          		<div>
@@ -2179,12 +2183,12 @@ float: right !important;
                          				<label>Minimum Earnings</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         				<input readonly="readonly" type="text" name="minEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.minEarning">
                          			</div>	
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Vehicles to sell</label>
+                         				<label>Leads Closed</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
@@ -2195,7 +2199,15 @@ float: right !important;
                          				<label>Average check</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         				<input readonly="readonly" type="text" name="avgCheck" class="form-control" placeholder="N/A" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to Generate</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text"  name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="leadsTime.leadsToGenerate" >
                          			</div>
                          		</div>
                          		<div ng-if="userType =='General Manager' && showGmLocation == 0">
@@ -2221,20 +2233,20 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>JULY</label>
+                         			<label style="margin-left: 40px;">JULY</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.julyFlag" name="july" class="form-control col-sm-6" ng-click="julysOpen()" ng-change="copyValue(MonthTotal.julyTotalEarning)" placeholder="$$$" ng-model="MonthTotal.julyTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.julyFlag" name="july" class="form-control col-sm-6" ng-click="julysOpen()" ng-change="copyValue(MonthTotal.julyTotalEarning)" placeholder="N/A" ng-model="MonthTotal.julyTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="julyOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveLocationPlan('july',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         				<label>Total Earning<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         				<input readonly="readonly" type="text" name="totalEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.totalEarning">
                          			</div>
                          			</div>
                          		<div>
@@ -2242,12 +2254,12 @@ float: right !important;
                          				<label>Minimum Earnings</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         				<input readonly="readonly" type="text" name="minEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.minEarning">
                          			</div>	
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Vehicles to sell</label>
+                         				<label>Leads Closed</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
@@ -2259,7 +2271,15 @@ float: right !important;
                          			</div>
                          			
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         				<input readonly="readonly" text" name="avgCheck" class="form-control" placeholder="N/A" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to Generate</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text"  name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="leadsTime.leadsToGenerate" >
                          			</div>
                          		</div>
                          		<div ng-if="userType =='General Manager' && showGmLocation == 0">
@@ -2285,20 +2305,20 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>FEBRUARY</label>
+                         			<label style="margin-left: 40px;">FEBRUARY</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.februaryFlag" name="february" class="form-control col-sm-6" ng-click="februarysOpen()" ng-change="copyValue(MonthTotal.februaryTotalEarning)" placeholder="$$$" ng-model="MonthTotal.februaryTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.februaryFlag" name="february" class="form-control col-sm-6" ng-click="februarysOpen()" ng-change="copyValue(MonthTotal.februaryTotalEarning)" placeholder="N/A" ng-model="MonthTotal.februaryTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="februaryOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveLocationPlan('february',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         				<label>Total Earning<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         				<input readonly="readonly" type="text" name="totalEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.totalEarning">
                          			</div>
                          			</div>
                          		<div>
@@ -2306,12 +2326,12 @@ float: right !important;
                          				<label>Minimum Earnings</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         				<input readonly="readonly" type="text" name="minEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.minEarning">
                          			</div>	
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Vehicles to sell</label>
+                         				<label>Leads Closed</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
@@ -2322,7 +2342,15 @@ float: right !important;
                          				<label>Average check</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         				<input readonly="readonly" type="text" name="avgCheck" class="form-control" placeholder="N/A" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to Generate</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text"  name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="leadsTime.leadsToGenerate" >
                          			</div>
                          		</div>
                          		<div ng-if="userType =='General Manager' && showGmLocation == 0">
@@ -2348,20 +2376,20 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>AUGUST</label>
+                         			<label style="margin-left: 40px;">AUGUST</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text"ng-disabled="saleMonthTotal.augustFlag" name="august" class="form-control col-sm-6" ng-click="augustsOpen()" placeholder="$$$" ng-change="copyValue(MonthTotal.augustTotalEarning)" ng-model="MonthTotal.augustTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text"ng-disabled="saleMonthTotal.augustFlag" name="august" class="form-control col-sm-6" ng-click="augustsOpen()" placeholder="N/A" ng-change="copyValue(MonthTotal.augustTotalEarning)" ng-model="MonthTotal.augustTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="augustOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveLocationPlan('august',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         				<label>Total Earning<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.totalEarning" readonly="readonly">
                          			</div>
                          			</div>
                          		<div>
@@ -2369,12 +2397,12 @@ float: right !important;
                          				<label>Minimum Earnings</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         				<input readonly="readonly" type="text" name="minEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.minEarning">
                          			</div>	
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Vehicles to sell</label>
+                         				<label>Leads Closed</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
@@ -2385,7 +2413,15 @@ float: right !important;
                          				<label>Average check</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         				<input readonly="readonly" type="text" name="avgCheck" class="form-control" placeholder="N/A" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to Generate</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text"  name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="leadsTime.leadsToGenerate" >
                          			</div>
                          		</div>
                          		<div ng-if="userType =='General Manager' && showGmLocation == 0">
@@ -2410,20 +2446,20 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>MARCH</label>
+                         			<label style="margin-left: 40px;">MARCH</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text"ng-disabled="saleMonthTotal.marchFlag" name="march" class="form-control col-sm-6" ng-click="marchsOpen()" placeholder="$$$" ng-change="copyValue(MonthTotal.marchTotalEarning)" ng-model="MonthTotal.marchTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text"ng-disabled="saleMonthTotal.marchFlag" name="march" class="form-control col-sm-6" ng-click="marchsOpen()" placeholder="N/A" ng-change="copyValue(MonthTotal.marchTotalEarning)" ng-model="MonthTotal.marchTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="marchOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveLocationPlan('march',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         				<label>Total Earning<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         				<input readonly="readonly" type="text" name="totalEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.totalEarning" >
                          			</div>
                          			</div>
                          		<div>
@@ -2431,12 +2467,12 @@ float: right !important;
                          				<label>Minimum Earnings</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         				<input readonly="readonly" type="text" name="minEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.minEarning">
                          			</div>	
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Vehicles to sell</label>
+                         				<label>Leads Closed</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
@@ -2447,7 +2483,15 @@ float: right !important;
                          				<label>Average check</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         				<input readonly="readonly" type="text" name="avgCheck" class="form-control" placeholder="N/A" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to Generate</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text"  name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="leadsTime.leadsToGenerate" >
                          			</div>
                          		</div>
                          		<div ng-if="userType =='General Manager' && showGmLocation == 0">
@@ -2472,20 +2516,20 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>SEPTEMBER</label>
+                         			<label style="margin-left: 40px;">SEPTEMBER</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.septemberFlag"  name="september" class="form-control col-sm-6" ng-click="septembersOpen()" placeholder="$$$" ng-change="copyValue(MonthTotal.septemberTotalEarning)" ng-model="MonthTotal.septemberTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.septemberFlag"  name="september" class="form-control col-sm-6" ng-click="septembersOpen()" placeholder="N/A" ng-change="copyValue(MonthTotal.septemberTotalEarning)" ng-model="MonthTotal.septemberTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="septemberOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveLocationPlan('september',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         				<label>Total Earning<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         				<input readonly="readonly" type="text" name="totalEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.totalEarning">
                          			</div>
                          			</div>
                          		<div>
@@ -2493,12 +2537,12 @@ float: right !important;
                          				<label>Minimum Earnings</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         				<input readonly="readonly" type="text" name="minEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.minEarning">
                          			</div>	
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Vehicles to sell</label>
+                         				<label>Leads Closed</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
@@ -2509,7 +2553,15 @@ float: right !important;
                          				<label>Average check</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         				<input readonly="readonly"type="text" name="avgCheck" class="form-control" placeholder="N/A" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to Generate</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text"  name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="leadsTime.leadsToGenerate" >
                          			</div>
                          		</div>
                          		<div ng-if="userType =='General Manager' && showGmLocation == 0">
@@ -2534,20 +2586,20 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>APRIL</label>
+                         			<label style="margin-left: 40px;">APRIL</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.aprilFlag" name="april" class="form-control col-sm-6" ng-click="aprilsOpen()" placeholder="$$$" ng-change="copyValue(MonthTotal.aprilTotalEarning)" ng-model="MonthTotal.aprilTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.aprilFlag" name="april" class="form-control col-sm-6" ng-click="aprilsOpen()" placeholder="N/A" ng-change="copyValue(MonthTotal.aprilTotalEarning)" ng-model="MonthTotal.aprilTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="aprilOpen == 1">
                          	<hr>
                            	<form role="form" ng-submit="saveLocationPlan('april',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         				<label>Total Earning<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         				<input readonly="readonly" type="text" name="totalEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.totalEarning" >
                          			</div>
                          			</div>
                          		<div>
@@ -2555,15 +2607,15 @@ float: right !important;
                          				<label>Minimum Earnings</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         				<input readonly="readonly" type="text" name="minEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.minEarning">
                          			</div>	
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Vehicles to sell</label>
+                         				<label>Leads Closed</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
+                         				<input  type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
                          			</div>
                          		</div>
                          		<div>
@@ -2571,7 +2623,15 @@ float: right !important;
                          				<label>Average check</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         				<input readonly="readonly" type="text" name="avgCheck" class="form-control" placeholder="N/A" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to Generate</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text"  name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="leadsTime.leadsToGenerate" >
                          			</div>
                          		</div>
                          		<div ng-if="userType =='General Manager' && showGmLocation == 0">
@@ -2597,20 +2657,20 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>OCTOBER</label>
+                         			<label style="margin-left: 40px;">OCTOBER</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.octoberFlag" name="october" class="form-control col-sm-6" ng-click="octobersOpen()" placeholder="$$$" ng-change="copyValue(MonthTotal.octoberTotalEarning)" ng-model="MonthTotal.octoberTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.octoberFlag" name="october" class="form-control col-sm-6" ng-click="octobersOpen()" placeholder="N/A" ng-change="copyValue(MonthTotal.octoberTotalEarning)" ng-model="MonthTotal.octoberTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="octoberOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveLocationPlan('october',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         				<label>Total Earning<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         				<input readonly="readonly" type="text" name="totalEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.totalEarning" >
                          			</div>
                          			</div>
                          		<div>
@@ -2618,12 +2678,12 @@ float: right !important;
                          				<label>Minimum Earnings</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         				<input readonly="readonly" type="text" name="minEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.minEarning">
                          			</div>	
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Vehicles to sell</label>
+                         				<label>Leads Closed</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
@@ -2634,7 +2694,15 @@ float: right !important;
                          				<label>Average check</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         				<input readonly="readonly" type="text" name="avgCheck" class="form-control" placeholder="N/A" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to Generate</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text"  name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="leadsTime.leadsToGenerate" >
                          			</div>
                          		</div>
                          		<div ng-if="userType =='General Manager' && showGmLocation == 0">
@@ -2659,10 +2727,10 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>MAY</label>
+                         			<label style="margin-left: 40px;">MAY</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.mayFlag" name="may" class="form-control col-sm-6" ng-click="maysOpen()" placeholder="$$$" ng-change="copyValue(MonthTotal.mayTotalEarning)" ng-model="MonthTotal.mayTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.mayFlag" name="may" class="form-control col-sm-6" ng-click="maysOpen()" placeholder="N/A" ng-change="copyValue(MonthTotal.mayTotalEarning)" ng-model="MonthTotal.mayTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="mayOpen == 1">
                          	<hr>
@@ -2672,7 +2740,7 @@ float: right !important;
                          				<label>Total Earning<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         				<input readonly="readonly" type="text" name="totalEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.totalEarning" >
                          			</div>
                          			</div>
                          		<div>
@@ -2680,12 +2748,12 @@ float: right !important;
                          				<label>Minimum Earnings</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         				<input readonly="readonly" type="text" name="minEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.minEarning">
                          			</div>	
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Vehicles to sell</label>
+                         				<label>Leads Closed</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
@@ -2696,7 +2764,15 @@ float: right !important;
                          				<label>Average check</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         				<input readonly="readonly" type="text" name="avgCheck" class="form-control" placeholder="N/A" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to Generate</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text"  name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="leadsTime.leadsToGenerate" >
                          			</div>
                          		</div>
                          		<div ng-if="userType =='General Manager' && showGmLocation == 0">
@@ -2720,20 +2796,20 @@ float: right !important;
                           </div>
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>NOVEMBER</label>
+                         			<label style="margin-left: 40px;">NOVEMBER</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text"ng-disabled="saleMonthTotal.novemberFlag" name="november" class="form-control col-sm-6" ng-click="novembersOpen()" placeholder="$$$" ng-change="copyValue(MonthTotal.novemberTotalEarning)" ng-model="MonthTotal.novemberTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text"ng-disabled="saleMonthTotal.novemberFlag" name="november" class="form-control col-sm-6" ng-click="novembersOpen()" placeholder="N/A" ng-change="copyValue(MonthTotal.novemberTotalEarning)" ng-model="MonthTotal.novemberTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="novemberOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveLocationPlan('november',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         				<label>Total Earning<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         				<input readonly="readonly" type="text" name="totalEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.totalEarning" >
                          			</div>
                          			</div>
                          		<div>
@@ -2741,12 +2817,12 @@ float: right !important;
                          				<label>Minimum Earnings</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         				<input readonly="readonly" type="text" name="minEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.minEarning">
                          			</div>	
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Vehicles to sell</label>
+                         				<label>Leads Closed</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
@@ -2757,7 +2833,15 @@ float: right !important;
                          				<label>Average check</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         				<input readonly="readonly" type="text" name="avgCheck" class="form-control" placeholder="N/A" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to Generate</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text"  name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="leadsTime.leadsToGenerate" >
                          			</div>
                          		</div>
                          		<div ng-if="userType =='General Manager' && showGmLocation == 0">
@@ -2781,20 +2865,20 @@ float: right !important;
                           </div>
                            <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>JUNE</label>
+                         			<label style="margin-left: 40px;">JUNE</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text"ng-disabled="saleMonthTotal.juneFlag" name="june" class="form-control col-sm-6" ng-click="junesOpen()" placeholder="$$$" ng-change="copyValue(MonthTotal.juneTotalEarning)" ng-model="MonthTotal.juneTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text"ng-disabled="saleMonthTotal.juneFlag" name="june" class="form-control col-sm-6" ng-click="junesOpen()" placeholder="N/A" ng-change="copyValue(MonthTotal.juneTotalEarning)" ng-model="MonthTotal.juneTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="juneOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveLocationPlan('june',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         				<label>Total Earning<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         				<input readonly="readonly" type="text" name="totalEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.totalEarning" >
                          			</div>
                          			</div>
                          		<div>
@@ -2802,12 +2886,12 @@ float: right !important;
                          				<label>Minimum Earnings</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         				<input readonly="readonly" type="text" name="minEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.minEarning">
                          			</div>	
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Vehicles to sell</label>
+                         				<label>Leads Closed</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
@@ -2818,7 +2902,15 @@ float: right !important;
                          				<label>Average check</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         				<input readonly="readonly" type="text" name="avgCheck" class="form-control" placeholder="N/A" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to Generate</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text"  name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="leadsTime.leadsToGenerate" >
                          			</div>
                          		</div>
                          		<div ng-if="userType =='General Manager' && showGmLocation == 0">
@@ -2843,10 +2935,10 @@ float: right !important;
                           
                            <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>DECEMBER</label>
+                         			<label style="margin-left: 40px;">DECEMBER</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.decemberFlag" name="december" class="form-control col-sm-6" ng-click="decembersOpen()" placeholder="$$$" ng-change="copyValue(MonthTotal.decemberTotalEarning)" ng-model="MonthTotal.decemberTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.decemberFlag" name="december" class="form-control col-sm-6" ng-click="decembersOpen()" placeholder="N/A" ng-change="copyValue(MonthTotal.decemberTotalEarning)" ng-model="MonthTotal.decemberTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="decemberOpen == 1">
                          	<hr>
@@ -2856,7 +2948,7 @@ float: right !important;
                          				<label>Total Earning<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         				<input readonly="readonly" type="text" name="totalEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.totalEarning" >
                          			</div>
                          			</div>
                          		<div>
@@ -2864,12 +2956,12 @@ float: right !important;
                          				<label>Minimum Earnings</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         				<input readonly="readonly" type="text" name="minEarning" class="form-control" placeholder="N/A" ng-model="leadsTime.minEarning">
                          			</div>	
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Vehicles to sell</label>
+                         				<label>Leads Closed</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
@@ -2880,7 +2972,15 @@ float: right !important;
                          				<label>Average check</label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         				<input readonly="readonly" type="text" name="avgCheck" class="form-control" placeholder="N/A" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to Generate</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text"  name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="leadsTime.leadsToGenerate" >
                          			</div>
                          		</div>
                          		<div ng-if="userType =='General Manager' && showGmLocation == 0">
@@ -2907,9 +3007,9 @@ float: right !important;
                           	</div>
                           	<div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Total</label>
+                         				<label style="margin-left: 40px;">Total</label>
                          			</div>
-                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="total" class="form-control" placeholder="$$$" ng-model="locationTotal">
                          			</div>
                           	</div>
@@ -2930,20 +3030,20 @@ float: right !important;
                          <div class="row" style="height: 620px;overflow: auto;">
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>JANUARY</label>
+                         			<label style="margin-left: 40px;">JANUARY</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" name="january" class="form-control col-sm-6" ng-disabled="saleMonthTotal.januaryFlag"  ng-click="janrOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.januaryTotalEarning)" ng-model="saleMonthTotal.januaryTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="january" class="form-control col-sm-6" ng-disabled="saleMonthTotal.januaryFlag"  ng-click="janrOpen()" placeholder="N/A" ng-change="copyValueSale(saleMonthTotal.januaryTotalEarning)" ng-model="saleMonthTotal.januaryTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="janOpen == 1">
                          	<hr>
                          	<form role="form" ng-submit="saveSalePersonPlan('january')">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>$$$ Amount<span style="color:red;">*</span></label>
+                         				<label>$$$ Amount<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text"  ng-disabled="saleMonthTotal.januaryFlag" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         				<input readonly="readonly" type="text"  ng-disabled="saleMonthTotal.januaryFlag" name="totalBrought" class="form-control" placeholder="N/A" ng-model="saleleadsTime.totalBrought" >
                          			</div>
                          			</div>
                          		<div>
@@ -2964,7 +3064,7 @@ float: right !important;
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         				<label>Appointments<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" ng-disabled="saleMonthTotal.januaryFlag" name="testDrives" class="form-control" placeholder="Amount" ng-model="saleleadsTime.testDrives" required>
@@ -3051,20 +3151,20 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>JULY</label>
+                         			<label style="margin-left: 40px;">JULY</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.julyFlag" name="july" class="form-control col-sm-6" ng-click="julysOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.julyTotalEarning)" ng-model="saleMonthTotal.julyTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.julyFlag" name="july" class="form-control col-sm-6" ng-click="julysOpen()" placeholder="N/A" ng-change="copyValueSale(saleMonthTotal.julyTotalEarning)" ng-model="saleMonthTotal.julyTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="julyOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveSalePersonPlan('july')">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>$$$ Amount<span style="color:red;">*</span></label>
+                         				<label>$$$ Amount<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" ng-disabled="saleMonthTotal.julyFlag" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         				<input type="text" ng-disabled="saleMonthTotal.julyFlag" name="totalBrought" class="form-control" placeholder="N/A" ng-model="saleleadsTime.totalBrought" readonly="readonly">
                          			</div>
                          			</div>
                          		<div>
@@ -3085,7 +3185,7 @@ float: right !important;
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         				<label>Appointments<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" ng-disabled="saleMonthTotal.julyFlag" name="testDrives" class="form-control" placeholder="Amount" ng-model="saleleadsTime.testDrives" required>
@@ -3171,20 +3271,20 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>FEBRUARY</label>
+                         			<label style="margin-left: 40px;">FEBRUARY</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.februaryFlag" name="february" class="form-control col-sm-6" ng-click="februarysOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.februaryTotalEarning)" ng-model="saleMonthTotal.februaryTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.februaryFlag" name="february" class="form-control col-sm-6" ng-click="februarysOpen()" placeholder="N/A" ng-change="copyValueSale(saleMonthTotal.februaryTotalEarning)" ng-model="saleMonthTotal.februaryTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="februaryOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveSalePersonPlan('february')">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>$$$ Amount<span style="color:red;">*</span></label>
+                         				<label>$$$ Amount<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" ng-disabled="saleMonthTotal.februaryFlag" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         				<input type="text" ng-disabled="saleMonthTotal.februaryFlag" name="totalBrought" class="form-control" placeholder="N/A" ng-model="saleleadsTime.totalBrought" readonly="readonly">
                          			</div>
                          			</div>
                          		<div>
@@ -3205,7 +3305,7 @@ float: right !important;
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         				<label>Appointments<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" ng-disabled="saleMonthTotal.februaryFlag" name="testDrives" class="form-control" placeholder="Amount" ng-model="saleleadsTime.testDrives" required>
@@ -3292,20 +3392,20 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>AUGUST</label>
+                         			<label style="margin-left: 40px;">AUGUST</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text"  ng-disabled="saleMonthTotal.augustFlag" name="august" class="form-control col-sm-6" ng-click="augustsOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.augustTotalEarning)" ng-model="saleMonthTotal.augustTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text"  ng-disabled="saleMonthTotal.augustFlag" name="august" class="form-control col-sm-6" ng-click="augustsOpen()" placeholder="N/A" ng-change="copyValueSale(saleMonthTotal.augustTotalEarning)" ng-model="saleMonthTotal.augustTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="augustOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveSalePersonPlan('august')">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>$$$ Amount<span style="color:red;">*</span></label>
+                         				<label>$$$ Amount<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" ng-disabled="saleMonthTotal.augustFlag" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         				<input type="text" ng-disabled="saleMonthTotal.augustFlag" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" readonly="readonly">
                          			</div>
                          			</div>
                          		<div>
@@ -3326,7 +3426,7 @@ float: right !important;
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         				<label>Appointments<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text"  ng-disabled="saleMonthTotal.augustFlag" name="testDrives" class="form-control" placeholder="Amount" ng-model="saleleadsTime.testDrives" required>
@@ -3412,10 +3512,11 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>MARCH</label>
+                         			<label style="margin-left: 40px;">MARCH</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.marchFlag" name="march" class="form-control col-sm-6" ng-click="marchsOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.marchTotalEarning)" ng-model="saleMonthTotal.marchTotalEarning">
+                         		
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.marchFlag" name="march" class="form-control col-sm-6" ng-click="marchsOpen()" placeholder="N/A" ng-change="copyValueSale(saleMonthTotal.marchTotalEarning)" ng-model="saleMonthTotal.marchTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="marchOpen == 1">
                          	<hr>
@@ -3423,10 +3524,10 @@ float: right !important;
                          	  	<form role="form" ng-submit="saveSalePersonPlan('march')">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>$$$ Amount<span style="color:red;">*</span></label>
+                         				<label>$$$ Amount<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" ng-disabled="saleMonthTotal.marchFlag" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         				<input type="text" ng-disabled="saleMonthTotal.marchFlag" name="totalBrought" class="form-control" placeholder="N/A" ng-model="saleleadsTime.totalBrought" readonly="readonly">
                          			</div>
                          			</div>
                          		<div>
@@ -3447,7 +3548,7 @@ float: right !important;
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         				<label>Appointments<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" ng-disabled="saleMonthTotal.marchFlag" name="testDrives" class="form-control" placeholder="Amount" ng-model="saleleadsTime.testDrives" required>
@@ -3535,20 +3636,20 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>SEPTEMBER</label>
+                         			<label style="margin-left: 40px;">SEPTEMBER</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.septemberFlag" name="september" class="form-control col-sm-6" ng-click="septembersOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.septemberTotalEarning)" ng-model="saleMonthTotal.septemberTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.septemberFlag" name="september" class="form-control col-sm-6" ng-click="septembersOpen()" placeholder="N/A" ng-change="copyValueSale(saleMonthTotal.septemberTotalEarning)" ng-model="saleMonthTotal.septemberTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="septemberOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveSalePersonPlan('september')">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>$$$ Amount<span style="color:red;">*</span></label>
+                         				<label>$$$ Amount<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" ng-disabled="saleMonthTotal.septemberFlag" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         				<input type="text" ng-disabled="saleMonthTotal.septemberFlag" name="totalBrought" class="form-control" placeholder="N/A" ng-model="saleleadsTime.totalBrought" readonly="readonly">
                          			</div>
                          			</div>
                          		<div>
@@ -3569,7 +3670,7 @@ float: right !important;
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         				<label>Appointments<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" ng-disabled="saleMonthTotal.septemberFlag" name="testDrives" class="form-control" placeholder="Amount" ng-model="saleleadsTime.testDrives" required>
@@ -3655,10 +3756,10 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>APRIL</label>
+                         			<label style="margin-left: 40px;">APRIL</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.aprilFlag" name="april" class="form-control col-sm-6" ng-click="aprilsOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.aprilTotalEarning)" ng-model="saleMonthTotal.aprilTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.aprilFlag" name="april" class="form-control col-sm-6" ng-click="aprilsOpen()" placeholder="N/A" ng-change="copyValueSale(saleMonthTotal.aprilTotalEarning)" ng-model="saleMonthTotal.aprilTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="aprilOpen == 1">
                          	<hr>
@@ -3668,10 +3769,10 @@ float: right !important;
                          		<div>
 								
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;"  >
-                         				<label>$$$ Amount<span style="color:red;">*</span></label>
+                         				<label>$$$ Amount<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" ng-disabled="saleMonthTotal.aprilFlag" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         				<input type="text" ng-disabled="saleMonthTotal.aprilFlag" name="totalBrought" class="form-control" placeholder="N/A" ng-model="saleleadsTime.totalBrought" readonly="readonly">
                          			</div>
                          			</div>
                          		<div  >
@@ -3692,7 +3793,7 @@ float: right !important;
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         				<label>Appointments<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" ng-disabled="saleMonthTotal.aprilFlag" name="testDrives" class="form-control" placeholder="Amount" ng-model="saleleadsTime.testDrives" required>
@@ -3779,20 +3880,20 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>OCTOBER</label>
+                         			<label style="margin-left: 40px;">OCTOBER</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text"  ng-disabled="saleMonthTotal.octoberFlag" name="october" class="form-control col-sm-6" ng-click="octobersOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.octoberTotalEarning)" ng-model="saleMonthTotal.octoberTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text"  ng-disabled="saleMonthTotal.octoberFlag" name="october" class="form-control col-sm-6" ng-click="octobersOpen()" placeholder="N/A" ng-change="copyValueSale(saleMonthTotal.octoberTotalEarning)" ng-model="saleMonthTotal.octoberTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="octoberOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveSalePersonPlan('october')">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>$$$ Amount<span style="color:red;">*</span></label>
+                         				<label>$$$ Amount<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" ng-disabled="saleMonthTotal.octoberFlag" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         				<input type="text" ng-disabled="saleMonthTotal.octoberFlag" name="totalBrought" class="form-control" placeholder="N/A" ng-model="saleleadsTime.totalBrought" readonly="readonly">
                          			</div>
                          			</div>
                          		<div>
@@ -3813,7 +3914,7 @@ float: right !important;
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         				<label>Appointments<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text"  ng-disabled="saleMonthTotal.octoberFlag" name="testDrives" class="form-control" placeholder="Amount" ng-model="saleleadsTime.testDrives" required>
@@ -3899,20 +4000,20 @@ float: right !important;
                           
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>MAY</label>
+                         			<label style="margin-left: 40px;">MAY</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.mayFlag" name="may" class="form-control col-sm-6" ng-click="maysOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.mayTotalEarning)" ng-model="saleMonthTotal.mayTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.mayFlag" name="may" class="form-control col-sm-6" ng-click="maysOpen()" placeholder="N/A" ng-change="copyValueSale(saleMonthTotal.mayTotalEarning)" ng-model="saleMonthTotal.mayTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="mayOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveSalePersonPlan('may')">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>$$$ Amount<span style="color:red;">*</span></label>
+                         				<label>$$$ Amount<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text"  ng-disabled="saleMonthTotal.mayFlag" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         				<input type="text"  ng-disabled="saleMonthTotal.mayFlag" name="totalBrought" class="form-control" placeholder="N/A" ng-model="saleleadsTime.totalBrought" readonly="readonly">
                          			</div>
                          			</div>
                          		<div>
@@ -3933,7 +4034,7 @@ float: right !important;
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         				<label>Appointments<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" ng-disabled="saleMonthTotal.mayFlag" name="testDrives" class="form-control" placeholder="Amount" ng-model="saleleadsTime.testDrives" required>
@@ -4018,20 +4119,20 @@ float: right !important;
                           </div>
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>NOVEMBER</label>
+                         			<label style="margin-left: 40px;">NOVEMBER</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.novemberFlag" name="november" class="form-control col-sm-6" ng-click="novembersOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.novemberTotalEarning)" ng-model="saleMonthTotal.novemberTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.novemberFlag" name="november" class="form-control col-sm-6" ng-click="novembersOpen()" placeholder="N/A" ng-change="copyValueSale(saleMonthTotal.novemberTotalEarning)" ng-model="saleMonthTotal.novemberTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="novemberOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveSalePersonPlan('november')">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>$$$ Amount<span style="color:red;">*</span></label>
+                         				<label>$$$ Amount<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" ng-disabled="saleMonthTotal.novemberFlag" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         				<input type="text" ng-disabled="saleMonthTotal.novemberFlag" name="totalBrought" class="form-control" placeholder="N/A" ng-model="saleleadsTime.totalBrought" readonly="readonly">
                          			</div>
                          			</div>
                          		<div>
@@ -4052,7 +4153,7 @@ float: right !important;
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         				<label>Appointments<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" ng-disabled="saleMonthTotal.novemberFlag" name="testDrives" class="form-control" placeholder="Amount" ng-model="saleleadsTime.testDrives" required>
@@ -4137,20 +4238,20 @@ float: right !important;
                           </div>
                            <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>JUNE</label>
+                         			<label style="margin-left: 40px;">JUNE</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.juneFlag" name="june" class="form-control col-sm-6" ng-click="junesOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.juneTotalEarning)" ng-model="saleMonthTotal.juneTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.juneFlag" name="june" class="form-control col-sm-6" ng-click="junesOpen()" placeholder="N/A" ng-change="copyValueSale(saleMonthTotal.juneTotalEarning)" ng-model="saleMonthTotal.juneTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="juneOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveSalePersonPlan('june')">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>$$$ Amount<span style="color:red;">*</span></label>
+                         				<label>$$$ Amount<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" ng-disabled="saleMonthTotal.juneFlag" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         				<input type="text" ng-disabled="saleMonthTotal.juneFlag" name="totalBrought" class="form-control" placeholder="N/A" ng-model="saleleadsTime.totalBrought" readonly="readonly">
                          			</div>
                          			</div>
                          		<div>
@@ -4171,7 +4272,7 @@ float: right !important;
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         				<label>Appointments<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" ng-disabled="saleMonthTotal.juneFlag"  name="testDrives" class="form-control" placeholder="Amount" ng-model="saleleadsTime.testDrives" required>
@@ -4257,20 +4358,20 @@ float: right !important;
                           
                            <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<label>DECEMBER</label>
+                         			<label style="margin-left: 40px;">DECEMBER</label>
                          		</div>
-                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" ng-disabled="saleMonthTotal.decemberFlag"  name="december" class="form-control col-sm-6" ng-click="decembersOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.decemberTotalEarning)" ng-model="saleMonthTotal.decemberTotalEarning">
+                         		<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" ng-disabled="saleMonthTotal.decemberFlag"  name="december" class="form-control col-sm-6" ng-click="decembersOpen()" placeholder="N/A" ng-change="copyValueSale(saleMonthTotal.decemberTotalEarning)" ng-model="saleMonthTotal.decemberTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="decemberOpen == 1">
                          	<hr>
                          	  <form role="form" ng-submit="saveSalePersonPlan('december')">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>$$$ Amount<span style="color:red;">*</span></label>
+                         				<label>$$$ Amount<span style="color:red;"></span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" ng-disabled="saleMonthTotal.decemberFlag"  name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         				<input type="text" ng-disabled="saleMonthTotal.decemberFlag"  name="totalBrought" class="form-control" placeholder="N/A" ng-model="saleleadsTime.totalBrought" readonly="readonly">
                          			</div>
                          			</div>
                          		<div>
@@ -4291,7 +4392,7 @@ float: right !important;
                          		</div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         				<label>Appointments<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text"ng-disabled="saleMonthTotal.decemberFlag"  name="testDrives" class="form-control" placeholder="Amount" ng-model="saleleadsTime.testDrives" required>
@@ -4379,9 +4480,9 @@ float: right !important;
                           	</div>
                           	<div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<label>Total</label>
+                         				<label  style="margin-left: 40px;">Total</label>
                          			</div>
-                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<div class="col-sm-5" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="total" class="form-control" placeholder="$$$" ng-model="salePerpleTotal">
                          			</div>
                           	</div>

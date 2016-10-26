@@ -7062,7 +7062,7 @@ angular.module('newApp')
 			   $scope.salePerId = saleId;
 			   $scope.userKeyforSalestotal=saleId;
 			   apiserviceDashborad.getSaleMonthlyPlan(saleId).then(function(data){
-			   
+			   console.log(data);
 				   $scope.totalLocationPlanData = data;
 				   var d = new Date();
 				   var n = d.getMonth()+1;
@@ -7354,7 +7354,7 @@ angular.module('newApp')
 			   if(locationId != 0){
 				   apiserviceDashborad.gmLocationManager(locationId).then(function(data){
 					   apiserviceDashborad.getlocationsMonthlyPlan(data.id).then(function(data){
-						 
+						   console.log(data);
 							   $scope.totalLocationPlanData = data;
 							   var d = new Date();
 							   var n = d.getMonth()+1;
@@ -7537,7 +7537,7 @@ angular.module('newApp')
 				  
 			   }else{
 				   apiserviceDashborad.getlocationsMonthlyPlan($scope.userKey).then(function(data){
-				   
+					   console.log(data);
 					   $scope.totalLocationPlanData = data;
 					   angular.forEach(data, function(obj, index){
 						   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
