@@ -1,9 +1,13 @@
 <div ng-init = viewVehiclesInit();>
     
     <div class="col-sm-12">
-    	<!-- <div class="col-sm-6">
-    		<h2><b>View Vehicles</b></h2>
-    	</div> -->	
+    <div class="col-sm-10">
+    </div>
+    <!-- <div class="col-sm-4">
+    </div> -->
+    	<div class="col-sm-2">
+    		<button type="button" id="comparisonSale" class="btn btn-blue"  ng-click="addCollection()">Add Manufacturers</button>
+    	</div>
    
 </div>		
     <tabset class="nav-tabs2">
@@ -51,10 +55,23 @@
 								                <div class="modal-header">
 								                </div>
 								                <form ng-submit="saveCollectionData()">
-								                <div class="modal-body">
-								                <h4 class="modal-title">ADD NEW Collection</h4>
-								                    <div class="col-sm-6">
-																<input type="text" name="title" ng-model="collections.title" placeholder="TITLE " required>
+								                <div class="col-sm-12">
+								                	<h4 class="modal-title">ADD NEW Manufacturers</h4>
+								                	<div class="col-sm-6">
+								                		<div class="col-sm-6">
+								                			<label class="modal-body">Title</label>
+								                		</div>
+								                    	<div class="col-sm-6">
+															<input type="text" name="title" ng-model="manufacturers.title" placeholder="TITLE " required>
+        												</div>
+        											</div>
+        											<div class="col-sm-6">
+        												<div class="col-sm-6">
+								                			<label class="modal-body">Description</label>
+								                		</div>
+								                    	<div class="col-sm-3">
+															<input type="text" name="title" ng-model="manufacturers.description" placeholder="Description" required>
+        												</div>
         											</div>
 								                </div>
 								                <div class="modal-footer">

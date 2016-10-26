@@ -6884,6 +6884,8 @@ angular.module('newApp')
 		   
 		   $scope.locationTotal = 0;
 		   $scope.saveLocationPlan = function(month, locationIds){
+			   console.log(month);
+			   console.log(locationIds);
 			   var value = 0;
 			   $scope.locationTotal = 0;
 			   $scope.leadsTime.locationList  = $scope.locationList;
