@@ -1310,7 +1310,7 @@ angular.module('app.apiserviceDashborad', [])
 	
 	this.saveLocationPlan = function(leadsTime){
 		var defer = $q.defer();
-		$http.get('/saveLocationPlan/'+leadsTime).success(function(data) {
+		$http.post('/saveLocationPlan',leadsTime).success(function(data) {
 			defer.resolve(data);
 		});
 		return defer.promise;
