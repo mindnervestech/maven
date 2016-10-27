@@ -7066,10 +7066,13 @@ angular.module('newApp')
 			   $scope.salePerId = saleId;
 			   $scope.userKeyforSalestotal=saleId;
 			   apiserviceDashborad.getSaleMonthlyPlan(saleId).then(function(data){
-			   console.log(data);
+			  
+			  
 				   $scope.totalLocationPlanData = data;
 				   var d = new Date();
 				   var n = d.getMonth()+1;
+				   data.push({"month":$filter('date')(d, 'MMMM')});
+				   console.log(data);
 				   angular.forEach(data, function(obj, index){
 					   $scope.salePerpleTotal = parseInt($scope.salePerpleTotal) + parseInt(obj.totalBrought);
 					    if(obj.month == "january"){
