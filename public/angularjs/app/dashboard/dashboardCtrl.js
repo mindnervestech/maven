@@ -7358,6 +7358,7 @@ angular.module('newApp')
 			   $scope.value = 0;
 			   var d = new Date();
 			   var n = d.getMonth()+1;
+			  
 			   if(locationId != 0){
 				   apiserviceDashborad.gmLocationManager(locationId).then(function(data){
 					   apiserviceDashborad.getlocationsMonthlyPlan(data.id).then(function(data){
@@ -7365,6 +7366,7 @@ angular.module('newApp')
 							   $scope.totalLocationPlanData = data;
 							   var d = new Date();
 							   var n = d.getMonth()+1;
+							   data.push({"month":$filter('date')(d, 'MMMM')});
 							   angular.forEach(data, function(obj, index){
 								   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
 								    if(obj.month == "january"){
@@ -7545,6 +7547,7 @@ angular.module('newApp')
 			   }else{
 				   apiserviceDashborad.getlocationsMonthlyPlan($scope.userKey).then(function(data){
 					   console.log(data);
+					   data.push({"month":$filter('date')(d, 'MMMM')});
 					   $scope.totalLocationPlanData = data;
 					   angular.forEach(data, function(obj, index){
 						   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
