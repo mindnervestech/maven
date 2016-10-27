@@ -206,6 +206,7 @@ angular.module('newApp')
 			    type:'success',
 			    text: "Delete successfully",
 			});
+			$scope.allFormName();
 		})
 	}
 	
@@ -431,7 +432,13 @@ angular.module('newApp')
 				$scope.deleteallLeadRender = function(row){
 					console.log(row.entity);
 					apiserviceConfigPage.deleteFormWebsite(row.entity.id).then(function(data){
-						 
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Delete successfully",
+						});
+						$scope.showEditData();
+						 $scope.webSiteinfo();
 		         		
 		    		});
 				}
