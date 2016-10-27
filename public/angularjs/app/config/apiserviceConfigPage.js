@@ -474,6 +474,41 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
+	this.deleteFormWebsite=function(formId){
+		var defer = $q.defer();
+		$http.get('/deleteFormWebsite/'+formId).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Vehicle config saved successfully",
+			});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
+	
+	
+	this.deleteLeadType=function(leadId){
+		var defer = $q.defer();
+		$http.get('/deleteLeadType/'+leadId).success(function(data) {
+			
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.deleteCreateNewForm=function(formId){
+		var defer = $q.defer();
+		console.log("hhhhhhhhhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiiii");
+		$http.get('/deleteCreateNewForm/'+formId).success(function(data) {		
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
 	this.setCoverImage=function(width, height){
 		var defer = $q.defer();
 		$http.get('/setCoverImage/'+width+'/'+height).success(function(data) {

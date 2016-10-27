@@ -3772,45 +3772,46 @@ public class Application extends Controller {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-	    	List <Vehicle> draftVehicleObjList = Vehicle.getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
+	    	List <AddProduct> draftVehicleObjList = AddProduct.getProductByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	ArrayList<SpecificationVM> draftVMs = new ArrayList<>(); 
-	     	for(Vehicle vm : draftVehicleObjList){
-	     		InventoryImage vehicleImg = InventoryImage.getDefaultImage(vm.vin);
+	     	for(AddProduct vm : draftVehicleObjList){
+	     	//	InventoryImage vehicleImg = InventoryImage.getDefaultImage(vm.vin);
 	     		SpecificationVM vehicle = new SpecificationVM();
 	     		vehicle.id = vm.id;
-		    	vehicle.category = vm.category;
-		    	vehicle.vin = vm.vin;
+		    	//vehicle.category = vm.category;
+		    	//vehicle.vin = vm.vin;
 		    	vehicle.year = vm.year;
+		    	vehicle.title =vm.title;
 		    	//vehicle.make = vm.make+" "+vm.model;
-		    	vehicle.make = vm.make;
-		    	vehicle.model = vm.model;
-		    	vehicle.trim_level = vm.trim;
-		    	vehicle.label = vm.label;
-		    	vehicle.stock = vm.stock;
-		    	vehicle.mileage = vm.mileage;
-		    	vehicle.cost = vm.cost;
-		    	vehicle.price = vm.price;
-		    	vehicle.extColor = vm.exteriorColor;
-		    	vehicle.intColor = vm.interiorColor;
-		    	vehicle.colorDesc = vm.colorDescription;
+		    	//vehicle.make = vm.make;
+		    	//vehicle.model = vm.model;
+		    	//vehicle.trim_level = vm.trim;
+		    	//vehicle.label = vm.label;
+		    //	vehicle.stock = vm.stock;
+		    	//vehicle.mileage = vm.mileage;
+		    	//vehicle.cost = vm.cost;
+		    //	vehicle.price = vm.price;
+		    	//vehicle.extColor = vm.exteriorColor;
+		    //	vehicle.intColor = vm.interiorColor;
+		    	/*vehicle.colorDesc = vm.colorDescription;
 		    	vehicle.doors = vm.doors;
 		    	vehicle.stereo = vm.stereo;
 		    	vehicle.engine = vm.engine;
-		    	vehicle.fuel = vm.fuel;
-		    	vehicle.city_mileage = vm.cityMileage;
+		    	vehicle.fuel = vm.fuel;*/
+		    /*	vehicle.city_mileage = vm.cityMileage;
 		    	vehicle.highway_mileage = vm.highwayMileage;
 		    	vehicle.bodyStyle = vm.bodyStyle;
 		    	vehicle.drivetrain = vm.drivetrain;
 		    	vehicle.transmission = vm.transmission;
 		    	vehicle.location = vm.location;
-		    	vehicle.status  =  vm.status;
-		    	vehicle.vehicleCnt = InventoryImage.getVehicleImageCountByVIN(vm.vin);
+		    	vehicle.status  =  vm.status;*/
+		    	/*vehicle.vehicleCnt = InventoryImage.getVehicleImageCountByVIN(vm.vin);
 		    	vehicle.sold = true;
 		    	if(vehicleImg != null){
 		    		vehicle.imagePath = vehicleImg.thumbPath;
 		    		vehicle.imgId = vehicleImg.id;
-		    	}
+		    	}*/
 		    	vehicle.sold = false;
 		    	 vehicle.title=vm.getTitle();
 		    	 draftVMs.add(vehicle);

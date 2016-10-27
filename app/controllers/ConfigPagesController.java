@@ -29,6 +29,7 @@ import models.NewsletterDate;
 import models.Permission;
 import models.PhotographerHoursOfOperation;
 import models.PremiumLeads;
+import models.RequestMoreInfo;
 import models.Site;
 import models.SliderImageConfig;
 import models.VehicleImageConfig;
@@ -389,6 +390,20 @@ public class ConfigPagesController extends Controller{
 		    	
 			}
 		 
+		 public static Result deleteLeadType(Long leadId){
+			 List<RequestMoreInfo> reInfo = RequestMoreInfo.findAllOtherLeadIdWise(leadId.toString());
+			 if(reInfo.size() == 0){
+				 LeadType type = LeadType.findById(leadId);
+				 type.delete();
+				 return ok();
+			 }else{
+				 return ok("not delete");
+			 }
+			 
+			 
+			 
+		 }
+		 
 		 public static Result getEmailDetails(){
 				
 		    		EmailDetails detail=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -558,6 +573,12 @@ public class ConfigPagesController extends Controller{
 		    	   return ok();
 		    }
 		 
+		 public static Result deleteCreateNewForm(Long formId){
+			 CreateNewForm cForm = CreateNewForm.findById(formId);
+			 cForm.delete();
+			 return ok();
+		 }
+		 
 		 public static Result addnewWebSiteForm() {
 				Form<NewFormWebsiteVM> form = DynamicForm.form(NewFormWebsiteVM.class).bindFromRequest();
 				NewFormWebsiteVM  vm=form.get();
@@ -575,6 +596,12 @@ public class ConfigPagesController extends Controller{
 		   		
 		    	   return ok();
 		    }
+		 
+		 public static Result deleteFormWebsite(Long formId){
+			 NewFormWebsite nWebsite = NewFormWebsite.findById(formId);
+			 nWebsite.delete();
+			 return ok();
+		 }
 		 
 		 public static Result updatenewWebSiteForm() {
 				Form<NewFormWebsiteVM> form = DynamicForm.form(NewFormWebsiteVM.class).bindFromRequest();

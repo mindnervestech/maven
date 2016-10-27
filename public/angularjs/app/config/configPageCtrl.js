@@ -124,7 +124,7 @@ angular.module('newApp')
 		                                 },
 		                                 
 		                                 { name: 'edit', displayName: ' ', width:'30%',
-    		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.ShowCreateNewForm(row)" title="Edit"></i> ', 
+    		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.ShowCreateNewForm(row)" title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" ng-click="grid.appScope.deleteCreateNewForm(row)" title="Delete"></i> ', 
     		                                 /*ng-if="(row.entity.leadName != "Request More Info" || row.entity.leadName != "Schedule Test" || row.entity.leadName != "Trade In")"*/
 		                                 },
 		                                    ];
@@ -161,7 +161,7 @@ angular.module('newApp')
 		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Trade-In Appraisal\' || row.entity.leadName == \'Request More Info\' || row.entity.leadName == \'Schedule Test Drive\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row)">  </div>',
 		                                 },
 		                                 { name: 'edit', displayName: ' ', width:'20%',
-    		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test Drive\' && row.entity.leadName != \'Trade-In Appraisal\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i> ', 
+    		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test Drive\' && row.entity.leadName != \'Trade-In Appraisal\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test Drive\' && row.entity.leadName != \'Trade-In Appraisal\'" ng-click="grid.appScope.DeleteUser(row)"  title="Edit"></i>', 
     		                                 /*ng-if="(row.entity.leadName != "Request More Info" || row.entity.leadName != "Schedule Test" || row.entity.leadName != "Trade In")"*/
 		                                 },
 		                                    ];
@@ -196,6 +196,17 @@ angular.module('newApp')
 		
 		})
 		
+	}
+	
+	$scope.deleteCreateNewForm = function(row){
+		console.log(row.entity.id);
+		apiserviceConfigPage.deleteCreateNewForm(row.entity.id).then(function(data){
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Delete successfully",
+			});
+		})
 	}
 	
 	$scope.ShowCreateNewForm = function(row){
@@ -395,7 +406,7 @@ angular.module('newApp')
 				                                 }, 
 				                                 {name:'10', displayName:'LeadLink', width:'15%',
 				                                	 /*cellTemplate:'<div><div class="link-domain"ng-click="grid.appScope.outcome(row)">Outcome &nbsp;&nbsp;&nbsp </div><i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i></div>',*/
-				                                	 cellTemplate:'<div class="link-domain"><i class="glyphicon glyphicon-edit" ng-click="grid.appScope.allLeadRender(row)"  title="Edit"></i></div>',
+				                                	 cellTemplate:'<div class="link-domain"><i class="glyphicon glyphicon-edit" ng-click="grid.appScope.allLeadRender(row)"  title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" ng-click="grid.appScope.deleteallLeadRender(row)"  title="Edit"></i></div>',
 				                                 }, 
 				                                 
 				                                 ];
@@ -417,7 +428,13 @@ angular.module('newApp')
 
 					$scope.rowDataVal = row.entity;
 				};
-				
+				$scope.deleteallLeadRender = function(row){
+					console.log(row.entity);
+					apiserviceConfigPage.deleteFormWebsite(row.entity.id).then(function(data){
+						 
+		         		
+		    		});
+				}
 				 $scope.allLeadRender = function(row){
 						console.log(row);
 						if(row.entity.lead_name != ""){
@@ -504,6 +521,27 @@ angular.module('newApp')
 			 $scope.leadName = row.entity.leadName;
 			 $scope.editleadtype.id = row.entity.id;
 			 
+		 }
+		 
+		 $scope.DeleteUser = function(row){
+			 console.log(row.entity)
+			 apiserviceConfigPage.deleteLeadType(row.entity.id).then(function(data){
+				 if(data == "not delete"){
+					 $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Unable to Delete",
+						});
+				 }else{
+					 $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Delete successfully",
+						});
+				 }
+				 console.log("in of funtion");
+         		 $scope.leadTypeAll();
+    		});
 		 }
 			
 		 $scope.editleadtype={};
