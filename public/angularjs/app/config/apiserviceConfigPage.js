@@ -501,7 +501,6 @@ angular.module('app.apiserviceConfigPage', [])
 	
 	this.deleteCreateNewForm=function(formId){
 		var defer = $q.defer();
-		console.log("hhhhhhhhhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiiii");
 		$http.get('/deleteCreateNewForm/'+formId).success(function(data) {		
 			defer.resolve(data);
 		});
