@@ -1345,9 +1345,10 @@ angular.module('app.apiserviceDashborad', [])
 	
 	this.saveSalePlan = function(saleleadsTime){
 		var defer = $q.defer();
-		$http.get('/saveSalePlan/'+saleleadsTime).success(function(data) {
+		$http.post('/saveSalePlan',saleleadsTime).success(function(data) {
 			defer.resolve(data);
 		});
+		
 		return defer.promise;
 	};
 	

@@ -4183,7 +4183,7 @@ angular.module('newApp')
 	    				$scope.leadList = response; 
 	    			
 	    			});
-	    			apiserviceDashborad.getCustomizationform('Create Lead').then(function(response){
+	    			apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
 	    			
 	    				console.log(response);
 	    				console.log(angular.fromJson(response.jsonData));
@@ -6980,6 +6980,8 @@ angular.module('newApp')
 			  value = $scope.saleleadsTime.totalBrought;
 			   $scope.saleleadsTime.salesList = $scope.salesList;
 			   $scope.saleleadsTime.month = month;
+			   console.log("ooooooooooooooooooooo");
+			   console.log($scope.saleleadsTime);
 			   apiserviceDashborad.saveSalePlan($scope.saleleadsTime).then(function(response){
 			   
 				   $scope.janOpen = 0;
