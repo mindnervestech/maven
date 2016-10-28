@@ -204,7 +204,7 @@ public class productController extends Controller {
 	    }
 	 
 	 
-	  /*public static Result removeDefaultProduct(Long newId) {
+	  public static Result removeDefaultProduct(Long newId) {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
@@ -220,7 +220,7 @@ public class productController extends Controller {
 		    	newImage.update();
 		    	return ok();
 	    	}	
-	    }*/
+	    }
 	  
 	 public static Result uploadProductPhotos() {
 	    	
