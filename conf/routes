@@ -90,10 +90,10 @@ GET     /getColl				         controllers.AddEditInventoryController.getCollectio
 POST    /saveProduct                     controllers.productController.addProduct()
 #GET     /removeDefaultProduct/:newId	 controllers.productController.removeDefaultProduct(newId:Long)
 #GET		/deleteImage/:id		         controllers.productController.deleteImage(id:Long)
-#GET		/getImagesByProduct/:id		     controllers.productController.getImagesByProduct(id:Long)
-#POST    /uploadProductPhoto   			 controllers.productController.uploadProductPhotos()
+GET		/getImagesByProduct/:id		     controllers.productController.getImagesByProduct(id:Long)
+POST    /uploadProductPhoto   			 controllers.productController.uploadProductPhotos()
 #GET		/getImageById/:id			     controllers.productController.getImageDataById(id: Long)
-#GET		/getImage/:id/:type			     controllers.productController.getImageById(id:Long,type:String)
+GET		/getImage/:id/:type			     controllers.productController.getImageById(id:Long,type:String)
 #POST	/editImage				    	 controllers.productController.editImage()
 
 GET		/getReadyMadeCollection		     controllers.InventoryController.getReadyMadeCollection()

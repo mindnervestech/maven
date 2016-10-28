@@ -1,10 +1,15 @@
 package controllers;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -13,19 +18,23 @@ import org.apache.commons.net.ftp.FTPClient;
 import models.AddCollection;
 import models.AddProduct;
 import models.AuthUser;
+import models.ProductImages;
 import play.Play;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import viewmodel.AddCollectionVM;
 import viewmodel.AddProductVM;
+import viewmodel.ImageVM;
 import viewmodel.SpecificationVM;
+import views.html.home;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
 /*----------*/
+import securesocial.core.Identity;
 
 
 
@@ -213,44 +222,7 @@ public class productController extends Controller {
 	    	}	
 	    }*/
 	  
-	 /* public static Result deleteImage(Long id) {
-	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-	    		return ok(home.render("",userRegistration));
-	    	} else {
-		    	AuthUser user = (AuthUser) getLocalUser();
-		    	ProductImages image = ProductImages.findById(id);
-		    	File file = new File(rootDir+File.separator+id+"-"+user.id+File.separator+image.imageName);
-		    	File thumbFile = new File(rootDir+File.separator+id+"-"+user.id+File.separator+"thumbnail_"+image.imageName);
-		    	file.delete();
-		    	thumbFile.delete();
-		    	image.delete();
-		    	return ok();
-	    	}
-	    }
-	  
-	  public static Result getImagesByProduct(Long id) {
-	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-	    		return ok(home.render("",userRegistration));
-	    	} else {
-		    	Identity user = getLocalUser();
-		    	AuthUser userObj = (AuthUser)user;
-		    	AddProduct product = AddProduct.findById(id);
-		    	List<ProductImages> imageList = ProductImages.getByProduct(product);
-		    	//reorderImagesForFirstTime(imageList);
-		    	List<ImageVM> vmList = new ArrayList<>();
-		    	for(ProductImages image : imageList) {
-		    		ImageVM vm = new ImageVM();
-		    		vm.id = image.id;
-		    		vm.imgName = image.imageName;
-		    		vm.path = image.path;
-		    		vm.defaultImage = image.defaultImage;
-		    		vmList.add(vm);
-		    	}
-		    	return ok(Json.toJson(vmList));
-	    	}	
-	    }
-	  
-	  public static Result uploadProductPhotos() {
+	 public static Result uploadProductPhotos() {
 	    	
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
@@ -302,8 +274,31 @@ public class productController extends Controller {
 	    	}	
 	    	
 	    }
-	  
-	  public static Result getImageById(Long id, String type) {
+	 
+	 public static Result getImagesByProduct(Long id) {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	Identity user = getLocalUser();
+		    	AuthUser userObj = (AuthUser)user;
+		    	AddProduct product = AddProduct.findById(id);
+		    	List<ProductImages> imageList = ProductImages.getByProduct(product);
+		    	//reorderImagesForFirstTime(imageList);
+		    	List<ImageVM> vmList = new ArrayList<>();
+		    	for(ProductImages image : imageList) {
+		    		ImageVM vm = new ImageVM();
+		    		vm.id = image.id;
+		    		vm.imgName = image.imageName;
+		    		vm.path = image.path;
+		    		vm.defaultImage = image.defaultImage;
+		    		vmList.add(vm);
+		    	}
+		    	return ok(Json.toJson(vmList));
+	    	}	
+	    }
+	 
+	 
+	 public static Result getImageById(Long id, String type) {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
@@ -319,6 +314,23 @@ public class productController extends Controller {
 		    	return ok(file);
 	    	}	
 	    }
+	 /* public static Result deleteImage(Long id) {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	AuthUser user = (AuthUser) getLocalUser();
+		    	ProductImages image = ProductImages.findById(id);
+		    	File file = new File(rootDir+File.separator+id+"-"+user.id+File.separator+image.imageName);
+		    	File thumbFile = new File(rootDir+File.separator+id+"-"+user.id+File.separator+"thumbnail_"+image.imageName);
+		    	file.delete();
+		    	thumbFile.delete();
+		    	image.delete();
+		    	return ok();
+	    	}
+	    }
+	  
+	  
+	  
 	  
 	  public static Result getImageDataById(Long id) throws IOException {
 		  if(session("USER_KEY") == null || session("USER_KEY") == "") {

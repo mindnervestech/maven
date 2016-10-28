@@ -53,7 +53,7 @@ angular.module('newApp')
 				    text: "Update successfully",
 				});
 	   			$("#submit").attr("disabled", false);
-	   			$location.path('/ManufacturersImages/'+data.id);
+	   			$location.path('/manufacturersImages/'+data.id);
 	   		});
 		}else if(logofile != undefined){
 			$scope.addProduct.id = 0;
@@ -68,7 +68,7 @@ angular.module('newApp')
    			console.log('success');
    			console.log($location);
    			$("#submit").attr("disabled", false);
-   			$location.path('/ManufacturersImages/'+data.id);
+   			$location.path('/manufacturersImages/'+data.id);
    			
    		 });
 		}else if(logofile == undefined){
@@ -83,7 +83,7 @@ angular.module('newApp')
 	   			console.log('success');
 	   			console.log($location);
 	   			$("#submit").attr("disabled", false);
-	   			$location.path('/ManufacturersImages/'+data.id);
+	   			$location.path('/manufacturersImages/'+data.id);
 	   			
 	   		 });
 			}else if(logofile != undefined){
@@ -110,7 +110,7 @@ angular.module('newApp')
 		   			console.log('success');
 		   			console.log($location);
 		   			$("#submit").attr("disabled", false);
-		   			$location.path('/ManufacturersImages/'+data.id);
+		   			$location.path('/manufacturersImages/'+data.id);
 		   			
 		   		 });
 				}

@@ -128,9 +128,9 @@ var MakeApp = angular
             controller: 'calendarCtrl'
         })
         
-        .when('/ManufacturersImages/:id', {
-            templateUrl: 'dealer/addManufacturers/ManufacturersImages.html',
-            controller: 'ManufacturersImagesCtrl'
+        .when('/manufacturersImages/:id', {
+            templateUrl: 'dealer/addManufacturers/productImages.html',
+            controller: 'ProductImagesCtrl'
         })
         .when('/createUser', {
             templateUrl: '/dealer/myprofile/createUser.html',
