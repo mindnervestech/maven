@@ -67,7 +67,7 @@ angular.module('app.apiserviceViewInventory', [])
 		return defer.promise;
 	};
 	
-	this.getAllProduct=function(userLocationId,,status){
+	this.getAllProduct=function(userLocationId,status){
 		var defer = $q.defer();
 		
 		$http.get('/getAllProduct/'+status).success(function(data) {

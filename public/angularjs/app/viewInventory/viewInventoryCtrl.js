@@ -229,7 +229,7 @@ angular.module('newApp')
     					 var str = $scope.rowData.price.split(" ");
         				 $scope.rowData.price = str[1];
     				 }
-    				 apiserviceViewVehicle.updateVehicle($scope.rowData).then(function(data){
+    				 apiserviceViewInventory.updateVehicle($scope.rowData).then(function(data){
     				 
         					$scope.rowData.price = "$ "+$scope.rowData.price;
         				});
@@ -237,7 +237,7 @@ angular.module('newApp')
     			 
     			 
     			 $scope.historyVehicle = function(row){
-    				 apiserviceViewVehicle.getVehicleHistory(row.entity.vin).then(function(data){
+    				 apiserviceViewInventory.getVehicleHistory(row.entity.vin).then(function(data){
     				 
     						$scope.vehicleHistory = data;
     						$('#vehicleHistory').click();
@@ -245,7 +245,7 @@ angular.module('newApp')
     			 };
     			 
     			 $scope.hideVehicle = function(row){
-    				 apiserviceViewVehicle.getGoTodraft(row.entity.id).then(function(data){
+    				 apiserviceViewInventory.getGoTodraft(row.entity.id).then(function(data){
     				 
  							$scope.hideText = "Vehicle has been hidden from the website and moved to Drafts list";
  							$scope.hideTitle = "Vehicle moved to drafts";
@@ -273,7 +273,7 @@ angular.module('newApp')
     				$scope.vehicleData = function(sts){
     					if($scope.vType == 'new'){
     						 $scope.doPublic = 0;
-    						 apiserviceViewVehicle.getAllVehiclesByType(sts).then(function(data){
+    						 apiserviceViewInventory.getAllVehiclesByType(sts).then(function(data){
     						 
 		    			 			for(var i=0;i<data.length;i++) {
 		    			 				data[i].price = "$ "+data[i].price;
@@ -287,7 +287,7 @@ angular.module('newApp')
     					}
     					if($scope.vType == 'sold'){
     						 $scope.doPublic = 2;
-    						 apiserviceViewVehicle.getAllSoldVehiclesByType(sts).then(function(data){
+    						 apiserviceViewInventory.getAllSoldVehiclesByType(sts).then(function(data){
    						 
 		    			 			for(var i=0;i<data.length;i++) {
 		    			 				data[i].price = "$ "+data[i].price;
@@ -310,12 +310,12 @@ angular.module('newApp')
     		    				 $scope.gridOptions.data = [];
     		    				 $scope.doPublic = 0;
     		    				 console.log($scope.userType);
-    		    				 apiserviceViewVehicle.findLocation().then(function(data){
+    		    				 apiserviceViewInventory.findLocation().then(function(data){
     		    				 
 		    							console.log(data);
 		    							$scope.userLocationId = data;
     		    				 if($scope.userType == "Photographer"){
-    		    					 apiserviceViewVehicle.getAllVehiclesImage($scope.userLocationId).then(function(data){
+    		    					 apiserviceViewInventory.getAllVehiclesImage($scope.userLocationId).then(function(data){
     		    				
     		    			 			console.log(data);
     		    			 			/*for(var i=0;i<data.length;i++) {
@@ -331,12 +331,11 @@ angular.module('newApp')
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions.data = data;
     		    			 			console.log($scope.gridOptions.data);
-    		    			 			$scope.gridOptions.columnDefs[9].displayName='Next Test Drive';
-    		    			 			$scope.gridOptions.columnDefs[10].displayName='Views';
+    		    			 			//$scope.gridOptions.columnDefs[10].displayName='Views';
     		    			 		});
     		    				 }
     		    				 else{
-    		    					 apiserviceViewVehicle.getAllProduct($scope.userLocationId,"publish").then(function(data){
+    		    					 apiserviceViewInventory.getAllProduct($scope.userLocationId,"publish").then(function(data){
     		    					 
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].price = "$ "+data[i].price;
@@ -348,8 +347,7 @@ angular.module('newApp')
      		    			 			$scope.vehiClesList = data;
      		    			 			$scope.gridOptions.data = data;
      		    			 			console.log($scope.gridOptions.data);
-     		    			 			$scope.gridOptions.columnDefs[9].displayName='Next Test Drive';
-     		    			 			$scope.gridOptions.columnDefs[10].displayName='Views';
+     		    			 			//$scope.gridOptions.columnDefs[10].displayName='Views';
      		    			 		});
     		    					 
     		    				 }
@@ -360,7 +358,7 @@ angular.module('newApp')
     		    				 $scope.ch = false;
     		    				 $scope.doPublic = 2;
     		    				 $scope.flagForUser = true;
-    		    				 apiserviceViewVehicle.getAllSoldVehicles().then(function(data){
+    		    				 apiserviceViewInventory.getAllSoldVehicles().then(function(data){
     		    				 
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
@@ -372,20 +370,19 @@ angular.module('newApp')
     		    			 			$scope.type = "All";
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions2.data = data;
-    		    			 			$scope.gridOptions.columnDefs[8].displayName='Sold Date';
-    		    			 			$scope.gridOptions.columnDefs[9].displayName='History';
+    		    			 			//$scope.gridOptions.columnDefs[9].displayName='History';
     		    			 		});
     		    			 }
     		    			 $scope.draftTab = function() {
     		    				 $scope.flagForUser = true;
     		    				 $scope.doPublic = 1;
-    		    				 apiserviceViewVehicle.findLocation().then(function(data){
-    		    				 
+    		    				 apiserviceViewInventory.findLocation().then(function(data){
+    		    					 
 		    							console.log(data);
 		    							$scope.userLocationId = data;
     		    				 if($scope.userType == "Photographer"){
     		    					 console.log($scope.userLocationId);
-    		    					 apiserviceViewVehicle.getAllProduct($scope.userLocationId,"draft").then(function(data){
+    		    					 apiserviceViewInventory.getAllProduct($scope.userLocationId,"draft").then(function(data){
     		    					 
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
@@ -400,14 +397,13 @@ angular.module('newApp')
     		    			 			$scope.type = "All";
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions1.data = data;
-    		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
-    		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
+    		    			 			//$scope.gridOptions.columnDefs[9].displayName='Views';
     		    			 			
     		    			 			
     		    			 		});
     		    				 }
     		    				 else{
-    		    					 apiserviceViewVehicle.getAllDraftVehicles($scope.userLocationId).then(function(data){
+    		    					 apiserviceViewInventory.getAllProduct($scope.userLocationId,"draft").then(function(data){
     		    					 
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].price = "$ "+data[i].price;
@@ -420,8 +416,7 @@ angular.module('newApp')
      		    			 			$scope.type = "All";
      		    			 			$scope.vehiClesList = data;
      		    			 			$scope.gridOptions1.data = data;
-     		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
-     		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
+     		    			 		//	$scope.gridOptions.columnDefs[9].displayName='Views';
      		    			 		});
     		    					 
     		    				 }

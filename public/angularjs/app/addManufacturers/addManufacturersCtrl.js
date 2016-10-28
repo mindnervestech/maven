@@ -30,7 +30,7 @@ angular.module('newApp')
 		$('#cancelModal').modal('show');
 	}
 	$scope.cancelYes = function(){
-		$location.path('/addManufacturers);
+		$location.path('/viewInventory');
 	}
 	
 	$scope.saveManufacturers = function(){
