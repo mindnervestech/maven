@@ -28,6 +28,7 @@ public class AddProduct extends Model {
 	public String primaryTitle;
 	public String cadfileName;
 	public String cadfilePath;
+	public String publicStatus;
 	
 	@ManyToOne
 	public Location locations;
@@ -47,6 +48,13 @@ public class AddProduct extends Model {
 	}
 	public void setCadfileName(String cadfileName) {
 		this.cadfileName = cadfileName;
+	}
+	
+	public String getPublicStatus() {
+		return publicStatus;
+	}
+	public void setPublicStatus(String publicStatus) {
+		this.publicStatus = publicStatus;
 	}
 	public String getCadfilePath() {
 		return cadfilePath;
@@ -209,6 +217,10 @@ public class AddProduct extends Model {
 	}
 	public static List<AddProduct> getProductByDraftStatusAndLocation(Long location) {
 		return find.where().eq("publicStatus", "draft").findList();		
+	}
+	
+	public static List<AddProduct> getProductByStatus(Long location, String status) {
+		return find.where().eq("publicStatus", status).findList();		
 	}
 	
 	public static AddProduct findByProductIdOne(String productname,Location location) {

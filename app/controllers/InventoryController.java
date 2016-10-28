@@ -907,6 +907,12 @@ public class InventoryController extends Controller {
 		   return ok(Json.toJson(lType));
 	   }
 	   
+	   
+	   public static Result getAllProduct(String status) {
+			List<AddProduct> pList = AddProduct.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
+			return ok(Json.toJson(pList));
+		}
+	   
 	public static AuthUser getLocalUser() {
 		String id = session("USER_KEY");
 		AuthUser user = AuthUser.find.byId(Integer.parseInt(id));

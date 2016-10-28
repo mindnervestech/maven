@@ -336,7 +336,7 @@ angular.module('newApp')
     		    			 		});
     		    				 }
     		    				 else{
-    		    					 apiserviceViewVehicle.getAllVehicles($scope.userLocationId).then(function(data){
+    		    					 apiserviceViewVehicle.getAllProduct($scope.userLocationId,"publish").then(function(data){
     		    					 
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].price = "$ "+data[i].price;
@@ -385,7 +385,7 @@ angular.module('newApp')
 		    							$scope.userLocationId = data;
     		    				 if($scope.userType == "Photographer"){
     		    					 console.log($scope.userLocationId);
-    		    					 apiserviceViewVehicle.getAllDraftVehiclesdata($scope.userLocationId).then(function(data){
+    		    					 apiserviceViewVehicle.getAllProduct($scope.userLocationId,"draft").then(function(data){
     		    					 
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;

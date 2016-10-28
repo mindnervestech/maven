@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('ProductImagesCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload', function ($scope,$http,$location,$filter,$routeParams,$upload) {
+.controller('ManufacturersImagesCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload', function ($scope,$http,$location,$filter,$routeParams,$upload) {
 	
 	$scope.addProductImages = {};
 	$http.get('/addProductImages')

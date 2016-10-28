@@ -1,7 +1,7 @@
 <h1><b>ADD MANUFACTURERS</b></h1>
 <br>
 <br>
-<form ng-submit="saveManufacturers()">
+<form ng-submit="saveManufacturers(value)">
 	<div class="form-group col-sm-12">
 		<div>
 			<label class="control-label" style="width: 21%;"><font size="3">Title </font></label>
@@ -15,9 +15,6 @@
 		</div>
 		<input class="form-control form-white" type="text" style="border-color:red;width:30%;" ng-model="addProduct.description"  required>
 	</div>
-
-	
-
 	
 
 	<div class="form-group col-sm-12">
@@ -29,8 +26,41 @@
 		</div>
 	</div>
 	
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-6">
+		</div>
+		<div class="form-group col-sm-6">
+		   <div class="form-group col-sm-4">
+		   	<input type="submit" class="btn btn-primary"  ng-click="setStatusvalue('publish')" value="Save & Publich" style="margin-top:3%;margin-left:46%;">
+		   </div>
+		   <div class="form-group col-sm-4">
+		   	<input type="submit" class="btn btn-primary"  ng-click="setStatusvalue('draft')" value="Save to Drafts" style="margin-top:3%;margin-left:46%;">
+		   </div>
+		   <div class="form-group col-sm-4">
+		   	<input type="button" class="btn btn-primary"  ng-click="setOpenPopup()" value="Cancel" style="margin-top:3%;margin-left:46%;">
+		   </div>
+		</div>
+	</div>
 	
-	<input type="submit" id="submit" class="btn btn-primary "  value="Save & Publich" style="margin-top:3%;margin-left:46%;">
-	<input type="submit" id="submit" class="btn btn-primary "  value="Save to Drafts" style="margin-top:3%;margin-left:46%;">
+	
 	
 </form>
+
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Delete Lead Type</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Are you sure you want to cancel?
+													All of the changes will be lost<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="cancelYes()">Yes</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>

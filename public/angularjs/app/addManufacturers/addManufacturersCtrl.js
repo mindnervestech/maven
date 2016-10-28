@@ -21,10 +21,21 @@ angular.module('newApp')
 		});
 	}
 	
+	$scope.setStatusvalue = function(value){
+		$scope.statusValue = value;
+		console.log($scope.statusValue);
+	}
+	
+	$scope.setOpenPopup = function(){
+		$('#cancelModal').modal('show');
+	}
+	$scope.cancelYes = function(){
+		$location.path('/addManufacturers);
+	}
 	
 	$scope.saveManufacturers = function(){
 		//$("#submit").attr("disabled", true);
-		console.log(logofile);
+		$scope.addProduct.publicStatus = $scope.statusValue;
 		 $scope.addProduct.id = $('#sectionId').val();
 		 console.log($('#sectionId').val());
 		 if($scope.addProduct.newFlag != true)
@@ -42,9 +53,10 @@ angular.module('newApp')
 				    text: "Update successfully",
 				});
 	   			$("#submit").attr("disabled", false);
-	   			$location.path('/addProductImages/'+data.id);
+	   			$location.path('/ManufacturersImages/'+data.id);
 	   		});
 		}else if(logofile != undefined){
+			$scope.addProduct.id = 0;
 		console.log("logofile");
 		 $upload.upload({
             url : '/saveProduct',
@@ -56,10 +68,10 @@ angular.module('newApp')
    			console.log('success');
    			console.log($location);
    			$("#submit").attr("disabled", false);
-   			$location.path('/addProductImages/'+data.id);
+   			$location.path('/ManufacturersImages/'+data.id);
    			
    		 });
-		}else if(logofile == undefined && cadfile != undefined){
+		}else if(logofile == undefined){
 			console.log("cadfile");
 			 $upload.upload({
 	            url : '/saveProduct',
@@ -71,10 +83,10 @@ angular.module('newApp')
 	   			console.log('success');
 	   			console.log($location);
 	   			$("#submit").attr("disabled", false);
-	   			$location.path('/addProductImages/'+data.id);
+	   			$location.path('/ManufacturersImages/'+data.id);
 	   			
 	   		 });
-			}else if(logofile != undefined && cadfile != undefined){
+			}else if(logofile != undefined){
 				
 				
 				console.log(names);
@@ -98,7 +110,7 @@ angular.module('newApp')
 		   			console.log('success');
 		   			console.log($location);
 		   			$("#submit").attr("disabled", false);
-		   			$location.path('/addProductImages/'+data.id);
+		   			$location.path('/ManufacturersImages/'+data.id);
 		   			
 		   		 });
 				}
