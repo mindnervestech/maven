@@ -7071,7 +7071,9 @@ angular.module('newApp')
 				   $scope.totalLocationPlanData = data;
 				   var d = new Date();
 				   var n = d.getMonth()+1;
-				   data.push({"month":$filter('date')(d, 'MMMM')});
+				   if(data.length <= 0){
+					   data.push({"month":$filter('date')(d, 'MMMM')});
+				   } 
 				   console.log(data);
 				   angular.forEach(data, function(obj, index){
 					   $scope.salePerpleTotal = parseInt($scope.salePerpleTotal) + parseInt(obj.totalBrought);
@@ -7366,7 +7368,10 @@ angular.module('newApp')
 							   $scope.totalLocationPlanData = data;
 							   var d = new Date();
 							   var n = d.getMonth()+1;
-							   data.push({"month":$filter('date')(d, 'MMMM')});
+							   if(data.length <= 0){
+								   data.push({"month":$filter('date')(d, 'MMMM')});
+							   }
+							   
 							   angular.forEach(data, function(obj, index){
 								   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
 								    if(obj.month == "january"){
@@ -7547,7 +7552,9 @@ angular.module('newApp')
 			   }else{
 				   apiserviceDashborad.getlocationsMonthlyPlan($scope.userKey).then(function(data){
 					   console.log(data);
-					   data.push({"month":$filter('date')(d, 'MMMM')});
+					   if(data.length <= 0){
+						   data.push({"month":$filter('date')(d, 'MMMM')});
+					   } 
 					   $scope.totalLocationPlanData = data;
 					   angular.forEach(data, function(obj, index){
 						   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);

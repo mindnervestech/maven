@@ -545,7 +545,10 @@ var MakeApp = angular
             templateUrl: '/dealer/dashboard/dashboardLocation.html',
             controller: 'dashboardLocationCtrl'
         })
-        
+        .when('/addManufacturers', {
+            templateUrl: '/dealer/addManufacturers/add_Manufacturers.html',
+            controller: 'addManufacturersCtrl'
+        })
         /*----------------------------------------*/
         
        /* .when('/inventory', {

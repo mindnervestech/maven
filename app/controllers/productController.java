@@ -1,15 +1,31 @@
 package controllers;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.net.ftp.FTPClient;
+
 import models.AddCollection;
+import models.AddProduct;
 import models.AuthUser;
 import play.Play;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import viewmodel.AddCollectionVM;
+import viewmodel.AddProductVM;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
+import play.data.DynamicForm;
+import play.data.Form;
+import play.libs.Json;
+/*----------*/
+
 
 
 
@@ -92,7 +108,7 @@ public class productController extends Controller {
 		}
 	 
 	 
-	/* public static Result addProduct(){
+	 public static Result addProduct(){
 			MultipartFormData body = request().body().asMultipartFormData();
 	    	Form<AddProductVM> form = DynamicForm.form(AddProductVM.class).bindFromRequest();
 	    	AddProductVM vm = form.get();
@@ -108,14 +124,7 @@ public class productController extends Controller {
 	    				
 	    	    		add.title = vm.title;
 	    	    		add.description =vm.description;
-	    	    		add.price = vm.price;
-	    	    		add.cost = vm.cost;
-	    	    		add.newFlag = vm.newFlag;
-	    	    		add.primaryTitle = vm.primaryTitle;
-	    	    		add.year = vm.year;
-	    	    		add.designer = vm.designer;
-	    				add.sale="null";
-	    	    		add.collection = AddCollection.findById(vm.id);
+	    	    		
 	    	    		add.user = userObj;
 	    	    		add.save();
 	    	    		
@@ -174,21 +183,14 @@ public class productController extends Controller {
 		   		AddProduct add = new AddProduct ();
 	    		add.title = vm.title;
 	    		add.description =vm.description;
-	    		add.price = vm.price;
-	    		add.cost = vm.cost;
-	    		add.newFlag = vm.newFlag;
-	    		add.primaryTitle = vm.primaryTitle;
-	    		add.year = vm.year;
-	    		add.designer = vm.designer;
-				add.sale="null";
-	    		add.collection = AddCollection.findById(vm.id);
+	    		
 	    		add.user = userObj;
 	    		add.save();
 	    		productVM.id = add.id;
 	    	}
 	    		
 	    		return ok(Json.toJson(productVM));
-	    }*/
+	    }
 	 
 	 
 	  /*public static Result removeDefaultProduct(Long newId) {
