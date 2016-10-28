@@ -18,13 +18,13 @@ angular.module('newApp')
     		                                 { name: 'title', displayName: 'Title',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
     		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
     		                                 },
-    		                                 { name: 'last4Vin', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-    		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.last4Vin}}" >{{row.entity.last4Vin}}</label> </div>',
+    		                                 { name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+    		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
     		                                 },
     		                                 { name: 'stock', displayName: 'Logo',enableColumnMenu: false, width:'15%',
     		                                 },
     		                                 { name: 'bodyStyle', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
-    		                                	 cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',
+    		                                	 /*cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',*/
     		                                 },
     		                                 { name: 'mileage', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: true,
     		                                 },
@@ -97,13 +97,13 @@ angular.module('newApp')
 																{ name: 'title', displayName: 'Title',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
 																	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
 																},
-																{ name: 'last4Vin', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-																	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.last4Vin}}" >{{row.entity.last4Vin}}</label> </div>',
+																{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+																	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
 																},
 																{ name: 'stock', displayName: 'Logo',enableColumnMenu: false, width:'15%',
 																},
 																{ name: 'bodyStyle', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
-																	 cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',
+																	 /*cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',*/
 																},
 																{ name: 'mileage', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: true,
 																},
@@ -167,13 +167,13 @@ angular.module('newApp')
 																		{ name: 'title', displayName: 'Title',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
 																			 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
 																		},
-																		{ name: 'last4Vin', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-																			 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.last4Vin}}" >{{row.entity.last4Vin}}</label> </div>',
+																		{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+																			 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
 																		},
 																		{ name: 'stock', displayName: 'Logo',enableColumnMenu: false, width:'15%',
 																		},
 																		{ name: 'bodyStyle', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
-																			 cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',
+																			 /*cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',*/
 																		},
 																		{ name: 'mileage', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: true,
 																		},
@@ -336,7 +336,9 @@ angular.module('newApp')
     		    				 }
     		    				 else{
     		    					 apiserviceViewInventory.getAllProduct($scope.userLocationId,"publish").then(function(data){
-    		    					 
+    		    					
+    		    						 console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+    		    						 console.log(data);
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].price = "$ "+data[i].price;
      		    			 			}
