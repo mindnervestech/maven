@@ -42,12 +42,12 @@ angular.module('newApp')
     		                                 { name: 'pageViewCount', displayName: 'Views',enableFiltering: false,type:'number',enableColumnMenu: false, width:'7%',cellEditableCondition: false,
     		                                	 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
     		                                 },*/
-    		                                 { name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+    		                                 /*{ name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
         		                                 cellTemplate:'<input type="checkbox" name="vehicle" ng-click="grid.appScope.hideVehicle(row)" autocomplete="off">', 
     		                                 
-    		                                 },
+    		                                 },*/
     		                                 { name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    		                                	 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
+    		                                	 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProduct(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
     		                                 
     		                                 },
         		                                
@@ -60,6 +60,10 @@ angular.module('newApp')
     			 $location.path('/editVehicle/'+row.entity.id+"/"+true+"/"+row.entity.vin);
     			 
     		 }
+    		 $scope.editProduct = function(row) {
+    				$scope.flag = "product";
+    				$location.path('/editProduct/'+row.entity.id+'/'+$scope.flag);
+    			}
     		 
     		 $scope.gridOptions.onRegisterApi = function(gridApi){
     			 $scope.gridApi = gridApi;
@@ -68,7 +72,7 @@ angular.module('newApp')
     			 $scope.$apply();
     				 var str = $scope.rowData.price.split(" ");
     				 $scope.rowData.price = str[1];
-    				 apiserviceViewVehicle.updateVehicle($scope.rowData).then(function(data){
+    				 apiserviceViewInventory.updateVehicle($scope.rowData).then(function(data){
     			 
     				 	$scope.rowData.price = "$ "+$scope.rowData.price;
     				});
@@ -121,12 +125,12 @@ angular.module('newApp')
 																{ name: 'pageViewCount', displayName: 'Views',enableFiltering: false,type:'number',enableColumnMenu: false, width:'7%',cellEditableCondition: false,
 																	 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
 																},*/
-																{ name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+																/*{ name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 																    cellTemplate:'<input type="checkbox" name="vehicle" ng-click="grid.appScope.hideVehicle(row)" autocomplete="off">', 
 																
-																},
+																},*/
 																{ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																	 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
+																	 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProduct(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
 																
 																},
     		        		                                
@@ -139,7 +143,7 @@ angular.module('newApp')
     		    			 $scope.$apply();
     		    				 var str = $scope.rowData.price.split(" ");
     		    				 $scope.rowData.price = str[1];
-    		    				 apiserviceViewVehicle.updateVehicle($scope.rowData).then(function(data){
+    		    				 apiserviceViewInventory.updateVehicle($scope.rowData).then(function(data){
     		    			 
     		    				 	$scope.rowData.price = "$ "+$scope.rowData.price;
     		    				
@@ -191,12 +195,12 @@ angular.module('newApp')
 																		{ name: 'pageViewCount', displayName: 'Views',enableFiltering: false,type:'number',enableColumnMenu: false, width:'7%',cellEditableCondition: false,
 																			 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
 																		},*/
-																		{ name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+																		/*{ name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 																		    cellTemplate:'<input type="checkbox" name="vehicle" ng-click="grid.appScope.hideVehicle(row)" autocomplete="off">', 
 																		
-																		},
+																		},*/
 																		{ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																			 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
+																			 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProduct(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
 																		
 																		},
     		    		        		                                
@@ -209,7 +213,7 @@ angular.module('newApp')
     		    		    			 $scope.$apply();
     		    		    				 var str = $scope.rowData.price.split(" ");
     		    		    				 $scope.rowData.price = str[1];
-    		    		    				 apiserviceViewVehicle.updateVehicle($scope.rowData).then(function(data){
+    		    		    				 apiserviceViewInventory.updateVehicle($scope.rowData).then(function(data){
     		    		    			 
     		    		    				 	$scope.rowData.price = "$ "+$scope.rowData.price;
     		    		    				});
@@ -245,17 +249,37 @@ angular.module('newApp')
     			 };
     			 
     			 $scope.hideVehicle = function(row){
+    				 console.log(row);
+    				 if(row.entity.publicStatus == "publish"){
+    						$scope.hideText = "Product has been hidden from the website and moved to Drafts list";
+ 							$scope.hideTitle = "Product moved to drafts"; 
+    				 }else{
+    						$scope.hideText = "Product has been moved to Current Manufacturers list";
+ 							$scope.hideTitle = "Product moved to Current Manufacturers";
+    				 }
     				 apiserviceViewInventory.getGoTodraft(row.entity.id).then(function(data){
     				 
- 							$scope.hideText = "Vehicle has been hidden from the website and moved to Drafts list";
- 							$scope.hideTitle = "Vehicle moved to drafts";
- 							$scope.newlyArrivedTab();
+ 						
+ 							//$scope.newlyArrivedTab();
  							$('#hideVehicle').click();
+ 							
+ 						if(row.entity.publicStatus == "publish"){
  							$.pnotify({
  							    title: "Success",
  							    type:'success',
- 							    text: "Vehicle Added In Draft",
+ 							    text: "Product Added In Draft",
+ 							}); 
+ 							$scope.newlyArrivedTab();
+ 						   
+ 	    				 }else{
+ 	    					$.pnotify({
+ 							    title: "Success",
+ 							    type:'success',
+ 							    text: "Product Added In Current Manufacturers",
  							});
+ 	    					$scope.draftTab();
+ 	    				 }
+ 							
  						
  					});
     				 
@@ -337,8 +361,6 @@ angular.module('newApp')
     		    				 else{
     		    					 apiserviceViewInventory.getAllProduct($scope.userLocationId,"publish").then(function(data){
     		    					
-    		    						 console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-    		    						 console.log(data);
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].price = "$ "+data[i].price;
      		    			 			}
@@ -360,7 +382,7 @@ angular.module('newApp')
     		    				 $scope.ch = false;
     		    				 $scope.doPublic = 2;
     		    				 $scope.flagForUser = true;
-    		    				 apiserviceViewInventory.getAllSoldVehicles().then(function(data){
+    		    				 apiserviceViewInventory.getAllProduct(16,"deleted").then(function(data){
     		    				 
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
@@ -446,21 +468,17 @@ angular.module('newApp')
    
    $scope.deleteVehicleRow = function() {
 	   
-	   apiserviceViewVehicle.deleteVehicleById($scope.rowDataVal.entity.id).then(function(data){
+	   apiserviceViewInventory.deleteVehicleById($scope.rowDataVal.entity.id).then(function(data){
 	   
-			if($scope.rowDataVal.entity.status == 'Newly Arrived') {
-				 $scope.viewVehiclesInit();
-			} 
-			if($scope.rowDataVal.entity.status == 'Sold') {
-				$scope.soldTab();
-			}
+		   $scope.newlyArrivedTab();
+		   $scope.draftTab();
 		});
    }
    
    $scope.soldContact = {};
    
    $scope.updateVehicleStatusPublic = function(row){
-	   apiserviceViewVehicle.addPublicCar(row.entity.id).then(function(data){
+	   apiserviceViewInventory.addPublicCar(row.entity.id).then(function(data){
 	   
 		   	$scope.hideText = "Vehicle has been published";
 		   	$scope.hideTitle = "Vehicle has been published";
@@ -471,6 +489,7 @@ angular.module('newApp')
    }
    $scope.updateVehicleStatus = function(row){
 	   $scope.statusVal = "";
+	   console.log("llllllllllllll");
 	   if(row.entity.status == 'Newly Arrived') {
 		   $('#btnStatusSchedule').click();
 		   $scope.soldContact.statusVal = "Sold";
@@ -480,9 +499,9 @@ angular.module('newApp')
 		    $('#AddbtnInventory').modal();
 		  
 		  }
-	   $scope.addtoinventory = function() {
+	   /*$scope.addtoinventory = function() {
 		   
-		   apiserviceViewVehicle.addSameNewCar(row.entity.id).then(function(data){
+		   apiserviceViewInventory.addSameNewCar(row.entity.id).then(function(data){
 		   
 			   if(data=='success'){
 				   $scope.soldContact.statusVal = "Newly Arrived";
@@ -501,7 +520,7 @@ angular.module('newApp')
 		   });
 		   
 		   
-	   }
+	   }*/
 	   
 	   $scope.soldContact.make = row.entity.make;
 	   $scope.soldContact.mileage = row.entity.mileage;
@@ -514,7 +533,7 @@ angular.module('newApp')
    }
    
 	$scope.saveVehicalStatus = function() {
-		apiserviceViewVehicle.setVehicleStatus($scope.soldContact).then(function(data){
+		apiserviceViewInventory.setVehicleStatus($scope.soldContact).then(function(data){
 		
 			$('#vehicalStatusModal').modal('hide');
 			if($scope.soldContact.statusVal == 'Newly Arrived') {
@@ -556,7 +575,7 @@ angular.module('newApp')
    $scope.update = function(tableData){
        $scope.editingData[tableData.id] = false;
        $scope.viewField = false;
-       apiserviceViewVehicle.updateVehicle(tableData).then(function(data){
+       apiserviceViewInventory.updateVehicle(tableData).then(function(data){
       
 		});
    };
@@ -567,19 +586,19 @@ angular.module('newApp')
    }
    
    $scope.exportDataAsCSV = function() {
-	   apiserviceViewVehicle.exportDataAsCSV().then(function(data){
+	   apiserviceViewInventory.exportDataAsCSV().then(function(data){
 	   
 		});
    }
    
    $scope.exportCarfaxCSV = function() {
-	   apiserviceViewVehicle.exportCarfaxCSV().then(function(data){
+	   apiserviceViewInventory.exportCarfaxCSV().then(function(data){
 	   
 		});
    }
    
    $scope.exportCarGurusCSV = function() {
-	   apiserviceViewVehicle.exportCarGurusCSV().then(function(data){
+	   apiserviceViewInventory.exportCarGurusCSV().then(function(data){
 	   
 		});
    }
@@ -607,7 +626,7 @@ angular.module('newApp')
 	$scope.allCollectionData = function(){
 		$scope.flagForUser = false;
 		 $scope.doPublic = 3;
-		 apiserviceViewVehicle.getAllCollectionData().then(function(data){
+		 apiserviceViewInventory.getAllCollectionData().then(function(data){
 		
 			console.log(data);
 			$scope.leadtypeObjList = data;
@@ -646,7 +665,7 @@ angular.module('newApp')
 			$scope.collections.id = 0;
 		}
 		console.log($scope.collections);
-		apiserviceViewVehicle.addNewCollection($scope.collections).then(function(data){
+		apiserviceViewInventory.addNewCollection($scope.collections).then(function(data){
 		
 				$scope.form = data;
 			 console.log("::::::success")
@@ -676,7 +695,7 @@ angular.module('newApp')
 	$scope.deleteCollection = function(){
 		 console.log("in deletend functio");
 		 console.log($scope.collections);
-		 apiserviceViewVehicle.deleteCollectionData($scope.collections).then(function(data){
+		 apiserviceViewInventory.deleteCollectionData($scope.collections).then(function(data){
 		
 				 console.log("out deletend functio");
 				 $scope.allCollectionData();

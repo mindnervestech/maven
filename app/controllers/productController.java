@@ -314,7 +314,9 @@ public class productController extends Controller {
 		    	return ok(file);
 	    	}	
 	    }
-	 /* public static Result deleteImage(Long id) {
+	 
+	 
+	 public static Result deleteImage(Long id) {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
@@ -328,6 +330,9 @@ public class productController extends Controller {
 		    	return ok();
 	    	}
 	    }
+	 
+	 
+	 /* 
 	  
 	  
 	  

@@ -277,20 +277,10 @@ public class InventoryController extends Controller {
 	    			if(filePart.size() > 0){
 	    				AddProduct add = AddProduct.findById(vm.getId());
 	    				add.setTitle(vm.getTitle());
-	            		add.setPrimaryTitle(vm.getPrimaryTitle());
-	            		add.setYear(vm.getYear());
-	            		add.setDesigner(vm.getDesigner());
 	            		add.setDescription(vm.getDescription());
-	            		add.setCollection(AddCollection.findById(vm.getCollectionId()));
-	            		//add.setFileName(fileName);
-	            		add.setNewFlag(vm.getNewFlag());
-	            		add.setPrice(vm.getPrice());
-	            		add.setCost(vm.getCost());
-	            		//add.setFilePath("/"+userObj.id+"/"+"product"+"/"+fileName);
+	            		add.setPublicStatus(vm.getPublicStatus());
 	            		add.update();
 	    				
-	    				System.out.println("price="+vm.getPrice());
-	    		    	System.out.println("File Name="+vm.getFileName());
 	    		    	AuthUser userObj = (AuthUser) getLocalUser();
 	    		    	
 	    		    	for(int i= 0; i<filePart.size(); i++){
@@ -508,35 +498,6 @@ public class InventoryController extends Controller {
 	    		vm.id = product.id;
 	    		vm.title =product.title;
 	    		vm.description = product.description;
-	    		vm.collectionId =product.collection.id;
-
-	    		AddCollection cl = AddCollection.findById(vm.collectionId);
-	    		if(cl!=null){
-	    			/*if(cl.section.equalsIgnoreCase("product")){
-	    				sec = "product";
-	    			}else if(cl.section.equalsIgnoreCase("readymade")){
-	    				sec = "readymade";
-	    			}else if(cl.section.equalsIgnoreCase("accessories")){
-	    				sec = "accessories";
-	    			}else if(cl.section.equalsIgnoreCase("disable")){
-	    				sec = "disable";
-	    			}else{
-	    				sec = "section";
-	    			}*/
-	    			
-	    		}
-	    		vm.collectionTitle = sec;
-	    		vm.newFlag = product.newFlag;
-	    		vm.designer = product.designer;
-	    		vm.year = product.year;
-	    		vm.primaryTitle = product.primaryTitle;
-	    		vm.fileName = product.fileName;
-	    		vm.cadfileName = product.cadfileName;
-	    		String dr = fdir.toString();
-	    		vm.filePath = dr+product.fileName;
-	    		vm.cadfilePath = dr+product.cadfileName;
-	    		vm.price = product.price;
-	    		vm.cost = product.cost;
 	    		return ok(Json.toJson(vm));
 	    	}
 	    }
@@ -568,14 +529,8 @@ public class InventoryController extends Controller {
 	       	    try {
 	       	    	AddProduct add = AddProduct.findById(vm.getId());
 	        		add.setTitle(vm.getTitle());
-	        		add.setPrimaryTitle(vm.getPrimaryTitle());
-	        		add.setYear(vm.getYear());
-	        		add.setDesigner(vm.getDesigner());
 	        		add.setDescription(vm.getDescription());
-	        		add.setPrice(vm.getPrice());
-	        		add.setCost(vm.getCost());
-	        		add.setNewFlag(vm.getNewFlag());
-	        		add.setCollection(AddCollection.findById(vm.getCollectionId()));
+	        		add.setPublicStatus(vm.getPublicStatus());
 	        		add.update();
 	    
 				} catch (Exception e) {

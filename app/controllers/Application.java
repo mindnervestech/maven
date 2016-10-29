@@ -3579,7 +3579,7 @@ public class Application extends Controller {
     } 
     public static Result addPublicCar(Long id){
     	
-    	Vehicle vehicle= Vehicle.findById(id);
+    	AddProduct vehicle= AddProduct.findById(id);
     	if(vehicle != null){
     		vehicle.setPublicStatus("public");
         	vehicle.update();
@@ -3632,9 +3632,15 @@ public class Application extends Controller {
 	
 	public static Result getGoTodraft(Long id){
 		
-		Vehicle vehicle= Vehicle.findById(id);
+		AddProduct vehicle= AddProduct.findById(id);
+		
 		if(vehicle != null){
-			vehicle.setPublicStatus("draft");
+			if(vehicle.publicStatus.equals("publish")){
+				vehicle.setPublicStatus("draft");
+			}else{
+				vehicle.setPublicStatus("publish");
+			}
+			
 			vehicle.update();
 		}
 		return ok();
@@ -3879,18 +3885,22 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-	    	Vehicle vm = Vehicle.findById(id);
-	    	AuthUser user = (AuthUser) getLocalUser();
+    		/*List<ProductImages> pImages = ProductImages.getDeleteImagePath(id);
+    		if(pImages.size() != 0){
+    			for(ProductImages pI:pImages){
+    				pI.delete();
+    			}
+    		}*/
+	    	AddProduct vm = AddProduct.findById(id);
+	    	vm.setPublicStatus("deleted");
+	    	vm.update();
+	    	/*AuthUser user = (AuthUser) getLocalUser();
 	    	if(vm != null){
-	    		List<InventoryImage> v = InventoryImage.getByProductId(vm.vin);
-	    		if(v.size() != 0){
-	    			Ebean.delete(v);
-	    		}
-	    		vm.deleteManyToManyAssociations("site");
+	    		
 	    		vm.delete();
-	    		File file = new File(rootDir+File.separator+vm.vin+"-"+user.id);
+	    		File file = new File(rootDir+File.separator+vm.id+"-"+user.id);
 	    		file.delete();
-	    	}
+	    	}*/
 	    	return ok();
     	}	
     }

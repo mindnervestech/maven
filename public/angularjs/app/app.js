@@ -596,8 +596,8 @@ var MakeApp = angular
         })*/
         
        .when('/editProduct/:id/:flag', {
-            templateUrl: 'dealer/inventory/editProduct.html',
-            controller: 'EditProductsCtrl',
+            templateUrl: 'dealer/addManufacturers/editProduct.html',
+            controller: 'editProductsCtrl',
         })  
        /* .when('/allReadyMadeCollection', {
             templateUrl: 'dealer/inventory/readyMadeInventory.html',
