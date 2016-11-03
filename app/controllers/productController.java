@@ -134,7 +134,7 @@ public class productController extends Controller {
 	    				
 	    	    		add.title = vm.title;
 	    	    		add.description =vm.description;
-	    	    		add.publicStatus = vm.publicStatus;
+	    	    		add.publicStatus = "draft";
 	    	    		
 	    	    		add.user = userObj;
 	    	    		add.save();
@@ -194,7 +194,7 @@ public class productController extends Controller {
 		   		AddProduct add = new AddProduct ();
 	    		add.title = vm.title;
 	    		add.description =vm.description;
-	    		add.publicStatus = vm.publicStatus;
+	    		add.publicStatus = "draft";
 	    		add.user = userObj;
 	    		add.save();
 	    		productVM.id = add.id;
@@ -235,7 +235,10 @@ public class productController extends Controller {
 		    	String fileName = null;
 		    	FilePart picture = body.getFile("file");
 		    	  if (picture != null) {
-		    	
+		    	    AddProduct aProduct = AddProduct.findById(id);
+		    	    aProduct.setPublicStatus("publish");
+		    	    aProduct.update();
+		    	    
 		    	    fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
 		    	    String contentType = picture.getContentType(); 
 		    	    File fdir = new File(rootDir+File.separator+id+"-"+userObj.id);

@@ -1,0 +1,29 @@
+<h1><b>UPDATE PRODUCT</b></h1>
+<br><br>
+<form ng-submit="updateProduct()">
+	
+<div class="form-group col-sm-12" ng-init="collectionList()">
+	<div>
+		<label class="control-label" style="width: 21%;"><font size="3">TITLE * </font></label>
+	</div>
+		<input class="form-control form-white" type="text" style="border-color:red;width:30%;" ng-model="productData.title"  required>
+</div>
+
+<div class="form-group col-sm-12" >
+	<div>
+		<label class="control-label" style="width: 21%;"><font size="3">PRIMARY TITLE * </font></label>
+	</div>
+		<input class="form-control form-white" type="text" style="border-color:red;width:30%;" ng-model="productData.primaryTitle"  required>
+</div>
+
+<div class="form-group col-sm-12" ng-if="newProd == false">
+ 
+   <input type="checkbox" class="ng-pristine ng-valid" ng-checked="productData.newFlag =='true'" ng-model="productData.newFlag" name="newFlag"  id="newflag"/> New
+  
+</div>
+
+<input type="submit" class="btn btn-primary"  value="UPDATE" style="margin-top:3%;margin-left:40%;">
+<input type="button" class="btn btn-primary" ng-click="goToImages()"  value="UPDATE IMAGES" style="margin-top:3%;">
+
+</form>
+

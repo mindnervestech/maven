@@ -425,4 +425,218 @@ angular.module('newApp')
 			});
 		}        
 }]);
+angular.module('newApp')
+.controller('editProductsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload', function ($scope,$http,$location,$filter,$routeParams,$upload) {
+	
+	$scope.collection="null";
+	$scope.cId=null;
+	$scope.newProd = false;
+	$http.get('/getProductData/'+$routeParams.id)
+	.success(function(data) {
+			console.log("Update data = ");	
+			console.log(data);	
+			$scope.productData = data;
+			$scope.cId = data.collectionId;
+			$scope.collection = data.collectionTitle;
+			
+			if($scope.collection=="section"){
+				console.log("section");
+				$('#section').click();
+			}if($scope.collection=="readymade"){
+				console.log("readymade");
+				$('#readymade').click();
+			}if($scope.collection=="product"){
+				console.log("product");
+				$('#product').click();
+			}
+	});
+	
+	$scope.status= function(sts){
+		$scope.collection = sts;
+	}
+	
+	console.log($routeParams.id);
 
+	$http.get('/getList').success(function(data) {
+		console.log(data);
+		$scope.CollectionList = data;
+	
+	});
+	
+console.log($scope.cId);
+	$scope.collectionList = function(){
+		$http.get('/getColl')
+		.success(function(data) {
+			$scope.readyCollection = data[0];
+				/*angular.forEach($scope.readyCollection, function(value, index){
+				
+					if(value.collectionId == $scope.cId){
+						console.log('aaaaaa');
+						$scope.collection = 'readyMade';
+					}
+						
+				});
+*/			
+			$scope.proCollection = data[1];
+				/*angular.forEach($scope.proCollection, function(value, index){
+					
+					if(value.collectionId == $scope.cId){
+						console.log('bbbbbbbbb');
+						$scope.collection = "product";
+					}
+						
+				});*/
+			$scope.SectionCollection = data[2];
+				
+		});
+		
+	}
+	/*
+	$http.get('/getProductCollectionId/'+$routeParams.id)
+	.success(function(data) {
+		console.log('{{{{{{{{{}}}}}}}}}');
+		   console.log(data);
+		   $scope.collection = data;
+		   console.log($scope.collection);
+	});*/
+	
+	var logofile = null;
+	var cadfile = null;
+	var names = [];
+	var files =[];
+	$scope.updateProduct = function(){
+		console.log("In update Product function");
+		$scope.productData.id = $routeParams.id;
+		console.log($scope.productData);
+		console.log(logofile);
+		console.log(cadfile);
+		
+		if(logofile != null){
+			console.log("logofile");
+				$upload.upload({
+		            url : '/updateProduct',
+		            method: 'POST',
+		            file:logofile,
+		            data:$scope.productData
+		        }).success(function(data) {
+		        	$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Product Update successfully",
+					});
+		   		
+		   			
+		   		});	
+		
+		}else if(logofile==null){
+			console.log("cadfile");
+			$upload.upload({
+	            url : '/updateProduct',
+	            method: 'POST',
+	            file:cadfile,
+	            data:$scope.productData
+	        }).success(function(data) {
+	        	$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Product Update successfully",
+				});
+	   			
+	   		});	
+	
+	}else if(logofile != undefined){
+		console.log("both");
+		console.log(names);
+		console.log(files.length);
+		console.log(files);
+		console.log("bothfile");
+		 $upload.upload({
+			 url : '/updateProduct',
+	         method: 'POST',
+            fileFormDataName: names,
+            file:files,
+            data:$scope.productData
+         }).success(function(data) {
+	        	$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Product Update successfully",
+				});
+	   			
+	   		});
+		}
+		else{
+		$scope.productData.id = $routeParams.id;
+		console.log($scope.productData);
+		$http.post('/updateProductInfo',$scope.productData)
+   		.success(function(data) {
+   			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Product Update successfully",
+			});
+   			
+   		});
+		}	
+	}
+	
+	$scope.download = function(){
+		$scope.productData.id = $routeParams.id;
+		console.log("File path = "+$scope.productData.filePath);
+		$.fileDownload('/downloadFile',
+				{	  
+				  httpMethod : "POST",
+				  data : {
+				  path : $scope.productData.filePath
+				  }
+				}).done(function(e, response)
+				{
+					console.log("Success");
+				}).fail(function(e, response)
+				{
+					console.log("Fail");
+				});
+	}
+	$scope.downloadCad = function(){
+		$scope.productData.id = $routeParams.id;
+		console.log("File path = "+$scope.productData.cadfilePath);
+		$.fileDownload('/cadFileDownload',
+				{	  
+				  httpMethod : "POST",
+				  data : {
+				  path : $scope.productData.cadfilePath
+				  }
+				}).done(function(e, response)
+				{
+					console.log("Success");
+				}).fail(function(e, response)
+				{
+					console.log("Fail");
+				});
+	}
+	
+
+		$scope.goToImages = function(){
+			$location.path('/addProductImages/'+$routeParams.id);
+		}
+		
+		$scope.onLogoFileSelect = function($files) {
+			logofile = $files;
+			console.log("File Upload");
+			console.log(logofile);
+			$scope.productData.fileName = logofile[0].name;
+			files[0] = $files[0];
+			names[0]= "logoFile";
+		}
+		
+		$scope.onCadFileSelect = function($files) {
+			cadfile = $files;
+			console.log("File Upload");
+			console.log(cadfile);
+			$scope.productData.cadfileName = cadfile[0].name;
+			files[1] = $files[0];
+			names[1] = "cadFile";
+		}
+
+
+}]);
