@@ -110,7 +110,7 @@
         popoverTemplateUrl: '/dealer/template/select.html'
       });
       
-      $builderProvider.registerComponent('financialcalculator', {
+     /* $builderProvider.registerComponent('financialcalculator', {
           group: 'Default',
           label: 'Financial Calculator',
           key:'financial_calculator',
@@ -119,7 +119,7 @@
           readOnly: false,
           template: "<div class=\"form-group col-sm-11\" style=\"margin-left: 14px;padding: 0px;\"><h4 class=\"modal-title\" style=\"color:#c7081b;\"><b>Financial Calculator</b></h4></div><div style='padding: 0px;'  class=\"col-sm-12\"><div class=\"financing_calculator\"><div class=\"form-group col-sm-12\"><label class=\"col-sm-6 control-label\" style=\"text-align: left;\">Cost of Vehicle($)</label><div class=\"col-sm-6\"><input type=\"text\" ng-model=\"financeData.price\" class=\"number cost\"></div></div><div class=\"form-group col-sm-12\"><label class=\"col-sm-6 control-label\" style=\"text-align: left;\">Down Payment($)</label><div class=\"col-sm-6\"><input type=\"text\" class=\"number down_payment\"></div></div><div class=\"form-group col-sm-12\"><label class=\"col-sm-6 control-label\" style=\"text-align: left;\">Annual Interest Rate($)</label><div class=\"col-sm-6\"><input type=\"text\" ng-model=\"financeData.annualInterestRate\" class=\"number interest\"></div></div><div class=\"form-group col-sm-12\"><label class=\"col-sm-6 control-label\" style=\"text-align: left;\">Term of Loan in Years:</label><div class=\"col-sm-6\"><input type=\"text\" class=\"number loan_years\"></div></div><div class=\"form-group col-sm-12\"><label class=\"col-sm-6 control-label\" style=\"text-align: left;\">Frequency of Payments:($)</label><div class=\"col-sm-6\" ><select class=\"frequency css-dropdowns\"><option value=\"26\">Monthly</option><option value=\"52\">Bi-Weekly</option><option value=\"12\">Weekly</option></select></div></div><div class=\"form-group col-sm-12\"><label class=\"col-sm-3 control-label\" style=\"text-align: left;\"></label><div class=\"col-sm-6\"><button type=\"button\" class=\"btn btn-default btn-embossed  pull-right\" ng-click=\"calculateFinancialData(financeData)\" style=\"background-color: #c7081b;color: white;\">Calculate Payment</button></div></div><div class=\"form-group col-sm-12\"><strong class=\"col-sm-6\" style=\"text-align: left;\">NUMBER OF PAYMENTS:</strong><strong class=\"payments col-sm-6\">{{payments}}</strong></div><div class=\"form-group col-sm-12\"><strong class=\"col-sm-6\" style=\"text-align: left;\">PAYMENT AMOUNT:</strong><strong class=\"payment_amount\" >{{payment}}</strong></div></div>  <div class='col-sm-12'> <hr> </div> </div>",
           popoverTemplateUrl: '/dealer/template/select.html'
-        });
+        });*/
       //id="autocomplete"
       $builderProvider.registerComponent('daterange', {
           group: 'Default',
@@ -158,7 +158,7 @@
         });
       
       
-      $builderProvider.registerComponent('inventorysearch', {
+     /* $builderProvider.registerComponent('inventorysearch', {
           group: 'Default',
           label: 'Inventory Search',
           key:'inventory_search',
@@ -167,7 +167,7 @@
           readOnly: false,
           template: "<div class=\"col-md-12\"><h3>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click=\"editLeadInfo('Search Title')\" ng-if=\"showSaveButton == 'Edit'\"><i class=\"glyphicon glyphicon-edit\"></i></a></h3><div class=\"col-md-4\"><div class=\"col-md-12\"><label>{{setjson.searchSubTitle}}</label>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click=\"editLeadInfo('Search Sub Title')\" ng-if=\"showSaveButton == 'Edit'\"><i class=\"glyphicon glyphicon-edit\"></i></a></div><div ng-show=\"isStockError\" style=\"color: red;\">Furniture Not Found.</div><div style=\"margin: 10px 0 10px 0;\"><input type=\"text\" class=\"col-md-12\" ng-model=\"stockRp.designer\" style=\"margin-bottom: 7px;\" disabled=\"disabled\" placeholder=\"Title\"/></div><div style=\"margin: 10px 0 10px 0;\"><input type=\"text\" class=\"col-md-12\" style=\"margin-bottom: 7px;\" ng-model=\"stockRp.designer\" disabled=\"disabled\" placeholder=\"Title\"/></div><div style=\"margin: 10px 0 10px 0;\"><input type=\"text\" class=\"col-md-12\" ng-model=\"stockRp.year\" style=\"margin-bottom: 7px;\" disabled=\"disabled\" placeholder=\"Year\"/></div></div><div class=\"col-md-7\" style=\"border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;\"><div><div class=\"col-md-5\" style=\"padding-left: 0px;\"><img class=\"preview col-md-5\" style=\"margin-top: 7px;width: 136px;height: 121px;\" src=\"/assets/images/car.jpg\"></div><div class=\"col-md-7\" style=\"padding: 0px;\"><label class=\"col-md-12\" style=\"font-size: 20px;padding: 0px;\">Furniture Name</label><label class=\"col-md-6\">designer:</label><label class=\"col-md-6\">-</label><label class=\"col-md-6\">price:</label><label class=\"col-md-6\">_</label><label class=\"col-md-6\">Primary Title:</label><label class=\"col-md-6\">_</label><label class=\"col-md-6\">year:</label><label class=\"col-md-6\">_</label></div></div></div><div class=\"col-md-1\" style=\"font-size: 29px;margin-top: 54px;\" ng-show=\"stockWiseData.length  > 1\"><a ng-click=\"removeLead($index)\"><span class=\"glyphicon glyphicon-trash\"></span></a></div></div><div class=\"col-md-12\" style=\"text-align: center;font-size: 17px;\"><a>ADD ITEM</a> <div class='col-sm-12'> <hr> </div></div>",
           popoverTemplateUrl: '/dealer/template/textInput.html'
-        });
+        });*/
       
       $builderProvider.registerComponent('fileuploaders', {
           group: 'Default',
