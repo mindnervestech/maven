@@ -1,4 +1,4 @@
-<h1><b>ADD MANUFACTURERS</b></h1>
+<h1><b>ADD MANUFACTURER</b></h1>
 <br>
 <br>
 <form ng-submit="saveManufacturers(value)">
@@ -27,11 +27,25 @@
 	</div>
 	
 	<div class="form-group col-sm-12">
+		<div>
+			<label class="control-label " style="width: 40%;"><font size="3">ADD TO EXISTING MANUFACTURER</font></label>
+		</div>
+	<select id="section" class="from-control form-white" style="width:30%;height: 35px;" ng-model="addProduct.parentId" ng-change="chengeSection()" required>
+
+				<option ng-repeat="item in childManu" value="{{item.id}}">{{item.title}}</option>
+			</select>
+
+	</div>
+		
+	
+	
+	
+	<div class="form-group col-sm-12">
 		<div class="form-group col-sm-6">
 		</div>
 		<div class="form-group col-sm-6">
 		   <div class="form-group col-sm-4">
-		   	<input type="submit" class="btn btn-primary"  ng-click="setStatusvalue('publish')" value="Save & Go to photo" style="margin-top:3%;margin-left:46%;">
+		   	<input type="submit" class="btn btn-primary"  ng-click="setStatusvalue('publish')" value="Save & Go to Photos" style="margin-top:3%;margin-left:46%;">
 		   </div>
 		   <div class="form-group col-sm-4">
 		   	<input type="submit" class="btn btn-primary"  ng-click="setStatusvalue('draft')" value="Save to Drafts" style="margin-top:3%;margin-left:46%;">

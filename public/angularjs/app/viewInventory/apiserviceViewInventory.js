@@ -3,10 +3,10 @@ angular.module('app.apiserviceViewInventory', [])
 
 	var accessUrl = '';
 
-	this.updateVehicle=function(rowData){
+	this.updateProduct=function(rowData){
 		var defer = $q.defer();
 		
-		$http.post('/updateVehicle',rowData).success(function(data) {
+		$http.post('/updateProductInfo',rowData).success(function(data) {
 			defer.resolve(data);
 		});
 

@@ -215,7 +215,7 @@ GET    	/getPagesData/:id/:startDate/:endDate      controllers.ClickyAnalyticsCo
 GET 	/getVehicleHistory/:vin		controllers.Application.getVehicleHistory(vin: String)
 GET 	/getPriceHistory/:vin		controllers.Application.getPriceHistory(vin: String)
 GET    	/updateVehicleStatus/:id/:status    controllers.Application.updateVehicleStatus(id: Long,status:String)
-POST   	/updateVehicle              controllers.Application.updateVehicle()
+POST   	/updateProduct              controllers.Application.updateProduct()
 GET     /deleteLeadType/:leadId       controllers.ConfigPagesController.deleteLeadType(leadId: Long)
 GET     /deleteCreateNewForm/:formId    controllers.ConfigPagesController.deleteCreateNewForm(formId: Long)
 GET     /deleteFormWebsite/:formId     controllers.ConfigPagesController.deleteFormWebsite(formId: Long)

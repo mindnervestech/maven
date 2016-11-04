@@ -5131,7 +5131,7 @@ float: right !important;
 </div>
 <div class="row">
 	
-	<div class="col-sm-12 portlets" style="height: 240px;">
+	<!-- <div class="col-sm-12 portlets" style="height: 240px;">
         <div class="panel m-t-0">
             <div class="panel-header panel-controls">
                <i class="icon-basket" style="font-size: 18px;"></i> <strong style="font-size: 18px;">Sales</strong><strong style="font-size: 18px;"> Volume Stats</strong> 
@@ -5142,9 +5142,7 @@ float: right !important;
 			   <input data-provide="datepicker"id="volumeStatEndDateId" name="endDateValue"  ng-model="volumeStatEndDate" data-date-format="yyyy-mm-dd" required>
 					<a> <button type="submit"  style="font-size:15px;margin-left: 10px" ng-click="showVehicalBarChart(volumeStatStartDateId,volumeStatEndDateId)">Ok</button> </a>
             </div>
-           <!--  <div class="panel-header panel-controls">
-                <h3><a style="cursor: pointer;" ng-click="showVehicalBarChart()" title="Vehical Sale"><i class="glyphicon glyphicon-signal"></i></a><a style="cursor: pointer;" ng-click="showVehicalFinancialChart()" title="by Car Make"><i class="fa fa-car"></i></a><a style="cursor: pointer;" ng-click="showVehicalFinancialChartByBodyStyle()" title="Body Style"><i class="fa fa-cogs"></i></a><a style="cursor: pointer;" ng-click="showVehicalBarAvgSale()" title="Average Sale"><i class="glyphicon glyphicon-tasks"></i></a></h3>
-            </div> -->
+          
             <div ng-if="showBarvehical == 1">
             	<div class="panel-content p-t-0 p-b-0">
             		<h2 style="color: black;" class="watermark" ng-if="msgShow == 1"><b>No Sales have been made</b></h2>
@@ -5161,82 +5159,9 @@ float: right !important;
             </div>
             
         </div>
-    </div>
-	
-	
-	
-	
-    <!-- <div class="col-md-4 col-sm-12 portlets">
-        <div class="panel">
-            <div class="panel-header panel-controls">
-                <h3><i class="icon-list"></i> <strong>Todo</strong> List</h3>
-            </div>
-            <div class="panel-content">
-                <ul class="todo-list ui-sortable" style="height:399px;overflow-y:auto;">
-                    <li id="todoId" ng-repeat="todo in toDoList" ng-class="todo.status=='Assigned'?'todoClr':''" ng-class="{'': todo.priority == 'Low','low': todo.priority == 'Medium','medium': todo.priority == 'High','high': todo.priority == 'Critical'}">
-                         <div class="pull-right">
-                            <div ng-if="todo.status=='Assigned'" class="label label-success" style="cursor: pointer;" ng-click="toDoStatusComplete(todo.id)">Completed</div>
-                            <div class="label label-success" style="cursor: pointer;" ng-click="toDoStatusClose(todo.id)">Close</div>
-                        </div>
-                        
-                        <span class="todo-task"><i ng-if="todo.saveas == 1" class="fa fa-google-plus-square" style="font-size: 20px;"></i>{{todo.task}}</span><br>
-                        <span class="todo-task">{{todo.dueDate}}</span>
-                    </li>
-                </ul>
-                <div class="clearfix m-t-10">
-                    
-                    <div class="pull-right">
-                        <button type="button" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#modal-todo">Add Task</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div> -->
-  <!--   <div class="col-md-4 col-sm-6 portlets">
-		                <div class="panel no-bd bd-3 panel-stat"">
-		                	<div class="panel-header">
-		                		<b>Events</b>
-		                	</div>
-		                	<div style="height:180px;overflow-y:auto;">
-			                	<div class="form-group col-sm-12">
-									<a ng-click="getAllVisitorList()" ng-repeat="eventV in eventValue">
-									   <label class="col-sm-10 control-label" style="font-size:10px;">{{eventV.summary}}</label>
-										 <div class="col-sm-2" style="font-size:10px;">
-											{{eventV.status}}
-									    	</div>
-									</a>
-								</div>
-								
-								
-							
-		                </div>
-		                </div>
-    </div> -->
-   <!--  <div class="col-md-4 col-sm-6 portlets">
-		                <div class="panel no-bd bd-3 panel-stat"">
-		                	<div class="panel-header">
-		                		<b>Events</b>
-		                	</div>
-		                	<div style="height:180px;overflow-y:auto;">
-			                	<div class="form-group col-sm-12">
-									<a ng-click="getAllVisitorList()" ng-repeat="tasksV in tasksValue">
-									   <label class="col-sm-8 control-label" style="font-size:10px;">{{tasksV.title}}</label>
-										 <div class="col-sm-2" style="font-size:10px;">
-											{{tasksV.status}}
-									    	</div>
-									    	<div class="col-sm-2" style="font-size:10px;">
-											{{tasksV.updated.value}}
-									    	</div>
-									    	
-									</a>
-								</div>
-								
-								
-							
-		                </div>
-		                </div>
-    </div>-->
-    
+	
+	
     <div class="col-md-4 col-sm-6 portlets" style="display: none;">
         <div class="panel widget-weather"></div>
         <div class="panel widget-member clearfix">

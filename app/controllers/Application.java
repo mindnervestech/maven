@@ -154,6 +154,7 @@ import play.mvc.Result;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
+import viewmodel.AddProductVM;
 import viewmodel.AssignToVM;
 import viewmodel.AudioVM;
 import viewmodel.AutoPortalVM;
@@ -4275,8 +4276,23 @@ public class Application extends Controller {
 			} 
 		}	
 	}
-    
-    public static Result updateVehicle(){
+	public static Result updateProduct(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		Form<AddProductVM> form = DynamicForm.form(AddProductVM.class).bindFromRequest();
+    		AddProductVM vm = form.get();
+    		AddProduct product = AddProduct.findById(vm.id);
+    		if(product != null){
+    			product.setTitle(vm.title);
+    			product.setDescription(vm.description);
+    			product.update();
+    			
+    		}
+    		return ok();
+    	}
+	}
+   /* public static Result updateVehicle(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
@@ -4329,7 +4345,7 @@ public class Application extends Controller {
 	    	}
 	    	return ok();
     	}	
-    } 
+    } */
     
     public static Result uplaodSoundFile() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

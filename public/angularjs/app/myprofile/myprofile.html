@@ -11,7 +11,7 @@
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 	        
 	       <!--  <h1><b>My Profile</b></h1> -->
-<h2><b>Dealership's Info</b></h2>
+<h2><b>General Information</b></h2>
 <!-- h4><b>Enter your 17 digit vin in the form below and click decode.</b></h4>
  -->
 
@@ -32,7 +32,7 @@
 	</div>
 </div>
 <div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Dealer ID</label>
+<label class="col-sm-2 control-label" style="text-align: right;">System's ID</label>
 	<div class="col-sm-5">
 		<input class="form-control form-white" type="text" ng-model="myprofile.dealer_id" disabled = 'true'">
 	</div>
@@ -111,14 +111,14 @@
 	</div>
 </div>
 <div class="form-group col-sm-12" ng-if="userRole == 'Manager'">
-	<label class="col-sm-2 control-label" style="text-align: right;">Location Photo </label>
+	<label class="col-sm-2 control-label" style="text-align: right;">Business' Profile Photo</label>
                    <p class="col-sm-5">
  	               <input class="form-control" type="file" id="file" style="width: 42%;" accept="image/*" ng-file-select="onLogoFileLocationSelect($files)">
                    <span id="preview" style="margin-top: 20px;width: 108px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{imgLocation}}></span>
                   </p>
 </div>
 
-<h2><b>Social Media links</b></h2>
+<!-- <h2><b>Social Media links</b></h2>
 <hr class="ng-scope">
 <label style="margin-left: 252px;">Enter your url with "https://"</label>
 <div class="form-group col-sm-12">
@@ -162,7 +162,7 @@
 
 <div class="form-group col-sm-12">
 <button type="submit" class="btn btn-primary" style="margin-left:31%;" ng-click="setFlagVal()">Save Profile</button>
-</div>
+</div> -->
 <!-- <a style="font-size: 26px;" data-toggle="modal" data-target="#modal-basic" ng-click="createGeneralManager()"><u>General Manager Details</u></a>
 <hr class="ng-scope"> -->
 

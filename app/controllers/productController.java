@@ -135,6 +135,7 @@ public class productController extends Controller {
 	    	    		add.title = vm.title;
 	    	    		add.description =vm.description;
 	    	    		add.publicStatus = "draft";
+	    	    		add.parentId = vm.parentId;
 	    	    		
 	    	    		add.user = userObj;
 	    	    		add.save();
@@ -165,14 +166,14 @@ public class productController extends Controller {
 			       	       	    File file = pdfFile.getFile();
 			       	       	    try {
 			       	       	    	
-			       	       	    	//if(ext.equalsIgnoreCase("pdf")){
+			       	       	    	if(ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("gif")){
 			       	       	    		FileUtils.moveFile(file, new File(filePath));
 			       		    		   		AddProduct obj = AddProduct.findById(productVM.id);
 			       		    		   		obj.setFileName(fileName);
 			       		    		   		obj.setFilePath("/"+userObj.id+"/"+"product"+"/"+fileName);
 			       		    		   		obj.update();
 			       		    		   		
-			       	       	    	/*}else if(ext.equalsIgnoreCase("cad")||ext.equalsIgnoreCase("zip")||ext.equalsIgnoreCase("rar")){
+			       	       	    	}/*else if(ext.equalsIgnoreCase("cad")||ext.equalsIgnoreCase("zip")||ext.equalsIgnoreCase("rar")){
 			       	       	    		FileUtils.moveFile(file, new File(filePath));
 			       	       	    			AddProduct obj = AddProduct.findById(productVM.id);
 			       	       	    			
@@ -195,6 +196,7 @@ public class productController extends Controller {
 	    		add.title = vm.title;
 	    		add.description =vm.description;
 	    		add.publicStatus = "draft";
+	    		add.parentId = vm.parentId;
 	    		add.user = userObj;
 	    		add.save();
 	    		productVM.id = add.id;

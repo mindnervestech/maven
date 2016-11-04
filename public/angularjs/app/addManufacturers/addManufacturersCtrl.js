@@ -14,7 +14,7 @@ angular.module('newApp')
 	$scope.chengeSection = function(){
 		$scope.sectColl= "tr";
 		console.log($scope.sect.id);
-		$http.get('/getSectionCollection/'+$scope.sect.id)
+		$http.get('/getAllProduct/'+$scope.sect.id)
 		.success(function(data) {
 			$scope.sectionCollection = data;
 			console.log($scope.sectionCollection);
@@ -25,6 +25,12 @@ angular.module('newApp')
 		$scope.statusValue = value;
 		console.log($scope.statusValue);
 	}
+	
+	$http.get('/getAllProduct/'+'publish')
+	.success(function(data) {
+		$scope.childManu = data;
+		console.log($scope.childManu);
+	});
 	
 	$scope.setOpenPopup = function(){
 		$('#cancelModal').modal('show');
@@ -55,6 +61,9 @@ angular.module('newApp')
 	   			$("#submit").attr("disabled", false);
 	   			if($scope.statusValue != "draft"){
 	   				$location.path('/manufacturersImages/'+data.id);
+	   			}else{
+	   				$location.path('/viewInventory');
+	   				
 	   			}
 	   			
 	   		});
@@ -73,6 +82,8 @@ angular.module('newApp')
    			$("#submit").attr("disabled", false);
    			if($scope.statusValue != "draft"){
    				$location.path('/manufacturersImages/'+data.id);
+   			}else{
+   				$location.path('/viewInventory');
    			}
    			
    		 });
@@ -90,7 +101,11 @@ angular.module('newApp')
 	   			$("#submit").attr("disabled", false);
 	   			if($scope.statusValue != "draft"){
 	   				$location.path('/manufacturersImages/'+data.id);
+	   			}else{
+	   				$location.path('/viewInventory');
 	   			}
+	   				
+	   				
 	   			
 	   		 });
 			}else if(logofile != undefined){
@@ -119,6 +134,8 @@ angular.module('newApp')
 		   			$("#submit").attr("disabled", false);
 		   			if($scope.statusValue != "draft"){
 		   				$location.path('/manufacturersImages/'+data.id);
+		   			}else{
+		   				$location.path('/viewInventory');
 		   			}
 		   			
 		   		 });
@@ -223,7 +240,17 @@ angular.module('newApp')
 	   $scope.uploadFiles = function() {
 		   Dropzone.autoDiscover = false;
 		   myDropzone.processQueue();
-		   
+		   $location.path('/viewInventory');
+	   }
+	   $scope.uploadFilesDreft = function(){
+		   $scope.object = {};
+		   $scope.object.id = $routeParams.id;
+		   $scope.object.publicStatus = "draft";
+		   $http.post('/updateProductInfo',$scope.object)
+	   		.success(function(data) {
+	   			
+	   		});
+		   $scope.uploadFiles();
 	   }
 	   
 

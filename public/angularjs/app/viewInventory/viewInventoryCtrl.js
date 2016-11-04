@@ -16,7 +16,7 @@ angular.module('newApp')
     		 $scope.gridOptions.enableVerticalScrollbar = 2;
     		 $scope.gridOptions.columnDefs = [
     		                                 { name: 'title', displayName: 'Title',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-    		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
+    		                                	 cellTemplate: '<div> <a style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
     		                                 },
     		                                 { name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
     		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
@@ -66,15 +66,19 @@ angular.module('newApp')
     			}
     		 
     		 $scope.gridOptions.onRegisterApi = function(gridApi){
+    			 $scope.rowData = {};
     			 $scope.gridApi = gridApi;
     			 gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-    			 $scope.rowData = rowEntity;
+    				 $scope.rowData.id = rowEntity.id;
+    			 $scope.rowData.description = rowEntity.description;
+    			 $scope.rowData.title = rowEntity.title;
+    			 $scope.rowData.publicStatus = rowEntity.publicStatus;
     			 $scope.$apply();
-    				 var str = $scope.rowData.price.split(" ");
-    				 $scope.rowData.price = str[1];
-    				 apiserviceViewInventory.updateVehicle($scope.rowData).then(function(data){
+    			 console.log("hhhhhhhhhhhhhhhhhhhhh");
+    				console.log($scope.rowData);
+    				 apiserviceViewInventory.updateProduct($scope.rowData).then(function(data){
     			 
-    				 	$scope.rowData.price = "$ "+$scope.rowData.price;
+    				 	
     				});
     			 });
     			 
@@ -99,7 +103,7 @@ angular.module('newApp')
     		    		 $scope.gridOptions1.enableVerticalScrollbar = 2;
     		    		 $scope.gridOptions1.columnDefs = [
 																{ name: 'title', displayName: 'Title',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-																	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
+																	 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
 																},
 																{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
 																	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
@@ -111,6 +115,7 @@ angular.module('newApp')
 																},
 																{ name: 'mileage', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: true,
 																},
+																
 																/*{ name: 'city_mileage', displayName: 'City MPG',enableFiltering: false, width:'8%',enableColumnMenu: false,cellEditableCondition: true,
 																},
 																{ name: 'highway_mileage', displayName: 'HWY MPG',enableFiltering: false, enableColumnMenu: false,width:'8%',cellEditableCondition: true,
@@ -169,7 +174,7 @@ angular.module('newApp')
     		    		    		 $scope.gridOptions2.enableVerticalScrollbar = 2;
     		    		    		 $scope.gridOptions2.columnDefs = [
 																		{ name: 'title', displayName: 'Title',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-																			 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
+																			 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
 																		},
 																		{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
 																			 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
@@ -291,7 +296,8 @@ angular.module('newApp')
     					$('#imagePopup').modal();
     				};
     				$scope.mouseout = function(row) {
-    					$('#imgClose').click();
+    					console.log("Hiiiiiiiiiiii");
+    					//$('#imgClose').click();
     				};
     				
     				$scope.vehicleData = function(sts){

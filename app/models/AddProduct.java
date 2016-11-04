@@ -29,7 +29,15 @@ public class AddProduct extends Model {
 	public String cadfileName;
 	public String cadfilePath;
 	public String publicStatus;
+	public Long parentId;
 	
+	public Long getParentId() {
+		return parentId;
+	}
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+
 	@ManyToOne
 	public Location locations;
 	

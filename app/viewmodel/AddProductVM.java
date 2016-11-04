@@ -15,6 +15,7 @@ public class AddProductVM {
 	public String cadfileName;
 	public String cadfilePath;
 	public String publicStatus;
+	public Long parentId;
 
 	public String imgPath;
 	public long imgId;
@@ -34,6 +35,12 @@ public class AddProductVM {
 		return designer;
 	}
 	
+	public Long getParentId() {
+		return parentId;
+	}
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
 	public String getPublicStatus() {
 		return publicStatus;
 	}
