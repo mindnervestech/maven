@@ -99,16 +99,27 @@
         popoverTemplateUrl: '/dealer/template/datepicker.html'
       });
      
-      $builderProvider.registerComponent('select', {
+      $builderProvider.registerComponent('leadTypeSelector', {
         group: 'Default',
-        label: 'Dropdown',
-        key:'dropdown',
+        label: 'Lead type selector',
+        key:'leadTypeSelector',
         required: false,
-        options: ['value one', 'value two'],
+        options: ['lead1', 'lead2'],
         template: "<div class=\"form-group col-sm-12\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\">{{label}}</label>\n    <div class=\"col-md-6\">\n        <select ng-options=\"value for value in options\" id=\"{{formName+index}}\" class=\"form-control\"\n            ng-model=\"inputText\" ng-init=\"inputText = options[0]\"/>\n        <p class='help-block'>{{description}}</p>\n    </div>\n <div class='col-sm-12'> <hr> </div></div>",
         //popoverTemplate: "<form>\n    <div class=\"form-group\">\n        <label class='control-label'>Label</label>\n        <input type='text' ng-model=\"label\" validator=\"[required]\" class='form-control'/>\n    </div>\n    <div class=\"form-group\">\n        <label class='control-label'>Description</label>\n        <input type='text' ng-model=\"description\" class='form-control'/>\n    </div>\n   <div class=\"form-group\">\n        <label class='control-label'>Name</label>\n        <input type='text' ng-model=\"key\" class='form-control'/>\n    </div>\n   <div class=\"form-group\">\n        <label class='control-label'>Options</label>\n        <textarea class=\"form-control\" rows=\"3\" ng-model=\"optionsText\"/>\n    </div>\n\n    <hr/>\n    <div class='form-group'>\n        <input type='submit' ng-click=\"popover.save($event)\" class='btn btn-primary' value='Save'/>\n        <input type='button' ng-click=\"popover.cancel($event)\" class='btn btn-default' value='Cancel'/>\n        <input type='button' ng-click=\"popover.remove($event)\" class='btn btn-danger' value='Delete'/>\n    </div>\n</form>"
         popoverTemplateUrl: '/dealer/template/select.html'
       });
+      
+      $builderProvider.registerComponent('select', {
+          group: 'Default',
+          label: 'Dropdown',
+          key:'dropdown',
+          required: false,
+          options: ['value one', 'value two'],
+          template: "<div class=\"form-group col-sm-12\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\">{{label}}</label>\n    <div class=\"col-md-6\">\n        <select ng-options=\"value for value in options\" id=\"{{formName+index}}\" class=\"form-control\"\n            ng-model=\"inputText\" ng-init=\"inputText = options[0]\"/>\n        <p class='help-block'>{{description}}</p>\n    </div>\n <div class='col-sm-12'> <hr> </div></div>",
+          //popoverTemplate: "<form>\n    <div class=\"form-group\">\n        <label class='control-label'>Label</label>\n        <input type='text' ng-model=\"label\" validator=\"[required]\" class='form-control'/>\n    </div>\n    <div class=\"form-group\">\n        <label class='control-label'>Description</label>\n        <input type='text' ng-model=\"description\" class='form-control'/>\n    </div>\n   <div class=\"form-group\">\n        <label class='control-label'>Name</label>\n        <input type='text' ng-model=\"key\" class='form-control'/>\n    </div>\n   <div class=\"form-group\">\n        <label class='control-label'>Options</label>\n        <textarea class=\"form-control\" rows=\"3\" ng-model=\"optionsText\"/>\n    </div>\n\n    <hr/>\n    <div class='form-group'>\n        <input type='submit' ng-click=\"popover.save($event)\" class='btn btn-primary' value='Save'/>\n        <input type='button' ng-click=\"popover.cancel($event)\" class='btn btn-default' value='Cancel'/>\n        <input type='button' ng-click=\"popover.remove($event)\" class='btn btn-danger' value='Delete'/>\n    </div>\n</form>"
+          popoverTemplateUrl: '/dealer/template/select.html'
+        });
       
      /* $builderProvider.registerComponent('financialcalculator', {
           group: 'Default',

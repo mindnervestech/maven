@@ -17,6 +17,7 @@ import models.Sections;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.json.JSONArray;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -865,7 +866,39 @@ public class InventoryController extends Controller {
 	   
 	   public static Result getAllProduct(String status) {
 			List<AddProduct> pList = AddProduct.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
-			return ok(Json.toJson(pList));
+			List<AddProductVM> aList = new ArrayList<AddProductVM>();
+			for(AddProduct aProduct:pList){
+				AddProductVM aVm = new AddProductVM();
+				aVm.title = aProduct.title;
+				aVm.description = aProduct.description;
+				aVm.fileName = aProduct.fileName;
+				aVm.id = aProduct.id;
+				aVm.publicStatus = aProduct.publicStatus;
+				List<ProductImages> pImages = ProductImages.getByProduct(aProduct); 
+				aVm.countImages = pImages.size();
+				
+				String params = "&date=last-28-days&type=visitors-list&limit=all";
+		    	Long visitorCount = 0l;
+		    	
+        		/*try {
+    				JSONArray jsonArray = new JSONArray(Application.callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+    				for(int j=0;j<jsonArray.length();j++){
+    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+    	    			String arr[] = data.split("/");
+    	    			
+    	    					  visitorCount = visitorCount + 1;
+    	    				 
+    				}	
+    				
+    			} catch (Exception e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}*/
+		    	aVm.pageViewCount = visitorCount;
+				
+				aList.add(aVm);
+			}
+			return ok(Json.toJson(aList));
 		}
 	   
 	public static AuthUser getLocalUser() {

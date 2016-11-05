@@ -16,6 +16,7 @@ public class AddProductVM {
 	public String cadfilePath;
 	public String publicStatus;
 	public Long parentId;
+	public Long pageViewCount;
 
 	public String imgPath;
 	public long imgId;

@@ -16128,10 +16128,10 @@ private static void cancelTestDriveMail(Map map) {
     
 
     
-    private static String callClickAPI(String params) {
+    public static String callClickAPI(String params) {
     	StringBuffer response = new StringBuffer();
     	try {
-    		String url = "https://api.clicky.com/api/stats/4?output=json&site_id=100875513&sitekey=d6e7550038b4a34c"+params;
+    		String url = "https://api.clicky.com/api/stats/4?output=json&site_id=100998608&sitekey=8ec4755ccd21800f"+params;
 		
     		URL obj = new URL(url);
     		HttpURLConnection con = (HttpURLConnection) obj.openConnection();

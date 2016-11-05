@@ -21,12 +21,12 @@ angular.module('newApp')
     		                                 { name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
     		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
     		                                 },
-    		                                 { name: 'stock', displayName: 'Logo',enableColumnMenu: false, width:'15%',
+    		                                 { name: 'fileName', displayName: 'Logo',enableColumnMenu: false, width:'15%',
     		                                 },
-    		                                 { name: 'bodyStyle', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
-    		                                	 /*cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',*/
+    		                                 { name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
+    		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
     		                                 },
-    		                                 { name: 'mileage', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: true,
+    		                                 { name: 'pageViewCount', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: true,
     		                                 },
     		                                 /*{ name: 'city_mileage', displayName: 'City MPG',enableFiltering: false, width:'8%',enableColumnMenu: false,cellEditableCondition: true,
     		                                 },
@@ -60,6 +60,12 @@ angular.module('newApp')
     			 $location.path('/editVehicle/'+row.entity.id+"/"+true+"/"+row.entity.vin);
     			 
     		 }
+    		 
+    		 $scope.gotoImgTag = function(row){
+    			 $location.path('/manufacturersImages/'+row.entity.id);
+    			 console.log("ssssssssssss");
+    		 }
+    		 
     		 $scope.editProduct = function(row) {
     				$scope.flag = "product";
     				$location.path('/editProduct/'+row.entity.id+'/'+$scope.flag);
@@ -108,12 +114,12 @@ angular.module('newApp')
 																{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
 																	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
 																},
-																{ name: 'stock', displayName: 'Logo',enableColumnMenu: false, width:'15%',
+																{ name: 'fileName', displayName: 'Logo',enableColumnMenu: false, width:'15%',
 																},
-																{ name: 'bodyStyle', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
-																	 /*cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',*/
+																{ name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
+																	cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
 																},
-																{ name: 'mileage', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: true,
+																{ name: 'pageViewCount', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: true,
 																},
 																
 																/*{ name: 'city_mileage', displayName: 'City MPG',enableFiltering: false, width:'8%',enableColumnMenu: false,cellEditableCondition: true,
@@ -179,12 +185,12 @@ angular.module('newApp')
 																		{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
 																			 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
 																		},
-																		{ name: 'stock', displayName: 'Logo',enableColumnMenu: false, width:'15%',
+																		{ name: 'fileName', displayName: 'Logo',enableColumnMenu: false, width:'15%',
 																		},
-																		{ name: 'bodyStyle', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
-																			 /*cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',*/
+																		{ name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
+																			cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
 																		},
-																		{ name: 'mileage', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: true,
+																		{ name: 'pageViewCount', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: true,
 																		},
 																		/*{ name: 'city_mileage', displayName: 'City MPG',enableFiltering: false, width:'8%',enableColumnMenu: false,cellEditableCondition: true,
 																		},
