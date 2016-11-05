@@ -4,7 +4,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -119,10 +121,14 @@ public class productController extends Controller {
 	 
 	 
 	 public static Result addProduct(){
+			
 			MultipartFormData body = request().body().asMultipartFormData();
 	    	Form<AddProductVM> form = DynamicForm.form(AddProductVM.class).bindFromRequest();
 	    	AddProductVM vm = form.get();
 	    	FilePart pdfFile = null ;
+	    	
+	    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			Date curDate = new Date();
 	    	
 	    	AuthUser userObj = (AuthUser) getLocalUser();
 	    	AddProductVM productVM = new AddProductVM();
@@ -134,6 +140,7 @@ public class productController extends Controller {
 	    				
 	    	    		add.title = vm.title;
 	    	    		add.description =vm.description;
+	    	    		add.addedDate = curDate;
 	    	    		add.publicStatus = "draft";
 	    	    		add.parentId = vm.parentId;
 	    	    		
@@ -197,6 +204,7 @@ public class productController extends Controller {
 	    		add.description =vm.description;
 	    		add.publicStatus = "draft";
 	    		add.parentId = vm.parentId;
+	    		add.addedDate = curDate;
 	    		add.user = userObj;
 	    		add.save();
 	    		productVM.id = add.id;

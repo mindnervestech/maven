@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,9 +104,9 @@ public class InventoryController extends Controller {
 	    			long id = Long.parseLong(obj.get("id").toString());
 	    			//long ord = Long.parseLong(obj.get("collectionOrder").toString());
 	    			
-	    			AddCollection cl = AddCollection.findById(id);
+	    			AddProduct cl = AddProduct.findById(id);
 	    			if(cl !=null){
-	    				//cl.setCollectionOrder(i);
+	    				cl.setOrderIndex(i);
 	    				cl.update();
 	    			}
 			}
@@ -499,6 +500,7 @@ public class InventoryController extends Controller {
 	    		vm.id = product.id;
 	    		vm.title =product.title;
 	    		vm.description = product.description;
+	    		vm.parentId = product.parentId;
 	    		return ok(Json.toJson(vm));
 	    	}
 	    }
@@ -863,16 +865,36 @@ public class InventoryController extends Controller {
 		   return ok(Json.toJson(lType));
 	   }
 	   
+	   public static Result getHideProduct(Long id) {
+		   AddProduct aProduct = AddProduct.findById(id);
+		   if(aProduct != null){
+			   if(aProduct.hideWebsite == 1){
+				   aProduct.setHideWebsite(0);
+			   }else{
+				   aProduct.setHideWebsite(1);
+			   }
+			   aProduct.update();
+		   }
+		   return ok();
+	   }
+	   
 	   
 	   public static Result getAllProduct(String status) {
 			List<AddProduct> pList = AddProduct.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
 			List<AddProductVM> aList = new ArrayList<AddProductVM>();
+			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 			for(AddProduct aProduct:pList){
 				AddProductVM aVm = new AddProductVM();
 				aVm.title = aProduct.title;
 				aVm.description = aProduct.description;
 				aVm.fileName = aProduct.fileName;
 				aVm.id = aProduct.id;
+				aVm.orderIndex = aProduct.orderIndex;
+				aVm.hideWebsite = aProduct.hideWebsite;
+				if(aProduct.addedDate != null){
+					aVm.addedDate = df.format(aProduct.addedDate);
+				}
+				
 				aVm.publicStatus = aProduct.publicStatus;
 				List<ProductImages> pImages = ProductImages.getByProduct(aProduct); 
 				aVm.countImages = pImages.size();

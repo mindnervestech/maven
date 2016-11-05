@@ -6,22 +6,23 @@ angular.module('newApp')
 	$scope.doPublic = 0;
      $scope.gridOptions = {
     		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
-    		    paginationPageSize: 150,
-    		    enableFiltering: true,
-    		    enableCellEditOnFocus: true,
-    		    useExternalFiltering: true,
-    		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+    		 paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+ 		    rowTemplate: '<div grid="grid" class="ui-grid-draggable-row" draggable="true"><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader, \'custom\': true }" ui-grid-cell></div></div>',
     		 };
     		 $scope.gridOptions.enableHorizontalScrollbar = 0;
     		 $scope.gridOptions.enableVerticalScrollbar = 2;
     		 $scope.gridOptions.columnDefs = [
-    		                                 { name: 'title', displayName: 'Title',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+    		                                 { name: 'title', displayName: 'Title', width:'15%',cellEditableCondition: false,enableFiltering: true,
     		                                	 cellTemplate: '<div> <a style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
     		                                 },
     		                                 { name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
     		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
     		                                 },
     		                                 { name: 'fileName', displayName: 'Logo',enableColumnMenu: false, width:'15%',
+    		                                 },
+    		                                 { name: 'addedDate', displayName: 'addedDate',enableColumnMenu: false, width:'15%',
     		                                 },
     		                                 { name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
     		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
@@ -42,10 +43,9 @@ angular.module('newApp')
     		                                 { name: 'pageViewCount', displayName: 'Views',enableFiltering: false,type:'number',enableColumnMenu: false, width:'7%',cellEditableCondition: false,
     		                                	 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
     		                                 },*/
-    		                                 /*{ name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-        		                                 cellTemplate:'<input type="checkbox" name="vehicle" ng-click="grid.appScope.hideVehicle(row)" autocomplete="off">', 
-    		                                 
-    		                                 },*/
+    		                                 { name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+        		                                 cellTemplate:'<input type="checkbox" ng-checked="row.entity.hideWebsite" name="vehicle" ng-click="grid.appScope.hideProduct(row)" autocomplete="off">', 
+    		                                 },
     		                                 { name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
     		                                	 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProduct(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
     		                                 
@@ -88,6 +88,9 @@ angular.module('newApp')
     				});
     			 });
     			 
+    			/* gridApi.draggableRows.on.rowDropped($scope, function (info, dropTarget) {
+    		   	        console.log("Dropped", info);
+    		   	    });*/
     			 
     			 $scope.gridApi.core.on.filterChanged( $scope, function() {
     		          var grid = this.grid;
@@ -99,16 +102,15 @@ angular.module('newApp')
     			 
     			 $scope.gridOptions1 = {
     		    		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
-    		    		    paginationPageSize: 150,
-    		    		    enableFiltering: true,
-    		    		    enableCellEditOnFocus: true,
-    		    		    useExternalFiltering: true,
-    		    		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+    		    		 paginationPageSize: 150,
+    			 		    enableFiltering: true,
+    			 		    useExternalFiltering: true,
+    		    		    rowTemplate: '<div grid="grid" class="ui-grid-draggable-row" draggable="true"><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader, \'custom\': true }" ui-grid-cell></div></div>'
     		    		 };
     		    		 $scope.gridOptions1.enableHorizontalScrollbar = 0;
     		    		 $scope.gridOptions1.enableVerticalScrollbar = 2;
     		    		 $scope.gridOptions1.columnDefs = [
-																{ name: 'title', displayName: 'Title',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+																{ name: 'title', displayName: 'Title', width:'15%',cellEditableCondition: false,enableFiltering: true,
 																	 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
 																},
 																{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
@@ -116,6 +118,8 @@ angular.module('newApp')
 																},
 																{ name: 'fileName', displayName: 'Logo',enableColumnMenu: false, width:'15%',
 																},
+																{ name: 'addedDate', displayName: 'addedDate',enableColumnMenu: false, width:'15%',
+					    		                                 },
 																{ name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
 																	cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
 																},
@@ -136,10 +140,10 @@ angular.module('newApp')
 																{ name: 'pageViewCount', displayName: 'Views',enableFiltering: false,type:'number',enableColumnMenu: false, width:'7%',cellEditableCondition: false,
 																	 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
 																},*/
-																/*{ name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																    cellTemplate:'<input type="checkbox" name="vehicle" ng-click="grid.appScope.hideVehicle(row)" autocomplete="off">', 
+																{ name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+																    cellTemplate:'<input type="checkbox" ng-checked="row.entity.hideWebsite" name="vehicle" ng-click="grid.appScope.hideProduct(row)" autocomplete="off">', 
 																
-																},*/
+																},
 																{ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 																	 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProduct(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
 																
@@ -170,16 +174,15 @@ angular.module('newApp')
     			 
     		    			 $scope.gridOptions2 = {
     		    		    		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
-    		    		    		    paginationPageSize: 150,
-    		    		    		    enableFiltering: true,
-    		    		    		    enableCellEditOnFocus: true,
-    		    		    		    useExternalFiltering: true,
-    		    		    		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+    		    		    		 paginationPageSize: 150,
+    		    			 		    enableFiltering: true,
+    		    			 		    useExternalFiltering: true,
+    		    		    		    rowTemplate: '<div grid="grid" class="ui-grid-draggable-row" draggable="true"><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader, \'custom\': true }" ui-grid-cell></div></div>',
     		    		    		 };
     		    		    		 $scope.gridOptions2.enableHorizontalScrollbar = 0;
     		    		    		 $scope.gridOptions2.enableVerticalScrollbar = 2;
     		    		    		 $scope.gridOptions2.columnDefs = [
-																		{ name: 'title', displayName: 'Title',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+																		{ name: 'title', displayName: 'Title', width:'15%',cellEditableCondition: false,enableFiltering: true,
 																			 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
 																		},
 																		{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
@@ -187,6 +190,8 @@ angular.module('newApp')
 																		},
 																		{ name: 'fileName', displayName: 'Logo',enableColumnMenu: false, width:'15%',
 																		},
+																		{ name: 'addedDate', displayName: 'addedDate',enableColumnMenu: false, width:'15%',
+							    		                                 },
 																		{ name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
 																			cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
 																		},
@@ -206,12 +211,12 @@ angular.module('newApp')
 																		{ name: 'pageViewCount', displayName: 'Views',enableFiltering: false,type:'number',enableColumnMenu: false, width:'7%',cellEditableCondition: false,
 																			 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
 																		},*/
-																		/*{ name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																		    cellTemplate:'<input type="checkbox" name="vehicle" ng-click="grid.appScope.hideVehicle(row)" autocomplete="off">', 
+																		{ name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+																		    cellTemplate:'<input type="checkbox" ng-checked="row.entity.hideWebsite" name="vehicle" ng-click="grid.appScope.hideProduct(row)" autocomplete="off">', 
 																		
-																		},*/
+																		},
 																		{ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																			 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProduct(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
+																			 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProduct(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehiclePer(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
 																		
 																		},
     		    		        		                                
@@ -258,6 +263,14 @@ angular.module('newApp')
     						$('#vehicleHistory').click();
     					});
     			 };
+    			 
+    			 
+    			 $scope.hideProduct = function(row){
+    				 console.log(row);
+    				 apiserviceViewInventory.getHideProduct(row.entity.id).then(function(data){
+						
+					});
+    			 } 
     			 
     			 $scope.hideVehicle = function(row){
     				 console.log(row);
@@ -378,6 +391,9 @@ angular.module('newApp')
      		    			 			}
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].userRole=$scope.userRole;
+     		    			 				if(data[i].hideWebsite == 1){
+     		    			 					data[i].hideWebsite = true;
+     		    			 				}
      		    			 			}
      		    			 			$scope.vType = "new";
      		    			 			$scope.vehiClesList = data;
@@ -401,6 +417,9 @@ angular.module('newApp')
     		    			 			}
 		    			 				for(var i=0;i<data.length;i++) {
 		    			 					data[i].userRole=$scope.userRole;
+		    			 					if(data[i].hideWebsite == 1){
+     		    			 					data[i].hideWebsite = true;
+     		    			 				}
 		    			 				}
 		    			 				$scope.vType = "sold";
     		    			 			$scope.type = "All";
@@ -426,7 +445,9 @@ angular.module('newApp')
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				
     		    			 				data[i].userRole=$scope.userRole;
-    		    			 				
+    		    			 				if(data[i].hideWebsite == 1){
+     		    			 					data[i].hideWebsite = true;
+     		    			 				}
     		    							}
     		    			 			$scope.doPublic = 1;
     		    			 			$scope.vType = "sold";
@@ -474,6 +495,12 @@ angular.module('newApp')
 	   $scope.rowDataVal = row;
    }
    
+   $scope.deleteVehiclePer = function(row){
+	   console.log("kk");
+	   $('#modal-basic1').modal('show');
+	   $scope.rowDataVal = row;
+   }
+   
    $scope.showSessionData = function(row){
 	   $location.path('/sessionsAnalytics/'+row.entity.id+"/"+row.entity.vin+"/"+row.entity.status);
    }
@@ -481,6 +508,15 @@ angular.module('newApp')
    $scope.deleteVehicleRow = function() {
 	   
 	   apiserviceViewInventory.deleteVehicleById($scope.rowDataVal.entity.id).then(function(data){
+	   
+		   $scope.newlyArrivedTab();
+		   $scope.draftTab();
+		});
+   }
+   
+$scope.deleteVehicleRowPer = function() {
+	   
+	   apiserviceViewInventory.deleteVehicleByIdPer($scope.rowDataVal.entity.id).then(function(data){
 	   
 		   $scope.newlyArrivedTab();
 		   $scope.draftTab();
@@ -718,7 +754,221 @@ angular.module('newApp')
 	 }
 	
 	
-}]);
+}]).filter('myProgressType', function() {
+	  return function (input) {
+		    return +input > 65 ? 'danger' : (+input > 35 ? 'warning' : 'success');
+		  };;
+		});
+
+		(function() {
+		    'use strict';
+
+		    angular.module('ui.grid.draggable-rows', ['ui.grid'])
+
+		    .constant('uiGridDraggableRowsConstants', {
+		        featureName: 'draggableRows',
+		        ROW_OVER_CLASS: 'ui-grid-draggable-row-over',
+		        ROW_OVER_ABOVE_CLASS: 'ui-grid-draggable-row-over--above',
+		        ROW_OVER_BELOW_CLASS: 'ui-grid-draggable-row-over--below',
+		        POSITION_ABOVE: 'above',
+		        POSITION_BELOW: 'below',
+		        publicEvents: {
+		            draggableRows: {
+		                rowDragged: function(scope, info, rowElement) {},
+		                rowDropped: function(scope, info, targetElement) {},
+		                rowOverRow: function(scope, info, rowElement) {},
+		                rowEnterRow: function(scope, info, rowElement) {},
+		                rowLeavesRow: function(scope, info, rowElement) {},
+		                rowFinishDrag: function(scope) {}
+		            }
+		        }
+		    })
+
+		    .factory('uiGridDraggableRowsCommon', [function() {
+		        return {
+		            draggedRow: null,
+		            draggedRowEntity: null,
+		            position: null,
+		            fromIndex: null,
+		            toIndex: null
+		        };
+		    }])
+
+		    .service('uiGridDraggableRowsService', ['uiGridDraggableRowsConstants', function(uiGridDraggableRowsConstants) {
+		        this.initializeGrid = function(grid, $scope, $element) {
+		            grid.api.registerEventsFromObject(uiGridDraggableRowsConstants.publicEvents);
+
+		            grid.api.draggableRows.on.rowFinishDrag($scope, function() {
+		                angular.forEach($element[0].querySelectorAll('.' + uiGridDraggableRowsConstants.ROW_OVER_CLASS), function(row) {
+		                    row.classList.remove(uiGridDraggableRowsConstants.ROW_OVER_CLASS);
+		                    row.classList.remove(uiGridDraggableRowsConstants.ROW_OVER_ABOVE_CLASS);
+		                    row.classList.remove(uiGridDraggableRowsConstants.ROW_OVER_BELOW_CLASS);
+		                });
+		            });
+		        };
+		    }])
+
+		    .service('uiGridDraggableRowService', ['uiGridDraggableRowsConstants', 'uiGridDraggableRowsCommon', function(uiGridDraggableRowsConstants, uiGridDraggableRowsCommon) {
+		        var move = function(from, to) {
+		            /*jshint validthis: true */
+		            this.splice(to, 0, this.splice(from, 1)[0]);
+		        };
+
+		        this.prepareDraggableRow = function($scope, $element) {
+		            var grid = $scope.grid;
+		            var data = grid.options.data;
+		            var row = $element[0];
+		            var listeners = {
+		                onDragOverEventListener: function(e) {
+		                    if (e.preventDefault) {
+		                        e.preventDefault();
+		                    }
+
+		                    var dataTransfer = e.dataTransfer || e.originalEvent.dataTransfer;
+		                    dataTransfer.effectAllowed = 'copyMove';
+		                    dataTransfer.dropEffect = 'move';
+
+		                    var offset = e.offsetY || e.layerY || (e.originalEvent ? e.originalEvent.offsetY : 0);
+
+		                    $element.addClass(uiGridDraggableRowsConstants.ROW_OVER_CLASS);
+
+		                    if (offset < this.offsetHeight / 2) {
+		                        uiGridDraggableRowsCommon.position = uiGridDraggableRowsConstants.POSITION_ABOVE;
+
+		                        $element.removeClass(uiGridDraggableRowsConstants.ROW_OVER_BELOW_CLASS);
+		                        $element.addClass(uiGridDraggableRowsConstants.ROW_OVER_ABOVE_CLASS);
+
+		                    } else {
+		                        uiGridDraggableRowsCommon.position = uiGridDraggableRowsConstants.POSITION_BELOW;
+
+		                        $element.removeClass(uiGridDraggableRowsConstants.ROW_OVER_ABOVE_CLASS);
+		                        $element.addClass(uiGridDraggableRowsConstants.ROW_OVER_BELOW_CLASS);
+		                    }
+
+		                    //grid.api.draggableRows.raise.rowOverRow(uiGridDraggableRowsCommon, this);
+		                },
+
+		                onDragStartEventListener: function(e) {
+		                    this.style.opacity = '0.5';
+
+		                    uiGridDraggableRowsCommon.draggedRow = this;
+		                    uiGridDraggableRowsCommon.draggedRowEntity = $scope.$parent.$parent.row.entity;
+
+		                    uiGridDraggableRowsCommon.position = null;
+
+		                    uiGridDraggableRowsCommon.fromIndex = data.indexOf(uiGridDraggableRowsCommon.draggedRowEntity);
+		                    uiGridDraggableRowsCommon.toIndex = null;
+
+		                   // grid.api.draggableRows.raise.rowDragged(uiGridDraggableRowsCommon, this);
+		                },
+
+		                onDragLeaveEventListener: function() {
+		                    this.style.opacity = '1';
+
+		                    this.classList.remove(uiGridDraggableRowsConstants.ROW_OVER_CLASS);
+		                    this.classList.remove(uiGridDraggableRowsConstants.ROW_OVER_ABOVE_CLASS);
+		                    this.classList.remove(uiGridDraggableRowsConstants.ROW_OVER_BELOW_CLASS);
+
+		                   // grid.api.draggableRows.raise.rowLeavesRow(uiGridDraggableRowsCommon, this);
+		                    
+		                },
+
+		                onDragEnterEventListener: function() {
+		                   // grid.api.draggableRows.raise.rowEnterRow(uiGridDraggableRowsCommon, this);
+		                },
+
+		                onDragEndEventListener: function() {
+		                   // grid.api.draggableRows.raise.rowFinishDrag();
+		                },
+
+		                onDropEventListener: function(e) {
+		                    var draggedRow = uiGridDraggableRowsCommon.draggedRow;
+
+		                    if (e.stopPropagation) {
+		                        e.stopPropagation();
+		                    }
+
+		                    if (e.preventDefault) {
+		                        e.preventDefault();
+		                    }
+
+		                    if (draggedRow === this) {
+		                        return false;
+		                    }
+
+		                    uiGridDraggableRowsCommon.toIndex = data.indexOf($scope.$parent.$parent.row.entity);
+
+		                    if (uiGridDraggableRowsCommon.position === uiGridDraggableRowsConstants.POSITION_ABOVE) {
+		                        if (uiGridDraggableRowsCommon.fromIndex < uiGridDraggableRowsCommon.toIndex) {
+		                            uiGridDraggableRowsCommon.toIndex -= 1;
+		                        }
+
+		                    } else if (uiGridDraggableRowsCommon.fromIndex >= uiGridDraggableRowsCommon.toIndex) {
+		                        uiGridDraggableRowsCommon.toIndex += 1;
+		                    }
+
+		                    $scope.$apply(function() {
+		                        move.apply(data, [uiGridDraggableRowsCommon.fromIndex, uiGridDraggableRowsCommon.toIndex]);
+		                        //console.log(data);
+		                    });
+		                    console.log(data);	
+		                    	console.log("............................");
+		                    	$.ajax({
+			                    		type: "POST",
+			                            url: '/saveCollectionOrder',
+			                            data: JSON.stringify(data),
+			                            contentType: "application/json; charset=utf-8",
+			                            dataType: "json",
+		                    		});
+		                    
+		                   // grid.api.draggableRows.raise.rowDropped(uiGridDraggableRowsCommon, this);
+
+		                    e.preventDefault();
+		                }
+		            };
+
+		            row.addEventListener('dragover', listeners.onDragOverEventListener, false);
+		            row.addEventListener('dragstart', listeners.onDragStartEventListener, false);
+		            row.addEventListener('dragleave', listeners.onDragLeaveEventListener, false);
+		            row.addEventListener('dragenter', listeners.onDragEnterEventListener, false);
+		            row.addEventListener('dragend', listeners.onDragEndEventListener, false);
+		            row.addEventListener('drop', listeners.onDropEventListener);
+		        };
+		    }])
+
+		    .directive('uiGridDraggableRow', ['uiGridDraggableRowService', function(uiGridDraggableRowService) {
+		        return {
+		            restrict: 'ACE',
+		            scope: {
+		                grid: '='
+		            },
+		            compile: function() {
+		                return {
+		                    pre: function($scope, $element) {
+		                        uiGridDraggableRowService.prepareDraggableRow($scope, $element);
+		                    }
+		                };
+		            }
+		        };
+		    }])
+
+		    .directive('uiGridDraggableRows', ['uiGridDraggableRowsService', function(uiGridDraggableRowsService) {
+		        return {
+		            restrict: 'A',
+		            replace: true,
+		            priority: 0,
+		            require: 'uiGrid',
+		            scope: false,
+		            compile: function() {
+		                return {
+		                    pre: function($scope, $element, $attrs, uiGridCtrl) {
+		                        uiGridDraggableRowsService.initializeGrid(uiGridCtrl.grid, $scope, $element);
+		                    }
+		                };
+		            }
+		        };
+		    }]);
+		}());
 
 
 

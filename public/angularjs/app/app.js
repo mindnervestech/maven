@@ -25,6 +25,7 @@ var MakeApp = angular
     'ngAutocomplete',
     'angucomplete',
     'angucomplete-alt',
+    'ui.grid.draggable-rows',
     'builder',
     'builder.components',
     'starter.apiservice',

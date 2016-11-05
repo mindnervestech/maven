@@ -30,6 +30,11 @@ public class AddProduct extends Model {
 	public String cadfilePath;
 	public String publicStatus;
 	public Long parentId;
+	public int orderIndex;
+	public int hideWebsite;
+	public Date addedDate;
+	
+	
 	
 	public Long getParentId() {
 		return parentId;
@@ -50,7 +55,25 @@ public class AddProduct extends Model {
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
+	public int getOrderIndex() {
+		return orderIndex;
+	}
+	public void setOrderIndex(int orderIndex) {
+		this.orderIndex = orderIndex;
+	}
 	
+	public Date getAddedDate() {
+		return addedDate;
+	}
+	public void setAddedDate(Date addedDate) {
+		this.addedDate = addedDate;
+	}
+	public int getHideWebsite() {
+		return hideWebsite;
+	}
+	public void setHideWebsite(int hideWebsite) {
+		this.hideWebsite = hideWebsite;
+	}
 	public String getCadfileName() {
 		return cadfileName;
 	}
@@ -228,7 +251,7 @@ public class AddProduct extends Model {
 	}
 	
 	public static List<AddProduct> getProductByStatus(Long location, String status) {
-		return find.where().eq("publicStatus", status).findList();		
+		return find.where().eq("publicStatus", status).orderBy("order_index").findList();		
 	}
 	
 	public static AddProduct findByProductIdOne(String productname,Location location) {

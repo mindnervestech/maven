@@ -17,6 +17,9 @@ public class AddProductVM {
 	public String publicStatus;
 	public Long parentId;
 	public Long pageViewCount;
+	public int orderIndex;
+	public int hideWebsite;
+	public String addedDate;
 
 	public String imgPath;
 	public long imgId;

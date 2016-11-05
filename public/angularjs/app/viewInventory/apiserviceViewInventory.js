@@ -22,6 +22,14 @@ angular.module('app.apiserviceViewInventory', [])
 		return defer.promise;
 	};
 	
+	this.getHideProduct=function(id){
+		var defer = $q.defer();
+		
+		$http.get('/getHideProduct/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 	this.getGoTodraft=function(id){
 		var defer = $q.defer();
 		
@@ -111,6 +119,17 @@ angular.module('app.apiserviceViewInventory', [])
 		});
 		return defer.promise;
 	};
+	
+	this.deleteVehicleByIdPer=function(id){
+		var defer = $q.defer();
+		
+		$http.get('/deleteVehicleByIdPer/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
 	
 	this.addPublicCar=function(id){
 		var defer = $q.defer();

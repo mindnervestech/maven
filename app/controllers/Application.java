@@ -3880,7 +3880,28 @@ public class Application extends Controller {
 	     	return ok(Json.toJson(soldVMs));
     	}	
     }
-    
+	
+	 public static Result deleteVehicleByIdPer(Long id ){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		List<ProductImages> pImages = ProductImages.getDeleteImagePath(id);
+    		if(pImages.size() != 0){
+    			for(ProductImages pI:pImages){
+    				pI.delete();
+    			}
+    		}
+	    	AddProduct vm = AddProduct.findById(id);
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	if(vm != null){
+	    		
+	    		vm.delete();
+	    		File file = new File(rootDir+File.separator+vm.id+"-"+user.id);
+	    		file.delete();
+	    	}
+	    	return ok();
+    	}	
+    }
     
     public static Result deleteVehicleById(Long id ){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -4286,6 +4307,7 @@ public class Application extends Controller {
     		if(product != null){
     			product.setTitle(vm.title);
     			product.setDescription(vm.description);
+    			product.setParentId(vm.parentId);
     			product.update();
     			
     		}

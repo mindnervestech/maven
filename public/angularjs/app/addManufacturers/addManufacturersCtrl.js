@@ -457,6 +457,11 @@ angular.module('newApp')
 		$scope.collection = sts;
 	}
 	
+	$http.get('/getAllProduct/'+'publish')
+	.success(function(data) {
+		$scope.childManu = data;
+		console.log($scope.childManu);
+	});
 	console.log($routeParams.id);
 
 	$http.get('/getList').success(function(data) {
