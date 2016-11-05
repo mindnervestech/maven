@@ -618,6 +618,36 @@ console.log($scope.cId);
 			names[0]= "logoFile";
 		}
 		
+		$scope.deleteVehicle = function(row){
+			$('#modal-basic').modal('show');
+			console.log(row);
+			   $scope.rowDataVal = row;
+		   }
+		   
+		   $scope.deleteVehiclePer = function(row){
+			   console.log(row);
+			   $('#modal-basic1').modal('show');
+			   $scope.rowDataVal = row;
+		   }
+		   
+		    
+		   
+		   $scope.deleteVehicleRow = function() {
+			   
+			   $http.get('/deleteVehicleById/'+$scope.rowDataVal.id).success(function(data) {
+			   
+				   $location.path('/viewInventory');
+				});
+		   }
+		   		   
+		$scope.deleteVehicleRowPer = function() {
+			   
+			 $http.get('/deleteVehicleByIdPer/'+$scope.rowDataVal.id).success(function(data) {
+				   
+				   $location.path('/viewInventory');
+				});
+		   }
+		
 		$scope.onCadFileSelect = function($files) {
 			cadfile = $files;
 			console.log("File Upload");
