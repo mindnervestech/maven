@@ -87,7 +87,6 @@ angular.module('newApp')
    			$("#submit").attr("disabled", false);
    			
    			if($scope.statusValue != "draft"){
-   				$scope.chengeSection();
    				$location.path('/manufacturersImages/'+data.id);
    			}else{
    				$location.path('/addManufacturers');
