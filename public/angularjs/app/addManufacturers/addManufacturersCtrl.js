@@ -534,7 +534,8 @@ console.log($scope.cId);
 		console.log($scope.productData);
 		console.log(logofile);
 		console.log(cadfile);
-		
+		delete $scope.productData.pageViewCount;
+		console.log($scope.productData);
 		if(logofile != null){
 			console.log("logofile");
 				$upload.upload({
