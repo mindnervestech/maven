@@ -87,6 +87,12 @@ angular.module('newApp')
    			$("#submit").attr("disabled", false);
    			if($scope.statusValue != "draft"){
    				$location.path('/manufacturersImages/'+data.id);
+   				
+   				$http.get('/getAllProduct/'+'publish')
+   				.success(function(data) {
+   					$scope.childManu = data;
+   					console.log($scope.childManu);
+   				});
    			}else{
    				$location.path('/addManufacturers');
    				$scope.addProduct= [];
