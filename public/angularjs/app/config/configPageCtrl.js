@@ -225,6 +225,11 @@ angular.module('newApp')
 			$location.path('/InventoryForm/'+"Edit"+"/"+'Inventory');
 			
 		}
+		else if(row.entity.name == "Create New Lead"){
+
+			$location.path('/CreateNewLeadForm/'+"Edit"+"/"+'Create Lead');
+			
+		}
 		else if(row.entity.name == "Add to CRM"){
 
 			$location.path('/CRMForm/'+"Edit"+"/"+'CRM');
@@ -255,6 +260,11 @@ angular.module('newApp')
 			$location.path('/'+'InventoryForm/'+"Preview"+"/"+'Inventory');
 			
 		}
+			else if(row.entity.name == "Create New Lead"){
+
+				$location.path('/'+'CreateNewLeadForm/'+"Preview"+"/"+'Create Lead');
+				
+			}
 		else if(row.entity.name == "Add to CRM"){
 
 			$location.path('/'+'CRMForm/'+"Preview"+"/"+'CRM');

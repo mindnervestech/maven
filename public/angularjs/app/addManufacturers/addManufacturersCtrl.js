@@ -77,6 +77,11 @@ angular.module('newApp')
             data:$scope.addProduct
          }).success(function(data) {
    			console.log(data);
+   			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Your Progress has been Saved",
+			});
    			console.log('success');
    			console.log($location);
    			$("#submit").attr("disabled", false);
@@ -95,6 +100,11 @@ angular.module('newApp')
 	            file:cadfile,
 	            data:$scope.addProduct
 	         }).success(function(data) {
+	        	 $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Update successfully",
+					});
 	   			console.log(data);
 	   			console.log('success');
 	   			console.log($location);
@@ -128,6 +138,11 @@ angular.module('newApp')
 		            //file:logofile,cadfile,
 		            data:$scope.addProduct
 		         }).success(function(data) {
+		        	 $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Update successfully",
+						});
 		   			console.log(data);
 		   			console.log('success');
 		   			console.log($location);
