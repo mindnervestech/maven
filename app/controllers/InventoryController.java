@@ -318,8 +318,12 @@ public class InventoryController extends Controller {
 		       	       	    			add.setCadfileName(fileName);
 		       	       	    			add.setCadfilePath("/"+userObj.id+"/"+"product"+"/"+fileName);
 		       	       	    			add.update();
+		       	       	    	}else{
+			       	       	    	FileUtils.moveFile(file, new File(filePath));
+			       	       	    	add.setFileName(fileName);
+	     		    		   		add.setFilePath("/"+userObj.id+"/"+"product"+"/"+fileName);
+	     		    		   		add.update();
 		       	       	    	}
-	    		        		FileUtils.moveFile(file, new File(filePath));
 	    					} catch (Exception e) {
 	    						e.printStackTrace();
 	    					}
