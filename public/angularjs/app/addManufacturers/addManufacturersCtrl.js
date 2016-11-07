@@ -85,14 +85,13 @@ angular.module('newApp')
    			console.log('success');
    			console.log($location);
    			$("#submit").attr("disabled", false);
+   			$http.get('/getAllProduct/'+'publish')
+				.success(function(data) {
+					$scope.childManu = data;
+					console.log($scope.childManu);
+				});
    			if($scope.statusValue != "draft"){
    				$location.path('/manufacturersImages/'+data.id);
-   				
-   				$http.get('/getAllProduct/'+'publish')
-   				.success(function(data) {
-   					$scope.childManu = data;
-   					console.log($scope.childManu);
-   				});
    			}else{
    				$location.path('/addManufacturers');
    				$scope.addProduct= [];
