@@ -88,7 +88,8 @@ angular.module('newApp')
    			if($scope.statusValue != "draft"){
    				$location.path('/manufacturersImages/'+data.id);
    			}else{
-   				$location.path('/viewInventory');
+   				$location.path('/addManufacturers');
+   				$scope.addProduct= [];
    			}
    			
    		 });
