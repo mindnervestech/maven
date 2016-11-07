@@ -1,9 +1,59 @@
 angular.module('newApp')
-.controller('viewInventoryCtrl', ['$scope','$http','$location','$filter','apiserviceViewInventory', function ($scope,$http,$location,$filter,apiserviceViewInventory) {
+.controller('viewInventoryCtrl', ['$scope','$http','$location','$filter','$upload','apiserviceViewInventory', function ($scope,$http,$location,$filter,$upload,apiserviceViewInventory) {
 	$scope.tempDate = new Date().getTime();
 	$scope.type = "All";
 	$scope.vType;
 	$scope.doPublic = 0;
+	$scope.myClickFun = function(obj){
+		$scope.productData = obj;
+		console.log("???????????????????");
+		console.log(obj);
+		document.getElementById("uploadId").click();
+		$scope.productData.publicStatus = "publish";
+		$scope.productData.collectionId = 0;
+		console.log($scope.productData);
+	 };
+	 var logofile = null;
+	 var names = [];
+	 var files =[];
+	 $scope.onLogoFileSelect = function($files) {
+		logofile = $files;
+		console.log("File Upload");
+		console.log(logofile);
+		$scope.productData.fileName = logofile[0].name;
+		files[0] = $files[0];
+		names[0]= "logoFile";
+		delete $scope.productData.$$hashKey;
+		//delete $scope.productData.addedDate;
+		delete $scope.productData.price;
+		delete $scope.productData.parentId;
+		
+		if(logofile != null){
+			console.log("logofile");
+			console.log($scope.productData);
+			console.log(logofile);
+				$upload.upload({
+		            url : '/updateProduct',
+		            method: 'POST',
+		            file:logofile,
+		            data:$scope.productData
+		        }).success(function(data) {
+		        	$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Product Update successfully",
+					});
+		        	//$location.path('/manufacturersImages/'+$routeParams.id);
+		   		}).error(function(data) {
+		   			$.pnotify({
+					    title: "Error",
+					    type:'success',
+					    text: "Internal Server Error.",
+					});
+		   		});
+		
+		}
+	}
      $scope.gridOptions = {
     		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
     		 paginationPageSize: 150,
@@ -18,11 +68,12 @@ angular.module('newApp')
     		                                	 cellTemplate: '<div> <a style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
     		                                 },
     		                                 { name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-    		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
+    		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.description}}" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
     		                                 },
-    		                                 { name: 'fileName', displayName: 'Logo',enableColumnMenu: false, width:'15%',
+    		                                 { name: 'fileName', displayName: 'Logo', width:'15%',cellEditableCondition: false,enableFiltering: false,
+    		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.myClickFun(row.entity)";style="line-height: 200%;" title="" data-content="{{row.entity.fileName}}" >{{row.entity.fileName}}</a></div>',
     		                                 },
-    		                                 { name: 'addedDate', displayName: 'addedDate',enableColumnMenu: false, width:'15%',
+    		                                 { name: 'addedDate', displayName: 'Date Added',enableColumnMenu: false, width:'15%',
     		                                 },
     		                                 { name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
     		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
@@ -75,17 +126,15 @@ angular.module('newApp')
     			 $scope.rowData = {};
     			 $scope.gridApi = gridApi;
     			 gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-    				 $scope.rowData.id = rowEntity.id;
-    			 $scope.rowData.description = rowEntity.description;
-    			 $scope.rowData.title = rowEntity.title;
-    			 $scope.rowData.publicStatus = rowEntity.publicStatus;
-    			 $scope.$apply();
-    			 console.log("hhhhhhhhhhhhhhhhhhhhh");
-    				console.log($scope.rowData);
-    				 apiserviceViewInventory.updateProduct($scope.rowData).then(function(data){
-    			 
-    				 	
-    				});
+	    			 $scope.rowData.id = rowEntity.id;
+	    			 $scope.rowData.description = rowEntity.description;
+	    			 $scope.rowData.title = rowEntity.title;
+	    			 $scope.rowData.publicStatus = rowEntity.publicStatus;
+	    			 $scope.$apply();
+	    			 console.log("hhhhhhhhhhhhhhhhhhhhh");
+    				 console.log($scope.rowData);
+    				 	apiserviceViewInventory.updateProduct($scope.rowData).then(function(data){
+    				 });
     			 });
     			 
     			/* gridApi.draggableRows.on.rowDropped($scope, function (info, dropTarget) {
@@ -114,11 +163,12 @@ angular.module('newApp')
 																	 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
 																},
 																{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-																	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
+																	 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.description}}" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
 																},
-																{ name: 'fileName', displayName: 'Logo',enableColumnMenu: false, width:'15%',
-																},
-																{ name: 'addedDate', displayName: 'addedDate',enableColumnMenu: false, width:'15%',
+																{ name: 'fileName', displayName: 'Logo', width:'15%',cellEditableCondition: false,enableFiltering: false,
+					    		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.myClickFun(row.entity)";style="line-height: 200%;" title="" data-content="{{row.entity.fileName}}" >{{row.entity.fileName}}</a></div>',
+					    		                                 },
+																{ name: 'addedDate', displayName: 'Date Added',enableColumnMenu: false, width:'15%',
 					    		                                 },
 																{ name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
 																	cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
@@ -158,11 +208,11 @@ angular.module('newApp')
     		    			 $scope.$apply();
     		    				 var str = $scope.rowData.price.split(" ");
     		    				 $scope.rowData.price = str[1];
-    		    				 apiserviceViewInventory.updateVehicle($scope.rowData).then(function(data){
-    		    			 
-    		    				 	$scope.rowData.price = "$ "+$scope.rowData.price;
-    		    				
-    		    				});
+    		    				 console.log("hhhhhhhhhhhhhhhhhhhhh");
+    		    				 console.log($scope.rowData);
+		    				 	 apiserviceViewInventory.updateProduct($scope.rowData).then(function(data){
+		    				 		$scope.rowData.price = "$ "+$scope.rowData.price;
+    		    				 });
     		    			 });
     		    			 
     		    			 $scope.gridApi.core.on.filterChanged( $scope, function() {
@@ -186,11 +236,12 @@ angular.module('newApp')
 																			 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
 																		},
 																		{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-																			 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
+																			 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.description}}" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
 																		},
-																		{ name: 'fileName', displayName: 'Logo',enableColumnMenu: false, width:'15%',
-																		},
-																		{ name: 'addedDate', displayName: 'addedDate',enableColumnMenu: false, width:'15%',
+																		{ name: 'fileName', displayName: 'Logo', width:'15%',cellEditableCondition: false,enableFiltering: false,
+							    		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.myClickFun(row.entity)";style="line-height: 200%;" title="" data-content="{{row.entity.fileName}}" >{{row.entity.fileName}}</a></div>',
+							    		                                 },
+																		{ name: 'addedDate', displayName: 'Date Added',enableColumnMenu: false, width:'15%',
 							    		                                 },
 																		{ name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
 																			cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
@@ -229,10 +280,9 @@ angular.module('newApp')
     		    		    			 $scope.$apply();
     		    		    				 var str = $scope.rowData.price.split(" ");
     		    		    				 $scope.rowData.price = str[1];
-    		    		    				 apiserviceViewInventory.updateVehicle($scope.rowData).then(function(data){
-    		    		    			 
-    		    		    				 	$scope.rowData.price = "$ "+$scope.rowData.price;
-    		    		    				});
+    		    		    				 apiserviceViewInventory.updateProduct($scope.rowData).then(function(data){
+    		 		    				 		$scope.rowData.price = "$ "+$scope.rowData.price;
+    		     		    				 });
     		    		    			 });
     		    		    			 
     		    		    			 $scope.gridApi.core.on.filterChanged( $scope, function() {
@@ -454,6 +504,7 @@ angular.module('newApp')
     		    			 			$scope.type = "All";
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions1.data = data;
+    		    			 			console.log($scope.gridOptions1.data);
     		    			 			//$scope.gridOptions.columnDefs[9].displayName='Views';
     		    			 			
     		    			 			
@@ -473,6 +524,7 @@ angular.module('newApp')
      		    			 			$scope.type = "All";
      		    			 			$scope.vehiClesList = data;
      		    			 			$scope.gridOptions1.data = data;
+     		    			 			console.log($scope.gridOptions1.data);
      		    			 		//	$scope.gridOptions.columnDefs[9].displayName='Views';
      		    			 		});
     		    					 
@@ -506,20 +558,18 @@ angular.module('newApp')
    }
    
    $scope.deleteVehicleRow = function() {
-	   
 	   apiserviceViewInventory.deleteVehicleById($scope.rowDataVal.entity.id).then(function(data){
-	   
+		   $scope.soldTab();
 		   $scope.newlyArrivedTab();
 		   $scope.draftTab();
 		});
    }
    
 $scope.deleteVehicleRowPer = function() {
-	   
 	   apiserviceViewInventory.deleteVehicleByIdPer($scope.rowDataVal.entity.id).then(function(data){
-	   
 		   $scope.newlyArrivedTab();
 		   $scope.draftTab();
+		   $scope.soldTab();
 		});
    }
    

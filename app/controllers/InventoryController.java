@@ -882,7 +882,7 @@ public class InventoryController extends Controller {
 	   public static Result getAllProduct(String status) {
 			List<AddProduct> pList = AddProduct.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
 			List<AddProductVM> aList = new ArrayList<AddProductVM>();
-			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 			for(AddProduct aProduct:pList){
 				AddProductVM aVm = new AddProductVM();
 				aVm.title = aProduct.title;
