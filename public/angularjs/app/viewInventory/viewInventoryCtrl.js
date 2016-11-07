@@ -539,7 +539,9 @@ angular.module('newApp')
    $scope.vehiClesList = [];
   
    $scope.viewVehiclesInit = function() {
+	   console.log("?>?>?>?>?");
 	   $scope.newlyArrivedTab();
+	   setTimeout(function(){ $scope.newlyArrivedTab(); }, 1000);
    }
    
    $scope.deleteVehicle = function(row,type){
