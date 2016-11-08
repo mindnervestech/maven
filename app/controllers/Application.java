@@ -16979,7 +16979,7 @@ if(vehicles.equals("All")){
     	
     	List<AddProduct> vlist = null;
     	if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
-    		vlist = AddProduct.getAllProducts();
+    		vlist = AddProduct.getProductByDraftStatus();
 		}else{
 			vlist = AddProduct.findByNewlyArrived();
 		}
@@ -17024,7 +17024,7 @@ if(vehicles.equals("All")){
     	List<AddProduct> topVisitedSold =null;
     	
 if(vehicles.equals("All")){
-	topVisited = AddProduct.getAllProducts();
+	topVisited = AddProduct.getProductByDraftStatus();
 }else{
 	topVisited = AddProduct.findByVinsAndTypeVehi(vins,vehicles);
 }
@@ -17171,7 +17171,7 @@ if(vehicles.equals("All")){
     	 
     	 // aVehicles = Vehicle.findByVins(vins1);
     	 if(vehicles.equals("All")){
-    		 aVehicles = AddProduct.getAllProducts();
+    		 aVehicles = AddProduct.getProductByDraftStatus();
     		}else{
     			aVehicles= AddProduct.findByVinsAndTypeVehi(vins1,vehicles);
     		}
