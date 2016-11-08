@@ -534,6 +534,8 @@ console.log($scope.cId);
 		console.log(logofile);
 		console.log(cadfile);
 		delete $scope.productData.pageViewCount;
+		if($scope.productData.parentId == null)
+			delete $scope.productData.parentId;
 		console.log($scope.productData);
 		if(logofile != null){
 			console.log("logofile");

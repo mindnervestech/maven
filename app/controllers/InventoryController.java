@@ -293,11 +293,11 @@ public class InventoryController extends Controller {
 		       	     		System.out.println(ext);
 	    		      		
 	    		      		String contentType = picture.getContentType();
-	    		      		File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"product");
+	    		      		File fdir = new File(rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo");
 	    		      		if(!fdir.exists()) {
 	    		       	    	fdir.mkdir();
 	    		       	    }
-	    		      		String filePath = rootDir+File.separator+userObj.id+File.separator+"product"+File.separator+fileName;
+	    		      		String filePath = rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo"+File.separator+fileName;
 	    		      		try {
 	    		      			Boolean sts = FileUtils.deleteQuietly(new File(filePath));
 	    		       			System.out.println("delete "+sts);
@@ -307,21 +307,10 @@ public class InventoryController extends Controller {
 	    		      		
 	    		       	    File file = picture.getFile();
 	    		       	 try {
-		    		       		if(ext.equalsIgnoreCase("pdf")){
-		       	       	    		FileUtils.moveFile(file, new File(filePath));
-		       		    		   		add.setFileName(fileName);
-		       		    		   		add.setFilePath("/"+userObj.id+"/"+"product"+"/"+fileName);
-		       		    		   		add.update();
-		       		    		   		
-		       	       	    	}else if(ext.equalsIgnoreCase("cad")||ext.equalsIgnoreCase("zip")||ext.equalsIgnoreCase("rar")){
-		       	       	    		FileUtils.moveFile(file, new File(filePath));
-		       	       	    			add.setCadfileName(fileName);
-		       	       	    			add.setCadfilePath("/"+userObj.id+"/"+"product"+"/"+fileName);
-		       	       	    			add.update();
-		       	       	    	}else{
+	    		       		 if(ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("gif")){
 			       	       	    	FileUtils.moveFile(file, new File(filePath));
 			       	       	    	add.setFileName(fileName);
-	     		    		   		add.setFilePath("/"+userObj.id+"/"+"product"+"/"+fileName);
+	     		    		   		add.setFilePath("/"+add.getId()+"-"+userObj.id+"/"+"Logo"+"/"+fileName);
 	     		    		   		add.update();
 		       	       	    	}
 	    					} catch (Exception e) {

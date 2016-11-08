@@ -163,7 +163,7 @@ public class productController extends Controller {
 			       	       	    if(!fdir.exists()) {
 			       	       	    	fdir.mkdir();
 			       	       	    }
-			       	       	    	String filePath = rootDir+File.separator+userObj.id+File.separator+"product"+File.separator+fileName;
+			       	       	    	String filePath = rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo"+File.separator+fileName;
 			       	       	 try {
 			       	       		 	Boolean sts = FileUtils.deleteQuietly(new File(filePath));
 			       	       		 	System.out.println("delete "+sts);
@@ -177,7 +177,7 @@ public class productController extends Controller {
 			       	       	    		FileUtils.moveFile(file, new File(filePath));
 			       		    		   		AddProduct obj = AddProduct.findById(productVM.id);
 			       		    		   		obj.setFileName(fileName);
-			       		    		   		obj.setFilePath("/"+userObj.id+"/"+"product"+"/"+fileName);
+			       		    		   		obj.setFilePath("/"+add.getId()+"-"+userObj.id+"/"+"Logo"+"/"+fileName);
 			       		    		   		obj.update();
 			       		    		   		
 			       	       	    	}/*else if(ext.equalsIgnoreCase("cad")||ext.equalsIgnoreCase("zip")||ext.equalsIgnoreCase("rar")){
