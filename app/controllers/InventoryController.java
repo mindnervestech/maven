@@ -915,6 +915,51 @@ public class InventoryController extends Controller {
 			}
 			return ok(Json.toJson(aList));
 		}
+
+	   public static Result getAllProductData(String status) {
+			List<AddProduct> pList = AddProduct.getProduct(Long.valueOf(session("USER_LOCATION")));
+			List<AddProductVM> aList = new ArrayList<AddProductVM>();
+			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			for(AddProduct aProduct:pList){
+				AddProductVM aVm = new AddProductVM();
+				aVm.title = aProduct.title;
+				aVm.description = aProduct.description;
+				aVm.fileName = aProduct.fileName;
+				aVm.id = aProduct.id;
+				aVm.orderIndex = aProduct.orderIndex;
+				aVm.hideWebsite = aProduct.hideWebsite;
+				if(aProduct.addedDate != null){
+					aVm.addedDate = df.format(aProduct.addedDate);
+				}
+				
+				aVm.publicStatus = aProduct.publicStatus;
+				List<ProductImages> pImages = ProductImages.getByProduct(aProduct); 
+				aVm.countImages = pImages.size();
+				
+				String params = "&date=last-28-days&type=visitors-list&limit=all";
+		    	Long visitorCount = 0l;
+		    	
+       		/*try {
+   				JSONArray jsonArray = new JSONArray(Application.callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+   				for(int j=0;j<jsonArray.length();j++){
+   	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+   	    			String arr[] = data.split("/");
+   	    			
+   	    					  visitorCount = visitorCount + 1;
+   	    				 
+   				}	
+   				
+   			} catch (Exception e) {
+   				// TODO Auto-generated catch block
+   				e.printStackTrace();
+   			}*/
+		    	aVm.pageViewCount = visitorCount;
+				
+				aList.add(aVm);
+			}
+			return ok(Json.toJson(aList));
+		}
+
 	   
 	public static AuthUser getLocalUser() {
 		String id = session("USER_KEY");

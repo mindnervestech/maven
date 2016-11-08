@@ -111,6 +111,7 @@ GET		/getOnlyReadyMade		         controllers.InventoryController.getOnlyReadyMad
 GET		/getAllAccessories		         controllers.InventoryController.getAllAccessories()
 GET		/getAllProductTypes				 controllers.InventoryController.getAllProductTypes()
 GET     /getAllProduct/:status/:date   				 controllers.InventoryController.getAllProduct(status:String, date:String)
+GET     /getAllProductData/:status   				 controllers.InventoryController.getAllProductData(status:String)
 GET		/getProductCollection		     controllers.InventoryController.getProductCollection()
 GET     /getProductData/:id              controllers.InventoryController.getProductData(id:Long) 
 GET     /getList                         controllers.InventoryController.collectionList()

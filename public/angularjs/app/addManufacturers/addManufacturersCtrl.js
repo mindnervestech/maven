@@ -32,6 +32,12 @@ angular.module('newApp')
 		console.log($scope.childManu);
 	});
 	
+	$http.get('/getAllProductData/'+'publish')
+	.success(function(data) {
+		$scope.childManuData = data;
+		console.log($scope.childManuData);
+	});
+	
 	$scope.setOpenPopup = function(){
 		$('#cancelModal').modal('show');
 	}
@@ -474,10 +480,17 @@ angular.module('newApp')
 		$scope.collection = sts;
 	}
 	
-	$http.get('/getAllProduct/'+'publish')
+	var date = new Date();
+	$http.get('/getAllProduct/'+'publish'+'/'+date)
 	.success(function(data) {
 		$scope.childManu = data;
 		console.log($scope.childManu);
+	});
+	
+	$http.get('/getAllProductData/'+'publish')
+	.success(function(data) {
+		$scope.childManuData = data;
+		console.log($scope.childManuData);
 	});
 	console.log($routeParams.id);
 

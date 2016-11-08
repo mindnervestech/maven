@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.avaje.ebean.Expr;
+
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
@@ -224,7 +226,12 @@ public class AddProduct extends Model {
 	public static AddProduct findByIdNotSale(Long id) {
 		return find.where().eq("id", id).ne("sale", "sale").findUnique();
 	}
-	
+	public static AddProduct findByVinAndStatus(String vid) {
+		return find.where().eq("vin", vid).eq("status", "Newly Arrived").findUnique();
+	}
+	public static AddProduct findByVinAndStatusForGM(String vid,Location location) {
+		return find.where().eq("vin", vid).eq("status", "Newly Arrived").eq("locations", location).findUnique();
+	}
 	public static List<AddProduct> getAllAccessories(AddCollection collection) {
 		return find.where().eq("collection", collection).findList();
 	}
@@ -253,6 +260,9 @@ public class AddProduct extends Model {
 	public static List<AddProduct> getProductByStatus(Long location, String status) {
 		return find.where().eq("publicStatus", status).orderBy("order_index").findList();		
 	}
+	public static List<AddProduct> getProduct(Long location) {
+		return find.where().ne("publicStatus", "deleted").orderBy("order_index").findList();		
+	}
 	
 	public static AddProduct findByProductIdOne(String productname,Location location) {
 		return find.where().eq("title", productname).ne("sale", "sale").findUnique();
@@ -262,5 +272,27 @@ public class AddProduct extends Model {
 	}
 	public static List<AddProduct> findProductsNotSale(Long location) {
 		return find.where().ne("sale", "sale").findList();
+	}
+	public static List<AddProduct> findByNewlyArrivedForGM(Location location) {
+		return find.where().eq("status", "Newly Arrived").eq("locations",location).findList();
+	}
+	public static List<AddProduct> findByNewlyArrivedFo(Location location) {
+		return find.where().eq("locations",location).findList();
+	}
+	public static List<AddProduct> findByNewlyArrived() {
+		return find.where().eq("status", "Newly Arrived").findList();
+	}
+	
+	public static List<AddProduct> findByVins(List<String> vins) {
+		return find.where().in("vin", vins).eq("status", "Newly Arrived").eq("publicStatus","public").findList();
+	}
+	public static List<AddProduct> findByVId(List<String> vins) {
+		return find.where().in("vin", vins).findList();
+	}
+	public static List<AddProduct> findByVinsAndTypeVehi(List<String> vins,String typeVehi) {
+		return find.where().in("vin", vins).eq("status", "Newly Arrived").eq("publicStatus","public").eq("typeofVehicle",typeVehi).findList();
+	}
+	public static List<AddProduct> findByNotInVins(List<String> vins) {
+		return find.where().not(Expr.in("vin", vins)).findList();
 	}
 }

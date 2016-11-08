@@ -584,6 +584,9 @@ public class ScheduleTest extends Model {
 	public static List<ScheduleTest>  findByVinAndLocation(String vin,Location location) {
 		return find.where().eq("vin", vin).eq("leadStatus", null).eq("locations", location).findList();
 	}
+	public static List<ScheduleTest>  findByVinAndLocati(Long productId) {
+		return find.where().eq("productId", productId).findList();
+	}
 	
 	public static List<ScheduleTest>  findByProductAndLocation(String pId,Location location) {
 		return find.where().eq("productId", pId).eq("leadStatus", null).eq("locations", location).findList();
@@ -639,6 +642,9 @@ public class ScheduleTest extends Model {
 	}
 	public static List<ScheduleTest> findByVinStatus(String vin) {
 		return find.where().eq("vin", vin).eq("leadStatus", null).findList();
+	}
+	public static List<ScheduleTest> findByVinStat(String productId) {
+		return find.where().eq("productId", productId).eq("leadStatus", null).findList();
 	}
 	public static List<ScheduleTest> findByUserDate(AuthUser user, Date date) {
 		return find.where().add(Expr.or(Expr.ne("acceptMeeting", 1),Expr.eq("acceptMeeting", null))).add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).eq("confirm_date", date).eq("leadStatus", null).findList();

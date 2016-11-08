@@ -101,4 +101,7 @@ public class ProductImages extends Model {
 		return find.where().eq("product_id", id).findRowCount();
 		
 	}
+	public static ProductImages getDefaultImg(Long pId) {
+		return find.where().eq("product.id", pId).eq("defaultImage", 1).findUnique();
+	}
 }

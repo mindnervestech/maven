@@ -694,6 +694,9 @@ public String productId;
 	public static List<TradeIn>  findByVinAndLocation(String vin,Location location) {
 		return find.where().eq("vin", vin).eq("status", null).eq("locations", location).findList();
 	}
+	public static List<TradeIn>  findByVinAndLocati(Long productId) {
+		return find.where().eq("productId", productId).findList();
+	}
 	
 	public static List<TradeIn>  findByProductIdAndLocation(String pId,Location location) {
 		return find.where().eq("productId", pId).eq("status", null).eq("locations", location).findList();
@@ -713,6 +716,9 @@ public String productId;
 	}
 	public static List<TradeIn> findByVinStatus(String vin) {
 		return find.where().eq("vin", vin).eq("status", null).findList();
+	}
+	public static List<TradeIn> findByVinStat(String productId) {
+		return find.where().eq("productId", productId).eq("status", null).findList();
 	}
 	public static List<TradeIn> findByVin(String vin) {
 		// TODO Auto-generated method stub

@@ -303,7 +303,9 @@ public void setMessage(String message) {
 	public static List<RequestMoreInfo> findByVinAndLocation(String vin,Location location) {
 		return find.where().eq("vin", vin).eq("status", null).eq("locations", location).findList();
 	}
-	
+	public static List<RequestMoreInfo> findByVinAndLocati(Long productId) {
+		return find.where().eq("productId", productId).findList();
+	}
 	public static List<RequestMoreInfo> findByProductIdAndLocation(String pId,Location location) {
 		return find.where().eq("productId", pId).eq("status", null).eq("locations", location).findList();
 	}
@@ -536,6 +538,9 @@ public void setMessage(String message) {
 	}
 	public static List<RequestMoreInfo> findByVinStatus(String vin) {
 		return find.where().eq("vin", vin).eq("status", null).findList();
+	}
+	public static List<RequestMoreInfo> findByVinStat(String productId) {
+		return find.where().eq("productId", productId).eq("status", null).findList();
 	}
 	public static List<RequestMoreInfo> findByVinDate(String vin, Date date) {
 		return find.where().eq("vin", vin).eq("confirm_date", date).findList();

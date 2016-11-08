@@ -260,6 +260,8 @@ public class productController extends Controller {
 		    	    File thumbFile = new File(thumbnailPath);
 		    	    File file = picture.getFile();
 		    	    try {
+		    	    	System.out.println("????????");
+		    	    	System.out.println(filePath);
 		    	    BufferedImage originalImage = ImageIO.read(file);
 		    	    Thumbnails.of(originalImage).size(150, 150).toFile(thumbFile);
 		    	    File _f = new File(filePath);

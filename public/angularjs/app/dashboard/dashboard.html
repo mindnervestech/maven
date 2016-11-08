@@ -778,15 +778,15 @@ float: right !important;
 								    				<h4><b style="font-size:19px;">MANUFACTURERS</b></h4> 
 								    			</div>
 								    			<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><a style="cursor: pointer;font-size:17px;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;font-size: 17px;"ng-if="notchange == 0" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
+								     						<h6 class="col-sm-12" style="margin-left: 55px;"><a style="cursor: pointer;font-size:17px;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;font-size: 17px;"ng-if="notchange == 0" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
 								     			</div>
-								     			<div class="col-sm-2" style="padding: 0px;width: 11%;">
+								     			<div class="col-sm-1" style="padding: 0px;width: 11%;">
 								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
 								     						<!-- <h6 class="col-sm-1"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6> -->
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-user" style="color: darkturquoise;font-size: 18px;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
 								     			</div>		
-								    	    	<div class="col-sm-2" style="padding:0px;width: 10%" >
+								    	    	<div class="col-sm-2" style="padding:0px;width: 5%" >
 								    	    														
 														<!-- <div class="col-sm-12">
 															<select class="form-control form-white"  ng-model="vehicles" ng-change="vehicleData(vehicles,startDateForListing,endDateForListing)"  required>
@@ -831,8 +831,10 @@ float: right !important;
 								     						<h6 class="col-sm-12"> <!-- <a style="cursor:pointer;font-size: 18px;" id="weekPerf" ng-class="currentSelectedWeekDuration == 1 ?'underline':''" ng-click="showWeekVisited()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedMonthDuration == 1 ?'underline':''" ng-click="showMonthVisited()">Month</a>&nbsp;&nbsp;&nbsp;&nbsp; --><a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedAllTimeDuration == 1 ?'underline':''" ng-click="showAllTimeVisited()">All Time</a></h6>
 								     			</div>
 								    	    	<!-- <div class="col-sm-1" ng-if="userRole != 'General Manager'"  style="padding: 0px;" >
-												<a class="btn btn-blue" href="#addVehicle" >Add Vehicle</a>
-												</div> -->	</div>
+												
+												</div> -->
+												<a class="btn btn-blue" href="#addManufacturers" >Add Manufacturers</a>
+													</div>
 										<div class="row">
 											<div class="col-sm-12" style="height: 360px;">
 												
@@ -859,15 +861,15 @@ float: right !important;
 													<!-- <span>{{item.vehicleStatus}}</span> -->
 													</div>
 													
-													<div>
+													<!-- <div>
 														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span  ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-6" style="font-size: 15px;margin-bottom: 7px;padding: 0px">${{item.price | number:0}}</span> <span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:60px;" ng-blur="setLable(item.price,item.vin)"/><i style="margin-left: 6px" ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i></span>
-													</div>
+													</div> -->
 													<div>
 														<span class="col-sm-4 glyphicon glyphicon-eye-open" title="Views" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8" style="font-size: 15px;margin-bottom: 7px;padding: 0px">{{item.count | number:0}}</span>
 													</div>
-													<div>
+													<!-- <div>
 														<span class="col-sm-4 glyphicon glyphicon-heart" title="Follower" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;padding: 0px">{{item.followerCount | number:0}}</span>
-													</div>
+													</div> -->
 													<!-- <div>
 														<span class="col-sm-4 glyphicon glyphicon glyphicon-thumbs-up" title="Amount" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.count}}</span>
 													</div> -->
