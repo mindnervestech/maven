@@ -77,8 +77,9 @@ angular.module('app.apiserviceViewInventory', [])
 	
 	this.getAllProduct=function(userLocationId,status){
 		var defer = $q.defer();
-		
-		$http.get('/getAllProduct/'+status).success(function(data) {
+		var date = new Date().getTime();
+		console.log(date);
+		$http.get('/getAllProduct/'+status+'/'+date).success(function(data) {
 			defer.resolve(data);
 		});
 		return defer.promise;
