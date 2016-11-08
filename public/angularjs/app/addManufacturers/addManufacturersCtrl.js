@@ -25,8 +25,8 @@ angular.module('newApp')
 		$scope.statusValue = value;
 		console.log($scope.statusValue);
 	}
-	
-	$http.get('/getAllProduct/'+'publish')
+	var date = new Date();
+	$http.get('/getAllProduct/'+'publish'+'/'+date)
 	.success(function(data) {
 		$scope.childManu = data;
 		console.log($scope.childManu);
