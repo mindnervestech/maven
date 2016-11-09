@@ -870,6 +870,15 @@ public class InventoryController extends Controller {
 			   }
 			   aProduct.update();
 		   }
+		   List<AddProduct> list = AddProduct.getProductByParentId(id);
+		   for (AddProduct ap : list) {
+			   if(aProduct.hideWebsite == 1){
+				   ap.setHideWebsite(0);
+			   }else{
+				   ap.setHideWebsite(1);
+			   }
+			   aProduct.update();
+		}
 		   return ok();
 	   }
 	   

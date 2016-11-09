@@ -3634,15 +3634,22 @@ public class Application extends Controller {
 	public static Result getGoTodraft(Long id){
 		
 		AddProduct vehicle= AddProduct.findById(id);
-		
+		List<AddProduct> list = AddProduct.getProductByParentId(id);
 		if(vehicle != null){
 			if(vehicle.publicStatus.equals("publish")){
 				vehicle.setPublicStatus("draft");
 			}else{
 				vehicle.setPublicStatus("publish");
 			}
-			
 			vehicle.update();
+		}
+		for (AddProduct ap : list) {
+			if(vehicle.publicStatus.equals("publish")){
+				ap.setPublicStatus("publish");
+			}else{
+				ap.setPublicStatus("draft");
+			}
+			ap.update();
 		}
 		return ok();
 		
@@ -3907,31 +3914,23 @@ public class Application extends Controller {
     		}
     	}	
     }
-    
+	 
+	     
     public static Result deleteVehicleById(Long id ){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		/*List<ProductImages> pImages = ProductImages.getDeleteImagePath(id);
-    		if(pImages.size() != 0){
-    			for(ProductImages pI:pImages){
-    				pI.delete();
-    			}
-    		}*/
+    		List<AddProduct> list = AddProduct.getProductByParentId(id);
+    		for (AddProduct ap : list) {
+    			ap.setPublicStatus("deleted");
+    	    	ap.update();
+			}
 	    	AddProduct vm = AddProduct.findById(id);
 	    	vm.setPublicStatus("deleted");
 	    	vm.update();
-	    	/*AuthUser user = (AuthUser) getLocalUser();
-	    	if(vm != null){
-	    		
-	    		vm.delete();
-	    		File file = new File(rootDir+File.separator+vm.id+"-"+user.id);
-	    		file.delete();
-	    	}*/
 	    	return ok();
     	}	
     }
-    
     
     public static Result updateVehicleStatus(Long id,String status){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
