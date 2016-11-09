@@ -474,6 +474,11 @@ angular.module('newApp')
 		$scope.childManu = data;
 		console.log($scope.childManu);
 	});
+	$http.get('/getAllProductData/'+'publish')
+	.success(function(data) {
+		$scope.childManuData = data;
+		console.log($scope.childManuData);
+	});
 		
 	$http.get('/getProductData/'+$routeParams.id)
 	.success(function(data) {
