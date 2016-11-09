@@ -281,6 +281,7 @@ public class InventoryController extends Controller {
 	    				add.setTitle(vm.getTitle());
 	            		add.setDescription(vm.getDescription());
 	            		add.setPublicStatus(vm.getPublicStatus());
+	            		add.setParentId(vm.getParentId());
 	            		add.update();
 	    				
 	    		    	AuthUser userObj = (AuthUser) getLocalUser();
@@ -527,6 +528,7 @@ public class InventoryController extends Controller {
 	        		add.setTitle(vm.getTitle());
 	        		add.setDescription(vm.getDescription());
 	        		add.setPublicStatus(vm.getPublicStatus());
+	        		add.setParentId(vm.getParentId());
 	        		add.update();
 	    
 				} catch (Exception e) {

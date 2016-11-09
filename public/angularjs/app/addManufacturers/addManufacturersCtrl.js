@@ -468,36 +468,33 @@ angular.module('newApp')
 	$scope.collection="null";
 	$scope.cId=null;
 	$scope.newProd = false;
-	$http.get('/getProductData/'+$routeParams.id)
-	.success(function(data) {
-			console.log("Update data = ");	
-			console.log(data);	
-			$scope.productData = data;
-			
-	});
-	
-	$scope.status= function(sts){
-		$scope.collection = sts;
-	}
-	
 	var date = new Date();
 	$http.get('/getAllProduct/'+'publish'+'/'+date)
 	.success(function(data) {
 		$scope.childManu = data;
 		console.log($scope.childManu);
 	});
-	
-	$http.get('/getAllProductData/'+'publish')
+		
+	$http.get('/getProductData/'+$routeParams.id)
 	.success(function(data) {
-		$scope.childManuData = data;
-		console.log($scope.childManuData);
+			console.log("Update data = ");	
+			console.log(data);	
+			$scope.productData = data;
+			setTimeout(function(){
+				if(data.parentId != null)
+					$scope.productData.parentId = data.parentId.toString();
+				$scope.$apply();
+			}, 10);
 	});
+	
+	$scope.status= function(sts){
+		$scope.collection = sts;
+	}
 	console.log($routeParams.id);
 
 	$http.get('/getList').success(function(data) {
 		console.log(data);
 		$scope.CollectionList = data;
-	
 	});
 	
 console.log($scope.cId);

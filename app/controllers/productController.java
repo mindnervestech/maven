@@ -141,7 +141,7 @@ public class productController extends Controller {
 	    	    		add.title = vm.title;
 	    	    		add.description =vm.description;
 	    	    		add.addedDate = curDate;
-	    	    		add.publicStatus = "draft";
+	    	    		add.publicStatus = vm.publicStatus;
 	    	    		add.parentId = vm.parentId;
 	    	    		
 	    	    		add.user = userObj;
