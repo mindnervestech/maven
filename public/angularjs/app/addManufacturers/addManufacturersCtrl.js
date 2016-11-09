@@ -678,8 +678,15 @@ console.log($scope.cId);
 		$scope.deleteVehicleRowPer = function() {
 			   
 			 $http.get('/deleteVehicleByIdPer/'+$scope.rowDataVal.id).success(function(data) {
-				   
-				   $location.path('/viewInventory');
+				   if(data == "Error"){
+					   $.pnotify({
+						    title: "Error",
+						    type:'success',
+						    text: "Can't Delete Parent Manufacturer",
+						});
+				   }else{
+					   $location.path('/viewInventory');
+				   }
 				});
 		   }
 		

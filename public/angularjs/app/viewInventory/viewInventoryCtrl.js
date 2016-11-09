@@ -574,6 +574,13 @@ angular.module('newApp')
    
 $scope.deleteVehicleRowPer = function() {
 	   apiserviceViewInventory.deleteVehicleByIdPer($scope.rowDataVal.entity.id).then(function(data){
+		   if(data == "Error"){
+			   $.pnotify({
+				    title: "Error",
+				    type:'success',
+				    text: "Can't Delete Parent Manufacturer",
+				});
+		   }
 		   $scope.soldTab();
 		});
    }

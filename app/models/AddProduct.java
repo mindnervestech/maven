@@ -265,6 +265,9 @@ public class AddProduct extends Model {
 	public static List<AddProduct> getProductByDraftStatus() {
 		return find.where().eq("publicStatus", "publish").findList();		
 	}
+	public static List<AddProduct> getProductByParentId(Long id) {
+		return find.where().eq("parentId", id).findList();		
+	}
 	public static List<AddProduct> getProductByStatus(Long location, String status) {
 		return find.where().eq("publicStatus", status).orderBy("order_index").findList();		
 	}

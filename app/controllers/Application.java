@@ -3885,21 +3885,26 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		List<ProductImages> pImages = ProductImages.getDeleteImagePath(id);
-    		if(pImages.size() != 0){
-    			for(ProductImages pI:pImages){
-    				pI.delete();
-    			}
+    		List<AddProduct> list = AddProduct.getProductByParentId(id);
+    		if(list.size() == 0){
+    			List<ProductImages> pImages = ProductImages.getDeleteImagePath(id);
+        		if(pImages.size() != 0){
+        			for(ProductImages pI:pImages){
+        				pI.delete();
+        			}
+        		}
+    	    	AddProduct vm = AddProduct.findById(id);
+    	    	AuthUser user = (AuthUser) getLocalUser();
+    	    	if(vm != null){
+    	    		
+    	    		vm.delete();
+    	    		File file = new File(rootDir+File.separator+vm.id+"-"+user.id);
+    	    		file.delete();
+    	    	}
+    	    	return ok();
+    		}else{
+    			return ok("Error");
     		}
-	    	AddProduct vm = AddProduct.findById(id);
-	    	AuthUser user = (AuthUser) getLocalUser();
-	    	if(vm != null){
-	    		
-	    		vm.delete();
-	    		File file = new File(rootDir+File.separator+vm.id+"-"+user.id);
-	    		file.delete();
-	    	}
-	    	return ok();
     	}	
     }
     
