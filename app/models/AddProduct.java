@@ -222,13 +222,19 @@ public class AddProduct extends Model {
 	public static AddProduct findById(Long id) {
 		return find.byId(id);
 	}
-	
+	public static AddProduct findByIdData(Long id) {
+		return  find.byId(id);
+	}
 	public static AddProduct findByIdNotSale(Long id) {
 		return find.where().eq("id", id).ne("sale", "sale").findUnique();
 	}
 	public static AddProduct findByVinAndStatus(String vid) {
 		return find.where().eq("vin", vid).eq("status", "Newly Arrived").findUnique();
 	}
+	public static AddProduct findByVinAndStat(String vid) {
+		return find.where().eq("vin", vid).eq("publicStatus", "publish").findUnique();
+	}
+	
 	public static AddProduct findByVinAndStatusForGM(String vid,Location location) {
 		return find.where().eq("vin", vid).eq("status", "Newly Arrived").eq("locations", location).findUnique();
 	}
@@ -296,5 +302,8 @@ public class AddProduct extends Model {
 	}
 	public static List<AddProduct> findByNotInVins(List<String> vins) {
 		return find.where().not(Expr.in("vin", vins)).findList();
+	}
+	public static AddProduct getDefaultImg(Long id2) {
+		return find.where().eq("id", id2).findUnique();
 	}
 }

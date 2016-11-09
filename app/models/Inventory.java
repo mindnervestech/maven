@@ -104,7 +104,9 @@ public class Inventory extends Model {
 	public static List<Inventory> findByProductTitle(String productTitle, Location locations) {
 		return find.where().eq("title", productTitle).eq("locations", locations).findList();
 	}
-	
+	public static List<Inventory> findByProductTitleWise(String productTitle) {
+		return find.where().eq("title", productTitle).findList();
+	}
 	public static List<Inventory> findProductsNotSale(Long locations) {
 		return find.where().eq("locations.id", locations).findList();
 	}

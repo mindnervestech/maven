@@ -17082,7 +17082,7 @@ if(vehicles.equals("All")){
     		
     		/*analyticalVM.vehicleStatus=vehicle.getStatus();
     		analyticalVM.price = vehicle.getPrice();*/
-    		ProductImages vehicleImage = ProductImages.getDefaultImg(vehicle.getId());
+    		AddProduct vehicleImage = AddProduct.getDefaultImg(vehicle.getId());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
     			analyticalVM.isImage = true;
@@ -17090,6 +17090,7 @@ if(vehicles.equals("All")){
     		else {
     			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
     		}
+    		analyticalVM.id = vehicle.id;
     		analyticalVM.vin = vehicle.getId().toString();
     		analyticalVM.name=vehicle.getTitle();
     		if(!searchBy.equals("0") && !search.equals("0")){
@@ -17138,7 +17139,8 @@ if(vehicles.equals("All")){
 			}*/
     		//analyticalVM.price = vehicle.getPrice();
     		//analyticalVM.stockNumber = vehicle.stock;
-    		ProductImages vehicleImage = ProductImages.getDefaultImg(vehicle.getId());
+    		AddProduct vehicleImage = AddProduct.getDefaultImg(vehicle.getId());
+    		//ProductImages vehicleImage = ProductImages.getDefaultImg(vehicle.getId());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
     			analyticalVM.isImage = true;
@@ -17180,7 +17182,8 @@ if(vehicles.equals("All")){
     	for(AddProduct vehicle:aVehicles) {
     		VehicleAnalyticalVM anVm = new VehicleAnalyticalVM();
     		//anVm.count = pagesCount1.get(vehicle.getVin());
-    		ProductImages vehicleImage = ProductImages.getDefaultImg(vehicle.getId());
+    		AddProduct vehicleImage = AddProduct.getDefaultImg(vehicle.getId());
+    		//ProductImages vehicleImage = ProductImages.getDefaultImg(vehicle.getId());
     		if(vehicleImage!=null) {
     			anVm.id = vehicleImage.getId();
     			anVm.isImage = true;
@@ -23459,8 +23462,10 @@ private static void salesPersonPlanMail(Map map) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
+    		Long id = Long.parseLong(vin) ;
+    		
     		AuthUser user = getLocalUser();
-	    	Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
+	    	AddProduct vehicle = AddProduct.findById(id);
 	    	if(vehicle != null) {
 		    	vehicle.setTitle(name);
 		    	vehicle.update();
