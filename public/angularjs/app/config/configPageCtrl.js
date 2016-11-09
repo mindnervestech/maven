@@ -227,7 +227,7 @@ angular.module('newApp')
 		}
 		else if(row.entity.name == "Create New Lead"){
 
-			$location.path('/CreateNewLeadForm/'+"Edit"+"/"+'Create Lead');
+			$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create New Lead');
 			
 		}
 		else if(row.entity.name == "Add to CRM"){
@@ -261,8 +261,8 @@ angular.module('newApp')
 			
 		}
 			else if(row.entity.name == "Create New Lead"){
-
-				$location.path('/'+'CreateNewLeadForm/'+"Preview"+"/"+'Create Lead');
+				
+				$location.path('/'+'CreateLeadForm/'+"Preview"+"/"+'Create New Lead');
 				
 			}
 		else if(row.entity.name == "Add to CRM"){
