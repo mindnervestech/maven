@@ -2217,12 +2217,47 @@ public class MyProfileController extends Controller{
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
-		    	
+	    		boolean isNew = true;
 	    		MultipartFormData body = request().body().asMultipartFormData();
 		    	Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
 		    	UserVM vm = form.get();
-		    	
 		    	AuthUser userObj = AuthUser.findById(vm.id);
+		    	
+		    	if(body != null) {
+			    	   File file1 = new File(rootDir+userObj.imageUrl);
+			    	   file1.delete();
+			    		FilePart picture = body.getFile("file0");
+				    	  if (picture != null) {
+				    	    String fileName = picture.getFilename();
+				    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto");
+				    	    if(!fdir.exists()) {
+				    	    	fdir.mkdir();
+				    	    }
+				    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+				    	    File file = picture.getFile();
+				    	    try {
+					    	    	if(new File(filePath).exists()) {
+					    	    		new File(filePath).delete();
+						    	    }
+				    	    		FileUtils.moveFile(file, new File(filePath));
+				    	    		userObj.setImageUrl("/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"userPhoto"+"/"+fileName);
+				    	    		userObj.setImageName(fileName);
+				    	    		userObj.update();	
+				    	    		
+				    	  } catch (FileNotFoundException e) {
+				  			e.printStackTrace();
+					  		} catch (IOException e) {
+					  			e.printStackTrace();
+					  		} 
+				    	  } 
+				    	  return ok();
+			    	   }else{
+			    		   if("null".equals(vm.imageName)){
+			    			   userObj.setImageName(null);
+					   	       userObj.setImageUrl(vm.imageUrl);
+			    		   }
+			    	   }
+		    	
 		    	userObj.setFirstName(vm.firstName);
 		    	userObj.setLastName(vm.lastName);
 		    	userObj.setEmail(vm.email);
@@ -2244,13 +2279,11 @@ public class MyProfileController extends Controller{
 		    	
 		    	String arr2[] = null;
 		    	
-		    	
-		    	
 		    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
 		    		session("USER_ROLE", vm.userType+"");
 		    	}else{
 		    		if(body != null) {
-			    		 String abcd= vm.permissions.get(0);
+			    		String abcd= vm.permissions.get(0);
 			 	    	abcd = abcd.replace("]", "");
 			 	    	abcd = abcd.replace("[", "");
 			 	    	abcd = abcd.replace("\"", "");
@@ -2281,17 +2314,6 @@ public class MyProfileController extends Controller{
 		    	   }
 		    	   
 		    	   if(vm.userType.equals("Sales Person")) {
-		    		   /*List<Permission> permissionData = new ArrayList<>();
-		    		   for(Permission obj: permissionList) {
-		    			   for(String role:vm.permissions){
-		    				   if(obj.name.equals(role)) {
-			    				   permissionData.add(obj);
-			    			   }
-		    	    	   }
-		    			   if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
-		    				   permissionData.add(obj);
-		    			   }
-		    		   }*/
 		    		   List<Permission> permissionData = new ArrayList<>();
 		    		   for(Permission obj: permissionList) {
 		    			   if(body != null) {
@@ -2311,38 +2333,6 @@ public class MyProfileController extends Controller{
 		    			   }
 		    		   }
 		    		   userObj.permission.addAll(permissionData);
-		    	   }
-		    	  
-		    	  
-		    	   if(body != null) {
-		    	   File file1 = new File(rootDir+userObj.imageUrl);
-		    	   file1.delete();
-		    		FilePart picture = body.getFile("file0");
-			    	  if (picture != null) {
-			    	    String fileName = picture.getFilename();
-			    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto");
-			    	    if(!fdir.exists()) {
-			    	    	fdir.mkdir();
-			    	    }
-			    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
-			    	    File file = picture.getFile();
-			    	    try {
-			    	    		FileUtils.moveFile(file, new File(filePath));
-			    	    		AuthUser user = AuthUser.findById(userObj.id);
-			    	    	
-			    	    		userObj.setImageUrl("/"+session("USER_LOCATION")+"/"+user.id+"/"+"userPhoto"+"/"+fileName);
-			    	    		userObj.setImageName(fileName);
-			    	    		//user.update();	
-			    	    		
-			    	  } catch (FileNotFoundException e) {
-			  			e.printStackTrace();
-				  		} catch (IOException e) {
-				  			e.printStackTrace();
-				  		} 
-			    	  } 
-		    	   }else{
-		   	    	userObj.setImageName(null);
-		   	    	userObj.setImageUrl(vm.imageUrl);
 		    	   }
 		    	   
 		    	   if(vm.userType.equals("Photographer")){
@@ -2439,7 +2429,7 @@ public class MyProfileController extends Controller{
 			 			}
 			 		  });
 			  
-			 		try{
+			 		/*try{
 			 			
 			  			Message message = new MimeMessage(session);
 			  			try {
@@ -2487,16 +2477,12 @@ public class MyProfileController extends Controller{
 		    		  	    }
 		    			 multipart.addBodyPart(attachPart);
 		 	    	   }
-		 	    	   
-		 	    		
-		    			
-		    			
 		    			multipart.addBodyPart(messageBodyPart);
 		    			message.setContent(multipart);
 		    			Transport.send(message);
 			       		} catch (MessagingException e) {
 			  			 throw new RuntimeException(e);
-			  		}
+			  		}*/
 			 		return ok();
 	    	}    	
 	    }

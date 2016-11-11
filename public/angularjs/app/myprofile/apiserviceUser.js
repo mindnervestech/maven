@@ -157,8 +157,8 @@ angular.module('app.apiserviceUser', [])
 		$upload.upload({
             url : '/updateImageFile',
             method: 'post',
-            file:logofile,
-            data:userdata
+            data:userdata,
+            file:logofile
         }).success(function(data, status, headers, config) {
             $.pnotify({
 			    title: "Success",
@@ -166,6 +166,13 @@ angular.module('app.apiserviceUser', [])
 			    text: "User saved successfully",
 			});
             defer.resolve(data);
+        }).error(function(data, status, headers, config){
+        	$.pnotify({
+			    title: "Error",
+			    type:'Success',
+			    text: "Error",
+			});
+        	defer.resolve(data);
         });
 		
 		return defer.promise;

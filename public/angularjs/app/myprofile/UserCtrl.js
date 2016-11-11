@@ -348,6 +348,7 @@ angular.module('newApp')
 	}
 	
 	$scope.imageBorder = function(flag) {
+		$scope.userData.imageName = "null";
 		angular.forEach($scope.imagesList, function(obj, index){
 			if(obj.name==flag){
 				$("#"+flag).removeClass('noClass').addClass('ImageBorder');
@@ -425,10 +426,24 @@ angular.module('newApp')
 		  });
 	}
 	
+	$scope.closeEditPop = function(){
+		$scope.userData = angular.copy($scope.userTemp);
+		console.log($scope.userData);
+		if($scope.userData.imageName == null || $scope.userData.imageName == "null"){
+			$scope.img = $scope.userData.imageUrl;
+		}else{
+			$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.userData.imageUrl;
+		}
+		console.log($scope.img);
+	}
+	
 	$scope.editUser = function(row) {
 		angular.forEach($scope.permissionList, function(obj, index){
 			 obj.isSelected = false;
 		});
+		console.log(row.entity);
+		$scope.userTemp = angular.copy(row.entity);
+		console.log($scope.permissionList);
 		$('#editUserModal').click();
 		if(row.entity.contractDur=="Employee"){
 			$scope.contactVal= row.entity.contractDur;
@@ -472,7 +487,7 @@ angular.module('newApp')
 			});
 		});
 		
-		if($scope.userData.imageName==null){
+		if($scope.userData.imageName == null || $scope.userData.imageName == "null"){
 			$scope.img = $scope.userData.imageUrl;
 		}else{
 			$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.userData.imageUrl;
@@ -778,10 +793,13 @@ angular.module('newApp')
 				}
 			} else {
 				if($scope.emailMsg == "") {
-					
-					apiserviceUser.updateImageFileLoad($scope.userData, logofile).then(function(data){
-						$('#btnEditClose').click();
-			            $scope.init();
+					$scope.userData1 = {};
+					$scope.userData1.id = $scope.userData.id;
+					apiserviceUser.updateImageFile($scope.userData).then(function(data){
+						apiserviceUser.updateImageFileLoad($scope.userData1, logofile).then(function(data){
+							$('#btnEditClose').click();
+				            $scope.init();
+						});
 					});
 					
 					/*$upload.upload({
