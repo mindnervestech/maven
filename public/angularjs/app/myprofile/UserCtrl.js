@@ -269,9 +269,26 @@ angular.module('newApp')
 	};
 	$scope.showOtherFild = 0;
 	
+	$scope.selectOptionEdit = function(){
+		var type = $scope.userData.userType;
+		console.log(type);
+		if(type == "Front Desk"){
+			$scope.showOtherFild = 1;
+		}
+		if(type == "Sales Person"){
+			$scope.showOtherFild = 1;
+		}
+		
+		if(type == "Photographer"){
+		
+			$scope.showOtherFild = 2;
+		}
+	}
+	
 	$scope.selectOption = function(){
 		var type = $('#userType').val();
 		console.log(type);
+		console.log($scope.userData.userType);
 		
 		if(type == "Front Desk"){
 			$scope.showOtherFild = 1;
@@ -287,7 +304,7 @@ angular.module('newApp')
 		
 		
 		
-		/*if(type == "Sales Person"){
+		if(type == "Sales Person"){
 			angular.forEach($scope.permissionList, function(obj, index){
 				 if ((obj.name == "My Profile") || (obj.name == "Inventory") || (obj.name == "Dashboard")) {
 					 $scope.permission.push(obj.name);
@@ -311,7 +328,7 @@ angular.module('newApp')
 					obj.isSelected = false;
 				}
 			  });
-		}*/
+		}
 	}
 	
 	$scope.init = function() {
