@@ -3201,7 +3201,8 @@ public class MyProfileController extends Controller{
 	    			message.setContent(multipart);
 	    			Transport.send(message);
 		       		} catch (MessagingException e) {
-		  			 throw new RuntimeException(e);
+		       			e.printStackTrace();
+		  			 //throw new RuntimeException(e);
 		  		}
 	    	   
 	    	return ok();
