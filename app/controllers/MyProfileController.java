@@ -3145,7 +3145,7 @@ public class MyProfileController extends Controller{
 		 			}
 		 		  });
 		  
-		 		/*try{
+		 		try{
 		 			
 		  			Message message = new MimeMessage(session);
 		  			try {
@@ -3202,7 +3202,7 @@ public class MyProfileController extends Controller{
 	    			Transport.send(message);
 		       		} catch (MessagingException e) {
 		  			 throw new RuntimeException(e);
-		  		}*/
+		  		}
 	    	   
 	    	return ok();
     }
