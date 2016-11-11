@@ -470,7 +470,7 @@
                 <form name="userEditFrm" ng-submit="updateImage()">
                 <div class="modal-body">
                 		
-                		<div class="form-group col-sm-12">
+                		<div ng-if="userData.userType != 'Photographer'" class="form-group col-sm-12">
 	                		<div class="col-sm-6">
 								<label class="col-sm-3 control-label" style="text-align: right;">Role *</label>
 									<div class="col-sm-6">
@@ -478,7 +478,6 @@
 	                                    <option value="">Select</option>
 	                                    <option value="Front Desk">Front Desk</option>
 	                                    <option value="Sales Person">Sales Person</option>
-	                                    <option value="Photographer">Photographer</option>
 	                                </select>
 									</div>
 							</div>
