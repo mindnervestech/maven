@@ -2313,7 +2313,7 @@ public class MyProfileController extends Controller{
 		    		   userObj.permission = permissionData;
 		    	   }
 		    	   
-		    	   if(vm.userType.equals("Sales Person")) {
+		    	   if(vm.userType.equals("Sales Person") || vm.userType.equals("Front Desk")) {
 		    		   List<Permission> permissionData = new ArrayList<>();
 		    		   for(Permission obj: permissionList) {
 		    			   if(body != null) {
