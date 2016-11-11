@@ -44,13 +44,21 @@
 								                <form ng-submit="saveCompleted()">
 								                <div class="modal-body">
 								                <h4 class="modal-title">ADD NEW LEAD TYPE</h4>
+								                <div class="col-sm-12">
 								                    <div class="col-sm-6">
 																<input type="text" name="title" ng-model="leadcreate.leadName" placeholder="TITLE " required>
         											</div>
+        										</div>
+        										<div class="col-sm-12" style="margin-top: 10px;">
+        											<div class="col-sm-6">
+        												<input style="height:16px;width:16px;" class="col-sm-1" type="checkbox" name="callToAction"	ng-model="leadcreate.callToAction">
+        												<label style="padding: 0px;margin-left: 4px; " class="col-sm-11">Add "Call to Action" to Website</label>
+													</div>
+												</div>				                
 								                </div>
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
-								                    <button type="submit" class="btn btn-primary btn-embossed">Add Item</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Create</button>
 								                </div>
 								                </form>
 								            </div>
@@ -84,23 +92,27 @@
                     <h4 class="modal-title"><strong>Lead Type</strong></h4>
                 </div>
 			<div class="modal-body">
-				<form ng-submit="UpdateLeadType(leadName)">
+				<form ng-submit="UpdateLeadType(leadTypeData)">
 					
 					
 					<div class="col-md-12 form-group">
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<label> Lead Type</label>
 						</div>
 						<div class="col-md-6">
-							<input type="text" name="leadName" class="form-control"
-								ng-model="leadName" id="leadName" 
-								required />
+							<input type="text" name="leadName" class="form-control" ng-model="leadTypeData.leadName" id="leadName" required />
+						</div>
+					</div>
+					<div class="col-sm-12" style="margin-bottom: 10px;">
+						<div class="col-sm-6">
+							<input style="height:16px;width:16px;" class="col-sm-1" type="checkbox" name="callToAction"	ng-model="leadTypeData.callToAction">
+							<label style="padding: 0px;margin-left: 4px; " class="col-sm-11">Add "Call to Action" to Website</label>
 						</div>
 					</div>
 					
 					<input type="submit" class="btn btn-primary btn-embossed"
 						value="Edit Lead">
-
+					<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
 				</form>
 			</div>
 

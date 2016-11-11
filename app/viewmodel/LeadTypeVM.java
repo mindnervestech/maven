@@ -6,5 +6,8 @@ public class LeadTypeVM {
 	public String leadName;
 	public Integer checkValue;
 	public String profile;
-	
+	public Boolean callToAction;
+	public String actionTitle;
+	public String actionOutcomes;
+	public String actionClientPdf;
 }

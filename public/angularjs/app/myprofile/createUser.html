@@ -170,6 +170,9 @@
 								<div class="col-sm-6">
 									<input type="radio" id="employee" name="duration" ng-click="contract('Employee')" required> Employee
 								</div>
+								<div class="col-sm-6">
+									<input type="radio" id="contractor" name="duration" ng-click="contract('Contractor')" required> Contractor
+								</div>
 								<div class="col-sm-6" style="margin-top: 9px;" ng-if="showOtherFild == 2">
 									<input type="radio" id="employee1" name="duration" ng-click="contract('One Time Order')" required> One Time Order
 								</div>
@@ -464,6 +467,7 @@
 									<div class="col-sm-6">
 										<select class="form-control form-white" id="userType" ng-model="userData.userType" ng-change="selectOption()" required>
 	                                    <option value="">Select</option>
+	                                    <option value="Front Desk">Front Desk</option>
 	                                    <option value="Sales Person">Sales Person</option>
 	                                    <option value="Photographer">Photographer</option>
 	                                </select>
@@ -594,6 +598,9 @@
 								<label class="col-sm-3 control-label" style="text-align: right;">Contract Duration *</label>
 								<div class="col-sm-6">
 									<input type="radio" id="employee" name="duration" ng-click="contract('Employee')" required> Employee
+								</div>
+								<div class="col-sm-6">
+									<input type="radio" id="contractor" name="duration" ng-click="contract('Contractor')" required> Contractor
 								</div>
 								<div class="col-sm-6" style="margin-top: 9px;" ng-if="showOtherFild == 2">
 									<input type="radio" id="employee1" name="duration" ng-click="contract('One Time Order')" required> One Time Order

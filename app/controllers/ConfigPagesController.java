@@ -10,6 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+
+import models.AddProduct;
 import models.AuthUser;
 import models.AutoPortal;
 import models.CoverImage;
@@ -40,6 +44,8 @@ import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import viewmodel.AutoPortalVM;
@@ -461,6 +467,7 @@ public class ConfigPagesController extends Controller{
 		    	
 		    }
 		 
+		 
 		 public static Result getsystemInfo(){
 		    	
 		    		List<CreateNewForm> formList = CreateNewForm.findByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -493,6 +500,10 @@ public class ConfigPagesController extends Controller{
 			     		lead.id = vm.id;
 			     		lead.leadName = vm.leadName;
 			     		lead.checkValue = vm.shows;
+			     		lead.callToAction = vm.callToAction;
+			     		lead.actionClientPdf = vm.actionClientPdf;
+			     		lead.actionOutcomes = vm.actionOutcomes;
+			     		lead.actionTitle = vm.actionTitle;
 			     		
 			     		leadVMs.add(lead);
 			  	}
@@ -532,6 +543,11 @@ public class ConfigPagesController extends Controller{
 				    	 
 		    	   lead.id = vm.id;
 		    	   lead.leadName = vm.leadName;
+		    	   if(vm.callToAction == null){
+		    		   lead.callToAction = false;
+		    	   }else{
+		    		   lead.callToAction = vm.callToAction;
+		    	   }
 		    	   lead.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	   lead.save();
 		    	   
@@ -540,7 +556,7 @@ public class ConfigPagesController extends Controller{
 		    	   site.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	   site.save();
 		   		
-		    	   return ok();
+		    	   return ok(Json.toJson(lead));
 			}
 		 
 		 public static Result getdeletelead(Long Id) {
@@ -674,6 +690,10 @@ public class ConfigPagesController extends Controller{
 				return ok(Json.toJson(formname)); 
 			}
 		 
+		 public static Result getLeadTypeDataById(Long id) {
+				LeadType  leadData = LeadType.findById(id);
+				return ok(Json.toJson(leadData)); 
+			}
 		 public static Result UpdateLeadType() {
 				Form<LeadTypeVM> form = DynamicForm.form(LeadTypeVM.class).bindFromRequest();
 				LeadTypeVM vm=form.get();
@@ -682,8 +702,64 @@ public class ConfigPagesController extends Controller{
 				LeadType lead = LeadType.findById(vm.id);
 				   lead.setId(vm.id); 	 
 		    	   lead.setLeadName(vm.leadName);
+		    	   if(vm.callToAction == null){
+		    		   lead.setCallToAction(false);
+		    	   }else{
+		    		   lead.setCallToAction(vm.callToAction);
+		    	   }
 		    	  // lead.setLocations(vm.id);
 		    	  lead.update();
+		    	  return ok();
+			}	
+		 
+		 public static Result saveLeadFormPopup() {
+				Form<LeadTypeVM> form = DynamicForm.form(LeadTypeVM.class).bindFromRequest();
+				LeadTypeVM vm=form.get();
+				Date date = new Date();
+				AuthUser userObj = (AuthUser) getLocalUser();
+				LeadType lead = LeadType.findById(vm.id);
+				
+				   lead.setActionOutcomes(vm.actionOutcomes);
+				   lead.setActionTitle(vm.actionTitle);
+				   lead.setActionClientPdf(vm.actionClientPdf);
+				   lead.update();
+				   
+		    	  MultipartFormData body = request().body().asMultipartFormData();
+		    	  FilePart pdfFile = null ;
+		    	  if(body != null){
+			    		List<FilePart> filePart =  body.getFiles();
+			    		if (filePart != null) {
+			    			if(filePart.size() > 0){
+			    				for(int i= 0; i<filePart.size(); i++){
+				    	    		 pdfFile = filePart.get(i);
+				       				 String fileName = pdfFile.getFilename().replaceAll("[-+^:,() ]","");
+				       				String ext = FilenameUtils.getExtension(fileName);
+				       				fileName = vm.leadName +"_"+ fileName;
+				       	       	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"LeadFile");
+				       	       	    if(!fdir.exists()) {
+				       	       	    	fdir.mkdir();
+				       	       	    }
+				       	       	String filePath = rootDir+File.separator+userObj.id+File.separator+"LeadFile"+File.separator+fileName;
+				       	       	 try {
+				       	       		 	Boolean sts = FileUtils.deleteQuietly(new File(filePath));
+				       	       		 	System.out.println("delete "+sts);
+				       				} catch (Exception e) {
+				       					e.printStackTrace();
+				       				}
+				       	       	    File file = pdfFile.getFile();
+				       	       	    try {
+				       	       	  if(ext.equalsIgnoreCase("pdf")){
+			       	       	    		FileUtils.moveFile(file, new File(filePath));
+			       	       	    		lead.setActionClientPdf(userObj.id+File.separator+"LeadFile"+File.separator+fileName);
+			       	       	    		lead.update();
+			       	       	    	}
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+			    				}	 
+			    			}
+			    		}
+		    	  }
 		    	  return ok();
 			}	
 		 

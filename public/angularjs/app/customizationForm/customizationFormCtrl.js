@@ -87,8 +87,12 @@ angular.module('newApp')
 		       
 		       $scope.editform = {};
 		  $scope.saveCreateLeadForm = function(){
+			  var obj = localStorage.getItem('popupType');
+			  $scope.leadId = localStorage.getItem('leadId');
+			  console.log(obj);
+			  console.log($scope.leadId);
 			 console.log($scope.form);
-			 angular.forEach($builder.forms['default'], function(value, key) {
+			angular.forEach($builder.forms['default'], function(value, key) {
 				 var key;
                		key = value.label;
                		key = key.replace("  ","_");
@@ -106,7 +110,88 @@ angular.module('newApp')
 			 apiserviceCustomizationForm.getLeadCrateForm($scope.editform).then(function(data){
 			  
 					});
-		  }     
+			 if(obj == "Lead"){
+				 $scope.getLeadTypeDataById($scope.leadId);
+			 }
+		  }  
+		  
+		  $scope.getLeadTypeDataById = function(leadId){
+			  console.log(leadId);
+			  apiserviceCustomizationForm.getLeadTypeDataById(leadId).then(function(data){
+				  console.log(data);
+				  $scope.callAction = data;
+				  console.log($scope.callAction);
+				  if(data.callToAction == "1")
+					  $('#completedPopup').modal('show');
+				});
+		  }
+		  var logofile;
+		  $scope.onFileSelect = function($file){
+			  console.log($file[0]);
+			  logofile = $file;
+			  $upload.upload({
+		 	         url : '/saveInternalPdf',
+		 	         method: 'POST',
+		 	         file:logofile,
+		 	      }).success(function(data) {
+		 	  			$.pnotify({
+		 	  			    title: "Success",
+		 	  			    type:'success',
+		 	  			    text: "pdf saved successfully",
+		 	  			});
+		 	      }); 
+			  apiserviceCustomizationForm.getInternalPdfData().then(function(data){
+	  				$scope.internalPdfList=data;
+	  				console.log($scope.internalPdfList);
+	  			});
+		  }
+		  
+		  $scope.deleteInternalPdf = function(id) {
+			  apiserviceCustomizationForm.getInternalPdfDataById(id).then(function(data){
+					$scope.internalPdfName=data;
+	  			});
+				$('#btndeleteInternalPdf').click();
+				$scope.internalPdfId = id;
+			}
+		  
+		  $scope.deletePdfInternal = function() {
+			  apiserviceCustomizationForm.deleteInternalPdf($scope.internalPdfId).then(function(data){
+        	  console.log("$scope.internalPdfId"+$scope.internalPdfId);
+        	  $scope.internalPdfList ={};
+			});
+		}
+		  
+		  
+		  $scope.callActionId ={};
+		 $scope.callToAction = function(){
+			 
+			 console.log($scope.leadId);
+			 $scope.callAction.id = $scope.leadId;
+			 console.log($scope.callAction);
+			
+			 if(logofile == undefined){
+				 apiserviceCustomizationForm.saveLeadFormPopup($scope.callAction).then(function(data){
+				 
+				 });
+			 }else if(logofile != undefined){
+				 $upload.upload({
+		            url : '/saveLeadFormPopup',
+		            method: 'POST',
+		            file:logofile,
+		            data:$scope.callAction
+		         }).success(function(data) {
+		   			console.log(data);
+		   			$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Your Progress has been Saved",
+					});		   			
+		   		 });
+				}
+			 $("#completedPopup").modal('hide');
+			 $location.path('/configuration');
+		 }
+		  
 		  $scope.editLeadInfo = function(title){
 			   $scope.setjson.showFild = title;
 			  $('#edititle').modal('show');

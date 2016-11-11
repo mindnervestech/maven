@@ -274,7 +274,7 @@ angular.module('newApp')
 		console.log(type);
 		
 		if(type == "Front Desk"){
-			$scope.showOtherFild = 0;
+			$scope.showOtherFild = 1;
 		}
 		if(type == "Sales Person"){
 			$scope.showOtherFild = 1;
@@ -295,7 +295,16 @@ angular.module('newApp')
 					 obj.isSelected = true;
 			    };
 			  });
-		}else{
+		}else if(type == "Front Desk"){
+			//console.log("in if");
+			angular.forEach($scope.permissionList, function(obj, index){
+				 if ((obj.name == "Calendar") || (obj.name == "Dashboard")) {
+					 $scope.permission.push(obj.name);
+					 obj.isSelected = true;
+			    };
+			  });
+		}
+		else{
 			//console.log("in else");
 			$scope.permission = [];
 			angular.forEach($scope.permissionList, function(obj, index){
@@ -437,7 +446,7 @@ angular.module('newApp')
 		//console.log($scope.duration1);
 		$scope.userData = row.entity;
 		if($scope.userData.userType == "Front Desk"){
-			$scope.showOtherFild = 0;
+			$scope.showOtherFild = 1;
 		}
 		
 		if($scope.userData.userType == "Sales Person"){
@@ -645,6 +654,7 @@ angular.module('newApp')
 				//}
 			}
 		}else{
+			console.log($scope.user.userType);
 			if(angular.isUndefined(logofile)) {
 				//if($scope.emailMsg == "") {
 					apiserviceUser.uploadImageFile($scope.user, $scope.user.userType).then(function(data){

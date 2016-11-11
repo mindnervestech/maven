@@ -18,10 +18,47 @@ public class LeadType extends Model {
 	public String leadName;
 	public Integer shows;
 	public String profile;
+	public Boolean callToAction;
+	public String actionTitle;
+	public String actionOutcomes;
+	public String actionClientPdf;
 		
 	@ManyToOne
 	public Location locations;
 
+
+	
+	public String getActionTitle() {
+		return actionTitle;
+	}
+
+	public void setActionTitle(String actionTitle) {
+		this.actionTitle = actionTitle;
+	}
+
+	public String getActionOutcomes() {
+		return actionOutcomes;
+	}
+
+	public void setActionOutcomes(String actionOutcomes) {
+		this.actionOutcomes = actionOutcomes;
+	}
+
+	public String getActionClientPdf() {
+		return actionClientPdf;
+	}
+
+	public void setActionClientPdf(String actionClientPdf) {
+		this.actionClientPdf = actionClientPdf;
+	}
+
+	public Boolean getCallToAction() {
+		return callToAction;
+	}
+
+	public void setCallToAction(Boolean callToAction) {
+		this.callToAction = callToAction;
+	}
 
 	public Long getId() {
 		return id;

@@ -216,6 +216,7 @@ angular.module('newApp')
 	}
 	
 	$scope.ShowCreateNewForm = function(row){
+		localStorage.setItem('popupType','Form');
 		console.log(row);
 		if(row.entity.name == "Create Lead"){
 			$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create Lead');
@@ -251,6 +252,7 @@ angular.module('newApp')
 
 	$scope.ShowCreateNewForm1 = function(row){
 		//$location.path('/leadCreateForm/'+"Preview");
+		localStorage.setItem('popupType','Form');
 		console.log($scope.entityname);
 
 		if(row.entity.name == "Create Lead"){
@@ -298,18 +300,58 @@ angular.module('newApp')
 			//$('#createLeadPopup').click();
 			$('#completedPopup').modal('show');
 		}
-		
+		$scope.leadcreateData = {};
 		$scope.saveCompleted = function(){
-		console.log("::::::insideRegester");
+			
+			$scope.leadcreateData.leadName = $scope.leadcreate.leadName;
+			$scope.leadcreateData.callToAction = $scope.leadcreate.callToAction;
 		console.log($scope.leadcreate);
 		apiserviceConfigPage.addnewrUser($scope.leadcreate).then(function(data){
-		
-				$scope.form = data;
-			 console.log("::::::success")
-				
-			 $("#completedPopup").modal('hide');
+			
+			$scope.form = data;
+			console.log(data);
+			localStorage.setItem('leadId', data.id);
+			$scope.ShowFormBuilder($scope.leadcreateData);
+			$("#completedPopup").modal('hide');
 			 $scope.leadTypeAll();
+			 
 			});
+		}
+		
+		$scope.ShowFormBuilder = function(row){
+			localStorage.setItem('popupType','Lead');
+			console.log(row);
+			console.log(row.leadName);
+			if(row.leadName == "Create Lead"){
+				$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create Lead');
+			}else
+			if(row.leadName == "Add Product"){
+
+				$location.path('/InventoryForm/'+"Edit"+"/"+'Inventory');
+				
+			}
+			else if(row.leadName == "Create New Lead"){
+
+				$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create New Lead');
+				
+			}
+			else if(row.leadName == "Add to CRM"){
+
+				$location.path('/CRMForm/'+"Edit"+"/"+'CRM');
+				
+			}else if(row.leadName == "Request More Info"){
+				$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.name);
+			}
+			else if(row.leadName == "Contact Us"){
+				$location.path('/ContactUsForm/'+"Edit"+"/"+row.entity.name);
+			}
+			else if(row.leadName == "Request Appointment"){
+				$location.path('/RequestAppointmentForm/'+"Edit"+"/"+row.entity.name);
+			}
+			else{
+				$location.path('/otherForm/'+"Edit"+"/"+row.leadName);
+			}
+			
 		}
 		
 		 $scope.removeUser = function(row){
@@ -501,7 +543,6 @@ angular.module('newApp')
 					 console.log($scope.editData);
 					 $scope.website.id = $scope.editData.id;
 					 apiserviceConfigPage.getEditFormWebsite($scope.website).then(function(data){
-					 
 		         		$("#editPopupswebsite").modal('hide');
 		         		$scope.webSiteinfo();
 		    		});
@@ -546,8 +587,9 @@ angular.module('newApp')
 		 $scope.EditUser = function(row){
 			
 			 $('#editPopup').click();
+			 console.log(row);
 			 console.log(row.entity)
-			 $scope.leadName = row.entity.leadName;
+			 $scope.leadTypeData = row.entity; 
 			 $scope.editleadtype.id = row.entity.id;
 			 
 		 }
@@ -581,12 +623,15 @@ angular.module('newApp')
 		 }
 		 
 		 $scope.editleadtype={};
-		 $scope.UpdateLeadType = function(leadName){
-			 console.log($scope.editleadtype);
+		 $scope.UpdateLeadType = function(leadTypeData){
+			 console.log(leadTypeData);
+			 localStorage.setItem('leadId',leadTypeData.id);
 			 console.log("out of funtion");
-			 $scope.editleadtype.leadName = leadName;
+			 $scope.editleadtype.leadName = leadTypeData.leadName;
+			 $scope.editleadtype.callToAction = leadTypeData.callToAction;
+			 console.log($scope.editleadtype.leadName);
 			 apiserviceConfigPage.UpdateLeadType($scope.editleadtype).then(function(data){
-			 
+				 $scope.ShowFormBuildereEdit(leadTypeData.leadName);
 				 console.log("in of funtion");
 				$("#editPopups").modal('hide');
          		//$scope.allLeaddata();
@@ -594,7 +639,41 @@ angular.module('newApp')
          		$scope.leadTypeAll();
     		});
 		 }
-		 
+		 $scope.ShowFormBuildereEdit = function(row){
+			 localStorage.setItem('popupType','Lead');
+				console.log(row);
+				console.log(row.leadName);
+				if(row == "Create Lead"){
+					$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create Lead');
+				}else
+				if(row == "Add Product"){
+
+					$location.path('/InventoryForm/'+"Edit"+"/"+'Inventory');
+					
+				}
+				else if(row == "Create New Lead"){
+
+					$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create New Lead');
+					
+				}
+				else if(row == "Add to CRM"){
+
+					$location.path('/CRMForm/'+"Edit"+"/"+'CRM');
+					
+				}else if(row == "Request More Info"){
+					$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row);
+				}
+				else if(row == "Contact Us"){
+					$location.path('/ContactUsForm/'+"Edit"+"/"+row);
+				}
+				else if(row == "Request Appointment"){
+					$location.path('/RequestAppointmentForm/'+"Edit"+"/"+row);
+				}
+				else{
+					$location.path('/otherForm/'+"Edit"+"/"+row);
+				}
+				
+			}
 		 
 	$scope.documentationSetting = function() {
 		$location.path('/documentation');

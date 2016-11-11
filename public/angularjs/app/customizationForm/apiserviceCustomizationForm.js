@@ -48,4 +48,68 @@ angular.module('app.apiserviceCustomizationForm', [])
 		});
 		return defer.promise;
 	};
+	
+	this.getLeadTypeDataById=function(leadId){
+		var defer = $q.defer();
+		
+		$http.get('/getLeadTypeDataById/'+leadId).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getInternalPdfData=function(){
+		var defer = $q.defer();
+		
+		$http.get('/getInternalPdfData').success(function(data) {
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
+	this.saveLeadFormPopup=function(setjson){
+		var defer = $q.defer();
+		console.log(setjson);
+		$http.post('/saveLeadFormPopup',setjson).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Save successfully",
+				text: "Save successfully",
+			});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	this.getInternalPdfData=function(){
+		var defer = $q.defer();
+		
+		$http.get('/getInternalPdfData').success(function(data) {
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
+	this.getInternalPdfDataById=function(id){
+		var defer = $q.defer();
+		$http.get('/getInternalPdfDataById/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.deleteInternalPdf=function(internalPdfId){
+		var defer = $q.defer();
+		$http.get('/deleteInternalPdf/'+internalPdfId).success(function(data) {
+			$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "PDF deleted successfully",
+				});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 })
