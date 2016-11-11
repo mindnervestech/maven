@@ -287,8 +287,7 @@ angular.module('newApp')
 		
 		
 		
-		if(type == "Sales Person"){
-			//console.log("in if");
+		/*if(type == "Sales Person"){
 			angular.forEach($scope.permissionList, function(obj, index){
 				 if ((obj.name == "My Profile") || (obj.name == "Inventory") || (obj.name == "Dashboard")) {
 					 $scope.permission.push(obj.name);
@@ -296,7 +295,6 @@ angular.module('newApp')
 			    };
 			  });
 		}else if(type == "Front Desk"){
-			//console.log("in if");
 			angular.forEach($scope.permissionList, function(obj, index){
 				 if ((obj.name == "Calendar") || (obj.name == "Dashboard")) {
 					 $scope.permission.push(obj.name);
@@ -305,7 +303,6 @@ angular.module('newApp')
 			  });
 		}
 		else{
-			//console.log("in else");
 			$scope.permission = [];
 			angular.forEach($scope.permissionList, function(obj, index){
 				
@@ -314,7 +311,7 @@ angular.module('newApp')
 					obj.isSelected = false;
 				}
 			  });
-		}
+		}*/
 	}
 	
 	$scope.init = function() {
