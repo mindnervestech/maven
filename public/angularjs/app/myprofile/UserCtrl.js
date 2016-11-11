@@ -179,6 +179,8 @@ angular.module('newApp')
 	
 	apiserviceUser.getInternalPdfData().then(function(data){
 		$scope.internalPdfList=data;
+		$scope.internalPdfListSize = $scope.internalPdfList.length;
+		console.log($scope.internalPdfListSize);
 	});
 	
 	/*$http.get('/getInternalPdfData')
