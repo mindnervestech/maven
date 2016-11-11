@@ -8,4 +8,8 @@ public class MailchimpPageVM {
 	public String schedularTime;
 	public Long locations_id;
 	public Date curr_date;
+	public String mailchimpUserName;
+	public String mailchimpPassword;
+	public String apikey;
+	public String listId;
 }

@@ -113,11 +113,19 @@ public class ConfigPagesController extends Controller{
     			mail.schedularTime = vm.schedularTime;
     			mail.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
     			mail.currDate = date;
+    			mail.mailchimpUserName = vm.mailchimpUserName;
+    			mail.mailchimpPassword = vm.mailchimpPassword;
+    			mail.apikey = vm.apikey;
+    			mail.listId = vm.listId;
     			mail.save();
 			}
 			else{
 				lead.setSchedularTime(vm.schedularTime);
 				lead.setCurrDate(date);
+				lead.setMailchimpUserName(vm.mailchimpUserName);
+				lead.setMailchimpPassword(vm.mailchimpPassword);
+				lead.setApikey(vm.apikey);
+				lead.setListId(vm.listId);
 				lead.update();
     			
 			}

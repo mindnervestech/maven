@@ -17,8 +17,53 @@ public class MailchimpSchedular extends Model{
 	public Long id;
 	public String schedularTime;
 	public Date currDate;
+	public String mailchimpUserName;
+	public String mailchimpPassword;
+	public String apikey;
+	public String listId;
 	
 	
+	
+	public String getMailchimpUserName() {
+		return mailchimpUserName;
+	}
+
+
+	public void setMailchimpUserName(String mailchimpUserName) {
+		this.mailchimpUserName = mailchimpUserName;
+	}
+
+
+	public String getMailchimpPassword() {
+		return mailchimpPassword;
+	}
+
+
+	public void setMailchimpPassword(String mailchimpPassword) {
+		this.mailchimpPassword = mailchimpPassword;
+	}
+
+
+	public String getApikey() {
+		return apikey;
+	}
+
+
+	public void setApikey(String apikey) {
+		this.apikey = apikey;
+	}
+
+
+	public String getListId() {
+		return listId;
+	}
+
+
+	public void setListId(String listId) {
+		this.listId = listId;
+	}
+
+
 
 
 	@ManyToOne
