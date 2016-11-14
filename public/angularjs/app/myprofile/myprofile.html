@@ -168,7 +168,9 @@
 
  
 <!-- <button type="submit" class="btn btn-primary" ng-click="addPhoto()">Save & Go To Photos</button> -->
-
+<div class="form-group col-sm-12">
+<button type="submit" class="btn btn-primary" style="margin-left:31%;" ng-click="setFlagVal()">Save Profile</button>
+</div>
 </form>
    <div ng-if="userRole == 'General Manager' || userRole == null">
 	      <form name="userFrm" ng-submit="saveImage()">
