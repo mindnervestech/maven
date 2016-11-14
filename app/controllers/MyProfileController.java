@@ -3069,7 +3069,9 @@ public class MyProfileController extends Controller{
 			    				pOperation.satOpen = 0;
 			    			}
 			    		pOperation.portalName = vm.portalName;
+			    		if(vm.contractDurEndDate != null){
 			    			pOperation.contractDurEndDate = df.parse(vm.contractDurEndDate);
+			    		}
 			    			pOperation.contractDurStartDate = df.parse(vm.contractDurStartDate);
 			    			if(uAuthUser == null){
 			    				pOperation.user = AuthUser.findById(userObj.id);
