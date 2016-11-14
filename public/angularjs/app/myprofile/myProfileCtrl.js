@@ -390,8 +390,8 @@ angular.module('newApp')
 		
 		apiserviceProfile.getMangerAndLocation().then(function(data){
 			$scope.managerProfile = data;
-			$scope.imgLocation = "http://glider-autos.com/glivrImg/images/"+$scope.managerProfile.imageUrl;
-			$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.managerProfile.mImageUrl;
+			$scope.imgLocation = "http://glider-autos.com:9889/MavenImg/images/"+$scope.managerProfile.imageUrl;
+			$scope.img = "http://glider-autos.com:9889/MavenImg/images"+$scope.managerProfile.mImageUrl;
 		});
 		
 	}
