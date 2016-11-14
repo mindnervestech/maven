@@ -704,7 +704,10 @@ angular.module('newApp')
 				//}
 			} else {
 				//if($scope.emailMsg == "") {
-					
+				if($scope.user.pdfIds.length <= 0){
+				//$scope.user.pdfIds.push(0);
+					delete $scope.user.pdfIds;
+			}
 					apiserviceUser.uploadImageFileLoad($scope.user, $scope.user.userType, logofile).then(function(data){
 						 console.log('success');
 				            $scope.user.firstName=" ";
