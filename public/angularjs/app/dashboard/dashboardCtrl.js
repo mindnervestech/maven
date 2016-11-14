@@ -2141,7 +2141,7 @@ angular.module('newApp')
    	  		$scope.customData = entity.customMapData;
    	  	
    	  			console.log($scope.customData);
-   	  		apiserviceDashborad.saveCompletedLeads('Create Lead').then(function(response){
+   	  		apiserviceDashborad.saveCompletedLeads('Create New Lead').then(function(response){
    	  		
 				 $scope.editInput = response;
 				 //$scope.josnData = angular.fromJson(response.jsonData);
@@ -4297,7 +4297,7 @@ angular.module('newApp')
 	    			}
 	    			$scope.josnData = 0;
 	    			
-	    			apiserviceDashborad.getCustomizationform('Create Lead').then(function(response){
+	    			apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
 	    			
 	    				$scope.josnData = angular.fromJson(response.jsonData);
 	    				console.log($scope.josnData);
@@ -4306,6 +4306,9 @@ angular.module('newApp')
 	    							console.log(attr);
 	    							console.log(value1.key);
 	    							if(value1.key == attr){
+	    								if(value1.key == "lead_type selector"){
+	    									$scope.lead.leadType = value;
+	    								}
 		    							$scope.customList.push({
 				    		   	  			key:attr,
 				    		   	  			value:value,
@@ -4331,8 +4334,7 @@ angular.module('newApp')
 	    	    			if($scope.lead.custName == ''){
 	    	    				$scope.lead.custName = $('#ex1_value').val();
 	    	    			}
-	    	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' ||  
-	    	    					 $scope.lead.leadType =='') {
+	    	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='') {
 	    	    				$scope.isInValid = true;
 	    	    			} else {
 	    	    				$scope.isInValid = false;

@@ -656,38 +656,44 @@ angular.module('newApp')
 		$scope.user.imageUrl = $scope.img;
 		if($scope.user.userType == "Photographer"){
 			if(angular.isUndefined(logofile)) {
-				//if($scope.emailMsg == "") {
+				
 					apiserviceUser.uploadImageFile($scope.user, $scope.user.userType).then(function(data){
-						$scope.user.firstName=" ";
-			            $scope.user.lastName=" ";
-			            $scope.user.email=" ";
-			            $scope.user.phone=" ";
-			            $scope.user.userType=" ";
-			            $scope.user.img=" ";
-			            $('#btnClose').click();
-					});
-					
-					
-				//}
-			} else {
-				//if($scope.emailMsg == "") {
-					apiserviceUser.uploadImageFileLoad($scope.user, $scope.user.userType, logofile).then(function(data){
-						 console.log('success');
-				            $scope.user.firstName=" ";
+						if(data == "data"){
+							$('#btnClose').click();
+						}else{
+							$scope.user.firstName=" ";
 				            $scope.user.lastName=" ";
 				            $scope.user.email=" ";
 				            $scope.user.phone=" ";
 				            $scope.user.userType=" ";
 				            $scope.user.img=" ";
-				            $("#file").val('');
 				            $('#btnClose').click();
+						}
+			            
 					});
-				//}
+					
+			} else {
+				$('#btnClose').click();
+					apiserviceUser.uploadImageFileLoad($scope.user, $scope.user.userType, logofile).then(function(data){
+						 console.log('success');
+						 if(data == "data"){
+								$('#btnClose').click();
+							}else{
+								 $scope.user.firstName=" ";
+						            $scope.user.lastName=" ";
+						            $scope.user.email=" ";
+						            $scope.user.phone=" ";
+						            $scope.user.userType=" ";
+						            $scope.user.img=" ";
+						            $("#file").val('');
+						            $('#btnClose').click();
+							}
+				           
+					});
 			}
 		}else{
 			console.log($scope.user.userType);
 			if(angular.isUndefined(logofile)) {
-				//if($scope.emailMsg == "") {
 					apiserviceUser.uploadImageFile($scope.user, $scope.user.userType).then(function(data){
 						$scope.user.firstName=" ";
 			            $scope.user.lastName=" ";
@@ -699,13 +705,8 @@ angular.module('newApp')
 			            
 			            $scope.init();
 					});
-				//}else{
-				//	console.log("9999");
-				//}
 			} else {
-				//if($scope.emailMsg == "") {
 				if($scope.user.pdfIds.length <= 0){
-				//$scope.user.pdfIds.push(0);
 					delete $scope.user.pdfIds;
 			}
 					apiserviceUser.uploadImageFileLoad($scope.user, $scope.user.userType, logofile).then(function(data){
@@ -721,7 +722,6 @@ angular.module('newApp')
 				            $scope.init();
 					});
 				  
-				//}
 			}
 		}
 		

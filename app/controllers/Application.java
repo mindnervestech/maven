@@ -16025,7 +16025,7 @@ private static void cancelTestDriveMail(Map map) {
     	params = "&type=pages&heatmap_url=1&date="+startD+","+endD+"&limit=all";
     	Location locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     	List<ClickyPagesVM> cList = new ArrayList<>();
-    	try {
+/*    	try {
     		
 			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 			for(int i=0;i<jsonArray.length();i++){
@@ -16045,17 +16045,15 @@ private static void cancelTestDriveMail(Map map) {
 	    				cList.add(cPagesVM);
 	    			}
     			} catch (Exception e) {
-    				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
     			
     			
 			}	
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    	
+*/    	
     	return ok(Json.toJson(cList));
     }
     

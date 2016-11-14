@@ -87,7 +87,10 @@ angular.module('app.apiserviceUser', [])
 				    text: "User saved successfully",
 				});
 				 	defer.resolve(data);
-	    	});
+	    	}).error(function(data, status, headers, config){
+	        	
+	        	defer.resolve("error");
+	        });
 		}else{
 			$http.post("/uploadImageFile",data).success(function(data){
 				$.pnotify({
@@ -96,7 +99,9 @@ angular.module('app.apiserviceUser', [])
 				    text: "User saved successfully",
 				});
 				 	defer.resolve(data);
-	    	});
+	    	}).error(function(data, status, headers, config){
+	    		defer.resolve("error");
+	        });
 		}
 		
 		
@@ -118,7 +123,9 @@ angular.module('app.apiserviceUser', [])
 				    text: "User saved successfully",
 				});
 				 	defer.resolve(data);
-	    	});
+	    	}).error(function(data, status, headers, config){
+	    		defer.resolve("error");
+	        });
 		}else{
 			$upload.upload({
 				url : '/uploadImageFile',
@@ -132,7 +139,9 @@ angular.module('app.apiserviceUser', [])
 				    text: "User saved successfully",
 				});
 				 	defer.resolve(data);
-	    	});
+	    	}).error(function(data, status, headers, config){
+	    		defer.resolve("error");
+	        });
 		}
 		
 		
