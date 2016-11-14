@@ -2428,6 +2428,7 @@ public class MyProfileController extends Controller{
 			 				return new PasswordAuthentication(emailUser, emailPass);
 			 			}
 			 		  });
+			 	
 			  
 			 		/*try{
 			 			
@@ -3105,10 +3106,15 @@ public class MyProfileController extends Controller{
 		    	    File file = picture.getFile();
 		    	    try {
 		    	    		FileUtils.moveFile(file, new File(filePath));
-		    	    		AuthUser user = AuthUser.findById(userObj.id);
-		    	    		user.setImageUrl("/"+vm.locationId+"/"+user.id+"/"+"userPhoto"+"/"+fileName);
-		    	    		user.setImageName(fileName);
-		    	    		user.update();	
+		    	    		if(userObj != null){
+			    	    		AuthUser user = AuthUser.findById(userObj.id);
+			    	    		if(user != null){
+			    	    			user.setImageUrl("/"+vm.locationId+"/"+user.id+"/"+"userPhoto"+"/"+fileName);
+				    	    		user.setImageName(fileName);
+				    	    		user.update();	
+			    	    		}
+		    	    		}
+		    	    		
 		    	    		
 		    	  } catch (FileNotFoundException e) {
 		  			e.printStackTrace();
