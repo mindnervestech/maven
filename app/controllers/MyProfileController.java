@@ -3182,8 +3182,8 @@ public class MyProfileController extends Controller{
 	    			
 	    			messageBodyPart.setContent(content, "text/html");
 	    			if(vm.pdfIds != null){
-	    			for(Long ls:vm.pdfIds){
-	 	    		   iPdf = InternalPdf.findPdfById(ls);  
+	    			for(String ls:vm.pdfIds){
+	 	    		   iPdf = InternalPdf.findPdfById(Long.parseLong(ls));  
 	 	    		   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
 	 	    		  File f = new File(PdfFile);
 	 	    		 MimeBodyPart attachPart = new MimeBodyPart();

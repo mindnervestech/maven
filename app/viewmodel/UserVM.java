@@ -47,7 +47,7 @@ public class UserVM {
 	public List<String> permissions;
 	public int per;
 	public Long locationId;
-	public List<Long> pdfIds;
+	public List<String> pdfIds;
 	public String type;
 	public String title;
 	public String text;

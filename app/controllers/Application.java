@@ -9303,8 +9303,8 @@ private static void cancelTestDriveMail(Map map) {
 	    			String nameOfDocument= null;
 	    			StringBuffer output = new StringBuffer(110);
 	    			if(vm.pdfIds != null){
-	    			for(Long ls:vm.pdfIds){
-	 	    		   iPdf = CustomerPdf.findPdfById(ls);  
+	    			for(String ls:vm.pdfIds){
+	 	    		   iPdf = CustomerPdf.findPdfById(Long.parseLong(ls));  
 	 	    		   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
 	 	    		  File f = new File(PdfFile);
 	 	    		 MimeBodyPart attachPart = new MimeBodyPart();
