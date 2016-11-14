@@ -9302,7 +9302,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			messageBodyPart.setContent(content, "text/html");
 	    			String nameOfDocument= null;
 	    			StringBuffer output = new StringBuffer(110);
-	    			if(vm.pdfIds != null){
+	    			/*if(vm.pdfIds != null){
 	    			for(String ls:vm.pdfIds){
 	 	    		   iPdf = CustomerPdf.findPdfById(Long.parseLong(ls));  
 	 	    		   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
@@ -9323,7 +9323,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			 
 	 	    	   }
 	    			
-	    			}
+	    			}*/
 	    			if(vm.vin != null){
 	    				
 	    				Vehicle vehicle=Vehicle.findByVin(vm.vin);

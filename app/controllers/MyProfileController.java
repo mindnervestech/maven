@@ -3187,7 +3187,9 @@ public class MyProfileController extends Controller{
 	    	        String content = writer.toString(); 
 	    			
 	    			messageBodyPart.setContent(content, "text/html");
-	    			if(vm.pdfIds != null){
+	    			/*if(vm.pdfIds != null){
+	    				String pdfString = vm.pdfIds.toString().replace("[[", "");
+	    				pdfString = pdfString.toString().replace("]]", "");
 	    			for(String ls:vm.pdfIds){
 	 	    		   iPdf = InternalPdf.findPdfById(Long.parseLong(ls));  
 	 	    		   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
@@ -3201,7 +3203,7 @@ public class MyProfileController extends Controller{
 	    		  	    }
 	    			 multipart.addBodyPart(attachPart);
 	 	    	   }
-	    			}
+	    			}*/
 	 	    		
 	    			
 	    			
