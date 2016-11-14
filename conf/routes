@@ -60,7 +60,6 @@ GET		/getAllSites				controllers.ConfigPagesController.getAllSites()
 POST	/saveInventory					  controllers.AddEditInventoryController.saveInventory()
 POST	/saveInventoryPdf/:id				  controllers.AddEditInventoryController.saveInventoryPdf(id:Long)
 GET		/getInventoryById/:id				  controllers.AddEditInventoryController.getInventoryById(id: Long)
-
 POST	/updateInventoryById				  controllers.AddEditInventoryController.updateInventoryById()
 GET		/getImagesByProductId/:productId  controllers.AddEditInventoryController.getImagesByProductId(productId:String)
 GET		/getImageInv/:id/:type			  controllers.AddEditInventoryController.getImageInv(id:Long,type:String)
@@ -97,6 +96,8 @@ GET		/getImagesByProduct/:id		     controllers.productController.getImagesByProd
 POST    /uploadProductPhoto   			 controllers.productController.uploadProductPhotos()
 #GET		/getImageById/:id			     controllers.productController.getImageDataById(id: Long)
 GET		/getImage/:id/:type			     controllers.productController.getImageById(id:Long,type:String)
+GET		/getImageAll/:id/:type			     controllers.productController.getImageAll(id:Long,type:String)
+
 #POST	/editImage				    	 controllers.productController.editImage()
 
 GET		/getReadyMadeCollection		     controllers.InventoryController.getReadyMadeCollection()
