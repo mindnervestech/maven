@@ -556,10 +556,10 @@
 						  		<label class="col-sm-3 control-label" style="text-align: right;">Contract Type *</label>
 								
 								<div class="col-sm-6">
-									<input type="radio" id="employee" name="duration" ng-click="contract('Employee')" required> Employee
+									<input type="radio" id="employee" value="Employee" ng-model="userData.contractDur" name="duration" ng-click="contract('Employee')" required> Employee
 								</div>
 								<div class="col-sm-6">
-									<input type="radio" id="contractor" name="duration" ng-click="contract('Contractor')" required> Contractor
+									<input type="radio" id="contractor" value="Contractor" ng-model="userData.contractDur" name="duration" ng-click="contract('Contractor')" required> Contractor
 								</div>
 								<!-- <div class="col-sm-6" style="margin-top: 9px;" ng-if="showOtherFild == 2">
 									<input type="radio" id="employee1" name="duration" ng-click="contract('One Time Order')" required> One Time Order
@@ -678,8 +678,7 @@
 									<label ng-repeat="rolePer in permissionList" class="col-sm-6" style="padding:0px;">
 				 						 <input type="checkbox" name="permissions" ng-click="rolesClicked($event,rolePer,rolePer.isSelected)"
 				 						   	ng-model="rolePer.isSelected">					
-   					 						{{rolePer.name}}</label>
-   					 				<label><input type="checkbox" 	ng-model="userData.premiumFlag">Premium leads</label>							
+   					 						{{rolePer.name}}</label>							
 								</div>
 								</div>
 									
