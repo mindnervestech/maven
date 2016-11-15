@@ -14523,7 +14523,7 @@ private static void cancelTestDriveMail(Map map) {
     		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
-    		if(type.equalsIgnoreCase("requestMore")) {
+    		//if(type.equalsIgnoreCase("requestMore")) {
     			RequestMoreInfo requestMore = RequestMoreInfo.findById(id);
     			UserNotes notes = new UserNotes();
     			notes.note = note;
@@ -14541,8 +14541,8 @@ private static void cancelTestDriveMail(Map map) {
     			notes.createdTime = date;
 				notes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			notes.save();
-    		}
-    		if(type.equalsIgnoreCase("scheduleTest")) {
+    		//}
+    	/*	if(type.equalsIgnoreCase("scheduleTest")) {
     			ScheduleTest scheduleTest = ScheduleTest.findById(id);
     			UserNotes notes = new UserNotes();
     			notes.note = note;
@@ -14552,9 +14552,9 @@ private static void cancelTestDriveMail(Map map) {
     			AuthUser usr = AuthUser.findById(scheduleTest.assignedTo.id);
     			if(scheduleTest.assignedTo != null){
     				notes.user = scheduleTest.assignedTo;
-    			}/*else{
+    			}else{
     				notes.user = user;
-    			}*/
+    			}
     			Date date = new Date();
     			notes.createdDate = date;
     			notes.createdTime = date;
@@ -14563,8 +14563,8 @@ private static void cancelTestDriveMail(Map map) {
     			
     			//scheduleTest.setNoteFlag(1);
     			scheduleTest.update();
-    		}
-    		if(type.equalsIgnoreCase("tradeIn")) {
+    		}*/
+    	/*	if(type.equalsIgnoreCase("tradeIn")) {
     			TradeIn tradeIn = TradeIn.findById(id);
     			UserNotes notes = new UserNotes();
     			notes.note = note;
@@ -14573,15 +14573,15 @@ private static void cancelTestDriveMail(Map map) {
     			notes.saveHistory = 1;
     			if(tradeIn.assignedTo !=null){
     				notes.user = tradeIn.assignedTo;
-    			}/*else{
+    			}else{
     				notes.user = user;
-    			}*/
+    			}
     			Date date = new Date();
     			notes.createdDate = date;
     			notes.createdTime = date;
 				notes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			notes.save();
-    		}
+    		}*/
     		return ok();
     	}
     }

@@ -227,14 +227,14 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};*/
 	
-	/*this.getAllContactUsSeen = function(){
+	this.getAllContactUsSeen = function(){
 		var defer = $q.defer();
 		$http.get('/getAllContactUsSeen').success(function(data) {
 			defer.resolve(data);
 		});
 		
 		return defer.promise;
-	};*/
+	};
 	
 	this.getAllLostAndCompLeads = function(){
 		var defer = $q.defer();
