@@ -20,7 +20,7 @@
             	if(data.imageName == null){
             		$scope.userimage = data.imageUrl;
             	}else{
-            		$scope.userimage = "http://glider-autos.com/glivrImg/images"+data.imageUrl;
+            		$scope.userimage = "http://glider-autos.com/MavenImg/images"+data.imageUrl;
             	}
 
         		console.log($scope.userimage);

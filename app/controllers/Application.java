@@ -14660,7 +14660,7 @@ private static void cancelTestDriveMail(Map map) {
 				vm.id = sales.id;
 				if(sales.imageUrl != null) {
 					if(sales.imageName !=null){
-						vm.imageUrl = "http://glider-autos.com/glivrImg/images"+sales.imageUrl;
+						vm.imageUrl = "http://glider-autos.com/MavenImg/images"+sales.imageUrl;
 					}else{
 						vm.imageUrl = sales.imageUrl;
 					}
@@ -17773,7 +17773,7 @@ if(vehicles.equals("All")){
      	if(users !=null){
      	if(users.imageUrl != null) {
 			if(users.imageName !=null){
-				lDataVM.imageUrl = "http://glider-autos.com/glivrImg/images"+users.imageUrl;
+				lDataVM.imageUrl = "http://glider-autos.com/MavenImg/images"+users.imageUrl;
 			}else{
 				lDataVM.imageUrl = users.imageUrl;
 			}
@@ -24044,7 +24044,7 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
     		AuthUser user2 = AuthUser.findById(sche.user.id);
     		if(user2.imageUrl != null) {
 				if(user2.imageName !=null){
-					sTestVM.imageUrl = "http://glider-autos.com/glivrImg/images"+user2.imageUrl;
+					sTestVM.imageUrl = "http://glider-autos.com/MavenImg/images"+user2.imageUrl;
 				}else{
 					sTestVM.imageUrl = user2.imageUrl;
 				}
@@ -24076,7 +24076,7 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 			uVm.userComment=comm.comment;
 			if(comm.commentUser.imageUrl != null) {
 				if(comm.commentUser.imageName !=null){
-					uVm.imageUrl = "http://glider-autos.com/glivrImg/images"+comm.commentUser.imageUrl;
+					uVm.imageUrl = "http://glider-autos.com/MavenImg/images"+comm.commentUser.imageUrl;
 				}else{
 					uVm.imageUrl = comm.commentUser.imageUrl;
 				}

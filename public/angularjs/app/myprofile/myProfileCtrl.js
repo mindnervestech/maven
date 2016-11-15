@@ -17,7 +17,7 @@ angular.module('newApp')
 		}
 		$scope.user = data.user;
 		$scope.myprofile.dealer_id = data.user.location.id;
-		$scope.imgGM = "http://glider-autos.com/glivrImg/images"+$scope.user.imageUrl;
+		$scope.imgGM = "http://glider-autos.com/MavenImg/images/"+$scope.user.imageUrl;
 	});
 
 	apiserviceProfile.getMyProfile().then(function(data){
@@ -390,8 +390,8 @@ angular.module('newApp')
 		
 		apiserviceProfile.getMangerAndLocation().then(function(data){
 			$scope.managerProfile = data;
-			$scope.imgLocation = "http://glider-autos.com:9889/MavenImg/images/"+$scope.managerProfile.imageUrl;
-			$scope.img = "http://glider-autos.com:9889/MavenImg/images"+$scope.managerProfile.mImageUrl;
+			$scope.imgLocation = "http://glider-autos.com/MavenImg/images/"+$scope.managerProfile.imageUrl;
+			$scope.img = "http://glider-autos.com/MavenImg/images"+$scope.managerProfile.mImageUrl;
 		});
 		
 	}

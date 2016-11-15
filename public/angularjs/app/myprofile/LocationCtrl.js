@@ -73,8 +73,8 @@ angular.module('newApp')
 		$('#editUserModal').click();
 		$scope.user = row.entity;
 		console.log($scope.user);
-		$scope.imgLocation = "http://glider-autos.com/glivrImg/images/"+$scope.user.imageUrl;
-		$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.user.mImageUrl;
+		$scope.imgLocation = "http://glider-autos.com/MavenImg/images/"+$scope.user.imageUrl;
+		$scope.img = "http://glider-autos.com/MavenImg/images"+$scope.user.mImageUrl;
 	}
 	
 	$scope.deactiveLocationById = function() {

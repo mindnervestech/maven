@@ -129,7 +129,7 @@ float: right !important;
 									                 
 									                 <div>
 									              	<div ng-mouseenter="imageEnter($index)"  ng-mouseleave="imageLeave($index)" style="padding: 0%;">
-									                     <img ng-if="$index!=index && item.imageUrl != null" class="circleBase type" src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                     <img ng-if="$index!=index && item.imageUrl != null" class="circleBase type" src="http://glider-autos.com/MavenImg/images/{{item.imageUrl}}">
 									                     <img   ng-if="$index!=index && item.imageUrl == null" class="circleBase type" src="/assets/images/p1.png" >
 									                 	<div ng-if="$index==index" style="text-align: center;" >
 									                 	<div  class="circleBase type" style="text-align: center;" > 
@@ -196,7 +196,7 @@ float: right !important;
 									                 
 									                 <div>
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)" style="text-align: center;">
-									                       <img ng-if="$index!=index && item.imageUrl != null" class="circleBase typeNew"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                       <img ng-if="$index!=index && item.imageUrl != null" class="circleBase typeNew"  src="http://glider-autos.com/MavenImg/images/{{item.imageUrl}}">
 									                     <img ng-if="$index!=index && item.imageUrl == null" class="circleBase typeNew"  src="/assets/images/p1.png">
 									                 	
 									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
@@ -313,7 +313,7 @@ float: right !important;
 									                 
 									                 <div>
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)" style="text-align: center; padding: 0%;">
-									               <img ng-if="$index!=index && item.imageUrl != null" class="circleBase typeNew"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									               <img ng-if="$index!=index && item.imageUrl != null" class="circleBase typeNew"  src="http://glider-autos.com/MavenImg/images/{{item.imageUrl}}">
 									                     <img ng-if="$index!=index && item.imageUrl == null" class="circleBase typeNew"  src="/assets/images/p1.png">
 									                     <div ng-if="$index==index" style="text-align: center;" >
 									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
@@ -367,7 +367,7 @@ float: right !important;
 									                 
 									                 <div>
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)" style="text-align: center;">
-									                   <img ng-if="$index!=index && item.imageUrl != null" class="circleBase typeNew"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                   <img ng-if="$index!=index && item.imageUrl != null" class="circleBase typeNew"  src="http://glider-autos.com/MavenImg/images/{{item.imageUrl}}">
 									                     <img ng-if="$index!=index && item.imageUrl == null" class="circleBase typeNew"  src="/assets/images/p1.png">
 									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
 									                 		<h1 style="color:white;margin-top: 30px;">{{item.PlanPer}}%</h1>
@@ -500,13 +500,13 @@ float: right !important;
 									     </div>
 									 <div class="row">
 									 <div class="col-sm-3" ng-if="userRole == 'Manager'">
-									       <img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/{{parLocationData.imageUrl}}">
+									       <img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images/{{parLocationData.imageUrl}}">
 										</div>
 										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& flagForBestSale == 0">
-									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4" ng-style="{opacity : ((currentPage == 0) && '0.4') || '0.5'}" style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/LocationImg/best.png"> </a>
+									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4" ng-style="{opacity : ((currentPage == 0) && '0.4') || '0.5'}" style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images/LocationImg/best.png"> </a>
 										</div>
 										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& flagForBestSale != 0">
-									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4"  style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/LocationImg/best.png"> </a>
+									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4"  style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images/LocationImg/best.png"> </a>
 										</div>
 										<div class="col-sm-5" style="margin-top: 25px;">
 									       	<span class="glyphicon glyphicon-user col-sm-2" style="color: darkturquoise;" title="Total leads"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson | number:0}}</label>
@@ -6695,7 +6695,7 @@ float: right !important;
 															   </div>
 															   <div class="col-sm-5">
 															   		<div class="col-sm-12" style="text-align: center;">
-															   		      <img ng-if="ComperFlag == 1" style="width: 116px;" src="http://glider-autos.com/glivrImg/images/LocationImg/best.png"> 
+															   		      <img ng-if="ComperFlag == 1" style="width: 116px;" src="http://glider-autos.com/MavenImg/images/LocationImg/best.png"> 
 									                    				 <img ng-if="ComperFlag == 0" style="width: 116px;"  src="{{comparisonperson[1].imageUrl}}">
 									                 				</div>
 									                 				<div class="col-sm-12" style="text-align: center;" ng-if="ComperFlag == 0">
@@ -7801,7 +7801,7 @@ float: right !important;
 								                <div class="modal-body">
 								                	<div class="form-group col-sm-12">
 								                			<div class="form-group col-md-12" style="text-align: center;font-size: 24px;" >
-								                    			 <img style="height: 527px;"  src="http://glider-autos.com/glivrImg/images/LocationImg/BEST-_SALES-PERSON-HEADER.jpg">
+								                    			 <img style="height: 527px;"  src="http://glider-autos.com/MavenImg/images/LocationImg/BEST-_SALES-PERSON-HEADER.jpg">
 								                    		</div> 
 								                    		
 															
