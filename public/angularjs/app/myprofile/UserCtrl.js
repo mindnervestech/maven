@@ -689,9 +689,13 @@ angular.module('newApp')
 					
 			} else {
 				$('#btnClose').click();
-					apiserviceUser.uploadImageFileLoad($scope.user, $scope.user.userType, logofile).then(function(data){
-						 console.log('success');
-						 if(data == "data"){
+				apiserviceUser.uploadImageFile($scope.user, $scope.user.userType).then(function(data){
+					console.log(data);
+					if(data == "data"){
+						$('#btnClose').click();
+					}else{
+						apiserviceUser.updateImageFileLoad(data, logofile).then(function(data){
+							if(data == "data"){
 								$('#btnClose').click();
 							}else{
 								 $scope.user.firstName=" ";
@@ -704,8 +708,10 @@ angular.module('newApp')
 						            $("#file").val('');
 						            $('#btnClose').click();
 							}
-				           
-					});
+						});
+					}
+		            
+				});					
 			}
 		}else{
 			console.log($scope.user.userType);
