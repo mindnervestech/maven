@@ -15,6 +15,17 @@ angular.module('newApp')
 	{name:'CRM',isSelected:false},
 	{name:'Financial Statistics',isSelected:false},
 	{name:'Account Settings',isSelected:false}];
+	
+	$http.get('/getAllPermission')
+	.success(function(data) {
+		$scope.permissionList =[];
+		angular.forEach(data, function(obj, index){
+			var jsonObj = {name:obj.name,isSelected:false};
+			$scope.permissionList.push(jsonObj);
+		});
+		console.log($scope.permissionList);
+		console.log("????????????????");
+	});
 	$scope.userData = {};
 	$scope.trial;
 	$scope.num;
@@ -413,7 +424,7 @@ angular.module('newApp')
 		}else{
 			$scope.deleteItem(rolePer);
 		}
-		//console.log($scope.permission);
+		console.log($scope.permission);
 	}
 	$scope.deleteItem = function(rolePer){
 		angular.forEach($scope.permission, function(obj, index){

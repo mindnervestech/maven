@@ -2876,6 +2876,7 @@ public class MyProfileController extends Controller{
 		    	}else{
 		    		userObj.premiumFlag = "0";
 		    	}
+		    	
 		    	String arr2[] = null;
 		    	 if(body != null) {
 		    		 String abcd= vm.permissions.get(0);
@@ -2884,6 +2885,14 @@ public class MyProfileController extends Controller{
 		 	    	abcd = abcd.replace("\"", "");
 		 	    	arr2 = abcd.split(",");
 		    	 }
+		    	 
+		    	 if(body != null){
+		    		String[] roles = vm.permissions.get(0).replaceAll("[\\[\\](){}\"]","").split(",");
+		    		vm.permissions = new ArrayList<>();
+		    		for (int i = 0; i < roles.length; i++) {
+		    			vm.permissions.add(roles[i]);
+					}
+		    	}
 		    	
 		    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		    	Random rnd = new Random();
@@ -2900,9 +2909,11 @@ public class MyProfileController extends Controller{
 		    		  //userObj.permission = permissionList;
 		    		   List<Permission> permissionData = new ArrayList<>();
 		    		   for(Permission obj: permissionList) {
-		    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Show Location")) {
-		    				   permissionData.add(obj);
-		    			   }
+    					   for(String per: vm.permissions) {//obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Show Location")
+    						   if(obj.name.equals(per)) {
+    		    				   permissionData.add(obj);
+    		    			   }
+    					   }
 		    		   }
 		    		   userObj.permission = permissionData;
 		    	   }
@@ -2919,9 +2930,14 @@ public class MyProfileController extends Controller{
 		    	   if(vm.userType.equals("Front Desk")) {
 		    		   List<Permission> permissionData = new ArrayList<>();
 		    		   for(Permission obj: permissionList) {
-		    			   if(obj.name.equals("Calendar")) {
-		    				   permissionData.add(obj);
+		    			   for(String per: vm.permissions) {
+		    				   if(obj.name.equals(per)) {
+    		    				   permissionData.add(obj);
+    		    			   }
 		    			   }
+		    			   /*if(obj.name.equals("Calendar")) {
+		    				   permissionData.add(obj);
+		    			   }*/
 		    		   }
 		    		   userObj.permission = permissionData;
 		    	   }
@@ -2931,21 +2947,21 @@ public class MyProfileController extends Controller{
 		    		  // String aa = vm.permissions.get(0);
 		    		   List<Permission> permissionData = new ArrayList<>();
 		    		   for(Permission obj: permissionList) {
-		    			   if(body != null) {
+		    			   /*if(body != null) {
 		    				   for(String role:arr2){
 	    						   if(obj.name.equals(role)) {
 				    				   permissionData.add(obj);
 		    					   }
 	    				   
 		    				   }
-		    			   }else{
+		    			   }else{*/
 		    				   for(String role:vm.permissions){
 	    						   if(obj.name.equals(role)) {
 				    				   permissionData.add(obj);
 		    					   }
 	    				   
 		    				   }
-		    			   }
+		    			   //}
 		    			   
 		    			   /*if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
 		    				   permissionData.add(obj);
@@ -3179,7 +3195,7 @@ public class MyProfileController extends Controller{
 	    			Template t = ve.getTemplate("/public/emailTemplate/newUserTemplate.vm"); 
 	    	        VelocityContext context = new VelocityContext();
 	    	        context.put("hostnameUrl", imageUrlPath);
-	    	        context.put("siteLogo", logo.logoImagePath);
+	    	        //context.put("siteLogo", logo.logoImagePath);
 	    	        context.put("username", userObj.email);
 	    	        context.put("password", userObj.password);
 	    	        StringWriter writer = new StringWriter();
@@ -3215,7 +3231,7 @@ public class MyProfileController extends Controller{
 		  			 //throw new RuntimeException(e);
 		  		}
 	    	   
-	    	return ok();
+	    	return ok(Json.toJson(userObj));
     }
 	    
 	    public static Result getAllDeactivateUsers(){
