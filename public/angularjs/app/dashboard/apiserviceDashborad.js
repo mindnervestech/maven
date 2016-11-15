@@ -332,14 +332,14 @@ angular.module('app.apiserviceDashborad', [])
 	            url : '/editLeads',
 	            method: 'POST',
 	            file:files,
-	            data:$scope.editLeads
+	            data:editLeads
 	         }).success(function(data) {
 	        	 defer.resolve(data);
 	   			console.log('success');
 	   			
 	   		 });
 		}else{
-			$http.post('/editLeads',$scope.editLeads).success(function(data) {
+			$http.post('/editLeads',editLeads).success(function(data) {
 	  			 	$.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -401,7 +401,7 @@ angular.module('app.apiserviceDashborad', [])
 	
 	this.saveContactsData = function(contactsDetails){
 		var defer = $q.defer();
-		$http.post('/saveContactsData',$scope.contactsDetails).success(function(data) {
+		$http.post('/saveContactsData',contactsDetails).success(function(data) {
 			 $.pnotify({
 				    title: "Success",
 				    type:'success',

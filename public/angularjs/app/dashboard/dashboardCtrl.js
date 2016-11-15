@@ -2129,7 +2129,7 @@ angular.module('newApp')
    	  		$scope.customData = entity.customMapData;
    	  	
    	  			console.log($scope.customData);
-   	  		apiserviceDashborad.saveCompletedLeads('Create New Lead').then(function(response){
+   	  		apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
    	  		
 				 $scope.editInput = response;
 				 //$scope.josnData = angular.fromJson(response.jsonData);
@@ -2226,7 +2226,7 @@ angular.module('newApp')
 		$scope.payment = Math.floor((difference*rate)/(1-Math.pow((1+rate),(-1* $scope.payments)))*100)/100;
    	 }
    	  	
-   	  		$scope.editleads = function(){
+   	  	$scope.editleads = function(){
    	  		$scope.customList = [];
    	  		$scope.customData.setTime = $("#bestTimes").val()
 			if($scope.customData.setTime == undefined){
@@ -4332,7 +4332,7 @@ angular.module('newApp')
 	    	    			if($scope.lead.custName == ''){
 	    	    				$scope.lead.custName = $('#ex1_value').val();
 	    	    			}
-	    	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='') {
+	    	    			if($scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='') {
 	    	    				$scope.isInValid = true;
 	    	    			}else if($scope.lead.leadType == "" || $scope.lead.manufacturers == ""){ 
 	    	    				$scope.isInValid2 = true;
