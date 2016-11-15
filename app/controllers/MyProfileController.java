@@ -3203,7 +3203,7 @@ public class MyProfileController extends Controller{
 	    	        String content = writer.toString(); 
 	    			
 	    			messageBodyPart.setContent(content, "text/html");
-	    			/*if(vm.pdfIds != null){
+	    			if(vm.pdfIds != null){
 	    				String pdfString = vm.pdfIds.toString().replace("[[", "");
 	    				pdfString = pdfString.toString().replace("]]", "");
 	    			for(String ls:vm.pdfIds){
@@ -3219,7 +3219,7 @@ public class MyProfileController extends Controller{
 	    		  	    }
 	    			 multipart.addBodyPart(attachPart);
 	 	    	   }
-	    			}*/
+	    			}
 	 	    		
 	    			
 	    			
