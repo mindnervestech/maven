@@ -426,6 +426,7 @@ public class MyProfileController extends Controller{
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 	 	        		Form<LocationVM> form = DynamicForm.form(LocationVM.class).bindFromRequest();
+	 	        		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	 	        		
 	 	    	    	AuthUser userObj = new AuthUser();
 	 	    	    	LocationVM vm = form.get();
@@ -2218,6 +2219,7 @@ public class MyProfileController extends Controller{
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 	    		boolean isNew = true;
+	    		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 	    		MultipartFormData body = request().body().asMultipartFormData();
 		    	Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
 		    	UserVM vm = form.get();
@@ -2276,6 +2278,13 @@ public class MyProfileController extends Controller{
 		    	userObj.setTrainingCost(vm.trainingCost);
 		    	userObj.setTrainingHours(vm.trainingHours);
 		    	userObj.setQuota(vm.quota);
+		    	
+		    	try {
+		    		userObj.contractDurEndDate = dateFormat.parse(vm.contractDurEndDate);
+		    		userObj.contractDurStartDate = dateFormat.parse(vm.contractDurStartDate);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 		    	
 		    	String arr2[] = null;
 		    	
@@ -2528,6 +2537,7 @@ public class MyProfileController extends Controller{
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
+	    		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	    		
 	    		AuthUser users = getLocalUser();
 	    		/*List<AuthUser> userList = AuthUser.getUserByType();*/
@@ -2558,6 +2568,10 @@ public class MyProfileController extends Controller{
 	    			vm.imageUrl = user.imageUrl;
 	    			vm.trial = user.trial;
 	    			vm.id = user.id;
+	    			if(user.contractDurEndDate != null)
+	    				vm.contractDurEndDate = dateFormat.format(user.contractDurEndDate);
+	    			if(user.contractDurStartDate != null)
+	    				vm.contractDurStartDate = dateFormat.format(user.contractDurStartDate);
 	    			for(Permission permission:user.permission){
 	    				parmi.add(permission.name);
 	    			}
@@ -2713,6 +2727,7 @@ public class MyProfileController extends Controller{
 	    		/*List<AuthUser> userList = AuthUser.getUserByType();*/
 	    		List<AuthUser> userList = AuthUser.findByLocatio(users.location);
 	    		List<UserVM> vmList = new ArrayList<>();
+	    		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	    	
 	    		for(AuthUser user : userList) {
 	    			List<String> parmi = new ArrayList<>();
@@ -2739,6 +2754,13 @@ public class MyProfileController extends Controller{
 	    			vm.imageUrl = user.imageUrl;
 	    			vm.trial = user.trial;
 	    			vm.id = user.id;
+	    			if(user.contractDurEndDate != null)
+	    				vm.contractDurEndDate = dateFormat.format(user.contractDurEndDate);
+	    			if(user.contractDurStartDate != null)
+	    				vm.contractDurStartDate = dateFormat.format(user.contractDurStartDate);
+	    			for(Permission permission:user.permission){
+	    				parmi.add(permission.name);
+	    			}
 	    			for(Permission permission:user.permission){
 	    				parmi.add(permission.name);
 	    			}
@@ -2848,6 +2870,7 @@ public class MyProfileController extends Controller{
 	    	
 	    	AuthUser uAuthUser = AuthUser.findByEmail(vm.email);
 	    	AuthUser userObj = new AuthUser();
+	    	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	    	if(uAuthUser == null){
 	    		
 		    	userObj.firstName = vm.firstName;
@@ -2876,6 +2899,15 @@ public class MyProfileController extends Controller{
 		    	}else{
 		    		userObj.premiumFlag = "0";
 		    	}
+		    	
+		    	try {
+		    		if(vm.contractDurEndDate != null)
+		    			userObj.contractDurEndDate = dateFormat.parse(vm.contractDurEndDate);
+		    		if(vm.contractDurStartDate != null)
+		    			userObj.contractDurStartDate = dateFormat.parse(vm.contractDurStartDate);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 		    	
 		    	String arr2[] = null;
 		    	 if(body != null) {
@@ -3206,7 +3238,7 @@ public class MyProfileController extends Controller{
 	    			if(vm.pdfIds != null){
 	    				String pdfString = vm.pdfIds.toString().replace("[[", "");
 	    				pdfString = pdfString.toString().replace("]]", "");
-	    			for(String ls:vm.pdfIds){
+	    			for(String ls:pdfString.split(",")){
 	 	    		   iPdf = InternalPdf.findPdfById(Long.parseLong(ls));  
 	 	    		   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
 	 	    		  File f = new File(PdfFile);

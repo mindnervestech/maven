@@ -476,11 +476,13 @@ angular.module('newApp')
 		console.log($scope.permissionList);
 		$('#editUserModal').click();
 		if(row.entity.contractDur=="Employee"){
+			$scope.conUser = "Employee";
 			$scope.contactVal= row.entity.contractDur;
 				$("#number").attr("disabled", true);
 				$("#duration").attr("disabled", true);
 				$('#employee1').click();
 		}else{
+			$scope.conUser = "Contractor";
 			var durations = row.entity.contractDur;
 			var val = durations.split(' ');
 			$scope.num1 = parseInt(val[0]);
@@ -587,6 +589,10 @@ angular.module('newApp')
 		if($scope.user.premiumFlag == undefined){
 			$scope.user.premiumFlag = false;
 		}
+		if($("#cnfstartDateValue").val() != undefined)
+			$scope.user.contractDurStartDate = $("#cnfstartDateValue").val();
+		if($("#cnfendDateValue").val() != undefined)
+			$scope.user.contractDurEndDate = $("#cnfendDateValue").val();
 		
 		if($scope.user.userType == "Photographer"){
 			$scope.user.hOperation.sunOpenTime = $('#sunOpen').val();
@@ -651,10 +657,6 @@ angular.module('newApp')
 			if($scope.user.hOperation.satClose == undefined){
 				$scope.user.hOperation.satClose = false;
 			}
-			
-			
-			$scope.user.contractDurStartDate = $("#cnfstartDateValue").val();
-			$scope.user.contractDurEndDate = $("#cnfendDateValue").val();
 		}
 		
 		if($scope.contactVal=="Employee"){
@@ -774,6 +776,13 @@ angular.module('newApp')
 		$scope.userData.permissions = $scope.permission;
 		$scope.userData.pdfIds = $scope.pdfDoc;
 		delete $scope.userData.successRate;
+		
+		if($("#cnfstartDateValue").val() != undefined)
+			$scope.userData.contractDurStartDate = $("#cnfstartDateValue").val();
+		if($("#cnfendDateValue").val() != undefined)
+			$scope.userData.contractDurEndDate = $("#cnfendDateValue").val();
+		
+		console.log($scope.userData);
 		
 		if($scope.userData.userType == "Photographer"){
 			$scope.userData.hOperation.sunOpenTime = $('#sunOpen').val();
