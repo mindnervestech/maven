@@ -355,6 +355,9 @@ angular.module('newApp')
 	}
 	
 	$scope.createNewUser=function(){
+		$scope.user = {};
+		$scope.contactVal = "";
+		$("#cnfstartDateValue").val("");
 		$scope.permission = [];
 		angular.forEach($scope.permissionList, function(obj, index){
 			 obj.isSelected = false;
@@ -667,6 +670,7 @@ angular.module('newApp')
 				            $scope.user.phone=" ";
 				            $scope.user.userType=" ";
 				            $scope.user.img=" ";
+				            $scope.user = {};
 				            $('#btnClose').click();
 						}
 			            
@@ -685,6 +689,7 @@ angular.module('newApp')
 						            $scope.user.phone=" ";
 						            $scope.user.userType=" ";
 						            $scope.user.img=" ";
+						            $scope.user = {};
 						            $("#file").val('');
 						            $('#btnClose').click();
 							}
@@ -701,6 +706,7 @@ angular.module('newApp')
 			            $scope.user.phone=" ";
 			            $scope.user.userType=" ";
 			            $scope.user.img=" ";
+			            $scope.user = {};
 			            $('#btnClose').click();
 			            
 			            $scope.init();
