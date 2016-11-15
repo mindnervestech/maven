@@ -906,6 +906,12 @@ public class Application extends Controller {
     	}
     }
     
+    public static Result getAllPermission(){
+    	List<Permission> permissionList = Permission.getAllPermission();
+    	return ok(Json.toJson(permissionList));
+    }
+    
+    
     public static Result changePermission(Long locationId,Integer managerId,String gmIsManager){
     	AuthUser user = AuthUser.findById(managerId);
     	user.deleteManyToManyAssociations("permission");
