@@ -2,7 +2,7 @@ angular.module('formlyIonic', ['formly'], ["formlyConfigProvider", function conf
     'use strict';
 
 
-    angular.forEach(['checkbox', 'input', 'radio', 'range', 'textarea', 'toggle', 'select', 'floating-input', 'stacked-input', 'inline-input','signature','ui-grid','image','financialcalculator','daterange','autocompleteText','contactssearch','inventorysearch','fileuploaders','timerange','headerlabel','numberInput','multipleselect','singleSelect','leadTypeSelector'], function (fieldName) {
+    angular.forEach(['checkbox', 'input', 'radio', 'range', 'textarea', 'toggle', 'select', 'floating-input', 'stacked-input', 'inline-input','signature','ui-grid','image','financialcalculator','daterange','autocompleteText','contactssearch','inventorysearch','fileuploaders','timerange','headerlabel','numberInput','multipleselect','singleSelect','leadTypeSelector','productType'], function (fieldName) {
         if(fieldName === 'signature'){
             formlyConfigProvider.setType({
                 name: fieldName,
@@ -81,6 +81,12 @@ angular.module('formlyIonic', ['formly'], ["formlyConfigProvider", function conf
                 templateUrl: getFieldTemplateUrl(fieldName),
                 controller:'customizationCtrl'
             });
+        }else if(fieldName === 'productType'){
+            formlyConfigProvider.setType({
+                name: fieldName,
+                templateUrl: getFieldTemplateUrl(fieldName),
+                controller:'customizationCtrl'
+            });
         }else{
             formlyConfigProvider.setType({
                 name: fieldName,
@@ -150,6 +156,7 @@ $templateCache.put("fields/range.html","<div class=\"item range\" ng-class=\"\'r
 $templateCache.put("fields/select.html","<label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div class=\"col-sm-4 form-group\"><select class=\"col-sm-10 form-control form-white\" ng-model=\"model[options.key]\" ng-options=\"option[to.valueProp || \'value\'] as option[to.labelProp || \'name\'] group by 			  option[to.groupProp || \'group\'] for option in to.options\"></select></div></label>");
 
 $templateCache.put("fields/leadTypeSelector.html","<label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div class=\"col-sm-4 form-group\"><select class=\"col-sm-10 form-control form-white\" ng-model=\"model[options.key]\"><option ng-repeat=\"lType in leadList\">{{lType.leadName}}</option></select></div></label>");
+$templateCache.put("fields/productType.html","<label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div class=\"col-sm-4 form-group\"><select class=\"col-sm-10 form-control form-white\" ng-model=\"model[options.key]\"><option ng-repeat=\"mType in manufacturerslist\">{{mType.title}}</option></select></div></label>");
 //$templateCache.put("fields/ion-stacked-input.html","<label class=\"item item-input item-stacked-label\"><span class=\"input-label\">{{options.templateOptions.label}}</span> <input ng-model=\"model[options.key]\" placeholder=\"{{options.templateOptions.placeholder}}\" type=\"{{options.templateOptions.type}}\"></label>");
 $templateCache.put("fields/stacked-input.html","<label class=\"item item-input item-stacked-label form-group col-sm-12\" style=\"padding-left: 0px;\"><span class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{options.templateOptions.label}}</span><div class=\"col-sm-4 form-group\"><input class=\"col-sm-10 form-control form-white\" ng-model=\"model[options.key]\" formly-dynamic-name=\"id\" formly-custom-validation=\"options.validators\" placeholder=\"{{options.templateOptions.placeholder}}\" ng-required=\"options.templateOptions.required\" ng-disabled=\"options.templateOptions.disabled\"></div></label>");
 

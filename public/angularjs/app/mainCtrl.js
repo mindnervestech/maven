@@ -177,6 +177,9 @@
                         if(form.component === "leadTypeSelector"){
                           	 formFields.push(getJsonBForleadTypeSelector(form));
                           }
+                        if(form.component === "productType"){
+                         	 formFields.push(getJsonBForproductType(form));
+                         }
                         
                         if(form.component === "multipleselect"){
                           	 formFields.push(getJsonBForMultipleselect(form));
@@ -529,6 +532,66 @@
                   return optionsArray;
                 }
                 
+                
+                function getJsonBForproductType(jsonObject){
+                    var key;
+                    if(jsonObject.key === ""){
+                      key = jsonObject.label;
+                      key = key.replace(" ","_");
+                      key = key.toLowerCase();
+                    }else{
+                      key = jsonObject.key;
+                    }
+                    var properties = getPropertiesForEditable(jsonObject.editable);
+                    var options = [];
+                    options = getPropertiesForSelectOptions(jsonObject.options);
+                    var convertedObject = {
+                      "key": key,
+                      "type": jsonObject.component,
+                      "templateOptions": {
+                        "label": jsonObject.label,
+                        "options": options,
+                        "valueProp": "id",
+                        "labelProp": "label",
+                        "required": jsonObject.required
+                        },
+                        "expressionProperties": properties,
+                        "hideExpression" : function($viewValue, $modelValue, scope) {
+                          return isHideComponent(jsonObject);
+                        }
+                    }
+                    return convertedObject;
+                  }
+
+                function getJsonBForSelect(jsonObject){
+                  var key;
+                  if(jsonObject.key === ""){
+                    key = jsonObject.label;
+                    key = key.replace(" ","_");
+                    key = key.toLowerCase();
+                  }else{
+                    key = jsonObject.key;
+                  }
+                  var properties = getPropertiesForEditable(jsonObject.editable);
+                  var options = [];
+                  options = getPropertiesForSelectOptions(jsonObject.options);
+                  var convertedObject = {
+                    "key": key,
+                    "type": jsonObject.component,
+                    "templateOptions": {
+                      "label": jsonObject.label,
+                      "options": options,
+                      "valueProp": "id",
+                      "labelProp": "label",
+                      "required": jsonObject.required
+                      },
+                      "expressionProperties": properties,
+                      "hideExpression" : function($viewValue, $modelValue, scope) {
+                        return isHideComponent(jsonObject);
+                      }
+                  }
+                  return convertedObject;
+                }
                 
                 
                 function getJsonBForleadTypeSelector(jsonObject){
@@ -1012,6 +1075,15 @@ angular.module('newApp').controller('customizationCtrl',
 			
 			});
 	    	
+	    	
+			var date = new Date().getTime();
+	    	$http.get('/getAllProduct/'+"publish"+'/'+date).success(function(data) {
+				    			
+				console.log(data);
+				$scope.manufacturerslist = data; 
+			
+			});
+	    	
 	    	$scope.financeData = {};
 	    	 $scope.financeData.downPayment=1000;
   	  		  $scope.financeData.annualInterestRate=7;
@@ -1051,10 +1123,10 @@ angular.module('newApp').controller('customizationCtrl',
 	            	var place = autocomplete.getplace();
 	            }
 	            	
-	            	$http.get('/getAllVehicles')
+	            	/*$http.get('/getAllVehicles')
 	        		.success(function(data) {
 	        			$scope.prodSearchList = data;
-	        		});
+	        		});*/
 	            	
 	            	$scope.focusIn11 = function(index, stockRp){
 		    			stockRp.stockNumber = $scope.prodSearchList[index].title;

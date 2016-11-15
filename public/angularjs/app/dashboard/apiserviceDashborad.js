@@ -28,14 +28,14 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.getAllVehicles = function(){
+	/*this.getAllVehicles = function(){
 		var defer = $q.defer();
 		$http.get('/getAllVehicles').success(function(data) {
 			defer.resolve(data);
 		});
 		
 		return defer.promise;
-	};
+	};*/
 	
 	this.getUserType = function(){
 		var defer = $q.defer();
@@ -218,23 +218,23 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.getAllRequestInfoSeen = function(){
+	/*this.getAllRequestInfoSeen = function(){
 		var defer = $q.defer();
 		$http.get('/getAllRequestInfoSeen').success(function(data) {
 			defer.resolve(data);
 		});
 		
 		return defer.promise;
-	};
+	};*/
 	
-	this.getAllContactUsSeen = function(){
+	/*this.getAllContactUsSeen = function(){
 		var defer = $q.defer();
 		$http.get('/getAllContactUsSeen').success(function(data) {
 			defer.resolve(data);
 		});
 		
 		return defer.promise;
-	};
+	};*/
 	
 	this.getAllLostAndCompLeads = function(){
 		var defer = $q.defer();
@@ -935,21 +935,21 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.getAllSalesPersonScheduleTestAssigned = function(id){
+	/*this.getAllSalesPersonScheduleTestAssigned = function(id){
 		var defer = $q.defer();
 		$http.get('/getAllSalesPersonScheduleTestAssigned/'+id).success(function(data) {
 			defer.resolve(data);
 		});
 		return defer.promise;
-	};
+	};*/
 	
-	this.getAllSalesPersonRequestInfoSeen = function(id){
+	/*this.getAllSalesPersonRequestInfoSeen = function(id){
 		var defer = $q.defer();
 		$http.get('/getAllSalesPersonRequestInfoSeen/'+id).success(function(data) {
 			defer.resolve(data);
 		});
 		return defer.promise;
-	};
+	};*/
 	
 	this.getAllSalesPersonOtherLead = function(id){
 		var defer = $q.defer();
@@ -967,13 +967,13 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.getAllSalesPersonTradeInSeen = function(id){
+	/*this.getAllSalesPersonTradeInSeen = function(id){
 		var defer = $q.defer();
 		$http.get('/getAllSalesPersonTradeInSeen/'+id).success(function(data) {
 			defer.resolve(data);
 		});
 		return defer.promise;
-	};
+	};*/
 	
 	this.getAllCanceledLeads = function(id){
 		var defer = $q.defer();

@@ -189,16 +189,16 @@ public class CustomersRequestController extends Controller {
 		    			
 		    		RequestInfoVM vm = new RequestInfoVM();
 		    		vm.id = info.id;
-		    		Inventory productInfo = Inventory.getByProductId(info.productId);
+		    		AddProduct productInfo = AddProduct.findById(Long.parseLong(info.productId));
 		    		vm.productId = info.productId;
 		    		if(productInfo != null) {
 		    			vm.title = productInfo.title;
 		    			vm.price = (int) productInfo.price;
 		    			vm.description = productInfo.description;
 		    			vm.cost = String.valueOf(productInfo.cost);
-		    			AddCollection aCollection = AddCollection.findById(productInfo.collection.id);
-		    			vm.collectionName = aCollection.title;
-		    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
+		    			//AddCollection aCollection = AddCollection.findById(productInfo.collection.id);
+		    			//vm.collectionName = aCollection.title;
+		    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
 		        		if(pImage!=null) {
 		        			vm.imgId = pImage.getId().toString();
 		        		}
@@ -210,7 +210,7 @@ public class CustomersRequestController extends Controller {
 		    		vm.phone = info.phone;
 		    		vm.email = info.email;
 		    		vm.custZipCode = info.custZipCode;
-		    		vm.enthicity = info.enthicity;
+		    		//vm.enthicity = info.enthicity;
 		    		vm.isContactusType = info.isContactusType;
 		    		
 		    		vm.requestDate = df.format(info.requestDate);
@@ -371,56 +371,7 @@ public class CustomersRequestController extends Controller {
 		    			infoObj.setAssignedTo(null);
 		    		}
 		    		infoObj.update();
-		    		/*List<RequestMoreInfo> listData = new ArrayList<>();
-		    		if(user.role == null) {
-		    			listData = RequestMoreInfo.findAllData();
-		    		} else {
-		    			if(user.role.equals("General Manager")) {
-		    				listData = RequestMoreInfo.findAllData();
-		    			} else {
-		    				listData = RequestMoreInfo.findAllByDate();
-		    			}
-		    		}
-		        	List<RequestInfoVM> infoVMList = new ArrayList<>();
-		        	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-		        	for(RequestMoreInfo info: listData) {
-		        		RequestInfoVM vm = new RequestInfoVM();
-		        		vm.id = info.id;
-		        		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-		        		vm.vin = info.vin;
-		        		if(vehicle != null) {
-		        			vm.model = vehicle.model;
-		        			vm.make = vehicle.make;
-		        			vm.stock = vehicle.stock;
-		        		}
-		        		vm.name = info.name;
-		        		vm.phone = info.phone;
-		        		vm.email = info.email;
-		        		vm.requestDate = df.format(info.requestDate);
-		        		
-		        		if(info.assignedTo == null) {
-			    			vm.status = "Unclaimed";
-			    		} else {
-				    		if(info.assignedTo != null && info.status == null) {
-				    			vm.status = "In Progress";
-				    		} else {
-				    			vm.status = info.status;
-				    		}
-			    		}
-			    		if(info.assignedTo != null) {
-			    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
-			    		}
-		        		
-		        		if(info.isRead == 0) {
-		        			vm.isRead = false;
-		        		}
-		        		
-		        		if(info.isRead == 1) {
-		        			vm.isRead = true;
-		        		}
-		        		
-		        		infoVMList.add(vm);
-		        	}*/
+		    	
 		        	
 		        	return ok();
 	    	}	
@@ -1041,7 +992,7 @@ public class CustomersRequestController extends Controller {
 		    			vm.isRead = true;
 		    		}
 		    		
-		    		findCustomeData(info.id,vm,1L);
+		    		findCustomeData(info.id,vm,Long.parseLong(info.isContactusType));
 		    		
 		    		infoVMList.add(vm);
 		    	}

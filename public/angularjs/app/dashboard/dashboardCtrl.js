@@ -576,20 +576,23 @@ angular.module('newApp')
 					$scope.flagForBestSale=data.flagForBestSaleIcon;
 					apiserviceDashborad.getPlanTarget(locOrPer).then(function(data){
 					
-						data.sendData[0].plan = data1.data[0].price;
-						$scope.stackchart = data.sendData;
-						if($scope.stackchart[0].data[0] == 0){
-							$scope.stackchart[0].plan = 0;
-						}
-						if(data1.data[0].price != null){
-							$scope.stackchart[0].price = data1.data[0].price;
-						}else{
-							$scope.stackchart[0].price = 0;
-						}
-						$scope.callChart($scope.stackchart);
-						if(data1.data[0].price == null){
-							var chart = $('#container').highcharts();
-					        chart.yAxis[0].removePlotLine('plotline-1');
+						if(data.sendData[0] != undefined){
+							data.sendData[0].plan = data1.data[0].price;
+						
+							$scope.stackchart = data.sendData;
+							if($scope.stackchart[0].data[0] == 0){
+								$scope.stackchart[0].plan = 0;
+							}
+							if(data1.data[0].price != null){
+								$scope.stackchart[0].price = data1.data[0].price;
+							}else{
+								$scope.stackchart[0].price = 0;
+							}
+							$scope.callChart($scope.stackchart);
+							if(data1.data[0].price == null){
+								var chart = $('#container').highcharts();
+						        chart.yAxis[0].removePlotLine('plotline-1');
+							}
 						}
 						
 				});
@@ -608,20 +611,23 @@ angular.module('newApp')
 				$scope.flagForBestSale=data.flagForBestSaleIcon;
 				apiserviceDashborad.getPlanTarget(locOrPer).then(function(data1){
 				
-					data.sendData[0].plan = data1.data[0].price;
-					$scope.stackchart = data.sendData;
-					if($scope.stackchart[0].data[0] == 0){
-						$scope.stackchart[0].plan = 0;
-					}
-					if(data1.data[0].price != null){
-						$scope.stackchart[0].price = data1.data[0].price;
-					}else{
-						$scope.stackchart[0].price = 0;
-					}
-					$scope.callChart($scope.stackchart);
-					if(data1.data[0].price == null){
-						var chart = $('#container').highcharts();
-				        chart.yAxis[0].removePlotLine('plotline-1');
+					if(data.sendData[0] != undefined){
+							data.sendData[0].plan = data1.data[0].price;
+						
+						$scope.stackchart = data.sendData;
+						if($scope.stackchart[0].data[0] == 0){
+							$scope.stackchart[0].plan = 0;
+						}
+						if(data1.data[0].price != null){
+							$scope.stackchart[0].price = data1.data[0].price;
+						}else{
+							$scope.stackchart[0].price = 0;
+						}
+						$scope.callChart($scope.stackchart);
+						if(data1.data[0].price == null){
+							var chart = $('#container').highcharts();
+					        chart.yAxis[0].removePlotLine('plotline-1');
+						}
 					}
 					
 			});
@@ -1225,7 +1231,7 @@ angular.module('newApp')
  	 		 $scope.gridOptions13.enableHorizontalScrollbar = 2;
  	 		 $scope.gridOptions13.enableVerticalScrollbar = 2;
  	 		 $scope.gridOptions13.columnDefs = [
- 	 		                                 { name: 'title', displayName: 'Title', width:'14%',cellEditableCondition: false,
+ 	 		                                 { name: 'title', displayName: 'Section', width:'14%',cellEditableCondition: false,
  	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.title}}</a> ',
  	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
  	 		                                       if (row.entity.noteFlag != 1) {
@@ -1233,22 +1239,7 @@ angular.module('newApp')
  	 		                                       }
  	 		                                	} ,
  	 		                                 },
- 	 		                                 { name: 'collectionName', displayName: 'Collection Name', width:'8%',cellEditableCondition: false,
- 	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.collectionName}}</a> ',
- 	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
- 	  		                                       if (row.entity.noteFlag != 1) {
- 	  		                                         return 'red';
- 	  		                                     }
- 	 		                                	} ,
- 	 		                                 },
- 	 		                                 { name: 'price', displayName: 'Price', width:'10%',cellEditableCondition: false,
- 	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.price}}</a> ',
- 	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
- 	  		                                       if (row.entity.noteFlag != 1) {
- 	  		                                         return 'red';
- 	  		                                     }
- 	 		                                	} ,
- 	 		                                 },
+ 	 		                                
  	 		                               { name: 'name', displayName: 'Name', width:'10%',cellEditableCondition: false,
   	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
   	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -1294,7 +1285,7 @@ angular.module('newApp')
  		   		
  	  		};
 
-      
+      /*
       $scope.gridOptions5 = {
     	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
     	 		    paginationPageSize: 150,
@@ -1321,14 +1312,7 @@ angular.module('newApp')
 												        }
 												  	} ,
 												   },
-												   /*{ name: 'price', displayName: 'Price', width:'10%',cellEditableCondition: false,
-												  	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.price}}</a> ',
-												  	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-												          if (row.entity.noteFlag != 1) {
-												            return 'red';
-												        }
-												  	} ,
-												   },*/
+												   
     	 		                                 { name: 'name', displayName: 'Name', width:'11%',cellEditableCondition: false,
     	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -1361,17 +1345,10 @@ angular.module('newApp')
 	 		   		                                     }
 	 		  		                                	} ,
 	 		 		                                 },
-    	 		                                /*{ name: 'btnSold', displayName: '',enableFiltering: false, width:'15%',cellEditableCondition: false,
-			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType != \'\'" style="margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,1)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button><button type="button" ng-click="grid.appScope.createContact(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">ADD TO CLIENTELE</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button>',
-			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-			   		                                       if (row.entity.noteFlag != 1) {
-			   		                                         return 'red';
-			   		                                     }
-			  		                                	} ,
-			 		                                 },*/
-    	     		                                 ];
+    	 		                               
+    	     		                                 ];*/
     	 		 
-    	 		$scope.gridOptions8 = {
+    	 		/*$scope.gridOptions8 = {
     	    	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
     	    	 		    paginationPageSize: 150,
     	    	 		    enableFiltering: true,
@@ -1445,9 +1422,9 @@ angular.module('newApp')
     				   		                                     }
     				  		                                	} ,
     				 		                                 },
-    	    	     		                                 ];
+    	    	     		                                 ];*/
     	 		
-    			 $scope.gridOptions2 = {
+    			/* $scope.gridOptions2 = {
      			 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
      			 		    paginationPageSize: 150,
      			 		    enableFiltering: true,
@@ -1524,10 +1501,10 @@ angular.module('newApp')
       				 		                                	} ,
       			 		                                 },
      			 		                                
-     			     		                                 ];
+     			     		                                 ];*/
     	 		 
      			 		 
-     			 		$scope.gridOptions3 = {
+     			 	/*	$scope.gridOptions3 = {
      			 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
      			 		 		    paginationPageSize: 150,
      			 		 		    enableFiltering: true,
@@ -1619,7 +1596,7 @@ angular.module('newApp')
      	       			   		                                     }
      	       			  		                                	} ,
      	       			 		                                 },
-     			 		     		                                 ];
+     			 		     		                                 ];*/
      			 		  
      			 		 		$scope.gridOptions4 = {
      	     			 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -2039,16 +2016,16 @@ angular.module('newApp')
      			 		 		$('#cnfDate').val(new Date());
      			 		 		$('#timepicker1').timepicker(); 
      			 		 		
-     		  apiserviceDashborad.getAllRequestInfoSeen().then(function(data){ 		 		
+     		  /*apiserviceDashborad.getAllRequestInfoSeen().then(function(data){ 		 		
     		 
     				$scope.gridOptions5.data = data;
     				$scope.AllRequestInfoSeenList = data;
-    			});
-     		 apiserviceDashborad.getAllContactUsSeen().then(function(data){
+    			});*/
+     		/* apiserviceDashborad.getAllContactUsSeen().then(function(data){
     		  
 				$scope.gridOptions8.data = data;
 				$scope.AllContactUsInfoSeenList = data;
-			});
+			});*/
     		  
 	    		  $scope.gridOptions7.onRegisterApi = function(gridApi){
 	 				 $scope.gridApi = gridApi;
@@ -2069,7 +2046,7 @@ angular.module('newApp')
 			   		
 		  		};*/
     		  
-    		  $scope.gridOptions5.onRegisterApi = function(gridApi){
+    		 /* $scope.gridOptions5.onRegisterApi = function(gridApi){
     				 $scope.gridApi = gridApi;
     				 
     		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
@@ -2077,7 +2054,7 @@ angular.module('newApp')
     			          $scope.gridOptions5.data = $filter('filter')($scope.AllRequestInfoSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'requestDate':grid.columns[6].filters[0].term},undefined);
     			        });
     		   		
-    	  		};
+    	  		};*/
     	  		apiserviceDashborad.getAllLostAndCompLeads().then(function(data){
     	  		
  				$scope.gridOptions6.data = data;
@@ -4268,6 +4245,7 @@ angular.module('newApp')
 	    		$scope.customList = [];
 	    		$scope.initialiase();
 	    		$scope.isInValid = false;
+	    		$scope.isInValid2 = false;
 	    		$scope.isStockError = false;
 	    		$scope.focusIn = function(itm){
 					$scope.len = itm;
@@ -4299,16 +4277,24 @@ angular.module('newApp')
 	    			
 	    			apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
 	    			
+	    				$scope.lead.leadType = "";
+	    				$scope.lead.manufacturers = "";
 	    				$scope.josnData = angular.fromJson(response.jsonData);
 	    				console.log($scope.josnData);
 	    					$.each($scope.customData, function(attr, value) {
 	    						angular.forEach($scope.josnData, function(value1, key) {
 	    							console.log(attr);
 	    							console.log(value1.key);
+	    							
 	    							if(value1.key == attr){
-	    								if(value1.key == "lead_type selector"){
+	    							
+	    								if(value1.component == "leadTypeSelector"){
 	    									$scope.lead.leadType = value;
 	    								}
+	    								if(value1.component == "productType"){
+	    									$scope.lead.manufacturers = value;
+	    								}
+	    								
 		    							$scope.customList.push({
 				    		   	  			key:attr,
 				    		   	  			value:value,
@@ -4325,6 +4311,7 @@ angular.module('newApp')
 	    					console.log($("#bestTimes").val());
 	    	    			console.log($scope.customData);
 	    	    			console.log($scope.customList);
+	    	    			
 	    	    			 
 	    	    			
 	    	    			$scope.lead.customData = $scope.customList;
@@ -4336,10 +4323,13 @@ angular.module('newApp')
 	    	    			}
 	    	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='') {
 	    	    				$scope.isInValid = true;
-	    	    			} else {
+	    	    			}else if($scope.lead.leadType == "" || $scope.lead.manufacturers == ""){ 
+	    	    				$scope.isInValid2 = true;
+	    	    			}else {
+	    	    				$scope.isInValid2 = false;
 	    	    				$scope.isInValid = false;
-	    	    			
-	    		    			if($scope.lead.leadType=='1') {
+	    	    				$scope.makeLead();
+	    		    			/*if($scope.lead.leadType=='1') {
 	    		    				
 	    	    					$scope.makeLead();
 	    		    			} else if($scope.lead.leadType=='2') {
@@ -4358,11 +4348,11 @@ angular.module('newApp')
 	    		    				$("#tradeInApp").modal();
 	    		    			}else{
 	    		    				$scope.makeLead();
-	    		    			}
+	    		    			}*/
 	    	    			}
-	    	    			if($scope.lead.leadType != '3'){
+	    	    			/*if($scope.lead.leadType != '3'){
 	    	    				//window.location.reload();
-	    	    			}
+	    	    			}*/
 	      	  		});
 	    			
 	    			
@@ -4397,7 +4387,7 @@ angular.module('newApp')
 	    			   var endD = $('#cnfendDateValue').val();
 	    			
 	    			$("#createLeadPopup").modal('hide');
-	    			$scope.lead.stockWiseData = $scope.stockWiseData;
+	    			//$scope.lead.stockWiseData = $scope.stockWiseData;
 	    			
 	    			
 	    			var files = [];
@@ -4674,7 +4664,7 @@ angular.module('newApp')
 			    	                	$('html, body').animate({scrollTop:1660}, 'slow'); // changed from 480 to 1660 for show myleads grid
 			    	                	
 			    	                	if($scope.leadNotification.premiumFlag == 0 && $scope.leadNotification.premiumFlag != null){
-			    	                		if($scope.leadNotification.leadType == 'Schedule Test'){
+			    	                		/*if($scope.leadNotification.leadType == 'Schedule Test'){
 			    	                			$scope.testDrive();
 					    	                	$('#test-drive-tabSched').click();
 				    	                		for(var i=0;i<$scope.gridOptions2.data.length;i++){
@@ -4683,8 +4673,8 @@ angular.module('newApp')
 				    	                				break;
 				    	                			}
 				    	                		}
-			    	                		}else 
-			    	                		if($scope.leadNotification.leadType == 'Request More Info'){
+			    	                		}else */
+			    	                		/*if($scope.leadNotification.leadType == 'Request More Info'){
 			    	                			$scope.requestMore()
 			    	                			$('#tab').click();
 			    	                			for(var i=0;i<$scope.gridOptions5.data.length;i++){
@@ -4693,7 +4683,7 @@ angular.module('newApp')
 				    	                				break;
 				    	                			}
 				    	                		}
-			    	                		}else{
+			    	                		}else*//*{
 			    	                			$scope.tradeIn();
 			    	                			$('#profile-tab').click();
 			    	                			for(var i=0;i<$scope.gridOptions3.data.length;i++){
@@ -4702,7 +4692,7 @@ angular.module('newApp')
 				    	                				break;
 				    	                			}
 				    	                		}
-			    	                		}
+			    	                		}*/
 			    	                	}
 			    	                }
 			    	            }
@@ -5042,7 +5032,7 @@ angular.module('newApp')
 		};
 	
 		
-		$scope.getScheduleData = function(id){
+		/*$scope.getScheduleData = function(id){
 			var deferred = $q.defer();
 			apiserviceDashborad.getAllSalesPersonScheduleTestAssigned(id).then(function(data){
 			
@@ -5121,10 +5111,10 @@ angular.module('newApp')
 				}
 		    });
 			return deferred.promise;
-		};
+		};*/
 		
 		$scope.gridMapObect = [];
-		$scope.getRequestData = function(id){
+	/*	$scope.getRequestData = function(id){
 			var deferred = $q.defer();
 			apiserviceDashborad.getAllSalesPersonRequestInfoSeen(id).then(function(data){
 			
@@ -5195,7 +5185,7 @@ angular.module('newApp')
 			}
 		   });
 			return deferred.promise;
-		};
+		};*/
 		
 		$scope.getOtherLeadInfo = function(id){
 			var deferred = $q.defer();
@@ -5221,7 +5211,7 @@ angular.module('newApp')
 			return deferred.promise;
 		};
 		
-		$scope.getContactUsData = function(id){
+		/*$scope.getContactUsData = function(id){
 			var deferred = $q.defer();
 			apiserviceDashborad.getAllSalesPersonContactUsSeen(id).then(function(data){
 			
@@ -5242,10 +5232,10 @@ angular.module('newApp')
 			}
 		   });
 			return deferred.promise;
-		};
+		};*/
 		
 		
-		$scope.getTradeInData = function(id){
+		/*$scope.getTradeInData = function(id){
 			
 			var deferred = $q.defer();
 			apiserviceDashborad.getAllSalesPersonTradeInSeen(id).then(function(data){
@@ -5318,37 +5308,37 @@ angular.module('newApp')
 				}
 			   });
 				return deferred.promise;
-		};
+		};*/
 		
 		$scope.addData = function(){
 			var deferred = $q.defer();
 			var countUnReadLead = 0;
 			$scope.getAllListLeadDate = [];
 			if($scope.userType == "Manager" || $scope.userType == "Sales Person"){
-  				angular.forEach($scope.gridOptions2.data,function(value,key){
+  				/*angular.forEach($scope.gridOptions2.data,function(value,key){
   		        		$scope.getAllListLeadDate.push(value);
   		        		if(value.noteFlag == 0 && value.confirmDate == null){
   		        			countUnReadLead++;
   		        		}
-  		        	});
-  				 angular.forEach($scope.gridOptions8.data,function(value,key){
+  		        	});*/
+  				/* angular.forEach($scope.gridOptions8.data,function(value,key){
 		        		$scope.getAllListLeadDate.push(value);
 		        		if(value.noteFlag == 0 && value.confirmDate == null){
 		        			countUnReadLead++;
 		        		}
-		        	}); 
-  				 angular.forEach($scope.gridOptions5.data,function(value,key){
+		        	}); */
+  				/* angular.forEach($scope.gridOptions5.data,function(value,key){
   		        		$scope.getAllListLeadDate.push(value);
   		        		if(value.noteFlag == 0 && value.confirmDate == null){
   		        			countUnReadLead++;
   		        		}
-  		        	});
-  				 angular.forEach($scope.gridOptions3.data,function(value,key){
+  		        	});*/
+  				 /*angular.forEach($scope.gridOptions3.data,function(value,key){
   		        		$scope.getAllListLeadDate.push(value);
   		        		if(value.noteFlag == 0 && value.confirmDate == null){
   		        			countUnReadLead++;
   		        		}
-  		        	});
+  		        	});*/
   				 
   				 $scope.lengthOfAllLead = countUnReadLead;
   				 deferred.resolve("success");
@@ -5368,12 +5358,12 @@ angular.module('newApp')
 		       		id = 0;
 		       	}
 		       	//debugger;
-		       	$scope.getScheduleData(id).then(
-		       			function(success){
-		       				$scope.getRequestData(id).then(
-		    		       			function(success){
-		    		       				$scope.getTradeInData(id).then(
-		    		    		       			function(success){
+		       //	$scope.getScheduleData(id).then(
+		       		//	function(success){
+		       				//$scope.getRequestData(id).then(
+		    		       		//	function(success){
+		    		       			//	$scope.getTradeInData(id).then(
+		    		    		       	//		function(success){
 		    		       				$scope.getOtherLeadInfo(id).then(
 		    		    		       			function(success){
 		    		    		       				$scope.getContactUsData(id).then(
@@ -5382,14 +5372,9 @@ angular.module('newApp')
 		    		    		    		       			function(success){
 		    		    		    		       				$scope.gridOptions7.data = $scope.getAllListLeadDate;
 		    		    		    		       				
-		    		    				           	        	//$scope.otherLeadId("5");
 		    		    				           	        	$scope.getAllCanceledLeads();
-		    		    				           	        	//added by vinayak 23-Apr-2016
-		    		    				           	        	
 		    		    				           	        	
 		    		    				        	        	console.log($scope.otherLead);
-		    		    				        	        	//$scope.gridOptions13.data = $scope.otherLead; 
-		    		    				        	        	//console.log($scope.gridOptions13.data);
 		    		    				        	        	apiserviceDashborad.getAllCanceledLeads(id).then(function(data){
 		    		    				           	        	
 		    		    				           					$scope.gridOptions4.data = data;
@@ -5401,22 +5386,7 @@ angular.module('newApp')
 		    		    						       			 		$scope.AllTradeInSeenList = data;
 		    		    						       			 });
 		    		    						       			 
-		    		    						       			 /*$http.get('/getTestDirConfirById/'+id)
-		    		    						       				.success(function(data) {
-		    		    						       					$scope.gridOptions9.data = data;
-		    		    						       					angular.forEach($scope.gridOptions9.data,function(value,key){
-		    		    						       						 value.check = false;
-		    		    						       					 });
-		    		    						       					$scope.setWether($scope.gridOptions9.data);
-		    		    						       					$scope.allTestDirConfir = data;
-		    		    						       				
-		    		    						       				});
-		    		    						       			 
-		    		    						       			 $http.get('/getAllCompletedLeadsbyId/'+id)
-		    		    						       				.success(function(data) {
-		    		    						       					$scope.gridOptions10.data = data;
-		    		    						       					$scope.completedL = data;
-		    		    						       				});*/
+		    		    						       			
 		    		    		    		       			},function(error){
 		    		    		    		       				
 		    		    		    		       			}
@@ -5428,20 +5398,20 @@ angular.module('newApp')
 		    		    		       			},function(error){
 		    		    		       				
 		    		    		       			}
-		    		    		       	);
+		    		    		      // 	);
 		    		       				
-		    		       			},function(error){
+		    		       			//},function(error){
 		    		       				
-		    		       			}
-		    		       	);
-		    		       		},function(error){
+		    		       			//}
+		    		       //	);
+		    		       	//	},function(error){
 		    		       				
-		    		       			}
-		    		       	);
+		    		       		//	}
+		    		       	//);
 		       				
-		       			},function(error){
+		       			//},function(error){
 		       				
-		       			}
+		       			//}
 		       	);
 		       	
 	}
@@ -8800,7 +8770,14 @@ angular.module('newApp')
 		              	} ,
 		               });
 				});
-				
+				/*{ name: 'requestDate', displayName: 'Date Added', width:'5%',cellEditableCondition: false,
+                  	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.requestDate}}</a> ',
+                          	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                                   if (row.entity.noteFlag != 1) {
+                                     return 'red';
+                                 }
+                           	} ,
+                           },*/
 				$scope.gridOptions13.columnDefs.push({ name: 'btnSold', displayName: '',enableFiltering: false, width:'40%',cellEditableCondition: false,
                  	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType != \'\'" style="margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,1)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button><button type="button" ng-click="grid.appScope.createContact(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">ADD TO CLIENTELE</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button>',
                 	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -8823,505 +8800,5 @@ angular.module('newApp')
 
 
 
-
-
-
-/*
-angular.module('newApp')
-.controller('viewInventoryCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
-	$scope.tempDate = new Date().getTime();
-	$scope.type = "All";
-	$scope.vType;
-	$scope.doPublic = 0;
-     $scope.gridOptions = {
-    		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
-    		    paginationPageSize: 150,
-    		    enableFiltering: true,
-    		    enableCellEditOnFocus: true,
-    		    useExternalFiltering: true,
-    		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
-    		 };
-    		 $scope.gridOptions.enableHorizontalScrollbar = 0;
-    		 $scope.gridOptions.enableVerticalScrollbar = 2;
-    		 $scope.gridOptions.columnDefs = [
-    		                                 { name: 'title', displayName: 'Title', width:'15%',cellEditableCondition: true,
-    		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
-    		                                 },
-    		                                 { name: 'stock', displayName: 'Stock', width:'6%',
-    		                                 },
-    		                                 { name: 'bodyStyle', displayName: 'Body Style',enableFiltering: false, width:'9%',cellEditableCondition: false,
-    		                                	 cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',
-    		                                 },
-    		                                 { name: 'mileage', displayName: 'Mileage',enableFiltering: false, width:'8%',cellEditableCondition: true,
-    		                                 },
-    		                                 { name: 'city_mileage', displayName: 'City MPG',enableFiltering: false, width:'8%',cellEditableCondition: true,
-    		                                 },
-    		                                 { name: 'highway_mileage', displayName: 'HWY MPG',enableFiltering: false, width:'8%',cellEditableCondition: true,
-    		                                 },
-    		                                 { name: 'price', displayName: 'Price',enableFiltering: false, width:'8%',
-    		                                 },
-    		                                 { name: 'vehicleCnt', displayName: 'Photos',enableFiltering: false, width:'4%',cellEditableCondition: false,
-    		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.getImages(row)" style="line-height: 200%;" title="" data-content="{{row.entity.vehicleCnt}}">{{row.entity.vehicleCnt}}</a></div>',
-    		                                 },
-    		                                 { name: 'testDrive', displayName:'Next Test Drive' ,enableFiltering: false, width:'10%',cellEditableCondition: false,
-    		                                 },
-    		                                 { name: 'pageViewCount', displayName: 'Views',enableFiltering: false, width:'7%',cellEditableCondition: false,
-    		                                	 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
-    		                                 },
-    		                                 { name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-        		                                 cellTemplate:'<input type="checkbox" name="vehicle" ng-click="grid.appScope.hideVehicle(row)" autocomplete="off">', 
-    		                                 
-    		                                 },
-    		                                 { name: 'edit', displayName: '', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Sold"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
-    		                                 
-    		                                 },
-        		                                
-        		                                 ];  
-     
-    		 $scope.gridOptions.onRegisterApi = function(gridApi){
-    			 $scope.gridApi = gridApi;
-    			 gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-    			 $scope.rowData = rowEntity;
-    			 $scope.$apply();
-    				 var str = $scope.rowData.price.split(" ");
-    				 $scope.rowData.price = str[1];
-    			 $http.post('/updateVehicle',$scope.rowData)
-    			 .success(function(data) {
-    				 	$scope.rowData.price = "$ "+$scope.rowData.price;
-    				});
-    			 });
-    			 
-    			 $scope.gridApi.core.on.filterChanged( $scope, function() {
-    		          var grid = this.grid;
-    		          $scope.gridOptions.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term,'stock':grid.columns[1].filters[0].term},undefined);
-    		        });
-    			 
-    			 };
-    			 
-    			 
-    			 $scope.gridOptions1 = {
-    		    		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
-    		    		    paginationPageSize: 150,
-    		    		    enableFiltering: true,
-    		    		    enableCellEditOnFocus: true,
-    		    		    useExternalFiltering: true,
-    		    		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
-    		    		 };
-    		    		 $scope.gridOptions1.enableHorizontalScrollbar = 0;
-    		    		 $scope.gridOptions1.enableVerticalScrollbar = 2;
-    		    		 $scope.gridOptions1.columnDefs = [
-    		    		                                 { name: 'title', displayName: 'Title', width:'15%',cellEditableCondition: true,
-    		    		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
-    		    		                                 },
-    		    		                                 { name: 'stock', displayName: 'Stock', width:'6%',
-    		    		                                 },
-    		    		                                 { name: 'bodyStyle', displayName: 'Body Style',enableFiltering: false, width:'9%',cellEditableCondition: false,
-    		    		                                	 cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',
-    		    		                                 },
-    		    		                                 { name: 'mileage', displayName: 'Mileage',enableFiltering: false, width:'8%',cellEditableCondition: true,
-    		    		                                 },
-    		    		                                 { name: 'city_mileage', displayName: 'City MPG',enableFiltering: false, width:'8%',cellEditableCondition: true,
-    		    		                                 },
-    		    		                                 { name: 'highway_mileage', displayName: 'HWY MPG',enableFiltering: false, width:'8%',cellEditableCondition: true,
-    		    		                                 },
-    		    		                                 { name: 'price', displayName: 'Price',enableFiltering: false, width:'8%',
-    		    		                                 },
-    		    		                                 { name: 'vehicleCnt', displayName: 'Photos',enableFiltering: false, width:'7%',cellEditableCondition: false,
-    		    		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.getImages(row)" style="line-height: 200%;" title="" data-content="{{row.entity.vehicleCnt}}">{{row.entity.vehicleCnt}}</a></div>',
-    		    		                                 },
-    		    		                                 { name: 'testDrive', displayName:'Next Test Drive' ,enableFiltering: false, width:'10%',cellEditableCondition: false,
-    		    		                                 },
-    		    		                                 { name: 'pageViewCount', displayName: 'Views',enableFiltering: false, width:'9%',cellEditableCondition: false,
-    		    		                                	 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
-    		    		                                 },
-    		    		                                 { name: 'edit', displayName: '', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    		        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatusPublic(row)"  title="publishe"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>', 
-    		    		                                 
-    		    		                                 },
-    		        		                                
-    		        		                                 ];  
-    		     
-    		    		 $scope.gridOptions1.onRegisterApi = function(gridApi){
-    		    			 $scope.gridApi = gridApi;
-    		    			 gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-    		    			 $scope.rowData = rowEntity;
-    		    			 $scope.$apply();
-    		    				 var str = $scope.rowData.price.split(" ");
-    		    				 $scope.rowData.price = str[1];
-    		    			 $http.post('/updateVehicle',$scope.rowData)
-    		    			 .success(function(data) {
-    		    				 	$scope.rowData.price = "$ "+$scope.rowData.price;
-    		    				
-    		    				});
-    		    			 });
-    		    			 
-    		    			 $scope.gridApi.core.on.filterChanged( $scope, function() {
-    		    		          var grid = this.grid;
-    		    		          $scope.gridOptions1.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term,'stock':grid.columns[1].filters[0].term},undefined);
-    		    		        });
-    		    			 
-    		    			 };	 
-    			 
-    		    			 $scope.gridOptions2 = {
-    		    		    		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
-    		    		    		    paginationPageSize: 150,
-    		    		    		    enableFiltering: true,
-    		    		    		    enableCellEditOnFocus: true,
-    		    		    		    useExternalFiltering: true,
-    		    		    		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
-    		    		    		 };
-    		    		    		 $scope.gridOptions2.enableHorizontalScrollbar = 2;
-    		    		    		 $scope.gridOptions2.enableVerticalScrollbar = 2;
-    		    		    		 $scope.gridOptions2.columnDefs = [
-    		    		    		                                 { name: 'title', displayName: 'Title', width:'15%',cellEditableCondition: true,
-    		    		    		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
-    		    		    		                                 },
-    		    		    		                                 { name: 'stock', displayName: 'Stock', width:'6%',
-    		    		    		                                 },
-    		    		    		                                 { name: 'bodyStyle', displayName: 'Body Style',enableFiltering: false, width:'9%',cellEditableCondition: false,
-    		    		    		                                	 cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',
-    		    		    		                                 },
-    		    		    		                                 { name: 'mileage', displayName: 'Mileage',enableFiltering: false, width:'8%',cellEditableCondition: true,
-    		    		    		                                 },
-    		    		    		                                 { name: 'city_mileage', displayName: 'City MPG',enableFiltering: false, width:'8%',cellEditableCondition: true,
-    		    		    		                                 },
-    		    		    		                                 { name: 'highway_mileage', displayName: 'HWY MPG',enableFiltering: false, width:'8%',cellEditableCondition: true,
-    		    		    		                                 },
-    		    		    		                                 { name: 'price', displayName: 'Price',enableFiltering: false, width:'8%',
-    		    		    		                                 },
-    		    		    		                                 { name: 'vehicleCnt', displayName: 'Photos',enableFiltering: false, width:'7%',cellEditableCondition: false,
-    		    		    		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.getImages(row)" style="line-height: 200%;" title="" data-content="{{row.entity.vehicleCnt}}">{{row.entity.vehicleCnt}}</a></div>',
-    		    		    		                                 },
-    		    		    		                                 { name: 'testDrive', displayName:'Next Test Drive' ,enableFiltering: false, width:'10%',cellEditableCondition: false,
-    		    		    		                                 },
-    		    		    		                                 { name: 'pageViewCount', displayName: 'History Log',enableFiltering: false, width:'9%',cellEditableCondition: false,
-    		    		    		                                	 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
-    		    		    		                                 },
-    		    		    		                                 { name: 'edit', displayName: '', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    		    		        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
-    		    		    		                                 
-    		    		    		                                 },
-    		    		        		                                
-    		    		        		                                 ];  
-    		    		     
-    		    		    		 $scope.gridOptions2.onRegisterApi = function(gridApi){
-    		    		    			 $scope.gridApi = gridApi;
-    		    		    			 gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-    		    		    			 $scope.rowData = rowEntity;
-    		    		    			 $scope.$apply();
-    		    		    				 var str = $scope.rowData.price.split(" ");
-    		    		    				 $scope.rowData.price = str[1];
-    		    		    			 $http.post('/updateVehicle',$scope.rowData)
-    		    		    			 .success(function(data) {
-    		    		    				 	$scope.rowData.price = "$ "+$scope.rowData.price;
-    		    		    				});
-    		    		    			 });
-    		    		    			 
-    		    		    			 $scope.gridApi.core.on.filterChanged( $scope, function() {
-    		    		    		          var grid = this.grid;
-    		    		    		          $scope.gridOptions2.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term,'stock':grid.columns[1].filters[0].term},undefined);
-    		    		    		        });
-    		    		    			 
-    		    		    			 };
-
-    			 
-    			 $scope.updateVehicleBody = function(row){
-    				 $scope.rowData = row.entity;
-    				 if($scope.rowData.price !=null && $scope.rowData.price != undefined){
-    					 var str = $scope.rowData.price.split(" ");
-        				 $scope.rowData.price = str[1];
-    				 }
-    				 $http.post('/updateVehicle',$scope.rowData)
-        			 .success(function(data) {
-        					$scope.rowData.price = "$ "+$scope.rowData.price;
-        				});
-    			 };
-    			 
-    			 
-    			 $scope.historyVehicle = function(row){
-    				 $http.get('/getVehicleHistory/'+row.entity.vin)
-    					.success(function(data) {
-    						$scope.vehicleHistory = data;
-    						$('#vehicleHistory').click();
-    					});
-    			 };
-    			 
-    			 $scope.hideVehicle = function(row){
-    				 $http.get('/getGoTodraft/'+row.entity.id)
- 						.success(function(data) {
- 							$scope.hideText = "Vehicle has been hidden from the website and moved to Drafts list";
- 							$scope.hideTitle = "Vehicle moved to drafts";
- 							$scope.newlyArrivedTab();
- 							$('#hideVehicle').click();
- 							$.pnotify({
- 							    title: "Success",
- 							    type:'success',
- 							    text: "Vehicle Added In Draft",
- 							});
- 						
- 					});
-    				 
-    			 }
-    			 
-    			 $scope.mouse = function(row) {
-    					$('#thumb_image').attr("src", "/getImage/"+row.entity.imgId+"/thumbnail?date="+$scope.tempDate );
-    					$('#thumb_image').show();
-    					$('#imagePopup').modal();
-    				};
-    				$scope.mouseout = function(row) {
-    					$('#imgClose').click();
-    				};
-    				
-    				$scope.vehicleData = function(sts){
-    					if($scope.vType == 'new'){
-    						 $scope.doPublic = 0;
-    						 $http.get('/getAllVehiclesByType/'+sts)
-		    			 		.success(function(data) {
-		    			 			for(var i=0;i<data.length;i++) {
-		    			 				data[i].price = "$ "+data[i].price;
-		    			 			}
-		    			 			$scope.vType = "new";
-		    			 			$scope.vehiClesList = data;
-		    			 			$scope.gridOptions.data = data;
-		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
-		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
-		    			 		});
-    					}
-    					if($scope.vType == 'sold'){
-    						 $scope.doPublic = 2;
-   						 $http.get('/getAllSoldVehiclesByType/'+sts)
-		    			 		.success(function(data) {
-		    			 			for(var i=0;i<data.length;i++) {
-		    			 				data[i].price = "$ "+data[i].price;
-		    			 			}
-		    			 			$scope.vType = "sold";
-		    			 			$scope.vehiClesList = data;
-		    			 			$scope.gridOptions2.data = data;
-		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
-		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
-		    			 		});
-   					}
-    				};
-    				$scope.getImages = function(row) {
-    					$location.path('/editVehicle/'+row.entity.id+"/"+true);
-    				};
-    				
-    				
-    		    			 $scope.newlyArrivedTab = function() {
-    		    				 
-    		    				 $scope.gridOptions.data = [];
-    		    				 $scope.doPublic = 0;
-    		    				 $http.get('/getAllVehicles')
-    		    			 		.success(function(data) {
-    		    			 			for(var i=0;i<data.length;i++) {
-    		    			 				data[i].price = "$ "+data[i].price;
-    		    			 			}
-    		    			 			
-    		    			 			$scope.vType = "new";
-    		    			 			$scope.vehiClesList = data;
-    		    			 			$scope.gridOptions.data = data;
-    		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
-    		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
-    		    			 		});
-    		    			 }	    			 
-    		    			 
-    		    			 $scope.soldTab = function() {
-    		    				 $scope.ch = false;
-    		    				 $scope.doPublic = 2;
-    		    				 $http.get('/getAllSoldVehicles')
-    		    			 		.success(function(data) {
-    		    			 			for(var i=0;i<data.length;i++) {
-    		    			 				data[i].price = "$ "+data[i].price;
-    		    			 			}
-    		    			 			
-    		    			 			$scope.vType = "sold";
-    		    			 			$scope.type = "All";
-    		    			 			$scope.vehiClesList = data;
-    		    			 			$scope.gridOptions2.data = data;
-    		    			 			$scope.gridOptions.columnDefs[8].displayName='Sold Date';
-    		    			 			$scope.gridOptions.columnDefs[9].displayName='History';
-    		    			 		});
-    		    			 }
-    		    			 $scope.draftTab = function() {
-    		    				 
-    		    				 $scope.doPublic = 1;
-    		    				 $http.get('/getAllDraftVehicles')
-    		    			 		.success(function(data) {
-    		    			 			for(var i=0;i<data.length;i++) {
-    		    			 				data[i].price = "$ "+data[i].price;
-    		    			 			}
-    		    			 			$scope.doPublic = 1;
-    		    			 			$scope.vType = "sold";
-    		    			 			$scope.type = "All";
-    		    			 			$scope.vehiClesList = data;
-    		    			 			$scope.gridOptions1.data = data;
-    		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
-    		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
-    		    			 			
-    		    			 			
-    		    			 		});
-    		    			 }
-    		    			 
-    	$scope.editVehicle = function(row) {
-    		$location.path('/editVehicle/'+row.entity.id+"/"+false);
-    	}	 
-    	
-   $scope.vehiClesList = [];
-  
-   $scope.viewVehiclesInit = function() {
-	   $scope.newlyArrivedTab();
-   }
-   
-   $scope.deleteVehicle = function(row){
-	   $('#deleteModal').click();
-	   $scope.rowDataVal = row;
-   }
-   
-   $scope.showSessionData = function(row){
-	   $location.path('/sessionsAnalytics/'+row.entity.id+"/"+row.entity.vin+"/"+row.entity.status);
-   }
-   
-   $scope.deleteVehicleRow = function() {
-	   $http.get('/deleteVehicleById/'+$scope.rowDataVal.entity.id)
-		.success(function(data) {
-			if($scope.rowDataVal.entity.status == 'Newly Arrived') {
-				 $scope.viewVehiclesInit();
-			} 
-			if($scope.rowDataVal.entity.status == 'Sold') {
-				$scope.soldTab();
-			}
-		});
-   }
-   
-   $scope.soldContact = {};
-   
-   $scope.updateVehicleStatusPublic = function(row){
-	   $http.get('/addPublicCar/'+row.entity.id).success(function(data){
-		   	$scope.hideText = "Vehicle has been published";
-		   	$scope.hideTitle = "Vehicle has been published";
-			$('#hideVehicle').click();
-			   $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Vehicle published",
-				});
-			   $scope.draftTab();
-	   });
-   }
-   $scope.updateVehicleStatus = function(row){
-	   $scope.statusVal = "";
-	   if(row.entity.status == 'Newly Arrived') {
-		   $('#btnStatusSchedule').click();
-		   $scope.soldContact.statusVal = "Sold";
-	   }
-	   if(row.entity.status == 'Sold') {
-		   
-		    $('#AddbtnInventory').modal();
-		  
-		  }
-	   $scope.addtoinventory = function() {
-		   $http.get('/addSameNewCar/'+row.entity.id).success(function(data){
-			   if(data=='success'){
-				   $scope.soldContact.statusVal = "Newly Arrived";
-				   $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Vehicle has been added to Inventory",
-					});
-			   }else{
-				   $.pnotify({
-					    title: "Error",
-					    type:'success',
-					    text: "Vehicle already in Inventory",
-					});
-			   }
-		   });
-		   
-		   
-	   }
-	   
-	   $scope.soldContact.make = row.entity.make;
-	   $scope.soldContact.mileage = row.entity.mileage;
-	   $scope.soldContact.model = row.entity.model;
-	   $scope.soldContact.year = row.entity.year;
-	   $scope.soldContact.vin = row.entity.vin;
-	   $scope.soldContact.id = row.entity.id;
-	   var str = row.entity.price.split(" ");
-	   $scope.soldContact.price = str[1];
-   }
-   
-	$scope.saveVehicalStatus = function() {
-		$http.post('/setVehicleStatus',$scope.soldContact)
-		.success(function(data) {
-			$('#vehicalStatusModal').modal('hide');
-			if($scope.soldContact.statusVal == 'Newly Arrived') {
-				 $scope.viewVehiclesInit();
-				 $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Vehicle status marked Newly Arrived",
-					});
-				 $scope.soldTab();
-			} 
-			if($scope.soldContact.statusVal == 'Sold') {
-				$scope.soldTab();
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Vehicle status marked sold",
-				});
-				
-				$scope.newlyArrivedTab();
-			}
-			
-	});
-}
-   
-   $scope.editingData = [];
-   
-   for (var i = 0; i <  $scope.vehiClesList.length; i++) {
-     $scope.editingData[$scope.vehiClesList[i].id] = false;
-     $scope.viewField = false;
-   }
-   
-
-   $scope.modify = function(tableData){
-	   $scope.viewField = true;
-       $scope.editingData[tableData.id] = true;
-   };
-
-   $scope.update = function(tableData){
-       $scope.editingData[tableData.id] = false;
-       $scope.viewField = false;
-       $http.post('/updateVehicle',tableData)
-		.success(function(data) {
-		});
-   };
-   
-   $scope.cancle = function(tableData){
-	   $scope.editingData[tableData.id] = false;
-	   $scope.viewField = false;
-   }
-   
-   $scope.exportDataAsCSV = function() {
-	   $http.get('/exportDataAsCSV')
-		.success(function(data) {
-		});
-   }
-   
-   $scope.exportCarfaxCSV = function() {
-	   $http.get('/exportCarfaxCSV')
-		.success(function(data) {
-		});
-   }
-   
-   $scope.exportCarGurusCSV = function() {
-	   $http.get('/exportCarGurusCSV')
-		.success(function(data) {
-		});
-   }
-   
-}]);*/
 
 

@@ -4821,7 +4821,8 @@ float: right !important;
 				        
 				        <ul id="myTabs" class="nav nav-tabs" role="tablist">
 				        	<li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" ng-click="getAllLeadIn()">All </a></li>
-			      			<li role="presentation" class=" "><a id="tab" role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="requestMore()">Request More Info </a></li>
+			      			<!-- <li role="presentation" class=" "><a id="tab" role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="requestMore()">Request More Info </a></li> -->
+			      			<li role="presentation" class="" ng-repeat="lead in leadList"><a role="tab" id="home" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="otherLeadId(lead.id)">{{lead.leadName}}</a></li>
 			      			<!-- <li role="presentation" class=""><a role="tab" id="test-drive-tabSched" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="testDrive()">Schedule Test Drive</a></li>
 			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="tradeIn()">Trade In Inquiries</a></li> 
 			      			<li role="presentation" class="" ng-repeat="lead in leadList"><a role="tab" id="home" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-if="lead.id > 3" ng-click="otherLeadId(lead.id)">{{lead.leadName}}</a></li>
@@ -4829,21 +4830,21 @@ float: right !important;
 			      			
 			    		</ul>
 				        
-						   <div ng-if="reqMore" ui-grid="gridOptions5" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-						   <div class="watermark" ng-show="!gridOptions5.data.length" >No Leads has been added</div>
+						<!--    <div ng-if="reqMore" ui-grid="gridOptions5" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+						   <div class="watermark" ng-show="!gridOptions5.data.length" >No Leads has been added</div> -->
 												</div>
-							 <div ng-if="testdrv" ui-grid="gridOptions2" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+							<!--  <div ng-if="testdrv" ui-grid="gridOptions2" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 							<div class="watermark" ng-show="!gridOptions2.data.length" >No Leads has been added</div>
 												</div> 
 							<div ng-if="trdin" ui-grid="gridOptions3" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-							<div class="watermark" ng-show="!gridOptions3.data.length" >No Leads has been added</div>
+							<div class="watermark" ng-show="!gridOptions3.data.length" >No Leads has been added</div> -->
 												</div>
 							<div ng-if="allLeadd" ui-grid="gridOptions7" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 							<div class="watermark" ng-show="!gridOptions7.data.length" >No Leads has been added</div>
 											</div>	
-							<div ng-if="contact" ui-grid="gridOptions8" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+							<!-- <div ng-if="contact" ui-grid="gridOptions8" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 							<div class="watermark" ng-show="!gridOptions8.data.length" >No Leads has been added</div>
-							 </div>
+							 </div> -->
 							<div ng-if="otherLeads" ui-grid="gridOptions13" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 							<div class="watermark" ng-show="!gridOptions13.data.length" >No Leads has been added</div>
 											</div>					
@@ -9670,6 +9671,9 @@ float: right !important;
 								                    	<div class="col-md-12">
 								                    		<div class="" ng-show="isInValid" style="color: red;">
 								                    			Please provide all mandatory fields.
+								                    		</div>
+								                    		<div class="" ng-show="isInValid2" style="color: red;">
+								                    			Select Lead Type And Select Manufacturers field is mandatory.
 								                    		</div>
 								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.mainTitle}}</strong></h3>
 								                    		<div class="col-md-6">

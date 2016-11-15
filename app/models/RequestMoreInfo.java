@@ -340,7 +340,7 @@ public void setMessage(String message) {
 	}
 	
 	public static List<RequestMoreInfo> findAllLocationDataManager(Long locationId) {
-		return find.where().eq("status", null).eq("locations.id", locationId).eq("premiumFlag", 0).eq("isContactusType", "1").findList();
+		return find.where().eq("status", null).eq("locations.id", locationId).eq("premiumFlag", 0).findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllLocationAndOtherLeadDataManager(Long locationId,String leadId) {
