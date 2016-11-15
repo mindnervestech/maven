@@ -396,7 +396,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                             <td valign="middle"><table align="left" border="0" cellspacing="0" cellpadding="0" class="container2" width="auto" dir="ltr">
                                 <tbody><tr>
                                   <td align="center" valign="top" style="width: 100px;" width="100">
-                                    <a href="#" style="font-size: inherit; text-decoration: none;"><img src="$hostnameUrl$siteLogo" width="100" style="max-width: 100px; display: block;" alt="" border="0" hspace="0" vspace="0"></a>
+                                    <a href="#" style="font-size: inherit; text-decoration: none;"><img src="http://glider-autos.com/MavenImg/images/logo/logo.png" width="100" style="max-width: 100px; display: block;" alt="" border="0" hspace="0" vspace="0"></a>
                                   </td>
                                 </tr>
                                 <!-- start space -->
