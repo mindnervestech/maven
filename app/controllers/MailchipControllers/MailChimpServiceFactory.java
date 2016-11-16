@@ -26,7 +26,7 @@ public class MailChimpServiceFactory {
 		try {
 			final XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
 			config.setEnabledForExtensions(true);
-			config.setServerURL(new URL("http://us13.api.mailchimp.com/1.2/"));
+			config.setServerURL(new URL("http://us8.api.mailchimp.com/1.2/"));
 			final XmlRpcClient client = new XmlRpcClient();
 			client.setConfig(config);
 			final ClientFactory factory = new ClientFactory(client);
