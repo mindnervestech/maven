@@ -313,6 +313,20 @@ angular.module('newApp')
 			}*/
 		}
 		
+		$scope.addImageTitle = function(image,index){
+			$scope.manufactureImage = image;
+			$('#addTitle').modal('show');
+		}
+		
+		$scope.saveImageTitle = function(imageObj){
+			console.log(imageObj);
+			$http.get('/saveImageTitle/'+imageObj.id+'/'+imageObj.title+'/'+imageObj.description)
+			.success(function(data) {
+				console.log('success');
+				$scope.manufactureImage = {};
+			});
+		}
+		
 		$scope.deleteImage = function(img) {
 			console.log("chaaaaaaaaaaaaaggggggggg");
 			$http.get('/deleteImage/'+img.id)

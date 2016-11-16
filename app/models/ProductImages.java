@@ -20,6 +20,24 @@ public class ProductImages extends Model {
 	public String thumbPath;
 	public String imageName;
 	public boolean defaultImage;
+	public String title;
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String description;
 	
 	@ManyToOne
 	public AddProduct product;

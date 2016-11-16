@@ -16,4 +16,5 @@ public class ImageVM {
 	public Integer width;
 	public Integer height;
 	public String link;
+	public String title;
 }

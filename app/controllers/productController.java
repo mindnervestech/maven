@@ -306,6 +306,8 @@ public class productController extends Controller {
 		    		vm.imgName = image.imageName;
 		    		vm.path = image.path;
 		    		vm.defaultImage = image.defaultImage;
+		    		vm.description = image.description;
+		    		vm.title = image.title;
 		    		vmList.add(vm);
 		    	}
 		    	return ok(Json.toJson(vmList));
@@ -347,7 +349,17 @@ public class productController extends Controller {
 	    	}	
 	    }
 	 
-	 
+	 public static Result saveImageTitle(Long id, String title, String description) {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	ProductImages image = ProductImages.findById(id);
+		    	image.setDescription(description);
+		    	image.setTitle(title);
+		    	image.update();
+		    	return ok();
+	    	}
+	    }
 	 
 	 
 	 public static Result deleteImage(Long id) {
