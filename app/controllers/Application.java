@@ -3502,7 +3502,7 @@ public class Application extends Controller {
 	    		vm1.notifFlag=sc.notifFlag;
 	    		String imagePath=null;
 	    		String typeoflead=null;
-	    		if(sc.vin != null || sc.isContactusType == null){
+	    		if(sc.id != null || sc.isContactusType == null){
 	    			AddProduct image=AddProduct.getDefaultImg(sc.id);
 	    			if(image != null){
 	    				imagePath=image.filePath;
@@ -3581,14 +3581,14 @@ public class Application extends Controller {
 	    	}
 	    	
 	    	
-	    	List<ScheduleTest> sched = ScheduleTest.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+	    	//List<ScheduleTest> sched = ScheduleTest.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
 	    	List<RequestMoreInfo> reInfos = RequestMoreInfo.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
-	    	List<TradeIn> tradeIns = TradeIn.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+	    	//List<TradeIn> tradeIns = TradeIn.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
 
-	    	int premi = sched.size() + reInfos.size() + tradeIns.size();
-	    	vm.premium = premi;
+	    	//int premi = sched.size() + reInfos.size() + tradeIns.size();
+	    	//vm.premium = premi;
 	    	
-	    	for(ScheduleTest sc: sched){
+	    	/*for(ScheduleTest sc: sched){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
 	    		vm1.typeOfLead="Premium";
@@ -3666,8 +3666,8 @@ public class Application extends Controller {
 	    		list.add(vm1);		
 	    		
 	    	}
-	    	
-	    	for(TradeIn sc: tradeIns){
+*/	    	
+	    	/*for(TradeIn sc: tradeIns){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.firstName+" "+sc.lastName;
 	    		vm1.typeOfLead="Premium";
@@ -3747,7 +3747,7 @@ public class Application extends Controller {
 	    		list.add(vm1);		
 	    		
 	    	}
-	    	for(RequestMoreInfo sc: reInfos){
+*/	    	for(RequestMoreInfo sc: reInfos){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
 	    		vm1.typeOfLead="Premium";

@@ -216,6 +216,20 @@
             	   
                	
                }
+               else if(item.typeOfLead == null){
+            	   console.log("item.typeOfLead");
+               	 $http.get('/requestInfoMarkRead/'+flag+'/'+item.id)
+            		.success(function(data) {
+            			$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Claimed Successfully",
+						});
+            			 $scope.indexInitFunction(); 
+            		console.log(data);
+            	});
+               	
+               }
                
                 
             };
