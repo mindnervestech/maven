@@ -733,6 +733,7 @@ public class CrmController extends Controller {
 	       			vm.lastEditedDate = contact.lastEditedDate;*/
 	       			if(contact.assignedTo !=null){
 	       				AuthUser user = AuthUser.findById(Integer.parseInt(contact.assignedTo));
+	       				if(user != null)
 	           			vm.assignedToName = user.firstName+" "+user.lastName;
 	       			}
 	       			vm.assignedTo = contact.assignedTo;
