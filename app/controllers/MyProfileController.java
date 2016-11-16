@@ -2863,6 +2863,8 @@ public class MyProfileController extends Controller{
 	    
 	    public static Result saveUser() {
 	    	
+	    	System.out.println("save user start ??????????????????????????????????????");
+	    	
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
     		MultipartFormData body = request().body().asMultipartFormData();
 	    	
@@ -3236,8 +3238,8 @@ public class MyProfileController extends Controller{
 	    			
 	    			messageBodyPart.setContent(content, "text/html");
 	    			if(vm.pdfIds != null){
-	    				String pdfString = vm.pdfIds.toString().replace("[[", "");
-	    				pdfString = pdfString.toString().replace("]]", "");
+	    				String pdfString = vm.pdfIds.toString().replaceAll("[\\[\\](){}\"]","");
+	    				pdfString = pdfString.replaceAll(" ","");
 	    			for(String ls:pdfString.split(",")){
 	 	    		   iPdf = InternalPdf.findPdfById(Long.parseLong(ls));  
 	 	    		   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
@@ -3262,7 +3264,7 @@ public class MyProfileController extends Controller{
 		       			e.printStackTrace();
 		  			 //throw new RuntimeException(e);
 		  		}
-	    	   
+		 		System.out.println("save user END ??????????????????????????????????????");
 	    	return ok(Json.toJson(userObj));
     }
 	    

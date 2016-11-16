@@ -709,6 +709,7 @@ angular.module('newApp')
 						            $scope.user = {};
 						            $("#file").val('');
 						            $('#btnClose').click();
+						            $scope.init();
 							}
 						});
 					}
