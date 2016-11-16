@@ -2114,6 +2114,66 @@ public class Application extends Controller {
 		
     }
     
+    public  static Result changeNotifFlag(long id,String title){
+    	if(title.equalsIgnoreCase("month plan")){
+    		PlanScheduleMonthlySalepeople plan=PlanScheduleMonthlySalepeople.findById(id);
+    		plan.setNotifFlag(1);
+    		plan.update();
+    	}
+    	else if(title.equalsIgnoreCase("invitation received")){
+    		ScheduleTest plan=ScheduleTest.findById(id);
+    		plan.setMeetingNotifFlag(1);
+    		plan.update();
+    	}
+    	
+    	else if(title.equalsIgnoreCase("accept meeting")){
+    		ScheduleTest plan=ScheduleTest.findById(id);
+    		plan.setMeetingAcceptFlag(0);
+    		plan.update();
+    	}
+    	else if(title.equalsIgnoreCase("declined meeting")){
+    		ScheduleTest plan=ScheduleTest.findById(id);
+    		plan.setMeetingDeclineFlag(0);
+    		plan.update();
+    	}
+    	else if(title.equalsIgnoreCase("coming soon")){
+    		Vehicle veh=Vehicle.findById(id);
+        	veh.setNotifFlag(1);
+        	veh.update();
+    	}
+    	
+    	return ok();
+    }
+    
+    public static Result releaseFromNotif(Long id,String leadType) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		if(leadType.equals("Schedule Test")) {
+    			ScheduleTest schedule = ScheduleTest.findById(id);
+    			schedule.setNotifFlag(1);
+    			
+    			schedule.update();
+    			
+    		}
+			if(leadType.equals("Request More Info")) {
+			    RequestMoreInfo info = RequestMoreInfo.findById(id);
+			    info.setNotifFlag(1);
+			    info.update();
+			    
+               
+			}
+			if(leadType.equals("Trade In")) {
+				TradeIn tradeIn = TradeIn.findById(id);
+				tradeIn.setNotifFlag(1);
+				tradeIn.update();
+				
+			
+			}
+    		return ok();
+    	}
+    }
+    
     public static Result getNotificationData(){
     	Map<String, Object> mapList = new HashMap<>();
 		
