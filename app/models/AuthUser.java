@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -45,6 +46,26 @@ public class AuthUser extends Model implements Identity {
 	public String premiumFlag;
 	public int newUser;
 	public String account;
+	
+	public Date contractDurStartDate;
+	public Date contractDurEndDate;
+	
+	public Date getContractDurStartDate() {
+		return contractDurStartDate;
+	}
+
+	public void setContractDurStartDate(Date contractDurStartDate) {
+		this.contractDurStartDate = contractDurStartDate;
+	}
+
+	public Date getContractDurEndDate() {
+		return contractDurEndDate;
+	}
+
+	public void setContractDurEndDate(Date contractDurEndDate) {
+		this.contractDurEndDate = contractDurEndDate;
+	}
+
 	public String getAccount() {
 		return account;
 	}

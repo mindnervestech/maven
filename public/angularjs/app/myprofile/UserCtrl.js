@@ -15,6 +15,17 @@ angular.module('newApp')
 	{name:'CRM',isSelected:false},
 	{name:'Financial Statistics',isSelected:false},
 	{name:'Account Settings',isSelected:false}];
+	
+	$http.get('/getAllPermission')
+	.success(function(data) {
+		$scope.permissionList =[];
+		angular.forEach(data, function(obj, index){
+			var jsonObj = {name:obj.name,isSelected:false};
+			$scope.permissionList.push(jsonObj);
+		});
+		console.log($scope.permissionList);
+		console.log("????????????????");
+	});
 	$scope.userData = {};
 	$scope.trial;
 	$scope.num;
@@ -413,7 +424,7 @@ angular.module('newApp')
 		}else{
 			$scope.deleteItem(rolePer);
 		}
-		//console.log($scope.permission);
+		console.log($scope.permission);
 	}
 	$scope.deleteItem = function(rolePer){
 		angular.forEach($scope.permission, function(obj, index){
@@ -465,11 +476,13 @@ angular.module('newApp')
 		console.log($scope.permissionList);
 		$('#editUserModal').click();
 		if(row.entity.contractDur=="Employee"){
+			$scope.conUser = "Employee";
 			$scope.contactVal= row.entity.contractDur;
 				$("#number").attr("disabled", true);
 				$("#duration").attr("disabled", true);
 				$('#employee1').click();
 		}else{
+			$scope.conUser = "Contractor";
 			var durations = row.entity.contractDur;
 			var val = durations.split(' ');
 			$scope.num1 = parseInt(val[0]);
@@ -576,6 +589,10 @@ angular.module('newApp')
 		if($scope.user.premiumFlag == undefined){
 			$scope.user.premiumFlag = false;
 		}
+		if($("#cnfstartDateValue").val() != undefined)
+			$scope.user.contractDurStartDate = $("#cnfstartDateValue").val();
+		if($("#cnfendDateValue").val() != undefined)
+			$scope.user.contractDurEndDate = $("#cnfendDateValue").val();
 		
 		if($scope.user.userType == "Photographer"){
 			$scope.user.hOperation.sunOpenTime = $('#sunOpen').val();
@@ -640,10 +657,6 @@ angular.module('newApp')
 			if($scope.user.hOperation.satClose == undefined){
 				$scope.user.hOperation.satClose = false;
 			}
-			
-			
-			$scope.user.contractDurStartDate = $("#cnfstartDateValue").val();
-			$scope.user.contractDurEndDate = $("#cnfendDateValue").val();
 		}
 		
 		if($scope.contactVal=="Employee"){
@@ -678,9 +691,13 @@ angular.module('newApp')
 					
 			} else {
 				$('#btnClose').click();
-					apiserviceUser.uploadImageFileLoad($scope.user, $scope.user.userType, logofile).then(function(data){
-						 console.log('success');
-						 if(data == "data"){
+				apiserviceUser.uploadImageFile($scope.user, $scope.user.userType).then(function(data){
+					console.log(data);
+					if(data == "data"){
+						$('#btnClose').click();
+					}else{
+						apiserviceUser.updateImageFileLoad(data, logofile).then(function(data){
+							if(data == "data"){
 								$('#btnClose').click();
 							}else{
 								 $scope.user.firstName=" ";
@@ -693,8 +710,10 @@ angular.module('newApp')
 						            $("#file").val('');
 						            $('#btnClose').click();
 							}
-				           
-					});
+						});
+					}
+		            
+				});					
 			}
 		}else{
 			console.log($scope.user.userType);
@@ -757,6 +776,13 @@ angular.module('newApp')
 		$scope.userData.permissions = $scope.permission;
 		$scope.userData.pdfIds = $scope.pdfDoc;
 		delete $scope.userData.successRate;
+		
+		if($("#cnfstartDateValue").val() != undefined)
+			$scope.userData.contractDurStartDate = $("#cnfstartDateValue").val();
+		if($("#cnfendDateValue").val() != undefined)
+			$scope.userData.contractDurEndDate = $("#cnfendDateValue").val();
+		
+		console.log($scope.userData);
 		
 		if($scope.userData.userType == "Photographer"){
 			$scope.userData.hOperation.sunOpenTime = $('#sunOpen').val();
