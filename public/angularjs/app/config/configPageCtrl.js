@@ -787,11 +787,40 @@ angular.module('newApp')
 		apiserviceConfigPage.savemailchimpPage(schedular).then(function(data){
 		});
 	}
+	
+	$scope.mailchimpTest= function(schedular) {
+		console.log(schedular);
+		apiserviceConfigPage.savemailchimpPage(schedular).then(function(data){
+			$http.get('/checkMailChim').success(function(data){
+				console.log("?...?",data);
+				if(data == 'success'){
+					$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "MailChimp connection successfully",
+					});
+				}else{
+					$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "MailChimp connection failed",
+					});
+				}
+			}).error(function(error){
+				console.log(error);
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "MailChimp connection pinged failed",
+				});
+			});
+		});
+	}
+	
 	$scope.mailchimpData = function(){
 		apiserviceConfigPage.getmailchimpData().then(function(data){
 		$scope.schedular = data;
 		console.log($scope.schedular);
-		
 	});	
 	
 	}

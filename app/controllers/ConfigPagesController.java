@@ -145,6 +145,11 @@ public class ConfigPagesController extends Controller{
 			return ok(Json.toJson(lead)); 
 			
 		}
+		
+		public MailchimpSchedular getmailchimpApikey() {
+			MailchimpSchedular lead = MailchimpSchedular.findByLocations(Long.valueOf(session("USER_LOCATION")));
+			return lead; 
+		}
 
 		public static Result getmailchimpData() {
 			

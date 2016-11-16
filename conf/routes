@@ -163,6 +163,7 @@ GET		/getInternalPdfDataById/:id	   controllers.ConfigPagesController.getInterna
 GET		/getCustomerPdfDataById/:id	   controllers.ConfigPagesController.getCustomerPdfDataById(id:Long)
 GET		/getInternalPdfData		controllers.ConfigPagesController.getInternalPdfData()
 POST	/myprofile				controllers.MyProfileController.myprofile()
+GET		/checkMailChim		controllers.CrmController.checkMailChim()
 
 POST	/assignToUser				controllers.MyProfileController.assignToUser()
 GET		/deactivateAccount/:id		controllers.MyProfileController.deactivateAccount(id:Integer)

@@ -1,27 +1,21 @@
 package controllers.MailchipControllers;
 
 import java.lang.reflect.UndeclaredThrowableException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import models.Contacts;
 import models.Location;
+import models.MailchimpSchedular;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
-//import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-
 import play.Play;
-import play.mvc.Result;
+//import org.hibernate.SessionFactory;
 
 /*import com.mnt.entities.Groups;
 import com.mnt.vm.EventMembersVM;
@@ -31,11 +25,10 @@ import com.mnt.vm.ResponseVM;*/
 public class MailIntegrationServices {
 	
 	
-	final static String apiKey = Play.application().configuration()
+	static String apiKey = Play.application().configuration()
 			.getString("xmlrpcApiKey");
-	final static String listId = Play.application().configuration()
+	static String listId = Play.application().configuration()
 			.getString("listId");
-	
 	
 /*	@Autowired
 	SessionFactory sessionFactory;
@@ -71,7 +64,11 @@ public class MailIntegrationServices {
 	private final Log logger = LogFactory.getLog(getClass());
 	
 	public void initialize() {
-		
+		MailchimpSchedular mScheduler = MailchimpSchedular.findByLocations(16L);
+		if(mScheduler != null){
+			apiKey = mScheduler.apikey;
+			listId = mScheduler.listId;
+		}
 		mcServices = MailChimpServiceFactory.getMailChimpServices();
 		final String ping = mcServices.ping(apiKey);
 		if (IMailChimpServices.PING_SUCCESS.equals(ping)) {
@@ -80,6 +77,19 @@ public class MailIntegrationServices {
 			logger.error("Failed to ping MailChimp, response: " + ping);
 		}
 	}
+	
+	public String checkMailChim(){
+		initialize();
+		mcServices = MailChimpServiceFactory.getMailChimpServices();
+		final String ping = mcServices.ping(apiKey);
+		if (IMailChimpServices.PING_SUCCESS.equals(ping)) {
+			return "success";
+		} else {
+			return "error";
+		}
+	}
+	
+	
 	
 	/*private void listMembers() {
 		final Object[] listMembers = mcServices.listMembers(apiKey, listId,IMailChimpServices.STATUS_SUBSCRIBED, "2016-03-30 00:00:00", 0,1000);

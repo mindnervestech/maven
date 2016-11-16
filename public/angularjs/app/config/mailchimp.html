@@ -19,7 +19,7 @@
     </ul>
   		<h2><b>Mailchimp Page</b></h2>
   
-    	<div class="form-group col-sm-12">
+    	<!--<div class="form-group col-sm-12">
 
 			<div class="col-md-4">
 					<select  class="form-control"  id="form_type" ng-model="schedular.schedularTime"    required>
@@ -31,7 +31,7 @@
 											           
 					 </select>
 				</div>
-		</div>
+		</div>-->
 		
 		<div class="form-group col-sm-12">
 				<div class="col-md-3">
@@ -66,10 +66,28 @@
 					<input class="form-control form-white" type="text"  ng-model="schedular.listId" >
 				</div>
 		</div> -->
-		<div class="form-group col-sm-12" >
-					 <button  type="submit" ng-click="mailchimpPage(schedular)" class="btn btn-primary btn-embossed ">Save</button>
+		<div class="form-group col-sm-12">
+				<div class="col-md-3">
+					<label>Mailchimp Apikey</label>
+				</div>
+			<div class="col-md-4">
+					<input class="form-control form-white" type="text"  ng-model="schedular.apikey" >
+				</div>
 		</div>
 		
+		<div class="form-group col-sm-12">
+				<div class="col-md-3">
+					<label>Mailchimp ListId</label>
+				</div>
+			<div class="col-md-4">
+					<input class="form-control form-white" type="text"  ng-model="schedular.listId" >
+				</div>
+		</div>
+		
+		<div class="form-group col-sm-12" >
+					 <button  type="submit" ng-click="mailchimpPage(schedular)" class="btn btn-primary btn-embossed ">Save</button>
+					 <button  type="submit" ng-click="mailchimpTest(schedular)" class="btn btn-primary btn-embossed ">Save & Test</button>
+		</div>
 </div> 
 
    
