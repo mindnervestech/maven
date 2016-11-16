@@ -98,5 +98,6 @@ public class RequestInfoVM {
 	public String declineReason;
 	public Integer acceptMeeting;
 	public String fileName;
+	public int notifFlag;
 	
 }

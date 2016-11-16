@@ -1,6 +1,6 @@
 ﻿angular.module('newApp').controller('mainCtrl',
-    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$interval','$rootScope',
-        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$interval,$rootScope) {
+    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$interval','$filter','$rootScope',
+        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$interval,$filter,$rootScope) {
     	var ele = document.getElementById('loadingmanual');	
     	$(ele).hide();
             $(document).ready(function () {
@@ -88,8 +88,8 @@
        	        }
             
             $scope.releaseLeads = function(entity){
-            	console.log(entity.type);
-   			$http.get('/releaseLeads/'+entity.id+'/'+entity.type)
+            	console.log(entity.leadType);
+   			$http.get('/releaseLeads/'+entity.id+'/'+entity.leadType)
    				.success(function(data) {
    					$.pnotify({
    					    title: "Success",
@@ -126,6 +126,7 @@
             $scope.leadCount = function(){
             	$scope.leadData={};
                 $http.get('/getLeadInfo').success(function(data,status, headers, config){
+                	console.log(data);
                 	$scope.leadData=data;
                 	$scope.notifLength=0;
                 	angular.forEach(data, function(value, key) {
@@ -144,7 +145,7 @@
             
             $scope.releaseFromNotif = function(entity){
             	console.log(entity);
-   			$http.get('/releaseFromNotif/'+entity.id+'/'+entity.type)
+   			$http.get('/releaseFromNotif/'+entity.id+'/'+entity.leadType)
    				.success(function(data) {
    					$.pnotify({
    					    title: "Success",
@@ -811,7 +812,7 @@
 }
             
             var promo =  $interval(function(){
-				
+            	$scope.leadCount();
 				$http.get('/getInfoCount').success(function(data,status, headers, config){
 	            	$scope.requestMoreLength = data.req;
 	                $scope.scheduleTestLength = data.schedule;

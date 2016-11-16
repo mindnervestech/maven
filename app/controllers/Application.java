@@ -2303,22 +2303,22 @@ public class Application extends Controller {
     	
     	/*-------------------Coming soon--------------------------*/
     	
-    	List<PriceAlert> price=PriceAlert.getAllRecordPopUp();
+    	//List<PriceAlert> price=PriceAlert.getAllRecordPopUp();
     	DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
     	
     	
     	Date curDate = null;
     	Date curDate1 = null;
     	Date curDateNew = null;
-    	List<RequestInfoVM> rList = new ArrayList<>();
+    	//List<RequestInfoVM> rList = new ArrayList<>();
     	Date date=new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
 		DateFormat format1 = new SimpleDateFormat("HH:mm:a");
 		 DateFormat df11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
-			Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
-			df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
-			df11.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+			//Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			//df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+			//df11.setTimeZone(TimeZone.getTimeZone(location.time_zone));
 			String date1=df2.format(date);
 			String dateNew=df11.format(date);
 			String date11="00:00:AM";
@@ -2339,7 +2339,7 @@ public class Application extends Controller {
   	        	long diffHours = diff / (60 * 60 * 1000)% 24;
 			
 			
-    		List<Vehicle> vehList=Vehicle.findByComingSoonDate(curDate);
+    		/*List<Vehicle> vehList=Vehicle.findByComingSoonDate(curDate);
     		
     		for(Vehicle vehicle:vehList){
     			if(vehicle.locations != null){
@@ -2375,10 +2375,10 @@ public class Application extends Controller {
         				
         			
         		}
-    		}
+    		}*/
     		
     		
-    		mapList.put("comingSoonData", rList);
+    		//mapList.put("comingSoonData", rList);
     		
     	/*-----------------------Invitation---------------------------------*/
     		
@@ -3314,8 +3314,8 @@ public class Application extends Controller {
     	} else {
     		AuthUser user = (AuthUser) getLocalUser();
 	    	InfoCountVM vm = new InfoCountVM();
-	    	List<ScheduleTest> scList = ScheduleTest.findAllLeads(Long.valueOf(session("USER_LOCATION")));
-	    	List<TradeIn> trList = TradeIn.findAllLeads(Long.valueOf(session("USER_LOCATION")));
+	    	//List<ScheduleTest> scList = ScheduleTest.findAllLeads(Long.valueOf(session("USER_LOCATION")));
+	    	//List<TradeIn> trList = TradeIn.findAllLeads(Long.valueOf(session("USER_LOCATION")));
 	    	List<RequestMoreInfo> rList = RequestMoreInfo.findAllLeads(Long.valueOf(session("USER_LOCATION")));
 	    	List<RequestInfoVM> list = new ArrayList<>();
 	    	Date curr = new Date();
@@ -3335,7 +3335,7 @@ public class Application extends Controller {
 				e1.printStackTrace();
 			}
 	    	
-	    	for(ScheduleTest sc: scList){
+/*	    	for(ScheduleTest sc: scList){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
 	    		vm1.id=sc.id;
@@ -3414,9 +3414,9 @@ public class Application extends Controller {
 	    		
 	    		list.add(vm1);		
 	    		
-	    	}
+	    	}*/
 	    	
-	    	for(TradeIn sc: trList){
+/*	    	for(TradeIn sc: trList){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.firstName+" "+sc.lastName;
 	    		vm1.typeOfLead="Trade In";
@@ -3492,14 +3492,14 @@ public class Application extends Controller {
     	        }
 	    		list.add(vm1);		
 	    		
-	    	}
+	    	}*/
 	    	
 	    	for(RequestMoreInfo sc: rList){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
 	    		vm1.id=sc.id;
 	    		vm1.leadType="Request More Info";
-	    		//vm1.notifFlag=sc.notifFlag;
+	    		vm1.notifFlag=sc.notifFlag;
 	    		String imagePath=null;
 	    		String typeoflead=null;
 	    		if(sc.vin != null || sc.isContactusType == null){
@@ -3753,7 +3753,7 @@ public class Application extends Controller {
 	    		vm1.typeOfLead="Premium";
 	    		vm1.leadTypeForNotif="Premium Lead";
 	    		vm1.id=sc.id;
-	    		//vm1.notifFlag=sc.notifFlag;
+	    		vm1.notifFlag=sc.notifFlag;
 	    		vm1.leadType="Request More Info";
 	    		String imagePath=null;
 	    		if(sc.vin != null){
@@ -22711,11 +22711,13 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 				
 				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		    	SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
+		    	Date date=new Date();
 		    	String date1=df.format(stTest.confirmDate);
 				String time1=time.format(stTest.confirmTime);
-				
+				stTest.setMeetingActionTime(date);
 				stTest.setAcceptMeeting(2);
 				stTest.setMeeting(0);
+				stTest.setMeetingAcceptFlag(1);
 				stTest.update();
 				AuthUser userEmail = AuthUser.findById(stTest.user.id);
 				AuthUser assigEmail = AuthUser.findById(stTest.assignedTo.id);
@@ -22731,14 +22733,16 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 				
 				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		    	SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
+		    	Date date=new Date();
 		    	String date1=df.format(stTest.confirmDate);
 				String time1=time.format(stTest.confirmTime);
 				
 				
 				
-				
+				stTest.setMeetingActionTime(date);
 					stTest.setDeclineMeeting(2);
 				stTest.setMeeting(2);
+				stTest.setMeetingAcceptFlag(1);
 				stTest.setDeclineReason(reason);
 				//stTest.setReason(reason);
 				stTest.update();
