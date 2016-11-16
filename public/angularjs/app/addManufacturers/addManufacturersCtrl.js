@@ -263,7 +263,7 @@ angular.module('newApp')
 	   $scope.uploadFiles = function() {
 		   Dropzone.autoDiscover = false;
 		   myDropzone.processQueue();
-		   $location.path('/viewInventory');
+		   //$location.path('/viewInventory');
 	   }
 	   $scope.uploadFilesDreft = function(){
 		   $scope.object = {};
@@ -275,6 +275,12 @@ angular.module('newApp')
 	   		});
 		   $scope.uploadFiles();
 	   }
+	   
+	   $scope.uploadImagesFiles = function(){
+		   Dropzone.autoDiscover = false;
+		   myDropzone.processQueue();
+		   $location.path('/viewInventory');
+	   };
 	   
 
 		$scope.setAsDefault = function(image,index) {
