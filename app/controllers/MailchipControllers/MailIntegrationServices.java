@@ -224,8 +224,13 @@ public class MailIntegrationServices {
 	}
 	public void unsubscribe(String lastname, String firstname, String email) {
 		initialize();
-		boolean listSubscribe = mcServices.listUnsubscribe(apiKey, listId, email, true, true, true);
-		addUser(lastname,firstname,email);
+		try {
+			boolean listSubscribe = mcServices.listUnsubscribe(apiKey, listId, email, true, true, true);
+			addUser(lastname,firstname,email);
+		} catch (Exception e) {
+			e.printStackTrace();
+			addUser(lastname,firstname,email);
+		}
 	}
 	
 	/*public void sendCampaign(String subject, String text, int templeteId) {
