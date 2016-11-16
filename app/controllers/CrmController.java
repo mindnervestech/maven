@@ -143,7 +143,7 @@ public class CrmController extends Controller {
     			contacts.save();
     			saveCustomCrmData(contacts.contactId,vm);
     			MailIntegrationServices objMail = new MailIntegrationServices();
-    			objMail.addUser(vm.firstName, vm.lastName, vm.email);
+    			objMail.addUser(vm.lastName, vm.firstName, vm.email);
     			/*MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L); //Long.valueOf(session("USER_LOCATION"))
     			if(mSchedular != null){
     				if(mSchedular.schedularTime.equals("Immediately")){
@@ -203,6 +203,8 @@ public class CrmController extends Controller {
     			contacts.setNotes(vm.notes);
     			contacts.update();
     			saveCustomCrmData(contacts.contactId,vm);
+    			MailIntegrationServices objMail = new MailIntegrationServices();
+    			objMail.unsubscribe( vm.lastName,vm.firstName, vm.email);
     		return ok();
     	}
 	}

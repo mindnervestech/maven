@@ -811,7 +811,7 @@ angular.module('newApp')
 				$.pnotify({
 				    title: "Success",
 				    type:'success',
-				    text: "MailChimp connection pinged failed",
+				    text: "MailChimp connection failed Server Error",
 				});
 			});
 		});
