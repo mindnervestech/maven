@@ -282,6 +282,7 @@ public class InventoryController extends Controller {
 	            		add.setDescription(vm.getDescription());
 	            		add.setPublicStatus(vm.getPublicStatus());
 	            		add.setParentId(vm.getParentId());
+	            		add.setExternalUrlLink(vm.getExternalUrlLink());
 	            		add.update();
 	    				
 	    		    	AuthUser userObj = (AuthUser) getLocalUser();
@@ -495,6 +496,7 @@ public class InventoryController extends Controller {
 	    		vm.title =product.title;
 	    		vm.description = product.description;
 	    		vm.parentId = product.parentId;
+	    		vm.externalUrlLink = product.externalUrlLink;
 	    		return ok(Json.toJson(vm));
 	    	}
 	    }
@@ -529,6 +531,7 @@ public class InventoryController extends Controller {
 	        		add.setDescription(vm.getDescription());
 	        		add.setPublicStatus(vm.getPublicStatus());
 	        		add.setParentId(vm.getParentId());
+	        		add.setExternalUrlLink(vm.getExternalUrlLink());
 	        		add.update();
 	    
 				} catch (Exception e) {

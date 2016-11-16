@@ -35,9 +35,15 @@ public class AddProduct extends Model {
 	public int orderIndex;
 	public int hideWebsite;
 	public Date addedDate;
+	public String externalUrlLink;
 	
 	
-	
+	public String getExternalUrlLink() {
+		return externalUrlLink;
+	}
+	public void setExternalUrlLink(String externalUrlLink) {
+		this.externalUrlLink = externalUrlLink;
+	}
 	public Long getParentId() {
 		return parentId;
 	}

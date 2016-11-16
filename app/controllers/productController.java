@@ -143,7 +143,7 @@ public class productController extends Controller {
 	    	    		add.addedDate = curDate;
 	    	    		add.publicStatus = vm.publicStatus;
 	    	    		add.parentId = vm.parentId;
-	    	    		
+	    	    		add.externalUrlLink = vm.externalUrlLink;
 	    	    		add.user = userObj;
 	    	    		add.save();
 	    	    		

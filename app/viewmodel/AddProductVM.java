@@ -20,9 +20,19 @@ public class AddProductVM {
 	public int orderIndex;
 	public int hideWebsite;
 	public String addedDate;
-
+	public String externalUrlLink;
 	public String imgPath;
 	public long imgId;
+	
+	
+	
+	
+	public String getExternalUrlLink() {
+		return externalUrlLink;
+	}
+	public void setExternalUrlLink(String externalUrlLink) {
+		this.externalUrlLink = externalUrlLink;
+	}
 	public String getPrimaryTitle() {
 		return primaryTitle;
 	}
