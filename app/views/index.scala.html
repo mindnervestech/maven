@@ -331,9 +331,92 @@
                             </ul> -->
                         </div>
                     </div>
-                    <div class="header-right">
+                    
+                      <div class="header-right">
                         <ul class="header-menu nav navbar-nav">
                             <!-- BEGIN USER DROPDOWN -->
+                             <li ng-mouseleave="setNewFlagNew()" ng-click="setFlagForPopNew()" class="dropdown"><a data-hover="dropdown" class="dropdown-toggle"><i class="fa fa-bell fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header" ng-if="notificationArray.length != 0">{{notifictionCount}}</span></a>
+                        <ul  ng-if="flagForPopNew == 1" class="dropdown-menu dropdown-alerts" style="max-width: 430px!important;width: 450px;" ng-if="notificationArray.length != 0">
+                            <li style="background: #33485c;padding: 10px 15px;color: #ffffff;"><p>{{notifictionCount}} Pending Notifications</p></li>
+                            <li>
+                                <div class="dropdown-slimscroll">
+                                    <ul style="height: 350px;overflow: auto;">
+                                        <li ng-repeat="notify in notificationArray" class="col-md-12">
+                                        <i class="{{notify.iconClass}} col-md-1"></i>
+                                        <span class="col-md-9" style="padding: 0px;">
+                                        <span class="col-md-12">{{notify.title}}</span><br>
+                                        <span class="col-md-6"><a style="color:#319DB5;" ng-click="showDetailsFunction(notify)">See Details</a></span>
+                                        <span class="col-md-6"><a style="color:#darkcyan;" style="width: 50% !important;" ng-click="dismissFunction(notify)">Dismiss</a></span></span>
+                                        <span class="pull-right text-muted small col-md-2" style="padding: 0px;">{{notify.timeDiff}}</span>
+                                        <span> </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <!-- <li class="last"><a href="extra-user-list.html" class="text-right">See all alerts</a></li> -->
+                        </ul>
+                    </li>
+                    
+                    
+                    
+                      <li  ng-mouseleave="setNewFlag()" class="dropdown"><a ng-click="setFlagForPop()" data-hover="dropdown" class="dropdown-toggle"><i class="fa fa-send-o fa-fw" style="color: #ffffff;"></i>
+                      <span ng-if="notifLength != 0" class="badge badge-primary badge-header">{{notifLength}}</span><span ng-if="notifLength == 0" class="badge badge-primary badge-header"></span></a>
+                        <ul   ng-if="flagForPop == 1" class="dropdown-menu dropdown-alerts" style="max-width: 430px!important;width: 450px;height:450px; overflow: auto;">
+                            <li  style="background: #33485c;padding: 10px 15px;color: #ffffff;"><p>You have {{notifLength}} new notifications</p></li>
+                            <li>
+                                <div ng-repeat="item in leadData" class="dropdown-slimscroll">
+                                    <ul ng-if="item.notifFlag == 0">
+                                        <li>
+                                        <div  style="padding: 0px;" class="col-sm-12">
+                                        <div style="padding: 0px;" class="col-sm-3">
+                                        <img ng-if="item.typeOfLead != 'Contact Us'"  style="width: 90px; height: 70px;margin-top: 7px" src="{{item.imagePath}}">
+                                        <img ng-if="item.typeOfLead == 'Contact Us'"  style="width: 70px; height: 70px;margin-top: 7px" src="{{item.imagePath}}">
+                                        </div>
+                                         <div style="padding: 0px;" class="col-sm-5">
+                                         <span style="width: 150px;" class="col-sm-12">{{item.name}}</span>
+                                         <b style="width: 150px;" class="col-sm-12">{{item.leadTypeForNotif}}</b>
+                                         </div>
+                                         <div style="float: right;">
+                                         <span   ng-click="releaseFromNotif(item)" title="Remove from Notifications" class="glyphicon glyphicon-remove"></span> 
+                                          </div>
+                                          <div style="padding: 0px;"  class="col-sm-4">
+                                          <div style="width: 170px;padding: 0px;" class="col-sm-12">
+                                          <span style="width: 15px;padding: 0px;margin-top: 3%;" class="col-sm-2 glyphicon glyphicon-time" ></span>
+                                          <span  style="width: 135px;padding: 0px;margin-left: 1%;" class="col-sm-10 ">{{item.diffDays}}</span> 
+                                         </div>
+                                          </div>
+                                          
+                                          
+                                          <div style="padding: 0px;" class="col-sm-12">
+                                          <div style="padding: 0px;" class="col-sm-3"></div>
+                                          <div style="padding: 0px;" class="col-sm-9">
+                                           <div style="padding: 0px;"  class="col-sm-12">
+                                         <div style="padding: 0px;" class="col-sm-4">
+                                        <button style="width: 80px;height: 30px;font-size: 12px;text-align: center; "" type="button"  ng-click="setAsRead(item)" class="btn btn-primary btn-embossed">CLAIM</button> 
+                                        </div>
+                                        <div style="padding: 0px;" class="col-sm-4">
+                                         <button ng-if="userRole == 'Manager'" style="width: 84px;height: 30px;font-size: 12px;margin-left: 1%;text-align: center; " " ng-click="assignCanceledLead(item)"  type="button" class="btn btn-primary btn-embossed">ASSIGN</button>
+                                         </div>
+                                          <div style="padding: 0px;" class="col-sm-4">
+                                          <button ng-if="item.typeOfLead == 'Premium'"  ng-click="releaseLeads(item)" style="width: 92px;height: 30px;font-size: 12px; margin-left: 1%;text-align: center; "  type="button" class="btn btn-primary btn-embossed">RELEASE</button>
+                                        </div>
+                                         </div>
+                                         </div>
+                                         </div>
+                                         
+                                         <div style="padding: 0px;" class="col-sm-12"> 
+                                         <hr  style="padding: 0px;" class="col-sm-12">
+                                          </div>
+                                        </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    
+                    <!-- 
                             <li ng-sec = "Customer Requests" class="dropdown" id="language-header">
                                 <a href="#requestMoreInfo" title="Request More Info">
                                 <i class="icon-info" style="color:white;"></i>
@@ -341,18 +424,18 @@
                                 </a>
                                 
                             </li>
-                            <!-- END USER DROPDOWN -->
-                            <!-- BEGIN NOTIFICATION DROPDOWN -->
-                            <!-- <li ng-sec = "Customer Requests" class="dropdown" id="notifications-header">
+                            END USER DROPDOWN
+                            BEGIN NOTIFICATION DROPDOWN
+                            <li ng-sec = "Customer Requests" class="dropdown" id="notifications-header">
                                 <a href="#scheduleTest" title="Schedule Test">
                                 <i class="icon-rounded-pin" style="color:white;"></i>
                                 <span class="badge badge-primary badge-header" ng-show="scheduleTestLength != 0">{{scheduleTestLength}}</span>
                                 </a>
                                 
-                            </li> -->
-                            <!-- END NOTIFICATION DROPDOWN -->
-                            <!-- BEGIN MESSAGES DROPDOWN -->
-                            <!-- <li ng-sec = "Customer Requests" class="dropdown" id="messages-header">
+                            </li>
+                            END NOTIFICATION DROPDOWN
+                            BEGIN MESSAGES DROPDOWN
+                            <li ng-sec = "Customer Requests" class="dropdown" id="messages-header">
                                 <a href="#tradeIn" title="Trade-In Appraisal">
                                 <i class="icon-rounded-air-plane" style="color:white;"></i>
                                 <span class="badge badge-primary badge-header" ng-show="tradeInLength != 0">
@@ -360,8 +443,8 @@
                                 </span>
                                 </a>
                                 
-                            </li> -->
-                            <!-- <li ng-sec = "Customer Requests" class="dropdown" id="messages-header" ng-if="userType == 'Manager'">
+                            </li>
+                            <li ng-sec = "Customer Requests" class="dropdown" id="messages-header" ng-if="userType == 'Manager'">
                                 <a href="#premiumpage" title="Premium Leads">
                                 href="/assets/global/images/favicon.png"
                                 <img src="/assets/images/premium1.png" style="width: 24px;"></img>
@@ -369,8 +452,8 @@
                                 {{premiumlength}}
                                 </span>
                                 </a>
-                                
-                            </li> -->
+                                 -->
+                            </li>
                             <li class="dropdown" id="notifications-header" ng-if="setFalg == 1">
                                 <a href="http://glider-autos.com:8999/maven/" target="_blank">
                                 	<i class="glyphicon glyphicon-globe" title="View Website" style="color:white;"></i>
@@ -404,7 +487,84 @@
                             <!-- CHAT BAR ICON -->
                             <li id="quickview-toggle"><a href="#"><i class="icon-bubbles"></i></a></li>
                         </ul>
+                        
                     </div>
+                    
+                    
+                  <!--   <div class="header-right">
+                        <ul class="header-menu nav navbar-nav">
+                            BEGIN USER DROPDOWN
+                            <li ng-sec = "Customer Requests" class="dropdown" id="language-header">
+                                <a href="#requestMoreInfo" title="Request More Info">
+                                <i class="icon-info" style="color:white;"></i>
+                                <span class="badge badge-primary badge-header" ng-show="requestMoreLength != 0">{{requestMoreLength}}</span>
+                                </a>
+                                
+                            </li>
+                            END USER DROPDOWN
+                            BEGIN NOTIFICATION DROPDOWN
+                            <li ng-sec = "Customer Requests" class="dropdown" id="notifications-header">
+                                <a href="#scheduleTest" title="Schedule Test">
+                                <i class="icon-rounded-pin" style="color:white;"></i>
+                                <span class="badge badge-primary badge-header" ng-show="scheduleTestLength != 0">{{scheduleTestLength}}</span>
+                                </a>
+                                
+                            </li>
+                            END NOTIFICATION DROPDOWN
+                            BEGIN MESSAGES DROPDOWN
+                            <li ng-sec = "Customer Requests" class="dropdown" id="messages-header">
+                                <a href="#tradeIn" title="Trade-In Appraisal">
+                                <i class="icon-rounded-air-plane" style="color:white;"></i>
+                                <span class="badge badge-primary badge-header" ng-show="tradeInLength != 0">
+                                {{tradeInLength}}
+                                </span>
+                                </a>
+                                
+                            </li>
+                            <li ng-sec = "Customer Requests" class="dropdown" id="messages-header" ng-if="userType == 'Manager'">
+                                <a href="#premiumpage" title="Premium Leads">
+                                href="/assets/global/images/favicon.png"
+                                <img src="/assets/images/premium1.png" style="width: 24px;"></img>
+                                <span class="badge badge-primary badge-header" ng-show="premiumlength != 0">
+                                {{premiumlength}}
+                                </span>
+                                </a>
+                                
+                            </li>
+                            <li class="dropdown" id="notifications-header" ng-if="setFalg == 1">
+                                <a href="http://glider-autos.com:8999/maven/" target="_blank">
+                                	<i class="glyphicon glyphicon-globe" title="View Website" style="color:white;"></i>
+                                </a>
+                            </li>
+                            END MESSAGES DROPDOWN
+                            BEGIN USER DROPDOWN
+                            <li class="dropdown" id="user-header">
+                                <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <img src="{{userimage}}" alt="user image">
+                               
+                                <span class="username">{{name}}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a ng-sec = "My Profile" href="#myprofile"><i class="icon-user"></i><span>Profile and Users </span></a>
+                                    </li>
+                                    <li>
+                                        <a data-target="#"><i class="icon-calendar"></i><span>My Calendar</span></a>
+                                    </li>
+                                    <li>
+                                        <a ng-sec = "Account Settings" href="#configuration"><i class="icon-settings"></i><span> System Settings </span></a>
+                                    </li>
+                                    <li>
+                                        <a href="/logout"><i class="icon-logout"></i><span>Logout</span></a>
+                                    </li>
+                                    
+                                </ul>
+                            </li>
+                            END USER DROPDOWN
+                            CHAT BAR ICON
+                            <li id="quickview-toggle"><a href="#"><i class="icon-bubbles"></i></a></li>
+                        </ul>
+                    </div> -->
                     <!-- header-right -->
                 </div>
                 <!-- END TOPBAR -->
@@ -416,6 +576,37 @@
             </div>
             <!-- END MAIN CONTENT -->
             <!-- BEGIN BUILDER -->
+          
+          <button id="btnAssig" data-toggle="modal" data-target="#assignUser" style="display: none;"></button>
+        <div class="modal fade" id="assignUser" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" id="closeChangeUser" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Assign Sales Representative</h4>
+								                </div>
+								                <form ng-submit="changeUser()">
+								                <div class="modal-body">
+								                    <div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">User</label>
+														<div class="col-sm-6">
+															<select  class="form-control form-white" ng-model="changedUser" required>
+														    	<option value="">Select user</option>
+											                     <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.firstName}} {{item.lastName}}</option>
+											                </select>
+														</div>
+													</div>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Yes</button>
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div>
+          
+          
           
         <!-- END QUICKVIEW SIDEBAR -->
         <!-- BEGIN SEARCH -->

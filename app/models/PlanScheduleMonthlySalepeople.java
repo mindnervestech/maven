@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -26,21 +27,39 @@ public class PlanScheduleMonthlySalepeople extends Model {
 	public String cell;
 	public Integer flagMsg;
 	public String successRate;
+	public Integer notifFlag;
 	
 	@ManyToOne
 	public AuthUser user;
 	
 	@ManyToOne
 	public Location locations;
+	public Date saveDate;
 
 
 	
+	public Integer getNotifFlag() {
+		return notifFlag;
+	}
+
+	public void setNotifFlag(Integer notifFlag) {
+		this.notifFlag = notifFlag;
+	}
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Date getSaveDate() {
+		return saveDate;
+	}
+
+	public void setSaveDate(Date saveDate) {
+		this.saveDate = saveDate;
 	}
 
 	public String getMonth() {
@@ -194,5 +213,8 @@ public class PlanScheduleMonthlySalepeople extends Model {
 	
 	public static List<PlanScheduleMonthlySalepeople> findByAllMsgPlan(AuthUser user) {
 		return find.where().eq("flagMsg", 1).eq("user", user).findList();
+	}
+	public static List<PlanScheduleMonthlySalepeople> findByAllMsg(AuthUser user) {
+		return find.where().eq("notifFlag", 0).eq("user", user).findList();
 	}
 }

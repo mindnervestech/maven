@@ -91,10 +91,16 @@ public class TradeIn extends Model {
 public String testDriveStatus;
 public String productId;
 	
+public int notifFlag;
 	
 	
 	
-	
+	public int getNotifFlag() {
+	return notifFlag;
+}
+public void setNotifFlag(int notifFlag) {
+	this.notifFlag = notifFlag;
+}
 	public String getTestDriveStatus() {
 		return testDriveStatus;
 	}
@@ -738,5 +744,9 @@ public String productId;
 	public static List<TradeIn> findAllByUserServiceTest(AuthUser user,
 			Date date) {
 		return find.where().eq("assignedTo", user).eq("confirmDate", date).ne("confirmTime", null).eq("status", null).findList();
+	}
+	
+	public static List<TradeIn> findAllLeads(Long locationId) {
+		return find.where().eq("isRead", 0).eq("premiumFlag", 0).eq("status", null).findList();
 	}
 }

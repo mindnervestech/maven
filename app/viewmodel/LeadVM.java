@@ -11,10 +11,10 @@ public class LeadVM {
 	public String custNumber;
 	public String stockNumber;
 	public String manufacturers;
-	/*public String make;
-	public String model;*/
-	//public String makeSelect;
-	//public String modelSelect;
+	public String make;
+	public String model;
+	public String makeSelect;
+	public String modelSelect;
 	public String leadType;
 	public String hearedFrom;
 	public String contactedFrom;

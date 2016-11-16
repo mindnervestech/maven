@@ -85,5 +85,18 @@ public class RequestInfoVM {
 	public String cost;
 	public List<KeyValueDataVM> customData;
 	public Map<String, String> customMapData;
+	public long timeDiff;
+	public String timeUnit;
+	public String diffDays;
+	public String leadTypeForNotif;
+	public String month;
+	public Integer flagMsg;
+	public Integer sendInvitation;
+	public String firstName;
+	public String lastName;
+	public Integer declineMeeting;
+	public String declineReason;
+	public Integer acceptMeeting;
+	public String fileName;
 	
 }

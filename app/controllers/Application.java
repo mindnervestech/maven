@@ -2108,7 +2108,1666 @@ public class Application extends Controller {
 		
     }
     
-	
+    public static Result getNotificationData(){
+    	Map<String, Object> mapList = new HashMap<>();
+		
+		AuthUser user = (AuthUser) getLocalUser();
+		
+		/*-----------------------Like comment---------------------*/
+    	
+		
+		List<UserVM> listU = new ArrayList<>();
+		List<Comments> comments = Comments.getByListUserWithFlag(user);
+		for(Comments comm:comments){
+			UserVM uVm = new UserVM();
+			uVm.firstName = comm.commentUser.getFirstName();
+			uVm.lastName = comm.commentUser.getLastName();
+			uVm.id = comm.commentUser.id;
+			uVm.userComment=comm.comment;
+			if(comm.commentUser.imageUrl != null) {
+				if(comm.commentUser.imageName !=null){
+					uVm.imageUrl = "http://glider-autos.com/MavenImg/images"+comm.commentUser.imageUrl;
+				}else{
+					uVm.imageUrl = comm.commentUser.imageUrl;
+				}
+				
+			} else {
+				uVm.imageUrl = "/profile-pic.jpg";
+			}
+			
+			listU.add(uVm);
+			
+			comm.setCommentFlag(0);
+			comm.update();
+			
+		}
+    	
+    	mapList.put("commentLike", listU);
+    	
+    	/*----------------------------Plan schedule-----------------------*/
+    	
+    	List<PlanScheduleMonthlySalepeople> salepeople = PlanScheduleMonthlySalepeople.findByAllMsg(user);
+    	
+    	List<RequestInfoVM> rList1 = new ArrayList<>();
+    	for(PlanScheduleMonthlySalepeople sales:salepeople){
+    	if(sales != null){
+    	RequestInfoVM rVm = new RequestInfoVM();
+    					rVm.month = sales.month;
+    					Date date=new Date();
+    					Date newDate=sales.saveDate;
+    					Date curDate1=null;
+    					Date curDate=null;
+    					DateFormat form = new SimpleDateFormat("yyyy-MM-dd");
+    					String currD=form.format(date);
+    					//String currD="2016-07-01";
+    					String arr[]=currD.split("-");
+    					String newD=arr[0]+"-"+arr[1]+"-"+"01";
+    					if(currD.equals(newD) && newDate != null){
+    					String planD=form.format(newDate);
+    					//if(currD.equals(arg0))
+    					DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+    					 DateFormat df11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+    				    Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    						df11.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+    						String date1=df11.format(date);
+    						String dateNew=df1.format(newDate);
+    						String date11="00:00:AM";
+    						
+    						try {
+    							curDate1=df1.parse(date1);
+    							curDate = df1.parse(dateNew);
+    						} catch (ParseException e1) {
+    							// TODO Auto-generated catch block
+    							e1.printStackTrace();
+    						}
+    						
+    						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+    						  long diff = curDate1.getTime() - curDate.getTime();
+    			  	        long diffSeconds = diff / 1000 % 60;
+    			  	        long diffMinutes = diff / (60 * 1000) % 60;
+    			  	        	long diffHours = diff / (60 * 60 * 1000)% 24;
+    			  	        	int diffInDays = (int) ((curDate1.getTime() - curDate.getTime()) / (1000 * 60 * 60 * 24));
+    			    	        String diffDay=null;
+    			    	        String diffHr=null;
+    			    	        if(diffInDays != 0){
+    			    	        if(diffInDays <10){
+    			    	        	
+    			    	        	diffDay=""+diffInDays;
+    			    	        }
+    			    	        else{
+    			    	        	diffDay=""+diffInDays;
+    			    	        }
+    			    	        if(diffHours <10){
+    			    	        	diffHr="0"+diffHours;
+    			    	        }
+    			    	        else{
+    			    	        	diffHr=""+diffHours;
+    			    	        }
+    			    	        rVm.diffDays=diffDay+" + days";
+    			    	        }
+    			    	        else if(diffInDays == 0 && diffHours == 0){
+    			    	        	rVm.diffDays=diffMinutes+" minutes ago";;
+    			        	     
+    			        	        }
+    			    	        else{
+    			    	        	
+    			    	        	 if(diffHours <10){
+    			    	    	        	diffHr="0"+diffHours;
+    			    	    	        }
+    			    	    	        else{
+    			    	    	        	diffHr=""+diffHours;
+    			    	    	        }
+    			    	        	 rVm.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    			    	        }
+    			  	        	
+    			  	     rVm.id=sales.id;	
+    			  	     rVm.flagMsg=sales.flagMsg; 	
+    					rList1.add(rVm);
+    					}
+    			
+    		}
+		}
+    	mapList.put("planScheduleMonthly", rList1);
+    for(PlanScheduleMonthlySalepeople sales:salepeople){
+    		
+    		sales.setFlagMsg(0);
+    		sales.update();
+    		
+    	}
+    	
+    	/*-------------------Coming soon--------------------------*/
+    	
+    	List<PriceAlert> price=PriceAlert.getAllRecordPopUp();
+    	DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+    	
+    	
+    	Date curDate = null;
+    	Date curDate1 = null;
+    	Date curDateNew = null;
+    	List<RequestInfoVM> rList = new ArrayList<>();
+    	Date date=new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+		DateFormat format1 = new SimpleDateFormat("HH:mm:a");
+		 DateFormat df11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+			Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+			df11.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+			String date1=df2.format(date);
+			String dateNew=df11.format(date);
+			String date11="00:00:AM";
+			
+			try {
+				curDate1=df1.parse(dateNew);
+				curDate = formatter.parse(date1);
+				curDateNew=format1.parse(date11);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+			  long diff = curDate1.getTime() - curDateNew.getTime();
+  	        long diffSeconds = diff / 1000 % 60;
+  	        long diffMinutes = diff / (60 * 1000) % 60;
+  	        	long diffHours = diff / (60 * 60 * 1000)% 24;
+			
+			
+    		List<Vehicle> vehList=Vehicle.findByComingSoonDate(curDate);
+    		
+    		for(Vehicle vehicle:vehList){
+    			if(vehicle.locations != null){
+        	RequestInfoVM rVm = new RequestInfoVM();
+        					rVm.id = vehicle.id;
+        					rVm.vin = vehicle.vin;
+        					rVm.make =  vehicle.make;
+        					rVm.model = vehicle.model;
+        					rVm.year = vehicle.year;
+        					rVm.price = vehicle.price;
+        					if(diffHours != 0){
+        					rVm.diffDays=diffHours+" hours"+diffMinutes+" minutes ago";
+        					}
+        					else{
+        						rVm.diffDays=diffMinutes+" minutes ago";
+        					}
+        					int vCount = 0;
+        					List<PriceAlert> vehCount = PriceAlert.getByVin(vehicle.vin);
+        					for(PriceAlert pAlert:vehCount){
+        						vCount++;
+        					}
+        					rVm.subscribers = vCount;
+        					
+        					rVm.comingSoonDate = formatter.format(vehicle.comingSoonDate);
+        					AddProduct vehicleImg = AddProduct.getDefaultImg(vehicle.id);
+        					if(vehicleImg != null) {
+        						rVm.imageUrl = "http://glider-autos.com/MavenImg/images"+vehicleImg.filePath;
+        					}else {
+        						rVm.imageUrl = "/profile-pic.jpg";
+        					}
+        					
+        					rList.add(rVm);
+        				
+        			
+        		}
+    		}
+    		
+    		
+    		mapList.put("comingSoonData", rList);
+    		
+    	/*-----------------------Invitation---------------------------------*/
+    		
+    	      DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+  	        Date currD = new Date();
+  	        String cDate = df.format(currD);
+  	        Date datec = null;
+  	        try {
+  				datec = df.parse(cDate);
+  			} catch (ParseException e) {
+  				// TODO Auto-generated catch block
+  				e.printStackTrace();
+  			}
+  	        
+  		List<ScheduleTest> list = ScheduleTest.findAllByInvitation(user, datec);
+  		
+  		List<RequestInfoVM> checkData = new ArrayList<>();
+  		for(ScheduleTest sche:list){
+  			
+  			RequestInfoVM sTestVM = new RequestInfoVM();
+          	
+          	
+  			sTestVM.id = sche.id;
+          	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(sche.confirmDate);
+          	sTestVM.confirmTime = new SimpleDateFormat("hh:mm a").format(sche.confirmTime);
+          	sTestVM.confirmDateOrderBy = sche.confirmDate;
+          	sTestVM.typeOfLead = "Schedule Test Drive";
+          	sTestVM.name = sche.name;
+      		sTestVM.phone = sche.phone;
+      		sTestVM.email = sche.email;
+      		sTestVM.sendInvitation=sche.sendInvitation;
+      		AuthUser user2 = AuthUser.findById(sche.user.id);
+      		if(user2.imageUrl != null) {
+  				if(user2.imageName !=null){
+  					sTestVM.imageUrl = "http://glider-autos.com/MavenImg/images"+user2.imageUrl;
+  				}else{
+  					sTestVM.imageUrl = user2.imageUrl;
+  				}
+  				
+  			} else {
+  				sTestVM.imageUrl = "/profile-pic.jpg";
+  			}
+      		
+      		
+      		Date schDate=new Date();
+			Date schcurDate11=null;
+			Date schcurDate1=null;
+      		DateFormat schDatedf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+			 DateFormat schDatedf11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+		    Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    schDatedf11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+				String schDate1=schDatedf11.format(schDate);
+				String dateNew1=schDatedf11.format(sche.scheduleTime);
+				
+				try {
+					schcurDate11=schDatedf1.parse(schDate1);
+					schcurDate1 =schDatedf1.parse(dateNew1);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				  long schdiff = schcurDate11.getTime() - schcurDate1.getTime();
+	  	        long diffSeconds1 = diff / 1000 % 60;
+	  	        long diffMinutes1 = diff / (60 * 1000) % 60;
+	  	        	long diffHours1 = diff / (60 * 60 * 1000)% 24;
+	  	        	int diffInDays1 = (int) ((schcurDate11.getTime() - schcurDate1.getTime()) / (1000 * 60 * 60 * 24));
+	    	        String diffDay=null;
+	    	        String diffHr=null;
+	    	        if(diffInDays1 != 0){
+	    	        if(diffInDays1<10){
+	    	        	
+	    	        	diffDay=""+diffInDays1;
+	    	        }
+	    	        else{
+	    	        	diffDay=""+diffInDays1;
+	    	        }
+	    	        if(diffHours <10){
+	    	        	diffHr=""+diffHours1;
+	    	        }
+	    	        else{
+	    	        	diffHr=""+diffHours1;
+	    	        }
+	    	        sTestVM.diffDays=diffDay+" + days";
+	    	        }
+	    	        else if(diffInDays1 == 0 && diffHours1 == 0){
+	    	        	sTestVM.diffDays=diffMinutes1+" minutes ago";;
+	        	     
+	        	        }
+	    	        else{
+	    	        	
+	    	        	 if(diffHours1 <10){
+	    	    	        	diffHr=""+diffHours1;
+	    	    	        }
+	    	    	        else{
+	    	    	        	diffHr=""+diffHours1;
+	    	    	        }
+	    	        	 sTestVM.diffDays=diffHr+" hours "+diffMinutes1+" minutes ago";
+	    	        }
+      		
+      		
+      		checkData.add(sTestVM);
+      		
+  			sche.setSendInvitation(0);
+  			sche.update();
+  		}
+  		
+  		mapList.put("invitationData", checkData);
+  		
+  		
+  		/*-------------Decline Metting--------------------------------*/
+  		
+    	
+    	List<ScheduleTest> sche = ScheduleTest.getdeclineMeeting(user);
+    	List<RequestInfoVM> acList1 = new ArrayList<>();
+    	for(ScheduleTest sch1:sche){
+    	if(sch1 != null){
+    	RequestInfoVM rVm = new RequestInfoVM();
+    	AuthUser user1=AuthUser.findById(sch1.assignedTo.id);
+    					rVm.firstName = user1.firstName;
+    					rVm.lastName = user1.lastName;
+    					rVm.name = sch1.name;
+    					rVm.id = sch1.id;
+    					rVm.declineMeeting=sch1.declineMeeting;
+    					rVm.declineReason=sch1.declineReason;
+    					Date schDate=new Date();
+    					Date schcurDate11=null;
+    					Date schcurDate1=null;
+    					DateFormat schDatedf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+    					 DateFormat schDatedf11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+    				    Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    				    schDatedf11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+    						String schDate1=schDatedf11.format(schDate);
+    						String dateNew1=schDatedf11.format(sch1.meetingActionTime);
+    						
+    						try {
+    							schcurDate11=schDatedf1.parse(schDate1);
+    							schcurDate1 =schDatedf1.parse(dateNew1);
+    						} catch (ParseException e1) {
+    							// TODO Auto-generated catch block
+    							e1.printStackTrace();
+    						}
+    						
+    						  long schdiff = schcurDate11.getTime() - schcurDate1.getTime();
+    			  	        long diffSeconds1 = schdiff / 1000 % 60;
+    			  	        long diffMinutes1 = schdiff / (60 * 1000) % 60;
+    			  	        	long diffHours1 = diff / (60 * 60 * 1000)% 24;
+    			  	        	int diffInDays1 = (int) ((schcurDate11.getTime() - schcurDate1.getTime()) / (1000 * 60 * 60 * 24));
+    			    	        String diffDay=null;
+    			    	        String diffHr=null;
+    			    	        if(diffInDays1 != 0){
+    			    	        if(diffInDays1<10){
+    			    	        	
+    			    	        	diffDay=""+diffInDays1;
+    			    	        }
+    			    	        else{
+    			    	        	diffDay=""+diffInDays1;
+    			    	        }
+    			    	        if(diffHours <10){
+    			    	        	diffHr="0"+diffHours1;
+    			    	        }
+    			    	        else{
+    			    	        	diffHr=""+diffHours1;
+    			    	        }
+    			    	        rVm.diffDays=diffDay+" + days";
+    			    	        }
+    			    	        else if(diffInDays1 == 0 && diffHours1 == 0){
+    			    	        	rVm.diffDays=diffMinutes1+" minutes ago";;
+    			        	     
+    			        	        }
+    			    	        else{
+    			    	        	
+    			    	        	 if(diffHours1 <10){
+    			    	    	        	diffHr="0"+diffHours1;
+    			    	    	        }
+    			    	    	        else{
+    			    	    	        	diffHr=""+diffHours1;
+    			    	    	        }
+    			    	        	 rVm.diffDays=diffHr+" hours "+diffMinutes1+" minutes ago";
+    			    	        }
+    			  	        	
+    			  	        	
+    			  	        	
+    			    	        acList1.add(rVm);
+    			    	        
+    			    	        for(ScheduleTest sch:sche){
+    			    	    		sch.setDeclineMeeting(0);
+    			    	    		sch.update();
+    			    	    	}
+    			
+    		}
+		}
+    	
+    	mapList.put("declineMeeting", acList1);
+    	
+    	
+    	
+    	
+    	/*-----------------accept msg--------------------------*/
+		
+    	List<ScheduleTest> sche1 = ScheduleTest.getacceptMeeting(user);
+    	List<RequestInfoVM> acList = new ArrayList<>();
+    	for(ScheduleTest sch1:sche1){
+    	if(sch1 != null){
+    	RequestInfoVM rVm = new RequestInfoVM();
+    	AuthUser usersData = AuthUser.findById(sch1.assignedTo.id);
+    					rVm.firstName = usersData.firstName;
+    					rVm.lastName = usersData.lastName;
+    					rVm.name = sch1.name;
+    					rVm.acceptMeeting=sch1.acceptMeeting;
+    					rVm.id = sch1.id;
+    					Date schDate=new Date();
+    					Date schcurDate11=null;
+    					Date schcurDate1=null;
+    					DateFormat schDatedf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+    					 DateFormat schDatedf11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+    				    Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    				    schDatedf11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+    						String schDate1=schDatedf11.format(schDate);
+    						String dateNew1=schDatedf11.format(sch1.meetingActionTime);
+    						
+    						try {
+    							schcurDate11=schDatedf1.parse(schDate1);
+    							schcurDate1 =schDatedf1.parse(dateNew1);
+    						} catch (ParseException e1) {
+    							// TODO Auto-generated catch block
+    							e1.printStackTrace();
+    						}
+    						
+    						  long schdiff = schcurDate11.getTime() - schcurDate1.getTime();
+    			  	        long diffSeconds1 = diff / 1000 % 60;
+    			  	        long diffMinutes1 = diff / (60 * 1000) % 60;
+    			  	        	long diffHours1 = diff / (60 * 60 * 1000)% 24;
+    			  	        	int diffInDays1 = (int) ((schcurDate11.getTime() - schcurDate1.getTime()) / (1000 * 60 * 60 * 24));
+    			    	        String diffDay=null;
+    			    	        String diffHr=null;
+    			    	        if(diffInDays1 != 0){
+    			    	        if(diffInDays1<10){
+    			    	        	
+    			    	        	diffDay=""+diffInDays1;
+    			    	        }
+    			    	        else{
+    			    	        	diffDay=""+diffInDays1;
+    			    	        }
+    			    	        if(diffHours <10){
+    			    	        	diffHr="0"+diffHours1;
+    			    	        }
+    			    	        else{
+    			    	        	diffHr=""+diffHours1;
+    			    	        }
+    			    	        rVm.diffDays=diffDay+" + days";
+    			    	        }
+    			    	        else if(diffInDays1 == 0 && diffHours1 == 0){
+    			    	        	rVm.diffDays=diffMinutes1+" minutes ago";;
+    			        	     
+    			        	        }
+    			    	        else{
+    			    	        	
+    			    	        	 if(diffHours1 <10){
+    			    	    	        	diffHr="0"+diffHours1;
+    			    	    	        }
+    			    	    	        else{
+    			    	    	        	diffHr=""+diffHours1;
+    			    	    	        }
+    			    	        	 rVm.diffDays=diffHr+" hours "+diffMinutes1+" minutes ago";
+    			    	        }
+    			  	        	
+    			  	        	
+    			  	        	
+    			    	        acList.add(rVm);
+    			    	        for(ScheduleTest sch2:sche1){
+    			    	    		sch2.setAcceptMeeting(0);
+    			    	    		sch2.update();
+    			    	    	}
+    			
+    		}
+		}
+    	mapList.put("acceptedMeeting", acList);
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	/*---------------------delete meeting-------------------------------*/
+    	
+    	SimpleDateFormat df3 = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+    	List<ScheduleTest> sche2 = ScheduleTest.getdeleteMsg(user);
+    	
+    	List<ScheduleTestVM> list1 = new ArrayList<ScheduleTestVM>();
+    	for(ScheduleTest sch:sche2){
+    		if(sch.declineUser.equals("Host")){
+    			if(!user.id.equals(sch.user.id)){
+    				
+    				sch.setDeleteMsgFlag(0);
+    	    		sch.update();
+    				
+    				ScheduleTestVM sLVm = new ScheduleTestVM();
+    	    		sLVm.name = sch.name;
+    	    		sLVm.reason = sch.reason;
+    	    		sLVm.confirmDate = df3.format(sch.confirmDate);
+    	    		sLVm.confirmTime = parseTime.format(sch.confirmTime);
+    	    		AuthUser usersData = AuthUser.findById(sch.assignedTo.id);
+    	    		sLVm.firstName = usersData.firstName;
+    	    		sLVm.lastName = usersData.lastName;
+    	    		sLVm.declineUser = sch.declineUser;
+    	    		list1.add(sLVm);
+    			}
+    		}else if(sch.declineUser.equals("this person")){
+    			
+    			if(!user.id.equals(sch.assignedTo.id)){
+    				sch.setDeleteMsgFlag(0);
+            		sch.update();
+        			
+        			ScheduleTestVM sLVm = new ScheduleTestVM();
+    	    		sLVm.name = sch.name;
+    	    		sLVm.reason = sch.reason;
+    	    		sLVm.confirmDate = df.format(sch.confirmDate);
+    	    		sLVm.confirmTime = parseTime.format(sch.confirmTime);
+    	    		AuthUser usersData = AuthUser.findById(sch.assignedTo.id);
+    	    		sLVm.firstName = usersData.firstName;
+    	    		sLVm.lastName = usersData.lastName;
+    	    		sLVm.declineUser = sch.declineUser;
+    	    		list1.add(sLVm);
+    			}
+    		}
+    	}
+    	
+    	mapList.put("deleteMeeting", list1);
+    	
+    	
+    	/*-------update meeting----------------------------------------*/
+    	
+    	List<ScheduleTest> schedu = ScheduleTest.getUpdateMeeting(user);
+    	List<ScheduleTestVM> listData = new ArrayList<>();
+    	for(ScheduleTest sch:schedu){
+    		ScheduleTestVM vm = new ScheduleTestVM();
+    		vm.confirmTime = new SimpleDateFormat("hh:mm a").format(sch.confirmTime);
+    		vm.confirmEndTime = new SimpleDateFormat("hh:mm a").format(sch.confirmEndTime);
+    		vm.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(sch.confirmDate);
+    		vm.name = sch.name;
+    		vm.reason = sch.reason;
+    		listData.add(vm);
+    		sch.setDeclineUpdate(0);
+    		
+    		
+    		Date schDate=new Date();
+			Date schcurDate11=null;
+			Date schcurDate1=null;
+			DateFormat schDatedf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+			 DateFormat schDatedf11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+		    Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    schDatedf11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+				String schDate1=schDatedf11.format(schDate);
+				String dateNew1=schDatedf11.format(sch.meetingActionTime);
+				
+				try {
+					schcurDate11=schDatedf1.parse(schDate1);
+					schcurDate1 =schDatedf1.parse(dateNew1);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				  long schdiff = schcurDate11.getTime() - schcurDate1.getTime();
+	  	        long diffSeconds1 = diff / 1000 % 60;
+	  	        long diffMinutes1 = diff / (60 * 1000) % 60;
+	  	        	long diffHours1 = diff / (60 * 60 * 1000)% 24;
+	  	        	int diffInDays1 = (int) ((schcurDate11.getTime() - schcurDate1.getTime()) / (1000 * 60 * 60 * 24));
+	    	        String diffDay=null;
+	    	        String diffHr=null;
+	    	        if(diffInDays1 != 0){
+	    	        if(diffInDays1<10){
+	    	        	
+	    	        	diffDay=""+diffInDays1;
+	    	        }
+	    	        else{
+	    	        	diffDay=""+diffInDays1;
+	    	        }
+	    	        if(diffHours <10){
+	    	        	diffHr="0"+diffHours1;
+	    	        }
+	    	        else{
+	    	        	diffHr=""+diffHours1;
+	    	        }
+	    	        vm.diffDays=diffDay+" + days";
+	    	        }
+	    	        else if(diffInDays1 == 0 && diffHours1 == 0){
+	    	        	vm.diffDays=diffMinutes1+" minutes ago";;
+	        	     
+	        	        }
+	    	        else{
+	    	        	
+	    	        	 if(diffHours1 <10){
+	    	    	        	diffHr="0"+diffHours1;
+	    	    	        }
+	    	    	        else{
+	    	    	        	diffHr=""+diffHours1;
+	    	    	        }
+	    	        	 vm.diffDays=diffHr+" hours "+diffMinutes1+" minutes ago";
+	    	        }
+
+    		
+    		
+    		sch.update();
+    	}
+    	
+    	mapList.put("updateMeeting", listData);
+    	
+    	/*----------------------------------------*/
+    	
+    	List<RequestInfoVM> actionVM= new ArrayList<RequestInfoVM>();
+    	findReminderPopupFunction(actionVM);
+    	mapList.put("reminderPopup", actionVM);
+
+    	
+    	return ok(Json.toJson(mapList));
+		
+    	
+    }
+    
+    
+    
+    public static void findReminderPopupFunction(List<RequestInfoVM> actionVM){
+    	
+    	SimpleDateFormat dfs = new SimpleDateFormat("yyyy-MM-dd");
+      	 DateFormat df1 = new SimpleDateFormat("MM-dd-yyyy HH:mm a");
+      	 DateFormat df2 = new SimpleDateFormat("MM-dd-yyyy HH:mm a");
+      	 AuthUser user = (AuthUser) getLocalUser();
+           DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+           SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+           Date currD = new Date();
+           Date currentDate = null;
+           Date aftHrDate = null;
+           Date aftDay = null;
+           Date aftHrDate1 = null;
+           Date aftDay1 = null;
+           Date infoDate = null;
+           Date datec = null;
+           
+           Date lessDay = DateUtils.addDays(currD, -1);
+           
+        //   List<NoteVM> actionVM = new ArrayList<NoteVM>();
+           
+           
+           
+          // List<ScheduleTest> list = ScheduleTest.findAllByServiceTestPopup(user,lessDay);
+           
+       	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmGraLeadsToPopUp(user,lessDay);
+       //	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeadsToPopup(user,lessDay);
+       	
+       	//fillLeadsData(list, requestMoreInfos, tradeIns, infoVMList);
+       	
+       /*	for(ScheduleTest scTest:list){
+          	 
+       		RequestInfoVM acti = new RequestInfoVM();
+          	 AuthUser aUser = AuthUser.findById(scTest.assignedTo.id);
+          	 Location location = Location.findById(aUser.location.id);
+          	
+          	 df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+               String IST = df2.format(currD);
+              
+               Date istTimes = null;
+   			try {
+   				istTimes = df1.parse(IST);
+   			} catch (ParseException e1) {
+   				// TODO Auto-generated catch block
+   				e1.printStackTrace();
+   			}
+          	
+          	 
+          	 String cDate = df.format(istTimes);
+               String cTime = parseTime.format(istTimes);
+               String crD =    df1.format(istTimes);
+      		 
+               try {
+              	 currentDate = df1.parse(crD);
+              	 datec = df.parse(cDate);
+              	 aftHrDate = DateUtils.addHours(currentDate, 1);
+              	 aftDay = DateUtils.addHours(currentDate, 24);
+              	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+              	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+      		} catch (Exception e) {
+      			e.printStackTrace();
+      		}
+          	 
+          	 try {
+          		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
+          		 infoDate = df1.parse(str);
+
+          		            	 
+          		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
+              		 if(scTest.meetingStatus == null){
+              			acti.action = "Test drive reminder";
+              			acti.notes = "You have a test drive scheduled in 1 hour ";
+          			 }else if(scTest.meetingStatus.equals("meeting")){
+          				acti.action = "Meeting reminder";
+          				acti.notes = "You have a meeting scheduled in 1 hour ";
+          			 }
+              		 
+              		acti.id = scTest.id;
+           		Vehicle vehicle = Vehicle.findByVinAndStatus(scTest.vin);
+           		acti.vin = scTest.vin;
+           		if(vehicle != null) {
+           			acti.model = vehicle.model;
+           			acti.make = vehicle.make;
+           			acti.stock = vehicle.stock;
+           			acti.year = vehicle.year;
+           			acti.mileage = vehicle.mileage;
+           			acti.price = vehicle.price;
+           		}
+           		
+           		acti.name = scTest.name;
+           		acti.phone = scTest.phone;
+           		acti.email = scTest.email;
+           			
+           		acti.howContactedUs = scTest.contactedFrom;
+           		acti.howFoundUs = scTest.hearedFrom;
+           		acti.custZipCode = scTest.custZipCode;
+           		acti.enthicity = scTest.enthicity;
+           		acti.status =scTest.leadStatus;
+           		
+           		acti.typeOfLead = "Schedule Test Drive";
+           		findSchedulParentChildAndBro(actionVM, scTest, dfs, acti);
+           		
+              		 
+              		 
+              		 actionVM.add(acti);
+              	 }
+          		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay1)))){
+              		 if(scTest.meetingStatus == null){
+              			acti.action =  "Test drive reminder";
+              			acti.notes = "You have a test drive scheduled in 24 hours ";
+          			 }else if(scTest.meetingStatus.equals("meeting")){
+          				acti.action = "Meeting reminder";
+          				acti.notes =  "You have a meeting scheduled in 24 hours ";
+          			 }
+              		 
+              		 
+              		acti.id = scTest.id;
+           		Vehicle vehicle1 = Vehicle.findByVinAndStatus(scTest.vin);
+           		acti.vin = scTest.vin;
+           		if(vehicle1 != null) {
+           			acti.model = vehicle1.model;
+           			acti.make = vehicle1.make;
+           			acti.stock = vehicle1.stock;
+           			acti.year = vehicle1.year;
+           			acti.mileage = vehicle1.mileage;
+           			acti.price = vehicle1.price;
+           		}
+           		
+           		acti.name = scTest.name;
+           		acti.phone = scTest.phone;
+           		acti.email = scTest.email;
+           			
+           		acti.howContactedUs = scTest.contactedFrom;
+           		acti.howFoundUs = scTest.hearedFrom;
+           		acti.custZipCode = scTest.custZipCode;
+           		acti.enthicity = scTest.enthicity;
+           		acti.status =scTest.leadStatus;
+           		
+           		acti.typeOfLead = "Schedule Test Drive";
+           		findSchedulParentChildAndBro(actionVM, scTest, dfs, acti);
+           		
+           		Date curDate = null;
+            	Date curDate1 = null;
+            	Date curDateNew = null;
+            	List<RequestInfoVM> rList = new ArrayList<>();
+            	Date date=new Date();
+        		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        		DateFormat newdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+        		DateFormat format1 = new SimpleDateFormat("HH:mm:a");
+        		 DateFormat df11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+        			Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        			df2.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+        			df11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+        			String date1=df2.format(date);
+        			String dateNew=df11.format(date);
+        			String date11="00:00:AM";
+        			
+        			try {
+        				curDate1=newdf1.parse(dateNew);
+        				curDate = formatter.parse(date1);
+        				curDateNew=format1.parse(date11);
+        			} catch (ParseException e1) {
+        				// TODO Auto-generated catch block
+        				e1.printStackTrace();
+        			}
+        			
+        			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+        			  long diff = curDate1.getTime() - curDateNew.getTime();
+          	        long diffSeconds = diff / 1000 % 60;
+          	        long diffMinutes = diff / (60 * 1000) % 60;
+          	        	long diffHours = diff / (60 * 60 * 1000)% 24;
+          	        	if(diffHours != 0){
+          	        		acti.diffDays=diffHours+" hours"+diffMinutes+" minutes ago";
+        					}
+        					else{
+        						acti.diffDays=diffMinutes+" minutes ago";
+        					}
+           		
+           		
+           		
+              		 actionVM.add(acti);
+              	 }
+   			} catch (Exception e) {
+   				e.printStackTrace();
+   			}
+          	 
+          	
+           }
+*/           
+           for(RequestMoreInfo rInfo:requestMoreInfos){
+           	
+           	RequestInfoVM acti = new RequestInfoVM();
+          	 AuthUser emailUser = AuthUser.findById(rInfo.assignedTo.id);
+          	 
+          	 Location location = Location.findById(emailUser.location.id);
+          	
+          	 df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+               String IST = df2.format(currD);
+              
+               Date istTimes = null;
+   			try {
+   				istTimes = df1.parse(IST);
+   			} catch (ParseException e1) {
+   				// TODO Auto-generated catch block
+   				e1.printStackTrace();
+   			}
+          	
+          	 
+          	 String cDate = df.format(istTimes);
+               String cTime = parseTime.format(istTimes);
+               String crD =    df1.format(istTimes);
+      		 
+               try {
+              	 currentDate = df1.parse(crD);
+              	 datec = df.parse(cDate);
+              	 aftHrDate = DateUtils.addHours(currentDate, 1);
+              	 aftDay = DateUtils.addHours(currentDate, 24);
+              	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+              	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+      		} catch (Exception e) {
+      			e.printStackTrace();
+      		}
+          	 
+          	 
+          	 try {
+          		 String str = df.format(rInfo.confirmDate) +" "+parseTime.format(rInfo.confirmTime);
+          		 infoDate = df1.parse(str);
+          		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
+          			acti.action = "Test drive reminder";
+          			acti.notes = "You have a test drive scheduled in 1 hour ";
+          			
+          			acti.id = rInfo.id;
+           		AddProduct vehicle = AddProduct.findByVinAndStat(rInfo.id.toString());
+           		acti.vin = rInfo.vin;
+           		if(vehicle != null) {
+           			
+           			acti.title = vehicle.title;
+           			acti.description = vehicle.description;
+           			acti.fileName = vehicle.fileName;
+           			acti.cost = String.valueOf(vehicle.cost);
+           			
+           		}
+           		
+           		acti.name = rInfo.name;
+           		acti.phone = rInfo.phone;
+           		acti.email = rInfo.email;
+           			
+           		acti.howContactedUs = rInfo.contactedFrom;
+           		acti.howFoundUs = rInfo.hearedFrom;
+           		acti.custZipCode = rInfo.custZipCode;
+           		acti.enthicity = rInfo.enthicity;
+           		acti.status =rInfo.leadStatus;
+           		
+           		//acti.typeOfLead = "Request More Info";
+           		LeadType lType = null;
+	    		if(rInfo.isContactusType != null){
+		    		if(!rInfo.isContactusType.equals("contactUs")){
+		    			lType = LeadType.findById(Long.parseLong(rInfo.isContactusType));
+		    		}else{
+		    			lType = LeadType.findByName(rInfo.isContactusType);
+		    		}
+		    		acti.typeOfLead = lType.leadName;
+		    		findCustomeData(rInfo.id,acti,lType.id);
+	    		}else{
+	    			acti.typeOfLead = "Request More Info";
+	    			findCustomeData(rInfo.id,acti,1L);
+	    		}
+           		
+           		findRequestParentChildAndBro(actionVM, rInfo, dfs, acti);
+          		 actionVM.add(acti);
+          		 }
+          		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay1)))){
+          			acti.action =  "Test drive reminder";
+          			acti.notes = "You have a test drive scheduled in 24 hours ";
+          			
+          			
+          			acti.id = rInfo.id;
+           		AddProduct vehicle = AddProduct.findByVinAndStat(rInfo.id.toString());
+           		acti.vin = rInfo.vin;
+           		if(vehicle != null) {
+           			acti.title = vehicle.title;
+           			acti.description = vehicle.description;
+           			acti.fileName = vehicle.fileName;
+           			acti.cost = String.valueOf(vehicle.cost);
+           		}
+           		
+           		acti.name = rInfo.name;
+           		acti.phone = rInfo.phone;
+           		acti.email = rInfo.email;
+           			
+           		acti.howContactedUs = rInfo.contactedFrom;
+           		acti.howFoundUs = rInfo.hearedFrom;
+           		acti.custZipCode = rInfo.custZipCode;
+           		acti.enthicity = rInfo.enthicity;
+           		acti.status =rInfo.leadStatus;
+           		
+           		acti.typeOfLead = "Request More Info";
+           		
+           		LeadType lType = null;
+	    		if(rInfo.isContactusType != null){
+		    		if(!rInfo.isContactusType.equals("contactUs")){
+		    			lType = LeadType.findById(Long.parseLong(rInfo.isContactusType));
+		    		}else{
+		    			lType = LeadType.findByName(rInfo.isContactusType);
+		    		}
+		    		acti.typeOfLead = lType.leadName;
+		    		findCustomeData(rInfo.id,acti,lType.id);
+	    		}else{
+	    			acti.typeOfLead = "Request More Info";
+	    			findCustomeData(rInfo.id,acti,1L);
+	    		}
+           		findRequestParentChildAndBro(actionVM, rInfo, dfs, acti);
+           		
+           		
+           		
+           		Date curDate = null;
+            	Date curDate1 = null;
+            	Date curDateNew = null;
+            	List<RequestInfoVM> rList = new ArrayList<>();
+            	Date date=new Date();
+        		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        		DateFormat newdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+        		DateFormat format1 = new SimpleDateFormat("HH:mm:a");
+        		 DateFormat df11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+        			Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        			df2.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+        			df11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+        			String date1=df2.format(date);
+        			String dateNew=df11.format(date);
+        			String date11="00:00:AM";
+        			
+        			try {
+        				curDate1=newdf1.parse(dateNew);
+        				curDate = formatter.parse(date1);
+        				curDateNew=format1.parse(date11);
+        			} catch (ParseException e1) {
+        				// TODO Auto-generated catch block
+        				e1.printStackTrace();
+        			}
+        			
+        			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+        			  long diff = curDate1.getTime() - curDateNew.getTime();
+          	        long diffSeconds = diff / 1000 % 60;
+          	        long diffMinutes = diff / (60 * 1000) % 60;
+          	        	long diffHours = diff / (60 * 60 * 1000)% 24;
+          	        	if(diffHours != 0){
+          	        		acti.diffDays=diffHours+" hours"+diffMinutes+" minutes ago";
+        					}
+        					else{
+        						acti.diffDays=diffMinutes+" minutes ago";
+        					}
+           		
+           		
+          		 actionVM.add(acti);
+          		 }
+   			} catch (Exception e) {
+   				e.printStackTrace();
+   			}
+           }
+           
+           /*for(TradeIn tInfo:tradeIns){
+           	RequestInfoVM acti = new RequestInfoVM();
+          	 AuthUser emailUser = AuthUser.findById(tInfo.assignedTo.id);
+          	 
+          	 Location location = Location.findById(emailUser.location.id);
+          	
+          	 df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+               String IST = df2.format(currD);
+              
+               Date istTimes = null;
+   			try {
+   				istTimes = df1.parse(IST);
+   			} catch (ParseException e1) {
+   				// TODO Auto-generated catch block
+   				e1.printStackTrace();
+   			}
+          	
+          	 
+          	 String cDate = df.format(istTimes);
+               String cTime = parseTime.format(istTimes);
+               String crD =    df1.format(istTimes);
+      		 
+               try {
+              	 currentDate = df1.parse(crD);
+              	 datec = df.parse(cDate);
+              	 aftHrDate = DateUtils.addHours(currentDate, 1);
+              	 aftDay = DateUtils.addHours(currentDate, 24);
+              	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+              	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+      		} catch (Exception e) {
+      			e.printStackTrace();
+      		}
+          	 
+          	 
+          	 try {
+          		 String str = df.format(tInfo.confirmDate) +" "+parseTime.format(tInfo.confirmTime);
+          		 infoDate = df1.parse(str);
+          		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
+           			acti.action = "Test drive reminder";
+              			acti.notes = "You have a test drive scheduled in 1 hour ";
+              			
+              			acti.id = tInfo.id;
+               		Vehicle vehicle = Vehicle.findByVinAndStatus(tInfo.vin);
+               		acti.vin = tInfo.vin;
+               		if(vehicle != null) {
+               			acti.model = vehicle.model;
+               			acti.make = vehicle.make;
+               			acti.stock = vehicle.stock;
+               			acti.year = vehicle.year;
+               			acti.mileage = vehicle.mileage;
+               			acti.price = vehicle.price;
+               		}
+               		
+               		acti.name = tInfo.firstName;
+               		acti.phone = tInfo.phone;
+               		acti.email = tInfo.email;
+               			
+               		acti.howContactedUs = tInfo.contactedFrom;
+               		acti.howFoundUs = tInfo.hearedFrom;
+               		acti.custZipCode = tInfo.custZipCode;
+               		acti.enthicity = tInfo.enthicity;
+               		acti.status =tInfo.leadStatus;
+               		
+               		acti.typeOfLead = "Trade-In Appraisal";
+               		findTreadParentChildAndBro(actionVM, tInfo, dfs, acti);
+              		 actionVM.add(acti);
+          		 }
+          		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay1)))){
+          			acti.action =  "Test drive reminder";
+          			acti.notes = "You have a test drive scheduled in 24 hours ";
+          			
+          			
+          			acti.id = tInfo.id;
+           		Vehicle vehicle = Vehicle.findByVinAndStatus(tInfo.vin);
+           		acti.vin = tInfo.vin;
+           		if(vehicle != null) {
+           			acti.model = vehicle.model;
+           			acti.make = vehicle.make;
+           			acti.stock = vehicle.stock;
+           			acti.year = vehicle.year;
+           			acti.mileage = vehicle.mileage;
+           			acti.price = vehicle.price;
+           		}
+           		
+           		acti.name = tInfo.firstName;
+           		acti.phone = tInfo.phone;
+           		acti.email = tInfo.email;
+           			
+           		acti.howContactedUs = tInfo.contactedFrom;
+           		acti.howFoundUs = tInfo.hearedFrom;
+           		acti.custZipCode = tInfo.custZipCode;
+           		acti.enthicity = tInfo.enthicity;
+           		acti.status =tInfo.leadStatus;
+           		
+           		acti.typeOfLead = "Trade-In Appraisal";
+           		findTreadParentChildAndBro(actionVM, tInfo, dfs, acti);
+           		
+           		
+           		Date curDate = null;
+            	Date curDate1 = null;
+            	Date curDateNew = null;
+            	List<RequestInfoVM> rList = new ArrayList<>();
+            	Date date=new Date();
+        		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        		DateFormat newdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+        		DateFormat format1 = new SimpleDateFormat("HH:mm:a");
+        		 DateFormat df11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+        			Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        			df2.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+        			df11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+        			String date1=df2.format(date);
+        			String dateNew=df11.format(date);
+        			String date11="00:00:AM";
+        			
+        			try {
+        				curDate1=newdf1.parse(dateNew);
+        				curDate = formatter.parse(date1);
+        				curDateNew=format1.parse(date11);
+        			} catch (ParseException e1) {
+        				// TODO Auto-generated catch block
+        				e1.printStackTrace();
+        			}
+        			
+        			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+        			  long diff = curDate1.getTime() - curDateNew.getTime();
+          	        long diffSeconds = diff / 1000 % 60;
+          	        long diffMinutes = diff / (60 * 1000) % 60;
+          	        	long diffHours = diff / (60 * 60 * 1000)% 24;
+          	        	if(diffHours != 0){
+          	        		acti.diffDays=diffHours+" hours"+diffMinutes+" minutes ago";
+        					}
+        					else{
+        						acti.diffDays=diffMinutes+" minutes ago";
+        					}
+           		
+           		
+          		 actionVM.add(acti);
+          		 }
+   			} catch (Exception e) {
+   				e.printStackTrace();
+   			}
+           }*/
+    }
+    
+    public static Result getLeadInfo() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		AuthUser user = (AuthUser) getLocalUser();
+	    	InfoCountVM vm = new InfoCountVM();
+	    	List<ScheduleTest> scList = ScheduleTest.findAllLeads(Long.valueOf(session("USER_LOCATION")));
+	    	List<TradeIn> trList = TradeIn.findAllLeads(Long.valueOf(session("USER_LOCATION")));
+	    	List<RequestMoreInfo> rList = RequestMoreInfo.findAllLeads(Long.valueOf(session("USER_LOCATION")));
+	    	List<RequestInfoVM> list = new ArrayList<>();
+	    	Date curr = new Date();
+    		Location location = Location.findById(Long.parseLong(session("USER_LOCATION")));
+      		 if(user.location != null){
+      			 location = Location.findById(user.location.id);
+      		 }
+      		 DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+      		DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+      		df1.setTimeZone(TimeZone.getTimeZone(location.time_zone));	
+      		 String dat=df1.format(curr);
+      		Date currD=null;
+      		 try {
+				currD=df2.parse(dat);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    	
+	    	for(ScheduleTest sc: scList){
+	    		RequestInfoVM vm1=new RequestInfoVM();
+	    		vm1.name=sc.name;
+	    		vm1.id=sc.id;
+	    		vm1.typeOfLead="Schedule Test";
+	    		vm1.leadType="Schedule Test";
+	    		//vm1.notifFlag=sc.notifFlag;
+	    		vm1.typeOfLead="Schedule Test Drive";
+	    		String imagePath=null;
+	    		if(sc.vin != null){
+	    			AddProduct image = AddProduct.getDefaultImg(sc.id);
+	    			if(image != null){
+	    				imagePath=image.filePath;
+	    			}
+	    		}
+	    		vm1.imageUrl=imageUrlPath+imagePath;
+	    		
+    	        Date dt1=null;
+    	        Date dt2=null;
+    	        try {
+    	        	dt1 =currD;
+    	            //dt2 = sc.scheduleTime;
+    	        	 String dat1=df1.format(sc.scheduleTime);
+    	            dt2=df2.parse(dat1);
+    	        } catch (Exception e) {
+    	            e.printStackTrace();
+    	        }
+
+    	        // Get msec from each, and subtract.
+    	        long diff = dt1.getTime() - dt2.getTime();
+    	        vm1.timeDiff=diff;
+    	        long diffSeconds = diff / 1000 % 60;
+    	        long diffMinutes = diff / (60 * 1000) % 60;
+    	        long diffHours = diff / (60 * 60 * 1000)% 24;
+    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
+    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        String diffDay=null;
+    	        String diffHr=null;
+    	        if(diffInDays != 0){
+    	        if(diffInDays <10){
+    	        	
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        else{
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        if(diffHours <10){
+    	        	diffHr="0"+diffHours;
+    	        }
+    	        else{
+    	        	diffHr=""+diffHours;
+    	        }
+    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        vm1.diffDays=diffDay+" + days";
+    	        }
+    	        else if(diffInDays == 0 && diffHours == 0){
+    	        	if(diffMinutes == 1){
+    	        		vm1.diffDays=diffMinutes+" minute ago";
+            	        vm1.timeUnit=diffMinutes+" minute ago";
+    	        	}else{
+    	        	vm1.diffDays=diffMinutes+" minutes ago";
+        	        vm1.timeUnit=diffMinutes+" minutes ago";
+    	        	}
+        	     
+        	        }
+    	        else{
+    	        	
+    	        	 if(diffHours <10){
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	    	        else{
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+	    		
+	    		list.add(vm1);		
+	    		
+	    	}
+	    	
+	    	for(TradeIn sc: trList){
+	    		RequestInfoVM vm1=new RequestInfoVM();
+	    		vm1.name=sc.firstName+" "+sc.lastName;
+	    		vm1.typeOfLead="Trade In";
+	    		vm1.typeOfLead = "Trade In";
+	    		vm1.id=sc.id;
+	    		vm1.leadType="Trade In";
+	    		//vm1.notifFlag=sc.notifFlag;
+	    		String imagePath=null;
+	    		if(sc.vin != null){
+	    			AddProduct image=AddProduct.getDefaultImg(sc.id);
+	    			if(image != null){
+	    				imagePath=image.filePath;
+	    			}
+	    		}
+	    		vm1.imageUrl=imageUrlPath+imagePath;
+    	        Date dt1=null;
+    	        Date dt2=null;
+    	        try {
+    	        	dt1 =currD;
+    	        	String dat1=df1.format(sc.tradeTime);
+    	            dt2=df2.parse(dat1);
+    	            //dt2 = sc.tradeTime;
+    	        } catch (Exception e) {
+    	            e.printStackTrace();
+    	        }
+
+    	        // Get msec from each, and subtract.
+    	        long diff = dt1.getTime() - dt2.getTime();
+    	        vm1.timeDiff=diff;
+    	        long diffSeconds = diff / 1000 % 60;
+    	        long diffMinutes = diff / (60 * 1000) % 60;
+    	        long diffHours = diff / (60 * 60 * 1000)% 24;
+    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
+    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        String diffDay=null;
+    	        String diffHr=null;
+    	        if(diffInDays != 0){
+    	        if(diffInDays <10){
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        else{
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        if(diffHours <10){
+    	        	diffHr=""+diffHours;
+    	        }
+    	        else{
+    	        	diffHr=""+diffHours;
+    	        }
+    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        vm1.diffDays=diffDay+" + days";
+    	        }
+    	        else if(diffInDays == 0 && diffHours == 0){
+    	        	if(diffMinutes == 1){
+    	        		vm1.diffDays=diffMinutes+" minute ago";
+            	        vm1.timeUnit=diffMinutes+" minute ago";
+    	        	}else{
+    	        	vm1.diffDays=diffMinutes+" minutes ago";
+        	        vm1.timeUnit=diffMinutes+" minutes ago";
+    	        	}
+        	     
+        	        }
+    	        else{
+    	        	
+    	        	 if(diffHours <10){
+    	    	        	diffHr="0"+diffHours;
+    	    	        }
+    	    	        else{
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+	    		list.add(vm1);		
+	    		
+	    	}
+	    	
+	    	for(RequestMoreInfo sc: rList){
+	    		RequestInfoVM vm1=new RequestInfoVM();
+	    		vm1.name=sc.name;
+	    		vm1.id=sc.id;
+	    		vm1.leadType="Request More Info";
+	    		//vm1.notifFlag=sc.notifFlag;
+	    		String imagePath=null;
+	    		String typeoflead=null;
+	    		if(sc.vin != null || sc.isContactusType == null){
+	    			AddProduct image=AddProduct.getDefaultImg(sc.id);
+	    			if(image != null){
+	    				imagePath=image.filePath;
+	    			}
+	    			typeoflead="Request More";
+	    			vm1.typeOfLead="Request More Info";
+	    		}
+	    		else if(sc.isContactusType.equals("contactUs")){
+	    			imagePath="../../../assets/global/images/leadsImages/rmail.png" ;
+	    			typeoflead="Contact Us";
+	    			vm1.typeOfLead="Contact Us";
+	    		}
+	    		vm1.typeOfLead=typeoflead;
+	    		vm1.imageUrl=imageUrlPath+imagePath;
+    	        Date dt1=null;
+    	        Date dt2=null;
+    	        try {
+    	        	dt1 =currD;
+    	           // dt2 = sc.requestTime;
+    	            String dat1=df1.format(sc.requestTime);
+    	            dt2=df2.parse(dat1);
+    	        } catch (Exception e) {
+    	            e.printStackTrace();
+    	        }
+
+    	        // Get msec from each, and subtract.
+    	        long diff = dt1.getTime() - dt2.getTime();
+    	        vm1.timeDiff=diff;
+    	        long diffSeconds = diff / 1000 % 60;
+    	        long diffMinutes = diff / (60 * 1000) % 60;
+    	        long diffHours = diff / (60 * 60 * 1000)% 24;
+    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
+    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        String diffDay=null;
+    	        String diffHr=null;
+    	        if(diffInDays != 0){
+    	        if(diffInDays <10){
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        else{
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        if(diffHours <10){
+    	        	diffHr=""+diffHours;
+    	        }
+    	        else{
+    	        	diffHr=""+diffHours;
+    	        }
+    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        vm1.diffDays=diffDay+" + days";
+    	        }
+    	        else if(diffInDays == 0 && diffHours == 0){
+    	        	if(diffMinutes == 1){
+    	        		vm1.diffDays=diffMinutes+" minute ago";
+            	        vm1.timeUnit=diffMinutes+" minute ago";
+    	        	}else{
+    	        	vm1.diffDays=diffMinutes+" minutes ago";
+        	        vm1.timeUnit=diffMinutes+" minutes ago";
+    	        	}
+        	     
+        	        }
+    	        else{
+    	        	
+    	        	 if(diffHours <10){
+    	    	        	diffHr="0"+diffHours;
+    	    	        }
+    	    	        else{
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+	    		
+	    		list.add(vm1);		
+	    		
+	    	}
+	    	
+	    	
+	    	List<ScheduleTest> sched = ScheduleTest.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+	    	List<RequestMoreInfo> reInfos = RequestMoreInfo.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+	    	List<TradeIn> tradeIns = TradeIn.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+
+	    	int premi = sched.size() + reInfos.size() + tradeIns.size();
+	    	vm.premium = premi;
+	    	
+	    	for(ScheduleTest sc: sched){
+	    		RequestInfoVM vm1=new RequestInfoVM();
+	    		vm1.name=sc.name;
+	    		vm1.typeOfLead="Premium";
+	    		vm1.leadTypeForNotif="Premium Lead";
+	    		vm1.leadType="Schedule Test";
+	    		vm1.id=sc.id;
+	    		//vm1.notifFlag=sc.notifFlag;
+	    		String imagePath=null;
+	    		if(sc.vin != null){
+	    			AddProduct image=AddProduct.getDefaultImg(sc.id);
+	    			if(image != null){
+	    				imagePath=image.filePath;
+	    			}
+	    		}
+	    		vm1.imageUrl=imageUrlPath+imagePath;
+    	        Date dt1=null;
+    	        Date dt2=null;
+    	        try {
+    	        	dt1 =currD;
+    	        	String dat1=df1.format(sc.scheduleTime);
+    	            dt2=df2.parse(dat1);
+    	           // dt2 = sc.scheduleTime;
+    	            
+    	        } catch (Exception e) {
+    	            e.printStackTrace();
+    	        }
+
+    	        // Get msec from each, and subtract.
+    	        long diff = dt1.getTime() - dt2.getTime();
+    	        vm1.timeDiff=diff;
+    	        long diffSeconds = diff / 1000 % 60;
+    	        long diffMinutes = diff / (60 * 1000) % 60;
+    	        long diffHours = diff / (60 * 60 * 1000)% 24;
+    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
+    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        String diffDay=null;
+    	        String diffHr=null;
+    	        if(diffInDays != 0){
+    	        if(diffInDays <10){
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        else{
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        if(diffHours <10){
+    	        	diffHr=""+diffHours;
+    	        }
+    	        else{
+    	        	diffHr=""+diffHours;
+    	        }
+    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        vm1.diffDays=diffDay+" + days";
+    	        }
+    	        else if(diffInDays == 0 && diffHours == 0){
+    	        	if(diffMinutes == 1){
+    	        		vm1.diffDays=diffMinutes+" minute ago";
+            	        vm1.timeUnit=diffMinutes+" minute ago";
+    	        	}else{
+    	        	vm1.diffDays=diffMinutes+" minutes ago";
+        	        vm1.timeUnit=diffMinutes+" minutes ago";
+    	        	}
+        	     
+        	        }
+    	        else{
+    	        	
+    	        	 if(diffHours <10){
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	    	        else{
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+	    		list.add(vm1);		
+	    		
+	    	}
+	    	
+	    	for(TradeIn sc: tradeIns){
+	    		RequestInfoVM vm1=new RequestInfoVM();
+	    		vm1.name=sc.firstName+" "+sc.lastName;
+	    		vm1.typeOfLead="Premium";
+	    		vm1.leadTypeForNotif="Premium Lead";
+	    		vm1.leadType="Trade In";
+	    		vm1.id=sc.id;
+	    		//vm1.notifFlag=sc.notifFlag;
+	    		String imagePath=null;
+	    		if(sc.vin != null){
+	    			AddProduct image=AddProduct.getDefaultImg(sc.id);
+	    			if(image != null){
+	    				imagePath=image.filePath;
+	    			}
+	    		}
+	    		vm1.imageUrl=imageUrlPath+imagePath;
+    	        Date dt1=null;
+    	        Date dt2=null;
+    	        try {
+    	        	dt1 =currD;
+    	            //dt2 = sc.tradeTime;
+    	            String dat1=df1.format(sc.tradeTime);
+    	            dt2=df2.parse(dat1);
+    	        } catch (Exception e) {
+    	            e.printStackTrace();
+    	        }
+
+    	        // Get msec from each, and subtract.
+    	        long diff = dt1.getTime() - dt2.getTime();
+    	        vm1.timeDiff=diff;
+    	        long diffSeconds = diff / 1000 % 60;
+    	        long diffMinutes = diff / (60 * 1000) % 60;
+    	        long diffHours = diff / (60 * 60 * 1000)% 24;
+    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
+    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        String diffDay=null;
+    	        String diffHr=null;
+    	        if(diffInDays != 0){
+    	        if(diffInDays <10){
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        else{
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        if(diffHours <10){
+    	        	diffHr=""+diffHours;
+    	        }
+    	        else{
+    	        	diffHr=""+diffHours;
+    	        }
+    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        vm1.diffDays=diffDay+" + days";
+    	        }
+    	        else if(diffInDays == 0 && diffHours == 0){
+    	        	if(diffMinutes == 1){
+    	        		vm1.diffDays=diffMinutes+" minute ago";
+            	        vm1.timeUnit=diffMinutes+" minute ago";
+    	        	}else{
+    	        	vm1.diffDays=diffMinutes+" minutes ago";
+        	        vm1.timeUnit=diffMinutes+" minutes ago";
+    	        	}
+        	     
+        	        }
+    	        else{
+    	        	
+    	        	 if(diffHours <10){
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	    	        else{
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+	    		
+	    		
+	    		
+	    		list.add(vm1);		
+	    		
+	    	}
+	    	for(RequestMoreInfo sc: reInfos){
+	    		RequestInfoVM vm1=new RequestInfoVM();
+	    		vm1.name=sc.name;
+	    		vm1.typeOfLead="Premium";
+	    		vm1.leadTypeForNotif="Premium Lead";
+	    		vm1.id=sc.id;
+	    		//vm1.notifFlag=sc.notifFlag;
+	    		vm1.leadType="Request More Info";
+	    		String imagePath=null;
+	    		if(sc.vin != null){
+	    			AddProduct image=AddProduct.getDefaultImg(sc.id);
+	    			if(image != null){
+	    				imagePath=image.filePath;
+	    			}
+	    		}
+	    		vm1.imageUrl=imageUrlPath+imagePath;
+	    		DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:a");
+    	        Date dt1=null;
+    	        Date dt2=null;
+    	        try {
+    	        	dt1 =currD;
+    	           // dt2 = sc.requestTime;
+    	        	 String dat1=df1.format(sc.requestTime);
+     	            dt2=df2.parse(dat1);
+    	        } catch (Exception e) {
+    	            e.printStackTrace();
+    	        }
+
+    	        // Get msec from each, and subtract.
+    	        long diff = dt1.getTime() - dt2.getTime();
+    	        vm1.timeDiff=diff;
+    	        long diffSeconds = diff / 1000 % 60;
+    	        long diffMinutes = diff / (60 * 1000) % 60;
+    	        long diffHours = diff / (60 * 60 * 1000)% 24;
+    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
+    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        String diffDay=null;
+    	        String diffHr=null;
+    	        if(diffInDays != 0){
+    	        if(diffInDays <10){
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        else{
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        if(diffHours <10){
+    	        	diffHr=""+diffHours;
+    	        }
+    	        else{
+    	        	diffHr=""+diffHours;
+    	        }
+    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        vm1.diffDays=diffDay+" + days";
+    	        }
+    	        else if(diffInDays == 0 && diffHours == 0){
+    	        	if(diffMinutes == 1){
+    	        		vm1.diffDays=diffMinutes+" minute ago";
+            	        vm1.timeUnit=diffMinutes+" minute ago";
+    	        	}else{
+    	        	vm1.diffDays=diffMinutes+" minutes ago";
+        	        vm1.timeUnit=diffMinutes+" minutes ago";
+    	        	}
+    	     
+    	        }
+    	        else{
+    	        	
+    	        	 if(diffHours <10){
+    	    	        	diffHr="0"+diffHours;
+    	    	        }
+    	    	        else{
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+	    		
+	    		list.add(vm1);		
+	    		
+	    	}
+	    	
+	    	vm.userType = user.role;
+	    	
+	    	return ok(Json.toJson(list));
+    	}
+    }
+
+    
     public static Result getImageById(Long id, String type) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));

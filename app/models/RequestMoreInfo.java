@@ -58,9 +58,21 @@ public class RequestMoreInfo extends Model {
 	public String productId;
 	public String section;
 	
-	
+	public int notifFlag;
 	
 
+public String getSection() {
+		return section;
+	}
+	public void setSection(String section) {
+		this.section = section;
+	}
+	public int getNotifFlag() {
+		return notifFlag;
+	}
+	public void setNotifFlag(int notifFlag) {
+		this.notifFlag = notifFlag;
+	}
 public String getProductId() {
 	return productId;
 }
@@ -549,4 +561,7 @@ public void setMessage(String message) {
 		return find.where().eq("schedule_email", 0).findList();
 	}
 	
+	public static List<RequestMoreInfo> findAllLeads(Long locationId) {
+		return find.where().eq("isRead", 0).eq("premiumFlag", 0).eq("status", null).eq("locations.id", locationId).findList();
+	}
 }

@@ -19,7 +19,9 @@ GET   /locationWise/:locationId      			controllers.Application.locationWise(loc
 POST    /acceptAgreement     			controllers.Application.acceptAgreement()
 GET    /authenticate     			controllers.Application.index()
 GET		/logout						controllers.Application.logout()
+GET		/getLeadInfo				controllers.Application.getLeadInfo()
 
+GET    /getNotificationData									controllers.Application.getNotificationData()
 GET		/callList						controllers.CrmController.callList()
 GET    /gmLogin							controllers.Application.gmLogin()
 GET    /salePLogin						controllers.Application.salePLogin()
@@ -68,7 +70,8 @@ POST    /editInventoryImage		    	  controllers.AddEditInventoryController.editI
 POST	/uploadPhotos					  controllers.AddEditInventoryController.uploadPhotos()
 #GET		/deleteInventoryImage/:id		  controllers.AddEditInventoryController.deleteInventoryImage(id:Long)
 GET     /getAllInventory/:locationId      controllers.AddEditInventoryController.getAllInventory(locationId:Long)
-
+GET   /changeNotifFlag/:id/:title	controllers.Application.changeNotifFlag(id:Long,title:String)
+GET     /releaseFromNotif/:id/:leadType			controllers.Application.releaseFromNotif(id:Long,leadType:String)
 POST   /saveInternalPdf				controllers.Application.saveInternalPdf()
 POST   /saveCustomerPdf				controllers.Application.saveCustomerPdf()
 POST   /saveAutoPortal				controllers.ConfigPagesController.saveAutoPortal()

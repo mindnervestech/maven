@@ -36,6 +36,7 @@ public class Vehicle extends Model {
 	public String typeofVehicle;
 	public String pdfBrochureName;
 	public String pdfBrochurePath;
+	public Integer notifFlag;
 	public String getPdfBrochureName() {
 		return pdfBrochureName;
 	}
@@ -50,6 +51,17 @@ public class Vehicle extends Model {
 
 	public void setPdfBrochurePath(String pdfBrochurePath) {
 		this.pdfBrochurePath = pdfBrochurePath;
+	}
+
+
+
+
+	public Integer getNotifFlag() {
+		return notifFlag;
+	}
+
+	public void setNotifFlag(Integer notifFlag) {
+		this.notifFlag = notifFlag;
 	}
 
 

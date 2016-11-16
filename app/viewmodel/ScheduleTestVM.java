@@ -128,6 +128,7 @@ public class ScheduleTestVM {
 	public String meetingStatus;
 	public List<UserVM> userdata;
 	public List<UserVM> usersList = new ArrayList<UserVM>();
+	public String diffDays;
 	public List<UserVM> getUsersList() {
 		return usersList;
 	}

@@ -39,6 +39,11 @@ public class ScheduleTest extends Model {
 	public String reason;
 	public String declineUser;
 	public Integer meeting;
+	public int meetingNotifFlag;
+	public int meetingAcceptFlag;
+	public int meetingDeclineFlag;
+	
+	public int notifFlag;
 	//public Integer noteFlag;
 	@ManyToOne
 	public AuthUser assignedTo;
@@ -71,12 +76,43 @@ public class ScheduleTest extends Model {
 	public Integer declineMeeting;
 	public Integer declineUpdate;
 	public Integer deleteMsgFlag;
+	public Date meetingActionTime;
 	
 	
 	
 	
 	
 	
+	public int getNotifFlag() {
+		return notifFlag;
+	}
+	public void setNotifFlag(int notifFlag) {
+		this.notifFlag = notifFlag;
+	}
+	public int getMeetingAcceptFlag() {
+		return meetingAcceptFlag;
+	}
+	public void setMeetingAcceptFlag(int meetingAcceptFlag) {
+		this.meetingAcceptFlag = meetingAcceptFlag;
+	}
+	public int getMeetingDeclineFlag() {
+		return meetingDeclineFlag;
+	}
+	public void setMeetingDeclineFlag(int meetingDeclineFlag) {
+		this.meetingDeclineFlag = meetingDeclineFlag;
+	}
+	public int getMeetingNotifFlag() {
+		return meetingNotifFlag;
+	}
+	public void setMeetingNotifFlag(int meetingNotifFlag) {
+		this.meetingNotifFlag = meetingNotifFlag;
+	}
+	public Date getMeetingActionTime() {
+		return meetingActionTime;
+	}
+	public void setMeetingActionTime(Date meetingActionTime) {
+		this.meetingActionTime = meetingActionTime;
+	}
 	public Integer getMeeting() {
 		return meeting;
 	}
@@ -654,5 +690,20 @@ public class ScheduleTest extends Model {
 	}
 	public static List<ScheduleTest> findByScheduler() {
 		return find.where().eq("schedule_email", 0).findList();
+	}
+	
+	public static List<ScheduleTest> findAllLeads(Long locationId) {
+		return find.where().eq("isRead", 0).eq("leadStatus", null).findList();
+	}
+	
+	public static List<ScheduleTest> findAllByInvitation(AuthUser user, Date currDate) {
+		return find.where().eq("assignedTo", user).ne("confirmDate",null).eq("lead_status", null).eq("meetingNotifFlag", 0).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
+	}
+	
+	public static List<ScheduleTest> getdeclineMeeting(AuthUser user) {
+		return find.where().eq("user", user).eq("meetingDeclineFlag", 1).orderBy("scheduleDate desc").findList();
+	}
+	public static List<ScheduleTest> getacceptMeeting(AuthUser user) {
+		return find.where().eq("user", user).eq("meetingAcceptFlag", 1).orderBy("scheduleDate desc").findList();
 	}
 }
