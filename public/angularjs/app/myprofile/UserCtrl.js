@@ -697,7 +697,7 @@ angular.module('newApp')
 					if(data == "data"){
 						$('#btnClose').click();
 					}else{
-						apiserviceUser.updateImageFileLoad(data, logofile).then(function(data){
+						apiserviceUser.updateImageFileLoad(data, logofile, $scope.user.userType).then(function(data){
 							console.log("succeee!!!!!!!!");
 							if(data == "data"){
 								$('#btnClose').click();
@@ -850,7 +850,7 @@ angular.module('newApp')
 					$scope.userData1 = {};
 					$scope.userData1.id = $scope.userData.id;
 					apiserviceUser.updateImageFile($scope.userData).then(function(data){
-						apiserviceUser.updateImageFileLoad($scope.userData1, logofile).then(function(data){
+						apiserviceUser.updateImageFileLoad($scope.userData1, logofile,$scope.userData1.userType).then(function(data){
 							$('#btnEditClose').click();
 				            $scope.init();
 						});

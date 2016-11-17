@@ -161,28 +161,52 @@ angular.module('app.apiserviceUser', [])
 		return defer.promise;
 	};
 	
-	this.updateImageFileLoad = function(userdata,logofile){
+	this.updateImageFileLoad = function(userdata,logofile,userRole){
 		var defer = $q.defer();
-		$upload.upload({
-            url : '/updateImageFile',
-            method: 'post',
-            data:userdata,
-            file:logofile
-        }).success(function(data, status, headers, config) {
-            $.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "User saved successfully",
-			});
-            defer.resolve(data);
-        }).error(function(data, status, headers, config){
-        	$.pnotify({
-			    title: "Error",
-			    type:'Success',
-			    text: "Error",
-			});
-        	defer.resolve(data);
-        });
+		if(userRole == 'Photographer'){
+			$upload.upload({
+	            url :  autodealerTestUrl+'updateImageFile',
+	            method: 'post',
+	            data:userdata,
+	            file:logofile
+	        }).success(function(data, status, headers, config) {
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "User saved successfully",
+				});
+	            defer.resolve(data);
+	        }).error(function(data, status, headers, config){
+	        	$.pnotify({
+				    title: "Error",
+				    type:'Success',
+				    text: "Error",
+				});
+	        	defer.resolve(data);
+	        });
+		}else{
+			$upload.upload({
+	            url : '/updateImageFile',
+	            method: 'post',
+	            data:userdata,
+	            file:logofile
+	        }).success(function(data, status, headers, config) {
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "User saved successfully",
+				});
+	            defer.resolve(data);
+	        }).error(function(data, status, headers, config){
+	        	$.pnotify({
+				    title: "Error",
+				    type:'Success',
+				    text: "Error",
+				});
+	        	defer.resolve(data);
+	        });
+		}
+	
 		
 		return defer.promise;
 	};
