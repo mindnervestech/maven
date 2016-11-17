@@ -674,7 +674,7 @@ angular.module('newApp')
 			if(angular.isUndefined(logofile)) {
 				
 					apiserviceUser.uploadImageFile($scope.user, $scope.user.userType).then(function(data){
-						if(data == "data"){
+						if(data == null){
 							$('#btnClose').click();
 						}else{
 							$scope.user.firstName=" ";
@@ -694,12 +694,12 @@ angular.module('newApp')
 				apiserviceUser.uploadImageFile($scope.user, $scope.user.userType).then(function(data){
 					console.log("changesssss");
 					console.log(data);
-					if(data == "data"){
+					if(data == null){
 						$('#btnClose').click();
 					}else{
 						apiserviceUser.updateImageFileLoad(data, logofile, $scope.user.userType).then(function(data){
 							console.log("succeee!!!!!!!!");
-							if(data == "data"){
+							if(data ==  null){
 								$('#btnClose').click();
 							}else{
 								 $scope.user.firstName=" ";

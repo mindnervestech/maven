@@ -89,7 +89,7 @@ angular.module('app.apiserviceUser', [])
 				 	defer.resolve(data);
 	    	}).error(function(data, status, headers, config){
 	        	
-	        	defer.resolve("error");
+	        	defer.resolve(data);
 	        });
 		}else{
 			$http.post("/uploadImageFile",data).success(function(data){
@@ -100,7 +100,7 @@ angular.module('app.apiserviceUser', [])
 				});
 				 	defer.resolve(data);
 	    	}).error(function(data, status, headers, config){
-	    		defer.resolve("error");
+	    		defer.resolve(data);
 	        });
 		}
 		
@@ -124,7 +124,7 @@ angular.module('app.apiserviceUser', [])
 				});
 				 	defer.resolve(data);
 	    	}).error(function(data, status, headers, config){
-	    		defer.resolve("error");
+	    		defer.resolve(data);
 	        });
 		}else{
 			$upload.upload({
@@ -140,7 +140,7 @@ angular.module('app.apiserviceUser', [])
 				});
 				 	defer.resolve(data);
 	    	}).error(function(data, status, headers, config){
-	    		defer.resolve("error");
+	    		defer.resolve(data);
 	        });
 		}
 		
