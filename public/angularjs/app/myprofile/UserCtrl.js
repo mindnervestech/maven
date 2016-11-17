@@ -686,6 +686,7 @@ angular.module('newApp')
 		}
 		$scope.user.imageUrl = $scope.img;
 		if($scope.user.userType == "Photographer"){
+			$scope.user.imageUrl = "path";
 			if(angular.isUndefined(logofile)) {
 				console.log($scope.user);
 				
