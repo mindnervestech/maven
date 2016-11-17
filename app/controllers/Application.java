@@ -3756,7 +3756,7 @@ public class Application extends Controller {
 	    		vm1.notifFlag=sc.notifFlag;
 	    		vm1.leadType="Request More Info";
 	    		String imagePath=null;
-	    		if(sc.vin != null){
+	    		if(sc.id != null){
 	    			AddProduct image=AddProduct.getDefaultImg(sc.id);
 	    			if(image != null){
 	    				imagePath=image.filePath;

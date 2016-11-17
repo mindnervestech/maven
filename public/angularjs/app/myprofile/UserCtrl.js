@@ -50,16 +50,16 @@ angular.module('newApp')
 	 		 $scope.gridOptions.enableHorizontalScrollbar = 0;
 	 		 $scope.gridOptions.enableVerticalScrollbar = 2;
 	 		 $scope.gridOptions.columnDefs = [
-	 		                                 { name: 'fullName', displayName: 'Name', width:'25%',cellEditableCondition: false,enableFiltering: false,
+	 		                                 { name: 'fullName', displayName: 'Name', width:'25%',cellEditableCondition: false,
 	 		                                	
 	 		                                 },
-	 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'20%',cellEditableCondition: false,
+	 		                                 { name: 'email', displayName: 'Email', width:'20%',cellEditableCondition: false,
 	 		                                	
 	 		                                 },
-	 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'20%',cellEditableCondition: false,
+	 		                                 { name: 'phone', displayName: 'Phone', width:'20%',cellEditableCondition: false,
 	 		                                	
 	 		                                 },
-	 		                                 { name: 'userType', displayName: 'Role',enableFiltering: false, width:'20%',cellEditableCondition: false,
+	 		                                 { name: 'userType', displayName: 'Role', width:'20%',cellEditableCondition: false,
 	 		                                	
 	 		                                 },
 	 		                                 { name: 'edit', displayName: '', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
@@ -68,6 +68,16 @@ angular.module('newApp')
     		                                 },
 	     		                                 ];
 	
+	 		$scope.gridOptions.onRegisterApi = function(gridApi){
+				 $scope.gridApi = gridApi;
+				 
+		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+			          var grid = this.grid;
+			        	  $scope.gridOptions.data = $filter('filter')($scope.activeUserList,{'fullName':grid.columns[0].filters[0].term,'email':grid.columns[1].filters[0].term,'phone':grid.columns[2].filters[0].term,'userType':grid.columns[3].filters[0].term,},undefined);
+			        });
+		   		
+	   		};
+	 		 
 	 		 
 	 		$scope.gridOptions1 = {
 	 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -343,10 +353,12 @@ angular.module('newApp')
 			  });
 		}
 	}
-	
+	$scope.activeUserList ={};
 	$scope.init = function() {
 		apiserviceUser.getAllUsers().then(function(data){
 			$scope.gridOptions.data = data;
+			$scope.activeUserList = data
+			console.log($scope.activeUserList);
 		});
 	}
 	
@@ -532,14 +544,17 @@ angular.module('newApp')
 		$scope.userId = row.entity.id;
 		apiserviceUser.getAllLeadsByUser($scope.userId).then(function(data){
 			$scope.gridOptions1.data = data;
+			console.log(data);
+			$scope.allLeadUserList = data;
+			$scope.allLeadLength = $scope.allLeadUserList.length
+			
 		});
-		/*$http.get('/getAllLeadsByUser/'+$scope.userId)
-		.success(function(data) {
-			//console.log(data);
-		$scope.gridOptions1.data = data;
-		
-	});*/
-		$('#deleteModal').click();
+		if($scope.allLeadLength > 0){
+			$('#deleteModal').click();
+		}
+		else{
+			$scope.deactivateAccount();
+		}
 		   $scope.rowDataVal = row;
 	};
 	
@@ -909,16 +924,16 @@ angular.module('newApp')
 	 		 $scope.gridOptions.enableHorizontalScrollbar = 0;
 	 		 $scope.gridOptions.enableVerticalScrollbar = 2;
 	 		 $scope.gridOptions.columnDefs = [
-	 		                                 { name: 'fullName', displayName: 'Name', width:'25%',cellEditableCondition: false,enableFiltering: false,
+	 		                                 { name: 'fullName', displayName: 'Name', width:'25%',cellEditableCondition: false,
 	 		                                	
 	 		                                 },
-	 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'20%',cellEditableCondition: false,
+	 		                                 { name: 'email', displayName: 'Email', width:'20%',cellEditableCondition: false,
 	 		                                	
 	 		                                 },
-	 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'20%',cellEditableCondition: false,
+	 		                                 { name: 'phone', displayName: 'Phone', width:'20%',cellEditableCondition: false,
 	 		                                	
 	 		                                 },
-	 		                                 { name: 'userType', displayName: 'Role',enableFiltering: false, width:'20%',cellEditableCondition: false,
+	 		                                 { name: 'userType', displayName: 'Role', width:'20%',cellEditableCondition: false,
 	 		                                	
 	 		                                 },
 	 		                                 { name: 'edit', displayName: '', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
@@ -926,9 +941,21 @@ angular.module('newApp')
    		                                 
    		                                 },
 	     		                                 ];
+	 		 
+	 		$scope.gridOptions.onRegisterApi = function(gridApi){
+				 $scope.gridApi = gridApi;
+				 
+		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+			          var grid = this.grid;
+			        	  $scope.gridOptions.data = $filter('filter')($scope.deactiveUserList,{'fullName':grid.columns[0].filters[0].term,'email':grid.columns[1].filters[0].term,'phone':grid.columns[2].filters[0].term,'userType':grid.columns[3].filters[0].term,},undefined);
+			        });
+		   		
+	   		};
+	 		 
 	 		$scope.init = function() {
 	 			apiserviceUser.getAllDeactivateUsers().then(function(data){
 	 				$scope.gridOptions.data = data;	
+	 				$scope.deactiveUserList = data;
 	 			});
 	 		};
 	 		$scope.activateAccount = function(item){
