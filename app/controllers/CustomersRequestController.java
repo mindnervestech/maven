@@ -394,7 +394,7 @@ public class CustomersRequestController extends Controller {
 	    			schedule.setIsReassigned(true);
 	    			schedule.update();
 	    		}
-				if(leadType.equals("Request More Info")) {
+				if(leadType.equals("Request More Info") || leadType.equals("Request More")) {
 				    RequestMoreInfo info = RequestMoreInfo.findById(id);
 				    info.setAssignedTo(userObj);
 				    info.setPremiumFlag(0);

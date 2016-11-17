@@ -3502,8 +3502,9 @@ public class Application extends Controller {
 	    		vm1.notifFlag=sc.notifFlag;
 	    		String imagePath=null;
 	    		String typeoflead=null;
-	    		if(sc.id != null || sc.isContactusType == null){
-	    			AddProduct image=AddProduct.getDefaultImg(sc.id);
+	    		if(sc.productId != null || sc.isContactusType == null){
+	    			Long pId = Long.parseLong(sc.productId);
+	    			AddProduct image=AddProduct.getDefaultImg(pId);
 	    			if(image != null){
 	    				imagePath=image.filePath;
 	    			}
@@ -3750,14 +3751,15 @@ public class Application extends Controller {
 */	    	for(RequestMoreInfo sc: reInfos){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
-	    		vm1.typeOfLead="Premium";
-	    		vm1.leadTypeForNotif="Premium Lead";
+	    		vm1.typeOfLead="Request More";
+	    		vm1.leadTypeForNotif="Request More Info";
 	    		vm1.id=sc.id;
 	    		vm1.notifFlag=sc.notifFlag;
 	    		vm1.leadType="Request More Info";
 	    		String imagePath=null;
-	    		if(sc.id != null){
-	    			AddProduct image=AddProduct.getDefaultImg(sc.id);
+	    		if(sc.productId != null){
+	    			Long pId = Long.parseLong(sc.productId);
+	    			AddProduct image=AddProduct.getDefaultImg(pId);
 	    			if(image != null){
 	    				imagePath=image.filePath;
 	    			}

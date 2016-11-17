@@ -13,7 +13,7 @@
             
             var array = [];
            
-            
+            $scope.userRole=userRole;
             $http.get('/getUserInfo').success(function(data,status, headers, config){
             	
             	$scope.name = data.firstName + " " + data.lastName;
@@ -61,6 +61,13 @@
                
             })
             
+            $http.get('/getSalesUserValue')
+            .success(function(data){
+			console.log(data);
+			$scope.salesPersonPerf = data;
+			
+		    });
+            
             $scope.assignCanceledLead = function(item) {
         		console.log(item.typeOfLead);
               	$scope.leadlId = item.id;
@@ -82,6 +89,7 @@
        					    type:'success',
        					    text: "User assigned successfully",
        					});
+       					$('#btnAssig').click();
        					$scope.indexInitFunction();
        				});
        	        	
