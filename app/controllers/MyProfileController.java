@@ -2932,7 +2932,7 @@ public class MyProfileController extends Controller{
 		    	userObj.communicationemail = vm.email;
 		    	userObj.phone = vm.phone;
 		    	userObj.role = vm.userType;
-		    //	userObj.location = Location.findById(vm.locationId);
+		    	userObj.location = Location.findById(vm.locationId);
 		    	userObj.age = vm.age;
 		    	userObj.commission =vm.commission;
 		    	userObj.contractDur = vm.contractDur;
@@ -2945,12 +2945,12 @@ public class MyProfileController extends Controller{
 		    	userObj.trainingCost = vm.trainingCost;
 		    	userObj.trainingHours = vm.trainingHours;
 		    	userObj.quota = vm.quota;
-		   // 	userObj.imageUrl = vm.imageUrl;
-		    	///if(vm.premiumFlag.equals("true")){
-		    		//userObj.premiumFlag = "1";
-		    	//}else{
-		    		//userObj.premiumFlag = "0";
-		 //   	}
+		    	userObj.imageUrl = vm.imageUrl;
+		    	if(vm.premiumFlag.equals("true")){
+		    		userObj.premiumFlag = "1";
+		    	}else{
+		    		userObj.premiumFlag = "0";
+		    	}
 		    	
 		    	try {
 		    		if(vm.contractDurEndDate != null)
