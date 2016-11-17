@@ -14,4 +14,5 @@ public class MailchimpPageVM {
 	public String mailchimpPassword;
 	public String apikey;
 	public MailchimpList list;
+	public boolean synchronizeContact;
 }

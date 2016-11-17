@@ -141,9 +141,14 @@ public class CrmController extends Controller {
     			}*/
  		   contacts.setNewsLetter(1);
     			contacts.save();
-    			saveCustomCrmData(contacts.contactId,vm);
-    			MailIntegrationServices objMail = new MailIntegrationServices();
-    			msg = objMail.addUser(vm.lastName, vm.firstName, vm.email);
+    			MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L);
+    			if(mSchedular != null){
+    				if(mSchedular.synchronizeContact){
+    					saveCustomCrmData(contacts.contactId,vm);
+    	    			MailIntegrationServices objMail = new MailIntegrationServices();
+    	    			msg = objMail.addUser(vm.lastName, vm.firstName, vm.email);
+    				}
+    			}
     			/*MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L); //Long.valueOf(session("USER_LOCATION"))
     			if(mSchedular != null){
     				if(mSchedular.schedularTime.equals("Immediately")){
@@ -204,8 +209,13 @@ public class CrmController extends Controller {
     			contacts.setNotes(vm.notes);
     			contacts.update();
     			saveCustomCrmData(contacts.contactId,vm);
-    			MailIntegrationServices objMail = new MailIntegrationServices();
-    			msg = objMail.unsubscribe( vm.lastName,vm.firstName, vm.email);
+    			MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L);
+    			if(mSchedular != null){
+    				if(mSchedular.synchronizeContact){
+    					MailIntegrationServices objMail = new MailIntegrationServices();
+    	    			msg = objMail.unsubscribe( vm.lastName,vm.firstName, vm.email);
+    				}
+    			}
     		return ok(msg);
     	}
 	}

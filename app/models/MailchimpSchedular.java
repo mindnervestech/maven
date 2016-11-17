@@ -20,6 +20,15 @@ public class MailchimpSchedular extends Model{
 	public String mailchimpUserName;
 	public String mailchimpPassword;
 	public String apikey;
+	public boolean synchronizeContact;
+	public boolean getSynchronizeContact() {
+		return synchronizeContact;
+	}
+
+	public void setSynchronizeContact(boolean synchronizeContact) {
+		this.synchronizeContact = synchronizeContact;
+	}
+
 	@ManyToOne
 	public MailchimpList list;
 	

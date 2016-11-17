@@ -109,10 +109,15 @@ public class ConfigPagesController extends Controller{
     	}
 		
 		public static Result saveNewList(){
+			String msg = "";
 			Form<MailchimpList> form = DynamicForm.form(MailchimpList.class).bindFromRequest();
 			MailchimpList vm = form.get();
-			vm.save();
-			return ok();
+			MailchimpList list = MailchimpList.getListByListId(vm.listId);
+			if(list == null)
+				vm.save();
+			else
+				msg = "error";
+			return ok(msg);
 		}
 		
 		public static Result deleteList(){
@@ -143,6 +148,7 @@ public class ConfigPagesController extends Controller{
     			mail.mailchimpPassword = vm.mailchimpPassword;
     			mail.apikey = vm.apikey;
     			mail.list = vm.list;
+    			mail.synchronizeContact = vm.synchronizeContact;
     			mail.save();
 			}
 			else{
@@ -152,6 +158,7 @@ public class ConfigPagesController extends Controller{
 				lead.setMailchimpPassword(vm.mailchimpPassword);
 				lead.setApikey(vm.apikey);
 				lead.setList(vm.list);
+				lead.setSynchronizeContact(vm.synchronizeContact);
 				lead.update();
     			
 			}

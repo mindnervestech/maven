@@ -312,11 +312,20 @@ angular.module('app.apiserviceConfigPage', [])
 	this.saveNewList=function(newList){
 		var defer = $q.defer();
 		$http.post('/saveNewList',newList).success(function(data) {
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "List saved successfully",
-			});
+			if(data == "error"){
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "List ID already Exist.",
+				});
+			}else{
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "List saved successfully",
+				});
+			}
+			
 			defer.resolve(data);
 		});
 		return defer.promise;

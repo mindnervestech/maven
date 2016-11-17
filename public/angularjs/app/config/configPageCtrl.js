@@ -822,6 +822,7 @@ angular.module('newApp')
 		}else{
 			$scope.newError = false;
 			apiserviceConfigPage.saveNewList(newList).then(function(data){
+				$scope.newList = {};
 				$scope.getAllMailchimpList();
 			});
 		}
