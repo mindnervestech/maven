@@ -170,7 +170,7 @@ public class CrmController extends Controller {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		String msg = "contact updated successfully";
+    		String msg = "";
     		Form<ContactsVM> form = DynamicForm.form(ContactsVM.class).bindFromRequest();
     		ContactsVM vm = form.get();
     		Contacts contacts = Contacts.findById(vm.contactId);
