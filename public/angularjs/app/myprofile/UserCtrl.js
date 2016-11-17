@@ -692,11 +692,13 @@ angular.module('newApp')
 			} else {
 				$('#btnClose').click();
 				apiserviceUser.uploadImageFile($scope.user, $scope.user.userType).then(function(data){
+					console.log("changesssss");
 					console.log(data);
 					if(data == "data"){
 						$('#btnClose').click();
 					}else{
 						apiserviceUser.updateImageFileLoad(data, logofile).then(function(data){
+							console.log("succeee!!!!!!!!");
 							if(data == "data"){
 								$('#btnClose').click();
 							}else{
