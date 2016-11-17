@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.URL;
 
+import models.MailchimpSchedular;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlrpc.XmlRpcException;
@@ -24,9 +26,19 @@ public class MailChimpServiceFactory {
 	public static IMailChimpServices getMailChimpServices() {
 		IMailChimpServices result = null;
 		try {
+			String url = "http://us8.api.mailchimp.com/1.2/";
+			MailchimpSchedular mScheduler = MailchimpSchedular.findByLocations(16L);
+			if(mScheduler != null){
+				if(mScheduler.apikey != null){
+					String[] api = mScheduler.apikey.split("-");
+					if(api.length == 2){
+						url = "http://"+api[1]+".api.mailchimp.com/1.2/";
+					}
+				}
+			}
 			final XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
 			config.setEnabledForExtensions(true);
-			config.setServerURL(new URL("http://us8.api.mailchimp.com/1.2/"));
+			config.setServerURL(new URL(url));
 			final XmlRpcClient client = new XmlRpcClient();
 			client.setConfig(config);
 			final ClientFactory factory = new ClientFactory(client);

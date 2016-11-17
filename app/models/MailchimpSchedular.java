@@ -20,7 +20,8 @@ public class MailchimpSchedular extends Model{
 	public String mailchimpUserName;
 	public String mailchimpPassword;
 	public String apikey;
-	public String listId;
+	@ManyToOne
+	public MailchimpList list;
 	
 	
 	
@@ -54,13 +55,13 @@ public class MailchimpSchedular extends Model{
 	}
 
 
-	public String getListId() {
-		return listId;
+	public MailchimpList getList() {
+		return list;
 	}
 
 
-	public void setListId(String listId) {
-		this.listId = listId;
+	public void setList(MailchimpList listId) {
+		this.list = listId;
 	}
 
 

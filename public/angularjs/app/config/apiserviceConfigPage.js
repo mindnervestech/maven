@@ -309,6 +309,40 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
+	this.saveNewList=function(newList){
+		var defer = $q.defer();
+		$http.post('/saveNewList',newList).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "List saved successfully",
+			});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.deleteList=function(list){
+		var defer = $q.defer();
+		$http.post('/deleteList',list).success(function(data) {
+			if(data == "error"){
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Can't delete this list.",
+				});
+			}else{
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "List delete successfully",
+				});
+			}
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 	this.savemailchimpPage=function(schedular){
 		var defer = $q.defer();
 		

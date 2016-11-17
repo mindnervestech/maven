@@ -67,7 +67,7 @@ public class MailIntegrationServices {
 		MailchimpSchedular mScheduler = MailchimpSchedular.findByLocations(16L);
 		if(mScheduler != null){
 			apiKey = mScheduler.apikey;
-			listId = mScheduler.listId;
+			listId = mScheduler.list.getListId();
 		}
 		mcServices = MailChimpServiceFactory.getMailChimpServices();
 		final String ping = mcServices.ping(apiKey);
@@ -204,7 +204,8 @@ public class MailIntegrationServices {
 		return listMembers;
 	}
 	
-	public void addUser(String lastname, String firstname, String email) {
+	public String  addUser(String lastname, String firstname, String email) {
+		String msg = "";
 		initialize();
 		final Map<String, String> merges = new HashMap<String, String>();
 		merges.put("LNAME", lastname);
@@ -218,19 +219,23 @@ public class MailIntegrationServices {
 				IMailChimpServices.EMAIL_TYPE_HTML, false);
 			System.out.println("listSubscribe: " + listSubscribe);
 		}catch(Exception e){
+			msg = e.getMessage();
 			System.out.println("Member already present");
 		}
+		return msg;
 		
 	}
-	public void unsubscribe(String lastname, String firstname, String email) {
+	public String unsubscribe(String lastname, String firstname, String email) {
+		String msg = "";
 		initialize();
 		try {
 			boolean listSubscribe = mcServices.listUnsubscribe(apiKey, listId, email, true, true, true);
 			addUser(lastname,firstname,email);
 		} catch (Exception e) {
 			e.printStackTrace();
-			addUser(lastname,firstname,email);
+			msg = addUser(lastname,firstname,email);
 		}
+		return msg;
 	}
 	
 	/*public void sendCampaign(String subject, String text, int templeteId) {

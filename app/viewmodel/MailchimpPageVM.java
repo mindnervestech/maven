@@ -2,6 +2,8 @@ package viewmodel;
 
 import java.util.Date;
 
+import models.MailchimpList;
+
 public class MailchimpPageVM {
 
 	public Long id;
@@ -11,5 +13,5 @@ public class MailchimpPageVM {
 	public String mailchimpUserName;
 	public String mailchimpPassword;
 	public String apikey;
-	public String listId;
+	public MailchimpList list;
 }
