@@ -25,6 +25,7 @@ import models.FeaturedImageConfig;
 import models.InternalPdf;
 import models.LeadType;
 import models.Location;
+import models.MailchimpList;
 import models.MailchimpSchedular;
 import models.MarketingAcounts;
 import models.MyProfile;
@@ -107,6 +108,25 @@ public class ConfigPagesController extends Controller{
     		return ok();
     	}
 		
+		public static Result saveNewList(){
+			Form<MailchimpList> form = DynamicForm.form(MailchimpList.class).bindFromRequest();
+			MailchimpList vm = form.get();
+			vm.save();
+			return ok();
+		}
+		
+		public static Result deleteList(){
+			Form<MailchimpList> form = DynamicForm.form(MailchimpList.class).bindFromRequest();
+			MailchimpList vm = form.get();
+			try {
+				vm.delete();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ok("error");
+			}
+			return ok();
+		}
+		
 		public static Result savemailchimpPage(){
 			
     		Form<MailchimpPageVM> form = DynamicForm.form(MailchimpPageVM.class).bindFromRequest();
@@ -122,7 +142,7 @@ public class ConfigPagesController extends Controller{
     			mail.mailchimpUserName = vm.mailchimpUserName;
     			mail.mailchimpPassword = vm.mailchimpPassword;
     			mail.apikey = vm.apikey;
-    			mail.listId = vm.listId;
+    			mail.list = vm.list;
     			mail.save();
 			}
 			else{
@@ -131,12 +151,17 @@ public class ConfigPagesController extends Controller{
 				lead.setMailchimpUserName(vm.mailchimpUserName);
 				lead.setMailchimpPassword(vm.mailchimpPassword);
 				lead.setApikey(vm.apikey);
-				lead.setListId(vm.listId);
+				lead.setList(vm.list);
 				lead.update();
     			
 			}
     		return ok();
     	}
+		
+		public static Result getAllMailchimpList(){
+			List<MailchimpList> list = MailchimpList.getAll();
+			return ok(Json.toJson(list));
+		}
 		
 		public static Result getwebsiteAnalyticsData() {
 			

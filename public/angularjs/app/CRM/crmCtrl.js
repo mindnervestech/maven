@@ -439,7 +439,7 @@ angular.module('newApp')
 			console.log($scope.customList);
 			$scope.contactsDetails.customData = $scope.customList;
 			apiserviceCrm.saveContactsData($scope.contactsDetails).then(function(data){
-				 if(data == "") {
+				 if(data == "" || data != "Email already exists") {
 					 $scope.contactMsg="";
 					 $('#createcontactsModal').modal('hide');
 					 $scope.getContactsData();

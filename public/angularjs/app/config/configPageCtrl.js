@@ -782,15 +782,58 @@ angular.module('newApp')
 	});	
 	
 	}
-	
-	$scope.mailchimpPage= function(schedular) {
-		apiserviceConfigPage.savemailchimpPage(schedular).then(function(data){
-		});
+	$scope.disabledTxt = false;
+	$scope.showPass = false;
+	$scope.savetoQuicklists = function(){
+		console.log("???????");
+		$('#addQuickListPop').click();
 	}
 	
+	$scope.deleteItem = function(list){
+		$scope.listObj = list;
+	};
+	
+	$scope.deleteQuickList = function(){
+		console.log("deleteQuickList",$scope.listObj);
+		apiserviceConfigPage.deleteList($scope.listObj).then(function(data){
+			$scope.getAllMailchimpList();
+		});
+	};
+	
+	$scope.mailchimpPage= function(schedular) {
+		var schedularObj = angular.copy(schedular);
+		if(schedularObj.list != null || schedularObj.list != undefined)
+			schedularObj.list = JSON.parse(schedularObj.list);
+		apiserviceConfigPage.savemailchimpPage(schedularObj).then(function(data){
+			
+		});
+	}
+	$scope.getAllMailchimpList = function(){
+		$http.get('/getAllMailchimpList').success(function(data){
+			console.log(data);
+			$scope.mailChimpLists = data;
+		});
+	}
+	$scope.getAllMailchimpList();
+	$scope.newList = {};
+	$scope.saveNewList = function(newList){
+		if(newList.nickName == undefined ||  newList.nickName == null || newList.listId == undefined ||  newList.listId == null){
+			$scope.newError = true;
+		}else{
+			$scope.newError = false;
+			apiserviceConfigPage.saveNewList(newList).then(function(data){
+				$scope.getAllMailchimpList();
+			});
+		}
+	}
+	
+	
+	
 	$scope.mailchimpTest= function(schedular) {
-		console.log(schedular);
-		apiserviceConfigPage.savemailchimpPage(schedular).then(function(data){
+		var schedularObj = angular.copy(schedular);
+		if(schedularObj.list != null || schedularObj.list != undefined)
+			schedularObj.list = JSON.parse(schedularObj.list);
+		apiserviceConfigPage.savemailchimpPage(schedularObj).then(function(data){
 			$http.get('/checkMailChim').success(function(data){
 				console.log("?...?",data);
 				if(data == 'success'){
@@ -820,6 +863,8 @@ angular.module('newApp')
 	$scope.mailchimpData = function(){
 		apiserviceConfigPage.getmailchimpData().then(function(data){
 		$scope.schedular = data;
+		if(data.list != null || data.list != undefined)
+			$scope.schedular.list = JSON.stringify(data.list);
 		console.log($scope.schedular);
 	});	
 	

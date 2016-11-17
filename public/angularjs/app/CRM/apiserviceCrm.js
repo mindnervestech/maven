@@ -119,7 +119,7 @@ angular.module('app.apiserviceCrm', [])
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
-			    text: "contact updated successfully",
+			    text: "contact updated successfully ! "+data,
 			});
 			defer.resolve(data);
 		});
@@ -143,7 +143,7 @@ angular.module('app.apiserviceCrm', [])
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
-			    text: "contact saved successfully",
+			    text: "contact saved successfully ! "+data,
 			});
 			defer.resolve(data);
 		});

@@ -143,7 +143,7 @@ public class CrmController extends Controller {
     			contacts.save();
     			saveCustomCrmData(contacts.contactId,vm);
     			MailIntegrationServices objMail = new MailIntegrationServices();
-    			objMail.addUser(vm.lastName, vm.firstName, vm.email);
+    			msg = objMail.addUser(vm.lastName, vm.firstName, vm.email);
     			/*MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L); //Long.valueOf(session("USER_LOCATION"))
     			if(mSchedular != null){
     				if(mSchedular.schedularTime.equals("Immediately")){
@@ -165,6 +165,7 @@ public class CrmController extends Controller {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
+    		String msg = "contact updated successfully";
     		Form<ContactsVM> form = DynamicForm.form(ContactsVM.class).bindFromRequest();
     		ContactsVM vm = form.get();
     		Contacts contacts = Contacts.findById(vm.contactId);
@@ -204,8 +205,8 @@ public class CrmController extends Controller {
     			contacts.update();
     			saveCustomCrmData(contacts.contactId,vm);
     			MailIntegrationServices objMail = new MailIntegrationServices();
-    			objMail.unsubscribe( vm.lastName,vm.firstName, vm.email);
-    		return ok();
+    			msg = objMail.unsubscribe( vm.lastName,vm.firstName, vm.email);
+    		return ok(msg);
     	}
 	}
 	
