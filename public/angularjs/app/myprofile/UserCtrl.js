@@ -687,6 +687,7 @@ angular.module('newApp')
 		$scope.user.imageUrl = $scope.img;
 		if($scope.user.userType == "Photographer"){
 			if(angular.isUndefined(logofile)) {
+				console.log($scope.user);
 				
 					apiserviceUser.uploadImageFile($scope.user, $scope.user.userType).then(function(data){
 						if(data == null){
@@ -705,14 +706,28 @@ angular.module('newApp')
 					});
 					
 			} else {
-				$('#btnClose').click();
+				/*$('#btnClose').click();
+				console.log($scope.user);
+				$scope.user.imageUrl = "path";
+				apiserviceUser.uploadImageFileLoad($scope.user, $scope.user.userType, logofile).then(function(data){
+					 console.log('success');
+			            $scope.user.firstName=" ";
+			            $scope.user.lastName=" ";
+			            $scope.user.email=" ";
+			            $scope.user.phone=" ";
+			            $scope.user.userType=" ";
+			            $scope.user.img=" ";
+			            $("#file").val('');
+			            $('#btnClose').click();
+			            $scope.init();
+				});*/
 				apiserviceUser.uploadImageFile($scope.user, $scope.user.userType).then(function(data){
 					console.log("changesssss");
 					console.log(data);
 					if(data == null){
 						$('#btnClose').click();
 					}else{
-						apiserviceUser.updateImageFileLoad(data, logofile, $scope.user.userType).then(function(data){
+						apiserviceUser.updateImageFileLoadPhoto(data,$scope.user.userType, logofile).then(function(data){
 							console.log("succeee!!!!!!!!");
 							if(data ==  null){
 								$('#btnClose').click();

@@ -161,11 +161,62 @@ angular.module('app.apiserviceUser', [])
 		return defer.promise;
 	};
 	
+	
+	this.updateImageFileLoadPhoto = function(userdata,userRole,logofile){
+		var defer = $q.defer();
+		if(userRole == 'Photographer'){
+			$upload.upload({
+	            url : autodealerTestUrl+'updateUserMaven',
+	            method: 'post',
+	            data:userdata,
+	            file:logofile
+	        }).success(function(data, status, headers, config) {
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "User saved successfully",
+				});
+	            defer.resolve(data);
+	        }).error(function(data, status, headers, config){
+	        	$.pnotify({
+				    title: "Error",
+				    type:'Success',
+				    text: "Error",
+				});
+	        	defer.resolve(data);
+	        });
+		}else{
+			$upload.upload({
+	            url : '/updateUserMaven',
+	            method: 'post',
+	            data:userdata,
+	            file:logofile
+	        }).success(function(data, status, headers, config) {
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "User saved successfully",
+				});
+	            defer.resolve(data);
+	        }).error(function(data, status, headers, config){
+	        	$.pnotify({
+				    title: "Error",
+				    type:'Success',
+				    text: "Error",
+				});
+	        	defer.resolve(data);
+	        });
+		}
+	
+		
+		return defer.promise;
+	};
+	
 	this.updateImageFileLoad = function(userdata,logofile,userRole){
 		var defer = $q.defer();
 		if(userRole == 'Photographer'){
 			$upload.upload({
-	            url :  autodealerTestUrl+'updateImageFile',
+	            url : autodealerTestUrl+'updateImageFile',
 	            method: 'post',
 	            data:userdata,
 	            file:logofile

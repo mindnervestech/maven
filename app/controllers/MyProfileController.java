@@ -2497,6 +2497,56 @@ public class MyProfileController extends Controller{
 	    	}    	
 	    }
 	    
+	    public static Result updateUserMaven() {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+	    		boolean isNew = true;
+	    		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+	    		MultipartFormData body = request().body().asMultipartFormData();
+		    	Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
+		    	UserVM vm = form.get();
+		    	AuthUser userObj = AuthUser.findById(vm.id);
+		    	
+		    	if(body != null) {
+			    	   File file1 = new File(rootDir+userObj.imageUrl);
+			    	   file1.delete();
+			    		FilePart picture = body.getFile("file0");
+				    	  if (picture != null) {
+				    	    String fileName = picture.getFilename();
+				    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto");
+				    	    if(!fdir.exists()) {
+				    	    	fdir.mkdir();
+				    	    }
+				    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+				    	    File file = picture.getFile();
+				    	    try {
+					    	    	if(new File(filePath).exists()) {
+					    	    		new File(filePath).delete();
+						    	    }
+				    	    		FileUtils.moveFile(file, new File(filePath));
+				    	    		userObj.setImageUrl("/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"userPhoto"+"/"+fileName);
+				    	    		userObj.setImageName(fileName);
+				    	    		userObj.update();	
+				    	    		
+				    	  } catch (FileNotFoundException e) {
+				  			e.printStackTrace();
+					  		} catch (IOException e) {
+					  			e.printStackTrace();
+					  		} 
+				    	  } 
+				    	  return ok();
+			    	   }else{
+			    		   if("null".equals(vm.imageName)){
+			    			   userObj.setImageName(null);
+					   	       userObj.setImageUrl(vm.imageUrl);
+			    		   }
+			    	   }
+		    	
+			 		return ok();
+	    	}    	
+	    }
+	    
 	    public static Result getMangerAndLocation() {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
