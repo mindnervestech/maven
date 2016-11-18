@@ -129,6 +129,34 @@ angular.module('newApp')
 	 	}
 	});
 	
+	$scope.$on("selectLeadDashbord", function(event,data){
+           
+		$scope.selectedLead = data;
+		console.log($scope.editInput);
+		console.log($scope.userFields);
+		$scope.userFields = angular.copy($scope.userFieldsCopy);
+		$scope.userFields1 = null;
+		apiserviceDashborad.getCustomizationform($scope.selectedLead).then(function(response){
+			
+			console.log(response);
+			console.log(angular.fromJson(response.jsonData));
+			
+			 $scope.editInput = response;
+			 $scope.userFields1 = $scope.addFormField(angular.fromJson(response.jsonData));
+			 angular.forEach($scope.userFields1, function(obj, index){
+				 $scope.userFields.push(obj);
+				});
+			 console.log($scope.userFields);
+			 $scope.user = {};
+		
+		   // $scope.getMakes();
+		    //$("#createLeadPopup").modal();
+	    });
+		
+     });
+
+        
+	
 	$scope.topListingCount = function(name,flag){
 		if(flag=='true'){
 			$scope.listingFilter = "-"+name;
@@ -4129,7 +4157,8 @@ angular.module('newApp')
 	    			
 	    			$scope.input = [];
 	    			$scope.userFields = [];
-	    			
+	    		
+	    			 $scope.userFieldsCopy = null;
 	    		$scope.openCreateNewLeadPopup = function() {
 	    			
 	    			$scope.stockWiseData = [];
@@ -4139,7 +4168,7 @@ angular.module('newApp')
 	    				console.log(response);
 	    				$scope.leadList = response; 
 	    			
-	    			});
+	    			});	
 	    			apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
 	    			
 	    				console.log(response);
@@ -4148,6 +4177,7 @@ angular.module('newApp')
 	    				 $scope.editInput = response;
 	    				 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
 	    				 console.log($scope.userFields);
+	    				 $scope.userFieldsCopy = angular.copy($scope.userFields);
 	    				 $scope.user = {};
 	    			
 	    			$scope.getMakes();
@@ -4175,6 +4205,10 @@ angular.module('newApp')
 	    			$scope.getMakes();
 	    			$("#createLeadPopup").modal();
 	    		};
+	    		
+	    		
+	    		
+	    		
 	    		
 	    		$scope.initialiase = function() {
 	    			$scope.lead = {
@@ -4243,7 +4277,6 @@ angular.module('newApp')
 	    				delete $scope.customData.setTime;
 	    			}
 	    			console.log($scope.customData);
-	    			
 	    			console.log($('#exCustoms_value').val());
 	    			$scope.customData.custName = $('#exCustoms_value').val();
 	    			if($scope.customData.custName == undefined){
@@ -4255,87 +4288,73 @@ angular.module('newApp')
 	    			}
 	    			$scope.josnData = 0;
 	    			
+	    			
 	    			apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
+	    				
 	    			
 	    				$scope.lead.leadType = "";
 	    				$scope.lead.manufacturers = "";
 	    				$scope.josnData = angular.fromJson(response.jsonData);
-	    				console.log($scope.josnData);
+	    				$scope.josnData1 = null;
+	    				apiserviceDashborad.getCustomizationform($scope.selectedLead).then(function(response1){
+	    					$scope.josnData1 = angular.fromJson(response1.jsonData);
+	    					angular.forEach($scope.josnData1, function(obj, index){
+	    						$scope.josnData.push(obj);
+	    						
+	   	    				});
+	    					
+	    					console.log($scope.josnData);
 	    					$.each($scope.customData, function(attr, value) {
-	    						angular.forEach($scope.josnData, function(value1, key) {
-	    							console.log(attr);
-	    							console.log(value1.key);
-	    							
-	    							if(value1.key == attr){
-	    							
-	    								if(value1.component == "leadTypeSelector"){
-	    									$scope.lead.leadType = value;
-	    								}
-	    								if(value1.component == "productType"){
-	    									$scope.lead.manufacturers = value;
-	    								}
-	    								
-		    							$scope.customList.push({
-				    		   	  			key:attr,
-				    		   	  			value:value,
-				    		   	  			savecrm:value1.savecrm,
-				    		   	  			displayGrid:value1.displayGrid,
-				    		   	  			
-				    					});
-		    						} 
-		    					});
-			    			   });
+    						angular.forEach($scope.josnData, function(value1, key) {
+    							
+    							if(value1.key == attr){
+    							
+    								if(value1.component == "leadTypeSelector"){
+    									$scope.lead.leadType = value;
+    								}
+    								if(value1.component == "productType"){
+    									$scope.lead.manufacturers = value;
+    								}
+    								
+	    							$scope.customList.push({
+			    		   	  			key:attr,
+			    		   	  			value:value,
+			    		   	  			savecrm:value1.savecrm,
+			    		   	  			displayGrid:value1.displayGrid,
+			    		   	  			
+			    					});
+	    						} 
+	    					});
+		    			   });
+
+	    			
+	    				
+	    				console.log($("#bestTimes").val());
+    	    			console.log($scope.customData);
+    	    			console.log($scope.customList);
+    	    			 
+    	    			
+    	    			$scope.lead.customData = $scope.customList;
+    	    			console.log($scope.lead);
+    	    			console.log($("#autocomplete").val());
+    	    			
+    	    			if($scope.lead.custName == ''){
+    	    				$scope.lead.custName = $('#ex1_value').val();
+    	    			}
+    	    			if($scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='') {
+    	    				$scope.isInValid = true;
+    	    			}else if($scope.lead.leadType == "" || $scope.lead.manufacturers == ""){ 
+    	    				$scope.isInValid2 = true;
+    	    			}else {
+    	    				$scope.isInValid2 = false;
+    	    				$scope.isInValid = false;
+    	    				$scope.makeLead();
+    	    			}
+    					
 	    					
-	    					
-	    					
-	    					console.log($("#bestTimes").val());
-	    	    			console.log($scope.customData);
-	    	    			console.log($scope.customList);
-	    	    			
-	    	    			 
-	    	    			
-	    	    			$scope.lead.customData = $scope.customList;
-	    	    			console.log($scope.lead);
-	    	    			console.log($("#autocomplete").val());
-	    	    			
-	    	    			if($scope.lead.custName == ''){
-	    	    				$scope.lead.custName = $('#ex1_value').val();
-	    	    			}
-	    	    			if($scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='') {
-	    	    				$scope.isInValid = true;
-	    	    			}else if($scope.lead.leadType == "" || $scope.lead.manufacturers == ""){ 
-	    	    				$scope.isInValid2 = true;
-	    	    			}else {
-	    	    				$scope.isInValid2 = false;
-	    	    				$scope.isInValid = false;
-	    	    				$scope.makeLead();
-	    		    			/*if($scope.lead.leadType=='1') {
-	    		    				
-	    	    					$scope.makeLead();
-	    		    			} else if($scope.lead.leadType=='2') {
-	    		    				$scope.lead.bestDay = $("#leadBestDay").val();
-	    			    			$scope.lead.bestTime = $("#leadBestTime").val();
-	    			    			if($("input[name=leadPreffered]:checked").val())
-	    			    				$scope.lead.prefferedContact = $("input[name=leadPreffered]:checked").val();
-	    			    			
-	    			    			if(!$scope.lead.bestDay || $scope.lead.bestDay == '' ||!$scope.lead.bestTime || $scope.lead.bestTime=='' || !$scope.lead.prefferedContact ||$scope.lead.prefferedContact=='') {
-	    			    				$scope.isInValid = true;
-	    			    			} else {
-	    			    				$scope.makeLead();
-	    			    			}
-	    		    			} else if($scope.lead.leadType=='3') {
-	    		    				$("#createLeadPopup").modal('hide');
-	    		    				$("#tradeInApp").modal();
-	    		    			}else{
-	    		    				$scope.makeLead();
-	    		    			}*/
-	    	    			}
-	    	    			/*if($scope.lead.leadType != '3'){
-	    	    				//window.location.reload();
-	    	    			}*/
 	      	  		});
 	    			
-	    			
+	    			});
 	    			
 	    		};
 	    		

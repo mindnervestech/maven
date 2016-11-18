@@ -1856,6 +1856,10 @@ angular.module('newApp').controller('customizationCtrl',
 			
 			});
 	    	
+	    	$scope.selectLead = function(data){
+	    		$scope.$emit("selectLeadDashbord", data);
+    		}
+	    	
 	    	$scope.financeData = {};
 	    	 $scope.financeData.downPayment=1000;
   	  		  $scope.financeData.annualInterestRate=7;

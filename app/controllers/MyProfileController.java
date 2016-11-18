@@ -2924,7 +2924,6 @@ public class MyProfileController extends Controller{
 	    	AuthUser userObj = new AuthUser();
 	    	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	    	if(uAuthUser == null){
-	    		
 		    	userObj.firstName = vm.firstName;
 		    	userObj.lastName = vm.lastName;
 		    	userObj.email = vm.email;

@@ -119,7 +119,7 @@ public class LeadType extends Model {
 	}
 	
 	public static List<LeadType> findByLocationsAndSelected(Long location) {
-		return find.where().eq("shows", 1).eq("locations.id", location).findList();
+		return find.where().eq("locations.id", location).findList();
 	}
 	
 	public static List<LeadType> getLeadData() {

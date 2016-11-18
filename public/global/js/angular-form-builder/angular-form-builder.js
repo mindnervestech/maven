@@ -478,7 +478,7 @@
         copyObjectToScope(formObject, $scope);
         $scope.optionsText = formObject.options.join('\n');
         $scope.columnOptionsText = formObject.columnOptions;
-        $scope.$watch('[label, description, placeholder, required, isRepeatable, options, validation, multiple, minLength, maxLength, disableWeekends, maxDate, requireConfirmation, readOnly, minRange, maxRange, nextXDays, performCreditCheck, cprCountry, logic, category, pointRules, conversionType,imageUrl,key, columnOptions, equation, displayGrid, savecrm]', function() {
+        $scope.$watch('[label, description, placeholder, required, isRepeatable, options, validation, multiple, minLength, maxLength, disableWeekends, maxDate, requireConfirmation, readOnly, minRange, maxRange, nextXDays, performCreditCheck, cprCountry, logic, category, pointRules, conversionType,imageUrl,key, columnOptions, equation, displayGrid, savecrm, displayWebsite]', function() {
           formObject.label = $scope.label;
           formObject.description = $scope.description;
           formObject.key = $scope.key;
@@ -487,6 +487,7 @@
           formObject.required = $scope.required;
           formObject.displayGrid = $scope.displayGrid;
           formObject.savecrm = $scope.savecrm;
+          formObject.displayWebsite = $scope.displayWebsite;
           formObject.isRepeatable = $scope.isRepeatable;
           formObject.options = $scope.options;
           formObject.columnOptions = $scope.columnOptions;
@@ -546,6 +547,7 @@
             required: $scope.required,
             displayGrid:$scope.displayGrid,
             savecrm:$scope.savecrm,
+            displayWebsite:$scope.displayWebsite,
             optionsText: $scope.optionsText,
             columnOptionsText: $scope.columnOptionsText,
             validation: $scope.validation,
@@ -584,6 +586,7 @@
           $scope.required = this.model.required;
           $scope.displayGrid = this.model.displayGrid;
           $scope.savecrm = this.model.savecrm;
+          $scope.displayWebsite = this.model.displayWebsite;
           $scope.isRepeatable = this.model.isRepeatable;
           $scope.optionsText = this.model.optionsText;
           $scope.columnOptionsText = this.model.columnOptionsText;
@@ -1781,7 +1784,8 @@
         editable: (_ref4 = component.editable) != null ? _ref4 : true,
         required: (_ref5 = component.required) != null ? _ref5 : false,
         displayGrid: (_ref14 = component.displayGrid) != null ? _ref14 : false,
-        savecrm: (_ref15 = component.savecrm) != null ? _ref15 : false,		
+        savecrm: (_ref15 = component.savecrm) != null ? _ref15 : false,
+        displayWebsite: (_ref15 = component.displayWebsite) != null ? _ref15 : false,			
         isRepeatable: (_ref13 = component.isRepeatable) != null ? _ref13 : false,
         validation: (_ref6 = component.validation) != null ? _ref6 : '/.*/',
         validationOptions: (_ref7 = component.validationOptions) != null ? _ref7 : [],
@@ -1842,7 +1846,8 @@
         equation: (_ref27 = formObject.equation) != null ? _ref28 : component.equation,
         required: (_ref6 = formObject.required) != null ? _ref6 : component.required,
         displayGrid: (_ref30 = formObject.displayGrid) != null ? _ref30 : component.displayGrid,
-        savecrm: (_ref31 = formObject.savecrm) != null ? _ref31 : component.savecrm,		
+        savecrm: (_ref31 = formObject.savecrm) != null ? _ref31 : component.savecrm,	
+    	displayWebsite: (_ref31 = formObject.displayWebsite) != null ? _ref31 : component.displayWebsite,			
         isRepeatable: (_ref29 = formObject.isRepeatable) != null ? _ref29 : component.isRepeatable,
         validation: (_ref7 = formObject.validation) != null ? _ref7 : component.validation,
         multiple: (_ref8 = formObject.multiple) != null ? _ref8 : component.multiple,
