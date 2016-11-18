@@ -354,6 +354,10 @@ public class productController extends Controller {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	ProductImages image = ProductImages.findById(id);
+		    	if(description.equalsIgnoreCase("undefined") || description.equalsIgnoreCase("null"))
+		    		description = null;
+		    	if(title.equalsIgnoreCase("undefined") || title.equalsIgnoreCase("null"))
+		    		title = null;
 		    	image.setDescription(description);
 		    	image.setTitle(title);
 		    	image.update();
