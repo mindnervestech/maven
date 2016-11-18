@@ -356,9 +356,9 @@ public class productController extends Controller {
 	    		Form<ProductImages> form = DynamicForm.form(ProductImages.class).bindFromRequest();
 	    		ProductImages vm = form.get();
 		    	ProductImages image = ProductImages.findById(vm.id);
-		    	if(vm.description.equalsIgnoreCase("undefined") || vm.description.equalsIgnoreCase("null"))
+		    	if("undefined".equalsIgnoreCase(vm.description) || "".equalsIgnoreCase(vm.description) || "null".equalsIgnoreCase(vm.description))
 		    		vm.description = null;
-		    	if(vm.title.equalsIgnoreCase("undefined") || vm.title.equalsIgnoreCase("null"))
+		    	if("undefined".equalsIgnoreCase(vm.title) || "".equalsIgnoreCase(vm.title) || "null".equalsIgnoreCase(vm.title))
 		    		vm.title = null;
 		    	image.setDescription(vm.description);
 		    	image.setTitle(vm.title);
