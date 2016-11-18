@@ -22,6 +22,7 @@ GET		/logout						controllers.Application.logout()
 GET		/getLeadInfo				controllers.Application.getLeadInfo()
 GET		/getAllMailchimpList		controllers.ConfigPagesController.getAllMailchimpList()
 POST	/saveNewList				controllers.ConfigPagesController.saveNewList()
+POST	/updateListItem				controllers.ConfigPagesController.updateListItem()
 POST	/deleteList				controllers.ConfigPagesController.deleteList()
 
 GET    /getNotificationData									controllers.Application.getNotificationData()

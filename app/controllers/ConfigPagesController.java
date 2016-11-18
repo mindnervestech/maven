@@ -108,15 +108,27 @@ public class ConfigPagesController extends Controller{
     		return ok();
     	}
 		
+		public static Result updateListItem(){
+			String msg = "";
+			Form<MailchimpList> form = DynamicForm.form(MailchimpList.class).bindFromRequest();
+			MailchimpList vm = form.get();
+			try {
+				vm.update();
+			} catch (Exception e) {
+				msg = "error";
+			}
+			return ok(msg);
+		}
+		
 		public static Result saveNewList(){
 			String msg = "";
 			Form<MailchimpList> form = DynamicForm.form(MailchimpList.class).bindFromRequest();
 			MailchimpList vm = form.get();
-			MailchimpList list = MailchimpList.getListByListId(vm.listId);
-			if(list == null)
+			try {
 				vm.save();
-			else
+			} catch (Exception e) {
 				msg = "error";
+			}
 			return ok(msg);
 		}
 		

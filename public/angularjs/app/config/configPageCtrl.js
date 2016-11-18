@@ -784,9 +784,33 @@ angular.module('newApp')
 	}
 	$scope.disabledTxt = false;
 	$scope.showPass = false;
+	$scope.updateList = false;
 	$scope.savetoQuicklists = function(){
 		console.log("???????");
 		$('#addQuickListPop').click();
+	}
+	
+	$scope.viewUpdate = function(list){
+		console.log(list);
+		$scope.newList = list;
+		$scope.updateList = true;
+	};
+	$scope.closeUpdate = function(){
+		$scope.updateList = false;
+		$scope.newError = false;
+		$scope.newList = {};
+	}
+	$scope.updateListItem = function(newList){
+		if(newList.nickName == undefined ||  newList.nickName == null || newList.listId == undefined ||  newList.listId == null){
+			$scope.newError = true;
+		}else{
+			$scope.newError = false;
+			apiserviceConfigPage.updateListItem(newList).then(function(data){
+				$scope.newList = {};
+				$scope.closeUpdate();
+				$scope.getAllMailchimpList();
+			});
+		}
 	}
 	
 	$scope.deleteItem = function(list){

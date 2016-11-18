@@ -309,12 +309,34 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
+	this.updateListItem=function(listItem){
+		var defer = $q.defer();
+		$http.post('/updateListItem',listItem).success(function(data) {
+			if(data == "error"){
+				$.pnotify({
+				    title: "Error",
+				    type:'success',
+				    text: "List ID already Exist.",
+				});
+			}else{
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "List updated successfully",
+				});
+			}
+			
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 	this.saveNewList=function(newList){
 		var defer = $q.defer();
 		$http.post('/saveNewList',newList).success(function(data) {
 			if(data == "error"){
 				$.pnotify({
-				    title: "Success",
+				    title: "Error",
 				    type:'success',
 				    text: "List ID already Exist.",
 				});

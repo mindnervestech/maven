@@ -101,7 +101,7 @@
 					</select>
 				</div>
 				<div class="col-md-4">
-					<button ng-disabled="!schedular.synchronizeContact" type="button" data-toggle="modal" data-target="#addQuickListPop" class="btn btn-primary btn-embossed ">Save to Quicklists</button>
+					<button ng-disabled="!schedular.synchronizeContact" type="button" data-toggle="modal" data-target="#addQuickListPop" class="btn btn-primary btn-embossed ">Quicklists</button>
 				</div>
 		</div>
 		
@@ -134,7 +134,9 @@
 						</div>
 							<input name="listId" class="form-control form-white" type="text" style="width:80%;" ng-model="newList.listId"  required>
 					</div>
-					<button type="submit" class="btn btn-primary btn-embossed" style="float: right;" ng-click="saveNewList(newList)">Save</button>
+					<button ng-if="!updateList" type="submit" class="btn btn-primary btn-embossed" style="float: right;" ng-click="saveNewList(newList)">Save</button>
+					<button ng-if="updateList" type="submit" class="btn btn-primary btn-embossed" style="float: right;" ng-click="updateListItem(newList)">Update</button>
+					<button ng-if="updateList" type="button" class="btn btn-default btn-embossed" style="float: right;" ng-click="closeUpdate()">Cancel</button>
 				</form>	
 				<div class="form-group col-sm-12">
 					<table>
@@ -147,7 +149,10 @@
 							<tr ng-repeat="list in mailChimpLists">
 								<td>{{list.nickName}}</td>
 								<td>{{list.listId}}</td>
-								<td><i class="fa fa-trash fa-2x" aria-hidden="true" data-toggle="modal" data-target="#deleteQuickListPop" ng-click="deleteItem(list)"></i></td>
+								<td>
+									<i class="fa fa-trash fa-2x" aria-hidden="true" title="Delete" style="cursor: pointer;" data-toggle="modal" data-target="#deleteQuickListPop" ng-click="deleteItem(list)"></i>
+									<i class="fa fa-pencil-square-o fa-2x" title="Edit" style="cursor: pointer;" aria-hidden="true" ng-click="viewUpdate(list)"></i>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -155,7 +160,7 @@
 				
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-embossed" style="float: right;" data-dismiss="modal" ng-click="newError = false;">Close</button>
+                <button type="button" class="btn btn-default btn-embossed" style="float: right;" data-dismiss="modal" ng-click="closeUpdate()">Close</button>
             </div>
         </div>
     </div>
