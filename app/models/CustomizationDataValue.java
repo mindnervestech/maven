@@ -27,6 +27,7 @@ public class CustomizationDataValue extends Model {
 	public Long leadType;
 	public String saveCrm;
 	public String displayGrid;
+	public String displayWebsite;
 	
 	@ManyToOne
 	public Location locations;
@@ -96,6 +97,18 @@ public class CustomizationDataValue extends Model {
 	public void setLocations(Location locations) {
 		this.locations = locations;
 	}
+
+	
+	
+	public String getDisplayWebsite() {
+		return displayWebsite;
+	}
+
+	public void setDisplayWebsite(String displayWebsite) {
+		this.displayWebsite = displayWebsite;
+	}
+
+
 
 	public static Finder<Long,CustomizationDataValue> find = new Finder<>(Long.class,CustomizationDataValue.class);
 	

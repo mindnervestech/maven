@@ -23,7 +23,6 @@
             		$scope.userimage = "http://glider-autos.com/MavenImg/images"+data.imageUrl;
             	}
 
-        		console.log($scope.userimage);
             	
             }).error(function(data,status){
             	if(status == 401) {
@@ -47,7 +46,6 @@
             			.success(function(data1) {
             				
             				 $scope.locationName=data1;
-            				 console.log($scope.locationName);
             				 
             			});	
                     
@@ -77,10 +75,6 @@
               }
             
             $scope.changeUser = function() {
-                console.log("inside");	
-       			 console.log($scope.leadlId);
-       			 console.log($scope.leadType);
-       			 console.log($scope.changedUser);
        	        	$http.get('/changeAssignedUser/'+$scope.leadlId+'/'+$scope.changedUser+'/'+$scope.leadType)
        				.success(function(data) {
        					$('#assignUserModal').modal('hide');
@@ -1837,12 +1831,12 @@ angular.module('newApp').controller('customizationCtrl',
 	    	
 	    	$http.get('/getDataFromCrm').success(function(data){
 	    		$scope.searchList = data;
-	    		console.log($scope.searchList);
+	    		//console.log($scope.searchList);
 	    	 });
 	    	
 	    	$http.get('/getSelectedLeadType').success(function(data) {
     			
-				console.log(data);
+				//console.log(data);
 				$scope.leadList = data; 
 			
 			});
@@ -1851,7 +1845,7 @@ angular.module('newApp').controller('customizationCtrl',
 			var date = new Date().getTime();
 	    	$http.get('/getAllProduct/'+"publish"+'/'+date).success(function(data) {
 				    			
-				console.log(data);
+				//console.log(data);
 				$scope.manufacturerslist = data; 
 			
 			});
@@ -1913,9 +1907,7 @@ angular.module('newApp').controller('customizationCtrl',
 	     	  		$scope.stockWiseData.push({});  	
 	     	  		$scope.getStockDetails = function(stockRp) {
 		    			$scope.isStockError = false;
-		    			console.log(stockRp);
 		    			$http.get('/getStockDetails/'+stockRp.stockNumber).success(function(response) {
-		    				console.log(response);
 		    				if(response.isData) {
 		    					$scope.isStockError = false;
 		    					stockRp.designer = response.designer;

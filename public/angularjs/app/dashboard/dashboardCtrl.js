@@ -2120,20 +2120,58 @@ angular.module('newApp')
    	  	}
    	        $scope.financeData={};
    	  		$scope.editLeads = {};
-   	  	$scope.stockWiseData = [];
+   	  	    $scope.stockWiseData = [];
    	  		$scope.editVinData = function(entity){
    	  			console.log(entity);
    	  		$scope.customData = entity.customMapData;
    	  	
    	  			console.log($scope.customData);
    	  		apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
-   	  		
+   	  	
+   	  			
+				 $scope.josnData1 = angular.fromJson(response.jsonData);
+				 $.each($scope.customData, function(attr, value) {
+	   				angular.forEach($scope.josnData1, function(value1, key) {
+	   					if(value1.key == attr){
+	   					
+	   						if(value1.component == "leadTypeSelector"){
+	   							entity.leadType = value;
+	   						}
+	   						
+	   					} 
+	   				});
+	   			   });
 				 $scope.editInput = response;
+				 $scope.userFieldsList = angular.fromJson(response.jsonData);
+   	  				console.log(entity.leadType);
+   	  				console.log($scope.userFields);
+	   	  		  apiserviceDashborad.getCustomizationform(entity.leadType).then(function(response1){
+						$scope.josnDataList = angular.fromJson(response1.jsonData);
+						angular.forEach($scope.josnDataList, function(obj, index){
+							$scope.userFieldsList.push(obj);
+							
+		   			  });
+					  console.log($scope.userFieldsList);
+					 $scope.userFields = $scope.addFormField($scope.userFieldsList);
+					 console.log($scope.userFields);
+					 $scope.user = {};
+   	  				});
+   	  		
+				 //$scope.editInput = response;
 				 //$scope.josnData = angular.fromJson(response.jsonData);
-				 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
-				 console.log($scope.userFields);
-				 $scope.user = {};
+				 //$scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
+				 //console.log($scope.userFields);
+				// $scope.user = {};
    	  		});
+   	  		
+   	  		
+   	  		
+   	  		
+   	  		
+   	  		
+   	  		
+   	  		
+   	  		
    	  			
    	  		  $scope.financeData.downPayment=1000;
    	  		  $scope.financeData.annualInterestRate=7;
@@ -2239,45 +2277,89 @@ angular.module('newApp')
 				delete $scope.customData.autocompleteText;
 			}
    	  		console.log($scope.customData);
-   	  	 $.each($scope.customData, function(attr, value) {
+   	  	 /*$.each($scope.customData, function(attr, value) {
 		      $scope.customList.push({
 	   	  			key:attr,
 	   	  			value:value,
 	   	  			
 				});
-		   });
+		   });*/
    	  	 
+   		apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
+			
+			
+			$scope.editLeads.leadType = "";
+			$scope.editLeads.manufacturers = "";
+			$scope.josnData = angular.fromJson(response.jsonData);
+			$scope.josnData1 = null;
+			apiserviceDashborad.getCustomizationform("schedu").then(function(response1){
+				$scope.josnData1 = angular.fromJson(response1.jsonData);
+				angular.forEach($scope.josnData1, function(obj, index){
+					$scope.josnData.push(obj);
+					
+   				});
+				
+				console.log($scope.josnData);
+				$.each($scope.customData, function(attr, value) {
+				angular.forEach($scope.josnData, function(value1, key) {
+					
+					if(value1.key == attr){
+					
+						if(value1.component == "leadTypeSelector"){
+							$scope.editLeads.leadType = value;
+						}
+						if(value1.component == "productType"){
+							$scope.editLeads.manufacturers = value;
+						}
+						
+						$scope.customList.push({
+    		   	  			key:attr,
+    		   	  			value:value,
+    		   	  			savecrm:value1.savecrm,
+    		   	  			displayGrid:value1.displayGrid,
+    		   	  		    displayWebsite:value1.displayWebsite,
+    		   	  			
+    					});
+					} 
+				});
+			   });
+				
+				
+				$scope.editLeads.customData = $scope.customList;
+	   	  		$scope.editLeads.stockWiseData = $scope.stockWiseData;
+	   	  		console.log($scope.editLeads);
+	   	  	var files = [];
+	   	  	if($rootScope.fileCustom != undefined){
+				console.log($rootScope.fileCustom);
+				files = $rootScope.fileCustom;
+				
+				console.log(files.length);
+				console.log(files);
+				
+				// delete $scope.lead.customData;
+				// delete $scope.lead.options;
+				// delete $scope.lead.stockWiseData;
+				
+				 $upload.upload({
+		            url : '/editLeads',
+		            method: 'POST',
+		            file:files,
+		            data:$scope.editLeads
+		         }).success(function(data) {
+		   			console.log('success');
+		   			
+		   		 });
+				}else{
+					console.log($scope.editLeads);
+					apiserviceDashborad.editLeads($scope.editLeads).then(function(data){
+	   	  				$("#editLeads").modal('hide');
+		   	  			$scope.getAllSalesPersonRecord($scope.salesPerson);
+					 });
+				 }
+	  		});
 		
-   	  		$scope.editLeads.customData = $scope.customList;
-   	  		$scope.editLeads.stockWiseData = $scope.stockWiseData;
-   	  		console.log($scope.editLeads);
-   	  	var files = [];
-   	  	if($rootScope.fileCustom != undefined){
-			console.log($rootScope.fileCustom);
-			files = $rootScope.fileCustom;
-			
-			console.log(files.length);
-			console.log(files);
-			
-			// delete $scope.lead.customData;
-			// delete $scope.lead.options;
-			// delete $scope.lead.stockWiseData;
-			
-			 $upload.upload({
-	            url : '/editLeads',
-	            method: 'POST',
-	            file:files,
-	            data:$scope.editLeads
-	         }).success(function(data) {
-	   			console.log('success');
-	   			
-	   		 });
-			}else{ 
-				apiserviceDashborad.editLeads($scope.editLeads).then(function(data){
-   	  				$("#editLeads").modal('hide');
-	   	  			$scope.getAllSalesPersonRecord($scope.salesPerson);
-				 });
-			 }
+		});
+   	  		
    	  		}
    	  		$scope.joinDatePick = function(index){
    	  			
@@ -4321,6 +4403,7 @@ angular.module('newApp')
 			    		   	  			value:value,
 			    		   	  			savecrm:value1.savecrm,
 			    		   	  			displayGrid:value1.displayGrid,
+			    		   	  		    displayWebsite:value1.displayWebsite,
 			    		   	  			
 			    					});
 	    						} 

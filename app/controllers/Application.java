@@ -3889,7 +3889,6 @@ public class Application extends Controller {
 		    			rInfo.setEmail(vm.custEmail);
 		    			rInfo.setPhone(vm.custNumber);
 		    			rInfo.setCustZipCode(vm.custZipCode);
-		    			rInfo.setEnthicity(vm.enthicity);
 		    			rInfo.update();
 		    			if(rInfo.isContactusType != null){
 			    			if(!rInfo.isContactusType.equals("contactUs")){
@@ -9182,6 +9181,13 @@ public class Application extends Controller {
     			}else{
     				cValue.displayGrid = custom.displayGrid;
     			}
+    			
+    			if(custom.displayWebsite == null){
+    				cValue.displayWebsite = "false";
+    			}else{
+    				cValue.displayWebsite = custom.displayWebsite;
+    			}
+    			
     			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			cValue.save();
     			
@@ -9190,6 +9196,7 @@ public class Application extends Controller {
     			cDataValue.setValue(custom.value);
     			cDataValue.setSaveCrm(custom.savecrm);
     			cDataValue.setDisplayGrid(custom.displayGrid);
+    			//cDataValue.setDisplayWebsite(custom.displayWebsite);
     			cDataValue.update();
     		}
 			
