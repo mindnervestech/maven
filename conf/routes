@@ -100,7 +100,7 @@ POST    /saveProduct                     controllers.productController.addProduc
 GET     /removeDefaultProduct/:newId	 controllers.productController.removeDefaultProduct(newId:Long)
 GET		/deleteImage/:id		         controllers.productController.deleteImage(id:Long)
 
-GET		/saveImageTitle/:id/:title/:description		         controllers.productController.saveImageTitle(id:Long,title:String,description:String)
+POST		/saveImageTitle		         controllers.productController.saveImageTitle()
 GET		/getImagesByProduct/:id		     controllers.productController.getImagesByProduct(id:Long)
 POST    /uploadProductPhoto   			 controllers.productController.uploadProductPhotos()
 #GET		/getImageById/:id			     controllers.productController.getImageDataById(id: Long)

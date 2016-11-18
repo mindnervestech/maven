@@ -349,17 +349,19 @@ public class productController extends Controller {
 	    	}	
 	    }
 	 
-	 public static Result saveImageTitle(Long id, String title, String description) {
+	 public static Result saveImageTitle() {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
-		    	ProductImages image = ProductImages.findById(id);
-		    	if(description.equalsIgnoreCase("undefined") || description.equalsIgnoreCase("null"))
-		    		description = null;
-		    	if(title.equalsIgnoreCase("undefined") || title.equalsIgnoreCase("null"))
-		    		title = null;
-		    	image.setDescription(description);
-		    	image.setTitle(title);
+	    		Form<ProductImages> form = DynamicForm.form(ProductImages.class).bindFromRequest();
+	    		ProductImages vm = form.get();
+		    	ProductImages image = ProductImages.findById(vm.id);
+		    	if(vm.description.equalsIgnoreCase("undefined") || vm.description.equalsIgnoreCase("null"))
+		    		vm.description = null;
+		    	if(vm.title.equalsIgnoreCase("undefined") || vm.title.equalsIgnoreCase("null"))
+		    		vm.title = null;
+		    	image.setDescription(vm.description);
+		    	image.setTitle(vm.title);
 		    	image.update();
 		    	return ok();
 	    	}
