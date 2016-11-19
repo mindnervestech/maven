@@ -966,6 +966,14 @@ angular.module('newApp')
 			$scope.userData.hOperation.friOpenTime = $('#friOpen').val();
 			$scope.userData.hOperation.satOpenTime = $('#satOpen').val();
 			
+			$scope.userData.hOperation.sunCloseTime = $('#sunClose').val();
+			$scope.userData.hOperation.monCloseTime = $('#monClose').val();
+			$scope.userData.hOperation.tueCloseTime = $('#tueClose').val();
+			$scope.userData.hOperation.wedCloseTime = $('#wedClose').val();
+			$scope.userData.hOperation.thuCloseTime = $('#thuClose').val();
+			$scope.userData.hOperation.friCloseTime = $('#friClose').val();
+			$scope.userData.hOperation.satCloseTime = $('#satClose').val();
+			
 			if($scope.userData.hOperation.sunOpen == undefined){
 				$scope.userData.hOperation.sunOpen = false;
 			}
@@ -987,8 +995,31 @@ angular.module('newApp')
 			if($scope.userData.hOperation.satOpen == undefined){
 				$scope.userData.hOperation.satOpen = false;
 			}
+			
+			
+			if($scope.userData.hOperation.sunClose == undefined){
+				$scope.userData.hOperation.sunClose = false;
+			}
+			if($scope.userData.hOperation.monClose == undefined){
+				$scope.userData.hOperation.monClose = false;
+			}
+			if($scope.userData.hOperation.tueClose == undefined){
+				$scope.userData.hOperation.tueClose = false;
+			}
+			if($scope.userData.hOperation.wedClose == undefined){
+				$scope.userData.hOperation.wedClose = false;
+			}
+			if($scope.userData.hOperation.thuClose == undefined){
+				$scope.userData.hOperation.thuClose = false;
+			}
+			if($scope.userData.hOperation.friClose == undefined){
+				$scope.userData.hOperation.friClose = false;
+			}
+			if($scope.userData.hOperation.satClose == undefined){
+				$scope.userData.hOperation.satClose = false;
+			}
 		}
-		
+		console.log($scope.userData);
 		if($scope.contactVal=="Employee"){
 			$scope.userData.contractDur = $scope.contactVal;
 		}else if($scope.contactVal=="One Time Order"){

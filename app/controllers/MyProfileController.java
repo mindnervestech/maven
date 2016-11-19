@@ -2350,42 +2350,49 @@ public class MyProfileController extends Controller{
 			    	try {
 			    			if(vm.hOperation.sunOpen == true){
 			    				pOperation.setSunOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.sunOpenTime));
+			    				pOperation.setSunCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.sunCloseTime));
 			    				pOperation.setSunOpen(1);
 			    			}else{
 			    				pOperation.setSunOpen(0);
 			    			}
 			    			if(vm.hOperation.monOpen == true){
 			    				pOperation.setMonOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.monOpenTime));
+			    				pOperation.setMonCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.monCloseTime));
 			    				pOperation.setMonOpen(1);
 			    			}else{
 			    				pOperation.setMonOpen(0);
 			    			}
 			    			if(vm.hOperation.thuOpen == true){
 			    				pOperation.setThuOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.thuOpenTime));
+			    				pOperation.setThuCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.thuCloseTime));
 			    				pOperation.setThuOpen(1);
 			    			}else{
 			    				pOperation.setThuOpen(0);
 			    			}
 			    			if(vm.hOperation.tueOpen == true){
 			    				pOperation.setTueOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.tueOpenTime));
+			    				pOperation.setTueCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.tueCloseTime));
 			    				pOperation.setTueOpen(1);
 			    			}else{
 			    				pOperation.setTueOpen(0);
 			    			}
 			    			if(vm.hOperation.wedOpen == true){
 			    				pOperation.setWedOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.wedOpenTime));
+			    				pOperation.setWedCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.wedCloseTime));
 			    				pOperation.setWedOpen(1);
 			    			}else{
 			    				pOperation.setWedOpen(0);
 			    			}
 			    			if(vm.hOperation.friOpen == true){
 			    				pOperation.setFriOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.friOpenTime));
+			    				pOperation.setFriCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.friCloseTime));
 			    				pOperation.setFriOpen(1);
 			    			}else{
 			    				pOperation.setFriOpen(0);
 			    			}
 			    			if(vm.hOperation.satOpen == true){
 			    				pOperation.setSatOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.satOpenTime));
+			    				pOperation.setSatCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.satCloseTime));
 			    				pOperation.setSatOpen(1);
 			    			}else{
 			    				pOperation.setSatOpen(0);
@@ -3112,23 +3119,44 @@ public class MyProfileController extends Controller{
 	        				if(pOperation.friOpenTime != null){
 	        					vm.hOperation.friOpenTime = parseTime.format(pOperation.friOpenTime);
 	        				}
+	        				if(pOperation.friCloseTime != null){	
+	        					vm.hOperation.friCloseTime = parseTime.format(pOperation.friCloseTime);
+	        				}
 	        				if(pOperation.tueOpenTime != null){
 	        					vm.hOperation.tueOpenTime = parseTime.format(pOperation.tueOpenTime);
+	        				}
+	        				if(pOperation.tueCloseTime != null){
+	        					vm.hOperation.tueCloseTime = parseTime.format(pOperation.tueCloseTime);
 	        				}
 	        				if(pOperation.thuOpenTime != null){
 	        					vm.hOperation.thuOpenTime = parseTime.format(pOperation.thuOpenTime);
 	        				}
+	        				if(pOperation.thuCloseTime != null){
+	        					vm.hOperation.thuCloseTime = parseTime.format(pOperation.thuCloseTime);
+	        				}
 	        				if(pOperation.wedOpenTime != null){
 	        					vm.hOperation.wedOpenTime = parseTime.format(pOperation.wedOpenTime);
+	        				}
+	        				if(pOperation.wedCloseTime != null){
+	        					vm.hOperation.wedCloseTime = parseTime.format(pOperation.wedCloseTime);
 	        				}
 	        				if(pOperation.monOpenTime != null){
 	        					vm.hOperation.monOpenTime = parseTime.format(pOperation.monOpenTime);
 	        				}
+	        				if(pOperation.monCloseTime != null){
+	        					vm.hOperation.monCloseTime = parseTime.format(pOperation.monCloseTime);
+	        				}
 	        				if(pOperation.satOpenTime != null){
 	        					vm.hOperation.satOpenTime = parseTime.format(pOperation.satOpenTime);
 	        				}
+	        				if(pOperation.satCloseTime != null){
+	        					vm.hOperation.satCloseTime = parseTime.format(pOperation.satCloseTime);
+	        				}
 	        				if(pOperation.sunOpenTime != null){
 	        					vm.hOperation.sunOpenTime = parseTime.format(pOperation.sunOpenTime);
+	        				}
+	        				if(pOperation.sunCloseTime != null){
+	        					vm.hOperation.sunCloseTime = parseTime.format(pOperation.sunCloseTime);
 	        				}
 	    				}
 	    				
