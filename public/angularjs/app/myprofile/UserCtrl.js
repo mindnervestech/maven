@@ -664,7 +664,7 @@ angular.module('newApp')
 		if($scope.userData.imageName == null || $scope.userData.imageName == "null"){
 			$scope.img = $scope.userData.imageUrl;
 		}else{
-			$scope.img = "http://glider-autos.com/MavenImg/images"+$scope.userData.imageUrl;
+			$scope.img = "http://glider-autos.com/glivrTestImg/images"+$scope.userData.imageUrl;
 		}
 	}
 	
