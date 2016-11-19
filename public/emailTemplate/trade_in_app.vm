@@ -623,7 +623,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                               <!-- start button -->
                               <table border="0" align="center" cellpadding="0" cellspacing="0">
                                 <tbody><tr>
-                                  <td width="auto" align="center" valign="middle" height="28" style="border: 1px solid rgb(236, 236, 237); font-size: 18px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(163, 162, 162); font-weight: 300; padding-left: 18px; padding-right: 18px; word-break: break-word; background-clip: padding-box;"><span style="font-size: 32px; font-weight: bold; color: rgb(194, 0, 0); line-height: 32px;">TRADE-IN APPRAISAL</span><br style="line-height: 24px;">HAS BEEN SUBMITTED</td>
+                                  <td width="auto" align="center" valign="middle" height="28" style="border: 1px solid rgb(236, 236, 237); font-size: 18px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(163, 162, 162); font-weight: 300; padding-left: 18px; padding-right: 18px; word-break: break-word; background-clip: padding-box;"><span style="font-size: 32px; font-weight: bold; color: rgb(194, 0, 0); line-height: 32px;">$title</span><br style="line-height: 24px;">HAS BEEN SUBMITTED</td>
                                 </tr>
                               </tbody></table>
                               <!-- end button -->
@@ -704,7 +704,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                                   <td valign="top">
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0" align="left">
                                       <tbody><tr>
-                                        <td style="font-size: 18px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word;"><span style="font-size: 24px; font-weight: bold; color: rgb(194, 0, 0); line-height: 24px;">$year $make $model ($price)</span></td>
+                                        <td style="font-size: 18px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word;"><span style="font-size: 24px; font-weight: bold; color: rgb(194, 0, 0); line-height: 24px;">$subtitle</span></td>
                                       </tr>
                                       <!--start space height -->
                                       <tr>
@@ -712,7 +712,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                                       </tr>
                                       <!--end space height -->
                                       <tr>
-                                        <td style="font-size: 13px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word;"><span style="font-size: 18px; line-height: 24px;">STOCK NUMBER: <span style="font-weight: bold; font-size: inherit; line-height: 24px;">$stock</span></span><br style="line-height: 24px;"><span style="font-size: 18px; line-height: 24px;">VIN NUMBER:&nbsp;<span style="font-weight: bold; font-size: inherit; line-height: 24px;">$vin</span></span><br style="line-height: 24px;"><span style="font-size: 18px; line-height: 24px;">MILEAGE: <span style="font-weight: bold; font-size: inherit; line-height: 24px;">$mileage</span></span><br style="line-height: 24px;"><br style="line-height: 24px;"></td>
+                                        <td style="font-size: 13px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word;"><span style="font-size: 18px; line-height: 24px;">Manufacturers: <span style="font-weight: bold; font-size: inherit; line-height: 24px;">$subtitle</span></span><br style="line-height: 24px;"><span style="font-size: 18px; line-height: 24px;"><span style="font-weight: bold; font-size: inherit; line-height: 24px;"></span></span><br style="line-height: 24px;"><span style="font-size: 18px; line-height: 24px;"><span style="font-weight: bold; font-size: inherit; line-height: 24px;"></span></span><br style="line-height: 24px;"><br style="line-height: 24px;"></td>
                                       </tr>
                                     </tbody></table>
                                   </td>
@@ -752,7 +752,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                                       </tr>
                                       <!--end space height -->
                                       <tr>
-                                        <td style="font-size: 13px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word;"><span style="font-size: 18px; line-height: 24px;">NAME: <span style="font-weight: bold; font-size: inherit; line-height: 24px;">$first_name $last_name<br style="line-height: 24px;"></span>METHOD OF CONTACT: <span style="font-weight: bold; font-size: inherit; line-height: 24px;">$preferred<br style="line-height: 24px;"></span>EMAIL:<span style="font-weight: bold; font-size: inherit; line-height: 24px;"> <a href="mailto:$email" style="font-size: inherit; line-height: 24px; text-decoration: none;">$email</a><br style="line-height: 24px;"></span>PHONE:<span style="font-weight: bold; font-size: inherit; line-height: 24px;"> $work_phone</span></span></td>
+                                        <td style="font-size: 13px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word;"><span style="font-size: 18px; line-height: 24px;">NAME: <span style="font-weight: bold; font-size: inherit; line-height: 24px;">$first_name<br style="line-height: 24px;"></span>METHOD OF CONTACT: <span style="font-weight: bold; font-size: inherit; line-height: 24px;">$preferred<br style="line-height: 24px;"></span>EMAIL:<span style="font-weight: bold; font-size: inherit; line-height: 24px;"> <a href="mailto:$email" style="font-size: inherit; line-height: 24px; text-decoration: none;">$email</a><br style="line-height: 24px;"></span>PHONE:<span style="font-weight: bold; font-size: inherit; line-height: 24px;"> $work_phone</span></span></td>
                                       </tr>
                                     </tbody></table>
                                   </td>

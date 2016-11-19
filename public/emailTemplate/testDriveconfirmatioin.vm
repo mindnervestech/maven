@@ -719,7 +719,7 @@ a{text-decoration: none !important;}
                                   <td valign="top">
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt; mso-table-rspace:0pt;">
                                       <tbody><tr>
-                                        <td style="font-size: 18px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word; line-height: 26px;"><span style="font-size: 24px; font-weight: bold; color: rgb(194, 0, 0); line-height: 32px;">$year $make $model ($price)</span></td>
+                                        <td style="font-size: 18px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word; line-height: 26px;"><span style="font-size: 24px; font-weight: bold; color: rgb(194, 0, 0); line-height: 32px;">$title</span></td>
                                       </tr>
                                       <!--start space height -->
                                       <tr>
@@ -727,7 +727,7 @@ a{text-decoration: none !important;}
                                       </tr>
                                       <!--end space height -->
                                       <tr>
-                                        <td style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word; line-height: 21px;"><span style="font-size: 18px; font-weight: 300; line-height: 26px;">STOCK NUMBER: <span style="font-weight: bold; font-size: inherit; line-height: 26px;">$stock</span></span><br style="line-height: 24px;"><span style="font-size: 18px; font-weight: 300; line-height: 26px;">VIN NUMBER:&nbsp;<span style="font-weight: bold; font-size: inherit; line-height: 26px;">$vin</span></span><br style="line-height: 24px;"> #if($typeofVehicle != "New")<span style="font-size: 18px; font-weight: 300; line-height: 26px;">MILEAGE: <span style="font-weight: bold; font-size: inherit; line-height: 26px;">$mileage</span>#end</span><br style="line-height: 24px;"></td>
+                                        <td style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word; line-height: 21px;"><span style="font-size: 18px; font-weight: 300; line-height: 26px;">Manufacturers: <span style="font-weight: bold; font-size: inherit; line-height: 26px;">$manufacturers</span></span><br style="line-height: 24px;"><span style="font-size: 18px; font-weight: 300; line-height: 26px;"><span style="font-weight: bold; font-size: inherit; line-height: 26px;"></span></span><br style="line-height: 24px;"> #if($typeofVehicle != "New")<span style="font-size: 18px; font-weight: 300; line-height: 26px;"><span style="font-weight: bold; font-size: inherit; line-height: 26px;"></span>#end</span><br style="line-height: 24px;"></td>
                                       </tr>
                                     </tbody></table>
                                   </td>

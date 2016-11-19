@@ -28,15 +28,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
 import models.AuthUser;
 import models.EmailDetails;
 import models.HoursOfOperation;
@@ -50,14 +41,22 @@ import models.ScheduleTest;
 import models.SiteLogo;
 import models.TradeIn;
 import models.Vehicle;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Result;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
+import play.mvc.Result;
 import securesocial.core.Identity;
 import viewmodel.AssignToVM;
 import viewmodel.HoursOperation;
@@ -65,8 +64,6 @@ import viewmodel.LocationVM;
 import viewmodel.UserLeadVM;
 import viewmodel.UserVM;
 import viewmodel.profileVM;
-
-
 import views.html.home;
 
 public class MyProfileController extends Controller{
