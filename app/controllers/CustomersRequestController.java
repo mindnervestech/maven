@@ -250,7 +250,9 @@ public class CustomersRequestController extends Controller {
 		    			vm.isRead = true;
 		    		}
 		    		
-		    		Application.findCustomeData(info.id,vm,lType.id);
+		    		if(lType != null){
+		    			Application.findCustomeData(info.id,vm,lType.id);
+		    		}
 		    		Application.findRequestParentChildAndBro(infoVMList, info, df, vm);
 		    	}
 		    	
@@ -385,16 +387,7 @@ public class CustomersRequestController extends Controller {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 	    		AuthUser userObj = AuthUser.findById(user);
-	    		if(leadType.equals("Schedule Test") || leadType.equals("Schedule Test Drive")) {
-	    			ScheduleTest schedule = ScheduleTest.findById(id);
-	    			schedule.setAssignedTo(userObj);
-	    			schedule.setIsRead(1);
-	    			schedule.setPremiumFlag(0);
-	    			schedule.setLeadStatus(null);
-	    			schedule.setIsReassigned(true);
-	    			schedule.update();
-	    		}
-				if(leadType.equals("Request More Info") || leadType.equals("Request More")) {
+	    	
 				    RequestMoreInfo info = RequestMoreInfo.findById(id);
 				    info.setAssignedTo(userObj);
 				    info.setPremiumFlag(0);
@@ -403,17 +396,7 @@ public class CustomersRequestController extends Controller {
 				    info.setLeadStatus(null);
 				    info.setIsReassigned(true);
 				    info.update();
-				}
-				if(leadType.equals("Trade In") || leadType.equals("Trade-In Appraisal")) {
-					TradeIn tradeIn = TradeIn.findById(id);
-					tradeIn.setAssignedTo(userObj);
-					tradeIn.setPremiumFlag(0);
-					tradeIn.setIsRead(1);
-					tradeIn.setStatus(null);
-					tradeIn.setLeadStatus(null);
-					tradeIn.setIsReassigned(true);
-					tradeIn.update();
-				}
+				
 	    		return ok();
 	    	}
 	    }

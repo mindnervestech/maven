@@ -21,6 +21,16 @@ angular.module('app.apiserviceCustomizationForm', [])
 		return defer.promise;
 	};
 	
+	this.getAlloutcome=function(){
+		var defer = $q.defer();
+		
+		$http.get('/getAlloutcome').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
 	this.getLeadCrateForm=function(editform){
 		var defer = $q.defer();
 		

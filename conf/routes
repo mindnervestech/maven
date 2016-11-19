@@ -63,6 +63,7 @@ GET     /dealer/*file               controllers.Assets.at(path="/public/angularj
 # Vehical Information
 GET		/getVehicleInfo/:vin		      controllers.Application.getVehicleInfo(vin:String)
 GET		/getAllSites				controllers.ConfigPagesController.getAllSites()
+GET     /getAlloutcome  			controllers.ConfigPagesController.getAlloutcome()
 POST	/saveInventory					  controllers.AddEditInventoryController.saveInventory()
 POST	/saveInventoryPdf/:id				  controllers.AddEditInventoryController.saveInventoryPdf(id:Long)
 GET		/getInventoryById/:id				  controllers.AddEditInventoryController.getInventoryById(id: Long)

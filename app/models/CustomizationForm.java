@@ -21,6 +21,7 @@ public class CustomizationForm extends Model {
 	public String searchTitle;
 	public String searchSubTitle;
 	public String leadTypeTitle;
+	public String outcome;
 	
 		
 	@ManyToOne
@@ -35,6 +36,14 @@ public class CustomizationForm extends Model {
 		this.id = id;
 	}
 
+
+	public String getOutcome() {
+		return outcome;
+	}
+
+	public void setOutcome(String outcome) {
+		this.outcome = outcome;
+	}
 
 	public String getJsonData() {
 		return jsonData;

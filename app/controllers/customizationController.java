@@ -49,11 +49,19 @@ public class customizationController extends Controller {
 			CustomizationForm cust = new CustomizationForm();
 			cust.setDataType(json.findPath("formType").textValue());
 			cust.setJsonData(json.findPath("jsonform").toString());
+			String sValue = json.findPath("outcome").toString().replace("[", "");
+			sValue = sValue.replace("]", "");
+			sValue = sValue.replace("\"", "");
+			cust.setOutcome(sValue);
 			cust.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 			cust.save();
 		}else{
 			//cForm.setDataType("Create Lead");
 			cForm.setJsonData(json.findPath("jsonform").toString());
+			String sValue = json.findPath("outcome").toString().replace("[", "");
+			sValue = sValue.replace("]", "");
+			sValue = sValue.replace("\"", "");
+			cForm.setOutcome(sValue);
 			//cForm.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 			cForm.update();
 		}

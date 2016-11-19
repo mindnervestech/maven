@@ -31,6 +31,7 @@ import models.MarketingAcounts;
 import models.MyProfile;
 import models.NewFormWebsite;
 import models.NewsletterDate;
+import models.OutcomeMenu;
 import models.Permission;
 import models.PhotographerHoursOfOperation;
 import models.PremiumLeads;
@@ -180,6 +181,12 @@ public class ConfigPagesController extends Controller{
 		public static Result getAllMailchimpList(){
 			List<MailchimpList> list = MailchimpList.getAll();
 			return ok(Json.toJson(list));
+		}
+		
+		
+		public static Result getAlloutcome(){
+			List<OutcomeMenu> outmenu = OutcomeMenu.getAllData();
+			return ok(Json.toJson(outmenu));
 		}
 		
 		public static Result getwebsiteAnalyticsData() {

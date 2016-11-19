@@ -22,9 +22,16 @@ angular.module('newApp')
 	  
 		   $scope.initFunction = function(){
 			   apiserviceCustomizationForm.getCustomizationform($routeParams.formType).then(function(response){
-			   
+				   $scope.outcome = [];
 					console.log(response);
-
+					var arr = [];
+		  			   arr = response.outcome.split('-');
+		  			   for(var i=0;i<arr.length;i++){
+		  				 $scope.outcome.push(arr[i]);
+		  			   }
+					//$scope.outcome = "["+response.outcome+"]";
+					//$scope.outcome = angular.fromJson("["+response.outcome+"]");
+					console.log($scope.outcome);
 					if(response == 0){
 						$scope.setjson = null;
 						$scope.setjson.jsonData = null;
@@ -38,6 +45,11 @@ angular.module('newApp')
 			});
 			   apiserviceCustomizationForm.getAllSites().then(function(data){
 				   $scope.siteList = data;
+		 		});
+			   
+			   apiserviceCustomizationForm.getAlloutcome().then(function(data){
+				   $scope.outcomemenu = data;
+				   console.log($scope.outcomemenu);
 		 		});
 		   }
 	  
@@ -86,33 +98,39 @@ angular.module('newApp')
 		       }, true);
 		       
 		       $scope.editform = {};
+		       $scope.showOutcomeMsg = 0;
 		  $scope.saveCreateLeadForm = function(){
-			  var obj = localStorage.getItem('popupType');
-			  $scope.leadId = localStorage.getItem('leadId');
-			  console.log(obj);
-			  console.log($scope.leadId);
-			 console.log($scope.form);
-			angular.forEach($builder.forms['default'], function(value, key) {
-				 var key;
-               		key = value.label;
-               		key = key.replace("  ","_");
-               		key = key.replace(" ","_");
-               		key = key.toLowerCase();
-               		value.key = key;
-               		console.log(key);
-				 console.log(value.key);
-			 });
-			 console.log($builder.forms['default']);
-			 $scope.editform.formType = $routeParams.formType;
-			 $scope.editform.jsonform = $builder.forms['default'];
+			  console.log("hhhjjjjj");
+			  console.log($scope.outcome);
+			  if($scope.outcome != undefined){
+				  $scope.showOutcomeMsg = 0;
+				  var obj = localStorage.getItem('popupType');
+				  $scope.leadId = localStorage.getItem('leadId');
+				angular.forEach($builder.forms['default'], function(value, key) {
+					 var key;
+	               		key = value.label;
+	               		key = key.replace("  ","_");
+	               		key = key.replace(" ","_");
+	               		key = key.toLowerCase();
+	               		value.key = key;
+	               		console.log(key);
+					 console.log(value.key);
+				 });
+				 console.log($builder.forms['default']);
+				 $scope.editform.formType = $routeParams.formType;
+				 $scope.editform.jsonform = $builder.forms['default'];
+				 $scope.editform.outcome = $scope.outcome;
+				 console.log($scope.editform);
+				 apiserviceCustomizationForm.getLeadCrateForm($scope.editform).then(function(data){
+				  
+						});
+				 if(obj == "Lead"){
+					 $scope.getLeadTypeDataById($scope.leadId);
+				 }
+			  }else{
+				  $scope.showOutcomeMsg = 1;
+			  }
 			 
-			 console.log($scope.editform);
-			 apiserviceCustomizationForm.getLeadCrateForm($scope.editform).then(function(data){
-			  
-					});
-			 if(obj == "Lead"){
-				 $scope.getLeadTypeDataById($scope.leadId);
-			 }
 		  }  
 		  
 		  $scope.getLeadTypeDataById = function(leadId){

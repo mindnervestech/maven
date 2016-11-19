@@ -73,6 +73,7 @@ import models.CreateNewForm;
 import models.CustomerPdf;
 import models.CustomizationCrm;
 import models.CustomizationDataValue;
+import models.CustomizationForm;
 import models.Domain;
 import models.EmailDetails;
 import models.FeaturedImage;
@@ -9645,53 +9646,32 @@ private static void cancelTestDriveMail(Map map) {
 				e.printStackTrace();
 			}
 	        
-	        String monthName = months[month-1];
+	        //String monthName = months[month-1];
 	        context.put("hostnameUrl", imageUrlPath);
 	        context.put("siteLogo", logo.logoImagePath);
 	        context.put("dayOfmonth", dayOfmonth);
-	        context.put("monthName", monthName);
+	        context.put("monthName", "jan");// monthName);
 	        context.put("confirmTime", map.get("confirmTime"));
 	        
-	        Vehicle vehicle = Vehicle.findByVinAndStatus(map.get("productId").toString());
+	        /*Vehicle vehicle = Vehicle.findByVinAndStatus(map.get("productId").toString());
 	        context.put("year", vehicle.year);
 	        context.put("make", vehicle.make);
-	        context.put("model", vehicle.model);
-	        context.put("price", "$"+vehicle.price);
-	        context.put("stock", vehicle.stock);
-	        context.put("vin", vehicle.vin);
-	        context.put("make", vehicle.make);
-             if(vehicle.mileage!= null){
-	        	
-	        	context.put("mileage",vehicle.mileage);
-	        	 
-	        }
-	        else{
-	        	context.put("mileage","");
-	        }
-             context.put("typeofVehicle", vehicle.typeofVehicle);
-             if( map.get("clientName")!= null){
-   	        	
-           	  context.put("clientName", map.get("clientName"));
- 	        	 
- 	        }
- 	        else{
- 	        	 context.put("clientName","");
- 	        }
+	        */
 	        context.put("name", map.get("uname"));
 	        context.put("email", map.get("uemail"));
 	        context.put("phone",  map.get("uphone"));
-	        String weather= map.get("weatherValue").toString();
-	        String arr1[] = weather.split("&");
-	        String nature=arr1[0];
-	        String temp=arr1[1];
-	        context.put("nature",nature);
-	        context.put("temp", temp);
-	        InventoryImage image = InventoryImage.getDefaultImage(vehicle.vin);
+	       // String weather= map.get("weatherValue").toString();
+	        //String arr1[] = weather.split("&");
+	        //String nature=arr1[0];
+	        //String temp=arr1[1];
+	        //context.put("nature",nature);
+	        //context.put("temp", temp);
+	        /*InventoryImage image = InventoryImage.getDefaultImage(vehicle.vin);
 	        if(image!=null) {
 	        	context.put("defaultImage", image.path);
 	        } else {
 	        	context.put("defaultImage", "");
-	        }
+	        }*/
 	        StringWriter writer = new StringWriter();
 	        t.merge( context, writer );
 	        String content = writer.toString(); 
@@ -18501,13 +18481,12 @@ if(vehicles.equals("All")){
     	}else{
     		leadVM = form.get();
     	}
-    	
+    	String leadTypes = leadVM.leadType;
     	LeadType lType = LeadType.findByName(leadVM.leadType);
     	if(lType != null){
     		leadVM.leadType = lType.id.toString();
     	}
-    	
-    	
+    	CustomizationForm cForm = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")), leadTypes);
     	
     	
     	Date date = new Date();
@@ -18515,10 +18494,10 @@ if(vehicles.equals("All")){
     	long parentLeadId = 0L;
     	
     	List<AddProduct> productlist = AddProduct.findByTitle(leadVM.manufacturers);
-    
+    	RequestMoreInfo info = new RequestMoreInfo();
     	    for(AddProduct inventoryVM:productlist){
     	   
-	    		RequestMoreInfo info = new RequestMoreInfo();
+	    		
 	    		info.setIsReassigned(true);
 	    		info.setLeadStatus(null);
 	    		info.setEmail(leadVM.custEmail);
@@ -18539,38 +18518,11 @@ if(vehicles.equals("All")){
 	    		info.setOnlineOrOfflineLeads(0);
 	    		info.setRequestDate(new Date());
 	    		info.setRequestTime(new Date());
-	    			/*PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	    		if(pLeads != null){
-	    				if(Integer.parseInt(pLeads.premium_amount) <= product.price){
-	    					info.setPremiumFlag(1);
-	    				}else{
-	    					info.setPremiumFlag(0);
-	    					if(pLeads.premium_flag == 0){
-	    						info.setAssignedTo(user);
-	    					}
-	    				}
-	    				if(pLeads.premium_flag == 1){
-	    					AuthUser aUser = AuthUser.getlocationAndManagerOne(Location.findById(Long.valueOf(session("USER_LOCATION"))));
-	    					info.setAssignedTo(aUser);
-	    				}
-	    			
-	    		}else{
-					info.setPremiumFlag(0);
-						info.setAssignedTo(user);
-				}*/
 	    		info.setIsContactusType(leadVM.leadType);
-	    		/*if(parentFlag == 1){
-	    			info.setParentId(parentLeadId);
-	    		}*/
-	    		
 	    		info.save();
 	    		
 	    		saveCustomData(info.id,leadVM,bodys,Long.parseLong(leadVM.leadType));
 	    	
-	    		/*if(parentFlag == 0){
-	    			parentFlag = 1;
-	    			parentLeadId = info.getId();
-	    		}*/
 	    		
 	    		UserNotes uNotes = new UserNotes();
 	    		uNotes.setNote("Lead has been created");
@@ -18583,7 +18535,324 @@ if(vehicles.equals("All")){
 	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
 	    		uNotes.save();
     	    }
-	    	
+	    
+    	    String outcomeIds = cForm.outcome;
+    	    String[] out_id = outcomeIds.split(",");
+    	    for(String sid:out_id){
+    	    	if(sid.equals("4")){
+    	    		Map map = new HashMap();
+                	map.put("email",info.email);
+                	//map.put("confirmDate", vm.bestDay);
+                	//map.put("confirmTime", vm.bestTime);
+                	//map.put("vin", vm.vin);
+                	//map.put("weatherValue", vm.weatherValue);
+                	map.put("uname", user.firstName+" "+user.lastName);
+                	map.put("uphone", user.phone);
+                	map.put("uemail", "yogeshpatil424@gmail.com");//user.email);
+                	map.put("clientName",info.name);
+    	    		sendMail(map);
+    	    	}
+    	    	if(sid.equals("3")){
+    	    		Contacts contactsObj = new Contacts();
+    	    		String arr[] = info.name.split(" ");
+    	    		if(arr.length >= 1) {
+    	    			contactsObj.firstName = arr[0];
+    	    			if(arr[0] == null || arr[0] == ""){
+    	    				contactsObj.firstName = info.name;
+    	    			}
+    	    		} else {
+    	    			contactsObj.firstName = info.name;
+    	    		}
+    	    		if(arr.length >= 2) {
+    	    			contactsObj.middleName = arr[1];
+    	    		}
+    	    		if(arr.length >= 3) {
+    	    			contactsObj.lastName = arr[2];
+    	    		}
+    	    		contactsObj.type = "Offline";
+    	    		contactsObj.email = info.email;
+    	    		contactsObj.phone = info.phone;
+    	    		contactsObj.custZipCode = info.custZipCode;
+    	    		contactsObj.newsLetter = 0;
+    	    		contactsObj.user = user.id;
+    	    		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		contactsObj.save();
+    	    	}
+    	    	if(sid.equals("2")){
+    	    		
+    	    		
+    	    		
+    	    		   /*------------------------------------------*/
+    	    		
+    	    		
+    	    		 
+    	    		ProductImages pImages = ProductImages.findDefaultImg(Long.parseLong(info.productId));
+    	    		
+    	    		AuthUser defaultUser = getLocalUser();
+    	    		//AuthUser defaultUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+    	    		SiteLogo siteLogo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    	    		SiteContent siteContent = SiteContent.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    	    		String heading1 = "",heading2 = "";
+    	    		if(siteContent.getHeading()!=null) {
+    	    		    int index= siteContent.getHeading().lastIndexOf(" ");
+    	    		    heading1 = "ssss";//siteContent.getHeading().substring(0, index);
+    	    		    heading2 = "aaaa";//siteContent.getHeading().substring(index+1);
+    	    		}
+    	    		String filepath = null,findpath = null;
+
+    	    		try {
+    	    			Document document = new Document();
+    	    			createDir(pdfRootDir, Long.parseLong(session("USER_LOCATION")), info.getId());
+    	    			filepath = pdfRootDir + File.separator + Long.parseLong(session("USER_LOCATION"))
+    	    					+ File.separator + "trade_in_pdf" + File.separator
+    	    					+ info.getId() + File.separator + "Trade_In.pdf";
+    	    			findpath = File.separator + Long.parseLong(session("USER_LOCATION")) + File.separator + "trade_in_pdf" + File.separator
+    	    					+ info.getId() + File.separator + "Trade_In.pdf";
+    	    			RequestMoreInfo tIn2 = RequestMoreInfo.findById(info.getId());
+    	    			tIn2.setPdfPath(findpath);
+    	    			tIn2.update();
+    	    			PdfWriter pdfWriter = PdfWriter.getInstance(document,
+    	    					new FileOutputStream(filepath));
+
+    	    			document.addAuthor("Celinio");
+    	    			document.addCreator("Celinio");
+    	    			document.addSubject("iText with Maven");
+    	    			document.addTitle(leadTypes);
+    	    			document.addKeywords("iText, Maven, Java");
+
+    	    			document.open();
+
+    	    			Font font = new Font();
+    	    			font.setStyle(Font.UNDERLINE);
+    	    			font.setStyle(Font.ITALIC);
+
+    	    			Font font1 = new Font(FontFamily.HELVETICA, 8, Font.NORMAL,
+    	    					BaseColor.BLACK);
+    	    			Font font2 = new Font(FontFamily.HELVETICA, 8, Font.BOLD,
+    	    					BaseColor.BLACK);
+
+    	    			PdfPTable Titlemain = new PdfPTable(1);
+    	    			Titlemain.setWidthPercentage(100);
+    	    			float[] TitlemainWidth = { 2f };
+    	    			Titlemain.setWidths(TitlemainWidth);
+    	    			
+
+
+    	    			PdfPCell title = new PdfPCell(new Phrase(leadTypes));
+    	    			title.setBorderColor(BaseColor.WHITE);
+    	    			title.setBackgroundColor(new BaseColor(255, 255, 255));
+    	    			Titlemain.addCell(title);
+
+    	    			PdfPTable contactInfo = new PdfPTable(4);
+    	    			contactInfo.setWidthPercentage(100);
+    	    			float[] contactInfoWidth = { 2f, 2f, 2f, 2f };
+    	    			contactInfo.setWidths(contactInfoWidth);
+
+    	    			PdfPCell firstname = new PdfPCell(new Phrase("Name:",
+    	    					font1));
+    	    			firstname.setBorderColor(BaseColor.WHITE);
+    	    			firstname.setBackgroundColor(new BaseColor(255, 255, 255));
+    	    			contactInfo.addCell(firstname);
+
+    	    			PdfPCell firstnameValue = new PdfPCell(new Paragraph(
+    	    					info.getName(), font2));
+    	    			firstnameValue.setBorderColor(BaseColor.WHITE);
+    	    			firstnameValue.setBorderWidth(1f);
+    	    			contactInfo.addCell(firstnameValue);
+
+    	    			PdfPCell lastname = new PdfPCell(
+    	    					new Phrase("Email:", font1));
+    	    			lastname.setBorderColor(BaseColor.WHITE);
+    	    			contactInfo.addCell(lastname);
+
+    	    			PdfPCell lastnameValue = new PdfPCell(new Paragraph(info.email, font2));
+    	    			lastnameValue.setBorderColor(BaseColor.WHITE);
+    	    			lastnameValue.setBorderWidth(1f);
+    	    			// lastnameValue.setHorizontalAlignment(Element.ALIGN_LEFT);
+    	    			contactInfo.addCell(lastnameValue);
+    	    			
+    	    			PdfPCell phone = new PdfPCell(new Phrase("Phone:", font1));
+    	    			phone.setBorderColor(BaseColor.WHITE);
+    	    			contactInfo.addCell(phone);
+
+    	    			PdfPCell phoneValue = new PdfPCell(new Paragraph(
+    	    					info.getPhone(), font2));
+    	    			phoneValue.setBorderColor(BaseColor.WHITE);
+    	    			phoneValue.setBorderWidth(1f);
+    	    			contactInfo.addCell(phoneValue);
+
+    	    			
+    	    			for(KeyValueDataVM custom:leadVM.customData){
+    		        		
+    		        		CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId(custom.key,info.id);
+    		        		if(cDataValue != null){
+    		        			//String abd = "sd";
+    		        			//PdfPCell[] call = new PdfPCell[];
+    	    	    			PdfPCell workPhone = new PdfPCell(new Phrase(custom.key,font1));
+    	    	    			workPhone.setBorderColor(BaseColor.WHITE);
+    	    	    			contactInfo.addCell(workPhone);
+
+    	    	    			PdfPCell workPhoneValue = new PdfPCell(new Paragraph(custom.value, font2));
+    	    	    			workPhoneValue.setBorderColor(BaseColor.WHITE);
+    	    	    			workPhoneValue.setBorderWidth(1f);
+    	    	    			contactInfo.addCell(workPhoneValue);
+    		        			
+    		        		}
+    		    			
+    		    		}
+
+
+
+
+    	    			// ----------sub main Table----------
+
+    	    			PdfPTable AddAllTableInMainTable = new PdfPTable(1);
+    	    			AddAllTableInMainTable.setWidthPercentage(100);
+    	    			float[] AddAllTableInMainTableWidth = { 2f };
+    	    			AddAllTableInMainTable.setWidths(AddAllTableInMainTableWidth);
+
+    	    			PdfPCell hotelVoucherTitlemain1 = new PdfPCell(Titlemain);
+    	    			hotelVoucherTitlemain1.setBorder(Rectangle.NO_BORDER);
+    	    			AddAllTableInMainTable.addCell(hotelVoucherTitlemain1);
+
+    	    			PdfPCell contactInfoData = new PdfPCell(contactInfo);
+    	    			contactInfoData.setBorder(Rectangle.NO_BORDER);
+    	    			AddAllTableInMainTable.addCell(contactInfoData);
+
+    	    			
+
+    	    			// ----------main Table----------
+
+    	    			PdfPTable AddMainTable = new PdfPTable(1);
+    	    			AddMainTable.setWidthPercentage(100);
+    	    			float[] AddMainTableWidth = { 2f };
+    	    			AddMainTable.setWidths(AddMainTableWidth);
+
+    	    			PdfPCell AddAllTableInMainTable1 = new PdfPCell(
+    	    					AddAllTableInMainTable);
+    	    			AddAllTableInMainTable1.setPadding(10);
+    	    			AddAllTableInMainTable1.setBorderWidth(1f);
+    	    			AddMainTable.addCell(AddAllTableInMainTable1);
+
+    	    			document.add(AddMainTable);
+
+    	    			document.close();
+
+    	    		} catch (Exception e) {
+    	    			e.printStackTrace();
+    	    		}
+
+    	    		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    	    		String emailName=details.name;
+    	    		String port=details.port;
+    	    		String gmail=details.host;
+    	    		final	String emailUser=details.username;
+    	    		final	String emailPass=details.passward;
+    	    		Properties props = new Properties();
+    	    		props.put("mail.smtp.auth", "true");
+    	    		props.put("mail.smtp.host", gmail);
+    	    		props.put("mail.smtp.port", port);
+    	    		props.put("mail.smtp.starttls.enable", "true");
+    	    		Session session = Session.getInstance(props,
+    	    				new javax.mail.Authenticator() {
+    	    					protected PasswordAuthentication getPasswordAuthentication() {
+    	    						return new PasswordAuthentication(emailUser,
+    	    								emailPass);
+    	    					}
+    	    				});
+    	    		try {
+    	    			List<AuthUser> users = AuthUser.getAllUsers();
+
+    	    			/*InternetAddress[] usersArray = new InternetAddress[users.size() + 1];
+    	    			int index = 0;
+    	    			usersArray[index] = new InternetAddress(user.getEmail());*/
+    	    			
+    	    			InternetAddress[] usersArray = new InternetAddress[1];
+    	    			int index = 0;
+    	    			usersArray[index] = new InternetAddress("yogeshpatil424@gmail.com");
+    	    			//usersArray[index] = new InternetAddress(usersArray);
+    	    			
+    	    			Message message = new MimeMessage(session);
+    	        		try{
+    	    			message.setFrom(new InternetAddress(emailUser,emailName));
+    	        		}
+    	        		catch(UnsupportedEncodingException e){
+    	        			e.printStackTrace();
+    	        			
+    	        		}
+    	    			message.setRecipients(Message.RecipientType.TO, usersArray);
+    	    			message.setSubject(leadTypes);
+    	    			Multipart multipart = new MimeMultipart();
+    	    			BodyPart messageBodyPart = new MimeBodyPart();
+    	    			messageBodyPart = new MimeBodyPart();
+
+    	    			VelocityEngine ve = new VelocityEngine();
+    	    			ve.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
+    	    					"org.apache.velocity.runtime.log.Log4JLogChute");
+    	    			ve.setProperty("runtime.log.logsystem.log4j.logger",
+    	    					"clientService");
+    	    			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+    	    			ve.setProperty("classpath.resource.loader.class",
+    	    					ClasspathResourceLoader.class.getName());
+    	    			ve.init();
+
+    	    			String urlfind = "http://www.glider-autos.com/dealer/index.html#/tradeIn";
+
+    	    			Template t = ve.getTemplate("/public/emailTemplate/trade_in_app.vm");
+    	    			VelocityContext context = new VelocityContext();
+
+    	    			// ---------Trad in info---------------
+
+    	    			// contact info
+    	    			context.put("last_name", "");
+    	    			context.put("work_phone", "");
+    	    			context.put("email", info.getEmail());
+
+    	    			context.put("pdffilePath", findpath);
+
+
+    	    			// vehicale info
+
+
+    	    			
+    	    				context.put("sitelogo", siteLogo.getLogoImageName());
+    	    				context.put("path", siteLogo.getLogoImagePath());
+    	    				context.put("heading1", heading1);
+    	    				context.put("heading2", heading2);
+    	    				context.put("urlLink", vehicleUrlPath);
+    	    				context.put("urlfind", urlfind);
+    	    				context.put("hostnameimg", imageUrlPath);
+
+    	    				StringWriter writer = new StringWriter();
+    	    				t.merge(context, writer);
+    	    				String content = writer.toString();
+    	    				// attachPart.attachFile(file);
+    	    				messageBodyPart.setContent(content, "text/html");
+    	    				multipart.addBodyPart(messageBodyPart);
+
+    	    				message.setContent(multipart);
+    	    				Transport.send(message);
+    	    				System.out.println("Sent test message successfully....");
+    	    			} catch (Exception e) {
+    	    				e.printStackTrace();
+    	    			}
+    	        		
+    	        	 
+    	    		
+    	    		
+    	    		
+    	    		
+    	    		
+    	    		
+    	    		
+    	    		 
+    	    		
+    	    		
+    	    		
+    	    		
+    	    		  /*----------------------------------------------------*/
+    	    	}
+    	    }
     	
     	return ok();
     }

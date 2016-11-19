@@ -57,6 +57,7 @@ public class RequestMoreInfo extends Model {
 	public String message;
 	public String productId;
 	public String section;
+	public String pdfPath;
 	
 	public int notifFlag;
 	
@@ -91,6 +92,13 @@ public void setMessage(String message) {
 	}
 	public void setTestDriveStatus(String testDriveStatus) {
 		this.testDriveStatus = testDriveStatus;
+	}
+	
+	public String getPdfPath() {
+		return pdfPath;
+	}
+	public void setPdfPath(String pdfPath) {
+		this.pdfPath = pdfPath;
 	}
 	public String getEnthicity() {
 		return enthicity;
