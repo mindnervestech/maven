@@ -1,23 +1,23 @@
   
-  <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="init()">
+  <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="initlize()">
   <ul id="myTabs" class="nav nav-tabs" role="tablist">
       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoProfile()">Information</button></a></li>
-       	<li  role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
-       	<li  role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToContractors()">Contractors</button></a></li>
+       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
+       	<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToContractors()">Contractors</button></a></li>
       	<!-- <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoHoursOfOperation()">Hours of Operations </button></a></li> -->
        	
   </ul>
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
       	<li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Active</button></a></li>
-      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDeactive()">Inactive</button></a></li>
+      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDeactivePhotographer()">Inactive</button></a></li>
     </ul>
 	    <div id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 	      	<div>
-		        <h2><b>Users</b></h2>
-		        <a class="btn btn-primary" style="margin-left: 83%;" data-toggle="modal" data-target="#modal-basic" ng-click="createNewUser()">Create New User</a>
+		        <h2><b>Contractors</b></h2>
+		        <!-- <a class="btn btn-primary" style="margin-left: 83%;" data-toggle="modal" data-target="#modal-basic" ng-click="createNewUser()">Create New User</a> -->
 	        </div>
-			<div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+			<div ui-grid="gridOptions2" style="height:500px;" ui-grid-edit ui-grid-pagination>
 				</div> 
 	      </div>
 	      
@@ -468,7 +468,7 @@
                     <button type="button" class="close" id = "btnEditClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
                     <h4 class="modal-title"><strong>Edit User</strong></h4>
                 </div>
-                <form name="userEditFrm" ng-submit="updateImage()">
+                <form name="userEditFrm" ng-submit="updateImageOfPhoto()">
                 <div class="modal-body">
                 		
                 		<div ng-if="userData.userType != 'Photographer'" class="form-group col-sm-12">
@@ -569,7 +569,7 @@
 							<div class="col-sm-6">
 								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
 								<div class="col-sm-6">
-									<select class="form-control form-white" id="usertrial" ng-change="getTrial(user.trial)" ng-model="userData.trial">
+									<select class="form-control form-white" id="usertrial" ng-change="getTrial(userData.trial)" ng-model="userData.trial">
                                     <option value="">Select</option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
@@ -578,7 +578,7 @@
 							</div>	
 						</div>
 						
-						<div class="form-group col-sm-12" ng-if="user.trial == 'Yes'">
+						<div class="form-group col-sm-12" ng-if="userData.trial == 'Yes'">
 						  <div class="col-sm-6">
 							
 						  </div>
@@ -590,17 +590,6 @@
 							</div>	
 						</div>
 						
-						
-						
-						<div class="form-group col-sm-12" ng-if="showOtherFild != 0">
-							
-							<div class="col-sm-6" ng-if="showOtherFild == 2">
-							<label class="col-sm-3 control-label" style="text-align: right;">Salary </label>
-								<div class="col-sm-6">
-									<input class="form-control form-white" type="text" ng-model="userData.salary">
-								</div>
-							</div>
-						</div>	
 						<div class="form-group col-sm-12" ng-if="showOtherFild != 0">
 								<div class="col-sm-6">
 								<label class="col-sm-3 control-label" style="text-align: right;" ng-if="contactVal == 'Employee' ||contactVal == 'Contractor'">Contract Duration *</label>
@@ -628,10 +617,19 @@
 							
 						</div>
 						<div class="form-group col-sm-12" ng-if="showOtherFild != 0">
+							
+							<div class="col-sm-6" ng-if="showOtherFild == 2">
+							<label class="col-sm-3 control-label" style="text-align: right;">Salary </label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.salary">
+								</div>
+							</div>
+						</div>	
+						<div class="form-group col-sm-12" ng-if="showOtherFild != 0">
 							<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Training Provided *</label>
 								<div class="col-sm-6">
-									<select class="form-control form-white" id="usertrainingPro" ng-change="getProvided(user.trainingPro)" ng-model="userData.trainingPro">
+									<select class="form-control form-white" id="usertrainingPro" ng-change="getProvided(userData.trainingPro)" ng-model="userData.trainingPro">
                                     <option value="">Select</option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
@@ -639,7 +637,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-group col-sm-12" ng-if="user.trainingPro == 'Yes'">
+						<div class="form-group col-sm-12" ng-if="userData.trainingPro == 'Yes'">
 						<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Training Cost *</label>
 								<div class="col-sm-6">
@@ -732,10 +730,12 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="sunday" style="width: 20px;" ng-model="userData.hOperation.sunOpen"/></span>
 	    </div> 
-	  <div class="col-sm-4" ng-if="userData.hOperation.sunOpen == true">
-	  <div>
-      <input type="text" name="openTimeTime" ng-model="userData.hOperation.sunOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." ng-click="openClick()" data-format="am-pm" id="sunOpen" >
-	  
+	  <div class="col-sm-7" ng-if="userData.hOperation.sunOpen == true">
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.sunOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." ng-click="openClick()" data-format="am-pm" id="sunOpen" >
+	  </div>
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.sunCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="sunClose" >
 	  </div>
 	  </div>
 	 
@@ -750,9 +750,12 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="monday" style="width: 20px;" ng-model="userData.hOperation.monOpen"/></span>
 	    </div> 
-	  <div class="col-sm-4" ng-if="userData.hOperation.monOpen == true">
-	  <div>
-      <input type="text"  ng-model="userData.hOperation.monOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="monOpen" >
+	  <div class="col-sm-7" ng-if="userData.hOperation.monOpen == true">
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.monOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="monOpen" >
+	  </div>
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.monCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="monClose" >
 	  </div>
 	  </div>
 	 
@@ -767,9 +770,12 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="tueday" style="width: 20px;" ng-model="userData.hOperation.tueOpen"/></span>
 	    </div> 
-	  <div class="col-sm-4" ng-if="userData.hOperation.tueOpen == true">
-	  <div>
-      <input type="text"  ng-model="userData.hOperation.tueOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="tueOpen" >
+	  <div class="col-sm-7" ng-if="userData.hOperation.tueOpen == true">
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.tueOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="tueOpen" >
+	  </div>
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.tueCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="tueClose" >
 	  </div>
 	  </div>
 	 
@@ -782,9 +788,12 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="wednesday" style="width: 20px;" ng-model="userData.hOperation.wedOpen"/></span>
 	    </div> 
-	  <div class="col-sm-4" ng-if="userData.hOperation.wedOpen == true">
-	  <div>
-      <input type="text"  ng-model="userData.hOperation.wedOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="wedOpen" >
+	  <div class="col-sm-7" ng-if="userData.hOperation.wedOpen == true">
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.wedOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="wedOpen" >
+	  </div>
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.wedCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="wedClose" >
 	  </div>
 	  </div>
 	 
@@ -799,9 +808,12 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="thursday" style="width: 20px;" ng-model="userData.hOperation.thuOpen"/></span>
 	    </div> 
-	  <div class="col-sm-4" ng-if="userData.hOperation.thuOpen == true">
-	  <div>
-      <input type="text"  ng-model="userData.hOperation.thuOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="thuOpen" >
+	  <div class="col-sm-7" ng-if="userData.hOperation.thuOpen == true">
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.thuOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="thuOpen" >
+	  </div>
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.thuCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="thuClose" >
 	  </div>
 	  </div>
 	
@@ -815,9 +827,12 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="friday" style="width: 20px;" ng-model="userData.hOperation.friOpen"/></span>
 	    </div> 
-	   <div class="col-sm-4" ng-if="userData.hOperation.friOpen == true">
-	  <div>
-      <input type="text"  ng-model="userData.hOperation.friOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="friOpen" >
+	   <div class="col-sm-7" ng-if="userData.hOperation.friOpen == true">
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.friOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="friOpen" >
+	  </div>
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.friCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="friClose" >
 	  </div>
 	  </div>
 	
@@ -832,9 +847,12 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="saturday" style="width: 20px;" ng-model="userData.hOperation.satOpen"/></span>
 	    </div> 
-	  <div class="col-sm-4" ng-if="userData.hOperation.satOpen == true">
-	  <div>
-      <input type="text"  ng-model="userData.hOperation.satOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="satOpen" >
+	  <div class="col-sm-7" ng-if="userData.hOperation.satOpen == true">
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.satOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="satOpen" >
+	  </div>
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="userData.hOperation.satCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="satClose" >
 	  </div>
 	  </div>
 	  

@@ -35,6 +35,8 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import models.AuthUser;
 import models.EmailDetails;
 import models.HoursOfOperation;
@@ -2213,6 +2215,205 @@ public class MyProfileController extends Controller{
 		    	return ok();
 	    	}	
 		}
+	    public static Result updateImagePhotographer() {
+	    	
+    		boolean isNew = true;
+    		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+    		MultipartFormData body = request().body().asMultipartFormData();
+	    	Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
+	    	UserVM vm = form.get();
+	    	AuthUser userObj = AuthUser.findById(vm.id);
+	    	
+	    	if(body != null) {
+		    	   File file1 = new File(rootDir+userObj.imageUrl);
+		    	   file1.delete();
+		    		FilePart picture = body.getFile("file0");
+			    	  if (picture != null) {
+			    	    String fileName = picture.getFilename();
+			    	    File fdir = new File(rootDir+File.separator+"contractor"+File.separator+"Photographer"+File.separator+userObj.id+File.separator+"userPhoto");
+			    	    if(!fdir.exists()) {
+			    	    	fdir.mkdir();
+			    	    }
+			    	    String filePath = rootDir+File.separator+"contractor"+File.separator+"Photographer"+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+			    	    File file = picture.getFile();
+			    	    try {
+				    	    	if(new File(filePath).exists()) {
+				    	    		new File(filePath).delete();
+					    	    }
+			    	    		FileUtils.moveFile(file, new File(filePath));
+			    	    		userObj.setImageUrl("/"+"contractor"+"/"+"Photographer"+"/"+userObj.id+"/"+"userPhoto"+"/"+fileName);
+			    	    		userObj.setImageName(fileName);
+			    	    		userObj.update();	
+			    	    		
+			    	  } catch (FileNotFoundException e) {
+			  			e.printStackTrace();
+				  		} catch (IOException e) {
+				  			e.printStackTrace();
+				  		} 
+			    	  } 
+			    	  return ok();
+		    	   }else{
+		    		   if("null".equals(vm.imageName)){
+		    			   userObj.setImageName(null);
+				   	       userObj.setImageUrl(vm.imageUrl);
+		    		   }
+		    	   }
+	    	
+	    	userObj.setFirstName(vm.firstName);
+	    	userObj.setLastName(vm.lastName);
+	    	userObj.setEmail(vm.email);
+	    	userObj.setPhone(vm.phone);
+	    	userObj.setRole(vm.userType);
+	    	//userObj.setPassword(vm.password);
+	    	userObj.setAge(vm.age);
+	    	userObj.setCommission(vm.commission);
+	    	userObj.setContractDur(vm.contractDur);
+	    	userObj.setExperience(vm.experience);
+	    	userObj.setTrainingPro(vm.trainingPro);
+	    	userObj.setTrialPeriod(vm.trialPeriod);
+	    	userObj.setTrial(vm.trial);
+	    	userObj.setUserGender(vm.userGender);
+	    	userObj.setSalary(vm.salary);
+	    	userObj.setTrainingCost(vm.trainingCost);
+	    	userObj.setTrainingHours(vm.trainingHours);
+	    	userObj.setQuota(vm.quota);
+	    	
+	    	try {
+	    		userObj.setContractDurEndDate(dateFormat.parse(vm.contractDurEndDate));
+	    		userObj.setContractDurStartDate(dateFormat.parse(vm.contractDurStartDate));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	    	
+	    	String arr2[] = null;
+	    	
+	    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
+	    		session("USER_ROLE", vm.userType+"");
+	    	}else{
+	    		if(body != null) {
+		    		String abcd= vm.permissions.get(0);
+		 	    	abcd = abcd.replace("]", "");
+		 	    	abcd = abcd.replace("[", "");
+		 	    	abcd = abcd.replace("\"", "");
+		 	    	arr2 = abcd.split(",");
+		    	 }
+	    	}
+	    	userObj.deleteManyToManyAssociations("permission");
+	    	List<Permission> permissionList = Permission.getAllPermission();
+	    	
+	    	if(vm.userType.equals("General Manager")) {
+	    		  //userObj.permission = permissionList;
+	    		List<Permission> permissionData = new ArrayList<>();
+	    		   for(Permission obj: permissionList) {
+	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Show Location")) {
+	    				   permissionData.add(obj);
+	    			   }
+	    		   }
+	    		   userObj.permission = permissionData;
+	    	   }
+	    	   if(vm.userType.equals("Manager")) {
+	    		   List<Permission> permissionData = new ArrayList<>();
+	    		   for(Permission obj: permissionList) {
+					   if(!obj.name.equals("Show Location")) {
+						   permissionData.add(obj);
+					   }
+	    		   }
+	    		   userObj.permission = permissionData;
+	    	   }
+	    	   
+	    	   if(vm.userType.equals("Sales Person") || vm.userType.equals("Front Desk")) {
+	    		   List<Permission> permissionData = new ArrayList<>();
+	    		   for(Permission obj: permissionList) {
+	    			   if(body != null) {
+	    				   for(String role:arr2){
+    						   if(obj.name.equals(role)) {
+			    				   permissionData.add(obj);
+	    					   }
+    				   
+	    				   }
+	    			   }else{
+	    				   for(String role:vm.permissions){
+    						   if(obj.name.equals(role)) {
+			    				   permissionData.add(obj);
+	    					   }
+    				   
+	    				   }
+	    			   }
+	    		   }
+	    		   userObj.permission.addAll(permissionData);
+	    	   }
+	    	   
+	    	   if(vm.userType.equals("Photographer")){
+	    		   PhotographerHoursOfOperation pOperation = PhotographerHoursOfOperation.findByUserId(userObj.id);
+			    	
+			    	if(pOperation != null){
+			    	try {
+			    			if(vm.hOperation.sunOpen == true){
+			    				pOperation.setSunOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.sunOpenTime));
+			    				pOperation.setSunOpen(1);
+			    			}else{
+			    				pOperation.setSunOpen(0);
+			    			}
+			    			if(vm.hOperation.monOpen == true){
+			    				pOperation.setMonOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.monOpenTime));
+			    				pOperation.setMonOpen(1);
+			    			}else{
+			    				pOperation.setMonOpen(0);
+			    			}
+			    			if(vm.hOperation.thuOpen == true){
+			    				pOperation.setThuOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.thuOpenTime));
+			    				pOperation.setThuOpen(1);
+			    			}else{
+			    				pOperation.setThuOpen(0);
+			    			}
+			    			if(vm.hOperation.tueOpen == true){
+			    				pOperation.setTueOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.tueOpenTime));
+			    				pOperation.setTueOpen(1);
+			    			}else{
+			    				pOperation.setTueOpen(0);
+			    			}
+			    			if(vm.hOperation.wedOpen == true){
+			    				pOperation.setWedOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.wedOpenTime));
+			    				pOperation.setWedOpen(1);
+			    			}else{
+			    				pOperation.setWedOpen(0);
+			    			}
+			    			if(vm.hOperation.friOpen == true){
+			    				pOperation.setFriOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.friOpenTime));
+			    				pOperation.setFriOpen(1);
+			    			}else{
+			    				pOperation.setFriOpen(0);
+			    			}
+			    			if(vm.hOperation.satOpen == true){
+			    				pOperation.setSatOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.satOpenTime));
+			    				pOperation.setSatOpen(1);
+			    			}else{
+			    				pOperation.setSatOpen(0);
+			    			}
+			    			pOperation.user = AuthUser.findById(userObj.id);
+			    			pOperation.locations = Location.findById(vm.loca);
+			    			
+			    			
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			    	
+			    	pOperation.update();
+			    	}
+	    	   }		    	   
+	    	   
+	    	   userObj.update();
+	    	   
+
+	    	   
+	    	   
+	    	   		 	
+		  
+		 	return ok(Json.toJson(userObj));   	
+    }
+
+	    
 	    
 	    public static Result updateUser() {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -2763,6 +2964,182 @@ public class MyProfileController extends Controller{
 	    		}
 	        	return ok();
 	    	}
+	    }
+	    
+	    public static Result getAllDeactivatePhotographer(String name, Long location){
+	    	
+	    		List<AuthUser> userList = AuthUser.findByLocationDeactivePhoto(location);
+	    		List<UserVM> vmList = new ArrayList<>();
+	    	
+	    		for(AuthUser user : userList) {
+	    			List<String> parmi = new ArrayList<>();
+	    			UserVM vm = new UserVM();
+	    			vm.fullName = user.firstName + " "+ user.lastName;
+	    			vm.firstName = user.firstName;
+	    			vm.lastName = user.lastName;
+	    			vm.email = user.email;
+	    			vm.phone = user.phone;
+	    			vm.userType = user.role;
+	    			vm.commission =user.commission;
+	    			vm.contractDur = user.contractDur;
+	    			vm.age = user.age;
+	    			vm.userGender = user.userGender;
+	    			vm.experience = user.experience;
+	    			vm.trainingPro = user.trainingPro;
+	    			vm.salary = user.salary;
+	    			vm.trialPeriod = user.trialPeriod;
+	    			vm.trainingCost = user.trainingCost;
+	    			vm.trainingHours = user.trainingHours;
+	    			vm.quota = user.quota;
+	    			vm.imageName = user.imageName;
+	    			vm.imageUrl = user.imageUrl;
+	    			vm.trial = user.trial;
+	    			vm.id = user.id;
+	    			for(Permission permission:user.permission){
+	    				parmi.add(permission.name);
+	    			}
+	    			vm.permissions = parmi;
+	    			
+	    			if(!vm.userType.equals("Manager")){
+	    				vmList.add(vm);
+	    			}
+	    		}
+	    		return ok(Json.toJson(vmList));
+	    	
+	    }
+	    
+	    public static Result getAllPhotographer(String name ,Long locationId) {
+	    		System.out.println("Location id =-=-="+locationId);
+	    		
+	    		List<AuthUser> userList = AuthUser.findByPhotographer(locationId);
+	    		List<UserVM> vmList = new ArrayList<>();
+	    		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	    	
+	    		for(AuthUser user : userList) {
+	    			List<String> parmi = new ArrayList<>();
+	    			UserVM vm = new UserVM();
+	    			vm.fullName = user.firstName + " "+ user.lastName;
+	    			vm.firstName = user.firstName;
+	    			vm.lastName = user.lastName;
+	    			vm.email = user.email;
+	    			vm.phone = user.phone;
+	    			vm.userType = user.role;
+	    			vm.commission =user.commission;
+	    			vm.contractDur = user.contractDur;
+	    			vm.age = user.age;
+	    			vm.userGender = user.userGender;
+	    			vm.experience = user.experience;
+	    			vm.trainingPro = user.trainingPro;
+	    			vm.salary = user.salary;
+	    			vm.trialPeriod = user.trialPeriod;
+	    			vm.trainingCost = user.trainingCost;
+	    			vm.trainingHours = user.trainingHours;
+	    			vm.quota = user.quota;
+	    			vm.premiumFlag = user.premiumFlag;
+	    			vm.imageName = user.imageName;
+	    			vm.imageUrl = user.imageUrl;
+	    			vm.trial = user.trial;
+	    			vm.id = user.id;
+	    			if(user.contractDurEndDate != null)
+	    				vm.contractDurEndDate = dateFormat.format(user.contractDurEndDate);
+	    			if(user.contractDurStartDate != null)
+	    				vm.contractDurStartDate = dateFormat.format(user.contractDurStartDate);
+	    			for(Permission permission:user.permission){
+	    				parmi.add(permission.name);
+	    			}
+	    			for(Permission permission:user.permission){
+	    				parmi.add(permission.name);
+	    			}
+	    			vm.permissions = parmi;
+	    			if(user.role.equals("Photographer")){
+	    				SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+	    				
+	    				PhotographerHoursOfOperation pOperation = PhotographerHoursOfOperation.findByUser(user);
+	    				if(pOperation != null){
+	    					if(pOperation.friOpen != null){
+	    						if(pOperation.friOpen == 0){
+	    							vm.hOperation.friOpen = false;
+	    						}else{
+	    							vm.hOperation.friOpen = true;
+	    						}
+	        				}
+	        				if(pOperation.tueOpen != null){
+	        					if(pOperation.tueOpen == 0){
+	    							vm.hOperation.tueOpen = false;
+	    						}else{
+	    							vm.hOperation.tueOpen = true;
+	    						}
+	        				}
+	        				if(pOperation.thuOpen != null){
+	        					if(pOperation.thuOpen == 0){
+	    							vm.hOperation.thuOpen = false;
+	    						}else{
+	    							vm.hOperation.thuOpen = true;
+	    						}
+	        				}
+	        				if(pOperation.wedOpen != null){
+	        					if(pOperation.wedOpen == 0){
+	    							vm.hOperation.wedOpen = false;
+	    						}else{
+	    							vm.hOperation.wedOpen = true;
+	    						}
+	        				}
+	        				if(pOperation.monOpen != null){
+	        					if(pOperation.monOpen == 0){
+	    							vm.hOperation.monOpen = false;
+	    						}else{
+	    							vm.hOperation.monOpen = true;
+	    						}
+	        				}
+	        				if(pOperation.satOpen != null){
+	        					if(pOperation.satOpen == 0){
+	    							vm.hOperation.satOpen = false;
+	    						}else{
+	    							vm.hOperation.satOpen = true;
+	    						}
+	        				}
+	        				if(pOperation.sunOpen != null){
+	        					if(pOperation.sunOpen == 0){
+	    							vm.hOperation.sunOpen = false;
+	    						}else{
+	    							vm.hOperation.sunOpen = true;
+	    						}
+	        				}
+	        				
+	        				
+	        				
+	        				
+	        				if(pOperation.friOpenTime != null){
+	        					vm.hOperation.friOpenTime = parseTime.format(pOperation.friOpenTime);
+	        				}
+	        				if(pOperation.tueOpenTime != null){
+	        					vm.hOperation.tueOpenTime = parseTime.format(pOperation.tueOpenTime);
+	        				}
+	        				if(pOperation.thuOpenTime != null){
+	        					vm.hOperation.thuOpenTime = parseTime.format(pOperation.thuOpenTime);
+	        				}
+	        				if(pOperation.wedOpenTime != null){
+	        					vm.hOperation.wedOpenTime = parseTime.format(pOperation.wedOpenTime);
+	        				}
+	        				if(pOperation.monOpenTime != null){
+	        					vm.hOperation.monOpenTime = parseTime.format(pOperation.monOpenTime);
+	        				}
+	        				if(pOperation.satOpenTime != null){
+	        					vm.hOperation.satOpenTime = parseTime.format(pOperation.satOpenTime);
+	        				}
+	        				if(pOperation.sunOpenTime != null){
+	        					vm.hOperation.sunOpenTime = parseTime.format(pOperation.sunOpenTime);
+	        				}
+	    				}
+	    				
+	    				
+	    			}
+	    			
+	    			if(!vm.userType.equals("Manager")){
+	    				vmList.add(vm);
+	    			}
+	    		}
+	    		return ok(Json.toJson(vmList));
 	    }
 	    
 	    public static Result getAllUsers() {

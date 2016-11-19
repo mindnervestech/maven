@@ -379,6 +379,10 @@ public class AuthUser extends Model implements Identity {
 	public static List<AuthUser> findByLocatio(Location locations) {
 		return find.where().eq("location", locations).eq("account", "active").findList();
 	}
+	public static List<AuthUser> findByPhotographer(Long locations) {
+		return find.where().eq("location.id", locations).eq("account", "active").eq("role", "Photographer").findList();
+	}
+	
 	public static List<AuthUser> findByLocatioion(Location locations) {
 		return find.where().eq("location", locations).eq("account", "active").or(Expr.eq("role", "Manager"), Expr.eq("role", "Sales Person")).findList();
 	}
@@ -442,4 +446,8 @@ public class AuthUser extends Model implements Identity {
 	public static List<AuthUser> findByIdAndRole() {
 		return find.where().eq("role", "Sales Person").eq("location", "16").findList();
 	}
+	public static List<AuthUser> findByLocationDeactivePhoto(Long location) {
+		return find.where().eq("location.id", location).eq("account", "deactive").eq("role", "Photographer").findList();
+	}
+	
 }

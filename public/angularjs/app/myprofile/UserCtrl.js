@@ -164,11 +164,59 @@ angular.module('newApp')
 		 		 		                                 
 		 		     		                          ];	 		 
 	 		 
+	 		 		$scope.gridOptions2 = {
+	 		 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		 		 		    paginationPageSize: 150,
+	 		 		 		    enableFiltering: true,
+	 		 		 		    useExternalFiltering: true,
+	 		 		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 		 		 };
+	 		 		 		 $scope.gridOptions2.enableHorizontalScrollbar = 0;
+	 		 		 		 $scope.gridOptions2.enableVerticalScrollbar = 2;
+	 		 		 		 $scope.gridOptions2.columnDefs = [
+	 		 		 		                                 { name: 'fullName', displayName: 'Name', width:'25%',cellEditableCondition: false,
+	 		 		 		                                	
+	 		 		 		                                 },
+	 		 		 		                                 { name: 'email', displayName: 'Email', width:'20%',cellEditableCondition: false,
+	 		 		 		                                	
+	 		 		 		                                 },
+	 		 		 		                                 { name: 'phone', displayName: 'Phone', width:'20%',cellEditableCondition: false,
+	 		 		 		                                	
+	 		 		 		                                 },
+	 		 		 		                                 { name: 'userType', displayName: 'Role', width:'20%',cellEditableCondition: false,
+	 		 		 		                                	
+	 		 		 		                                 },
+	 		 		 		                                 { name: 'edit', displayName: '', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+	 		 	        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editPhotographer(row)" style="margin-top:7px;margin-left:14px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deletePhotographer(row)"></i>', 
+	 		 	    		                                 
+	 		 	    		                                 },
+	 		 		     		                                 ];
+	 		 		
+	 		 		 		$scope.gridOptions2.onRegisterApi = function(gridApi){
+	 		 					 $scope.gridApi = gridApi;
+	 		 					 
+	 		 			   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+	 		 				          var grid = this.grid;
+	 		 				        	  $scope.gridOptions2.data = $filter('filter')($scope.activePhotographerList,{'fullName':grid.columns[0].filters[0].term,'email':grid.columns[1].filters[0].term,'phone':grid.columns[2].filters[0].term,'userType':grid.columns[3].filters[0].term,},undefined);
+	 		 				        });
+	 		 			   		
+	 		 		   		};
+	 		 		 
 	$scope.gotoProfile = function() {
 		$location.path('/myprofile');
 	};
+	$scope.goToUsers = function() {
+			$location.path('/createUser');
+		};
+	$scope.goToContractors = function() {
+			$location.path('/contractors');
+		};
 	$scope.goToDeactive = function() {
 		$location.path('/deactiveUsers');
+	};
+	
+	$scope.goToDeactivePhotographer = function() {
+		$location.path('/deactivePhotographer');
 	};
 	$scope.gotoHoursOfOperation = function() {
 			$location.path('/hoursOfOperations');
@@ -182,9 +230,11 @@ angular.module('newApp')
 	
 	apiserviceUser.getAllUsersToAssign().then(function(data){
 		$scope.usersList = data;
+		console.log(data);
 		angular.forEach($scope.usersList, function(obj, index){
 			 if ((obj.userType == "Manager")) {
 				 $scope.assignUser = obj.id;
+				 
 		    };
 		  });	
 	});
@@ -359,6 +409,27 @@ angular.module('newApp')
 			$scope.gridOptions.data = data;
 			$scope.activeUserList = data
 			console.log($scope.activeUserList);
+		});
+	}
+	
+	$scope.initlize = function() {
+		apiserviceUser.findLocation().then(function(data){
+			console.log(data);
+			$scope.loca = data;
+			$scope.getAllPhotographerData();
+		});
+	}
+	
+	$scope.activePhotographerList ={};
+	$scope.getAllPhotographerData = function() {
+		
+		console.log($scope.loca);
+		$scope.name = "MavenFurniture";
+		console.log($scope.name);
+		apiserviceUser.getAllPhotographer($scope.name,$scope.loca).then(function(data){
+			$scope.gridOptions2.data = data;
+			$scope.activePhotographerList = data
+			console.log($scope.activePhotographerList);
 		});
 	}
 	
@@ -538,6 +609,65 @@ angular.module('newApp')
 		}
 	}
 	
+	$scope.editPhotographer = function(row) {
+		angular.forEach($scope.permissionList, function(obj, index){
+			 obj.isSelected = false;
+		});
+		console.log(row.entity);
+		$scope.userTemp = angular.copy(row.entity);
+		console.log($scope.permissionList);
+		$('#editUserModal').click();
+		if(row.entity.contractDur=="Employee"){
+			$scope.conUser = "Employee";
+			$scope.contactVal= row.entity.contractDur;
+				$("#number").attr("disabled", true);
+				$("#duration").attr("disabled", true);
+				$('#employee1').click();
+		}else{
+			$scope.conUser = "Contractor";
+			var durations = row.entity.contractDur;
+			var val = durations.split(' ');
+			$scope.num1 = parseInt(val[0]);
+			$scope.duration1=val[1];
+			$('#txt1').click();
+		}
+		//console.log($scope.num1);
+		//console.log($scope.duration1);
+		$scope.userData = row.entity;
+		if($scope.userData.userType == "Front Desk"){
+			$scope.showOtherFild = 1;
+		}
+		
+		if($scope.userData.userType == "Sales Person"){
+			$scope.showOtherFild = 1;
+		}
+		
+		if($scope.userData.userType == "Photographer"){
+		
+			$scope.showOtherFild = 2;
+		}
+		
+		
+		$scope.userData.trialPeriod = parseInt($scope.userData.trialPeriod);
+		//console.log($scope.userData);
+		$scope.permission = [];
+		
+		angular.forEach($scope.permissionList, function(obj, index){
+			angular.forEach($scope.userData.permissions, function(obj1, index1){
+				if(obj.name == obj1){
+					 obj.isSelected = true;
+					 $scope.permission.push(obj.name);
+				 }
+			});
+		});
+		
+		if($scope.userData.imageName == null || $scope.userData.imageName == "null"){
+			$scope.img = $scope.userData.imageUrl;
+		}else{
+			$scope.img = "http://glider-autos.com/MavenImg/images"+$scope.userData.imageUrl;
+		}
+	}
+	
 	$scope.deleteUser = function(row) {
 		//console.log(row.entity);
 		//console.log(row.entity.id);
@@ -558,6 +688,13 @@ angular.module('newApp')
 		   $scope.rowDataVal = row;
 	};
 	
+	$scope.deletePhotographer = function(row) {
+		console.log(row.entity.id);
+		apiserviceUser.deactivatePhotographerAccount(row.entity.id).then(function(data){
+			$scope.initlize();
+			
+		});
+	};
 	/*$scope.deleteUserById = function() {
 		$http.get('/deleteUserById/'+$scope.rowDataVal.entity.id)
 		.success(function(data) {
@@ -596,6 +733,7 @@ angular.module('newApp')
 	$scope.saveImage = function() {
 		apiserviceUser.findLocation().then(function(data){
 			console.log(data);
+			$scope.locationId = data;
 			$scope.user.locationId = data;
 		
 		$scope.user.permissions = $scope.permission;
@@ -805,6 +943,96 @@ angular.module('newApp')
 		$('#satClose').timepicker();
 		
 	}
+	$scope.updateImageOfPhoto = function() {
+		console.log($scope.loca);
+		$scope.userData.permissions = $scope.permission;
+		$scope.userData.pdfIds = $scope.pdfDoc;
+		console.log($scope.userData.pdfIds);
+		delete $scope.userData.successRate;
+		
+		if($("#cnfstartDateValue").val() != undefined)
+			$scope.userData.contractDurStartDate = $("#cnfstartDateValue").val();
+		if($("#cnfendDateValue").val() != undefined)
+			$scope.userData.contractDurEndDate = $("#cnfendDateValue").val();
+		
+		console.log($scope.userData);
+		
+		if($scope.userData.userType == "Photographer"){
+			$scope.userData.hOperation.sunOpenTime = $('#sunOpen').val();
+			$scope.userData.hOperation.monOpenTime = $('#monOpen').val();
+			$scope.userData.hOperation.tueOpenTime = $('#tueOpen').val();
+			$scope.userData.hOperation.wedOpenTime = $('#wedOpen').val();
+			$scope.userData.hOperation.thuOpenTime = $('#thuOpen').val();
+			$scope.userData.hOperation.friOpenTime = $('#friOpen').val();
+			$scope.userData.hOperation.satOpenTime = $('#satOpen').val();
+			
+			if($scope.userData.hOperation.sunOpen == undefined){
+				$scope.userData.hOperation.sunOpen = false;
+			}
+			if($scope.userData.hOperation.monOpen == undefined){
+				$scope.userData.hOperation.monOpen = false;
+			}
+			if($scope.userData.hOperation.tueOpen == undefined){
+				$scope.userData.hOperation.tueOpen = false;
+			}
+			if($scope.userData.hOperation.wedOpen == undefined){
+				$scope.userData.hOperation.wedOpen = false;
+			}
+			if($scope.userData.hOperation.thuOpen == undefined){
+				$scope.userData.hOperation.thuOpen = false;
+			}
+			if($scope.userData.hOperation.friOpen == undefined){
+				$scope.userData.hOperation.friOpen = false;
+			}
+			if($scope.userData.hOperation.satOpen == undefined){
+				$scope.userData.hOperation.satOpen = false;
+			}
+		}
+		
+		if($scope.contactVal=="Employee"){
+			$scope.userData.contractDur = $scope.contactVal;
+		}else if($scope.contactVal=="One Time Order"){
+			$scope.userData.contractDur = $scope.contactVal;
+		}else{
+			if($scope.num1==null){
+				$scope.num1=0;
+			}
+			$scope.userData.contractDur = $scope.num1+" "+$scope.duration1;
+		}
+		
+		//console.log($scope.userData);
+		$scope.userData.locationId = 0;
+		$scope.userData.loca = $scope.loca;
+		$scope.userData.name = "MavenFurniture";
+		if(angular.isUndefined(logofile)) {
+			$scope.userData.imageUrl = $scope.img;
+			//console.log("no logofile");
+			if($scope.emailMsg == "") {
+				apiserviceUser.updateImagePhotographer($scope.userData).then(function(data){
+					$('#btnEditClose').click();
+		            $scope.init();
+				});
+					
+				}
+			} else {
+				if($scope.emailMsg == "") {
+					$scope.userData1 = {};
+					$scope.userData1.id = $scope.userData.id;
+					apiserviceUser.updateImagePhotographer($scope.userData).then(function(data){
+						if(data == null){
+							$('#btnClose').click();
+						}else{
+							apiserviceUser.updateImageFileLoadPhotoPhotographer(data, $scope.userData.userType, logofile).then(function(data){
+								$('#btnEditClose').click();
+					            $scope.initlize();
+							});
+						}
+					});
+					
+				}
+			}
+	   }
+	
 	
 	$scope.updateImage = function() {
 		$scope.userData.permissions = $scope.permission;
@@ -967,16 +1195,86 @@ angular.module('newApp')
 			        });
 		   		
 	   		};
-	 		 
+
+	   		$scope.gridOptions1 = {
+	   	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	   	 		    paginationPageSize: 150,
+	   	 		    enableFiltering: true,
+	   	 		    useExternalFiltering: true,
+	   	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	   	 		 };
+	   	 		 $scope.gridOptions1.enableHorizontalScrollbar = 0;
+	   	 		 $scope.gridOptions1.enableVerticalScrollbar = 2;
+	   	 		 $scope.gridOptions1.columnDefs = [
+	   	 		                                 { name: 'fullName', displayName: 'Name', width:'25%',cellEditableCondition: false,
+	   	 		                                	
+	   	 		                                 },
+	   	 		                                 { name: 'email', displayName: 'Email', width:'20%',cellEditableCondition: false,
+	   	 		                                	
+	   	 		                                 },
+	   	 		                                 { name: 'phone', displayName: 'Phone', width:'20%',cellEditableCondition: false,
+	   	 		                                	
+	   	 		                                 },
+	   	 		                                 { name: 'userType', displayName: 'Role', width:'20%',cellEditableCondition: false,
+	   	 		                                	
+	   	 		                                 },
+	   	 		                                 { name: 'edit', displayName: '', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+	          		                                 cellTemplate:'<button type="button" ng-click="grid.appScope.activatePhotographerAccount(row.entity)" style="margin-left:5px;" class="btn btn-sm btn-primary">Active</button>', 
+	      		                                 
+	      		                                 },
+	   	     		                                 ];
+	   	 		 
+	   	 		$scope.gridOptions1.onRegisterApi = function(gridApi){
+	   				 $scope.gridApi = gridApi;
+	   				 
+	   		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+	   			          var grid = this.grid;
+	   			        	  $scope.gridOptions1.data = $filter('filter')($scope.deactivePhotographerList,{'fullName':grid.columns[0].filters[0].term,'email':grid.columns[1].filters[0].term,'phone':grid.columns[2].filters[0].term,'userType':grid.columns[3].filters[0].term,},undefined);
+	   			        });
+	   		   		
+	   	   		};
+
+	   		
 	 		$scope.init = function() {
 	 			apiserviceUser.getAllDeactivateUsers().then(function(data){
 	 				$scope.gridOptions.data = data;	
 	 				$scope.deactiveUserList = data;
 	 			});
 	 		};
+	 		
+	 		$scope.initlize = function() {
+	 			apiserviceUser.findLocation().then(function(data){
+	 				console.log(data);
+	 				$scope.loca = data;
+	 				$scope.getAllDeactivatePhotographerData();
+	 			});
+	 		}
+	 		
+	 		$scope.getAllDeactivatePhotographerData = function() {
+	 			console.log($scope.loca);
+	 			$scope.name = "MavenFurniture";
+	 			console.log($scope.name);
+	 			apiserviceUser.getAllDeactivatePhotographer($scope.name,$scope.loca).then(function(data){
+	 				$scope.gridOptions1.data = data;	
+	 				console.log(data);
+	 				$scope.deactivePhotographerList = data;
+	 			});
+	 		};
+	 		
+	 		
 	 		$scope.activateAccount = function(item){
 	 			$scope.userId = item.id;
 	 			$('#activateModal').click();
+	 		};
+	 		$scope.activatePhotographerAccount = function(item){
+	 			$scope.userId = item.id;
+	 			$('#activateModal').click();
+	 		};
+	 		
+	 		$scope.activePhotoAccount = function(){
+	 			apiserviceUser.activePhotographerAccount($scope.userId).then(function(data){
+	 				$scope.initlize();
+	 			});
 	 		};
 	 		$scope.activeUserAccount = function(){
 	 			apiserviceUser.activeAccount($scope.userId).then(function(data){
@@ -993,7 +1291,15 @@ angular.module('newApp')
 	 		$scope.goToUsers = function() {
 	 			$location.path('/createUser');
 	 		};
+	 		
+	 		$scope.goToContractors = function() {
+	 			$location.path('/contractors');
+	 		};
+	 		
 	 		$scope.goToDeactive = function() {
 	 			$location.path('/deactiveUsers');
+	 		};
+	 		$scope.goToDeactivePhotographer = function() {
+	 			$location.path('/deactivePhotographer');
 	 		};
 }]);

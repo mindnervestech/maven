@@ -141,6 +141,11 @@ var MakeApp = angular
             templateUrl: '/dealer/myprofile/createUser.html',
             controller: 'createUserCtrl'
         })
+        .when('/contractors', {
+            templateUrl: '/dealer/myprofile/contractors.html',
+            controller: 'createUserCtrl'
+        })
+        
         .when('/createLocation', {
             templateUrl: '/dealer/myprofile/createLocation.html',
             controller: 'createLocationCtrl'
@@ -148,7 +153,12 @@ var MakeApp = angular
         .when('/deactiveUsers', {
             templateUrl: '/dealer/myprofile/deactiveUser.html',
             controller: 'DeactivateUserCtrl'
-        })  
+        }) 
+        
+        .when('/deactivePhotographer', {
+            templateUrl: '/dealer/myprofile/deactivePhotographer.html',
+            controller: 'DeactivateUserCtrl'
+        })
         .when('/deactiveLocations', {
             templateUrl: '/dealer/myprofile/deactivateLocations.html',
             controller: 'deactiveLocationCtrl'

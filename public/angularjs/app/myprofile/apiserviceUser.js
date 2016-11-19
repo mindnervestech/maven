@@ -2,7 +2,7 @@ angular.module('app.apiserviceUser', [])
 .service('apiserviceUser', function($http,$q,$upload){
 
 	var autodealerTestUrl = 'http://www.glider-autos.com:7071/';
-
+	var autodealerUrlTest = 'http://www.glider-autos.com:7071';
 	this.getAllUsersToAssign=function(){
 		var defer = $q.defer();
 		$http.get('/getAllUsersToAssign').success(function(data) {
@@ -59,12 +59,42 @@ angular.module('app.apiserviceUser', [])
 		return defer.promise;
 	};
 	
+	this.deactivatePhotographerAccount = function(userId){
+		var defer = $q.defer();
+		$http.get(autodealerUrlTest+'/deactivatePhotographerAccount/'+userId).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Account deactive successfully",
+			});
+			 	defer.resolve(data);
+    	});
+		
+		return defer.promise;
+	};
+	
 	this.getAllUsers = function(){
 		var defer = $q.defer();
 		$http.get('/getAllUsers').success(function(data) {
 			 	defer.resolve(data);
     	});
 		
+		return defer.promise;
+	};
+	this.getAllPhotographer = function(name,locationId){
+		var defer = $q.defer();
+		$http.get(autodealerTestUrl+'getAllPhotographer/'+name+"/"+locationId).success(function(data) {
+			 	defer.resolve(data);
+    	});
+		
+		return defer.promise;
+	};
+	
+	this.getAllDeactivatePhotographer=function(name,locationId){
+		var defer = $q.defer();
+		$http.get(autodealerUrlTest+'/getAllDeactivatePhotographer/'+name+"/"+locationId).success(function(data) {
+				defer.resolve(data);
+		});
 		return defer.promise;
 	};
 	
@@ -161,6 +191,69 @@ angular.module('app.apiserviceUser', [])
 		return defer.promise;
 	};
 	
+	this.updateImagePhotographer = function(data){
+		var defer = $q.defer();
+		$http.post(autodealerTestUrl+"updateImagePhotographer",data).success(function(data){
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "User saved successfully",
+			});
+			 	defer.resolve(data);
+    	});
+		
+		return defer.promise;
+	};
+	
+	this.updateImageFileLoadPhotoPhotographer = function(userdata,userRole,logofile){
+		var defer = $q.defer();
+		if(userRole == 'Photographer'){
+			$upload.upload({
+	            url : autodealerTestUrl+'updateUserMaven',
+	            method: 'post',
+	            data:userdata,
+	            file:logofile
+	        }).success(function(data, status, headers, config) {
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "User saved successfully",
+				});
+	            defer.resolve(data);
+	        }).error(function(data, status, headers, config){
+	        	$.pnotify({
+				    title: "Error",
+				    type:'Success',
+				    text: "Error",
+				});
+	        	defer.resolve(data);
+	        });
+		}else{
+			$upload.upload({
+	            url : '/updateUserMaven',
+	            method: 'post',
+	            data:userdata,
+	            file:logofile
+	        }).success(function(data, status, headers, config) {
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "User saved successfully",
+				});
+	            defer.resolve(data);
+	        }).error(function(data, status, headers, config){
+	        	$.pnotify({
+				    title: "Error",
+				    type:'Success',
+				    text: "Error",
+				});
+	        	defer.resolve(data);
+	        });
+		}
+	
+		
+		return defer.promise;
+	};
 	
 	this.updateImageFileLoadPhoto = function(userdata,userRole,logofile){
 		var defer = $q.defer();
@@ -262,6 +355,57 @@ angular.module('app.apiserviceUser', [])
 		return defer.promise;
 	};
 	
+	
+	this.updateImageFilePhotographer = function(userdata,logofile,userRole){
+		var defer = $q.defer();
+		if(userRole == 'Photographer'){
+			$upload.upload({
+	            url : autodealerTestUrl+'updateImagePhotographer',
+	            method: 'post',
+	            data:userdata,
+	            file:logofile
+	        }).success(function(data, status, headers, config) {
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "User saved successfully",
+				});
+	            defer.resolve(data);
+	        }).error(function(data, status, headers, config){
+	        	$.pnotify({
+				    title: "Error",
+				    type:'Success',
+				    text: "Error",
+				});
+	        	defer.resolve(data);
+	        });
+		}else{
+			$upload.upload({
+	            url : '/updateImagePhotographer',
+	            method: 'post',
+	            data:userdata,
+	            file:logofile
+	        }).success(function(data, status, headers, config) {
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "User saved successfully",
+				});
+	            defer.resolve(data);
+	        }).error(function(data, status, headers, config){
+	        	$.pnotify({
+				    title: "Error",
+				    type:'Success',
+				    text: "Error",
+				});
+	        	defer.resolve(data);
+	        });
+		}
+	
+		
+		return defer.promise;
+	};
+	
 	this.checkEmailOfUser = function(email){
 		var defer = $q.defer();
 		$http.get('/checkEmailOfUser/'+email).success(function(data) {
@@ -281,6 +425,14 @@ angular.module('app.apiserviceUser', [])
 	this.activeAccount=function(userId){
 		var defer = $q.defer();
 		$http.get('/activeAccount/'+userId).success(function(data) {
+			defer.resolve(data);
+			});
+		return defer.promise;
+	};
+	this.activePhotographerAccount=function(userId){
+		var defer = $q.defer();
+		console.log(userId);
+		$http.get(autodealerUrlTest+'/activePhotographerAccount/'+userId).success(function(data) {
 			defer.resolve(data);
 			});
 		return defer.promise;

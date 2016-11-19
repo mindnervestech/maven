@@ -132,10 +132,17 @@ angular.module('newApp')
 	};
 	$scope.goToUsers = function() {
 		$location.path('/createUser');
-	}
+	};
+	$scope.goToContractors = function() {
+		$location.path('/contractors');
+	};
+	
 	$scope.goToDeactive = function() {
 		$location.path('/deactiveUsers');
 	};
+	$scope.goToDeactivePhotographer = function() {
+			$location.path('/deactivePhotographer');
+		};
 	$scope.createGeneralManager =function(){
 		$scope.imgGM="/assets/images/profile-pic.jpg ";
 		
