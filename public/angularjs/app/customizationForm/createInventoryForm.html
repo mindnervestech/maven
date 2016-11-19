@@ -74,15 +74,22 @@
                 </div>
                 <div  ng-if="initComponent.length > 0" fb-builder="default" ng-model="initComponent"></div>
                 <div  ng-if="initComponent.length <= 0" fb-builder="default" ng-model="initComponent"></div>
-                <!-- <div class="panel-footer">
-                    <div class="checkbox">
-                        <label><input type="checkbox" ng-model="isShowScope" />
-                            Show scope
-                        </label>
-                    </div>
-                    <pre ng-if="isShowScope">{{form}}</pre>
-                </div> -->
+               
             </div>
+             <div class="panel panel-default" style="height: 93px;">
+                	 <div class="col-md-2" style="margin-left: 40px;">
+                	 	<label>Outcome</label>
+                	 </div>
+                	 <div class="col-md-8" style="margin-left: 40px;">
+                     	
+                     		<select ng-model="outcome" multiple>
+                     		   <option ng-repeat="item in outcomemenu" value="{{item.id}}">{{item.menuName}}</option>
+						 
+						</select>
+                    	
+                    </div>
+                    <label ng-if="showOutcomeMsg == 1" style="color:red;margin-left:60px">Please select outcome</label>
+              </div>  
         </div>
 
         <div class="col-md-6">
