@@ -7765,7 +7765,7 @@ public class Application extends Controller {
     	Map<String, String> mapCar = new HashMap<String, String>();
     	for(CustomizationDataValue custD:custData){
     		mapCar.put(custD.keyValue, custD.value);
-    		if(custD.displayGrid.equals("true")){
+    		//if(custD.displayGrid.equals("true")){
     			//if(keyValueList.size() == 0){
     				KeyValueDataVM keyValue = new KeyValueDataVM();
             		keyValue.key = custD.keyValue;
@@ -7784,7 +7784,7 @@ public class Application extends Controller {
     				}
     			}*/
     			
-    		}
+    		//}
     		
     	}
     	vm.customData = keyValueList;
