@@ -136,17 +136,23 @@
 					
 					<div class="col-md-12 form-group">
 						<div class="col-md-4">
-							<label>Select Value</label>
+							<label>Where to Show</label>
 						</div>
 						<div class="col-md-6">
-							<select  class="form-control"  id="form_type" ng-model="editleadtype.profile"    required>
+							<select  class="form-control"  id="form_type" ng-model="editleadtype.profile"  ng-change="selectProfile(editleadtype.profile)" required>
 									<option value="">---Select---</option>
-									<option value="All Profile pages">All Profile pages</option>
-									
-													           
+									<option value="All Manufaturers">All Manufaturers</option>
+									<option value="Select Manually">Select Manually</option>
 							 </select>
 						</div>
 					</div>
+					 <div class="col-sm-12 form-group" ng-if="editleadtype.profile == 'Select Manually'">
+						<label ng-repeat="mfact in manufacturerslist" class="col-sm-6" style="padding:0px;">
+											 						 <input type="checkbox" name="permissions" ng-click="ManuClicked($event,mfact,mfact.isSelected)"
+											 						   	ng-model="mfact.isSelected">					
+							   					 						{{mfact.title}}</label>
+							   					 				<label>
+        											</div>
 					
 					<input type="submit" class="btn btn-primary btn-embossed"
 						value="Edit CheckBox">

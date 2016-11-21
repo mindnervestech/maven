@@ -23,6 +23,19 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
+	this.getAllManufacturers=function(status,date){
+		var defer = $q.defer();
+		
+		$http.get('/getAllProduct/'+status+'/'+date).success(function(data) {
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
+	
+	
+	
 	this.getSocialMediadetail=function(){
 		var defer = $q.defer();
 		

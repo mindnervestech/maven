@@ -18506,6 +18506,8 @@ if(vehicles.equals("All")){
     	    }
 	    
     	    String outcomeIds = cForm.outcome;
+    	    if(outcomeIds != null){
+    	    	
     	    String[] out_id = outcomeIds.split(",");
     	    for(String sid:out_id){
     	    	if(sid.equals("4")){
@@ -18828,6 +18830,7 @@ if(vehicles.equals("All")){
     	    		  /*----------------------------------------------------*/
     	    	}
     	    }
+        }
     	
     	return ok();
     }

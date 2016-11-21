@@ -30,27 +30,6 @@ angular.module('newApp')
  		                                	} ,
  		                                 },
  		                                 
- 		                                /* { name: 'name', displayName: 'Name', width:'13%',cellEditableCondition: false,
- 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-  		                                       if (row.entity.isRead === false) {
-  		                                         return 'red';
-  		                                     }
- 		                                	} ,
- 		                                 },
- 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'10%',cellEditableCondition: false,
- 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-  		                                       if (row.entity.isRead === false) {
-  		                                         return 'red';
-  		                                     }
- 		                                	} ,
- 		                                 },
- 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'18%',cellEditableCondition: false,
- 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-  		                                       if (row.entity.isRead === false) {
-  		                                         return 'red';
-  		                                     }
- 		                                	} ,
- 		                                 },*/
  		                                
  		                                
      		                                 ];

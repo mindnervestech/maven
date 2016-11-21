@@ -93,6 +93,11 @@ public static Finder<Long,NewFormWebsite> find = new Finder<>(Long.class,NewForm
 	public static List<NewFormWebsite> findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findList();
 	}
+	
+	public static NewFormWebsite findByName(String leadName) {
+		return find.where().eq("lead_name", leadName).findUnique();
+	}
+	
 	public static NewFormWebsite findByLocations(Long location) {
 		return find.where().eq("locations.id", location).findUnique();
 	}

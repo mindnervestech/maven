@@ -113,16 +113,16 @@ public class CustomersRequestController extends Controller {
 		    	for(RequestMoreInfo info: listData) {
 		    		RequestInfoVM vm = new RequestInfoVM();
 		    		vm.id = info.id;
-		    		Inventory productInfo = Inventory.getByProductId(info.productId);
+		    		AddProduct productInfo = AddProduct.findById(Long.parseLong(info.productId));
 		    		vm.productId = info.productId;
 		    		if(productInfo != null) {
 		    			vm.title = productInfo.title;
 		    			vm.price = (int) productInfo.price;
 		    			vm.description = productInfo.description;
-		    			vm.cost = String.valueOf(productInfo.cost);
+		    			/*vm.cost = String.valueOf(productInfo.cost);
 		    			AddCollection aCollection = AddCollection.findById(productInfo.collection.id);
-		    			vm.collectionName = aCollection.title;
-		    			InventoryImage pImage = InventoryImage.getDefaultImage(productInfo.productId);
+		    			vm.collectionName = aCollection.title;*/
+		    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
 		        		if(pImage!=null) {
 		        			vm.imgId = pImage.getId().toString();
 		        		}
@@ -136,7 +136,6 @@ public class CustomersRequestController extends Controller {
 		    		vm.howContactedUs = info.contactedFrom;
 		    		vm.howFoundUs = info.hearedFrom;
 		    		vm.custZipCode = info.custZipCode;
-		    		vm.enthicity = info.enthicity;
 		    		vm.requestDate = df.format(info.requestDate);
 		    		vm.userRole = user.role;
 		    		vm.premiumFlagForSale = user.premiumFlag;

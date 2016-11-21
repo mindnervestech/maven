@@ -1,5 +1,7 @@
 package viewmodel;
 
+import java.util.List;
+
 public class LeadTypeVM {
 
 	public Long id;
@@ -10,4 +12,7 @@ public class LeadTypeVM {
 	public String actionTitle;
 	public String actionOutcomes;
 	public String actionClientPdf;
+	public String outcome;
+	public String maunfacturersIds;
+
 }

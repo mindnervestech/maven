@@ -19,6 +19,7 @@ import models.AutoPortal;
 import models.CoverImage;
 import models.CreateNewForm;
 import models.CustomerPdf;
+import models.CustomizationForm;
 import models.Domain;
 import models.EmailDetails;
 import models.FeaturedImageConfig;
@@ -40,6 +41,7 @@ import models.Site;
 import models.SliderImageConfig;
 import models.VehicleImageConfig;
 import models.WebAnalytics;
+import models.cutomizationForm;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -465,6 +467,9 @@ public class ConfigPagesController extends Controller{
 			 if(reInfo.size() == 0){
 				 LeadType type = LeadType.findById(leadId);
 				 type.delete();
+				 
+				 NewFormWebsite nWebsite = NewFormWebsite.findByName(type.leadName);
+				 nWebsite.delete();
 				 return ok();
 			 }else{
 				 return ok("not delete");
@@ -604,6 +609,12 @@ public class ConfigPagesController extends Controller{
 		    	   }else{
 		    		   lead.callToAction = vm.callToAction;
 		    	   }
+		    	   if(lead.callToAction == false){
+		    		   lead.shows = 0;
+		    	   }else{
+		    		   lead.shows = 1;
+		    	   }
+		    	   
 		    	   lead.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	   lead.save();
 		    	   
@@ -631,8 +642,9 @@ public class ConfigPagesController extends Controller{
 				Date date = new Date();
 				
 				LeadType lead = LeadType.findById(vm.id);
-				  	 
+				  
 		    	  lead.setProfile(vm.profile);
+		    	  lead.setMaunfacturersIds(vm.maunfacturersIds);
 		    	  lead.update();
 		    	  return ok();
 			}	
@@ -778,6 +790,11 @@ public class ConfigPagesController extends Controller{
 				   lead.setActionOutcomes(vm.actionOutcomes);
 				   lead.setActionTitle(vm.actionTitle);
 				   lead.setActionClientPdf(vm.actionClientPdf);
+				   CustomizationForm cForm = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")), vm.leadName);
+				   if(cForm != null){
+					   cForm.setOutcome(vm.outcome);
+					   cForm.update();
+				   }
 				   lead.update();
 				   
 		    	  MultipartFormData body = request().body().asMultipartFormData();

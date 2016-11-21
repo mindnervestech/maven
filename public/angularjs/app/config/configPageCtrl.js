@@ -158,7 +158,7 @@ angular.module('newApp')
 		                                 { name: 'leadName', displayName: 'Lead Type', width:'50%',cellEditableCondition: false
 		                                 },
 		                                 {name:'org', displayName:'Show on Website', width:'15%',
-		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Trade-In Appraisal\' || row.entity.leadName == \'Request More Info\' || row.entity.leadName == \'Schedule Test Drive\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row)">  </div>',
+		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Trade-In Appraisal\' || row.entity.leadName == \'Request More Info\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row)">  </div>',
 		                                 },
 		                                 { name: 'edit', displayName: ' ', width:'20%',
     		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test Drive\' && row.entity.leadName != \'Trade-In Appraisal\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test Drive\' && row.entity.leadName != \'Trade-In Appraisal\'" ng-click="grid.appScope.DeleteUserPopup(row)"  title="Edit"></i>', 
@@ -373,20 +373,51 @@ angular.module('newApp')
 		 }
 		 
 		 $scope.selectCheck = function(row){
-				
-			 $('#editPopupcheck').click();
-			 console.log(row.entity)
-			
-			 $scope.editleadtype.id = row.entity.id;
-			 $scope.editleadtype.profile = row.entity.profile;
-			 console.log($scope.editleadtype.profile);
-			 $scope.selectCheckbox(row);
+			 
+			 console.log(row.entity.checkValue)
+			if(row.entity.checkValue == false){
+				$('#editPopupcheck').click();
+				 $scope.editleadtype.id = row.entity.id;
+				 $scope.editleadtype.profile = row.entity.profile;
+				 console.log($scope.editleadtype.profile);
+				 $scope.selectCheckbox(row);
+			//	 $scope.leadTypeAll();
+			}else{
+				$scope.editleadtype = {};
+				$scope.editleadtype.id = row.entity.id;
+				 $scope.editleadtype.profile = "0";
+				$scope.UpdatecheckboxDiect();
+				$scope.selectCheckbox(row);
+				//$scope.leadTypeAll();
+			}
 			 
 		 }
 			
 		 $scope.editleadtype={};
+		 
+		 $scope.UpdatecheckboxDiect = function(){
+			 console.log($scope.editleadtype);
+			 console.log("out of funtion");
+			 apiserviceConfigPage.Updatecheckbox($scope.editleadtype).then(function(data){
+			 
+				 console.log(data);
+				
+         	});
+		}
+		 
+		 var date = new Date().getTime();
+		 		apiserviceConfigPage.getAllManufacturers("publish",date).then(function(data){
+					$scope.manufacturerslist = data; 
+					console.log($scope.manufacturerslist);
+				});
+			
+     	//});
+		 	
+		 
+		 
 		 $scope.Updatecheckbox = function(){
 			 console.log($scope.editleadtype);
+			 $scope.editleadtype.maunfacturersIds = $scope.selectmanu.toString();
 			 console.log("out of funtion");
 			 apiserviceConfigPage.Updatecheckbox($scope.editleadtype).then(function(data){
 			 
@@ -428,6 +459,41 @@ angular.module('newApp')
 				
 				
 				}
+			
+			
+			$scope.selectmanu = [];
+			  $scope.ManuClicked = function(e, rolePer,value){
+					console.log(rolePer);
+					console.log(value);
+					if(value == false || value == undefined){
+						$scope.selectmanu.push(rolePer.id);
+					}else{
+						console.log("sssss");
+						$scope.deleteItems(rolePer);
+					}
+					console.log($scope.selectmanu);
+				}
+				$scope.deleteItems = function(rolePer){
+					angular.forEach($scope.selectmanu, function(obj, index){
+						 if ((rolePer.id == obj)) {
+							 $scope.selectmanu.splice(index, 1);
+					       	return;
+					    };
+					  });
+				}
+				
+				
+				$scope.selectProfile = function(selectP){
+					$scope.selectmanu = [];
+					  if(selectP == "All Manufaturers"){
+						  angular.forEach($scope.manufacturerslist, function(obj, index){
+							  $scope.selectmanu.push(obj.id);
+						 });
+					  }
+					  console.log($scope.selectmanu);
+					  
+				}
+			
 			$scope.updateNewFormWebsite = function(){
 				console.log($scope.website);
 				console.log($scope.rowDataVal);
@@ -608,7 +674,7 @@ angular.module('newApp')
 					 $.pnotify({
 						    title: "Success",
 						    type:'success',
-						    text: "Unable to Delete",
+						    text: "Lead available for this type. you can't delete this type",
 						});
 				 }else{
 					 $.pnotify({

@@ -48,7 +48,7 @@
                 </div> -->
             
             </div>
-            <div class="panel panel-default" style="height: 93px;">
+           <!--  <div class="panel panel-default" style="height: 93px;">
                 	 <div class="col-md-2" style="margin-left: 40px;">
                 	 	<label>Outcome</label>
                 	 </div>
@@ -61,7 +61,7 @@
                     	
                     </div>
                     <label ng-if="showOutcomeMsg == 1" style="color:red;margin-left:60px">Please select outcome</label>
-              </div>  
+              </div>   -->
         </div>
 
         <div class="col-md-6" style="margin-top: 40px;">
@@ -142,7 +142,28 @@
 								                </div>
 								                <form ng-submit="callToAction()">
 								                <div class="modal-body">
+								                <h4 class="modal-title" style="margin-bottom: 20px;">Outcome </h4>
+								                <div class="col-md-12">
+								                	<div class="col-sm-12">
+								                    
+								                    <div class="col-sm-12">
+																<!-- <select ng-model="callAction.outcome" multiple required>
+																<option value=""></option>
+								                     		   <option ng-repeat="item in outcomemenu" value="{{item.id}}">{{item.menuName}}</option> -->
+														 		<label ng-repeat="rolePer in outcomemenu" class="col-sm-6" style="padding:0px;">
+											 						 <input type="checkbox" name="permissions" ng-click="actionClicked($event,rolePer,rolePer.isSelected)"
+											 						   	ng-model="rolePer.isSelected">					
+							   					 						{{rolePer.menuName}}</label>
+							   					 				<label>
+														<!-- </select> -->
+        											</div>
+        										</div>
+								                </div>
+								                <br>
+								                <hr>
+								                <br>
 								                <h4 class="modal-title" style="margin-bottom: 20px;">"CALL TO ACTION" PROPERTIES </h4>
+								                <div class="col-md-12">
 								                <div class="col-sm-12">
 								                    <div class="col-sm-2">
 								                    			<label >Title</label>
@@ -182,6 +203,7 @@
 													    			</tr>
 													    		</table>
 															</div>
+														</div>	
 												</div>				                
 								                </div>
 								                <div class="modal-footer">

@@ -22,7 +22,15 @@ public class LeadType extends Model {
 	public String actionTitle;
 	public String actionOutcomes;
 	public String actionClientPdf;
+	public String maunfacturersIds;
 		
+	public String getMaunfacturersIds() {
+		return maunfacturersIds;
+	}
+
+	public void setMaunfacturersIds(String maunfacturersIds) {
+		this.maunfacturersIds = maunfacturersIds;
+	}
 	@ManyToOne
 	public Location locations;
 

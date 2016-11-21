@@ -98,11 +98,9 @@ angular.module('newApp')
 		       }, true);
 		       
 		       $scope.editform = {};
-		       $scope.showOutcomeMsg = 0;
+		      // $scope.showOutcomeMsg = 0;
 		  $scope.saveCreateLeadForm = function(){
-			  console.log("hhhjjjjj");
-			  console.log($scope.outcome);
-			  if($scope.outcome != undefined){
+			//  if($scope.outcome != undefined){
 				  $scope.showOutcomeMsg = 0;
 				  var obj = localStorage.getItem('popupType');
 				  $scope.leadId = localStorage.getItem('leadId');
@@ -127,9 +125,9 @@ angular.module('newApp')
 				 if(obj == "Lead"){
 					 $scope.getLeadTypeDataById($scope.leadId);
 				 }
-			  }else{
-				  $scope.showOutcomeMsg = 1;
-			  }
+			 // }else{
+				//  $scope.showOutcomeMsg = 1;
+		//	  }
 			 
 		  }  
 		  
@@ -139,7 +137,7 @@ angular.module('newApp')
 				  console.log(data);
 				  $scope.callAction = data;
 				  console.log($scope.callAction);
-				  if(data.callToAction == "1")
+				  //if(data.callToAction == "1")
 					  $('#completedPopup').modal('show');
 				});
 		  }
@@ -186,7 +184,8 @@ angular.module('newApp')
 			 console.log($scope.leadId);
 			 $scope.callAction.id = $scope.leadId;
 			 console.log($scope.callAction);
-			
+			 
+			 $scope.callAction.outcome = $scope.actions.toString(); 
 			 if(logofile == undefined){
 				 apiserviceCustomizationForm.saveLeadFormPopup($scope.callAction).then(function(data){
 				 
@@ -215,6 +214,27 @@ angular.module('newApp')
 			  $('#edititle').modal('show');
 
 		  }
+		  
+		  $scope.actions = [];
+		  $scope.actionClicked = function(e, rolePer,value){
+				console.log(rolePer);
+				console.log(value);
+				if(value == false || value == undefined){
+					$scope.actions.push(rolePer.id);
+				}else{
+					$scope.deleteItem(rolePer);
+				}
+				console.log($scope.actions);
+			}
+			$scope.deleteItem = function(rolePer){
+				angular.forEach($scope.actions, function(obj, index){
+					 if ((rolePer.id == obj)) {
+						 $scope.actions.splice(index, 1);
+				       	return;
+				    };
+				  });
+			}
+		  
 		  $scope.editAllTitle = function(){
 			 
 			  delete $scope.setjson.locations;

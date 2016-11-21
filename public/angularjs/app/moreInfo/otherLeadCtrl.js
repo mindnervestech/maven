@@ -38,20 +38,7 @@ angular.module('newApp')
 										        }
 										 	} ,
 										  },
-										  { name: 'designer', displayName: 'Designer', width:'8%',cellEditableCondition: false,
-										 	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-										         if (row.entity.isRead === false) {
-										           return 'red';
-										       }
-										 	} ,
-										  },
-										  { name: 'year', displayName: 'Year', width:'7%',cellEditableCondition: false,
-										 	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-										         if (row.entity.isRead === false) {
-										           return 'red';
-										       }
-										 	} ,
-										  },
+										
  		                                 { name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
