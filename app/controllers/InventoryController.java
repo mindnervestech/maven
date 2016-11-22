@@ -861,7 +861,7 @@ public class InventoryController extends Controller {
 	   
 	   public static Result getSelectedLeadType() {
 		   List<LeadType> lType = LeadType.findByLocationsAndSelected(Long.valueOf(session("USER_LOCATION")));
-		   List<LeadTypeVM> lVmList = new ArrayList<LeadTypeVM>(); 
+		  /* List<LeadTypeVM> lVmList = new ArrayList<LeadTypeVM>(); 
 		   for(LeadType lType2 : lType){
 							   LeadTypeVM vm = new LeadTypeVM();
 							   vm.leadName = lType2.leadName;
@@ -872,9 +872,9 @@ public class InventoryController extends Controller {
 							   vm.maunfacturersIds = lType2.maunfacturersIds;
 							   vm.actionClientPdf = lType2.actionClientPdf;
 							   lVmList.add(vm);
-			   }
+			   }*/
 			   
-		   return ok(Json.toJson(lVmList));
+		   return ok(Json.toJson(lType));
 	   }
 	   
 	   public static Result getSelectedLeadTypeWise(String productType) {
