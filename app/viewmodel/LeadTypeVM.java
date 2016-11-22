@@ -14,5 +14,6 @@ public class LeadTypeVM {
 	public String actionClientPdf;
 	public String outcome;
 	public String maunfacturersIds;
+	public String confirmationMsg;
 
 }

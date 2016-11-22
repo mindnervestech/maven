@@ -790,6 +790,7 @@ public class ConfigPagesController extends Controller{
 				   lead.setActionOutcomes(vm.actionOutcomes);
 				   lead.setActionTitle(vm.actionTitle);
 				   lead.setActionClientPdf(vm.actionClientPdf);
+				   lead.setConfirmationMsg(vm.confirmationMsg);
 				   CustomizationForm cForm = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")), vm.leadName);
 				   if(cForm != null){
 					   cForm.setOutcome(vm.outcome);

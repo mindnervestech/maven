@@ -35,6 +35,7 @@ import securesocial.core.Identity;
 import viewmodel.AddCollectionVM;
 import viewmodel.AddProductVM;
 import viewmodel.ImageVM;
+import viewmodel.LeadTypeVM;
 import viewmodel.SectionsVM;
 import views.html.home;
 
@@ -860,8 +861,54 @@ public class InventoryController extends Controller {
 	   
 	   public static Result getSelectedLeadType() {
 		   List<LeadType> lType = LeadType.findByLocationsAndSelected(Long.valueOf(session("USER_LOCATION")));
-		   return ok(Json.toJson(lType));
+		   List<LeadTypeVM> lVmList = new ArrayList<LeadTypeVM>(); 
+		   for(LeadType lType2 : lType){
+							   LeadTypeVM vm = new LeadTypeVM();
+							   vm.leadName = lType2.leadName;
+							   vm.profile = lType2.profile;
+							   vm.callToAction = lType2.callToAction;
+							   vm.actionOutcomes = lType2.actionOutcomes;
+							   vm.actionTitle = lType2.actionTitle;
+							   vm.maunfacturersIds = lType2.maunfacturersIds;
+							   vm.actionClientPdf = lType2.actionClientPdf;
+							   lVmList.add(vm);
+			   }
+			   
+		   return ok(Json.toJson(lVmList));
 	   }
+	   
+	   public static Result getSelectedLeadTypeWise(String productType) {
+		   List<LeadType> lType = LeadType.findByLocationsAndSelected(Long.valueOf(session("USER_LOCATION")));
+		   List<LeadTypeVM> lVmList = new ArrayList<LeadTypeVM>(); 
+		   for(LeadType lType2 : lType){
+			   if(lType2.maunfacturersIds != null){
+				   String arr[] = lType2.maunfacturersIds.split(",");
+				   for(int i=0;i<arr.length;i++){
+					   AddProduct aProduct = AddProduct.findById(Long.parseLong(arr[i]));
+					   if(aProduct != null){
+						   if(aProduct.title.equals(productType)){
+							   LeadTypeVM vm = new LeadTypeVM();
+							   vm.leadName = lType2.leadName;
+							   vm.profile = lType2.profile;
+							   vm.callToAction = lType2.callToAction;
+							   vm.actionOutcomes = lType2.actionOutcomes;
+							   vm.actionTitle = lType2.actionTitle;
+							   vm.maunfacturersIds = lType2.maunfacturersIds;
+							   vm.actionClientPdf = lType2.actionClientPdf;
+							   lVmList.add(vm);
+						   }
+					   }
+					   
+					   
+				   }
+			   }
+			   
+			   
+		   }
+		   return ok(Json.toJson(lVmList));
+	   }
+	   
+	   
 	   
 	   public static Result getHideProduct(Long id) {
 		   AddProduct aProduct = AddProduct.findById(id);
@@ -885,6 +932,28 @@ public class InventoryController extends Controller {
 		   return ok();
 	   }
 	   
+	   
+	   public static Result getAllProductWise(String status, String date,String leadType) {
+			List<AddProduct> pList = AddProduct.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
+			List<AddProductVM> aList = new ArrayList<AddProductVM>();
+			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			for(AddProduct aProduct:pList){
+				AddProductVM aVm = new AddProductVM();
+				aVm.title = aProduct.title;
+				aVm.description = aProduct.description;
+				aVm.fileName = aProduct.fileName;
+				aVm.id = aProduct.id;
+				aVm.orderIndex = aProduct.orderIndex;
+				aVm.hideWebsite = aProduct.hideWebsite;
+				if(aProduct.addedDate != null){
+					aVm.addedDate = df.format(aProduct.addedDate);
+				}
+								
+				aList.add(aVm);
+			}
+			return ok(Json.toJson(aList));
+		}
+
 	   
 	   public static Result getAllProduct(String status, String date) {
 			List<AddProduct> pList = AddProduct.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);

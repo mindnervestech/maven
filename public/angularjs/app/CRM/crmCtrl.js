@@ -159,7 +159,10 @@ angular.module('newApp')
              });*/
 	  }
 	  
-   		
+  	$scope.addGroupPopUp = function(){
+  		console.log("kkk");
+  		$("#addNewGroup").modal('show');
+  	}
    		
    		
   	    apiserviceCrm.getUsers().then(function(data){

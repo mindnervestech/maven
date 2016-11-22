@@ -189,7 +189,7 @@ angular.module('newApp')
 			 console.log($scope.leadId);
 			 $scope.callAction.id = $scope.leadId;
 			 console.log($scope.callAction);
-			 
+			 $scope.callAction.actionOutcomes = $scope.callAction.actionOutcomes.toString(); 
 			 $scope.callAction.outcome = $scope.actions.toString(); 
 			 if(logofile == undefined){
 				 apiserviceCustomizationForm.saveLeadFormPopup($scope.callAction).then(function(data){

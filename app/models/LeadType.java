@@ -23,6 +23,7 @@ public class LeadType extends Model {
 	public String actionOutcomes;
 	public String actionClientPdf;
 	public String maunfacturersIds;
+	public String confirmationMsg;
 		
 	public String getMaunfacturersIds() {
 		return maunfacturersIds;
@@ -108,6 +109,16 @@ public class LeadType extends Model {
 
 	public void setLocations(Location locations) {
 		this.locations = locations;
+	}
+	
+	
+	
+	public String getConfirmationMsg() {
+		return confirmationMsg;
+	}
+
+	public void setConfirmationMsg(String confirmationMsg) {
+		this.confirmationMsg = confirmationMsg;
 	}
 	public static Finder<Long,LeadType> find = new Finder<>(Long.class,LeadType.class);
 	

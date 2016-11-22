@@ -1831,28 +1831,38 @@ angular.module('newApp').controller('customizationCtrl',
 	    	
 	    	$http.get('/getDataFromCrm').success(function(data){
 	    		$scope.searchList = data;
-	    		//console.log($scope.searchList);
 	    	 });
 	    	
 	    	$http.get('/getSelectedLeadType').success(function(data) {
-    			
-				//console.log(data);
 				$scope.leadList = data; 
-			
+				
 			});
 	    	
 	    	
 			var date = new Date().getTime();
 	    	$http.get('/getAllProduct/'+"publish"+'/'+date).success(function(data) {
-				    			
-				//console.log(data);
 				$scope.manufacturerslist = data; 
+				
 			
 			});
 	    	
 	    	$scope.selectLead = function(data){
+	    		/*$http.get('/getAllProductWise/'+"publish"+'/'+date+'/'+data).success(function(data) {
+					
+				});*/
 	    		$scope.$emit("selectLeadDashbord", data);
     		}
+	    	
+	    	$scope.selecProductType = function(productType){
+	    		console.log(productType);
+	    		$http.get('/getSelectedLeadTypeWise/'+productType).success(function(data) {
+	    			console.log(data);
+	    			console.log($scope.leadList);
+	    			$scope.leadList = data; 
+			
+	    		});
+	    	}
+	    	
 	    	
 	    	$scope.financeData = {};
 	    	 $scope.financeData.downPayment=1000;

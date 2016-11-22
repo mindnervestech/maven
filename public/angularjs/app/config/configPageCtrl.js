@@ -193,7 +193,7 @@ angular.module('newApp')
 			intValue = 1;
 		}
 		apiserviceConfigPage.getCheckButton($scope.entityId, intValue).then(function(data){
-		
+			$scope.leadTypeAll();
 		})
 		
 	}

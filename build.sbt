@@ -19,6 +19,7 @@ libraryDependencies ++= Seq(
 "com.google.oauth-client" % "google-oauth-client" % "1.19.0",
 "org.apache.xmlrpc" % "xmlrpc-client" % "3.1.3",
 "org.apache.velocity" % "velocity-tools" % "2.0",
+"com.tinify" % "tinify" % "1.3.1",
 javaJdbc,
   javaEbean,
   cache,

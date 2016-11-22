@@ -163,6 +163,7 @@ angular.module('newApp')
 		   			
 		   		 });
 				}
+		 
 	}
 	 var logofile;
 	 var names=[];

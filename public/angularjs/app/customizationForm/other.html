@@ -137,7 +137,7 @@
 	
 		<div class="modal fade" id="completedPopup" tabindex="-1" role="dialog" aria-hidden="true">
 								        <div class="modal-dialog">
-								            <div class="modal-content" style="height: 470px;width: 700px;">
+								            <div class="modal-content" style="height: 550px;width: 700px;">
 								                <div class="modal-header">
 								                </div>
 								                <form ng-submit="callToAction()">
@@ -163,7 +163,7 @@
 								                <hr>
 								                <br>
 								                <h4 class="modal-title" ng-if="callToActonP == '1'" style="margin-bottom: 20px;">"CALL TO ACTION" PROPERTIES </h4>
-								                <div class="col-md-12" ng-if="callToActonP == '1'">
+								                <div class="col-md-12 form-group" ng-if="callToActonP == '1'">
 								                <div class="col-sm-12">
 								                    <div class="col-sm-2">
 								                    			<label >Title</label>
@@ -177,21 +177,23 @@
         												<label>Outcomes</label>
         											</div>
         											<div class="col-sm-6">	
-        												<select  class="form-control"  id="form_type" ng-model="callAction.actionOutcomes"    required>
+        												<select  class="form-control"  id="form_type" ng-model="callAction.actionOutcomes" multiple   required>
 															<option value="">---Select---</option>
 															<option value="New Customer Request">New Customer Request</option>
 															<option value="Generate PDF from the form">Generate PDF from the form</option>
-															<option value="Client downloads PDF file">Client downloads PDF file</option>																			           
+															<option value="Client downloads PDF file">Client downloads PDF file</option>
+															<option value="Automatically add to CRM">Automatically add to CRM</option>
+																																		           
 													 </select>
 													</div>
-													<div class="form-group col-sm-12" style="margin-top: 15px" ng-if="callAction.actionOutcomes == 'Client downloads PDF file'">
+													<div class="form-group col-sm-12" style="margin-top: 15px" ng-repeat="find in callAction.actionOutcomes" ng-if="find == 'Client downloads PDF file'">
 														<label class="col-sm-4 control-label" style="text-align:left;margin-left: -15px;">Upload PDF File *</label>
 														<div class="col-sm-5">
 																<input style="margin-left: -30px;" type="file" name="logoFile" ng-file-select="onFileSelect($files)" ng-model="callAction.actionClientPdf" accept="application/msword,application/pdf"/>
 														</div>
 													</div>
 								
-													<div class="col-sm-8" style="margin-top: 20px;margin-left: 25px;" ng-if="callAction.actionOutcomes == 'Client downloads PDF file'">
+													<div class="col-sm-8" style="margin-top: 20px;margin-left: 25px;" ng-repeat="find in callAction.actionOutcomes" ng-if="find == 'Client downloads PDF file'">
 																<table  style="border: 1px solid; width:80%" >
 													    		<tr style="border: 1px solid;">
 													    			<td style="padding: 5px;font-size: 20px;text-align: center; border: 1px solid;">PDF Name</td>
@@ -204,7 +206,16 @@
 													    		</table>
 															</div>
 														</div>	
-												</div>				                
+														 </div>
+														 <div class="col-sm-12 form-group">
+										                    <div class="col-sm-3">
+										                    			<label>Confirmation Message</label>
+										                    </div>
+										                    <div class="col-sm-9">
+																		<input class="col-md-10 form-control" type="text" name="title" ng-model="callAction.confirmationMsg" placeholder="TITLE " required>
+		        											</div>
+        												</div>
+														 																                
 								                </div>
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
