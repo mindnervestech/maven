@@ -28,11 +28,20 @@ public class CustomizationDataValue extends Model {
 	public String saveCrm;
 	public String displayGrid;
 	public String displayWebsite;
+	public String formName;
 	
 	@ManyToOne
 	public Location locations;
 	
 	
+	public String getFormName() {
+		return formName;
+	}
+
+	public void setFormName(String formName) {
+		this.formName = formName;
+	}
+
 	public Long getId() {
 		return id;
 	}

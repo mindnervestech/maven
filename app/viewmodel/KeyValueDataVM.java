@@ -10,5 +10,5 @@ public class KeyValueDataVM {
 	public String savecrm;
 	public String displayGrid;
 	public String displayWebsite;
-	
+	public String formName;
 }

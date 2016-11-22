@@ -84,6 +84,7 @@ public class RequestInfoVM {
 	public String description;
 	public String cost;
 	public List<KeyValueDataVM> customData;
+	public List<KeyValueDataVM> customDataAll;
 	public Map<String, String> customMapData;
 	public long timeDiff;
 	public String timeUnit;

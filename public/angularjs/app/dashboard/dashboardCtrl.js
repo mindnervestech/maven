@@ -1734,7 +1734,7 @@ angular.module('newApp')
      	     		     			 		 		    useExternalFiltering: true,
      	     		     			 		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
      	     		     			 		 		 };
-     	     		     			 		 		 $scope.gridOptions7.enableHorizontalScrollbar = 0;
+     	     		     			 		 		 $scope.gridOptions7.enableHorizontalScrollbar = 2;
      	     		     			 		 		 $scope.gridOptions7.enableVerticalScrollbar = 2;
      	     		     			 		 		 
      	     		     			 		 		 $scope.gridOptions7.columnDefs = [
@@ -1763,30 +1763,7 @@ angular.module('newApp')
 																					             }
 																					       	} ,
 																					       },
-     	     		     			 		 		                                 { name: 'vin', displayName: 'Vin', width:'9%',cellEditableCondition: false,
-     	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.vin}}</a> ',
-     	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     	     		     			 		 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
-     	     		     			 		   		                                         return 'red';
-     	     		     			 		   		                                     }
-     	     		     			 		  		                                	} ,
-     	     		     			 		 		                                 },
-     	     		     			 		 		                                 { name: 'model', displayName: 'Model', width:'6%',cellEditableCondition: false,
-     	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.model}}</a> ',
-     	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     	     		     			 		 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
-     	     		     			 		   		                                         return 'red';
-     	     		     			 		   		                                     }
-     	     		     			 		  		                                	} ,
-     	     		     			 		 		                                 },
-     	     		     			 		 		                                 { name: 'make', displayName: 'Make', width:'7%',cellEditableCondition: false,
-     	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.make}}</a> ',
-     	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     	     		     			 		 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
-     	     		     			 		   		                                         return 'red';
-     	     		     			 		   		                                     }
-     	     		     			 		  		                                	} ,
-     	     		     			 		 		                                 },
+     	     		     			 		 		                                 
      	     		     			 		 		                            { name: 'typeOfLead', displayName: 'type', width:'8%',cellEditableCondition: false,
       	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.typeOfLead}}</a> ',
       	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -1796,17 +1773,7 @@ angular.module('newApp')
       	     		     			 		  		                                	} ,
       	     		     			 		 		                                 },
      	     		     			 		 		                                 
-     	     		     			 		 		                                			 		 		                                 
-     	     		     			 		 		          
-     	     		     			 				                                
-     	     		     			 				                               { name: 'btnSolsdd', displayName: '',enableFiltering: false, width:'40%',cellEditableCondition: false,        /* <button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate != null" class="btn btn-sm btn-primary" style="margin-left:0px;">RESCHEDULE</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate == null" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button>*/                                                                     
-     	     		     	      			 		                                	cellTemplate:'<button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelScheduleStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button> <button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button> <select ng-model="action" ng-change="grid.appScope.actionOnPdf(row.entity,action)" class="btn btn-sm btn-primary" style="text-transform :uppercase;height :25px"><option value="" >Actions</option><option ng-if="row.entity.confirmDate == null" value="Schedule">Schedule</option><option ng-if="row.entity.confirmDate != null" value="Rechedule" value="Reschedule">Reschedule</option> <option value="SendPdf">Send Pdf</option> <option value="clientele">Add to Clientele </option>  </select> ',   
-     	     		     	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     	     		     	      			 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
-     	     		     	       			   		                                         return 'red';
-     	     		     	       			   		                                     }
-     	     		     	       			  		                                	} ,
-     	     		     	       			 		                                 },
+     	     		     			 				                               
      	     		     			 		     		                                 ];      	     		     			 		 		 
      	     		     			 		 		 
      	     		     			 		 	/*{ name: 'btnSolsdd', displayName: '',enableFiltering: false, width:'40%',cellEditableCondition: false,         <button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate != null" class="btn btn-sm btn-primary" style="margin-left:0px;">RESCHEDULE</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate == null" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button>                                                                     
@@ -4377,10 +4344,15 @@ angular.module('newApp')
 	    				$scope.lead.leadType = "";
 	    				$scope.lead.manufacturers = "";
 	    				$scope.josnData = angular.fromJson(response.jsonData);
+	    				angular.forEach($scope.josnData, function(obj, index){
+	    					obj.formName = "Create New Lead";
+	    				});
+	    				
 	    				$scope.josnData1 = null;
 	    				apiserviceDashborad.getCustomizationform($scope.selectedLead).then(function(response1){
 	    					$scope.josnData1 = angular.fromJson(response1.jsonData);
 	    					angular.forEach($scope.josnData1, function(obj, index){
+	    						obj.formName = $scope.selectedLead;
 	    						$scope.josnData.push(obj);
 	    						
 	   	    				});
@@ -4404,7 +4376,7 @@ angular.module('newApp')
 			    		   	  			savecrm:value1.savecrm,
 			    		   	  			displayGrid:value1.displayGrid,
 			    		   	  		    displayWebsite:value1.displayWebsite,
-			    		   	  			
+			    		   	  			formName:value1.formName,
 			    					});
 	    						} 
 	    					});
@@ -5452,7 +5424,52 @@ angular.module('newApp')
 		    		    		    		       	//		function(success){
 		    		    		       				$scope.addData().then(
 		    		    		    		       			function(success){
+		    		    		    		       				console.log($scope.getAllListLeadDate);
 		    		    		    		       				$scope.gridOptions7.data = $scope.getAllListLeadDate;
+		    		    				        				var findFlag = 0;
+		    		    				           				angular.forEach($scope.getAllListLeadDate,function(value,key){
+		    		    				        					if(findFlag == 0){
+		    		    				        						angular.forEach(value.customDataAll,function(value1,key1){
+		    		    				        							$scope.gridMapObect.push({values: value1.value , key: value1.key});
+		    		    				        							findFlag = 1;
+		    		    				        						});
+		    		    				        					}
+		    		    				        				});
+		    		    				           				
+		    		    				        				angular.forEach($scope.getAllListLeadDate,function(value,key){
+		    		    				        					angular.forEach($scope.gridMapObect,function(value1,key1){
+		    		    				        						var name = value1.key;
+		    		    				        						name = name.replace(" ","");
+		    		    				        						value[name] = null;
+		    		    				        						angular.forEach(value.customDataAll,function(value2,key2){
+		    		    				        							if(value1.key == value2.key){
+		    		    				        								value[name] = value2.value;
+		    		    				        							}
+		    		    				        						});
+		    		    				        					});
+		    		    				        				});
+		    		    				        				
+		    		    				        				angular.forEach($scope.gridMapObect,function(value,key){
+		    		    				        					var name = value.key;
+		    		    				        					name = name.replace(" ","");
+		    		    				        					console.log(name);
+		    		    				        					$scope.gridOptions7.columnDefs.push({ name: name, displayName: name, width:'10%',cellEditableCondition: false,
+		    		    				        		              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		    		    				        		              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+		    		    				        		                        return 'red';
+		    		    				        		                    }
+		    		    				        		              	} ,
+		    		    				        		               });
+		    		    				        				});
+		    		    		    		    				
+		    		    				        				$scope.gridOptions7.columnDefs.push({ name: 'btnSolsdd', displayName: '',enableFiltering: false, width:'40%',cellEditableCondition: false,        /* <button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate != null" class="btn btn-sm btn-primary" style="margin-left:0px;">RESCHEDULE</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate == null" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button>*/                                                                     
+	     	      			 		                                	cellTemplate:'<button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelScheduleStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button> <button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button> <select ng-model="action" ng-change="grid.appScope.actionOnPdf(row.entity,action)" class="btn btn-sm btn-primary" style="text-transform :uppercase;height :25px"><option value="" >Actions</option><option ng-if="row.entity.confirmDate == null" value="Schedule">Schedule</option><option ng-if="row.entity.confirmDate != null" value="Rechedule" value="Reschedule">Reschedule</option> <option value="SendPdf">Send Pdf</option> <option value="clientele">Add to Clientele </option>  </select> ',   
+	     	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	     	      			 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+	     	       			   		                                         return 'red';
+	     	       			   		                                     }
+	     	       			  		                                	} ,
+	     	       			 		                                 });
 		    		    		    		       				
 		    		    				           	        	$scope.getAllCanceledLeads();
 		    		    				           	        	

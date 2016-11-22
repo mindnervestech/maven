@@ -7765,12 +7765,14 @@ public class Application extends Controller {
     	Map<String, String> mapCar = new HashMap<String, String>();
     	for(CustomizationDataValue custD:custData){
     		mapCar.put(custD.keyValue, custD.value);
-    		//if(custD.displayGrid.equals("true")){
+    		
+    		if(custD.displayGrid.equals("true")){
     			//if(keyValueList.size() == 0){
     				KeyValueDataVM keyValue = new KeyValueDataVM();
             		keyValue.key = custD.keyValue;
             		keyValue.value = custD.value;
             		keyValue.displayGrid = custD.displayGrid;
+            		keyValue.formName = custD.formName;
             		keyValueList.add(keyValue);
     			//}else{
             		/*for(KeyValueDataVM ks:keyValueList){
@@ -7784,11 +7786,36 @@ public class Application extends Controller {
     				}
     			}*/
     			
-    		//}
+    		}
     		
     	}
+    	
     	vm.customData = keyValueList;
     	vm.customMapData = mapCar;
+    	
+    	
+    	List<CustomizationDataValue> custDataAll = CustomizationDataValue.findByCustomeLead(leadType, id);
+    	List<KeyValueDataVM> keyValueListAll = new ArrayList<>();
+    	Map<String, String> mapCarAll = new HashMap<String, String>();
+    	for(CustomizationDataValue custDat:custDataAll){
+    		mapCar.put(custDat.keyValue, custDat.value);
+    		if( custDat.formName != null){
+    		if(custDat.formName.equals("Create New Lead")){
+    			//if(keyValueList.size() == 0){
+    				KeyValueDataVM keyValue1 = new KeyValueDataVM();
+            		keyValue1.key = custDat.keyValue;
+            		keyValue1.value = custDat.value;
+            		keyValue1.displayGrid = custDat.displayGrid;
+            		keyValue1.formName = custDat.formName;
+            		keyValueListAll.add(keyValue1);
+    			
+    		}
+    		}
+    		
+    	}
+    	
+    	vm.customDataAll = keyValueListAll;
+    	
     }
     
     public static void findRequestParentChildAndBro(List<RequestInfoVM> infoVMList, RequestMoreInfo info,SimpleDateFormat df, RequestInfoVM vm){
@@ -9138,6 +9165,7 @@ public class Application extends Controller {
     			cValue.value = custom.value;
     			cValue.leadId = infoId;
     			cValue.leadType = leadtype;
+    			cValue.formName = custom.formName;
     			if(custom.savecrm == null){
     				cValue.saveCrm = "false";
     			}else{
