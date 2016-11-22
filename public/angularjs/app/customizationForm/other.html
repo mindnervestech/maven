@@ -137,12 +137,12 @@
 	
 		<div class="modal fade" id="completedPopup" tabindex="-1" role="dialog" aria-hidden="true">
 								        <div class="modal-dialog">
-								            <div class="modal-content" style="height: 350px;">
+								            <div class="modal-content" style="height: 470px;width: 700px;">
 								                <div class="modal-header">
 								                </div>
 								                <form ng-submit="callToAction()">
 								                <div class="modal-body">
-								                <h4 class="modal-title" style="margin-bottom: 20px;">Outcome </h4>
+								                <h4 class="modal-title" style="margin-bottom: 20px;">SYSTEM OUTCOMES</h4>
 								                <div class="col-md-12">
 								                	<div class="col-sm-12">
 								                    
@@ -162,8 +162,8 @@
 								                <br>
 								                <hr>
 								                <br>
-								                <h4 class="modal-title" style="margin-bottom: 20px;">"CALL TO ACTION" PROPERTIES </h4>
-								                <div class="col-md-12">
+								                <h4 class="modal-title" ng-if="callToActonP == '1'" style="margin-bottom: 20px;">"CALL TO ACTION" PROPERTIES </h4>
+								                <div class="col-md-12" ng-if="callToActonP == '1'">
 								                <div class="col-sm-12">
 								                    <div class="col-sm-2">
 								                    			<label >Title</label>

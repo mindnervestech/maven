@@ -137,7 +137,12 @@ angular.module('newApp')
 				  console.log(data);
 				  $scope.callAction = data;
 				  console.log($scope.callAction);
-				  //if(data.callToAction == "1")
+				  console.log(data.callToAction);
+				  if(data.callToAction == true){
+					  $scope.callToActonP = "1";
+				  }else{
+					  $scope.callToActonP = "0";
+				  }
 					  $('#completedPopup').modal('show');
 				});
 		  }
