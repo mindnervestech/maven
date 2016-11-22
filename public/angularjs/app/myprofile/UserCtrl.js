@@ -413,6 +413,7 @@ angular.module('newApp')
 	}
 	
 	$scope.initlize = function() {
+		$location.path('/contractors');
 		apiserviceUser.findLocation().then(function(data){
 			console.log(data);
 			$scope.loca = data;
@@ -1274,6 +1275,7 @@ angular.module('newApp')
 	 		};
 	 		
 	 		$scope.initlize = function() {
+	 			$location.path('/deactivePhotographer');
 	 			apiserviceUser.findLocation().then(function(data){
 	 				console.log(data);
 	 				$scope.loca = data;
