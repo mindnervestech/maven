@@ -533,5 +533,26 @@ angular.module('newApp')
 					$scope.mailChimpLists = data;
 				});
 			}
+		 $scope.viewUpdate = function(list){
+				console.log(list);
+				$scope.newList = list;
+				$scope.updateList = true;
+			};
+			$scope.deleteItem = function(list){
+				$scope.listObj = list;
+			};
+			
+			$scope.updateListItem = function(newList){
+				if(newList.nickName == undefined ||  newList.nickName == null || newList.listId == undefined ||  newList.listId == null){
+					$scope.newError = true;
+				}else{
+					$scope.newError = false;
+					apiserviceConfigPage.updateListItem(newList).then(function(data){
+						$scope.newList = {};
+						$scope.closeUpdate();
+						$scope.getAllMailchimpList();
+					});
+				}
+			}
 	   
 }]);
