@@ -132,4 +132,9 @@ public class MailchimpSchedular extends Model{
 	public static MailchimpSchedular findByLocations(Long location) {
 		return find.where().eq("locations.id", location).findUnique();
 	}
+	
+	public static MailchimpSchedular findByLocationsAnfEnable(Long location) {
+		return find.where().eq("locations.id", location).findUnique();
+	}
+	
 }

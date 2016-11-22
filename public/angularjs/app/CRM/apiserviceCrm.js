@@ -35,6 +35,46 @@ angular.module('app.apiserviceCrm', [])
 		return defer.promise;
 	};
 	
+	this.getAllMailchimpList = function(){
+		var defer = $q.defer();
+		$http.get('/getAllMailchimpList').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getAllMailchimpEnable = function(){
+		var defer = $q.defer();
+		$http.get('/getmailchimpData').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.saveNewList=function(newList){
+		var defer = $q.defer();
+		$http.post('/saveNewList',newList).success(function(data) {
+			if(data == "error"){
+				$.pnotify({
+				    title: "Error",
+				    type:'success',
+				    text: "List ID already Exist.",
+				});
+			}else{
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "List saved successfully",
+				});
+			}
+			
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 	this.getAllContactsData = function(){
 		var defer = $q.defer();
 		$http.get('/getAllContactsData').success(function(data) {

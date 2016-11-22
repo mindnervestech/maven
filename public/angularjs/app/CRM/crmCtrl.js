@@ -158,9 +158,21 @@ angular.module('newApp')
             	} ,
              });*/
 	  }
-	  
+	  $scope.showQuickList = "0";
   	$scope.addGroupPopUp = function(){
-  		console.log("kkk");
+  		apiserviceCrm.getAllMailchimpEnable().then(function(data){
+  			console.log(data);
+  			if(data.synchronizeContact == true){
+  				$scope.showQuickList = "1";
+  				apiserviceCrm.getAllMailchimpList().then(function(data){
+  					$scope.mailChimpLists = data;
+  				});
+  			}else{
+  				$scope.showQuickList = "0";
+  			}
+  			
+  		});
+  		
   		$("#addNewGroup").modal('show');
   	}
    		
@@ -500,9 +512,26 @@ angular.module('newApp')
 		 $scope.callListMailChim = function(){
 			 apiserviceCrm.callList().then(function(data){
 							$scope.getContactsData();
-							
-						});
+			 });
 			
 		}
+		 
+		 
+		 $scope.saveNewList = function(newList){
+				if(newList.nickName == undefined ||  newList.nickName == null || newList.listId == undefined ||  newList.listId == null){
+					$scope.newError = true;
+				}else{
+					$scope.newError = false;
+					apiserviceCrm.saveNewList(newList).then(function(data){
+						$scope.newList = {};
+						$scope.getAllMailchimpList();
+					});
+				}
+			}
+		 $scope.getAllMailchimpList = function(){
+			 apiserviceCrm.getAllMailchimpList().then(function(data){
+					$scope.mailChimpLists = data;
+				});
+			}
 	   
 }]);
