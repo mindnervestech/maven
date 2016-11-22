@@ -390,6 +390,8 @@ GET		/getScheduleBySelectedDate/:date	controllers.Application.getScheduleBySelec
 POST    /uploadImageFile            controllers.MyProfileController.saveUser()
 POST    /sendPdfEmail           controllers.Application.sendPdfEmail()
 GET		/getAllPermission		controllers.Application.getAllPermission()
+GET		/getAllPermissionById		controllers.Application.getAllPermissionById()
+
 GET    /getfindGmIsManager            controllers.Application.getfindGmIsManager()
 GET    /getLocationDays					controllers.Application.getLocationDays()
 POST    /uploadManagerImageFile	    controllers.MyProfileController.uploadManagerImageFile()

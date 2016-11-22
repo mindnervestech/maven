@@ -160,6 +160,7 @@ import viewmodel.LocationVM;
 import viewmodel.LocationWiseDataVM;
 import viewmodel.NoteVM;
 import viewmodel.PageVM;
+import viewmodel.PermissionVM;
 import viewmodel.PinVM;
 import viewmodel.PlanScheduleVM;
 import viewmodel.PriceChangeVM;
@@ -879,6 +880,32 @@ public class Application extends Controller {
     	return ok(Json.toJson(permissionList));
     }
     
+    public static Result getAllPermissionById(){
+    	List<PermissionVM> permissionListData= new ArrayList<>();
+    	List<Permission> permission = Permission.getAllPermissionById();
+		for (Permission obj : permission) {
+			PermissionVM vm =new PermissionVM();
+			vm.name = obj.name;
+			vm.id = obj.id;
+			getFetureChildData(vm.id, vm);
+			permissionListData.add(vm);
+		}
+		return ok(Json.toJson(permissionListData));
+    }
+    
+    public static void getFetureChildData(Integer id, PermissionVM vm1){
+    	List<PermissionVM> permissionListChild= new ArrayList<>();
+    	List<Permission> permission = Permission.getAllPermissionChildData(id);
+		for (Permission obj : permission) {
+			PermissionVM vm =new PermissionVM();
+			vm.name = obj.name;
+			vm.id = obj.id;
+			vm.parent_id = obj.parentId;
+			
+			permissionListChild.add(vm);
+		}
+		vm1.childData = permissionListChild;
+    }
     
     public static Result changePermission(Long locationId,Integer managerId,String gmIsManager){
     	AuthUser user = AuthUser.findById(managerId);

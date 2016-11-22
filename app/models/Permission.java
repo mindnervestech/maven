@@ -14,7 +14,16 @@ public class Permission extends Model {
 	@Id
 	public Integer id;
 	public String name;
+	public Integer parentId;
 	
+	
+	
+	public Integer getParentId() {
+		return parentId;
+	}
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -33,5 +42,11 @@ public class Permission extends Model {
 	public static List<Permission> getAllPermission() {
 		return find.all();
 	}
+	public static List<Permission> getAllPermissionById() {
+		return find.where().eq("parentId", null).findList();
+	}
 	
+	public static List<Permission> getAllPermissionChildData(Integer id) {
+		return find.where().eq("parentId", id).findList();
+	}
 }

@@ -16,7 +16,7 @@ angular.module('newApp')
 	{name:'Financial Statistics',isSelected:false},
 	{name:'Account Settings',isSelected:false}];
 	
-	$http.get('/getAllPermission')
+	/*$http.get('/getAllPermission')
 	.success(function(data) {
 		$scope.permissionList =[];
 		angular.forEach(data, function(obj, index){
@@ -25,7 +25,27 @@ angular.module('newApp')
 		});
 		console.log($scope.permissionList);
 		console.log("????????????????");
+	});*/
+	
+	$http.get('/getAllPermissionById')
+	.success(function(data) {
+		console.log(data);
+		$scope.permissionList =[];
+		/*angular.forEach(data, function(obj, index){
+			var jsonObj = {name:obj.name,isSelected:false,id:obj.id};
+			$scope.permissionList.push(jsonObj);
+		});*/
+		angular.forEach(data, function(obj, index){
+			obj.isSelected = false;
+			angular.forEach(obj.childData, function(obj1, index1){
+				obj1.isSelected = false;
+			});
+			
+		});
+		$scope.permissionList = data;
+		console.log($scope.permissionList);
 	});
+	
 	$scope.userData = {};
 	$scope.trial;
 	$scope.num;
@@ -456,6 +476,8 @@ angular.module('newApp')
 		$scope.permission = [];
 		angular.forEach($scope.permissionList, function(obj, index){
 			 obj.isSelected = false;
+			 obj.childData.isSelected = false;
+			 
 		});
 		$scope.img="/assets/images/profile-pic.jpg ";
 		
