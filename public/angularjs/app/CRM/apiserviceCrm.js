@@ -53,6 +53,50 @@ angular.module('app.apiserviceCrm', [])
 		return defer.promise;
 	};
 	
+	this.saveNewGroup=function(group){
+		var defer = $q.defer();
+		$http.post('/saveNewGroup',group).success(function(data) {
+			if(data == "error"){
+				$.pnotify({
+				    title: "Error",
+				    type:'success',
+				    text: "Group name already Exist.",
+				});
+			}else{
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Group saved successfully",
+				});
+			}
+			
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.updateGroup=function(group){
+		var defer = $q.defer();
+		$http.post('/updateGroup',group).success(function(data) {
+			if(data == "error"){
+				$.pnotify({
+				    title: "Error",
+				    type:'success',
+				    text: "Group name already Exist.",
+				});
+			}else{
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Group updated successfully",
+				});
+			}
+			
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 	this.saveNewList=function(newList){
 		var defer = $q.defer();
 		$http.post('/saveNewList',newList).success(function(data) {
@@ -78,6 +122,15 @@ angular.module('app.apiserviceCrm', [])
 	this.getAllContactsData = function(){
 		var defer = $q.defer();
 		$http.get('/getAllContactsData').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getAllGroupList = function(){
+		var defer = $q.defer();
+		$http.get('/getAllGroupList').success(function(data) {
 			defer.resolve(data);
 		});
 		

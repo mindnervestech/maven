@@ -48,7 +48,8 @@ public class Contacts extends Model {
 	public String assignedTo;
 	public String campaignSource;
 	public String priority;
-	public String groups;
+	@ManyToOne
+	public GroupTable groups;
 	public String relationships;
 	public String notes;
 	public String workEmail;
@@ -234,10 +235,10 @@ public class Contacts extends Model {
 	public void setPriority(String priority) {
 		this.priority = priority;
 	}
-	public String getGroups() {
+	public GroupTable getGroups() {
 		return groups;
 	}
-	public void setGroups(String groups) {
+	public void setGroups(GroupTable groups) {
 		this.groups = groups;
 	}
 	public String getRelationships() {
@@ -370,8 +371,16 @@ public class Contacts extends Model {
 		return find.all();
 	}
 	
+	public static List<Contacts> findByGroup(GroupTable group){
+		return find.where().eq("groups", group).findList();
+	}
+	
 	public static List<Contacts> findByDateWise(Date curDate) {
 		return find.where().ge("version", curDate).findList();
+	}
+	
+	public static List<Contacts> findByDefault(GroupTable group) {
+		return find.where().or(Expr.eq("groups", group),Expr.eq("groups", null)).findList();
 	}
 	
 }

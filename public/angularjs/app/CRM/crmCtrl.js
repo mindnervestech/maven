@@ -105,6 +105,76 @@ angular.module('newApp')
 				
    		});
    		
+   		//group start
+   		$scope.getAllGroupList = function(){
+   			apiserviceCrm.getAllGroupList().then(function(data){
+   	   			console.log(data);
+   				$scope.groupList = data;				
+   	   		});
+   		};
+   		
+   		$scope.getAllGroupList();
+   		$scope.grNameReq = false;
+   		$scope.showAddGr = false;
+   		$scope.updateGr = false;
+   		$scope.saveNewGroup = function(group){
+			if(group.name == undefined ||  group.name == null){
+				$scope.grNameReq = true;
+			}else{
+				$scope.grNameReq = false;
+				apiserviceCrm.saveNewGroup(group).then(function(data){
+					$scope.group = {};
+					$scope.getAllGroupList();
+					$scope.showAddGr = !$scope.showAddGr;
+				});
+			}
+		}
+   		
+   		$scope.updateGroup = function(grp){
+			if(grp.name == undefined ||  grp.name == null){
+				$scope.grNameReq = true;
+			}else{
+				$scope.grNameReq = false;
+				apiserviceCrm.updateGroup(grp).then(function(data){
+					$scope.group = {};
+					$scope.getAllGroupList();
+					$scope.closeUpdateGr();
+				});
+			}
+		}
+   		
+   		$scope.addGrClick = function(){
+   			$scope.showAddGr = !$scope.showAddGr;
+   			$scope.updateGr = false;
+   			$scope.group = {};
+   		};
+   		
+   		$scope.deleteGroupBy = function(group){
+   			$scope.deleteGr = group;
+   		};
+   		$scope.deleteGroupList = function(){
+   			console.log($scope.deleteGr);
+   			apiserviceCrm.deleteGroup($scope.deleteGr.id).then(function(data){
+				$scope.group = {};
+				$scope.getAllGroupList();
+				$scope.closeUpdateGr();
+			});
+   		};
+   		
+   		$scope.viewGroup = function(gr){
+   			$scope.group = gr.group;
+   			$scope.showAddGr = true;
+   			$scope.updateGr = true;
+   		};
+   		
+   		$scope.closeUpdateGr = function(){
+   			$scope.showAddGr = !$scope.showAddGr;
+   			$scope.updateGr = false;
+   			$scope.group = {};
+   		};
+   		
+   		//group end
+   		
    		
    		
   	  $scope.editgirdData = function(data){

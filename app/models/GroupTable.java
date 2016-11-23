@@ -42,4 +42,8 @@ public class GroupTable extends Model {
 		return find.all();
 	}
 	
+	public static GroupTable findByName(String name){
+		return find.where().eq("name", name).findUnique();
+	}
+	
 }

@@ -23,6 +23,7 @@ import models.Contacts;
 import models.CustomizationCrm;
 import models.GroupTable;
 import models.Location;
+import models.MailchimpList;
 import models.MailchimpSchedular;
 import models.PhotographerHoursOfOperation;
 import play.Play;
@@ -34,6 +35,7 @@ import play.mvc.Result;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import viewmodel.ContactsVM;
+import viewmodel.GroupVM;
 import viewmodel.HoursOperation;
 import viewmodel.KeyValueDataVM;
 import viewmodel.PortalNameVM;
@@ -99,7 +101,10 @@ public class CrmController extends Controller {
  		   	}
  		    contacts.setCampaignSource(vm.campaignSource);
  		    contacts.setPriority(vm.priority);
- 		    contacts.setGroups(vm.groups);
+ 		    GroupTable gr = null;
+ 		    if(vm.groups != null)
+ 		    	gr = GroupTable.findByName(vm.groups.name);
+ 		    contacts.setGroups(gr);
  		    contacts.setWorkEmail(vm.workEmail);
  		    contacts.setWorkEmail1(vm.workEmail1);
  		    contacts.setWorkPhone(vm.workPhone);
@@ -411,7 +416,10 @@ public class CrmController extends Controller {
 				    	    		 contact.priority = row[28];
 				    	    	 }
 				    	    	 if(row.length >= 30) {
-				    	    		 contact.groups = row[29];
+				    	    		 GroupTable gr = null;
+				    	  		    if(row[29] != null)
+				    	  		    	gr = GroupTable.findByName(row[29]);
+				    	    		 contact.groups = gr;
 				    	    	 }
 				    	    	 if(row.length >= 31) {
 				    	    		 contact.relationships = row[30];
@@ -517,7 +525,10 @@ public class CrmController extends Controller {
 			    	    			 contactObj.setPriority(row[28]);
 			    	    		 }
 			    	    		 if(row.length >= 30) {
-			    	    			 contactObj.setGroups(row[29]);
+			    	    			 GroupTable gr = null;
+			    	    			 if(row[29] != null)
+			    	    				 gr = GroupTable.findByName(row[29]);
+			    	    			 contactObj.setGroups(gr);
 			    	    		 }
 			    	    		 if(row.length >= 31) {
 			    	    			 contactObj.setRelationships(row[30]);
@@ -698,6 +709,50 @@ public class CrmController extends Controller {
 		}
 	 
 
+	 	public static Result getAllGroupList(){
+	 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+	    		List<GroupTable> groupList =GroupTable.findAllGroup();
+	    		List<GroupVM> grList= new ArrayList<>();
+	    		for (GroupTable gr : groupList) {
+	    			GroupVM vm = new GroupVM();
+		    		List<Contacts> conList = new ArrayList<>();
+	    			if(gr.name.equalsIgnoreCase("default"))
+	    				conList= Contacts.findByDefault(gr);
+	    			else
+	    				conList= Contacts.findByGroup(gr);
+	    			vm.group = gr;
+	    			vm.contactCount = conList.size();
+	    			grList.add(vm);
+				}
+	    		return ok(Json.toJson(grList));
+	    	}
+	 	}
+	 	
+	 	public static Result updateGroup(){
+			String msg = "";
+			Form<GroupTable> form = DynamicForm.form(GroupTable.class).bindFromRequest();
+			GroupTable vm = form.get();
+			try {
+				vm.update();
+			} catch (Exception e) {
+				msg = "error";
+			}
+			return ok(msg);
+		}
+	 	
+	 	public static Result saveNewGroup(){
+			String msg = "";
+			Form<GroupTable> form = DynamicForm.form(GroupTable.class).bindFromRequest();
+			GroupTable vm = form.get();
+			try {
+				vm.save();
+			} catch (Exception e) {
+				msg = "error";
+			}
+			return ok(msg);
+		}
 		
 		public static Result getAllContactsData() {
 			if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -959,6 +1014,12 @@ public class CrmController extends Controller {
 		   		return ok(home.render("",userRegistration));
 		   	} else {
 		   	  GroupTable gTable = GroupTable.findById(groupId);
+		   	  GroupTable defaultGr = GroupTable.findByName("Default");
+		   	  List<Contacts> grCon = Contacts.findByGroup(gTable);
+		   	  for (Contacts con : grCon) {
+				con.setGroups(defaultGr);
+				con.update();
+			}
 		   	  gTable.delete();
 		   	}
 		   return ok("");

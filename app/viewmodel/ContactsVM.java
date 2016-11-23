@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import models.GroupTable;
+
 public class ContactsVM {
 
 	public Long contactId;
@@ -36,7 +38,7 @@ public class ContactsVM {
 	public String assignedToName;
 	public String campaignSource;
 	public String priority;
-	public String groups;
+	public GroupTable groups;
 	public String relationships;
 	public String notes;
 	public String workEmail;
@@ -245,10 +247,10 @@ public class ContactsVM {
 	public void setPriority(String priority) {
 		this.priority = priority;
 	}
-	public String getGroups() {
+	public GroupTable getGroups() {
 		return groups;
 	}
-	public void setGroups(String groups) {
+	public void setGroups(GroupTable groups) {
 		this.groups = groups;
 	}
 	public String getRelationships() {
