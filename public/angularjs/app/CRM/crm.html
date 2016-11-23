@@ -312,7 +312,7 @@
 								<label class="control-label" style="width: 21%;"><font size="3">Group name *</font></label>
 							</div>
 								<input name="groupName" class="form-control form-white" type="text" style="width:80%;" placeholder="Enter group name" ng-model="group.name"  required>
-								<p ng-if="grNameReq" style="color:red;">Group name required.</p>
+								<p ng-if="grNameReq" style="color:red;">{{errMsg}}</p>
 						</div>
 						<button ng-if="!updateGr" type="submit" class="btn btn-primary btn-embossed" style="float: right;" ng-click="saveNewGroup(group)">Save</button>
 						<button ng-if="updateGr" type="submit" class="btn btn-primary btn-embossed" style="float: right;" ng-click="updateGroup(group)">Update</button>
@@ -341,7 +341,7 @@
 					</div>
             	</div>
                	<div class="modal-footer">
-                   <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                   <button type="button" class="btn btn-default btn-embossed" ng-click="closeUpdateGr()" data-dismiss="modal">Close</button>
                	</div>
            </div>
        </div>

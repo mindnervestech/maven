@@ -120,12 +120,19 @@ angular.module('newApp')
    		$scope.saveNewGroup = function(group){
 			if(group.name == undefined ||  group.name == null){
 				$scope.grNameReq = true;
+				$scope.errMsg= "Group name required.";
 			}else{
 				$scope.grNameReq = false;
 				apiserviceCrm.saveNewGroup(group).then(function(data){
-					$scope.group = {};
-					$scope.getAllGroupList();
-					$scope.showAddGr = !$scope.showAddGr;
+					if(data !='error'){
+						$scope.group = {};
+						$scope.getAllGroupList();
+						$scope.showAddGr = !$scope.showAddGr;
+					}else{
+						$scope.grNameReq = true;
+						$scope.errMsg= "Group name already exist.";
+					}
+					
 				});
 			}
 		}
@@ -136,9 +143,14 @@ angular.module('newApp')
 			}else{
 				$scope.grNameReq = false;
 				apiserviceCrm.updateGroup(grp).then(function(data){
-					$scope.group = {};
-					$scope.getAllGroupList();
-					$scope.closeUpdateGr();
+					if(data !='error'){
+						$scope.group = {};
+						$scope.getAllGroupList();
+						$scope.closeUpdateGr();
+					}else{
+						$scope.grNameReq = true;
+						$scope.errMsg= "Group name already exist.";
+					}
 				});
 			}
 		}
@@ -146,6 +158,7 @@ angular.module('newApp')
    		$scope.addGrClick = function(){
    			$scope.showAddGr = !$scope.showAddGr;
    			$scope.updateGr = false;
+   			$scope.grNameReq = false;
    			$scope.group = {};
    		};
    		
@@ -171,6 +184,8 @@ angular.module('newApp')
    			$scope.showAddGr = !$scope.showAddGr;
    			$scope.updateGr = false;
    			$scope.group = {};
+   			$scope.grNameReq = false;
+   			$scope.getAllGroupList();
    		};
    		
    		//group end

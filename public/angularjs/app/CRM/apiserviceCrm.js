@@ -57,11 +57,7 @@ angular.module('app.apiserviceCrm', [])
 		var defer = $q.defer();
 		$http.post('/saveNewGroup',group).success(function(data) {
 			if(data == "error"){
-				$.pnotify({
-				    title: "Error",
-				    type:'success',
-				    text: "Group name already Exist.",
-				});
+				
 			}else{
 				$.pnotify({
 				    title: "Success",
@@ -79,11 +75,7 @@ angular.module('app.apiserviceCrm', [])
 		var defer = $q.defer();
 		$http.post('/updateGroup',group).success(function(data) {
 			if(data == "error"){
-				$.pnotify({
-				    title: "Error",
-				    type:'success',
-				    text: "Group name already Exist.",
-				});
+				
 			}else{
 				$.pnotify({
 				    title: "Success",
