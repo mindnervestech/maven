@@ -17,6 +17,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.net.ftp.FTPClient;
 
+import com.tinify.Options;
+import com.tinify.Source;
+import com.tinify.Tinify;
+
 import models.AddCollection;
 import models.AddProduct;
 import models.AuthUser;
@@ -35,6 +39,7 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
+
 /*----------*/
 import securesocial.core.Identity;
 
@@ -46,6 +51,11 @@ public class productController extends Controller {
   
 	final static String rootDir = Play.application().configuration()
 			.getString("image.storage.path");
+	
+	final static String tinifyKey = Play.application().configuration()
+			.getString("tinifyKey");
+	
+	
 	final static String pdfRootDir = Play.application().configuration()
 			.getString("pdfRootDir");
 	
@@ -67,8 +77,10 @@ public class productController extends Controller {
 	final static String emailPassword = Play.application().configuration()
 			.getString("mail.password");
 			
+	
 	static String simulatevin = "{    'success': true,    'specification': {        'vin': 'WDDNG7KB7DA494890',        'year': '2013',        'make': 'Mercedes-Benz',        'model': 'S-Class',        'trim_level': 'S65 AMG',        'engine': '6.0L V12 SOHC 36V TURBO',        'style': 'SEDAN 4-DR',        'made_in': 'GERMANY',        'steering_type': 'R&P',        'anti_brake_system': '4-Wheel ABS',        'tank_size': '23.80 gallon',        'overall_height': '58.00 in.',        'overall_length': '206.50 in.',        'overall_width': '73.70 in.',        'standard_seating': '5',        'optional_seating': null,        'highway_mileage': '19 miles/gallon',        'city_mileage': '12 miles/gallon'    },    'vin': 'WDDNG7KB7DA494890'}";
 
+	
 	private static boolean simulate = false;
     
 /*	public static Result getSectionCollection(Long id){
@@ -126,7 +138,18 @@ public class productController extends Controller {
 	    	Form<AddProductVM> form = DynamicForm.form(AddProductVM.class).bindFromRequest();
 	    	AddProductVM vm = form.get();
 	    	FilePart pdfFile = null ;
+	    	Tinify.setKey(tinifyKey);
+	     	
 	    	
+	    	Source source;
+			/*try {
+				source = Tinify.fromFile("https://glider-autos.com/MavenImg/images/336920109/userPhoto/11-167x119.jpg");
+				source.toFile("/public/emailTemplate/2.jpg");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}*/
+	    		 
 	    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 			Date curDate = new Date();
 	    	
@@ -159,10 +182,12 @@ public class productController extends Controller {
 			       	       		 fileName = vm.getTitle() +"_"+ fileName;
 			       	       		 
 			       	       	    String contentType = pdfFile.getContentType(); 
-			       	       	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"product");
+			       	       	    File fdir = new File(rootDir+File.separator+add.getId()+File.separator+userObj.id+File.separator+"Logo");
 			       	       	    if(!fdir.exists()) {
 			       	       	    	fdir.mkdir();
 			       	       	    }
+			       	       	
+							
 			       	       	    	String filePath = rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo"+File.separator+fileName;
 			       	       	 try {
 			       	       		 	Boolean sts = FileUtils.deleteQuietly(new File(filePath));
@@ -179,15 +204,24 @@ public class productController extends Controller {
 			       		    		   		obj.setFileName(fileName);
 			       		    		   		obj.setFilePath("/"+add.getId()+"-"+userObj.id+"/"+"Logo"+"/"+fileName);
 			       		    		   		obj.update();
+			       		    		   	try {
+											source = Tinify.fromFile(rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo"+File.separator+fileName);
+											source.toFile(rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo"+File.separator+fileName);
+											
+											/*source = Tinify.fromFile(rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo"+File.separator+fileName);
+											Options options = new Options()
+											    .with("method", "fit")
+											    .with("width", 250)
+											    .with("height", 200);
+											Source resized = source.resize(options);
+											resized.toFile(rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo"+File.separator+"thumbnail.jpg");*/
+										} catch (IOException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
+			       		    		   	
 			       		    		   		
-			       	       	    	}/*else if(ext.equalsIgnoreCase("cad")||ext.equalsIgnoreCase("zip")||ext.equalsIgnoreCase("rar")){
-			       	       	    		FileUtils.moveFile(file, new File(filePath));
-			       	       	    			AddProduct obj = AddProduct.findById(productVM.id);
-			       	       	    			
-			       	       	    			obj.setCadfileName(fileName);
-			       	       	    			obj.setCadfilePath("/"+userObj.id+"/"+"product"+"/"+fileName);
-			       	       	    			obj.update();
-			       	       	    	}*/
+			       	       	    	}
 			       	       	    		
 			       	       	    		
 			       	       	  } catch (FileNotFoundException e) {
