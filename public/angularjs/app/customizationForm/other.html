@@ -165,7 +165,7 @@
 														</div>
 													</div>
         											<div class="col-sm-8"  style="margin-top: 20px;margin-left: 25px;" ng-repeat="find in actions" ng-if="find == 2">
-												<table  style="border: 1px solid; width:80%" >
+												<table  style="border: 1px solid; width:80%" ng-if="customerPdfList.length > 0">
 									    		<tr style="border: 1px solid;">
 									    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">PDF Name</td>
 									    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
@@ -215,7 +215,7 @@
 													</div>
 								
 													<div class="col-sm-8" style="margin-top: 20px;margin-left: 25px;" ng-repeat="find in callactions" ng-if="find == 'Client downloads PDF file'">
-																<table  style="border: 1px solid; width:80%" >
+																<table  style="border: 1px solid; width:80%" ng-if="internalPdfList > 0">
 													    		<tr style="border: 1px solid;">
 													    			<td style="padding: 5px;font-size: 20px;text-align: center; border: 1px solid;">PDF Name</td>
 													    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
