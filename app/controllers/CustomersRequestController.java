@@ -159,7 +159,23 @@ public class CustomersRequestController extends Controller {
 		    		if(info.isRead == 1) {
 		    			vm.isRead = true;
 		    		}
-		    		Application.findCustomeData(info.id,vm,Long.parseLong(leadId));
+		    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));
+		    		if(lType != null){
+		    			vm.showOnWeb = lType.shows;
+		    			vm.callToAction = lType.callToAction;
+		    			vm.typeOfLead = lType.leadName;
+		    			vm.leadId = lType.id;
+		    		}
+		    		
+		    		if(lType != null){
+		    			vm.showOnWeb = lType.shows;
+		    				if(vm.showOnWeb == 1 && vm.callToAction == true){
+			    				Application.findCustomeData(info.id,vm,Long.parseLong(leadId));
+			    			}
+		    			
+		    			
+		    		}
+		    		//Application.findCustomeData(info.id,vm,Long.parseLong(leadId));
 		    		infoVMList.add(vm);
 		    	}
 		    	
@@ -217,6 +233,8 @@ public class CustomersRequestController extends Controller {
 		    		
 		    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));
 		    		if(lType != null){
+		    			vm.showOnWeb = lType.shows;
+		    			vm.callToAction = lType.callToAction;
 		    			vm.typeOfLead = lType.leadName;
 		    			vm.leadId = lType.id;
 		    		}
@@ -250,7 +268,12 @@ public class CustomersRequestController extends Controller {
 		    		}
 		    		
 		    		if(lType != null){
-		    			Application.findCustomeData(info.id,vm,lType.id);
+		    			vm.showOnWeb = lType.shows;
+		    				if(vm.showOnWeb == 1 && vm.callToAction == true){
+			    				Application.findCustomeData(info.id,vm,lType.id);
+			    			}
+		    			
+		    			
 		    		}
 		    		Application.findRequestParentChildAndBro(infoVMList, info, df, vm);
 		    	}

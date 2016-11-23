@@ -21,6 +21,16 @@ angular.module('app.apiserviceCustomizationForm', [])
 		return defer.promise;
 	};
 	
+	this.getCustomerPdfData=function(){
+		var defer = $q.defer();
+		
+		$http.get('/getCustomerPdfData').success(function(data) {
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
 	this.getAlloutcome=function(){
 		var defer = $q.defer();
 		

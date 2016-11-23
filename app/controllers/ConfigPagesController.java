@@ -582,6 +582,11 @@ public class ConfigPagesController extends Controller{
 		 public static Result getCheckButton(Long leadId,Integer intValue){
 				LeadType lType = LeadType.findById(leadId);
 				lType.setShows(intValue);
+				if(intValue == 1){
+					lType.setCallToAction(true);
+				}else if(intValue == 0){
+					lType.setCallToAction(false);
+				}
 				lType.update();
 				return ok();
 			}
@@ -772,8 +777,15 @@ public class ConfigPagesController extends Controller{
 		    	   lead.setLeadName(vm.leadName);
 		    	   if(vm.callToAction == null){
 		    		   lead.setCallToAction(false);
+		    		   lead.setShows(0);
 		    	   }else{
 		    		   lead.setCallToAction(vm.callToAction);
+		    		   if(vm.callToAction == false){
+		    			   lead.setShows(0);
+		    		   }else{
+		    			   lead.setShows(1);
+		    		   }
+		    		   
 		    	   }
 		    	  // lead.setLocations(vm.id);
 		    	  lead.update();

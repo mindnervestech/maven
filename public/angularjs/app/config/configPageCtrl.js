@@ -311,13 +311,15 @@ angular.module('newApp')
 			$scope.form = data;
 			console.log(data);
 			localStorage.setItem('leadId', data.id);
-			$scope.ShowFormBuilder($scope.leadcreateData);
+			$scope.ShowFormBuilderSave($scope.leadcreateData);
 			$("#completedPopup").modal('hide');
 			 $scope.leadTypeAll();
 			 
 			});
 		}
-		
+		$scope.ShowFormBuilderSave = function(row){
+			$location.path('/otherForm/'+"save"+"/"+row.leadName);
+		}
 		$scope.ShowFormBuilder = function(row){
 			localStorage.setItem('popupType','Lead');
 			console.log(row);
@@ -702,6 +704,7 @@ angular.module('newApp')
 				$("#editPopups").modal('hide');
          		//$scope.allLeaddata();
          		//$scope.selectCheckbox();
+				
          		$scope.leadTypeAll();
     		});
 		 }

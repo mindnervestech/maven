@@ -131,6 +131,38 @@ angular.module('newApp')
 			 
 		  }  
 		  
+		  $scope.saveCreateLeadFormOnly = function(){
+			  $scope.showOutcomeMsg = 0;
+			  var obj = localStorage.getItem('popupType');
+			  $scope.leadId = localStorage.getItem('leadId');
+			angular.forEach($builder.forms['default'], function(value, key) {
+				 var key;
+               		key = value.label;
+               		key = key.replace("  ","_");
+               		key = key.replace(" ","_");
+               		key = key.toLowerCase();
+               		value.key = key;
+               		console.log(key);
+				 console.log(value.key);
+			 });
+			 console.log($builder.forms['default']);
+			 $scope.editform.formType = $routeParams.formType;
+			 $scope.editform.jsonform = $builder.forms['default'];
+			 $scope.editform.outcome = $scope.outcome;
+			 console.log($scope.editform);
+			 apiserviceCustomizationForm.getLeadCrateForm($scope.editform).then(function(data){
+			  
+					});
+		  }
+		  
+		  $scope.saveCreateLeadFormAddOuctcome = function(){
+			  var obj = localStorage.getItem('popupType');
+			  $scope.leadId = localStorage.getItem('leadId');
+			  if(obj == "Lead"){
+					 $scope.getLeadTypeDataById($scope.leadId);
+				 }
+		  }
+		  
 		  $scope.getLeadTypeDataById = function(leadId){
 			  console.log(leadId);
 			  apiserviceCustomizationForm.getLeadTypeDataById(leadId).then(function(data){
@@ -146,6 +178,10 @@ angular.module('newApp')
 					  $('#completedPopup').modal('show');
 				});
 		  }
+		  apiserviceCustomizationForm.getInternalPdfData().then(function(data){
+				$scope.internalPdfList=data;
+				console.log($scope.internalPdfList);
+			});
 		  var logofile;
 		  $scope.onFileSelect = function($file){
 			  console.log($file[0]);
@@ -183,13 +219,48 @@ angular.module('newApp')
 		}
 		  
 		  
+		  apiserviceCustomizationForm.getCustomerPdfData().then(function(data){
+				
+				$scope.customerPdfList=data;
+				
+			});
+		  
+		  var logofile1;
+			$scope.onCustomerFileSelect = function ($files) {
+				logofile1 = $files;
+				
+			}
+			
+			$scope.saveDoc = false;
+			$scope.checkSaveDoc = function(savedoc){
+					console.log(savedoc);
+					if(savedoc == false){
+						$upload.upload({
+				 	         url : '/saveCustomerPdf',
+				 	         method: 'POST',
+				 	         file:logofile1,
+				 	      }).success(function(data) {
+				 	  			$.pnotify({
+				 	  			    title: "Success",
+				 	  			    type:'success',
+				 	  			    text: "pdf saved successfully",
+				 	  			});
+				 	  			apiserviceCustomizationForm.getCustomerPdfData().then(function(data){
+				 	  				$scope.customerPdfList=data;
+				 	  			});		
+				 	  			
+					
+				 	      });
+					}
+			}
+		  
 		  $scope.callActionId ={};
 		 $scope.callToAction = function(){
 			 
 			 console.log($scope.leadId);
 			 $scope.callAction.id = $scope.leadId;
 			 console.log($scope.callAction);
-			 $scope.callAction.actionOutcomes = $scope.callAction.actionOutcomes.toString(); 
+			 $scope.callAction.actionOutcomes = $scope.callactions.toString(); 
 			 $scope.callAction.outcome = $scope.actions.toString(); 
 			 if(logofile == undefined){
 				 apiserviceCustomizationForm.saveLeadFormPopup($scope.callAction).then(function(data){
@@ -239,6 +310,36 @@ angular.module('newApp')
 				    };
 				  });
 			}
+			
+			$scope.callActionsList =[
+			                    	{name:'New Customer Request',isSelected:false},
+			                    	{name:'Generate PDF from the form',isSelected:false},
+			                    	{name:'Client downloads PDF file',isSelected:false},
+			                    	{name:'Automatically add to CRM',isSelected:false}];
+			                    	
+			
+			 $scope.callactions = [];
+			  $scope.checkClicked = function(e, actionPer,value){
+					console.log(actionPer);
+					console.log(value);
+					if(value == false || value == undefined){
+						console.log(actionPer.name);
+						$scope.callactions.push(actionPer.name);
+					}else{
+						$scope.deleteItemCall(actionPer);
+					}
+					console.log($scope.callactions);
+				}
+			  $scope.deleteItemCall = function(actionPer){
+					angular.forEach($scope.callactions, function(obj, index){
+						 if ((actionPer.name == obj)) {
+							 $scope.callactions.splice(index, 1);
+					       	return;
+					    };
+					  });
+				}	
+			
+			
 		  
 		  $scope.editAllTitle = function(){
 			 

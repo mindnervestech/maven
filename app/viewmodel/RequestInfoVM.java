@@ -100,5 +100,7 @@ public class RequestInfoVM {
 	public Integer acceptMeeting;
 	public String fileName;
 	public int notifFlag;
+	public int showOnWeb;
+	public boolean callToAction;
 	
 }
