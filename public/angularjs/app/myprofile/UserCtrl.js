@@ -406,7 +406,7 @@ angular.module('newApp')
 			  });
 		}else if(type == "Front Desk"){
 			angular.forEach($scope.permissionList, function(obj, index){
-				 if ((obj.name == "Calendar") || (obj.name == "Dashboard")) {
+				 if ((obj.name == "My Profile") || (obj.name == "Dashboard")) {
 					 $scope.permission.push(obj.name);
 					 obj.isSelected = true;
 			    };
@@ -521,7 +521,7 @@ angular.module('newApp')
 	}
 	
 	//console.log($scope.permissionList);
-	
+	$scope.permission =[];
 	$scope.rolesClicked = function(e, rolePer,value){
 		console.log(rolePer);
 		console.log(value);
@@ -536,6 +536,10 @@ angular.module('newApp')
 		angular.forEach($scope.permission, function(obj, index){
 			 if ((rolePer.name == obj)) {
 				 $scope.permission.splice(index, 1);
+				 if ((rolePer.name == obj)) {
+					 $scope.permission.splice(index, 1);
+			       	return;
+			    };
 		       	return;
 		    };
 		  });
@@ -576,6 +580,7 @@ angular.module('newApp')
 	$scope.editUser = function(row) {
 		angular.forEach($scope.permissionList, function(obj, index){
 			 obj.isSelected = false;
+			 obj.childData.isSelected = false;
 		});
 		console.log(row.entity);
 		$scope.userTemp = angular.copy(row.entity);
@@ -620,6 +625,7 @@ angular.module('newApp')
 			angular.forEach($scope.userData.permissions, function(obj1, index1){
 				if(obj.name == obj1){
 					 obj.isSelected = true;
+					 obj.childData.isSelected = true;
 					 $scope.permission.push(obj.name);
 				 }
 			});
