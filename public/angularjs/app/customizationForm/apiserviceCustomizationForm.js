@@ -132,4 +132,27 @@ angular.module('app.apiserviceCustomizationForm', [])
 		});
 		return defer.promise;
 	};
+	
+	this.getCustomizationform = function(formType){
+		var defer = $q.defer();
+		$http.get('/getCustomizationform/'+formType).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getFormBuilderData=function(formData){
+		var defer = $q.defer();
+		console.log(formData);
+		$http.post('/getFormBuilderData',formData).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "success successfully",
+			});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 })

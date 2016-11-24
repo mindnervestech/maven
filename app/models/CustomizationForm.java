@@ -113,6 +113,10 @@ public class CustomizationForm extends Model {
 	public static CustomizationForm findByLocationsAndType(Long location,String dataType) {
 		return find.where().eq("locations.id", location).eq("dataType", dataType).findUnique();
 	}
+
+	public static CustomizationForm findByLeadType(String value) {
+		return find.where().eq("dataType", value).findUnique();
+	}
 	
 	
 	

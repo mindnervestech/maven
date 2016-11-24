@@ -7793,27 +7793,30 @@ public class Application extends Controller {
     	for(CustomizationDataValue custD:custData){
     		mapCar.put(custD.keyValue, custD.value);
     		
-    		if(custD.displayGrid.equals("true")){
-    			//if(keyValueList.size() == 0){
-    				KeyValueDataVM keyValue = new KeyValueDataVM();
-            		keyValue.key = custD.keyValue;
-            		keyValue.value = custD.value;
-            		keyValue.displayGrid = custD.displayGrid;
-            		keyValue.formName = custD.formName;
-            		keyValueList.add(keyValue);
-    			//}else{
-            		/*for(KeyValueDataVM ks:keyValueList){
-    					if(!ks.equals(custD.keyValue)){
-    						KeyValueDataVM keyValue = new KeyValueDataVM();
-    	            		keyValue.key = custD.keyValue;
-    	            		keyValue.value = custD.value;
-    	            		keyValue.displayGrid = custD.displayGrid;
-    	            		keyValueList.add(keyValue);
-    					}
-    				}
-    			}*/
-    			
-    		}
+    			if(!custD.formName.equals("Create New Lead")){
+    				if(custD.displayGrid.equals("true")){
+    	    			KeyValueDataVM keyValue = new KeyValueDataVM();
+    	            	keyValue.key = custD.keyValue;
+    	            	keyValue.value = custD.value;
+    	            	keyValue.displayGrid = custD.displayGrid;
+    	            	keyValue.formName = custD.formName;
+    	            	keyValueList.add(keyValue);
+    	    		}
+    			}
+    		
+	    		
+	    		if(custD.formName != null){
+	    			if(custD.formName.equals("Create New Lead")){
+	    				KeyValueDataVM keyValue2 = new KeyValueDataVM();
+	            		keyValue2.key = custD.keyValue;
+	            		keyValue2.value = custD.value;
+	            		keyValue2.displayGrid = custD.displayGrid;
+	            		keyValue2.formName = custD.formName;
+	            		keyValueList.add(keyValue2);
+	    			
+		    		}
+	    		}
+	    		
     		
     	}
     	
@@ -7827,16 +7830,15 @@ public class Application extends Controller {
     	for(CustomizationDataValue custDat:custDataAll){
     		mapCar.put(custDat.keyValue, custDat.value);
     		if( custDat.formName != null){
-    		if(custDat.formName.equals("Create New Lead")){
-    			//if(keyValueList.size() == 0){
-    				KeyValueDataVM keyValue1 = new KeyValueDataVM();
-            		keyValue1.key = custDat.keyValue;
-            		keyValue1.value = custDat.value;
-            		keyValue1.displayGrid = custDat.displayGrid;
-            		keyValue1.formName = custDat.formName;
-            		keyValueListAll.add(keyValue1);
-    			
-    		}
+	    		if(custDat.formName.equals("Create New Lead")){
+	    				KeyValueDataVM keyValue1 = new KeyValueDataVM();
+	            		keyValue1.key = custDat.keyValue;
+	            		keyValue1.value = custDat.value;
+	            		keyValue1.displayGrid = custDat.displayGrid;
+	            		keyValue1.formName = custDat.formName;
+	            		keyValueListAll.add(keyValue1);
+	    			
+	    		}
     		}
     		
     	}

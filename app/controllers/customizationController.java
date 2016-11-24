@@ -1,6 +1,10 @@
 package controllers;
 
+import java.util.List;
+
+import models.CustomizationDataValue;
 import models.CustomizationForm;
+import models.LeadType;
 import models.Location;
 import play.Play;
 import play.data.DynamicForm;
@@ -9,6 +13,8 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import viewmodel.CreateFormVM;
+import viewmodel.KeyValueDataVM;
+import viewmodel.RequestInfoVM;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -118,5 +124,22 @@ public class customizationController extends Controller {
 		return ok(Json.toJson(cForm));
 	}
 	
-	
+	public static Result getFormBuilderData() {
+		
+		Form<RequestInfoVM> form = DynamicForm.form(RequestInfoVM.class).bindFromRequest();
+		RequestInfoVM vm = form.get();
+		System.out.println("test value");
+		for(KeyValueDataVM kValue:vm.customDataAll){
+			LeadType custForm = LeadType.findByName(kValue.value);
+			List<CustomizationDataValue> custData = CustomizationDataValue.findByKeyAndLeadType(kValue.key, custForm.id);
+			for(CustomizationDataValue cust:custData){
+				cust.setDisplayGrid(kValue.displayGrid);
+				cust.update();
+
+			}
+					
+		}
+		
+		return ok();
+	}
 }

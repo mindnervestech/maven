@@ -133,6 +133,9 @@ public class CustomizationDataValue extends Model {
 		return find.where().eq("keyValue", key).eq("leadId", leadId).findUnique();
 	}
 	
+	public static List<CustomizationDataValue> findByKeyAndLeadType(String key,Long leadType) {
+		return find.where().eq("keyValue", key).eq("leadType", leadType).findList();
+	}
 		
 		public static List<CustomizationDataValue> findByScheduler() {
 		return find.where().eq("schedule_email", 0).findList();

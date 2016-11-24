@@ -121,7 +121,31 @@ angular.module('newApp')
 				 console.log($scope.editform);
 				 apiserviceCustomizationForm.getLeadCrateForm($scope.editform).then(function(data){
 				  
-						});
+					 apiserviceCustomizationForm.getCustomizationform($routeParams.formType).then(function(response){
+						 $scope.josnData1 = angular.fromJson(response.jsonData);
+						 console.log($scope.josnData1);
+						 $scope.formListData=[];
+						 		angular.forEach($scope.josnData1, function(value1, key) {
+						 			$scope.formListData.push({
+			    		   	  			value:$routeParams.formType,
+			    		   	  			key:value1.key,
+			    		   	  			savecrm:value1.savecrm,
+			    		   	  			displayGrid:value1.displayGrid,
+			    		   	  		    displayWebsite:value1.displayWebsite,
+			    		   	  			
+			    					});
+						 			console.log($scope.formListData);
+						 		});
+						 		$scope.objBind = {};
+						 		$scope.objBind.customDataAll = $scope.formListData; 
+						 		apiserviceCustomizationForm.getFormBuilderData($scope.objBind).then(function(data){
+									 console.log(data);
+								 });
+					 });
+					 
+				});
+				 
+				 
 				 if(obj == "Lead"){
 					 $scope.getLeadTypeDataById($scope.leadId);
 				 }

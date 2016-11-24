@@ -154,6 +154,7 @@ GET		/getSalesPerson				controllers.CalendarController.getSalesPerson()
 
 POST  /getLeadCrateForm       controllers.customizationController.getLeadCrateForm()
 POST  /getLeadCrateFormTitle	  controllers.customizationController.getLeadCrateFormTitle()
+POST  /getFormBuilderData	  controllers.customizationController.getFormBuilderData()
 GET   /getCustomizationform/:type	  controllers.customizationController.getCustomizationform(type:String)
 POST  /saveNewEvent		  	      controllers.MyCalendarController.saveNewEvent()
 POST  /deleteEvent		  	      controllers.MyCalendarController.deleteEvent()
