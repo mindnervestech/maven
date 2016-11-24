@@ -946,6 +946,9 @@
                         if(form.component === "productType"){
                          	 formFields.push(getJsonBForproductType(form));
                          }
+                        if(form.component === "selectGroup"){
+                        	 formFields.push(getJsonBForselectGroup(form));
+                        }
                         
                         if(form.component === "multipleselect"){
                           	 formFields.push(getJsonBForMultipleselect(form));
@@ -1298,6 +1301,36 @@
                   return optionsArray;
                 }
                 
+                function getJsonBForselectGroup(jsonObject){
+                    var key;
+                    if(jsonObject.key === ""){
+                      key = jsonObject.label;
+                      key = key.replace(" ","_");
+                      key = key.toLowerCase();
+                    }else{
+                      key = jsonObject.key;
+                    }
+                    var properties = getPropertiesForEditable(jsonObject.editable);
+                    var options = [];
+                    options = getPropertiesForSelectOptions(jsonObject.options);
+                    var convertedObject = {
+                      "key": key,
+                      "type": jsonObject.component,
+                      "templateOptions": {
+                        "label": jsonObject.label,
+                        "options": options,
+                        "valueProp": "id",
+                        "labelProp": "label",
+                        "required": jsonObject.required
+                        },
+                        "expressionProperties": properties,
+                        "hideExpression" : function($viewValue, $modelValue, scope) {
+                          return isHideComponent(jsonObject);
+                        }
+                    }
+                    return convertedObject;
+
+                }
                 
                 function getJsonBForproductType(jsonObject){
                     var key;
@@ -1842,9 +1875,12 @@ angular.module('newApp').controller('customizationCtrl',
 			var date = new Date().getTime();
 	    	$http.get('/getAllProduct/'+"publish"+'/'+date).success(function(data) {
 				$scope.manufacturerslist = data; 
-				
-			
 			});
+	    	
+	    	$http.get('/getAllGroupList').success(function(data) {
+	    		$scope.grouplist = data;
+			});
+	    	
 	    	
 	    	$scope.selectLead = function(data){
 	    		/*$http.get('/getAllProductWise/'+"publish"+'/'+date+'/'+data).success(function(data) {

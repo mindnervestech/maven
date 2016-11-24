@@ -175,16 +175,38 @@ angular.module('newApp')
 			 $scope.editform.outcome = $scope.outcome;
 			 console.log($scope.editform);
 			 apiserviceCustomizationForm.getLeadCrateForm($scope.editform).then(function(data){
-			  
-					});
+				  
+				 apiserviceCustomizationForm.getCustomizationform($routeParams.formType).then(function(response){
+					 $scope.josnData1 = angular.fromJson(response.jsonData);
+					 console.log($scope.josnData1);
+					 $scope.formListData=[];
+					 		angular.forEach($scope.josnData1, function(value1, key) {
+					 			$scope.formListData.push({
+		    		   	  			value:$routeParams.formType,
+		    		   	  			key:value1.key,
+		    		   	  			savecrm:value1.savecrm,
+		    		   	  			displayGrid:value1.displayGrid,
+		    		   	  		    displayWebsite:value1.displayWebsite,
+		    		   	  			
+		    					});
+					 			console.log($scope.formListData);
+					 		});
+					 		$scope.objBind = {};
+					 		$scope.objBind.customDataAll = $scope.formListData; 
+					 		apiserviceCustomizationForm.getFormBuilderData($scope.objBind).then(function(data){
+								 console.log(data);
+							 });
+				 });
+				 
+			});
 		  }
 		  
 		  $scope.saveCreateLeadFormAddOuctcome = function(){
 			  var obj = localStorage.getItem('popupType');
 			  $scope.leadId = localStorage.getItem('leadId');
-			  if(obj == "Lead"){
+			 // if(obj == "Lead"){
 					 $scope.getLeadTypeDataById($scope.leadId);
-				 }
+				// }
 		  }
 		  
 		  $scope.getLeadTypeDataById = function(leadId){
@@ -192,6 +214,7 @@ angular.module('newApp')
 			  apiserviceCustomizationForm.getLeadTypeDataById(leadId).then(function(data){
 				  console.log(data);
 				  $scope.callAction = data;
+				  $scope.callAction.actionTitle = data.leadName;
 				  console.log($scope.callAction);
 				  console.log(data.callToAction);
 				  if(data.callToAction == true){
@@ -210,7 +233,7 @@ angular.module('newApp')
 		  $scope.onFileSelect = function($file){
 			  console.log($file[0]);
 			  logofile = $file;
-			  $upload.upload({
+			 /* $upload.upload({
 		 	         url : '/saveInternalPdf',
 		 	         method: 'POST',
 		 	         file:logofile,
@@ -224,8 +247,30 @@ angular.module('newApp')
 			  apiserviceCustomizationForm.getInternalPdfData().then(function(data){
 	  				$scope.internalPdfList=data;
 	  				console.log($scope.internalPdfList);
-	  			});
+	  			});*/
 		  }
+		  
+		  $scope.checkSaveDocCall = function(savedoc){
+				console.log(savedoc);
+				if(savedoc == false){
+					$upload.upload({
+			 	         url : '/saveCustomerPdf',
+			 	         method: 'POST',
+			 	         file:logofile,
+			 	      }).success(function(data) {
+			 	  			$.pnotify({
+			 	  			    title: "Success",
+			 	  			    type:'success',
+			 	  			    text: "pdf saved successfully",
+			 	  			});
+			 	  			apiserviceCustomizationForm.getCustomerPdfData().then(function(data){
+			 	  				$scope.customerPdfList=data;
+			 	  			});		
+			 	  			
+				
+			 	      });
+				}
+		}
 		  
 		  $scope.deleteInternalPdf = function(id) {
 			  apiserviceCustomizationForm.getInternalPdfDataById(id).then(function(data){
@@ -276,6 +321,9 @@ angular.module('newApp')
 					
 				 	      });
 					}
+			}
+			$scope.checkSaveDocCallTo = function(savedoc){
+				
 			}
 		  
 		  $scope.callActionId ={};
