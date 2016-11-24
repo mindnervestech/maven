@@ -464,7 +464,7 @@ float: right !important;
 									     <h4 class="col-sm-12"><b>MY STATISTICS</b></h4>
 									     <div class="col-sm-12" ng-if="userRole == 'Manager'">
 									     <!--  -->
-									     	<a style="cursor: pointer;font-size: 18px;" ng-click="locationOrPersonData('person')" ng-class="dataLocOrPerWise == 'person' ?'underline':''">Personal</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-click="locationOrPersonData('location')" ng-class="dataLocOrPerWise == 'location' ?'underline':''" style="cursor: pointer;font-size: 18px;">Business</a>
+									     	<a style="cursor: pointer;font-size: 18px;" ng-click="locationOrPersonData('person')" ng-class="dataLocOrPerWise == 'person' ?'underline':''">Personal</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-sec="Business Sales Statistics" ng-click="locationOrPersonData('location')" ng-class="dataLocOrPerWise == 'location' ?'underline':''" style="cursor: pointer;font-size: 18px;">Business</a>
 									     </div>
 									    </div> 
 									     <form ng-submit="checkDatewsie(startDate,endDate)">
@@ -556,8 +556,8 @@ float: right !important;
 		                </div>
 	            </div> 
 	            <button class="btn btn-default col-sm-12 panel-stat" style="background: #ffffff; height:89px; color: #319DB5;text-align: center;padding: 3px;margin-left: 8px;border-style: solid;border-width: 1px;" ng-click="openCreateNewLeadPopup();" ng-if="userRole != 'General Manager'"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>CREATE LEAD</button>
-        	<button class="btn btn-default col-sm-12 panel-stat" style="background: #ffffff; height:89px; color: #319DB5;text-align: center;margin-left: 8px;border-style: solid;border-width: 1px;" ng-click="openNeweeting()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>MEETING</button>
-        	<button class="btn btn-default col-sm-12 panel-stat" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:89px; color: #319DB5;text-align: center;margin-left: 8px;border-style: solid;border-width: 1px;" ng-click="openPlanning()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>PLAN</button>
+        	<button ng-sec = "Invite Other Users to Meetings" class="btn btn-default col-sm-12 panel-stat" style="background: #ffffff; height:89px; color: #319DB5;text-align: center;margin-left: 8px;border-style: solid;border-width: 1px;" ng-click="openNeweeting()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>MEETING</button>
+        	<button ng-if="perName == 'Assing Plan to other Sales Person' || perName=='Assign Plan to the business'" class="btn btn-default col-sm-12 panel-stat" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:89px; color: #319DB5;text-align: center;margin-left: 8px;border-style: solid;border-width: 1px;" ng-click="openPlanning()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>PLAN</button>
 	</div>
 	</div>
 	
@@ -765,7 +765,7 @@ float: right !important;
       </div>
 	
 	<div class="col-sm-12" ng-if="userRole == 'General Manager' ||userRole == 'Sales Person' ||userRole == 'Manager'"style="padding-left: 0px;padding-right: 0px">
-     	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+     	<div ng-sec="Quick Inventory Statistics" class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 					
 							
 							<div class="row">
@@ -912,7 +912,7 @@ float: right !important;
         
 	</div>
 	
-	 <div class="col-sm-12" ng-if="userRole == 'General Manager' || userRole == 'Manager'" style=" padding: 0px;">
+	 <div ng-sec="Top Sales People" class="col-sm-12" ng-if="userRole == 'General Manager' || userRole == 'Manager'" style=" padding: 0px;">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 			   <!--  <ul id="myTabs" class="nav nav-tabs" role="tablist">
 			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="salesStats()">Top and Least Sales Representatives</button></a></li>
@@ -2116,15 +2116,16 @@ float: right !important;
                           <div class="col-sm-12" ng-if="nextbutton == 0">
                             <div class="form-group">
                              <div class="row">
-							  <div class="image col-sm-6" ng-click="getLocation(0)">
-							  <img  style="margin-top: 7px;width: 450px;height: 400PX;"  
+							  <div ng-sec ="Assign Plan to the business" class="image col-sm-6" ng-click="getLocation(0)">
+							  
+							  <img ng-class="perName == 'Assign Plan to the business' && test.length ==1 ? 'imageWidth' : 'realImageWidth'" style="margin-top: 7px;height: 400PX;"  
 								src="../../../assets/global/images/location (1).jpg">  <h2 style="font-size: 30px" >Business </h2>
 								</img>
 								
 							  </div>
-							  
-							  <div class="image col-sm-6" ng-click="getSalePersonData()" id="pln">
-							  <img  style="margin-top: 7px;width: 450px;height: 400PX;"  src="../../../assets/global/images/sales-persons.jpg"  > <h2  style="font-size: 30px" > Salesperson</h2>
+							  <div  ng-sec="Assing Plan to other Sales Person" class="image col-sm-6" ng-click="getSalePersonData()" id="pln">
+							  <img ng-class="perName == 'Assing Plan to other Sales Person' && test.length ==1 ? 'imageWidth' : 'realImageWidth'" style="margin-top: 7px;height: 400PX;" 
+							   src="../../../assets/global/images/sales-persons.jpg"> <h2 style="font-size: 30px" > Salesperson</h2>
 							 </img>
 							  </div>
 							  </div>
@@ -4528,11 +4529,11 @@ float: right !important;
      </div>
 </div>
 
-<div>
+<div ng-sec="Quick Website Analytics Data">
 <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 					
 							
-		<div class="row">
+		<div class="row" >
 							
 		<div class="col-md-12">			            	
 							        							        	    		
@@ -9571,5 +9572,11 @@ h2 {
 	 .pac-container{
 		z-index:2000;
 	} 
+	.imageWidth{
+		width:940px;
+}
+	.realImageWidth{
+	width:450px;
+}
 	
 </style>	

@@ -59,6 +59,38 @@
                
             })
             
+            $http.get('/getAllPermissionData')
+            .success(function(data){
+			console.log(data);
+			angular.forEach(data, function(value, key) {
+				 if(value.name == "Leads"){
+        			$scope.perName = "/configuration";
+        		}
+				else if(value.name == "Emails"){
+        			$scope.perName = "/newsLetter";
+        		}
+        		else if(value.name == "Documentation"){
+        			$scope.perName = "/documentation";
+        		}
+        		else if(value.name == "Marketing"){
+        			$scope.perName = "/socialMedia";
+        		}
+        		else if(value.name == "Domain"){
+        			$scope.perName = "/domainDetails";
+        		}
+        		else if(value.name == "Forms"){
+        			$scope.perName = "/form";
+        		}
+        		else if(value.name == "Website Analytic"){
+        			$scope.perName = "/webAnalytics";
+        		}
+        	});
+			console.log($scope.perName);
+			$scope.permissionValue = data;
+			
+		    });
+            
+            
             $http.get('/getSalesUserValue')
             .success(function(data){
 			console.log(data);
@@ -128,7 +160,6 @@
             $scope.leadCount = function(){
             	$scope.leadData={};
                 $http.get('/getLeadInfo').success(function(data,status, headers, config){
-                	console.log(data);
                 	$scope.leadData=data;
                 	$scope.notifLength=0;
                 	angular.forEach(data, function(value, key) {

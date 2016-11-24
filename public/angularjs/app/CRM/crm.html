@@ -13,7 +13,7 @@
     	
     		<div ng-if="userRole != 'General Manager'">
 	    		<form class="row" style="margin-left:20%;" ng-submit="saveContactsFile()">
-	    		<a class="btn btn-primary"  ng-click="addGroupPopUp()">Groups</a>
+	    		<a ng-sec="Manage Groups" class="btn btn-primary"  ng-click="addGroupPopUp()">Groups</a>
 					<input type="file" name="contactsFile" accept=".csv" ng-file-select="onCsvFileSelect($files)" style="float:left;" required><button type="submit" class="btn btn-primary">Import Contacts</button>
 					<label ng-show="showProgress" style="float:left;">Progress : {{progress}}</label>
 					<a class="btn btn-primary"  ng-click="exportCsvPop()">Export CSV</a>

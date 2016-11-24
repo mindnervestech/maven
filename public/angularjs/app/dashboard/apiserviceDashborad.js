@@ -1507,7 +1507,13 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	
+	this.getAllPermissionData = function(){
+		var defer = $q.defer();
+		$http.get('/getAllPermissionData').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 	
 	
 	

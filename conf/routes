@@ -454,6 +454,7 @@ GET     /getSalePerson/:month			controllers.Application.getSalePerson(month:Stri
 GET     /getSaleMonthlyPlan/:saleId				controllers.Application.getSaleMonthlyPlan(saleId:Integer)
 GET     /saveLocationTotal/:total/:locationId  					controllers.Application.saveLocationTotal(total:String,locationId:Long)
 GET		/getAllCanceledLeads			controllers.Application.getAllCanceledLeads()
+GET		/getAllPermissionData			controllers.Application.getAllPermissionData()
 GET		/getAllCanceledLeads/:id			controllers.Application.getAllCanceledLeadsById(id:Integer)
 GET		/getSalesUserOnly/:locationValue				controllers.Application.getSalesUserOnly(locationValue:Long)
 GET     /getSalesUserValue				controllers.CustomersRequestController.getSalesUserValue()

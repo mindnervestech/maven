@@ -25,6 +25,7 @@ import models.GroupTable;
 import models.Location;
 import models.MailchimpList;
 import models.MailchimpSchedular;
+import models.Permission;
 import models.PhotographerHoursOfOperation;
 import play.Play;
 import play.data.DynamicForm;
@@ -760,13 +761,25 @@ public class CrmController extends Controller {
 	    	} else {
 	    		AuthUser userObj = (AuthUser) getLocalUser();
 	    		List<ContactsVM> contactsVMList = new ArrayList<>();
-	    		List<Contacts> contactsList;
-	    		if(userObj.role.equalsIgnoreCase("General Manager")){
-	    			contactsList = Contacts.getAllContacts();
-	    		}else if(userObj.role.equalsIgnoreCase("Manager")){
-	    			contactsList = Contacts.getAllContactsByLocation(Long.valueOf(session("USER_LOCATION")));
-	    		}else{
-	    			contactsList = Contacts.getAllContactsByUser(userObj.id);
+	    		List<Contacts> contactsList = null;
+	    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+	    		List<Permission> userPermissions = userObj.getPermission();
+	    		for(Permission per: userPermissions) {
+	    			//permission.put(per.name, true);
+	    			System.out.println("permission name"+per.name);
+	    			if(per.name.equals("Manage Own Contacts data base")){
+		    				if(userObj.role.equalsIgnoreCase("General Manager")){
+		    	    			contactsList = Contacts.getAllContacts();
+		    	    		}else if(userObj.role.equalsIgnoreCase("Manager")){
+		    	    			contactsList = Contacts.getAllContactsByLocation(Long.valueOf(session("USER_LOCATION")));
+		    	    		}else{
+		    	    			contactsList = Contacts.getAllContactsByUser(userObj.id);
+		    	    		}
+	    			}
+	    			else if(per.name.equals("Access to the Whole Contacts data base")){
+	    				contactsList = Contacts.getAllContacts();                            
+	    			}
+	    		
 	    		}
 	    		
 	    		for(Contacts contact : contactsList) {
@@ -824,6 +837,8 @@ public class CrmController extends Controller {
 	    			}
 	    			contactsVMList.add(vm);
 	    		}
+	    		
+	    	
 	    		return ok(Json.toJson(contactsVMList));
 	    	}
 		}

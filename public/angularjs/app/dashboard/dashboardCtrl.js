@@ -128,6 +128,20 @@ angular.module('newApp')
 	 		$scope.topLocations('Week');
 	 	}
 	});
+	$scope.test=[];
+	apiserviceDashborad.getAllPermissionData().then(function(data){
+			angular.forEach(data, function(value, key) {
+				if(value.name == "Assign Plan to the business"){
+					$scope.perName = value.name;
+					$scope.test.push(value.name);
+				}
+				else if(value.name == "Assing Plan to other Sales Person"){
+					$scope.perName = value.name;
+					$scope.test.push(value.name);
+				}
+			});
+			console.log($scope.perName);
+	});
 	
 	$scope.$on("selectLeadDashbord", function(event,data){
            

@@ -22463,6 +22463,20 @@ private static void salesPersonPlanMail(Map map) {
 		}
 		return ok("false");
 	}
+	
+	
+	public static Result getAllPermissionData(){
+		AuthUser userObj = (AuthUser) getLocalUser();
+		List<PermissionVM> permisVMList = new ArrayList<>();
+		List<Permission> permission = userObj.getPermission();
+		for (Permission per : permission) {
+			PermissionVM vm = new PermissionVM();
+			vm.name = per.name;
+			permisVMList.add(vm);
+		}
+		return ok(Json.toJson(permisVMList));
+	}
+	
 	public static Result getTrimList(String model){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
