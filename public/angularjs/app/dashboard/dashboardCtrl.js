@@ -1760,6 +1760,22 @@ angular.module('newApp')
 																					               }
 																					         	} ,
 																					      },
+																					      { name: 'phone', displayName: 'Phone', width:'10%',cellEditableCondition: false,
+																						     	cellTemplate:'<a>{{row.entity.phone}}</a> ',
+																						     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+																						     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+																						                return 'red';
+																						            }
+																						      	} ,
+																						      },
+																						      { name: 'custZipCode', displayName: 'ZipCode', width:'10%',cellEditableCondition: false,
+																							     	cellTemplate:'<a>{{row.entity.custZipCode}}</a> ',
+																							     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+																							     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+																							                return 'red';
+																							            }
+																							      	} ,
+																							      },   
 																					     	
 																					      { name: 'email', displayName: 'Email', width:'10%',cellEditableCondition: false,
 																					     	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
@@ -8949,6 +8965,16 @@ angular.module('newApp')
 		                         }
 		                   	} ,
 		                    });
+						
+						$scope.gridOptions13.columnDefs.push({ name: 'custZipCode', displayName: 'ZipCode', width:'10%',cellEditableCondition: false,
+						     	cellTemplate:'<a>{{row.entity.custZipCode}}</a> ',
+						     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+						     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+						                return 'red';
+						            }
+						      	} ,
+						      });   
+						
 						$scope.gridOptions13.columnDefs.push({ name: 'requestDate', displayName: 'Date Added', width:'5%',cellEditableCondition: false,
 		                   	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.requestDate}}</a> ',
 		                           	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {

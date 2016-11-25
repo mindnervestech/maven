@@ -36,7 +36,7 @@ angular.module('app.apiserviceMoreInfo', [])
 	this.getAllOtherLeadInfo=function(leadId){
 		var defer = $q.defer();
 		
-		$http.get('/getAllOtherLeadInfo/'+leadId).success(function(data) {
+		$http.get('/getAllOtherLeadInfoRequ/'+leadId).success(function(data) {
 			defer.resolve(data);
 		});
 

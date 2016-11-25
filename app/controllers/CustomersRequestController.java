@@ -169,8 +169,101 @@ public class CustomersRequestController extends Controller {
 		    		
 		    		if(lType != null){
 		    			vm.showOnWeb = lType.shows;
-		    				if(vm.showOnWeb == 1 && vm.callToAction == true){
+		    				//if(vm.showOnWeb == 1 && vm.callToAction == true){
 			    				Application.findCustomeData(info.id,vm,Long.parseLong(leadId));
+			    			//}
+		    			
+		    			
+		    		}
+		    		//Application.findCustomeData(info.id,vm,Long.parseLong(leadId));
+		    		infoVMList.add(vm);
+		    	}
+		    	
+		    	return ok(Json.toJson(infoVMList));
+	    	}	
+	    }	
+
+	  
+	  public static Result getAllOtherLeadInfoRequ(String leadId) {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+	    		//Long.valueOf(session("USER_LOCATION"))
+		    	AuthUser user = (AuthUser) getLocalUser();
+		    	List<RequestMoreInfo> listData = new ArrayList<>();
+		    	if(user.role == null || user.role.equals("General Manager")) {
+	    			listData = RequestMoreInfo.findAllOtherLeadIdWise(leadId);
+	    		} else {
+	    			if(user.role.equals("Manager")) {
+	    				listData = RequestMoreInfo.findAllLocationAndOtherLeadDataManager(Long.valueOf(session("USER_LOCATION")),leadId);
+	    			} else {
+	    				//listData = RequestMoreInfo.findAllByDate();
+	    				listData = RequestMoreInfo.findAllLocationAndOtherLeadData(Long.valueOf(session("USER_LOCATION")),leadId);
+	    			}
+	    		}
+		    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+		    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		    	for(RequestMoreInfo info: listData) {
+		    		RequestInfoVM vm = new RequestInfoVM();
+		    		vm.id = info.id;
+		    		AddProduct productInfo = AddProduct.findById(Long.parseLong(info.productId));
+		    		vm.productId = info.productId;
+		    		if(productInfo != null) {
+		    			vm.title = productInfo.title;
+		    			vm.price = (int) productInfo.price;
+		    			vm.description = productInfo.description;
+		    			/*vm.cost = String.valueOf(productInfo.cost);
+		    			AddCollection aCollection = AddCollection.findById(productInfo.collection.id);
+		    			vm.collectionName = aCollection.title;*/
+		    			ProductImages pImage = ProductImages.findDefaultImg(productInfo.id);
+		        		if(pImage!=null) {
+		        			vm.imgId = pImage.getId().toString();
+		        		}
+		        		else {
+		        			vm.imgId = "/assets/images/no-image.jpg";
+		        		}
+		    		}
+		    		vm.name = info.name;
+		    		vm.phone = info.phone;
+		    		vm.email = info.email;
+		    		vm.howContactedUs = info.contactedFrom;
+		    		vm.howFoundUs = info.hearedFrom;
+		    		vm.custZipCode = info.custZipCode;
+		    		vm.requestDate = df.format(info.requestDate);
+		    		vm.userRole = user.role;
+		    		vm.premiumFlagForSale = user.premiumFlag;
+		    		if(info.assignedTo == null) {
+		    			vm.status = "Unclaimed";
+		    		} else {
+			    		if(info.assignedTo != null && info.status == null) {
+			    			vm.status = "In Progress";
+			    		} else {
+			    			vm.status = info.status;
+			    		}
+		    		}
+		    		if(info.assignedTo != null) {
+		    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
+		    		}
+		    		
+		    		if(info.isRead == 0) {
+		    			vm.isRead = false;
+		    		}
+		    		
+		    		if(info.isRead == 1) {
+		    			vm.isRead = true;
+		    		}
+		    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));
+		    		if(lType != null){
+		    			vm.showOnWeb = lType.shows;
+		    			vm.callToAction = lType.callToAction;
+		    			vm.typeOfLead = lType.leadName;
+		    			vm.leadId = lType.id;
+		    		}
+		    		
+		    		if(lType != null){
+		    			vm.showOnWeb = lType.shows;
+		    				if(vm.showOnWeb == 1 && vm.callToAction == true){
+			    				Application.findCustomeDataRequest(info.id,vm,Long.parseLong(leadId));
 			    			}
 		    			
 		    			
@@ -182,7 +275,6 @@ public class CustomersRequestController extends Controller {
 		    	return ok(Json.toJson(infoVMList));
 	    	}	
 	    }	
-	  
 	  
 	  public static Result getAllSalesPersonOtherLead(Integer id){
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -269,9 +361,9 @@ public class CustomersRequestController extends Controller {
 		    		
 		    		if(lType != null){
 		    			vm.showOnWeb = lType.shows;
-		    				if(vm.showOnWeb == 1 && vm.callToAction == true){
+		    				//if(vm.showOnWeb == 1 && vm.callToAction == true){
 			    				Application.findCustomeData(info.id,vm,lType.id);
-			    			}
+			    			//}
 		    			
 		    			
 		    		}
