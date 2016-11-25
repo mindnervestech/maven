@@ -402,6 +402,12 @@ angular.module('newApp')
 				 if ((obj.name == "My Profile") || (obj.name == "Inventory") || (obj.name == "Dashboard")) {
 					 $scope.permission.push(obj.name);
 					 obj.isSelected = true;
+					 angular.forEach(obj.childData, function(obj1, index1){
+						 if(obj1.isSelected == false){
+							 obj1.isSelected = true;
+							 $scope.permission.push(obj1.name);
+						 }
+					 });
 			    };
 			  });
 		}else if(type == "Front Desk"){
@@ -409,6 +415,12 @@ angular.module('newApp')
 				 if ((obj.name == "My Profile") || (obj.name == "Dashboard")) {
 					 $scope.permission.push(obj.name);
 					 obj.isSelected = true;
+					 angular.forEach(obj.childData, function(obj1, index1){
+						 if(obj1.isSelected == false){
+							 obj1.isSelected = true;
+							 $scope.permission.push(obj1.name);
+						 }
+					 });
 			    };
 			  });
 		}
