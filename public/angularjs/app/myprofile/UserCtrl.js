@@ -525,6 +525,20 @@ angular.module('newApp')
 	$scope.rolesClicked = function(e, rolePer,value){
 		console.log(rolePer);
 		console.log(value);
+		console.log(rolePer.childData);
+		angular.forEach(rolePer.childData, function(obj, index){
+			if(value == false){
+				obj.isSelected = true;
+			}
+			else if(value == true){
+				obj.isSelected = false;
+			}
+			if(obj.isSelected == true){
+				$scope.permission.push(obj.name);
+			}else{
+				$scope.deleteItem(obj);
+			}
+		});
 		if(value == false){
 			$scope.permission.push(rolePer.name);
 		}else{
@@ -536,10 +550,10 @@ angular.module('newApp')
 		angular.forEach($scope.permission, function(obj, index){
 			 if ((rolePer.name == obj)) {
 				 $scope.permission.splice(index, 1);
-				 if ((rolePer.name == obj)) {
+				 /*if ((rolePer.name == obj)) {
 					 $scope.permission.splice(index, 1);
 			       	return;
-			    };
+			    };*/
 		       	return;
 		    };
 		  });
