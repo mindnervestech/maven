@@ -4232,6 +4232,8 @@ angular.module('newApp')
 	    				$scope.leadList = response; 
 	    			
 	    			});	
+	    			
+	    			$scope.customData = {};
 	    			apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
 	    			
 	    				console.log(response);
@@ -4710,7 +4712,7 @@ angular.module('newApp')
 		    						notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><h4 class='alert-title f-14' id='cnt'>1 New Lead Assigned</h4><p class='row' style='margin-left:0;'><span style='color: #319DB5;font-weight: bold;'>INFO: </span><span>"+$scope.leadNotification.make+" "+$scope.leadNotification.model+" "+$scope.leadNotification.name+"</span></p><p class='row' style='margin-left:0;'><span style='color: #319DB5;font-weight: bold;'>TYPE: </span><span>"+$scope.leadNotification.leadType+"</span></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>See the Leads&nbsp;<i class='glyphicon glyphicon-download'></i></a></p></div></div>";		    						
 		    					}
 		    				} else {
-		    					notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">'+$scope.leadCount+' New Leads Assigned</h4><p class="pull-left" style="margin-left:65%;"><a class="f-12">See the Leads&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>';
+		    					/*notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">'+$scope.leadCount+' New Leads Assigned</h4><p class="pull-left" style="margin-left:65%;"><a class="f-12">See the Leads&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>';*/
 		    				}
 		    				var position = 'topRight';
 			    	        if ($('body').hasClass('rtl')) position = 'topLeft';
@@ -4731,7 +4733,7 @@ angular.module('newApp')
 			    	                onCloseClick: function () {
 			    	                	$('html, body').animate({scrollTop:1660}, 'slow'); // changed from 480 to 1660 for show myleads grid
 			    	                	
-			    	                	if($scope.leadNotification.premiumFlag == 0 && $scope.leadNotification.premiumFlag != null){
+			    	                	//if($scope.leadNotification.premiumFlag == 0 && $scope.leadNotification.premiumFlag != null){
 			    	                		/*if($scope.leadNotification.leadType == 'Schedule Test'){
 			    	                			$scope.testDrive();
 					    	                	$('#test-drive-tabSched').click();
@@ -4761,7 +4763,7 @@ angular.module('newApp')
 				    	                			}
 				    	                		}
 			    	                		}*/
-			    	                	}
+			    	                	//}
 			    	                }
 			    	            }
 			    	        });
@@ -8839,6 +8841,8 @@ angular.module('newApp')
 		   $scope.AllOtherLeadSeenList = [];
 		   
 		   $scope.otherLeadId = function(leads){
+			   
+		  		$scope.gridOptions13.data = {};
 			   $scope.gridOptions13.columnDefs = [];
 			   $scope.AllOtherLeadSeenList = [];
 			   console.log("change");
@@ -8852,7 +8856,7 @@ angular.module('newApp')
 	        	$scope.showLeadsV = false;
 	        	$scope.cancelleads = false;
 	        	$scope.contact = false;
-	        	
+	        	$scope.gridMapObect = [];
 	        	
 	        	var leadInfo = "";
 	        	angular.forEach($scope.otherLead,function(value,key){
@@ -8862,6 +8866,11 @@ angular.module('newApp')
 	    				leadInfo = value.typeOfLead;
 	        		}
 	        	});
+	        	
+	//        	if($scope.AllOtherLeadSeenList.length <= 0){
+	      
+	  //      	}
+	        	console.log($scope.josnData);
 	        	$scope.josnData1 = null;
 	        	$scope.josnData1 = angular.copy($scope.josnData);
 	        	console.log(leadInfo);
@@ -8873,7 +8882,7 @@ angular.module('newApp')
 		   					
 		   					console.log("0------------------------------------0");
 		   		        	console.log($scope.josnData1);
-		   	        	$scope.gridMapObect = [];
+		   	        	
 		   				var findFlag = 0;
 		   				angular.forEach($scope.AllOtherLeadSeenList,function(value,key){
 		   					if(findFlag == 0){
@@ -8890,8 +8899,6 @@ angular.module('newApp')
 		   					}
 		   				});
 		   		        
-		   				console.log("0-----------------777-------------------0");
-			        	console.log($scope.gridMapObect);
 						angular.forEach($scope.AllOtherLeadSeenList,function(value,key){
 							angular.forEach($scope.gridMapObect,function(value1,key1){
 								var name = value1.key;

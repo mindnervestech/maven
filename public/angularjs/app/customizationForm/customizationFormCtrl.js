@@ -24,15 +24,11 @@ angular.module('newApp')
 			   apiserviceCustomizationForm.getCustomizationform($routeParams.formType).then(function(response){
 				   $scope.outcome = [];
 					console.log(response);
-					/*var arr = [];
-		  			   arr = response.outcome.split('-');
-		  			   for(var i=0;i<arr.length;i++){
-		  				 $scope.outcome.push(arr[i]);
-		  			   }*/
-					//$scope.outcome = "["+response.outcome+"]";
-					//$scope.outcome = angular.fromJson("["+response.outcome+"]");
-				//	console.log($scope.outcome);
+				//	$builder.forms['default'] = [];
+					//console.log($builder.forms['default']);
+					
 					if(response == 0){
+						
 						$scope.setjson = null;
 						$scope.setjson.jsonData = null;
 						$scope.initComponent = null;
