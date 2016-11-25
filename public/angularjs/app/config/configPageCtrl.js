@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$upload','$routeParams','apiserviceConfigPage', function ($scope,$http,$location,$filter,$upload,$routeParams,apiserviceConfigPage) {
+.controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$upload','$routeParams','apiserviceConfigPage','$window', function ($scope,$http,$location,$filter,$upload,$routeParams,apiserviceConfigPage,$window) {
 	$scope.premium = {};
 	
 	
@@ -233,6 +233,7 @@ angular.module('newApp')
 	}
 	
 	$scope.ShowCreateNewForm = function(row){
+		$window.location.reload();
 		localStorage.setItem('popupType','Form');
 		console.log(row);
 		if(row.entity.name == "Create Lead"){
@@ -335,12 +336,14 @@ angular.module('newApp')
 			});
 		}
 		$scope.ShowFormBuilderSave = function(row){
+			$window.location.reload();
 			$location.path('/otherForm/'+"save"+"/"+row.leadName);
 		}
 		$scope.ShowFormBuilder = function(row){
 			localStorage.setItem('popupType','Lead');
 			console.log(row);
 			console.log(row.leadName);
+			$window.location.reload();
 			if(row.leadName == "Create Lead"){
 				$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create Lead');
 			}else
@@ -460,6 +463,7 @@ angular.module('newApp')
 				$scope.form = data;
 				$("#completedPopup").modal('hide');
 				 $scope.allFormName();
+				 
 				});
 			}
 			
