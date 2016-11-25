@@ -719,7 +719,7 @@ public class CrmController extends Controller {
 	    		for (GroupTable gr : groupList) {
 	    			GroupVM vm = new GroupVM();
 		    		List<Contacts> conList = new ArrayList<>();
-	    			if(gr.name.equalsIgnoreCase("default"))
+	    			if(gr.name.equalsIgnoreCase("Undefined"))
 	    				conList= Contacts.findByDefault(gr);
 	    			else
 	    				conList= Contacts.findByGroup(gr);
@@ -837,8 +837,6 @@ public class CrmController extends Controller {
 	    			}
 	    			contactsVMList.add(vm);
 	    		}
-	    		
-	    	
 	    		return ok(Json.toJson(contactsVMList));
 	    	}
 		}
@@ -1029,7 +1027,7 @@ public class CrmController extends Controller {
 		   		return ok(home.render("",userRegistration));
 		   	} else {
 		   	  GroupTable gTable = GroupTable.findById(groupId);
-		   	  GroupTable defaultGr = GroupTable.findByName("Default");
+		   	  GroupTable defaultGr = GroupTable.findByName("Undefined");
 		   	  List<Contacts> grCon = Contacts.findByGroup(gTable);
 		   	  for (Contacts con : grCon) {
 				con.setGroups(defaultGr);

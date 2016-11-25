@@ -8854,29 +8854,6 @@ angular.module('newApp')
 	        	$scope.contact = false;
 	        	
 	        	
-	        	
-	        	
-	        	/*apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
-   					$scope.josnData = angular.fromJson(response.jsonData);
-   					
-   				});
-*/				/*console.log($scope.getAllListLeadDate);
-				var findFlag = 0;
-   				angular.forEach($scope.getAllListLeadDate,function(value,key){
-					if(findFlag == 0){
-						angular.forEach(value.customDataAll,function(value1,key1){
-							angular.forEach($scope.josnData,function(value2,key2){
-	       						if(value1.key == value2.key){
-	       							$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
-        							findFlag = 1;
-        							
-    							}
-	       					});
-							
-							
-						});
-					}
-				});*/
 	        	var leadInfo = "";
 	        	angular.forEach($scope.otherLead,function(value,key){
 	        		
@@ -8927,7 +8904,7 @@ angular.module('newApp')
 								});
 							});
 						});	
-						$scope.gridOptions13.columnDefs = [];
+				//		$scope.gridOptions13.columnDefs = [];
 						$scope.gridOptions13.data = $scope.AllOtherLeadSeenList;
 						
 						

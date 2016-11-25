@@ -765,7 +765,27 @@ public class ConfigPagesController extends Controller{
 		 
 		 public static Result getLeadTypeDataById(Long id) {
 				LeadType  leadData = LeadType.findById(id);
-				return ok(Json.toJson(leadData)); 
+				LeadTypeVM vm = new LeadTypeVM();
+				if(leadData != null){
+					
+					vm.id = leadData.id;
+					vm.leadName = leadData.leadName;
+					//vm.checkValue = leadData.
+					vm.profile = leadData.profile;
+					vm.callToAction = leadData.callToAction;
+					vm.actionTitle = leadData.actionTitle;
+					vm.actionOutcomes = leadData.actionClientPdf;
+					vm.actionClientPdf = leadData.actionClientPdf;
+					vm.maunfacturersIds = leadData.maunfacturersIds;
+					vm.confirmationMsg = leadData.confirmationMsg;
+					CustomizationForm cForm = CustomizationForm.findByLeadType(leadData.leadName);
+					if(cForm != null){
+						vm.systemOutcome = cForm.outcome;
+					}
+				}
+				
+				
+				return ok(Json.toJson(vm)); 
 			}
 		 public static Result UpdateLeadType() {
 				Form<LeadTypeVM> form = DynamicForm.form(LeadTypeVM.class).bindFromRequest();

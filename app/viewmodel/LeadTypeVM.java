@@ -15,5 +15,7 @@ public class LeadTypeVM {
 	public String outcome;
 	public String maunfacturersIds;
 	public String confirmationMsg;
+	public String systemOutcome;
 
+	
 }

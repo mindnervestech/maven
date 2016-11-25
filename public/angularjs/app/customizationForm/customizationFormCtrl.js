@@ -195,6 +195,7 @@ angular.module('newApp')
 					 		$scope.objBind.customDataAll = $scope.formListData; 
 					 		apiserviceCustomizationForm.getFormBuilderData($scope.objBind).then(function(data){
 								 console.log(data);
+								 $location.path('/configuration');
 							 });
 				 });
 				 
@@ -213,6 +214,35 @@ angular.module('newApp')
 			  console.log(leadId);
 			  apiserviceCustomizationForm.getLeadTypeDataById(leadId).then(function(data){
 				  console.log(data);
+				  var arr = [];
+				  var arr1 = [];
+				  if(data.actionOutcomes != null){
+					  arr = data.actionOutcomes.split(',');
+					  for(var i=0;i<arr.length;i++){
+						  angular.forEach($scope.callActionsList, function(obj, index){
+							  if(obj.name == arr[i]){
+								  obj.isSelected = true;
+							  }
+						  });
+					  }
+				  }
+				  console.log($scope.outcomemenu);
+				  
+				  if(data.systemOutcome != null){
+					  arr1 = data.systemOutcome.split(',');
+					  for(var i=0;i<arr1.length;i++){
+						  angular.forEach($scope.outcomemenu, function(obj, index){
+							  if(obj.id == arr1[i]){
+								  obj.isSelected = true;
+							  }
+						  });
+					  }
+				  }
+				  
+				  console.log("checkkkkkkkkkkkkk");
+				  console.log($scope.callActionsList);
+				  console.log($scope.outcomemenu);
+				  
 				  $scope.callAction = data;
 				  $scope.callAction.actionTitle = data.leadName;
 				  console.log($scope.callAction);
@@ -336,7 +366,7 @@ angular.module('newApp')
 			 $scope.callAction.outcome = $scope.actions.toString(); 
 			 if(logofile == undefined){
 				 apiserviceCustomizationForm.saveLeadFormPopup($scope.callAction).then(function(data){
-				 
+					 $location.path('/configuration');
 				 });
 			 }else if(logofile != undefined){
 				 $upload.upload({
@@ -346,15 +376,18 @@ angular.module('newApp')
 		            data:$scope.callAction
 		         }).success(function(data) {
 		   			console.log(data);
+		   			$location.path('/configuration');
 		   			$.pnotify({
 					    title: "Success",
 					    type:'success',
 					    text: "Your Progress has been Saved",
 					});		   			
 		   		 });
+				 
 				}
+			 
 			 $("#completedPopup").modal('hide');
-			 $location.path('/configuration');
+			 
 		 }
 		  
 		  $scope.editLeadInfo = function(title){
