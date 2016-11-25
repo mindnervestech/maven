@@ -49,6 +49,9 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
+import com.tinify.Source;
+import com.tinify.Tinify;
+
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -70,6 +73,9 @@ public class MyProfileController extends Controller{
 
 	final static String rootDir = Play.application().configuration()
 			.getString("image.storage.path");
+	
+	final static String tinifyKey = Play.application().configuration()
+			.getString("tinifyKey");
 	
 	final static String pdfRootDir = Play.application().configuration()
 			.getString("pdfRootDir");
@@ -196,6 +202,8 @@ public class MyProfileController extends Controller{
 		    	mProfile.setPhone(vm.locationphone);
 		    	mProfile.setLocations(Location.findById(loc.id));
 		    	mProfile.save();
+		    	Tinify.setKey(tinifyKey);
+    	    	Source source;
 		    	
 		    	 MultipartFormData body = request().body().asMultipartFormData();
 		    	   if(body != null) {
@@ -215,6 +223,13 @@ public class MyProfileController extends Controller{
 			    	    		location.setImageName(fileName);
 			    	    		location.update();	
 			    	    		
+		        	    		try {
+									source = Tinify.fromFile(filePath);
+									source.toFile(filePath);
+									
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
 			    	  } catch (FileNotFoundException e) {
 			  			e.printStackTrace();
 				  		} catch (IOException e) {
@@ -318,6 +333,8 @@ public class MyProfileController extends Controller{
 		    		   userObj.save();
 		    	   //}
 		    	   
+		    		   Tinify.setKey(tinifyKey);
+   	    	    	Source source;
 		    	   MultipartFormData body = request().body().asMultipartFormData();
 		    	   
 		    	   if(!vm.mi.equals("true")){
@@ -337,6 +354,14 @@ public class MyProfileController extends Controller{
 			    	    		user.setImageUrl("/"+user.id+"/"+"userPhoto"+"/"+fileName);
 			    	    		user.setImageName(fileName);
 			    	    		user.update();	
+			    	    		
+		        	    		try {
+									source = Tinify.fromFile(filePath);
+									source.toFile(filePath);
+									
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
 			    	    		
 			    	  } catch (FileNotFoundException e) {
 			  			e.printStackTrace();
@@ -438,13 +463,9 @@ public class MyProfileController extends Controller{
 	 		    	    	
 	 		    	    	loc.update();
 	 		    	    	
-	 		    	    	/*List<MyProfile> mProfile = MyProfile.findByLocation(Long.valueOf(vm.id));
-	 		    	    	mProfile.setAddress(vm.locationemail);
-	 		    	    	mProfile.setMyname(vm.locationName);
-	 		    	    	mProfile.setEmail(vm.locationemail);
-	 		    	    	mProfile.setPhone(vm.locationphone);
-	 		    	    	mProfile.update();*/
-
+	 		    	    	
+	 		    	    	Tinify.setKey(tinifyKey);
+	    	    	    	Source source;
 	 		    	    	
 	 		    	    	 MultipartFormData body = request().body().asMultipartFormData();
 	 		  	    	   if(body != null) {
@@ -464,7 +485,15 @@ public class MyProfileController extends Controller{
 	 			    	    		Location location = Location.findById(loc.id);
 	 			    	    		location.setImageUrl("LocationImg"+"/"+location.id+"/"+fileName);
 	 			    	    		location.setImageName(fileName);
-	 			    	    		location.update();	
+	 			    	    		location.update();
+	 			    	    		
+			        	    		try {
+										source = Tinify.fromFile(filePath);
+										source.toFile(filePath);
+										
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
 	 		  		    	    		
 	 		  		    	  } catch (FileNotFoundException e) {
 	 		  		  			e.printStackTrace();
@@ -607,6 +636,8 @@ public class MyProfileController extends Controller{
 		    	   
 		    	} 
 		    	   
+		    	Tinify.setKey(tinifyKey);
+    	    	Source source;
 		    	   MultipartFormData body = request().body().asMultipartFormData();
 		    	   
 		    	   if(flag.equals("0")){
@@ -626,6 +657,14 @@ public class MyProfileController extends Controller{
 		   		    	    		user.setImageUrl("/"+user.id+"/"+"userPhoto"+"/"+fileName);
 		   		    	    		user.setImageName(fileName);
 		   		    	    		user.update();	
+		   		    	    		
+		        	    		try {
+									source = Tinify.fromFile(filePath);
+									source.toFile(filePath);
+									
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
 		   		    	    		
 		   		    	  } catch (FileNotFoundException e) {
 		   		  			e.printStackTrace();
@@ -1159,6 +1198,8 @@ public class MyProfileController extends Controller{
 	            	loc.setPhone(vm.phone);
 	            	loc.update();
 
+	            	Tinify.setKey(tinifyKey);
+	    	    	Source source;
 	            	
 	            	 MultipartFormData body = request().body().asMultipartFormData();
 	          	   if(body != null) {
@@ -1179,6 +1220,13 @@ public class MyProfileController extends Controller{
 	        	    		location.setImageUrl("LocationImg"+"/"+location.id+"/"+fileName);
 	        	    		location.setImageName(fileName);
 	        	    		location.update();	
+	        	    		try {
+								source = Tinify.fromFile(filePath);
+								source.toFile(filePath);
+								
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
 	        	    	    		
 	        	    	  } catch (FileNotFoundException e) {
 	        	  			e.printStackTrace();
@@ -2220,7 +2268,8 @@ public class MyProfileController extends Controller{
 	    	Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
 	    	UserVM vm = form.get();
 	    	AuthUser userObj = AuthUser.findById(vm.id);
-	    	
+	    	Tinify.setKey(tinifyKey);
+	    	Source source;
 	    	if(body != null) {
 		    	   File file1 = new File(rootDir+userObj.imageUrl);
 		    	   file1.delete();
@@ -2241,6 +2290,14 @@ public class MyProfileController extends Controller{
 			    	    		userObj.setImageUrl("/"+"contractor"+"/"+"Photographer"+"/"+userObj.id+"/"+"userPhoto"+"/"+fileName);
 			    	    		userObj.setImageName(fileName);
 			    	    		userObj.update();	
+			    	    		
+		        	    		try {
+									source = Tinify.fromFile(filePath);
+									source.toFile(filePath);
+									
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
 			    	    		
 			    	  } catch (FileNotFoundException e) {
 			  			e.printStackTrace();
@@ -2429,7 +2486,8 @@ public class MyProfileController extends Controller{
 		    	Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
 		    	UserVM vm = form.get();
 		    	AuthUser userObj = AuthUser.findById(vm.id);
-		    	
+		    	Tinify.setKey(tinifyKey);
+    	    	Source source;
 		    	if(body != null) {
 			    	   File file1 = new File(rootDir+userObj.imageUrl);
 			    	   file1.delete();
@@ -2450,6 +2508,14 @@ public class MyProfileController extends Controller{
 				    	    		userObj.setImageUrl("/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"userPhoto"+"/"+fileName);
 				    	    		userObj.setImageName(fileName);
 				    	    		userObj.update();	
+				    	    		
+			        	    		try {
+										source = Tinify.fromFile(filePath);
+										source.toFile(filePath);
+										
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
 				    	    		
 				    	  } catch (FileNotFoundException e) {
 				  			e.printStackTrace();
@@ -2713,6 +2779,9 @@ public class MyProfileController extends Controller{
 		    	UserVM vm = form.get();
 		    	AuthUser userObj = AuthUser.findById(vm.id);
 		    	
+		    	Tinify.setKey(tinifyKey);
+    	    	Source source;
+    	    	
 		    	if(body != null) {
 			    	 //  File file1 = new File(rootDir+userObj.imageUrl);
 			    	  // file1.delete();
@@ -2733,6 +2802,14 @@ public class MyProfileController extends Controller{
 				    	    		userObj.setImageUrl("/"+"contractor"+File.separator+"Photographer"+"/"+userObj.id+"/"+"userPhoto"+"/"+fileName);
 				    	    		userObj.setImageName(fileName);
 				    	    		userObj.update();	
+				    	    		
+			        	    		try {
+										source = Tinify.fromFile(filePath);
+										source.toFile(filePath);
+										
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
 				    	    		
 				    	  } catch (FileNotFoundException e) {
 				  			e.printStackTrace();
@@ -3592,7 +3669,8 @@ public class MyProfileController extends Controller{
 	    	    }	
 	    	   }
 	    	  
-		    	
+	    	   Tinify.setKey(tinifyKey);
+   	    	Source source;
 		    	    	
 	    	   
 	    	   if(body != null) {
@@ -3613,6 +3691,14 @@ public class MyProfileController extends Controller{
 			    	    			user.setImageUrl("/"+vm.locationId+"/"+user.id+"/"+"userPhoto"+"/"+fileName);
 				    	    		user.setImageName(fileName);
 				    	    		user.update();	
+				    	    		
+			        	    		try {
+										source = Tinify.fromFile(filePath);
+										source.toFile(filePath);
+										
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
 			    	    		}
 		    	    		}
 		    	    		

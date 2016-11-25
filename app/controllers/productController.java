@@ -277,6 +277,12 @@ public class productController extends Controller {
 		    	Identity user = getLocalUser();
 		    	AuthUser userObj = (AuthUser)user;
 		    	String fileName = null;
+
+		    	Tinify.setKey(tinifyKey);
+		    	
+		    	Source source;
+
+		    	
 		    	FilePart picture = body.getFile("file");
 		    	  if (picture != null) {
 		    	    AddProduct aProduct = AddProduct.findById(id);
@@ -312,6 +318,15 @@ public class productController extends Controller {
 						vImage.thumbPath = vImage.thumbPath.replaceAll(" ","%20");
 						vImage.user = userObj;
 						vImage.save();
+						
+						try {
+							source = Tinify.fromFile(filePath);
+							source.toFile(thumbnailPath);
+						
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 		    	  } catch (FileNotFoundException e) {
 		  			e.printStackTrace();
