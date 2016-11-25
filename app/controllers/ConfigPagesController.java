@@ -774,7 +774,7 @@ public class ConfigPagesController extends Controller{
 					vm.profile = leadData.profile;
 					vm.callToAction = leadData.callToAction;
 					vm.actionTitle = leadData.actionTitle;
-					vm.actionOutcomes = leadData.actionClientPdf;
+					vm.actionOutcomes = leadData.actionOutcomes;
 					vm.actionClientPdf = leadData.actionClientPdf;
 					vm.maunfacturersIds = leadData.maunfacturersIds;
 					vm.confirmationMsg = leadData.confirmationMsg;
