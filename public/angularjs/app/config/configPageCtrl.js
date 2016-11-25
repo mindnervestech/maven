@@ -175,6 +175,23 @@ angular.module('newApp')
 		})
 	}	
 	
+	$scope.setActionAndShow = function(value,allData){
+		console.log(value);
+		console.log(allData);
+		$scope.entityId=allData.id;
+		var intValue = 0;
+		if(value == undefined){
+			intValue = 1;
+		}
+		if(value == true){
+			intValue = 0;
+		}else if(value == false){
+			intValue = 1;
+		}
+		apiserviceConfigPage.getCheckButton($scope.entityId, intValue).then(function(data){
+			$scope.leadTypeAll();
+		})
+	}
 	
 	
 	$scope.selectCheckbox = function(row){
