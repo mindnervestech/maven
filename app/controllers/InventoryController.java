@@ -22,6 +22,8 @@ import org.json.JSONArray;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.tinify.Source;
+import com.tinify.Tinify;
 
 import play.Play;
 import play.data.DynamicForm;
@@ -46,6 +48,9 @@ public class InventoryController extends Controller {
 	final static String pdfRootDir = Play.application().configuration()
 			.getString("pdfRootDir");
 
+	final static String tinifyKey = Play.application().configuration()
+			.getString("tinifyKey");
+	
 	final static String imageUrlPath = Play.application().configuration()
 			.getString("image.url.path");
 
@@ -286,6 +291,9 @@ public class InventoryController extends Controller {
 	            		add.setExternalUrlLink(vm.getExternalUrlLink());
 	            		add.update();
 	    				
+	            		Tinify.setKey(tinifyKey);
+	    		    	
+	    		    	Source source;
 	    		    	AuthUser userObj = (AuthUser) getLocalUser();
 	    		    	
 	    		    	for(int i= 0; i<filePart.size(); i++){
@@ -315,6 +323,15 @@ public class InventoryController extends Controller {
 			       	       	    	add.setFileName(fileName);
 	     		    		   		add.setFilePath("/"+add.getId()+"-"+userObj.id+"/"+"Logo"+"/"+fileName);
 	     		    		   		add.update();
+	     		    		   		
+	     		    		   	try {
+	    							source = Tinify.fromFile(filePath);
+	    							source.toFile(filePath);
+	    						
+	    						} catch (IOException e1) {
+	    							// TODO Auto-generated catch block
+	    							e1.printStackTrace();
+	    						}
 		       	       	    	}
 	    					} catch (Exception e) {
 	    						e.printStackTrace();
