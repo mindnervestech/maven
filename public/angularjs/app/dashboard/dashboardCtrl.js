@@ -139,8 +139,13 @@ angular.module('newApp')
 					$scope.perName = value.name;
 					$scope.test.push(value.name);
 				}
+				if(value.name == "Receive Online Leads"){
+					$scope.nameOfValue = value.name;
+				}
+				else if(value.name == "Offline Leads: Create , Clain edit and Remove Leads"){
+					$scope.nameOfValue = value.name;
+				}
 			});
-			console.log($scope.perName);
 	});
 	
 	$scope.$on("selectLeadDashbord", function(event,data){

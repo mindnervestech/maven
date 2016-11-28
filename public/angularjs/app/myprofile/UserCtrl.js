@@ -403,10 +403,12 @@ angular.module('newApp')
 					 $scope.permission.push(obj.name);
 					 obj.isSelected = true;
 					 angular.forEach(obj.childData, function(obj1, index1){
-						 if(obj1.isSelected == false){
-							 obj1.isSelected = true;
-							 $scope.permission.push(obj1.name);
-						 }
+						 if(obj1.name != "Edit Business Information"){
+							 if(obj1.isSelected == false){
+								 obj1.isSelected = true;
+								 $scope.permission.push(obj1.name);
+							 }
+						 } 
 					 });
 			    };
 			  });
@@ -416,10 +418,12 @@ angular.module('newApp')
 					 $scope.permission.push(obj.name);
 					 obj.isSelected = true;
 					 angular.forEach(obj.childData, function(obj1, index1){
-						 if(obj1.isSelected == false){
-							 obj1.isSelected = true;
-							 $scope.permission.push(obj1.name);
-						 }
+						 if(obj1.name != "Edit Business Information"){
+							 if(obj1.isSelected == false){
+								 obj1.isSelected = true;
+								 $scope.permission.push(obj1.name);
+							 }
+						 } 
 					 });
 			    };
 			  });
@@ -537,19 +541,20 @@ angular.module('newApp')
 	$scope.rolesClicked = function(e, rolePer,value){
 		console.log(rolePer);
 		console.log(value);
-		console.log(rolePer.childData);
+		console.log(e);
 		angular.forEach(rolePer.childData, function(obj, index){
-			if(value == false){
-				obj.isSelected = true;
-			}
-			else if(value == true){
-				obj.isSelected = false;
-			}
-			if(obj.isSelected == true){
-				$scope.permission.push(obj.name);
-			}else{
-				$scope.deleteItem(obj);
-			}
+				
+				if(value == false){
+					obj.isSelected = true;
+				}
+				else if(value == true){
+					obj.isSelected = false;
+				}
+				if(obj.isSelected == true){
+					$scope.permission.push(obj.name);
+				}else{
+					$scope.deleteItem(obj);
+				}
 		});
 		if(value == false){
 			$scope.permission.push(rolePer.name);
