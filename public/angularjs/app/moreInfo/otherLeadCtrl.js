@@ -105,6 +105,7 @@ angular.module('newApp')
 	  
 				console.log(data);
 				
+				
 			//$scope.gridOptions.data = data;
 				$scope.editgirdData(data);
 			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
@@ -123,11 +124,28 @@ angular.module('newApp')
 			  $scope.gridOptions.data = data;
 			  $scope.gridMapObect = [];
 				var findFlag = 0;
+				
+				$scope.josnData1 = [];
+				console.log("******************");
+				console.log($scope.gridOptions.data[0]);
+			angular.forEach(angular.fromJson($scope.gridOptions.data[0].customizDataValue.jsonData),function(value,key){
+				$scope.josnData1.push(value);
+			});
+			console.log($scope.josnData1);
+				
 				angular.forEach($scope.gridOptions.data,function(value,key){
 					if(findFlag == 0){
 						angular.forEach(value.customData,function(value1,key1){
-							$scope.gridMapObect.push({values: value1.value , key: value1.key});
-							findFlag = 1;
+							angular.forEach($scope.josnData1,function(value2,key2){
+								console.log(value1.key);
+								console.log(value2.key);
+								if(value1.key == value2.key){
+   									$scope.gridMapObect.push({values: value1.value , key: value1.key, label: value2.label});
+   									findFlag = 1;
+   								}
+							});
+							//$scope.gridMapObect.push({values: value1.value , key: value1.key});
+							//findFlag = 1;
 						});
 					}
 				});
@@ -149,7 +167,7 @@ angular.module('newApp')
 					var name = value.key;
 					name = name.replace(" ","");
 					console.log(name);
-					$scope.gridOptions.columnDefs.push({ name: name, displayName: name, width:'10%',cellEditableCondition: false,
+					$scope.gridOptions.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
 		              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		              		if (row.entity.isRead === false) {
 	                            return 'red';

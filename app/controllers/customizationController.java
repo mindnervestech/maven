@@ -131,9 +131,10 @@ public class customizationController extends Controller {
 		System.out.println("test value");
 		for(KeyValueDataVM kValue:vm.customDataAll){
 			LeadType custForm = LeadType.findByName(kValue.value);
-			List<CustomizationDataValue> custData = CustomizationDataValue.findByKeyAndLeadType(kValue.key, custForm.id);
+			List<CustomizationDataValue> custData = CustomizationDataValue.findByfieldId(kValue.fieldId);
 			for(CustomizationDataValue cust:custData){
 				cust.setDisplayGrid(kValue.displayGrid);
+				cust.setKeyValue(kValue.key);
 				cust.update();
 
 			}

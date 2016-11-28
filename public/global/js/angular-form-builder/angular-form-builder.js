@@ -567,7 +567,9 @@
             category: $scope.category,
             pointRules: $scope.pointRules,
             column : $scope.column,
-            conversionType: $scope.conversionType
+            conversionType: $scope.conversionType,
+            fieldId: new Date().getTime()
+            
           };
         },
         rollback: function() {
@@ -897,7 +899,7 @@
               if (!isHover && draggable.mode === 'drag') {
                 formObject = draggable.object.formObject;
                 if (formObject.editable) {
-                  $builder.removeFormObject(attrs.fbBuilder, formObject.index);
+                 // $builder.removeFormObject(attrs.fbBuilder, formObject.index);
                 }
               } else if (isHover) {
                 if (draggable.mode === 'mirror') {
@@ -1361,7 +1363,10 @@
     this.currentId = 0;
     this.getNewId = (function(_this) {
       return function() {
-        return "" + (_this.currentId++);
+    	  var d = new Date();
+    	  console.log(d.getMilliseconds());
+    	  return "" + (d.getMilliseconds());
+//        return "" + (_this.currentI++);
       };
     })(this);
     this.setupEasing = function() {
@@ -1796,7 +1801,8 @@
         template: component.template,
         templateUrl: component.templateUrl,
         popoverTemplate: component.popoverTemplate,
-        popoverTemplateUrl: component.popoverTemplateUrl
+        popoverTemplateUrl: component.popoverTemplateUrl,
+        fieldId: new Date().getTime()
       };
       if (!result.template && !result.templateUrl) {
         console.error("The template is empty.");
@@ -1807,10 +1813,12 @@
       return result;
     };
     this.convertFormObject = function(name, formObject) {
+    	
       var component, exist, form, result, _i, _len, _ref, _ref1, _ref10, _ref11, _ref12, _ref13, _ref14, _ref15, _ref16, _ref17, _ref18, _ref19, _ref2, _ref20, _ref21, _ref22, _ref23,_ref24,_ref25,_ref26,_ref27, _ref28, _ref29, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9, _ref30,_ref31;
       if (formObject == null) {
         formObject = {};
       }
+      
       component = this.components[formObject.component];
       if (component == null) {
         throw "The component " + formObject.component + " was not registered.";
@@ -1831,6 +1839,7 @@
           this.formsId[name] = formObject.id + 1;
         }
       }
+      
       result = {
         id: formObject.id,
         component: formObject.component,
@@ -1867,6 +1876,7 @@
         pointRules: (_ref22 = formObject.pointRules) != null ? _ref22 : component.pointRules,
         conversionType: (_ref23 = formObject.conversionType) != null ? _ref23 : component.conversionType,
         column:(_ref24 = formObject.column) != null ? _ref24 : component.column,
+        fieldId: new Date().getTime()		
       };
       return result;
     };

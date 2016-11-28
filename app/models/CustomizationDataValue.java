@@ -29,6 +29,7 @@ public class CustomizationDataValue extends Model {
 	public String displayGrid;
 	public String displayWebsite;
 	public String formName;
+	public Long fieldId;
 	
 	@ManyToOne
 	public Location locations;
@@ -60,6 +61,16 @@ public class CustomizationDataValue extends Model {
 
 	public String getKeyValue() {
 		return keyValue;
+	}
+
+	
+
+	public Long getFieldId() {
+		return fieldId;
+	}
+
+	public void setFieldId(Long fieldId) {
+		this.fieldId = fieldId;
 	}
 
 	public String getSaveCrm() {
@@ -135,6 +146,10 @@ public class CustomizationDataValue extends Model {
 	
 	public static List<CustomizationDataValue> findByKeyAndLeadType(String key,Long leadType) {
 		return find.where().eq("keyValue", key).eq("leadType", leadType).findList();
+	}
+	
+	public static List<CustomizationDataValue> findByfieldId(Long fieldId) {
+		return find.where().eq("fieldId", fieldId).findList();
 	}
 		
 		public static List<CustomizationDataValue> findByScheduler() {

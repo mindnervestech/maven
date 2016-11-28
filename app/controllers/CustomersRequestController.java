@@ -165,6 +165,11 @@ public class CustomersRequestController extends Controller {
 		    			vm.callToAction = lType.callToAction;
 		    			vm.typeOfLead = lType.leadName;
 		    			vm.leadId = lType.id;
+		    			CustomizationForm cDataValue = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")),lType.leadName);
+		    			if(cDataValue != null){
+		    				vm.customizDataValue = cDataValue;
+		    			}
+		    			
 		    		}
 		    		
 		    		if(lType != null){
@@ -258,6 +263,10 @@ public class CustomersRequestController extends Controller {
 		    			vm.callToAction = lType.callToAction;
 		    			vm.typeOfLead = lType.leadName;
 		    			vm.leadId = lType.id;
+		    			CustomizationForm cDataValue = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")),lType.leadName);
+		    			if(cDataValue != null){
+		    				vm.customizDataValue = cDataValue;
+		    			}
 		    		}
 		    		
 		    		if(lType != null){

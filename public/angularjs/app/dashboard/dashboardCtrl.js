@@ -2317,6 +2317,7 @@ angular.module('newApp')
 						}
 						
 						$scope.customList.push({
+							fieldId:value1.fieldId,
     		   	  			key:attr,
     		   	  			value:value,
     		   	  			savecrm:value1.savecrm,
@@ -4411,6 +4412,7 @@ angular.module('newApp')
     								}
     								
 	    							$scope.customList.push({
+	    								fieldId:value1.fieldId,
 			    		   	  			key:attr,
 			    		   	  			value:value,
 			    		   	  			savecrm:value1.savecrm,
@@ -8994,8 +8996,6 @@ angular.module('newApp')
 						
 						
 						
-						
-						console.log("HHHHHHHHHHHHHHHHHHHHHh");
 						console.log($scope.gridOptions13);
 						angular.forEach($scope.gridMapObect,function(value,key){
 							console.log(value.key);

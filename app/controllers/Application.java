@@ -239,7 +239,6 @@ public class Application extends Controller {
 	
 	final static String userRegistration = Play.application().configuration()
 			.getString("userRegistration");
-	
 	final static String vehicleUrlPath = Play.application().configuration()
 			.getString("vehicle.url.path");
 	
@@ -9217,6 +9216,7 @@ public class Application extends Controller {
     		CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId(custom.key,infoId);
     		if(cDataValue == null){
     			CustomizationDataValue cValue = new CustomizationDataValue();
+    			cValue.fieldId = custom.fieldId;
     			cValue.keyValue = custom.key;
     			cValue.value = custom.value;
     			cValue.leadId = infoId;

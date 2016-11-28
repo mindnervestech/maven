@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import models.CustomizationDataValue;
+import models.CustomizationForm;
+
 public class RequestInfoVM {
 
 	public Long id;
@@ -102,5 +105,6 @@ public class RequestInfoVM {
 	public int notifFlag;
 	public int showOnWeb;
 	public boolean callToAction;
+	public CustomizationForm customizDataValue; 
 	
 }
