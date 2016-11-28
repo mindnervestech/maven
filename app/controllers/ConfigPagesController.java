@@ -19,6 +19,7 @@ import models.AutoPortal;
 import models.CoverImage;
 import models.CreateNewForm;
 import models.CustomerPdf;
+import models.CustomerRequest;
 import models.CustomizationForm;
 import models.Domain;
 import models.EmailDetails;
@@ -54,6 +55,7 @@ import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import viewmodel.AutoPortalVM;
 import viewmodel.CreateNewFormVM;
+import viewmodel.CustomerRequestVM;
 import viewmodel.DocumentationVM;
 import viewmodel.ImageVM;
 import viewmodel.LeadTypeVM;
@@ -597,6 +599,23 @@ public class ConfigPagesController extends Controller{
 				//List<LeadType> lead = LeadType.getLeadData();
 				return ok(Json.toJson(lead)); 
 				
+			}
+		 
+		 
+		 public static Result getAllSalesPersons() {
+				List<AuthUser> user = AuthUser.getAllSalesUser();
+				return ok(Json.toJson(user)); 
+			}
+		 
+		 public static Result saveSalesPersons() {
+				Form<CustomerRequestVM> form = DynamicForm.form(CustomerRequestVM.class).bindFromRequest();
+				CustomerRequestVM vm = form.get();
+				
+				CustomerRequest lead = new CustomerRequest();
+		    	   lead.firstName = vm.salespersonName;
+		    	   lead.location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    	   lead.save();
+		    	   return ok();
 			}
 		 
 		 public static Result addnewrUser() {

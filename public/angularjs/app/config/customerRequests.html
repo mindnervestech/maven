@@ -1,0 +1,84 @@
+
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="customerRequest()" >
+  <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      	<!-- <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li> -->
+       	<li ng-sec="Leads" role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="leadTypeInfo()">Leads</button></a></li>
+      	<li ng-sec="Emails" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email</button></a></li>
+      	<li ng-sec="Documentation" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="documentationSetting()">Documentation </button></a></li>
+      	<li ng-sec="Marketing" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="socialMedia()">Marketing</button></a></li>
+       	<!-- <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="autoPortal()">Auto Portals </button></a></li>
+       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="plansAndBill()">Plans & Billing </button></a></li> -->
+       		<li ng-sec="Domain" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="domainDetails()">Domain </button></a></li>
+ <li ng-sec="Forms" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="form()">Forms </button></a></li>
+ <li ng-sec="System Setting Website Analytics" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="websiteAnalytics()">Website Analytics</button></a></li>
+  </ul>
+    <ul id="myTabs" class="nav nav-tabs" role="tablist"> 
+      
+       <!-- <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue"  ng-click="premiumLeadsInfo()">Premium Leads</button></a></li> --> 
+      <li ng-sec="Leads" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue"  ng-click="leadTypeInfo()">Lead type</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue"  ng-click="customerRequest()">Customer Requests</button></a></li>
+    </ul>
+			<div class="col-sm-12" style="margin-top: 30px;">
+				<form ng-submit="saveSalesPersonsData()">
+					<div class="col-sm-12" style ="font-size: 20px;">
+						<input style="width:17px;height:17px;" type="radio" id="allOnlineRequest" name="duration" ng-click="redirestRequest('Redirect all online Requests to')" required> Redirect all online Requests to
+							<div ng-if="typeValue == 'Redirect all online Requests to'">
+									<div class="col-sm-12" style ="font-size: 20px;">
+										<input style="width:17px;height:17px;" type="radio" id="allSalesPeople" name="personsData" ng-click="personsWiseData('All Sales People')" required> All Sales People
+									</div>
+									<div class="col-sm-12" style ="font-size: 20px;">
+										<input style="width:17px;height:17px;" type="radio" id="mySelf" name="personsData" ng-click="personsWiseData('MySelf')" required> MySelf
+									</div>
+									<div class="col-sm-12" style ="font-size: 20px;">
+										<input style="width:17px;height:17px;" type="radio" id="salesPerson" name="personsData" ng-click="personsWiseData('Sales Person')" required> Sales Person
+									</div>
+									<div class="col-sm-12">
+											<div class="col-sm-12" style ="font-size: 20px;margin-left: 40px;" ng-repeat="name in salesPersonName">
+												<input style="width:17px;height:17px;" type="radio" id="{{name.firstName}}" name="allSalesPersonsData"  ng-click="saveCustomerData(name.firstName)" required> {{name.firstName}} {{name.lastName}}
+											</div>
+									</div>
+							</div>
+							
+					</div>
+					<div class="col-sm-12" style ="font-size: 20px;">
+						<input style="width:17px;height:17px;" type="radio" id="customerRequest" name="duration" ng-click="redirestRequest('Automatically redirect an online customer requests based on')" required> Automatically redirect an online customer requests based on
+					</div>
+					<div>
+	                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+	                </div>
+				</form>	
+			</div>
+		
+
+</div>		
+   
+<style>
+.ImageBorder
+{
+        border: 5px solid #0099FF;
+}
+.noClass{
+	
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+
+</style>	
+
+
+

@@ -239,6 +239,7 @@ public class Application extends Controller {
 	
 	final static String userRegistration = Play.application().configuration()
 			.getString("userRegistration");
+	
 	final static String vehicleUrlPath = Play.application().configuration()
 			.getString("vehicle.url.path");
 	

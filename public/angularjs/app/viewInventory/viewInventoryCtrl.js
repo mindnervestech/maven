@@ -64,13 +64,13 @@ angular.module('newApp')
     		 $scope.gridOptions.enableHorizontalScrollbar = 0;
     		 $scope.gridOptions.enableVerticalScrollbar = 2;
     		 $scope.gridOptions.columnDefs = [
-    		                                 { name: 'title', displayName: 'Title', width:'15%',cellEditableCondition: false,enableFiltering: true,
+    		                                 { name: 'title', displayName: 'Title', width:'15%',cellEditableCondition: false,
     		                                	 cellTemplate: '<div> <a style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
     		                                 },
-    		                                 { name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+    		                                 { name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: false,
     		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.description}}" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
     		                                 },
-    		                                 { name: 'fileName', displayName: 'Logo', width:'15%',cellEditableCondition: false,enableFiltering: false,
+    		                                 { name: 'fileName', displayName: 'Logo', width:'15%',cellEditableCondition: false,
     		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.myClickFun(row.entity)" style="line-height: 200%;white-space: nowrap;" title="{{row.entity.fileName}}" data-content="{{row.entity.fileName}}" >{{row.entity.fileName}}</a></div>',
     		                                 },
     		                                 { name: 'addedDate', displayName: 'Date Added',enableColumnMenu: false, width:'15%',
@@ -78,7 +78,7 @@ angular.module('newApp')
     		                                 { name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
     		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
     		                                 },
-    		                                 { name: 'pageViewCount', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: true,
+    		                                 { name: 'pageViewCount', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: false,
     		                                 },
     		                                 /*{ name: 'city_mileage', displayName: 'City MPG',enableFiltering: false, width:'8%',enableColumnMenu: false,cellEditableCondition: true,
     		                                 },
@@ -143,12 +143,12 @@ angular.module('newApp')
     			 
     			 $scope.gridApi.core.on.filterChanged( $scope, function() {
     		          var grid = this.grid;
-    		          $scope.gridOptions.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term,'last4Vin':grid.columns[1].filters[0].term,'stock':grid.columns[2].filters[0].term},undefined);
+    		          $scope.gridOptions.data = $filter('filter')($scope.vehiClesList,{'title':grid.columns[0].filters[0].term,'description':grid.columns[1].filters[0].term,'fileName':grid.columns[2].filters[0].term,'addedDate':grid.columns[3].filters[0].term,'countImages':grid.columns[4].filters[0].term,'pageViewCount':grid.columns[5].filters[0].term,},undefined);
     		        });
     			 
     			 };
-    			 
-    			 
+    			 //$scope.gridOptions.data = $filter('filter')($scope.vehiClesList,{'title':grid.columns[0].filters[0].term,'description':grid.columns[1].filters[0].term,'fileName':grid.columns[2].filters[0].term,'addedDate':grid.columns[3].filters[0].term,'countImages':grid.columns[4].filters[0].term,'pageViewCount':grid.columns[5].filters[0].term,},undefined);
+    			 console.log($scope.vehiClesList);
     			 $scope.gridOptions1 = {
     		    		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
     		    		 paginationPageSize: 150,

@@ -53,6 +53,8 @@ POST     /addnewWebSiteForm           controllers.ConfigPagesController.addnewWe
 POST     /getEditFormWebsite           controllers.ConfigPagesController.getEditFormWebsite()
 POST     /updatenewWebSiteForm           controllers.ConfigPagesController.updatenewWebSiteForm()
 GET   /getAllLeadData			controllers.ConfigPagesController.getAllLeadData()
+GET   /getAllSalesPersons			controllers.ConfigPagesController.getAllSalesPersons()
+
 GET   /allFormName			controllers.ConfigPagesController.allFormName()
 GET   /showEditData/:id			controllers.ConfigPagesController.showEditData(id:Long)
 # Map static resources from the /public folder to the /assets URL path
@@ -80,6 +82,7 @@ GET     /releaseFromNotif/:id/:leadType			controllers.Application.releaseFromNot
 POST   /saveInternalPdf				controllers.Application.saveInternalPdf()
 POST   /saveCustomerPdf				controllers.Application.saveCustomerPdf()
 POST   /saveAutoPortal				controllers.ConfigPagesController.saveAutoPortal()
+POST   /saveSalesPersons				controllers.ConfigPagesController.saveSalesPersons()
 POST   /acountDetails				controllers.ConfigPagesController.acountDetails()
 POST   /saveEmailLinks				controllers.ConfigPagesController.saveEmailLinks()
 POST   /saveEmailDetails				controllers.ConfigPagesController.saveEmailDetails()

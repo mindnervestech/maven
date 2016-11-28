@@ -624,4 +624,30 @@ angular.module('app.apiserviceConfigPage', [])
 		});
 		return defer.promise;
 	};
+	
+	this.getAllSalesPersons=function(){
+		var defer = $q.defer();
+		
+		$http.get('/getAllSalesPersons').success(function(data) {
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
+	
+	this.saveSalesPersons=function(salesName){
+		var defer = $q.defer();
+		console.log(salesName);
+		$http.post('/saveSalesPersons',salesName).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Sales Person saved successfully",
+			});
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
 })

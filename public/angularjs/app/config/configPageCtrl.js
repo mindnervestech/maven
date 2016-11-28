@@ -770,7 +770,9 @@ angular.module('newApp')
 		
 	}
 	
-	
+	$scope.customerRequest = function() {
+		$location.path('/customerRequest');
+	}
 	$scope.leadTypeInfo = function() {
 		//console.log("ddd22");
 		$location.path('/leadtype');
@@ -1136,7 +1138,42 @@ angular.module('newApp')
 		apiserviceConfigPage.saveNewsletterDate($scope.newsletterDay, $scope.newsletterTime, $scope.newsletterId, $scope.newsletterTimeZone).then(function(data){
 		});
 	}
+	/*-----------------------------Customer Request----------------------------*/
 	
+	$scope.redirestRequest = function(type){
+		console.log(type);
+		if(type == "Redirect all online Requests to"){
+			$scope.typeValue = type;
+		}
+		else if(type == "Automatically redirect an online customer requests based on"){
+			$scope.typeValue = type;
+		}
+		
+	}
 	
+	$scope.personsWiseData = function(type){
+		console.log(type);
+		if(type == "Sales Person"){
+			apiserviceConfigPage.getAllSalesPersons().then(function(data){
+				console.log(data);
+					$scope.salesPersonName = data;
+			});
+		}
+		else{
+			$scope.salesPersonName = [];
+		}
+	}
+	$scope.saveCustomerData = function(type){
+		$scope.salespersonName = type;
+	}
+	
+	$scope.dataSalesPer = {};
+	$scope.saveSalesPersonsData = function(value){
+		$scope.dataSalesPer.salespersonName =  $scope.salespersonName;
+		console.log($scope.dataSalesPer);
+		apiserviceConfigPage.saveSalesPersons($scope.dataSalesPer).then(function(data){
+			console.log(data);
+		});
+	}
 	
 }]);	
