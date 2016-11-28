@@ -157,12 +157,34 @@
               $scope.flagForPopNew=1;
             }
             
+            $scope.showRichNotification = function(obj){
+            	console.log(obj);
+            	var requestType = "Request More Info";
+	          	var opt={
+	          			icon: 'http://glider-autos.com/MavenImg/images/logo/logo.png',
+	          		    body: "New "+requestType+" has been submitted!"
+	          	};
+	          	if (!("Notification" in window)) {
+	          	    alert("This browser does not support desktop notification");
+	          	}else if (Notification.permission === "granted") {
+	          		var notification = new Notification("Request More Info!",opt);
+	          	}else if (Notification.permission !== 'denied') {
+	          	    Notification.requestPermission(function (permission) {
+		          	    if (permission === "granted") {
+		          	        var notification = new Notification("Request More Info!",opt);
+		          	    }
+	          	    });
+	          	}
+            };
+            
             $scope.leadCount = function(){
             	$scope.leadData={};
                 $http.get('/getLeadInfo').success(function(data,status, headers, config){
+                	console.log(data);
                 	$scope.leadData=data;
                 	$scope.notifLength=0;
                 	angular.forEach(data, function(value, key) {
+                		$scope.showRichNotification(value);
                 		if(value.notifFlag == 0){
                 			$scope.notifLength++;
                 			
