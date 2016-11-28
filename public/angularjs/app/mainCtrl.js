@@ -159,7 +159,7 @@
             
             $scope.showRichNotification = function(obj){
             	console.log(obj);
-            	var requestType = "Request More Info";
+            	var requestType = obj.leadType;
 	          	var opt={
 	          			icon: 'http://glider-autos.com/MavenImg/images/logo/logo.png',
 	          		    body: "New "+requestType+" has been submitted!"
@@ -184,7 +184,7 @@
                 	$scope.leadData=data;
                 	$scope.notifLength=0;
                 	angular.forEach(data, function(value, key) {
-                		$scope.showRichNotification(value);
+                		//$scope.showRichNotification(value);
                 		if(value.notifFlag == 0){
                 			$scope.notifLength++;
                 			
