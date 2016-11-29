@@ -281,6 +281,7 @@ public class productController extends Controller {
 		    	Tinify.setKey(tinifyKey);
 		    	
 		    	Source source;
+		    	Source source1;
 
 		    	
 		    	FilePart picture = body.getFile("file");
@@ -307,6 +308,11 @@ public class productController extends Controller {
 		    	    File _f = new File(filePath);
 					Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 					
+					source = Tinify.fromFile(filePath);
+					source.toFile(filePath);
+					source = Tinify.fromFile(thumbnailPath);
+					source.toFile(thumbnailPath);
+					
 					ProductImages imageObj = ProductImages.getByImagePath("/"+id+"-"+userObj.id+"/"+fileName);
 					if(imageObj == null) {
 						ProductImages vImage = new ProductImages();
@@ -319,14 +325,14 @@ public class productController extends Controller {
 						vImage.user = userObj;
 						vImage.save();
 						
-						try {
+						/*try {
 							source = Tinify.fromFile(filePath);
 							source.toFile(thumbnailPath);
 						
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
-						}
+						}*/
 					}
 		    	  } catch (FileNotFoundException e) {
 		  			e.printStackTrace();
