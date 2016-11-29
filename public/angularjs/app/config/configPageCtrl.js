@@ -1141,7 +1141,8 @@ angular.module('newApp')
 	/*-----------------------------Customer Request----------------------------*/
 	
 	$scope.redirestRequest = function(type){
-		console.log(type);
+		$scope.redirectValue = type;
+		console.log($scope.redirectValue);
 		if(type == "Redirect all online Requests to"){
 			$scope.typeValue = type;
 		}
@@ -1152,7 +1153,8 @@ angular.module('newApp')
 	}
 	
 	$scope.personsWiseData = function(type){
-		console.log(type);
+		$scope.personValue = type;
+		console.log($scope.personValue);
 		if(type == "Sales Person"){
 			apiserviceConfigPage.getAllSalesPersons().then(function(data){
 					$scope.salesPersonName = data;
@@ -1168,6 +1170,9 @@ angular.module('newApp')
 	
 	$scope.dataSalesPer = {};
 	$scope.saveSalesPersonsData = function(value){
+		console.log($scope.salespersonName);
+		$scope.dataSalesPer.personValue = $scope.personValue;
+		$scope.dataSalesPer.redirectValue = $scope.redirectValue;
 		$scope.dataSalesPer.salespersonName =  $scope.salespersonName.firstName;
 		$scope.dataSalesPer.id = $scope.customerReq.id;
 		console.log($scope.dataSalesPer);

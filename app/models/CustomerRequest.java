@@ -15,10 +15,23 @@ public class CustomerRequest extends Model {
 	public Integer id;
 	public String firstName;
 	public Location location;
+	public String redirectValue;
+	public String personValue;
 	
 	
 	
-	
+	public String getRedirectValue() {
+		return redirectValue;
+	}
+	public void setRedirectValue(String redirectValue) {
+		this.redirectValue = redirectValue;
+	}
+	public String getPersonValue() {
+		return personValue;
+	}
+	public void setPersonValue(String personValue) {
+		this.personValue = personValue;
+	}
 	public Location getLocation() {
 		return location;
 	}

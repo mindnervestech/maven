@@ -182,7 +182,6 @@
             $scope.leadCount = function(){
             	$scope.leadData={};
                 $http.get('/getLeadInfo').success(function(data,status, headers, config){
-                	console.log(data);
                 	$scope.leadData=data;
                 	$scope.notifLength=0;
                 	angular.forEach(data, function(value, key) {

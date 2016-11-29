@@ -614,10 +614,14 @@ public class ConfigPagesController extends Controller{
 				if(custData == null){
 					CustomerRequest lead = new CustomerRequest();
 			    	   lead.firstName = vm.salespersonName;
+			    	   lead.redirectValue = vm.redirectValue;
+			    	   lead.personValue = vm.personValue;
 			    	   lead.location = Location.findById(Long.valueOf(session("USER_LOCATION")));
 			    	   lead.save();
 				}else{
 					custData.setFirstName(vm.salespersonName);
+					custData.setPersonValue(vm.personValue);
+					custData.setRedirectValue(vm.redirectValue);
 					custData.setLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 					custData.update();
 				}
