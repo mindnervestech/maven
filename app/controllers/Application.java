@@ -3753,6 +3753,8 @@ public class Application extends Controller {
 	    		vm1.id=sc.id;
 	    		vm1.notifFlag=sc.notifFlag;
 	    		vm1.leadType="Request More Info";
+	    		vm1.richNotification = sc.richNotification;
+	    		vm1.isContactusType = sc.isContactusType;
 	    		String imagePath=null;
 	    		if(sc.productId != null){
 	    			Long pId = Long.parseLong(sc.productId);
