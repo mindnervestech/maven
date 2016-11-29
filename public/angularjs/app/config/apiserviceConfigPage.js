@@ -635,7 +635,6 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
-	
 	this.saveSalesPersons=function(salesName){
 		var defer = $q.defer();
 		console.log(salesName);
@@ -645,6 +644,16 @@ angular.module('app.apiserviceConfigPage', [])
 			    type:'success',
 			    text: "Sales Person saved successfully",
 			});
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
+	this.getAllCustomerReqData=function(){
+		var defer = $q.defer();
+		
+		$http.get('/getAllCustomerReqData').success(function(data) {
 			defer.resolve(data);
 		});
 

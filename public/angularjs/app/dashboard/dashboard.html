@@ -523,6 +523,14 @@ float: right !important;
 										
 										<div class="col-sm-4">
 											<p style="text-align: center;font-size: 22px;">{{parLocationData.monthCurr}}</p>
+											 <div style="margin-left: 55px;">
+												<select class="" id="userType" ng-change="changeValueInStat(planValue)" ng-model="planValue" style="width:135px;"">
+				                                    <option value="">Select</option>
+				                                    <option  value="Total Earning">Total Earning</option>
+				                                    <option  value="Leads Closed">Leads Closed</option>
+				                                    <option  value="Leads to Generate">Leads to Generate</option>
+				                                </select>
+											</div>
 											 <div id="container" style="height: 200px"></div>
 											 
 										</div>

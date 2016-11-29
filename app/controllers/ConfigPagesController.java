@@ -610,13 +610,26 @@ public class ConfigPagesController extends Controller{
 		 public static Result saveSalesPersons() {
 				Form<CustomerRequestVM> form = DynamicForm.form(CustomerRequestVM.class).bindFromRequest();
 				CustomerRequestVM vm = form.get();
+				CustomerRequest custData = CustomerRequest.findById(Long.valueOf(vm.id));
+				if(custData == null){
+					CustomerRequest lead = new CustomerRequest();
+			    	   lead.firstName = vm.salespersonName;
+			    	   lead.location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			    	   lead.save();
+				}else{
+					custData.setFirstName(vm.salespersonName);
+					custData.setLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+					custData.update();
+				}
 				
-				CustomerRequest lead = new CustomerRequest();
-		    	   lead.firstName = vm.salespersonName;
-		    	   lead.location = Location.findById(Long.valueOf(session("USER_LOCATION")));
-		    	   lead.save();
 		    	   return ok();
 			}
+		 
+		 public static Result getAllCustomerReqData(){
+		    	
+	    		CustomerRequest custList = CustomerRequest.getAllPermissionData();
+		     	return ok(Json.toJson(custList));
+	    }
 		 
 		 public static Result addnewrUser() {
 				Form<LeadTypeVM> form = DynamicForm.form(LeadTypeVM.class).bindFromRequest();

@@ -34,7 +34,7 @@
 									</div>
 									<div class="col-sm-12">
 											<div class="col-sm-12" style ="font-size: 20px;margin-left: 40px;" ng-repeat="name in salesPersonName">
-												<input style="width:17px;height:17px;" type="radio" id="{{name.firstName}}" name="allSalesPersonsData"  ng-click="saveCustomerData(name.firstName)" required> {{name.firstName}} {{name.lastName}}
+												<input style="width:17px;height:17px;" type="radio" id="{{name.firstName}}" name="allSalesPersonsData" ng-model="salerPerFirstName" ng-click="saveCustomerData(name)" required> {{name.firstName}} {{name.lastName}}
 											</div>
 									</div>
 							</div>

@@ -46,11 +46,17 @@ public class CustomerRequest extends Model {
 	public static List<CustomerRequest> getAllPermission() {
 		return find.all();
 	}
+	public static CustomerRequest getAllPermissionData() {
+		return find.where().ne("id", null).findUnique();
+	}
 	public static List<CustomerRequest> getAllPermissionById() {
 		return find.where().eq("parentId", null).findList();
 	}
 	
 	public static List<CustomerRequest> getAllPermissionChildData(Integer id) {
 		return find.where().eq("parentId", id).findList();
+	}
+	public static CustomerRequest findById(Long id) {
+		return find.byId(id);
 	}
 }

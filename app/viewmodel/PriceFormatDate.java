@@ -7,4 +7,6 @@ public class PriceFormatDate {
 	public String text;
 	public String title;
 	public Long price;
+	public Long product_sell;
+	public Long avg_check;
 }

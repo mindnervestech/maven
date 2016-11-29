@@ -1155,7 +1155,6 @@ angular.module('newApp')
 		console.log(type);
 		if(type == "Sales Person"){
 			apiserviceConfigPage.getAllSalesPersons().then(function(data){
-				console.log(data);
 					$scope.salesPersonName = data;
 			});
 		}
@@ -1169,11 +1168,18 @@ angular.module('newApp')
 	
 	$scope.dataSalesPer = {};
 	$scope.saveSalesPersonsData = function(value){
-		$scope.dataSalesPer.salespersonName =  $scope.salespersonName;
+		$scope.dataSalesPer.salespersonName =  $scope.salespersonName.firstName;
+		$scope.dataSalesPer.id = $scope.customerReq.id;
 		console.log($scope.dataSalesPer);
 		apiserviceConfigPage.saveSalesPersons($scope.dataSalesPer).then(function(data){
 			console.log(data);
 		});
 	}
 	
+	apiserviceConfigPage.getAllCustomerReqData().then(function(data){
+		console.log(data);
+		$scope.customerReq = data;
+		$scope.salerPerFirstName = $scope.customerReq.firstName;
+		console.log($scope.salerPerFirstName);
+	});
 }]);	

@@ -36,8 +36,17 @@ public class AddProduct extends Model {
 	public int hideWebsite;
 	public Date addedDate;
 	public String externalUrlLink;
+	public String status;
 	
 	
+	
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public String getExternalUrlLink() {
 		return externalUrlLink;
 	}
@@ -318,5 +327,14 @@ public class AddProduct extends Model {
 	}
 	public static AddProduct getDefaultImg(Long id2) {
 		return find.where().eq("id", id2).findUnique();
+	}
+	public static List<AddProduct> findByLocationAndSold(Long location) {
+		return find.where().eq("locations.id", location).eq("status", "Sold").findList();
+	}
+	public static List<AddProduct> findBySoldUserAndSold(AuthUser user) {
+		return find.where().eq("soldUser", user).eq("status", "Sold").findList();
+	}
+	public static List<AddProduct> findByLocation(Long location) {
+		return find.where().eq("locations.id", location).findList();
 	}
 }

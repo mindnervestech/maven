@@ -622,7 +622,7 @@ angular.module('newApp')
 				
 					$scope.flagForBestSale=data.flagForBestSaleIcon;
 					apiserviceDashborad.getPlanTarget(locOrPer).then(function(data){
-					
+					console.log(data);
 						if(data.sendData[0] != undefined){
 							data.sendData[0].plan = data1.data[0].price;
 						
@@ -657,7 +657,8 @@ angular.module('newApp')
 			
 				$scope.flagForBestSale=data.flagForBestSaleIcon;
 				apiserviceDashborad.getPlanTarget(locOrPer).then(function(data1){
-				
+				console.log(data);
+				console.log(data1);
 					if(data.sendData[0] != undefined){
 							data.sendData[0].plan = data1.data[0].price;
 						
@@ -688,6 +689,41 @@ angular.module('newApp')
 		}
 		
 	 }
+	
+	$scope.changeValueInStat = function(planValue){
+		console.log(planValue);
+		console.log($scope.dataLocOrPerWise);
+		apiserviceDashborad.getPlanWiseGraph(planValue,$scope.dataLocOrPerWise).then(function(data){
+			console.log(data);
+			
+			apiserviceDashborad.getPlanTarget($scope.dataLocOrPerWise).then(function(data1){
+				console.log(data);
+				console.log(data1);
+				
+				if(data != undefined){
+					
+					if(data1.data[0].price != null){
+						data[0].price = data1.data[0].product_sell;
+						data[0].plan = data1.data[0].product_sell;
+					}else{
+						data[0].price = 0;
+						data[0].plan = 0;
+					}
+					
+					$scope.stackchart = data;
+					$scope.callChart($scope.stackchart);
+					if(data1.data[0].price == null){
+						var chart = $('#container').highcharts();
+				        chart.yAxis[0].removePlotLine('plotline-1');
+					}
+				}
+					console.log($scope.stackchart);
+					
+					
+			});
+		});
+	}
+	
 	$scope.dataLocOrPerWise = "location";
 	$scope.showLeads = null;
 	$scope.locationOrPersonData = function(wiseData){
@@ -755,6 +791,8 @@ angular.module('newApp')
 		
 	}
 	   $scope.callChart = function(stackchart){
+		   
+		   console.log(stackchart);
 			$('#container').highcharts({
 		        chart: {
 		            type: 'column'

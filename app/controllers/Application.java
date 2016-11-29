@@ -10219,12 +10219,12 @@ private static void cancelTestDriveMail(Map map) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	 	List<Vehicle> vehicle1 = Vehicle.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
+	 	List<AddProduct> product1 = AddProduct.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
 		int flag1=0;
 		lDataVM.flagForBestSaleIcon = 0;
-		if(vehicle1 != null){
-	 	for(Vehicle vehicle:vehicle1){
-	 		if((vehicle != null && vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(startD) || vehicle.soldDate.equals(endD)) {
+		if(product1 != null){
+	 	for(AddProduct product:product1){
+	 		if((product != null && product.soldDate.after(startD) && product.soldDate.before(endD)) || product.soldDate.equals(startD) || product.soldDate.equals(endD)) {
 	 			flag1=1;
 	 			lDataVM.flagForBestSaleIcon=flag1;
 	 			break;
@@ -10364,16 +10364,16 @@ private static void cancelTestDriveMail(Map map) {
    	Integer pricecount = 0;
    	int saleCarCount = 0;
    	if(users.role.equals("Manager") && locOrPer.equals("location")){
-   		List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
+   		List<AddProduct> pList = AddProduct.findByLocationAndSold(location.id);
        	
-       	for(Vehicle vehList:vList){
+       	for(AddProduct proList:pList){
        		//	if(vehList.soldDate.after(timeBack)) {
-       		if((vehList.soldDate.after(startD) && vehList.soldDate.before(endD)) || vehList.soldDate.equals(endD) || vehList.soldDate.equals(startD)){
+       		if((proList.soldDate.after(startD) && proList.soldDate.before(endD)) || proList.soldDate.equals(endD) || proList.soldDate.equals(startD)){
            			saleCarCount++;
-           			pricecount = pricecount + vehList.price;
+           			pricecount = (int) (pricecount + proList.price);
            		}
-       		if(monthCal.equals(onlyMonth.format(vehList.soldDate))){
-       			monthPriceCount = monthPriceCount + vehList.price;
+       		if(monthCal.equals(onlyMonth.format(proList.soldDate))){
+       			monthPriceCount = (int) (monthPriceCount + proList.price);
        		}
        	}
        	if(countLeads1 != 0 ){
@@ -10389,14 +10389,14 @@ private static void cancelTestDriveMail(Map map) {
    		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(users);
    		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(users);
    		
-   		List<Vehicle> vList = Vehicle.findBySoldUserAndSold(users);
-   		for (Vehicle vehicle : vList) {
-   			if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD) || vehicle.soldDate.equals(startD)) {
+   		List<AddProduct> pList = AddProduct.findBySoldUserAndSold(users);
+   		for (AddProduct product : pList) {
+   			if((product.soldDate.after(startD) && product.soldDate.before(endD)) || product.soldDate.equals(endD) || product.soldDate.equals(startD)) {
        			saleCarCount++;
-       			pricecount = pricecount + vehicle.price;
+       			pricecount = (int) (pricecount + product.price);
 				}
-				if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
-					monthPriceCount = monthPriceCount + vehicle.price;
+				if(monthCal.equals(onlyMonth.format(product.soldDate))){
+					monthPriceCount = (int) (monthPriceCount + product.price);
 				}
 			}
    		if(countLeads1 != 0){
@@ -10435,12 +10435,12 @@ private static void cancelTestDriveMail(Map map) {
    	
    	
    	
-   	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
+   	List<AddProduct> allProdList = AddProduct.findByLocation(location.id);
    	int saleCar = 0;
    	int newCar = 0;
-   	for(Vehicle vehicle:allVehiList){
-   		if(vehicle.status.equals("Sold")){
-   			if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD) || vehicle.soldDate.equals(startD)){
+   	for(AddProduct product:allProdList){
+   		if(product.status.equals("Sold")){
+   			if((product.soldDate.after(startD) && product.soldDate.before(endD)) || product.soldDate.equals(endD) || product.soldDate.equals(startD)){
    				saleCar++;
    			}
    		}//else if(vehicle.status.equals("Newly Arrived")){
@@ -10521,11 +10521,10 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(AuthUser aUser: allLoUser){
 	    		pricecountOther = 0;
 	    		if(allLoUser != null){
-	        		
-	    			List<Vehicle> vList = Vehicle.findBySoldUserAndSold(aUser);
-	        		for (Vehicle vehicle : vList) {
-	    				if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
-	    					pricecountOther = pricecountOther + vehicle.price;
+	    			List<AddProduct> pList = AddProduct.findBySoldUserAndSold(aUser);
+	        		for (AddProduct product : pList) {
+	    				if(monthCal.equals(onlyMonth.format(product.soldDate))){
+	    					pricecountOther = (int) (pricecountOther + product.price);
 	    				}
 	    			}
 	        		priceList.add(pricecountOther);
@@ -10540,9 +10539,9 @@ private static void cancelTestDriveMail(Map map) {
 			sAndValues.add(sValue);
    }
    	
-   	List<Vehicle> vList2 = Vehicle.findByLocationAndSold(locationId);
+   	List<AddProduct> pList2 = AddProduct.findByLocationAndSold(locationId);
    		
-   	if(vList2.size() != 0){
+   	if(pList2.size() != 0){
    		List<Integer> longV = new ArrayList<>();
    		DateAndValueVM sValue = new DateAndValueVM();
 		   	if(locOrPer.equals("location"))
@@ -10561,6 +10560,40 @@ private static void cancelTestDriveMail(Map map) {
     
     
     /*-----------------------------------------*/
+   
+   public static Result getPlanWiseGraph(String planValue, String locat){
+	   List<DateAndValueVM> sAndValues = new ArrayList<>();
+	   if(!locat.equals("location")){
+			List<AuthUser> allLoUser = AuthUser.findByLocatio(Location.findById(Long.parseLong(session("USER_LOCATION"))));
+	    	List<Integer> priceList = new ArrayList<>();
+	    	int pricecountOther = 0;
+	    	for(AuthUser aUser: allLoUser){
+	    		pricecountOther = 0;
+	    		if(allLoUser != null){
+	    			List<AddProduct> pList = AddProduct.findBySoldUserAndSold(aUser);
+	        		/*for (AddProduct product : pList) {
+	        			 productCount++;
+	    				if(monthCal.equals(onlyMonth.format(product.soldDate))){
+	    					pricecountOther = (int) (pricecountOther + product.price);
+	    				}
+	    			}*/
+	        		priceList.add(pList.size());
+	        	}
+	    	}
+	    	Collections.sort(priceList, Collections.reverseOrder());
+	    	List<Integer> longV = new ArrayList<>();
+			DateAndValueVM sValue = new DateAndValueVM();
+			sValue.name = "Highest Result";
+			longV.add(priceList.get(0));
+			sValue.data = longV;
+			sAndValues.add(sValue);
+  }
+		 return ok(Json.toJson(sAndValues));
+		 
+	 }
+   
+   
+   
  public static Result gmLocationManager(Long locationId){
 	 AuthUser auUser = AuthUser.getlocationAndManagerOne(Location.findById(locationId));
 	 return ok(Json.toJson(auUser));
@@ -20883,6 +20916,8 @@ private static void salesPersonPlanMail(Map map) {
 			PlanScheduleMonthlyLocation loc = PlanScheduleMonthlyLocation.findByLocationAndMonth(location,monthCal);
 			if(loc !=null){
 				pvalue.price = Long.parseLong(loc.totalEarning);
+				pvalue.product_sell = Long.parseLong(loc.vehiclesSell);
+				pvalue.avg_check = Long.parseLong(loc.avgCheck);
 			}else{
 				pvalue.price = null;
 			}
@@ -20900,6 +20935,7 @@ private static void salesPersonPlanMail(Map map) {
 			PlanScheduleMonthlySalepeople obj = PlanScheduleMonthlySalepeople.findByUserMonth(user, monthCal);
 			if(obj !=null){
 				pvalue.price = Long.parseLong(obj.totalBrought);
+				
 			}else{
 				pvalue.price = null;
 			}

@@ -1515,6 +1515,13 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	
+	this.getPlanWiseGraph = function(planValue,locOrPer){
+		var defer = $q.defer();
+		$http.get('/getPlanWiseGraph/'+planValue+'/'+locOrPer).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
 	
 })
