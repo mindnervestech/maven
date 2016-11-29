@@ -714,6 +714,8 @@ angular.module('newApp')
 		 $scope.editleadtype={};
 		 $scope.UpdateLeadType = function(leadTypeData){
 			 console.log(leadTypeData);
+			 
+			 localStorage.setItem('callToAction',leadTypeData.callToAction);
 			 localStorage.setItem('leadId',leadTypeData.id);
 			 console.log("out of funtion");
 			 $scope.editleadtype.leadName = leadTypeData.leadName;

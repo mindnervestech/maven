@@ -16,8 +16,14 @@
   };
   angular.module('builder.controller', ['builder.provider']).controller('fbFormObjectEditableController', [
     '$scope', '$injector', 'ngDialog', function($scope, $injector, ngDialog) {
-
-        var asciCode = 65;
+    	
+    	console.log("&&&&&&&&&&&*******************88");
+    	/*$scope.editLead = {
+    		isEnabled: false
+    	};*/
+    	console.log(localStorage.getItem('callToAction'));
+    	$scope.editLead = localStorage.getItem('callToAction');
+    	var asciCode = 65;
         $scope.gridColumnOption = {
             'column_name' : '',
             'field' : '',
@@ -1787,7 +1793,7 @@
         imageUrl: (_ref10 = component.imageUrl) != null ? _ref10 : '',
         placeholder: (_ref3 = component.placeholder) != null ? _ref3 : '',
         editable: (_ref4 = component.editable) != null ? _ref4 : true,
-        required: (_ref5 = component.required) != null ? _ref5 : true,
+        required: (_ref5 = component.required) != null ? true : true,
         displayGrid: (_ref14 = component.displayGrid) != null ? _ref14 : true,
         savecrm: (_ref15 = component.savecrm) != null ? _ref15 : false,
         displayWebsite: (_ref15 = component.displayWebsite) != null ? _ref15 : true,			

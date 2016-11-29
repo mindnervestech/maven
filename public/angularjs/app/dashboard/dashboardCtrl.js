@@ -622,7 +622,7 @@ angular.module('newApp')
 				
 					$scope.flagForBestSale=data.flagForBestSaleIcon;
 					apiserviceDashborad.getPlanTarget(locOrPer).then(function(data){
-					console.log(data);
+					
 						if(data.sendData[0] != undefined){
 							data.sendData[0].plan = data1.data[0].price;
 						
@@ -657,8 +657,7 @@ angular.module('newApp')
 			
 				$scope.flagForBestSale=data.flagForBestSaleIcon;
 				apiserviceDashborad.getPlanTarget(locOrPer).then(function(data1){
-				console.log(data);
-				console.log(data1);
+				
 					if(data.sendData[0] != undefined){
 							data.sendData[0].plan = data1.data[0].price;
 						
@@ -791,8 +790,6 @@ angular.module('newApp')
 		
 	}
 	   $scope.callChart = function(stackchart){
-		   
-		   console.log(stackchart);
 			$('#container').highcharts({
 		        chart: {
 		            type: 'column'
@@ -1795,14 +1792,14 @@ angular.module('newApp')
      	     		     			 		 		 $scope.gridOptions7.enableVerticalScrollbar = 2;
      	     		     			 		 		 
      	     		     			 		 		 $scope.gridOptions7.columnDefs = [
-																					{ name: 'name', displayName: 'Name', width:'8%',cellEditableCondition: false,
+																					/*{ name: 'name', displayName: 'Name', width:'8%',cellEditableCondition: false,
 																					     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
 																					    	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																					    		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 																					                   return 'red';
 																					               }
 																					         	} ,
-																					      },
+																					      },*/
 																					      { name: 'phone', displayName: 'Phone', width:'10%',cellEditableCondition: false,
 																						     	cellTemplate:'<a>{{row.entity.phone}}</a> ',
 																						     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -8989,14 +8986,14 @@ angular.module('newApp')
 		                   	} ,
 		                    });
 		                   
-						$scope.gridOptions13.columnDefs.push({ name: 'name', displayName: 'Name', width:'10%',cellEditableCondition: false,
+						/*$scope.gridOptions13.columnDefs.push({ name: 'name', displayName: 'Name', width:'10%',cellEditableCondition: false,
 		                    	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
 		                    	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                            if (row.entity.noteFlag != 1) {
 		                              return 'red';
 		                          }
 		                    	} ,
-		                     });
+		                     });*/
 						$scope.gridOptions13.columnDefs.push({ name: 'phone', displayName: 'Phone', width:'7%',cellEditableCondition: false,
 		                   	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.phone}}</a> ',
 		                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
