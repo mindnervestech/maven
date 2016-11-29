@@ -31,10 +31,9 @@ angular.module('newApp')
 			$scope.newsletterTime = data.newsletterTime;
 			$scope.newsletterTimeZone = data.NewsletterTimeZone;
 			$scope.domain = data.domain;
-			$scope.showLoginPasswordText($scope.domain.hostingProvider);
+			//$scope.showLoginPasswordText($scope.domain.hostingProvider);
 		
 			$scope.premium.priceVehical = parseInt(data.premiumLeads.premium_amount);
-			
 			if(data.premiumLeads.premium_flag == 1){
 				$scope.premium.premiumFlag = true;
 			}else{
@@ -43,10 +42,8 @@ angular.module('newApp')
 		});
 		
 		apiserviceConfigPage.getAllSalesUsers().then(function(data){
-		
 			$scope.salesPersonList =data;
-		
-			
+			console.log($scope.salesPersonList);
 		});
 		
 			/*$scope.showToUser = function(){
@@ -1146,13 +1143,21 @@ angular.module('newApp')
 		$scope.redirectValue = type;
 		console.log($scope.redirectValue);
 		if(type == "Redirect all online Requests to"){
+			$scope.customerReq = [];
+			$scope.customerReq.redirectValue = type;
 			$scope.typeValue = type;
 		}
 		else if(type == "Automatically redirect an online customer requests based on"){
+			$scope.customerReq = [];
+			$scope.customerReq.redirectValue = type;
 			$scope.typeValue = type;
 		}
 		
 	}
+	
+	apiserviceConfigPage.getAllSalesPersons().then(function(data){
+		$scope.salesPersonName = data;
+	});
 	
 	$scope.personsWiseData = function(type){
 		$scope.personValue = type;
@@ -1166,6 +1171,8 @@ angular.module('newApp')
 			$scope.salesPersonName = [];
 		}
 	}
+	
+	
 	$scope.saveCustomerData = function(type){
 		$scope.salespersonName = type;
 	}
@@ -1176,7 +1183,7 @@ angular.module('newApp')
 		$scope.dataSalesPer.personValue = $scope.personValue;
 		$scope.dataSalesPer.redirectValue = $scope.redirectValue;
 		$scope.dataSalesPer.salespersonName =  $scope.salespersonName.firstName;
-		$scope.dataSalesPer.id = $scope.customerReq.id;
+		$scope.dataSalesPer.id = $scope.salesId;
 		console.log($scope.dataSalesPer);
 		apiserviceConfigPage.saveSalesPersons($scope.dataSalesPer).then(function(data){
 			console.log(data);
@@ -1186,7 +1193,7 @@ angular.module('newApp')
 	apiserviceConfigPage.getAllCustomerReqData().then(function(data){
 		console.log(data);
 		$scope.customerReq = data;
-		$scope.salerPerFirstName = $scope.customerReq.firstName;
+		$scope.salesId = $scope.customerReq.id;
 		console.log($scope.salerPerFirstName);
 	});
 }]);	
