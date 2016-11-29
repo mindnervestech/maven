@@ -158,11 +158,9 @@
             }
             
             $scope.showRichNotification = function(obj){
-            	console.log(obj);
-            	var requestType = obj.leadType;
 	          	var opt={
-	          			icon: 'http://glider-autos.com/MavenImg/images/logo/logo.png',
-	          		    body: "New "+requestType+" has been submitted!"
+	          			icon: obj.imageUrl,
+	          		    body: "New "+obj.leadType+" has been submitted!"
 	          	};
 	          	if (!("Notification" in window)) {
 	          	    alert("This browser does not support desktop notification");
@@ -175,7 +173,11 @@
 		          	    }
 	          	    });
 	          	}
-            };
+	          	notification.onclick = function(event) {
+	            	console.log("on Click");
+	            	window.location.href = "#otherLeads/"+obj.isContactusType;
+	            };
+            };            
             
             $scope.leadCount = function(){
             	$scope.leadData={};
@@ -184,7 +186,10 @@
                 	$scope.leadData=data;
                 	$scope.notifLength=0;
                 	angular.forEach(data, function(value, key) {
-                		//$scope.showRichNotification(value);
+                		if(value.richNotification == 0){
+                			$scope.showRichNotification(value);
+                			$http.get('/requestInfoRichNotification/'+value.id).success(function(data) {});
+                		}                		
                 		if(value.notifFlag == 0){
                 			$scope.notifLength++;
                 			

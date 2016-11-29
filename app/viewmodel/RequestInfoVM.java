@@ -39,6 +39,7 @@ public class RequestInfoVM {
 	public Date confirmDateOrderBy;
 	public String confirmEndTime;
 	public String confirmTime;
+	public int richNotification;
 	public boolean isRead;
 	public boolean is_google;
 	public List<NoteVM> note;

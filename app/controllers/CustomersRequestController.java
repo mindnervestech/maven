@@ -473,6 +473,17 @@ public class CustomersRequestController extends Controller {
 	    	}	
 	    }
 	  
+	  public static Result requestInfoRichNotification(Long id){
+		  if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+	    		RequestMoreInfo infoObj = RequestMoreInfo.findById(id);
+	    		infoObj.setRichNotification(1);
+	    		infoObj.update();
+	    		return ok();
+	    	}
+	  }
+	  
 	  public static Result requestInfoMarkRead(String flag,Long id) {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));

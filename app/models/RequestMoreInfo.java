@@ -30,6 +30,7 @@ public class RequestMoreInfo extends Model {
 	public Date requestTime;
 	public String vin;
 	public int isRead;
+	public int richNotification;
 	public String status;
 	public String reason;
 	public String bestDay;
@@ -129,6 +130,13 @@ public void setMessage(String message) {
 	}
 	public void setIsReassigned(Boolean isReassigned) {
 		this.isReassigned = isReassigned;
+	}
+	
+	public int getRichNotification() {
+		return richNotification;
+	}
+	public void setRichNotification(int richNotification) {
+		this.richNotification = richNotification;
 	}
 	
 
