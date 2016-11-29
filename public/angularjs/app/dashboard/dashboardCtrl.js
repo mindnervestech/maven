@@ -2125,6 +2125,8 @@ angular.module('newApp')
    	  	    $scope.stockWiseData = [];
    	  		$scope.editVinData = function(entity){
    	  			console.log(entity);
+   	  		$scope.addAddress = false;
+			$scope.editAddress = true;
    	  		$scope.customData = entity.customMapData;
    	  	
    	  			console.log($scope.customData);
@@ -4244,7 +4246,8 @@ angular.module('newApp')
 	    		
 	    			 $scope.userFieldsCopy = null;
 	    		$scope.openCreateNewLeadPopup = function() {
-	    			
+	    			$scope.addAddress = true;
+	    			$scope.editAddress = false;
 	    			$scope.stockWiseData = [];
 	    			$scope.stockWiseData = [{}];
 	    			apiserviceDashborad.getSelectedLeadType().then(function(response){
