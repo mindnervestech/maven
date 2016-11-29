@@ -127,27 +127,31 @@ angular.module('newApp')
 				
 				$scope.josnData1 = [];
 				console.log("******************");
-				console.log($scope.gridOptions.data[0]);
+				console.log($scope.gridOptions);
 			angular.forEach(angular.fromJson($scope.gridOptions.data[0].customizDataValue.jsonData),function(value,key){
 				$scope.josnData1.push(value);
 			});
+			
+			
 			console.log($scope.josnData1);
-				
+			console.log($scope.gridOptions.data);
 				angular.forEach($scope.gridOptions.data,function(value,key){
-					if(findFlag == 0){
 						angular.forEach(value.customData,function(value1,key1){
 							angular.forEach($scope.josnData1,function(value2,key2){
 								console.log(value1.key);
 								console.log(value2.key);
 								if(value1.key == value2.key){
-   									$scope.gridMapObect.push({values: value1.value , key: value1.key, label: value2.label});
-   									findFlag = 1;
+									for(var i=0;i<$scope.gridMapObect.length;i++){
+										if($scope.gridMapObect[i].key != value2.key){
+											$scope.gridMapObect.push({values: value1.value , key: value1.key, label: value2.label});
+										}
+									}
+   									if($scope.gridMapObect.length == 0){
+   										$scope.gridMapObect.push({values: value1.value , key: value1.key, label: value2.label});
+   									}
    								}
 							});
-							//$scope.gridMapObect.push({values: value1.value , key: value1.key});
-							//findFlag = 1;
 						});
-					}
 				});
 				angular.forEach($scope.gridOptions.data,function(value,key){
 					angular.forEach($scope.gridMapObect,function(value1,key1){
