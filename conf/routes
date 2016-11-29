@@ -226,6 +226,7 @@ GET    	/addHeard/:name      			controllers.Application.addHeard(name: String)
 GET    /getReminderPopup 		controllers.Application.getReminderPopup()
 GET    	/getPlanTarget/:type      			controllers.Application.getPlanTarget(type: String)
 GET    	/getPlanWiseGraph/:planValue/:locat      			controllers.Application.getPlanWiseGraph(planValue: String,locat:String)
+GET    	/getGraphdata/:planValue/:locat      			controllers.Application.getGraphdata(planValue: String,locat:String)
 
 GET    	/getAllInventory             controllers.Application.getAllInventory()
 GET    /addPublicCar/:id		controllers.Application.addPublicCar(id:Long)

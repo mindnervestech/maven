@@ -10561,6 +10561,100 @@ private static void cancelTestDriveMail(Map map) {
     
     /*-----------------------------------------*/
    
+   public static Result getGraphdata(String planValue, String locat){
+	   DateAndValueVM sAndValues = new DateAndValueVM();
+	   AuthUser user = (AuthUser) getLocalUser();
+	   Location loc = Location.findById(Long.parseLong(session("USER_LOCATION")));
+	   List<Integer>list = new ArrayList<>();
+	   DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+	   DateFormat onlyMonth = new SimpleDateFormat("MMMM");
+	   Calendar cal1 = Calendar.getInstance();
+	   String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
+			        "August", "September", "October", "November", "December" };
+	   Date dateobj = new Date();
+	   Calendar cal = Calendar.getInstance();  
+	   String monthCal = monthName[cal.get(Calendar.MONTH)];
+	   sAndValues.name = "Highest Result";
+	   sAndValues.price = "0";
+	   sAndValues.plan = "0";
+	   sAndValues.data = list;
+	   int total = 0;
+	   
+	   Calendar c = Calendar.getInstance();
+	    int year = c.get(Calendar.YEAR);
+	    int month = c.get(Calendar.MONTH);
+	    int day = 1;
+	    c.set(year, month, day);
+	    int numOfDaysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+	    Date startDate = c.getTime();
+	    c.add(Calendar.DAY_OF_MONTH, numOfDaysInMonth-1);
+	    Date endDate = c.getTime();
+	   
+	   if(!locat.equals("location")){
+		   PlanScheduleMonthlySalepeople planSchedule = PlanScheduleMonthlySalepeople.findByUserMonth(user,monthCal);
+		   if(planSchedule != null){
+			   if("Leads Closed".equalsIgnoreCase(planValue)){
+				   if(planSchedule.vehicalesToSell != null){
+					   sAndValues.price = planSchedule.vehicalesToSell;
+					   sAndValues.plan = planSchedule.vehicalesToSell;
+				   }
+				 //calculate total lead closed
+				   List<AddProduct> totalCount = AddProduct.findBySoldUserAndSoldDate(user,startDate,endDate);
+				   total = totalCount.size();
+			   }
+			   if("Leads to Generate".equalsIgnoreCase(planValue)){
+				   if(planSchedule.leadsToGenerate != null){
+					   sAndValues.price = planSchedule.leadsToGenerate;
+					   sAndValues.plan = planSchedule.leadsToGenerate;
+				   }
+				 //calculate total leads to generated
+				   List<RequestMoreInfo> totalCount = RequestMoreInfo.findByUserAndDate(user,startDate,endDate);
+				   total = totalCount.size();
+			   }
+			   if("Total Earning".equalsIgnoreCase(planValue)){
+				   if(planSchedule.totalBrought != null){
+					   sAndValues.price = planSchedule.totalBrought;
+					   sAndValues.plan = planSchedule.totalBrought;
+				   }
+				 //calculate total leads to generated
+				   total = 50;
+			   }
+		   }
+	   }else{
+		   PlanScheduleMonthlyLocation planSchedule = PlanScheduleMonthlyLocation.findByLocationAndMonth(loc, monthCal);
+		   if(planSchedule != null){
+			   if("Total Earning".equalsIgnoreCase(planValue)){
+				   if(planSchedule.totalEarning != null){
+					   sAndValues.price = planSchedule.totalEarning;
+					   sAndValues.plan = planSchedule.totalEarning;
+				   }
+				 //calculate total leads to generated
+				   total = 50;
+			   }
+			   if("Leads Closed".equalsIgnoreCase(planValue)){
+				   if(planSchedule.vehiclesSell != null){
+					   sAndValues.price = planSchedule.vehiclesSell;
+					   sAndValues.plan = planSchedule.vehiclesSell;
+				   }
+				 //calculate total lead closed
+				   List<AddProduct> totalCount = AddProduct.findByLocationAndSoldDate(loc,startDate,endDate);
+				   total = totalCount.size();
+			   }
+			   if("Leads to Generate".equalsIgnoreCase(planValue)){
+				   if(planSchedule.leadsToGenerate != null){
+					   sAndValues.price = planSchedule.leadsToGenerate;
+					   sAndValues.plan = planSchedule.leadsToGenerate;
+				   }
+				 //calculate total leads to generated
+				   List<RequestMoreInfo> totalCount = RequestMoreInfo.findByLocationAndDate(loc,startDate,endDate);
+				   total = totalCount.size();
+			   }
+		   }
+	   }
+	   list.add(total);
+	   return ok(Json.toJson(sAndValues));
+   }
+   
    public static Result getPlanWiseGraph(String planValue, String locat){
 	   List<DateAndValueVM> sAndValues = new ArrayList<>();
 	   if(!locat.equals("location")){
@@ -20194,6 +20288,7 @@ private static void salesPersonPlanMail(Map map) {
 					planMoth.setMonth(vm.month);
 					planMoth.setTotalEarning(vm.totalEarning);
 					planMoth.setVehiclesSell(vm.vehiclesSell);
+					planMoth.setLeadsToGenerate(vm.leadsToGenerate);
 					planMoth.setUser(user);
 					planMoth.setLocations(Location.findById(lvalue));
 					planMoth.save();
@@ -20202,6 +20297,7 @@ private static void salesPersonPlanMail(Map map) {
 					pLocation.setMinEarning(vm.minEarning);
 					pLocation.setTotalEarning(vm.totalEarning);
 					pLocation.setVehiclesSell(vm.vehiclesSell);
+					pLocation.leadsToGenerate = vm.leadsToGenerate;
 					pLocation.setUser(user);
 					pLocation.update();
 				}
@@ -20217,6 +20313,7 @@ private static void salesPersonPlanMail(Map map) {
 				planMoth.setMonth(vm.month);
 				planMoth.setTotalEarning(vm.totalEarning);
 				planMoth.setVehiclesSell(vm.vehiclesSell);
+				planMoth.setLeadsToGenerate(vm.leadsToGenerate);
 				planMoth.setUser(user);
 				planMoth.setLocations(Location.findById(user.location.id));
 				planMoth.save();
@@ -20225,6 +20322,7 @@ private static void salesPersonPlanMail(Map map) {
 				pLocation.setMinEarning(vm.minEarning);
 				pLocation.setTotalEarning(vm.totalEarning);
 				pLocation.setVehiclesSell(vm.vehiclesSell);
+				pLocation.setLeadsToGenerate(vm.leadsToGenerate);
 				pLocation.setUser(user);
 				pLocation.update();
 			}

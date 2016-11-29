@@ -12,6 +12,7 @@ public class LocationMonthPlanVM {
 	public String month;
 	public String location;
 	public Integer userkey;
+	public String leadsToGenerate;
 	public List<Long> locationList;
 	
 }

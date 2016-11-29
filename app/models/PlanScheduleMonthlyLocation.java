@@ -19,7 +19,15 @@ public class PlanScheduleMonthlyLocation extends Model {
 	public String minEarning;
 	public String vehiclesSell;
 	public String avgCheck;
-	
+	public String leadsToGenerate;
+	public String getLeadsToGenerate() {
+		return leadsToGenerate;
+	}
+
+	public void setLeadsToGenerate(String leadsToGenerate) {
+		this.leadsToGenerate = leadsToGenerate;
+	}
+
 	@ManyToOne
 	public AuthUser user;
 	

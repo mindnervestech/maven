@@ -622,8 +622,10 @@ angular.module('newApp')
 				
 					$scope.flagForBestSale=data.flagForBestSaleIcon;
 					apiserviceDashborad.getPlanTarget(locOrPer).then(function(data){
-					
-						if(data.sendData[0] != undefined){
+					console.log(data);
+					$scope.dataLocOrPerWise = locOrPer;
+					$scope.changeValueInStat($scope.planValue);
+						/*if(data.sendData[0] != undefined){
 							data.sendData[0].plan = data1.data[0].price;
 						
 							$scope.stackchart = data.sendData;
@@ -640,7 +642,7 @@ angular.module('newApp')
 								var chart = $('#container').highcharts();
 						        chart.yAxis[0].removePlotLine('plotline-1');
 							}
-						}
+						}*/
 						
 				});
 					$scope.countTestDrives=data.countTestDrives;
@@ -657,8 +659,9 @@ angular.module('newApp')
 			
 				$scope.flagForBestSale=data.flagForBestSaleIcon;
 				apiserviceDashborad.getPlanTarget(locOrPer).then(function(data1){
-				
-					if(data.sendData[0] != undefined){
+				console.log(data);
+				console.log(data1);
+					/*if(data.sendData[0] != undefined){
 							data.sendData[0].plan = data1.data[0].price;
 						
 						$scope.stackchart = data.sendData;
@@ -675,7 +678,9 @@ angular.module('newApp')
 							var chart = $('#container').highcharts();
 					        chart.yAxis[0].removePlotLine('plotline-1');
 						}
-					}
+					}*/
+				$scope.dataLocOrPerWise = locOrPer;
+				$scope.changeValueInStat($scope.planValue);
 					
 			});
 				
@@ -689,10 +694,20 @@ angular.module('newApp')
 		
 	 }
 	
+	$scope.planValue = "Total Earning";
+	$scope.dataLocOrPerWise = "location";
 	$scope.changeValueInStat = function(planValue){
 		console.log(planValue);
 		console.log($scope.dataLocOrPerWise);
-		apiserviceDashborad.getPlanWiseGraph(planValue,$scope.dataLocOrPerWise).then(function(data){
+		$scope.planValue = planValue;
+		apiserviceDashborad.getGraphdata(planValue,$scope.dataLocOrPerWise).then(function(data){
+			console.log(data);
+			$scope.stackchar = [data];
+			$scope.callChart($scope.stackchar)
+		});
+		/*$scope.obj = [{name:"Highest Result",plan:100,price:100,data:[90]}];
+		$scope.callChart($scope.obj);*/
+		/*apiserviceDashborad.getPlanWiseGraph(planValue,$scope.dataLocOrPerWise).then(function(data){
 			console.log(data);
 			
 			apiserviceDashborad.getPlanTarget($scope.dataLocOrPerWise).then(function(data1){
@@ -720,16 +735,18 @@ angular.module('newApp')
 					
 					
 			});
-		});
+		});*/
 	}
+	$scope.changeValueInStat($scope.planValue);
 	
 	$scope.dataLocOrPerWise = "location";
 	$scope.showLeads = null;
 	$scope.locationOrPersonData = function(wiseData){
-		 var startD = $('#cnfstartDateValue').val();
+		 /*var startD = $('#cnfstartDateValue').val();
 		   var endD = $('#cnfendDateValue').val();
 		$scope.dataLocOrPerWise = wiseData;
-		$scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);
+		$scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);*/
+		$scope.changeValueInStat($scope.planValue);
 	}
 	
 	setInterval(function(){

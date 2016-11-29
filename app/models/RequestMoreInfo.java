@@ -577,6 +577,13 @@ public void setMessage(String message) {
 		return find.where().eq("schedule_email", 0).findList();
 	}
 	
+	public static List<RequestMoreInfo> findByUserAndDate(AuthUser user,Date start,Date end) {
+		return find.where().eq("user", user).eq("onlineOrOfflineLeads", 0).ge("requestDate",start).le("requestDate", end).findList();
+	}
+	public static List<RequestMoreInfo> findByLocationAndDate(Location location,Date start,Date end) {
+		return find.where().eq("locations",location).eq("onlineOrOfflineLeads", 0).ge("requestDate",start).le("requestDate", end).findList();
+	}
+	
 	public static List<RequestMoreInfo> findAllLeads(Long locationId) {
 		return find.where().eq("isRead", 0).eq("premiumFlag", 0).eq("status", null).eq("locations.id", locationId).findList();
 	}

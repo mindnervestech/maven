@@ -331,6 +331,12 @@ public class AddProduct extends Model {
 	public static List<AddProduct> findByLocationAndSold(Long location) {
 		return find.where().eq("locations.id", location).eq("status", "Sold").findList();
 	}
+	public static List<AddProduct> findBySoldUserAndSoldDate(AuthUser user,Date start,Date end) {
+		return find.where().eq("soldUser", user).eq("status", "Sold").ge("soldDate",start).le("soldDate", end).findList();
+	}
+	public static List<AddProduct> findByLocationAndSoldDate(Location location,Date start,Date end) {
+		return find.where().eq("locations",location).eq("status", "Sold").ge("soldDate",start).le("soldDate", end).findList();
+	}
 	public static List<AddProduct> findBySoldUserAndSold(AuthUser user) {
 		return find.where().eq("soldUser", user).eq("status", "Sold").findList();
 	}
