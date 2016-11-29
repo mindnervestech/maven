@@ -3495,6 +3495,8 @@ public class Application extends Controller {
 	    		vm1.id=sc.id;
 	    		vm1.leadType="Request More Info";
 	    		vm1.notifFlag=sc.notifFlag;
+	    		vm1.richNotification = sc.richNotification;
+	    		vm1.isContactusType = sc.isContactusType;
 	    		String imagePath=null;
 	    		String typeoflead=null;
 	    		if(sc.productId != null || sc.isContactusType == null){
