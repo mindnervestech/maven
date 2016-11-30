@@ -2,7 +2,7 @@ angular.module('formlyIonic', ['formly'], ["formlyConfigProvider", function conf
     'use strict';
 
 
-    angular.forEach(['checkbox', 'input', 'radio', 'range', 'textarea', 'toggle', 'select', 'floating-input', 'stacked-input', 'inline-input','signature','ui-grid','image','financialcalculator','daterange','autocompleteText','contactssearch','inventorysearch','fileuploaders','timerange','headerlabel','numberInput','multipleselect','singleSelect','leadTypeSelector','productType','selectGroup'], function (fieldName) {
+    angular.forEach(['checkbox', 'input', 'radio', 'range', 'textarea', 'toggle', 'select', 'floating-input', 'stacked-input', 'inline-input','signature','ui-grid','image','financialcalculator','daterange','autocompleteText','contactssearch','inventorysearch','fileuploaders','timerange','headerlabel','numberInput','multipleselect','singleSelect','leadTypeSelector','productType','selectGroup','emailSelect','phoneSelect'], function (fieldName) {
         if(fieldName === 'signature'){
             formlyConfigProvider.setType({
                 name: fieldName,
@@ -93,6 +93,18 @@ angular.module('formlyIonic', ['formly'], ["formlyConfigProvider", function conf
                 templateUrl: getFieldTemplateUrl(fieldName),
                 controller:'customizationCtrl'
             });
+        }else if(fieldName === 'emailSelect'){
+            formlyConfigProvider.setType({
+                name: fieldName,
+                templateUrl: getFieldTemplateUrl(fieldName),
+                controller:'customizationCtrl'
+            });
+        }else if(fieldName === 'phoneSelect'){
+            formlyConfigProvider.setType({
+                name: fieldName,
+                templateUrl: getFieldTemplateUrl(fieldName),
+                controller:'customizationCtrl'
+            });
         }else{
             formlyConfigProvider.setType({
                 name: fieldName,
@@ -155,6 +167,13 @@ $templateCache.put("fields/floating-input.html","<label class=\"item item-input 
 $templateCache.put("fields/inline-input.html","<label class=\"item item-input form-group col-sm-12\" style=\"padding-left: 0px;\"><span class=\"input-label form-group col-sm-2\">{{options.templateOptions.label}}</span> <div class=\"col-sm-4 form-group\"><input class=\"col-sm-10 form-control form-white\" ng-model=\"model[options.key]\" placeholder=\"{{options.templateOptions.placeholder}}\" type=\"{{options.templateOptions.type}}\"></div></label>");
 $templateCache.put("fields/input.html","<label class=\"item item-input form-group col-sm-12\" style=\"padding-left: 0px;\"><i class=\"icon {{options.templateOptions.icon}}\" ng-if=\"options.templateOptions.icon\" ng-class=\"{\'placeholder-icon\': options.templateOptions.iconPlaceholder}\"></i><div class=\"col-sm-4 form-group\"><input class=\"col-sm-10 form-control form-white\" ng-model=\"model[options.key]\" placeholder=\"{{options.templateOptions.placeholder}}\" type=\"{{options.templateOptions.type}}\"></div></label>");
 
+$templateCache.put("fields/emailSelect.html","<label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div class=\"col-sm-5 form-group\"><input class=\"col-sm-5 form-control form-white\" ng-model=\"model[options.key]\" placeholder=\"{{options.templateOptions.placeholder}}\" type=\"{{options.templateOptions.type}}\"></div><div   class=\"col-sm-3 form-group\"><select class=\"col-sm-3 form-control form-white\" ng-change=\"selectEmailType(emailType)\" ng-model=\"emailType\"><option ng-repeat=\"option in to.options\">{{option[to.labelProp || \'name\']}}</option></select></div></label>");
+$templateCache.put("fields/phoneSelect.html","<label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div class=\"col-sm-5 form-group\"><input class=\"col-sm-5 form-control form-white\" ng-model=\"model[options.key]\" placeholder=\"{{options.templateOptions.placeholder}}\" type=\"{{options.templateOptions.type}}\"></div><div   class=\"col-sm-3 form-group\"><select class=\"col-sm-3 form-control form-white\" ng-change=\"selectPhoneType(phoneType)\" ng-model=\"phoneType\"><option ng-repeat=\"option in to.options\">{{option[to.labelProp || \'name\']}}</option></select></div></label>");
+																																																																																																																																												
+/*template: "<div class=\"form-group col-sm-12\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\">{{label}}</label>\n    <div class=\"col-md-5\" style=\"padding-right: 0px;\">\n<input type=\"text\" ng-model=\"inputText\" validator-group=\"{{formName}}\" class=\"form-control m-b\" placeholder=\"{{placeholder}}\"/></div><div class=\"col-md-3 from-group\">        <select ng-options=\"value for value in options\" id=\"{{formName+index}}\" class=\"form-control\"\n            ng-model=\"inputText\" ng-init=\"inputText = options[0]\"/>\n        <p class='help-block'>{{description}}</p>\n    </div>\n <div class='col-sm-12'> <hr> </div></div>",*/
+
+
+
 //$templateCache.put("fields/ion-radio.html","<label style=\"margin-left: 18px;font-size:17px;\">{{options.name}}</label><ion-radio ng-repeat=\"item in options.templateOptions.options\" icon=\"{{item.icon? item.icon: \'ion-checkmark\'}}\" ng-value=\"item.value\" ng-model=\"model[options.key]\">{{ item.text }}</ion-radio>");
 $templateCache.put("fields/radio.html","<label class=\"item item-input item-stacked-label\"><span class=\"input-label\">{{options.name}}</span></label><div class=\"list\"><ion-radio ng-repeat=\"item in options.templateOptions.options\" icon=\"{{item.icon? item.icon: \'ion-checkmark\'}}\" ng-value=\"item.value\" ng-model=\"model[options.key]\">{{ item.text }}</ion-radio></div>");
 
@@ -197,9 +216,6 @@ $templateCache.put("fields/multipleselect.html","<label class=\"item item-input 
 
 $templateCache.put("fields/singleSelect.html","<div class=\"form-group col-sm-12\" > <label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div   class=\"col-sm-4 form-group\"> <select  style=\"width: 125px\"  ng-model=\"model[options.key]\" data-ng-attr-size=\"{{to.options.length}}\"><option  ng-repeat=\"option in to.options\">{{option[to.labelProp || \'name\']}}</option></select></div></label></div>");
 
-/*<div  class=\"dropdown open\"> <ul class=\"dropdown-menu\"><li ng-repeat=\"option in to.options\" ng-model=\"model[options.key]\" id=\"{{formName+index}}\"><a >{{option[to.labelProp || \'name\']}}</a></li>  </ul></div>
-*/
-/*ng-model=\"model[options.key]\" ng-options=\"option[to.valueProp || \'value\'] as option[to.labelProp || \'name\'] group by 			  option[to.groupProp || \'group\'] for option in to.options\"></select></div></label>");*/
 
 
 $templateCache.put("fields/toggle.html","<ion-toggle ng-model=\"model[options.key]\" toggle-class=\"toggle-{{options.templateOptions.toggleClass}}\">{{options.templateOptions.label}}</ion-toggle>");}]);

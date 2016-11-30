@@ -135,7 +135,10 @@ public class customizationController extends Controller {
 			for(CustomizationDataValue cust:custData){
 				cust.setDisplayGrid(kValue.displayGrid);
 				cust.setDisplayWebsite(kValue.displayWebsite);
-				cust.setKeyValue(kValue.key);
+				if(!cust.keyValue.equals("emailType") && !cust.keyValue.equals("phoneType")){
+					cust.setKeyValue(kValue.key);
+				}
+				
 				cust.update();
 
 			}

@@ -9398,8 +9398,11 @@ float: right !important;
 								                    			Select Lead Type And Select Manufacturers field is mandatory.
 								                    		</div>
 								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.mainTitle}}</strong></h3>
-								                    		<div class="col-md-6">
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    		<div class="col-md-12">
+								                    			<div class="col-md-2" style="padding-right: 0px">
+								                    				<label>Name</label>
+								                    			</div>
+								                    			<div class="col-md-4" style="padding-left: 0px;">
 								                    				
 								                    				<angucomplete-alt id="ex1"
 														              placeholder="Search Name"
@@ -9414,19 +9417,19 @@ float: right !important;
 															    </angucomplete-alt>
 															    
 								                    			</div>
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    			<!-- <div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="lead.custNumber" placeholder="PHONE NUMBER" required/> <span style="color: red;">*</span>
-								                    			</div>
+								                    			</div> -->
 								                    			
 								                    		</div>
-								                    		<div class="col-md-6">
+								                    		<!-- <div class="col-md-6">
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="lead.custEmail" placeholder="EMAIL" required/> <span style="color: red;">*</span>
 								                    			</div>	
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="lead.custZipCode" placeholder="ZIP CODE" required/> <span style="color: red;">*</span>
 								                    			</div>
-								                    		</div>	
+								                    		</div> -->	
 								                    	</div>
 								                    	<div ng-if="addAddress" class="col-md-12" style="margin-top: 32px;">
 								                				<formly-form model="customData" fields="userFields">

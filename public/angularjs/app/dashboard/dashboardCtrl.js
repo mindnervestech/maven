@@ -4413,10 +4413,10 @@ angular.module('newApp')
 	    		$scope.customData = {};
 	    		$scope.createLead = function() {
 	    			$scope.customList =[];
-	    			$scope.customData.setTime = $("#bestTimes").val();
+	    			$scope.customData.time_range = $("#bestTimes").val();
 	    			console.log($scope.customData.setTime);
-	    			if($scope.customData.setTime == undefined){
-	    				delete $scope.customData.setTime;
+	    			if($scope.customData.time_range == undefined){
+	    				delete $scope.customData.time_range;
 	    			}
 	    			console.log($scope.customData);
 	    			console.log($('#exCustoms_value').val());
@@ -4424,7 +4424,7 @@ angular.module('newApp')
 	    			if($scope.customData.custName == undefined){
 	    				delete $scope.customData.custName;
 	    			}
-	    			$scope.customData.autocompleteText = $("#autocomplete").val()
+	    			$scope.customData.autocompleteText = $("#autocomplete").val();
 	    			if($scope.customData.autocompleteText == undefined){
 	    				delete $scope.customData.autocompleteText;
 	    			}
@@ -4472,6 +4472,31 @@ angular.module('newApp')
 			    		   	  		    displayWebsite:value1.displayWebsite,
 			    		   	  			formName:value1.formName,
 			    					});
+	    							
+	    							if(value1.component == "emailSelect"){
+    									//value = value+","+$rootScope.selectEmailType;
+	    								$scope.customList.push({
+		    								fieldId:value1.fieldId,
+				    		   	  			key:"emailType",
+				    		   	  			value:$rootScope.selectEmailType,
+				    		   	  			savecrm:value1.savecrm,
+				    		   	  			displayGrid:value1.displayGrid,
+				    		   	  		    displayWebsite:value1.displayWebsite,
+				    		   	  			formName:value1.formName,
+				    					});
+    								}
+	    							
+	    							if(value1.component == "phoneSelect"){
+	    								$scope.customList.push({
+		    								fieldId:value1.fieldId,
+				    		   	  			key:"phoneType",
+				    		   	  			value:$rootScope.selectPhoneType,
+				    		   	  			savecrm:value1.savecrm,
+				    		   	  			displayGrid:value1.displayGrid,
+				    		   	  		    displayWebsite:value1.displayWebsite,
+				    		   	  			formName:value1.formName,
+				    					});
+    								}
 	    						} 
 	    					});
 		    			   });
@@ -4486,13 +4511,16 @@ angular.module('newApp')
     	    			$scope.lead.customData = $scope.customList;
     	    			console.log($scope.lead);
     	    			console.log($("#autocomplete").val());
-    	    			
+    	    			//$scope.lead.custName = $('#ex1_value').val();
+    	    			console.log("8*****888***");
+    	    			console.log($('#ex1').val());
     	    			if($scope.lead.custName == ''){
     	    				$scope.lead.custName = $('#ex1_value').val();
     	    			}
-    	    			if($scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='') {
-    	    				$scope.isInValid = true;
-    	    			}else if($scope.lead.leadType == "" || $scope.lead.manufacturers == ""){ 
+    	    			//if($scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='') {
+    	    				//$scope.isInValid = true;
+    	    			//}else 
+    	    			if($scope.lead.leadType == "" || $scope.lead.manufacturers == ""){ 
     	    				$scope.isInValid2 = true;
     	    			}else {
     	    				$scope.isInValid2 = false;
@@ -4540,7 +4568,7 @@ angular.module('newApp')
 	    			
 	    			var files = [];
 	    			console.log("^^^%%%*&&&&&&");
-	    			//console.log($scope.lead);
+	    			console.log($scope.lead);
 	    			if($rootScope.fileCustom != undefined){
 	    				console.log($rootScope.fileCustom);
 	    				files = $rootScope.fileCustom;

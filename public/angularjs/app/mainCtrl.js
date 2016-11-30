@@ -1000,6 +1000,12 @@
                         if(form.component === "leadTypeSelector"){
                           	 formFields.push(getJsonBForleadTypeSelector(form));
                           }
+                        if(form.component === "emailSelect"){
+                         	 formFields.push(getJsonBForEmailSelect(form));
+                         }
+                        if(form.component === "phoneSelect"){
+                        	 formFields.push(getJsonBForPhoneSelect(form));
+                        }
                         if(form.component === "productType"){
                          	 formFields.push(getJsonBForproductType(form));
                          }
@@ -1448,6 +1454,73 @@
                   }
                   return convertedObject;
                 }
+                
+                function getJsonBForPhoneSelect(jsonObject){
+                	console.log("------+++++++-------------");
+                	console.log(jsonObject);
+                    var key;
+                    if(jsonObject.key === ""){
+                      key = jsonObject.label;
+                      key = key.replace(" ","_");
+                      key = key.toLowerCase();
+                    }else{
+                      key = jsonObject.key;
+                    }
+                    var properties = getPropertiesForEditable(jsonObject.editable);
+                    var options = [];
+                    options = getPropertiesForSelectOptions(jsonObject.options);
+                    var convertedObject = {
+                      "key": key,
+                      "type": jsonObject.component,
+                      "templateOptions": {
+                        "label": jsonObject.label,
+                        "options": options,
+                        "valueProp": "id",
+                        "labelProp": "label",
+                        "required": jsonObject.required
+                        },
+                        "expressionProperties": properties,
+                        "hideExpression" : function($viewValue, $modelValue, scope) {
+                          return isHideComponent(jsonObject);
+                        }
+                    }
+                    return convertedObject;
+                  }
+
+                
+                
+                function getJsonBForEmailSelect(jsonObject){
+                	console.log("------+++++++-------------");
+                	console.log(jsonObject);
+                    var key;
+                    if(jsonObject.key === ""){
+                      key = jsonObject.label;
+                      key = key.replace(" ","_");
+                      key = key.toLowerCase();
+                    }else{
+                      key = jsonObject.key;
+                    }
+                    var properties = getPropertiesForEditable(jsonObject.editable);
+                    var options = [];
+                    options = getPropertiesForSelectOptions(jsonObject.options);
+                    var convertedObject = {
+                      "key": key,
+                      "type": jsonObject.component,
+                      "templateOptions": {
+                        "label": jsonObject.label,
+                        "options": options,
+                        "valueProp": "id",
+                        "labelProp": "label",
+                        "required": jsonObject.required
+                        },
+                        "expressionProperties": properties,
+                        "hideExpression" : function($viewValue, $modelValue, scope) {
+                          return isHideComponent(jsonObject);
+                        }
+                    }
+                    return convertedObject;
+                  }
+
                 
                 
                 function getJsonBForleadTypeSelector(jsonObject){
@@ -1918,6 +1991,7 @@ angular.module('newApp').controller('customizationCtrl',
 	    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$interval','$rootScope',
 	        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$interval,$rootScope) {
 	    
+	    	$rootScope.selectEmailType = "";
 	    	
 	    	$http.get('/getDataFromCrm').success(function(data){
 	    		$scope.searchList = data;
@@ -1927,6 +2001,18 @@ angular.module('newApp').controller('customizationCtrl',
 				$scope.leadList = data; 
 				
 			});
+	    	
+	    	$scope.selectEmailType = function(emailType){
+	    		console.log(emailType);
+	    		$rootScope.selectEmailType = emailType;
+	    	}
+	    	
+	    	$scope.selectPhoneType = function(phoneType){
+	    		console.log(phoneType);
+	    		$rootScope.selectPhoneType = phoneType;
+	    	}
+	    	
+	    	
 	    	
 	    	
 			var date = new Date().getTime();

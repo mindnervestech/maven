@@ -105,10 +105,51 @@
         key:'leadTypeSelector',
         required: false,
         options: ['lead1', 'lead2'],
-        template: "<div class=\"form-group col-sm-12\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\">{{label}}</label>\n    <div class=\"col-md-6\">\n        <select ng-options=\"value for value in options\" id=\"{{formName+index}}\" class=\"form-control\"\n            ng-model=\"inputText\" ng-init=\"inputText = options[0]\"/>\n        <p class='help-block'>{{description}}</p>\n    </div>\n <div class='col-sm-12'> <hr> </div></div>",
-        //popoverTemplate: "<form>\n    <div class=\"form-group\">\n        <label class='control-label'>Label</label>\n        <input type='text' ng-model=\"label\" validator=\"[required]\" class='form-control'/>\n    </div>\n    <div class=\"form-group\">\n        <label class='control-label'>Description</label>\n        <input type='text' ng-model=\"description\" class='form-control'/>\n    </div>\n   <div class=\"form-group\">\n        <label class='control-label'>Name</label>\n        <input type='text' ng-model=\"key\" class='form-control'/>\n    </div>\n   <div class=\"form-group\">\n        <label class='control-label'>Options</label>\n        <textarea class=\"form-control\" rows=\"3\" ng-model=\"optionsText\"/>\n    </div>\n\n    <hr/>\n    <div class='form-group'>\n        <input type='submit' ng-click=\"popover.save($event)\" class='btn btn-primary' value='Save'/>\n        <input type='button' ng-click=\"popover.cancel($event)\" class='btn btn-default' value='Cancel'/>\n        <input type='button' ng-click=\"popover.remove($event)\" class='btn btn-danger' value='Delete'/>\n    </div>\n</form>"
+        template: "<div class=\"form-group col-sm-12\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\">{{label}}</label>\n    <div class=\"col-md-6\">\n        <select ng-options=\"value for value in options\" id=\"{{formName+index}}\" class=\"form-control\"\n   ng-model=\"inputText\" ng-init=\"inputText = options[0]\"/>\n        <p class='help-block'>{{description}}</p>\n    </div>\n <div class='col-sm-12'> <hr> </div></div>",
         popoverTemplateUrl: '/dealer/template/select.html'
       });
+      
+      
+      $builderProvider.registerComponent('emailSelect', {
+          group: 'Default',
+          label: 'Email',
+          key:'emailSelect',
+          required: false,
+          options: ['Work', 'Personal'],
+          template: "<div class=\"form-group col-sm-12\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\">{{label}}</label>\n    <div class=\"col-md-5\" style=\"padding-right: 0px;\">\n<input type=\"text\" ng-model=\"inputText\" validator-group=\"{{formName}}\" class=\"form-control m-b\" placeholder=\"{{placeholder}}\"/></div><div class=\"col-md-4\">        <select ng-options=\"value for value in options\" id=\"{{formName+index}}\" class=\"form-control\"\n            ng-model=\"inputText\" ng-init=\"inputText = options[0]\"/>\n        <p class='help-block'>{{description}}</p>\n    </div>\n <div class='col-sm-12'> <hr> </div></div>",
+          popoverTemplateUrl: '/dealer/template/select.html'
+        });
+      
+      $builderProvider.registerComponent('phoneSelect', {
+          group: 'Default',
+          label: 'Phone',
+          key:'phoneSelect',
+          required: false,
+          options: ['Work', 'Personal'],
+          template: "<div class=\"form-group col-sm-12\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\">{{label}}</label>\n    <div class=\"col-md-5\" style=\"padding-right: 0px;\">\n<input type=\"text\" ng-model=\"inputText\" validator-group=\"{{formName}}\" class=\"form-control m-b\" placeholder=\"{{placeholder}}\"/></div><div class=\"col-md-4\">        <select ng-options=\"value for value in options\" id=\"{{formName+index}}\" class=\"form-control\"\n            ng-model=\"inputText\" ng-init=\"inputText = options[0]\"/>\n        <p class='help-block'>{{description}}</p>\n    </div>\n <div class='col-sm-12'> <hr> </div></div>",
+          //popoverTemplate: "<form>\n    <div class=\"form-group\">\n        <label class='control-label'>Label</label>\n        <input type='text' ng-model=\"label\" validator=\"[required]\" class='form-control'/>\n    </div>\n    <div class=\"form-group\">\n        <label class='control-label'>Description</label>\n        <input type='text' ng-model=\"description\" class='form-control'/>\n    </div>\n   <div class=\"form-group\">\n        <label class='control-label'>Name</label>\n        <input type='text' ng-model=\"key\" class='form-control'/>\n    </div>\n   <div class=\"form-group\">\n        <label class='control-label'>Options</label>\n        <textarea class=\"form-control\" rows=\"3\" ng-model=\"optionsText\"/>\n    </div>\n\n    <hr/>\n    <div class='form-group'>\n        <input type='submit' ng-click=\"popover.save($event)\" class='btn btn-primary' value='Save'/>\n        <input type='button' ng-click=\"popover.cancel($event)\" class='btn btn-default' value='Cancel'/>\n        <input type='button' ng-click=\"popover.remove($event)\" class='btn btn-danger' value='Delete'/>\n    </div>\n</form>"
+          popoverTemplateUrl: '/dealer/template/select.html'
+        });
+      /*<div class="form-group col-sm-12"">
+		<div class="col-sm-6">
+			<label class="col-sm-12 control-label">Email1</label>
+			<div class="col-sm-8">
+				<input type="email" class="form-control form-white" ng-model="contactsDetails.email1" required>
+			</div>
+			
+			<div class="col-sm-4">
+				<select class="from-control form-white" style="height: 35px;" ng-model="contactsDetails.workEmail1" required>
+							<option value="Work">Work</option>
+							<option value="Personal">Personal</option>
+			   </select>
+			</div>
+			
+		</div>
+		<div class="col-sm-6">
+			
+		</div>
+	</div>*/
+      
       
       $builderProvider.registerComponent('selectGroup', {
           group: 'Default',
@@ -226,7 +267,7 @@
       
       $builderProvider.registerComponent('timerange', {
     	  group: 'Default',
-          label: 'Time Range',
+          label: 'Time Selector',
           key:'time_range',
           description: '',
           required: false,
