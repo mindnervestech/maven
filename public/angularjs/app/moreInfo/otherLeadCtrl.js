@@ -166,8 +166,28 @@ angular.module('newApp')
 					});
 				});	
 				
-				
+				$scope.gridMapObectView = [];
 				angular.forEach($scope.gridMapObect,function(value,key){
+					var flag1 = 0;
+					 for(var i=0;i<$scope.gridMapObectView.length;i++){
+						 if($scope.gridMapObectView[i].key == value.key){
+							 flag1 = 1;
+						 }
+					 }
+					 
+					 if(key == 0){
+						 $scope.gridMapObectView.push(value);
+					 }else{
+						 if(flag1 == 0){
+							 $scope.gridMapObectView.push(value);
+						 }
+					 }
+					 
+				});
+				console.log( $scope.gridMapObectView);
+				console.log($scope.gridMapObect);
+				console.log("------------------------------------------------");
+				angular.forEach($scope.gridMapObectView,function(value,key){
 					var name = value.key;
 					name = name.replace(" ","");
 					console.log(name);
