@@ -2377,6 +2377,31 @@ angular.module('newApp')
     		   	  		    displayWebsite:value1.displayWebsite,
     		   	  			
     					});
+						
+						if(value1.component == "emailSelect"){
+							//value = value+","+$rootScope.selectEmailType;
+							$scope.customList.push({
+								fieldId:value1.fieldId,
+	    		   	  			key:"emailType",
+	    		   	  			value:$rootScope.selectEmailType,
+	    		   	  			savecrm:value1.savecrm,
+	    		   	  			displayGrid:value1.displayGrid,
+	    		   	  		    displayWebsite:value1.displayWebsite,
+	    		   	  			formName:value1.formName,
+	    					});
+						}
+						
+						if(value1.component == "phoneSelect"){
+							$scope.customList.push({
+								fieldId:value1.fieldId,
+	    		   	  			key:"phoneType",
+	    		   	  			value:$rootScope.selectPhoneType,
+	    		   	  			savecrm:value1.savecrm,
+	    		   	  			displayGrid:value1.displayGrid,
+	    		   	  		    displayWebsite:value1.displayWebsite,
+	    		   	  			formName:value1.formName,
+	    					});
+						}
 					} 
 				});
 			   });
