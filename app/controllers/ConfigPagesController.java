@@ -20,6 +20,7 @@ import models.CoverImage;
 import models.CreateNewForm;
 import models.CustomerPdf;
 import models.CustomerRequest;
+import models.CustomizationDataValue;
 import models.CustomizationForm;
 import models.Domain;
 import models.EmailDetails;
@@ -468,10 +469,15 @@ public class ConfigPagesController extends Controller{
 			 List<RequestMoreInfo> reInfo = RequestMoreInfo.findAllOtherLeadIdWise(leadId.toString());
 			 if(reInfo.size() == 0){
 				 LeadType type = LeadType.findById(leadId);
-				 type.delete();
+				 if(leadId != null){
+					 type.delete();
+				 }
 				 
 				 NewFormWebsite nWebsite = NewFormWebsite.findByName(type.leadName);
-				 nWebsite.delete();
+				 if(nWebsite != null){
+					 nWebsite.delete();
+				 }
+				
 				 return ok();
 			 }else{
 				 return ok("not delete");
@@ -683,10 +689,23 @@ public class ConfigPagesController extends Controller{
 				Date date = new Date();
 				
 				LeadType lead = LeadType.findById(vm.id);
+				if(lead != null){
+					if(!vm.profile.equals("0")){
+						List<CustomizationDataValue> cDataValue = CustomizationDataValue.findByleadType(lead.id);
+						for(CustomizationDataValue cData:cDataValue){
+							if(!cData.formName.equals("Create New Lead")){
+								cData.setDisplayWebsite("true");
+								cData.update();
+							}
+						}
+					}
+					
+					lead.setProfile(vm.profile);
+			    	lead.setMaunfacturersIds(vm.maunfacturersIds);
+			    	lead.update();
+				}
 				  
-		    	  lead.setProfile(vm.profile);
-		    	  lead.setMaunfacturersIds(vm.maunfacturersIds);
-		    	  lead.update();
+		    	  
 		    	  return ok();
 			}	
 		 

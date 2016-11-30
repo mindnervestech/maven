@@ -134,6 +134,7 @@ public class customizationController extends Controller {
 			List<CustomizationDataValue> custData = CustomizationDataValue.findByfieldId(kValue.fieldId);
 			for(CustomizationDataValue cust:custData){
 				cust.setDisplayGrid(kValue.displayGrid);
+				cust.setDisplayWebsite(kValue.displayWebsite);
 				cust.setKeyValue(kValue.key);
 				cust.update();
 
