@@ -1800,7 +1800,7 @@ angular.module('newApp')
 																					         	} ,
 																					      },*/
 																					      { name: 'phone', displayName: 'Phone', width:'10%',cellEditableCondition: false,
-																						     	cellTemplate:'<a>{{row.entity.phone}}</a> ',
+																						     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)">{{row.entity.phone}}</a> ',
 																						     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																						     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 																						                return 'red';
@@ -1808,7 +1808,7 @@ angular.module('newApp')
 																						      	} ,
 																						      },
 																						      { name: 'custZipCode', displayName: 'ZipCode', width:'10%',cellEditableCondition: false,
-																							     	cellTemplate:'<a>{{row.entity.custZipCode}}</a> ',
+																							     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)">{{row.entity.custZipCode}}</a> ',
 																							     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																							     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 																							                return 'red';

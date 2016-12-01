@@ -142,9 +142,9 @@ angular.module('newApp')
 				});
 				 
 				 
-				 if(obj == "Lead"){
+				 //if(obj == "Lead"){
 					 $scope.getLeadTypeDataById($scope.leadId);
-				 }
+				// }
 			 // }else{
 				//  $scope.showOutcomeMsg = 1;
 		//	  }
