@@ -176,6 +176,11 @@
 	          	notification.onclick = function(event) {
 	            	console.log("on Click");
 	            	window.location.href = "#otherLeads/"+obj.isContactusType;
+	            	$http.get('/requestInfoRichNotification/'+obj.id).success(function(data) {});
+	            };
+	            notification.onclose = function(event) {
+	            	console.log("on close....");
+	            	$http.get('/requestInfoRichNotification/'+obj.id).success(function(data) {});
 	            };
             };            
             
@@ -186,8 +191,7 @@
                 	$scope.notifLength=0;
                 	angular.forEach(data, function(value, key) {
                 		if(value.richNotification == 0){
-                			$scope.showRichNotification(value);
-                			$http.get('/requestInfoRichNotification/'+value.id).success(function(data) {});
+                			$scope.showRichNotification(value);                			
                 		}                		
                 		if(value.notifFlag == 0){
                 			$scope.notifLength++;
