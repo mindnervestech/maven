@@ -690,16 +690,17 @@ public class ConfigPagesController extends Controller{
 				
 				LeadType lead = LeadType.findById(vm.id);
 				if(lead != null){
+					CustomizationForm cForm = CustomizationForm.findByLeadType(lead.leadName);
+					if(cForm != null){
+						cForm.setJsonData(cForm.jsonData.replace("\"displayWebsite\":false", "\"displayWebsite\":true"));
+						cForm.update();
+					}
 					if(!vm.profile.equals("0")){
 						List<CustomizationDataValue> cDataValue = CustomizationDataValue.findByleadType(lead.id);
 						for(CustomizationDataValue cData:cDataValue){
 							if(!cData.formName.equals("Create New Lead")){
 								cData.setDisplayWebsite("true");
-								CustomizationForm cForm = CustomizationForm.findByLeadType(cData.formName);
-								if(cForm != null){
-									cForm.setJsonData(cForm.jsonData.replace("\"displayWebsite\":false", "\"displayWebsite\":true"));
-									cForm.update();
-								}
+								
 								//"displayWebsite":false
 								cData.update();
 							}
