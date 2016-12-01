@@ -2157,11 +2157,14 @@ angular.module('newApp')
    	        $scope.financeData={};
    	  		$scope.editLeads = {};
    	  	    $scope.stockWiseData = [];
-   	  		$scope.editVinData = function(entity){
+   	  	    
+   	  	    
+   	  	  $scope.editVinData = function(entity){
    	  		$scope.addAddress = false;
 			$scope.editAddress = true;
    	  		$scope.customData = entity.customMapData;
-   	  	
+   	  		console.log(entity);
+   	  		$("#ex1_value").val(entity.name);
    	  		apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
    	  	
    	  			
@@ -2305,16 +2308,16 @@ angular.module('newApp')
 			if($scope.customData.autocompleteText == undefined){
 				delete $scope.customData.autocompleteText;
 			}
-   	  	
-   	  	 
+			$scope.editLeads.custName = $("#ex1_value").val();
    		apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
 			
 			
-			$scope.editLeads.leadType = "";
+			//$scope.editLeads.leadType = "";
 			$scope.editLeads.manufacturers = "";
 			$scope.josnData = angular.fromJson(response.jsonData);
 			$scope.josnData1 = null;
-			apiserviceDashborad.getCustomizationform("schedu").then(function(response1){
+			console.log($scope.editLeads.leadType);
+			apiserviceDashborad.getCustomizationform($scope.editLeads.leadType).then(function(response1){
 				$scope.josnData1 = angular.fromJson(response1.jsonData);
 				angular.forEach($scope.josnData1, function(obj, index){
 					$scope.josnData.push(obj);
