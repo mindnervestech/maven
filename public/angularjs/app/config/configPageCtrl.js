@@ -1146,7 +1146,7 @@ angular.module('newApp')
 	$scope.redirestRequest = function(type){
 		$scope.redirectValue = type;
 		console.log($scope.redirectValue);
-		if(type == "Redirect all online Requests to"){
+		if(type == "Redirect all online requests to"){
 			$scope.customerReq = [];
 			$scope.customerReq.redirectValue = type;
 			$scope.typeValue = type;
@@ -1166,7 +1166,7 @@ angular.module('newApp')
 	$scope.personsWiseData = function(type){
 		$scope.personValue = type;
 		console.log($scope.personValue);
-		if(type == "Sales Person"){
+		if(type == "Sales Person(s)"){
 			apiserviceConfigPage.getAllSalesPersons().then(function(data){
 					$scope.salesPersonName = data;
 			});
@@ -1200,4 +1200,68 @@ angular.module('newApp')
 		$scope.salesId = $scope.customerReq.id;
 		console.log($scope.salerPerFirstName);
 	});
+	
+	apiserviceConfigPage.getAllCustomerManufacturer().then(function(data){
+		console.log(data);
+		$scope.editCustManufData = data;
+	});
+	
+	
+	apiserviceConfigPage.getAllManufacturer().then(function(data){
+		$scope.allManufacturerList =data;
+		console.log($scope.allManufacturerList);
+		apiserviceConfigPage.getAllFrontAndSalesPer().then(function(data){
+			$scope.allFronAndSalesList =data;
+			angular.forEach($scope.allFronAndSalesList, function(obj, index){
+				obj.premiumFlag = false;
+			});
+			angular.forEach($scope.allManufacturerList, function(obj, index){
+				obj.userData = angular.copy($scope.allFronAndSalesList); 
+			 });
+			
+			console.log($scope.allManufacturerList);
+			console.log($scope.editCustManufData);
+			angular.forEach($scope.allManufacturerList, function(obj, index){
+				angular.forEach($scope.editCustManufData, function(obj1, index1){
+					 if(obj.id == obj1.manufacturer.id){
+						 angular.forEach(obj.userData, function(obj2, index2){
+							 if(obj2.id == obj1.user.id){
+								 obj2.premiumFlag = true;
+							 }
+						 });
+					 }
+				 });
+			 });
+			console.log($scope.allManufacturerList);
+		});
+	});
+	
+	
+	
+	$scope.listOfSalesAndFront = [];
+	$scope.salesPersonListPop = function(salesper){
+		console.log(salesper);
+		$('#allSalesAndFront').click();
+		$scope.salesPerDetail = salesper;
+	}
+	
+	$scope.storeValue = function(saleP){
+		console.log(saleP);
+		console.log(saleP.premiumFlag);
+		console.log($scope.allManufacturerList)
+		
+	}
+	
+	$scope.selectedSalesPer = function(){
+		//console.log($scope.listOfSalesAndFront);
+	}
+	
+	$scope.saveDetailsOfUser = function(){
+		$scope.obj = {allManufacturerList:$scope.allManufacturerList};
+		console.log($scope.obj);
+		apiserviceConfigPage.saveManfactSales($scope.obj).then(function(data){
+			console.log(data);
+		});
+	}
+	
 }]);	

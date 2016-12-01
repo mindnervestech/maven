@@ -21,6 +21,7 @@ import models.CreateNewForm;
 import models.CustomerPdf;
 import models.CustomerRequest;
 import models.CustomizationDataValue;
+import models.CustomerRequestManufacturerSettings;
 import models.CustomizationForm;
 import models.Domain;
 import models.EmailDetails;
@@ -54,8 +55,10 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
+import viewmodel.AddProductVM;
 import viewmodel.AutoPortalVM;
 import viewmodel.CreateNewFormVM;
+import viewmodel.CustomerRequestManufacrurerSettingsVM;
 import viewmodel.CustomerRequestVM;
 import viewmodel.DocumentationVM;
 import viewmodel.ImageVM;
@@ -607,12 +610,52 @@ public class ConfigPagesController extends Controller{
 				
 			}
 		 
+		 public static Result getAllManufacturer() {
+				List<AddProduct> manufact = AddProduct.getProductByDraftStatus();
+				return ok(Json.toJson(manufact)); 
+			}
+		 
+		 public static Result getAllFrontAndSalesPer() {
+				List<AuthUser> frontAndSales = AuthUser.getAllSalesAndFrontUser();
+				return ok(Json.toJson(frontAndSales)); 
+			}
+		 public static Result getAllCustomerManufacturer() {
+				List<CustomerRequestManufacturerSettings> frontAndSales = CustomerRequestManufacturerSettings.getAllcustManufactList();
+				return ok(Json.toJson(frontAndSales)); 
+			}
 		 
 		 public static Result getAllSalesPersons() {
 				List<AuthUser> user = AuthUser.getAllSalesUser();
 				return ok(Json.toJson(user)); 
 			}
 		 
+		public static Result saveManfactSales() {
+			 Form<CustomerRequestManufacrurerSettingsVM> form = DynamicForm.form(CustomerRequestManufacrurerSettingsVM.class).bindFromRequest();
+			 CustomerRequestManufacrurerSettingsVM vm = form.get();
+			 	deleteCustManfuctList();
+		    	for(AddProductVM aProduct:vm.allManufacturerList){
+		    		for(UserVM user:aProduct.userData){
+		    			if(user.premiumFlag.equals("true")){
+		    			CustomerRequestManufacturerSettings custManufact = new CustomerRequestManufacturerSettings();
+		    			custManufact.manufacturer = AddProduct.findById(aProduct.id);
+		    			custManufact.user = AuthUser.findById(user.id);
+		    			custManufact.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    			custManufact.save();
+		    			}
+		    		}
+		    	} 
+			 return ok();
+	    }
+		 
+		public static Result deleteCustManfuctList(){
+			
+			List<CustomerRequestManufacturerSettings> custList = CustomerRequestManufacturerSettings.getAllcustManufactList();
+			for(CustomerRequestManufacturerSettings delList:custList){
+				delList.delete();
+			}
+			return ok();
+		}
+		
 		 public static Result saveSalesPersons() {
 				Form<CustomerRequestVM> form = DynamicForm.form(CustomerRequestVM.class).bindFromRequest();
 				CustomerRequestVM vm = form.get();

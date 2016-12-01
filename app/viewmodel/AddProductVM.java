@@ -1,5 +1,7 @@
 package viewmodel;
 
+import java.util.List;
+
 
 
 public class AddProductVM {
@@ -23,7 +25,7 @@ public class AddProductVM {
 	public String externalUrlLink;
 	public String imgPath;
 	public long imgId;
-	
+	public List<UserVM> userData;
 	
 	
 	

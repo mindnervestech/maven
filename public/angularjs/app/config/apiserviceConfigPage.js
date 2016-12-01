@@ -659,4 +659,70 @@ angular.module('app.apiserviceConfigPage', [])
 
 		return defer.promise;
 	};
+	
+	this.getAllManufacturer=function(){
+		var defer = $q.defer();
+		
+		$http.get('/getAllManufacturer').success(function(data) {
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
+	this.getAllFrontAndSalesPer=function(){
+		var defer = $q.defer();
+		
+		$http.get('/getAllFrontAndSalesPer').success(function(data) {
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
+	this.saveManfactSales=function(allManufacturerList){
+		var defer = $q.defer();
+		console.log(allManufacturerList);
+		var flagValue = 0;
+		angular.forEach(allManufacturerList.allManufacturerList, function(obj, index){
+			var flag = 0;
+			angular.forEach(obj.userData, function(obj1, index1){
+				console.log(obj1.premiumFlag);
+					if(obj1.premiumFlag == true){
+						flag = 1;
+					}
+			});
+			if(flag == 0){
+				flagValue = 1;
+			}
+		});
+		if(flagValue == 1){
+		  $.pnotify({
+			    title: "Error",
+			    type:'success',
+			    text: "At List One Sales Person is Select",
+			});
+		}
+		else{
+			$http.post('/saveManfactSales',allManufacturerList).success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Sales Person saved successfully",
+				});
+				defer.resolve(data);
+			});
+		}
+		return defer.promise;
+	};
+	
+	this.getAllCustomerManufacturer=function(){
+		var defer = $q.defer();
+		
+		$http.get('/getAllCustomerManufacturer').success(function(data) {
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
 })
