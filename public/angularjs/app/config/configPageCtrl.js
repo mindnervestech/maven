@@ -317,9 +317,13 @@ angular.module('newApp')
 		}
 		$scope.leadcreateData = {};
 		$scope.saveCompleted = function(){
-			
+			console.log($scope.leadcreate.callToAction);
+			if($scope.leadcreate.callToAction == undefined){
+				$scope.leadcreate.callToAction = false;
+			}
 			$scope.leadcreateData.leadName = $scope.leadcreate.leadName;
 			$scope.leadcreateData.callToAction = $scope.leadcreate.callToAction;
+			localStorage.setItem('callToAction',$scope.leadcreate.callToAction);
 		console.log($scope.leadcreate);
 		apiserviceConfigPage.addnewrUser($scope.leadcreate).then(function(data){
 			
