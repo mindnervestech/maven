@@ -74,15 +74,12 @@ angular.module('newApp')
 		
 	$scope.selectedNames = function(obj){
 		console.log(obj);
-		console.log("Hiiiii");
 	}
 	$scope.focusNameOut = function(item){
 		console.log(item);
-		console.log("$$$$$");
 	}
 	
 	$scope.formlySubmit = function(){
-		console.log("Huuuuu");
 		console.log($scope.user);
 	}
 	
@@ -151,21 +148,16 @@ angular.module('newApp')
 	$scope.$on("selectLeadDashbord", function(event,data){
            
 		$scope.selectedLead = data;
-		console.log($scope.editInput);
-		console.log($scope.userFields);
 		$scope.userFields = angular.copy($scope.userFieldsCopy);
 		$scope.userFields1 = null;
 		apiserviceDashborad.getCustomizationform($scope.selectedLead).then(function(response){
 			
-			console.log(response);
-			console.log(angular.fromJson(response.jsonData));
 			
 			 $scope.editInput = response;
 			 $scope.userFields1 = $scope.addFormField(angular.fromJson(response.jsonData));
 			 angular.forEach($scope.userFields1, function(obj, index){
 				 $scope.userFields.push(obj);
 				});
-			 console.log($scope.userFields);
 			 $scope.user = {};
 		
 		   // $scope.getMakes();
@@ -622,7 +614,6 @@ angular.module('newApp')
 				
 					$scope.flagForBestSale=data.flagForBestSaleIcon;
 					apiserviceDashborad.getPlanTarget(locOrPer).then(function(data){
-					console.log(data);
 					$scope.dataLocOrPerWise = locOrPer;
 					$scope.changeValueInStat($scope.planValue);
 						/*if(data.sendData[0] != undefined){
@@ -659,8 +650,6 @@ angular.module('newApp')
 			
 				$scope.flagForBestSale=data.flagForBestSaleIcon;
 				apiserviceDashborad.getPlanTarget(locOrPer).then(function(data1){
-				console.log(data);
-				console.log(data1);
 					/*if(data.sendData[0] != undefined){
 							data.sendData[0].plan = data1.data[0].price;
 						
@@ -697,22 +686,16 @@ angular.module('newApp')
 	$scope.planValue = "Total Earning";
 	$scope.dataLocOrPerWise = "location";
 	$scope.changeValueInStat = function(planValue){
-		console.log(planValue);
-		console.log($scope.dataLocOrPerWise);
 		$scope.planValue = planValue;
 		apiserviceDashborad.getGraphdata(planValue,$scope.dataLocOrPerWise).then(function(data){
-			console.log(data);
 			$scope.stackchar = [data];
 			$scope.callChart($scope.stackchar)
 		});
 		/*$scope.obj = [{name:"Highest Result",plan:100,price:100,data:[90]}];
 		$scope.callChart($scope.obj);*/
 		/*apiserviceDashborad.getPlanWiseGraph(planValue,$scope.dataLocOrPerWise).then(function(data){
-			console.log(data);
 			
 			apiserviceDashborad.getPlanTarget($scope.dataLocOrPerWise).then(function(data1){
-				console.log(data);
-				console.log(data1);
 				
 				if(data != undefined){
 					
@@ -731,7 +714,6 @@ angular.module('newApp')
 				        chart.yAxis[0].removePlotLine('plotline-1');
 					}
 				}
-					console.log($scope.stackchart);
 					
 					
 			});
@@ -2176,12 +2158,10 @@ angular.module('newApp')
    	  		$scope.editLeads = {};
    	  	    $scope.stockWiseData = [];
    	  		$scope.editVinData = function(entity){
-   	  			console.log(entity);
    	  		$scope.addAddress = false;
 			$scope.editAddress = true;
    	  		$scope.customData = entity.customMapData;
    	  	
-   	  			console.log($scope.customData);
    	  		apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
    	  	
    	  			
@@ -2199,24 +2179,19 @@ angular.module('newApp')
 	   			   });
 				 $scope.editInput = response;
 				 $scope.userFieldsList = angular.fromJson(response.jsonData);
-   	  				console.log(entity.leadType);
-   	  				console.log($scope.userFields);
 	   	  		  apiserviceDashborad.getCustomizationform(entity.leadType).then(function(response1){
 						$scope.josnDataList = angular.fromJson(response1.jsonData);
 						angular.forEach($scope.josnDataList, function(obj, index){
 							$scope.userFieldsList.push(obj);
 							
 		   			  });
-					  console.log($scope.userFieldsList);
 					 $scope.userFields = $scope.addFormField($scope.userFieldsList);
-					 console.log($scope.userFields);
 					 $scope.user = {};
    	  				});
    	  		
 				 //$scope.editInput = response;
 				 //$scope.josnData = angular.fromJson(response.jsonData);
 				 //$scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
-				 //console.log($scope.userFields);
 				// $scope.user = {};
    	  		});
    	  		
@@ -2247,7 +2222,6 @@ angular.module('newApp')
 				   $scope.pdffile = entity.pdfPath;
 				   $scope.lead = entity.leadsValue;
 			   }   	  		  
-   	  			//console.log($scope.stockWiseData);
    	  			
    	  		$scope.stockWiseData.push({
    	  			title:entity.title,
@@ -2323,7 +2297,6 @@ angular.module('newApp')
 			if($scope.customData.setTime == undefined){
 				delete $scope.customData.setTime;
 			}
-			console.log($('#exCustoms_value').val());
 			$scope.customData.custName = $('#exCustoms_value').val();
 			if($scope.customData.custName == undefined){
 				delete $scope.customData.custName;
@@ -2332,14 +2305,7 @@ angular.module('newApp')
 			if($scope.customData.autocompleteText == undefined){
 				delete $scope.customData.autocompleteText;
 			}
-   	  		console.log($scope.customData);
-   	  	 /*$.each($scope.customData, function(attr, value) {
-		      $scope.customList.push({
-	   	  			key:attr,
-	   	  			value:value,
-	   	  			
-				});
-		   });*/
+   	  	
    	  	 
    		apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
 			
@@ -2355,7 +2321,6 @@ angular.module('newApp')
 					
    				});
 				
-				console.log($scope.josnData);
 				$.each($scope.customData, function(attr, value) {
 				angular.forEach($scope.josnData, function(value1, key) {
 					
@@ -2409,14 +2374,10 @@ angular.module('newApp')
 				
 				$scope.editLeads.customData = $scope.customList;
 	   	  		$scope.editLeads.stockWiseData = $scope.stockWiseData;
-	   	  		console.log($scope.editLeads);
 	   	  	var files = [];
 	   	  	if($rootScope.fileCustom != undefined){
-				console.log($rootScope.fileCustom);
 				files = $rootScope.fileCustom;
 				
-				console.log(files.length);
-				console.log(files);
 				
 				// delete $scope.lead.customData;
 				// delete $scope.lead.options;
@@ -2432,7 +2393,6 @@ angular.module('newApp')
 		   			
 		   		 });
 				}else{
-					console.log($scope.editLeads);
 					apiserviceDashborad.editLeads($scope.editLeads).then(function(data){
 	   	  				$("#editLeads").modal('hide');
 		   	  			$scope.getAllSalesPersonRecord($scope.salesPerson);
@@ -3567,7 +3527,6 @@ angular.module('newApp')
 			}
 			
 			/*$scope.makeIt = function(value){
-				console.log(value);
 				$scope.vinForPopup=value.vin;
 				if(value.price == 0){
 					$scope.priceDetail = value;
@@ -3595,8 +3554,6 @@ angular.module('newApp')
 			 }*/
 			
 			/*$scope.addMakeIt = function(vin){
-				console.log("inside coming soon");
-				console.log(vin);
 				$http.get('/sendComingSoonEmail/'+vin)
 				.success(function(data) {
 					
@@ -3606,14 +3563,12 @@ angular.module('newApp')
 			
 			/*$scope.changeArrivalDate = function(value){
           	  $('#changeDate').modal();
-          	  console.log(value);
           	  $scope.arrDate = value.comingSoonDate;
           	  $scope.priceDetail = value;
       	  	}*/
 			
 			/*$scope.addChangeArrival = function(){
 				var aDate = $('#arrivalDate').val();
-				console.log(aDate);
 				$http.get('/setArrivelDate/'+$scope.priceDetail.id+"/"+aDate)
 				.success(function(data) {
 					 $('#changeDate').hide();
@@ -3644,7 +3599,6 @@ angular.module('newApp')
       	  	}
 			 $scope.addMakeItInPrice = function(){
 				 $scope.arrDate = $('#arrDate').val();
-				 console.log($scope.arrDate);
 				 if($scope.arrDate != $scope.checkDate){
 					 $.pnotify({
 						    title: "Success",
@@ -4034,7 +3988,6 @@ angular.module('newApp')
     		  }
     		  
     		  $scope.restoreLead = function(entity){
-    			  console.log(entity);
     			  apiserviceDashborad.restoreLead(entity.id, entity.typeOfLead).then(function(data){
     			  
 						$scope.getAllCanceledLeads();
@@ -4305,14 +4258,20 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.selectedObj = function (selectObj) {
-	    			if(selectObj.originalObject != undefined){
-	    				$scope.item = selectObj.originalObject;
-		    		    $scope.lead.custName = $scope.item.fullName;
-		    		    $scope.lead.custNumber = $scope.item.phone;
-		    			$scope.lead.custEmail = $scope.item.email;
-		    			$scope.lead.custZipCode = $scope.item.zip;
+	    			console.log($("#ex1s_value").val());
+	    			if(selectObj != undefined){
+	    				if(selectObj.originalObject != undefined){
+		    				$scope.item = selectObj.originalObject;
+			    		    $scope.lead.custName = $scope.item.fullName;
+			    		    $scope.lead.custNumber = $scope.item.phone;
+			    			$scope.lead.custEmail = $scope.item.email;
+			    			$scope.lead.custZipCode = $scope.item.zip;
+		    			}
 	    			}
+	    			
 	    		};
+	    		
+	    		
 	    		apiserviceDashborad.getHeardAboutUs().then(function(response){
 	    			
 	    				$scope.heardAboutUs = response;
@@ -4330,7 +4289,6 @@ angular.module('newApp')
 	    			$scope.stockWiseData = [{}];
 	    			apiserviceDashborad.getSelectedLeadType().then(function(response){
 	    			
-	    				console.log(response);
 	    				$scope.leadList = response; 
 	    			
 	    			});	
@@ -4338,12 +4296,9 @@ angular.module('newApp')
 	    			$scope.customData = {};
 	    			apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
 	    			
-	    				console.log(response);
-	    				console.log(angular.fromJson(response.jsonData));
 	    				
 	    				 $scope.editInput = response;
 	    				 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
-	    				 console.log($scope.userFields);
 	    				 $scope.userFieldsCopy = angular.copy($scope.userFields);
 	    				 $scope.user = {};
 	    			
@@ -4439,12 +4394,9 @@ angular.module('newApp')
 	    		$scope.createLead = function() {
 	    			$scope.customList =[];
 	    			$scope.customData.time_range = $("#bestTimes").val();
-	    			console.log($scope.customData.setTime);
 	    			if($scope.customData.time_range == undefined){
 	    				delete $scope.customData.time_range;
 	    			}
-	    			console.log($scope.customData);
-	    			console.log($('#exCustoms_value').val());
 	    			$scope.customData.custName = $('#exCustoms_value').val();
 	    			if($scope.customData.custName == undefined){
 	    				delete $scope.customData.custName;
@@ -4475,7 +4427,6 @@ angular.module('newApp')
 	    						
 	   	    				});
 	    					
-	    					console.log($scope.josnData);
 	    					$.each($scope.customData, function(attr, value) {
     						angular.forEach($scope.josnData, function(value1, key) {
     							
@@ -4537,10 +4488,8 @@ angular.module('newApp')
     	    			console.log($scope.lead);
     	    			console.log($("#autocomplete").val());
     	    			//$scope.lead.custName = $('#ex1_value').val();
-    	    			console.log("8*****888***");
-    	    			console.log($('#ex1').val());
     	    			if($scope.lead.custName == ''){
-    	    				$scope.lead.custName = $('#ex1_value').val();
+    	    				$scope.lead.custName = $('#ex1s_value').val();
     	    			}
     	    			//if($scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='') {
     	    				//$scope.isInValid = true;
@@ -4592,16 +4541,8 @@ angular.module('newApp')
 	    			
 	    			
 	    			var files = [];
-	    			console.log("^^^%%%*&&&&&&");
-	    			console.log($scope.lead);
 	    			if($rootScope.fileCustom != undefined){
-	    				console.log($rootScope.fileCustom);
 	    				files = $rootScope.fileCustom;
-	    				
-	    				
-	    				console.log(files.length);
-	    				console.log(files);
-	    				console.log("bothfile");
 	    				
 	    				
 	    				 $upload.upload({
@@ -4653,18 +4594,10 @@ angular.module('newApp')
 	    		
 	    		
 	    		$scope.addSkill = function(select){
-	    			console.log(select.title);
 	    			$scope.selectedName = select.title 
-	    			//stockRp.stockNumber = $scope.prodSearchList[index].title;
-	    			//$scope.getStockDetails(stockRp)
 	    		}
 	    		
 	    		$scope.focusIn11 = function(index, stockRp){
-	    			console.log($scope.prodSearchList);
-	    			console.log(index);
-	    			console.log($scope.selectedName);
-	    			/*stockRp.stockNumber = $scope.prodSearchList[index].title;
-	    			$scope.getStockDetails(stockRp)*/
 	    			angular.forEach($scope.prodSearchList, function(value, key) {
 	    				if(value.title == $scope.selectedName){
 	    					stockRp.stockNumber = $scope.selectedName;
@@ -4673,9 +4606,6 @@ angular.module('newApp')
 	    			$scope.getStockDetails(stockRp)
 	    		}
 	    		$scope.focusEdit = function(index, stockRp){
-	    			console.log($scope.prodSearchList);
-	    			console.log(index);
-	    			console.log($scope.selectedName);
 	    			angular.forEach($scope.prodSearchList, function(value, key) {
 	    				if(value.title == $scope.selectedName){
 	    					stockRp.stockNumber = $scope.selectedName;
@@ -4688,10 +4618,8 @@ angular.module('newApp')
 	    		$scope.stockWiseData.push({});
 	    		$scope.getStockDetails = function(stockRp) {
 	    			$scope.isStockError = false;
-	    			console.log(stockRp);
 	    			apiserviceDashborad.getStockDetails(stockRp.stockNumber).then(function(response){
 	    			
-	    				console.log(response);
 	    				if(response.isData) {
 	    					$scope.isStockError = false;
 	    					stockRp.price = response.price;
@@ -4705,7 +4633,6 @@ angular.module('newApp')
 	    				} else {
 	    					$scope.isStockError = true;
 	    				}
-	    				console.log(stockRp);
 	    			});
 	    		};
 	    		
@@ -5265,7 +5192,6 @@ angular.module('newApp')
 			angular.forEach($scope.gridMapObect,function(value,key){
 				var name = value.key;
 				name = name.replace(" ","");
-				console.log(name);
 				$scope.gridOptions2.columnDefs.push({ name: name, displayName: name, width:'10%',cellEditableCondition: false,
 	              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
@@ -5295,7 +5221,6 @@ angular.module('newApp')
 			
 			
 			
-			console.log($scope.gridOptions2.data);
 			$scope.AllScheduleTestAssignedList = $scope.gridOptions2.data;
 			var countUnReadLead = 0;
 				if($scope.userType == "Sales Person"){
@@ -5579,7 +5504,6 @@ angular.module('newApp')
 		    		    		    		       					
 		    		    		    		       					
 		    		    		    		       				});
-		    		    		    		       				console.log($scope.getAllListLeadDate);
 		    		    				        				var findFlag = 0;
 		    		    				           				angular.forEach($scope.getAllListLeadDate,function(value,key){
 		    		    				        					if(findFlag == 0){
@@ -5596,7 +5520,6 @@ angular.module('newApp')
 		    		    				        						});
 		    		    				        					}
 		    		    				        				});
-		    		    				           				console.log($scope.gridMapObect);
 		    		    				        				angular.forEach($scope.getAllListLeadDate,function(value,key){
 		    		    				        					angular.forEach($scope.gridMapObect,function(value1,key1){
 		    		    				        						var name = value1.key;
@@ -5614,7 +5537,6 @@ angular.module('newApp')
 		    		    				        					var name = value.key;
 		    		    				        					$scope.flag = 1;
 		    		    				        					name = name.replace(" ","");
-		    		    				        					console.log(name);
 		    		    				        					$scope.gridOptions7.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
 		    		    				        		              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		    		    				        		              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
@@ -5635,7 +5557,6 @@ angular.module('newApp')
 		    		    		    		    				}
 		    		    				           	        	$scope.getAllCanceledLeads();
 		    		    				           	        	
-		    		    				        	        	console.log($scope.otherLead);
 		    		    				        	        	apiserviceDashborad.getAllCanceledLeads(id).then(function(data){
 		    		    				           	        	
 		    		    				           					$scope.gridOptions4.data = data;
@@ -5679,28 +5600,21 @@ angular.module('newApp')
 		
 		$scope.ducumentNames = [];
 		$scope.sendPdfEmail= function (pdf){
-			console.log(pdf);
 			$scope.pdf.pdfIds = $scope.pdfDoc;
 			$scope.pdf.vin=$scope.vehiclePdfVin;
-			console.log("$scope.vehiclePdfVin"+$scope.vehiclePdfVin);
-			console.log(":::::::::"+$scope.pdfDoc.length);
 			$scope.pdf.email=$scope.SendPdfemail;
 			$scope.flagForMsg=0;
 			
 			if($scope.pdfDoc.length != 0 || $scope.pdf.vin != null){
 				apiserviceDashborad.sendPdfEmail($scope.pdf).then(function(data){
 			
-				console.log("$scope.customePdfmodel"+$scope.customePdfmodel);
 				
 				/* model value undefined */
 				if($scope.customePdfmodel == undefined ){
 					$scope.customePdfId =$scope.pdfIdForUndefinedModel;
 					$scope.customePdfmodel = true;
 				}
-				console.log("$scope.customePdfId"+$scope.customePdfId);
-				console.log(" after $scope.customePdfmodel"+$scope.customePdfmodel);
 				if($scope.customePdfmodel == true && $scope.customePdfId != null && $scope.customePdfId != undefined ){
-					console.log("iiiiinnnnn");
 					apiserviceDashborad.deletePdfById($scope.customePdfId).then(function(data){
 					
 		  				/*$.pnotify({
@@ -5730,12 +5644,9 @@ angular.module('newApp')
 		
 		$scope.pdf={};
 		$scope.actionOnPdf= function (entity,option){
-			console.log("inside pdf");
-			console.log(entity);
 			apiserviceDashborad.getCustomerPdfForVehicle(entity.vin).then(function(data){
 			
 					$scope.vehiclePdfList=data;
-					console.log(data);
 				
 				});
 			
@@ -5759,13 +5670,11 @@ angular.module('newApp')
 				}
 				else if(option == 'SendPdf'){
 					$scope.SendPdfemail=entity.email;
-					console.log($scope.SendPdfemail);
 					$('#sendPdfRequest').click();
 					
 					apiserviceDashborad.getCustomerPdfData().then(function(data){
 					
        					$scope.customerPdfList=data;
-       					console.log(data);
        				
        				});
 					
@@ -5780,20 +5689,15 @@ angular.module('newApp')
 		}
 		$scope.pdfDoc = [];
 		$scope.selectPdf = function(e,item,value){
-			console.log(item);
-			console.log(value);
 			if(value == false || value == undefined){
 				$scope.pdfDoc.push(item.customerPdfId);
 			}else{
 				$scope.deletepdfItem(item);
 			}
-			console.log($scope.pdfDoc);
 		}
 		
 		
 		$scope.selectVehiclePdf = function(vin,value){
-			console.log(vin);
-			console.log(value);
 			if(value == false || value == undefined){
 				$scope.vehiclePdfVin=vin;
 			}
@@ -5803,7 +5707,6 @@ angular.module('newApp')
 		
 		
 		$scope.deletepdfItem = function(item){
-			console.log(item);
 			angular.forEach($scope.pdfDoc, function(obj, index){
 				 if ((item.customerPdfId == obj)) {
 					 $scope.pdfDoc.splice(index, 1);
@@ -5820,8 +5723,6 @@ angular.module('newApp')
 			 
 		    var ele = document.getElementById('loadingmanual');	
 		  	$(ele).show();
-			console.log("??????????");
-			console.log(logofile1);
 			$upload.upload({
 		 	         url : '/saveCustomerPdf',
 		 	         method: 'POST',
@@ -5842,21 +5743,15 @@ angular.module('newApp')
 		 	  				$scope.flagForUpload=1;
 		 	  				apiserviceDashborad.getCustomerPdfData().then(function(data){
 		 	  				
-		       				  console.log(data);
 		       					$scope.lengths=data.length-1;
 			 	  				$scope.uploadData=data;
 			 	  				
        						angular.forEach($scope.uploadData,function(obj, index){
-       							console.log(index);
-       							console.log($scope.lengths);
        						 if(index == $scope.lengths) {
-       							 console.log(obj);
        							 $scope.pdfIdForUndefinedModel=obj.customerPdfId;
            					$scope.pdfDoc.push(obj.customerPdfId);
        					    }
-       						console.log("Customer pdfData");
        					   $scope.customerPdfList=data;
-	       					console.log(data);
        					  });
 		       				});
 			
@@ -5866,8 +5761,6 @@ angular.module('newApp')
 		
 		
 		$scope.deletePdf = function(item,model) {
-			console.log(item);
-			console.log(model);
 			
 			if(model == undefined || model == false  ){
 				$scope.customePdfmodel=false;
@@ -5878,8 +5771,6 @@ angular.module('newApp')
 			
 			//$scope.customePdfmodel=model;
 			$scope.customePdfId=item.customerPdfId;
-			console.log($scope.customePdfId);
-			console.log($scope.customePdfmodel);
 			
 		}
 		
@@ -5888,13 +5779,8 @@ angular.module('newApp')
 			if(model == undefined){
 				model=true;
 			}
-			console.log("}}}}}");
-			console.log($scope.lengths);
 			angular.forEach($scope.uploadData,function(obj, index){
-				console.log(index);
-				console.log($scope.lengths);
 			 if(index == $scope.lengths) {
-				 console.log(obj);
 			$scope.customPdfIdNew = obj.customerPdfId;
 		    }
 			 
@@ -5909,7 +5795,6 @@ angular.module('newApp')
 		
 		
     	$scope.soldScheduleStatus = function(entity) {
-    		console.log(entity);
     		$scope.scheduleStatusVal = entity;
     		$scope.soldContact = {};
     		$scope.soldContact.infoId = entity.id;
@@ -5939,7 +5824,6 @@ angular.module('newApp')
     		$scope.soldContact.designer = entity.designer;
     		$scope.soldContact.title = entity.title;
 
-    		console.log($scope.soldContact);
     		$('#btnCompleteRequest').click();
     	}
     	
@@ -6083,7 +5967,6 @@ angular.module('newApp')
     	}
     	
     	$scope.saveRequestStatus = function() {
-    		console.log($scope.soldContact);
     		$('#soldBtn').attr("disabled", true);
     		apiserviceDashborad.setRequestStatusComplete($scope.soldContact).then(function(data){
     		
@@ -6514,7 +6397,6 @@ angular.module('newApp')
 		   $scope.addNoteToRequestUser = function(entity,type) {
 			   $scope.userNoteId = entity.id;
 			   $scope.action = "";
-			   console.log(entity);
 			   $scope.typeOfNote = entity.typeOfLead;
 			   //if(entity.typeOfLead == "Schedule Test" || entity.typeOfLead == "Schedule Test Drive") {
 				 //  $scope.typeOfNote = 'scheduleTest';
@@ -7121,8 +7003,6 @@ angular.module('newApp')
 		   
 		   $scope.locationTotal = 0;
 		   $scope.saveLocationPlan = function(month, locationIds){
-			   console.log(month);
-			   console.log(locationIds);
 			   var value = 0;
 			   $scope.locationTotal = 0;
 			   $scope.leadsTime.locationList  = $scope.locationList;
@@ -7217,8 +7097,6 @@ angular.module('newApp')
 			  value = $scope.saleleadsTime.totalBrought;
 			   $scope.saleleadsTime.salesList = $scope.salesList;
 			   $scope.saleleadsTime.month = month;
-			   console.log("ooooooooooooooooooooo");
-			   console.log($scope.saleleadsTime);
 			   apiserviceDashborad.saveSalePlan($scope.saleleadsTime).then(function(response){
 			   
 				   $scope.janOpen = 0;
@@ -7311,7 +7189,6 @@ angular.module('newApp')
 				   if(data.length <= 0){
 					   data.push({"month":$filter('date')(d, 'MMMM')});
 				   } 
-				   console.log(data);
 				   angular.forEach(data, function(obj, index){
 					   $scope.salePerpleTotal = parseInt($scope.salePerpleTotal) + parseInt(obj.totalBrought);
 					    if(obj.month == "january"){
@@ -7601,7 +7478,6 @@ angular.module('newApp')
 			   if(locationId != 0){
 				   apiserviceDashborad.gmLocationManager(locationId).then(function(data){
 					   apiserviceDashborad.getlocationsMonthlyPlan(data.id).then(function(data){
-						   console.log(data);
 							   $scope.totalLocationPlanData = data;
 							   var d = new Date();
 							   var n = d.getMonth()+1;
@@ -7788,7 +7664,6 @@ angular.module('newApp')
 				  
 			   }else{
 				   apiserviceDashborad.getlocationsMonthlyPlan($scope.userKey).then(function(data){
-					   console.log(data);
 					   if(data.length <= 0){
 						   data.push({"month":$filter('date')(d, 'MMMM')});
 					   } 
@@ -8963,7 +8838,6 @@ angular.module('newApp')
 		   }
 		   $scope.leadList = [];
 		   apiserviceDashborad.getSelectedLeadType().then(function(response){
-				console.log(response);
 				angular.forEach(response, function(value, key) {
 						$scope.leadList.push(value); 
 				});
@@ -8976,8 +8850,6 @@ angular.module('newApp')
 		  		$scope.gridOptions13.data = {};
 			   $scope.gridOptions13.columnDefs = [];
 			   $scope.AllOtherLeadSeenList = [];
-			   console.log("change");
-			   console.log($scope.otherLead);
 			   $scope.otherLeads = true;
 			   $scope.schedTest = false;
 	    		$scope.reqMore = false;	
@@ -9001,23 +8873,18 @@ angular.module('newApp')
 	//        	if($scope.AllOtherLeadSeenList.length <= 0){
 	      
 	  //      	}
-	        	console.log($scope.josnData);
 	        	$scope.josnData1 = null;
 	        	$scope.josnData1 = angular.copy($scope.josnData);
-	        	console.log(leadInfo);
 	        	apiserviceDashborad.getCustomizationform(leadInfo).then(function(response){
 		   					//$scope.josnData1 = angular.fromJson(response.jsonData);
 		   					angular.forEach(angular.fromJson(response.jsonData),function(value,key){
 		   						$scope.josnData1.push(value);
 		   					});
 		   					
-		   					console.log("0------------------------------------0");
-		   		        	console.log($scope.josnData1);
 		   	        	
 		   				var findFlag = 0;
 		   				angular.forEach($scope.AllOtherLeadSeenList,function(value,key){
 		   					if(findFlag == 0){
-		   						console.log(value.customData);
 		   						angular.forEach(value.customData,function(value1,key1){
 		   							angular.forEach($scope.josnData1,function(value2,key2){
 		   								if(value1.key == value2.key){
@@ -9101,9 +8968,7 @@ angular.module('newApp')
 						
 						
 						
-						console.log($scope.gridOptions13);
 						angular.forEach($scope.gridMapObect,function(value,key){
-							console.log(value.key);
 							var name = value.key;
 							name = name.replace(" ","");
 							$scope.gridOptions13.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
@@ -9146,7 +9011,6 @@ angular.module('newApp')
                  });*/
 	        	
 	        	 
-	        	console.log($scope.gridOptions13.data);
 	    	
 		   }
 		   
