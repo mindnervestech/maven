@@ -1159,8 +1159,17 @@ angular.module('newApp')
 		
 	}
 	
+	apiserviceConfigPage.getUserRole().then(function(data){
+		$scope.userRoleData = data;
+		console.log($scope.userRoleData.role);
+	});
+	
 	apiserviceConfigPage.getAllSalesPersons().then(function(data){
 		$scope.salesPersonName = data;
+		if($scope.userRoleData.role == "Manager"){
+			$scope.salesPersonName.push($scope.userRoleData); 
+		}
+		console.log($scope.salesPersonName);
 	});
 	
 	$scope.personsWiseData = function(type){

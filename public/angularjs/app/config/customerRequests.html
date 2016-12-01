@@ -63,19 +63,19 @@
 				<div ng-if="customerReq.priceValue == 'Price'">
 					<form ng-submit="savePremium()">
 						<div class="form-group col-sm-12">
-							<label class="col-sm-2 control-label">Price of the Item *</label>
-								<div class="col-sm-3">
+							<label class="col-sm-3 control-label">Premium online request starts from *</label>
+								<div class="col-sm-3" style="margin-left: -80px;">
 									<input class="form-control form-white" ng-model="premium.priceVehical" value="premium.priceVehical" type="number" required>
 								</div>
 						</div>
 						<div class="form-group col-sm-12" style="margin-left: 1%;">
-							<input type="checkbox" value="true" ng-model="premium.premiumFlag">&nbsp&nbsp Redirect all leads to Manager<br>
+							<!-- <input type="checkbox" value="true" ng-model="premium.premiumFlag">&nbsp&nbsp Redirect all leads to Manager<br> -->
 							<!-- <a ng-click="showToUser()">Assign</a> -->
 						</div>
 						<div class="form-group col-sm-12" style="margin-left: 1%;">
 							<table style="width:60%">
 								<tr>
-									<td style="text-align: center;width:80%"><b>Name</b></td>
+									<td style="text-align: center;width:80%"><b>Sales People</b></td>
 									<td style="text-align: center;width:20%"><b>Premium</b></td>
 								</tr>
 								<tr style="width:20%" ng-repeat="sale in salesPersonList">
