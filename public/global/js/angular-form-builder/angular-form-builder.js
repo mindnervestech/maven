@@ -17,10 +17,6 @@
   angular.module('builder.controller', ['builder.provider']).controller('fbFormObjectEditableController', [
     '$scope', '$injector', 'ngDialog', function($scope, $injector, ngDialog) {
     	
-    	console.log("&&&&&&&&&&&*******************88");
-    	/*$scope.editLead = {
-    		isEnabled: false
-    	};*/
     	console.log(localStorage.getItem('callToAction'));
     	$scope.editLead = localStorage.getItem('callToAction');
     	var asciCode = 65;
@@ -1225,7 +1221,6 @@
             _base[_name] = [];
           }
           console.log($builder.forms[scope.formName]);
-          console.log("&&&&&&&&&&&&&&&&7");
           return scope.form = $builder.forms[scope.formName];
           
          //return scope.form = [{"id":0,"component":"financialcalculator","editable":true,"index":0,"label":"Financial Calculator","description":"","key":"","imageUrl":"","placeholder":"","options":[],"columnOptions":[],"equation":"","required":false,"isRepeatable":false,"validation":"/.*/","logic":{"action":"Hide"},"pointRules":[],"column":[]},{"id":1,"component":"select","editable":true,"index":1,"label":"Select","description":"description","key":"","imageUrl":"","placeholder":"placeholder","options":["value one","value two"],"columnOptions":[],"equation":"","required":false,"isRepeatable":false,"validation":"/.*/","logic":{"action":"Hide"},"pointRules":[],"column":[]}];
@@ -1370,9 +1365,7 @@
     this.getNewId = (function(_this) {
       return function() {
     	  var d = new Date();
-    	  console.log(d.getMilliseconds());
     	  return "" + (d.getMilliseconds());
-//        return "" + (_this.currentI++);
       };
     })(this);
     this.setupEasing = function() {

@@ -171,5 +171,11 @@ public class CustomizationDataValue extends Model {
 		public static List<CustomizationDataValue> findByLeadIdWise(Long leadId) {
 			return find.where().eq("leadId", leadId).findList();
 		}
+		
+		public static List<CustomizationDataValue> findByformName(String formName) {
+			return find.where().eq("formName", formName).findList();
+		}
+		
+		
 	
 }

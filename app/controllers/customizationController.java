@@ -55,6 +55,8 @@ public class customizationController extends Controller {
 			CustomizationForm cust = new CustomizationForm();
 			cust.setDataType(json.findPath("formType").textValue());
 			cust.setJsonData(json.findPath("jsonform").toString());
+			cust.setJsonDataAdd(json.findPath("jsonformAdd").toString());
+			cust.setAdditionalData(json.findPath("additionalData").booleanValue());
 			String sValue = json.findPath("outcome").toString().replace("[", "");
 			sValue = sValue.replace("]", "");
 			sValue = sValue.replace("\"", "");
@@ -64,6 +66,8 @@ public class customizationController extends Controller {
 		}else{
 			//cForm.setDataType("Create Lead");
 			cForm.setJsonData(json.findPath("jsonform").toString());
+			cForm.setJsonDataAdd(json.findPath("jsonformAdd").toString());
+			cForm.setAdditionalData(json.findPath("additionalData").booleanValue());
 			String sValue = json.findPath("outcome").toString().replace("[", "");
 			sValue = sValue.replace("]", "");
 			sValue = sValue.replace("\"", "");

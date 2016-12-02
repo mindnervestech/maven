@@ -23,10 +23,21 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
+	
 	this.getAllManufacturers=function(status,date){
 		var defer = $q.defer();
 		
 		$http.get('/getAllProduct/'+status+'/'+date).success(function(data) {
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
+	this.updateProductName=function(rowData){
+		var defer = $q.defer();
+		
+		$http.get('/updateProductName/'+rowData.id+'/'+rowData.name).success(function(data) {
 			defer.resolve(data);
 		});
 

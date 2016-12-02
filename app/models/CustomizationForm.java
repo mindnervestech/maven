@@ -16,6 +16,8 @@ public class CustomizationForm extends Model {
 	@Id
 	public Long id;
 	public String jsonData;
+	public String jsonDataAdd;
+	public Boolean additionalData;
 	public String dataType;
 	public String mainTitle;
 	public String searchTitle;
@@ -45,12 +47,30 @@ public class CustomizationForm extends Model {
 		this.outcome = outcome;
 	}
 
+	
+	public String getJsonDataAdd() {
+		return jsonDataAdd;
+	}
+
+	public void setJsonDataAdd(String jsonDataAdd) {
+		this.jsonDataAdd = jsonDataAdd;
+	}
+
 	public String getJsonData() {
 		return jsonData;
 	}
 
 	public void setJsonData(String jsonData) {
 		this.jsonData = jsonData;
+	}
+	
+
+	public Boolean getAdditionalData() {
+		return additionalData;
+	}
+
+	public void setAdditionalData(Boolean additionalData) {
+		this.additionalData = additionalData;
 	}
 
 	public String getDataType() {

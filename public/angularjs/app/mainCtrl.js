@@ -1460,8 +1460,6 @@
                 }
                 
                 function getJsonBForPhoneSelect(jsonObject){
-                	console.log("------+++++++-------------");
-                	console.log(jsonObject);
                     var key;
                     if(jsonObject.key === ""){
                       key = jsonObject.label;
@@ -1494,8 +1492,6 @@
                 
                 
                 function getJsonBForEmailSelect(jsonObject){
-                	console.log("------+++++++-------------");
-                	console.log(jsonObject);
                     var key;
                     if(jsonObject.key === ""){
                       key = jsonObject.label;

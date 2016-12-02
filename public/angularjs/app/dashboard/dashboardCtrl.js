@@ -155,9 +155,17 @@ angular.module('newApp')
 			
 			 $scope.editInput = response;
 			 $scope.userFields1 = $scope.addFormField(angular.fromJson(response.jsonData));
+			
 			 angular.forEach($scope.userFields1, function(obj, index){
 				 $scope.userFields.push(obj);
 				});
+			 if(response.additionalData == true){
+				 $scope.userFields2 = $scope.addFormField(angular.fromJson(response.jsonDataAdd));
+				 angular.forEach($scope.userFields2, function(obj, index){
+					 $scope.userFields.push(obj);
+					});
+			 }
+			
 			 $scope.user = {};
 		
 		   // $scope.getMakes();
@@ -2166,16 +2174,27 @@ angular.module('newApp')
    	  		console.log(entity);
    	  		$("#ex1_value").val(entity.name);
    	  		apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
-   	  	
    	  			
 				 $scope.josnData1 = angular.fromJson(response.jsonData);
 				 $.each($scope.customData, function(attr, value) {
 	   				angular.forEach($scope.josnData1, function(value1, key) {
 	   					if(value1.key == attr){
-	   					
 	   						if(value1.component == "leadTypeSelector"){
 	   							entity.leadType = value;
 	   						}
+	   						//var arr = [];
+   							//var arr = attr.split('_');
+   							//console.log($scope.customData);
+	   						/*if(value1.component == "emailSelect"){
+	   							console.log("0000000111");
+	   							console.log($scope.customData.arr[0]+"_emailType");
+	   							$scope.emailType = $scope.customData.arr[0]+"emailType";
+	   						}
+	   						if(value1.component == "phoneSelect"){
+	   							console.log("0000000");
+	   							console.log($scope.customData.arr[0]+"_phoneT");
+	   							$scope.phoneType = $scope.customData.arr[0]+"phoneType";
+	   						}*/
 	   						
 	   					} 
 	   				});
@@ -2185,12 +2204,49 @@ angular.module('newApp')
 	   	  		  apiserviceDashborad.getCustomizationform(entity.leadType).then(function(response1){
 						$scope.josnDataList = angular.fromJson(response1.jsonData);
 						angular.forEach($scope.josnDataList, function(obj, index){
+							var arr = [];
+   							var arr = obj.key.split('_');
+   							console.log(obj.key);
+   							
+						/*	if(obj.component == "emailSelect"){
+								 $.each($scope.customData, function(attr, value) {
+									 if(attr == arr[0]+"_emailType"){
+										 $scope.emailType = value;
+										 $("#formly_1_emailSelect_nd_email11_6").val(value);
+										 console.log($scope.emailType);
+										 console.log("0000000111");
+									 }
+								 });
+	   						}
+	   						if(obj.component == "phoneSelect"){
+	   						 $.each($scope.customData, function(attr, value) {
+								 if(attr == arr[0]+"_phoneT"){
+									 $scope.phoneType = value;
+								 }
+							 });
+	   						}*/
 							$scope.userFieldsList.push(obj);
 							
-		   			  });
+		   			    });
+						angular.forEach(angular.fromJson(response1.jsonDataAdd), function(obj, index){
+							var arr = [];
+   							var arr = obj.key.split('_');
+							/*if(obj.component == "emailSelect"){
+	   							console.log("0000000111");
+	   							console.log($scope.customData.arr[0]+"_emailType");
+	   							$scope.emailType = $scope.customData.arr[0]+"emailType";
+	   						}
+	   						if(obj.component == "phoneSelect"){
+	   							console.log("0000000");
+	   							console.log($scope.customData.arr[0]+"_phoneT");
+	   							$scope.phoneType = $scope.customData.arr[0]+"phoneType";
+	   						}*/
+							$scope.userFieldsList.push(obj);
+							
+		   			    });
 					 $scope.userFields = $scope.addFormField($scope.userFieldsList);
 					 $scope.user = {};
-   	  				});
+   	  			});
    	  		
 				 //$scope.editInput = response;
 				 //$scope.josnData = angular.fromJson(response.jsonData);
@@ -2315,15 +2371,19 @@ angular.module('newApp')
 			//$scope.editLeads.leadType = "";
 			$scope.editLeads.manufacturers = "";
 			$scope.josnData = angular.fromJson(response.jsonData);
+			angular.forEach($scope.josnData, function(obj, index){
+				obj.formName = "Create New Lead";
+			});
 			$scope.josnData1 = null;
 			console.log($scope.editLeads.leadType);
 			apiserviceDashborad.getCustomizationform($scope.editLeads.leadType).then(function(response1){
 				$scope.josnData1 = angular.fromJson(response1.jsonData);
 				angular.forEach($scope.josnData1, function(obj, index){
+					obj.formName = $scope.editLeads.leadType;
 					$scope.josnData.push(obj);
 					
    				});
-				
+				console.log($scope.josnData);
 				$.each($scope.customData, function(attr, value) {
 				angular.forEach($scope.josnData, function(value1, key) {
 					
@@ -2343,14 +2403,15 @@ angular.module('newApp')
     		   	  			savecrm:value1.savecrm,
     		   	  			displayGrid:value1.displayGrid,
     		   	  		    displayWebsite:value1.displayWebsite,
-    		   	  			
+    		   	  		    formName:value1.formName,
     					});
-						
+						var arr = [];
+						var arr = attr.split('_');
 						if(value1.component == "emailSelect"){
 							//value = value+","+$rootScope.selectEmailType;
 							$scope.customList.push({
 								fieldId:value1.fieldId,
-	    		   	  			key:"emailType",
+	    		   	  			key:arr[0]+"_emailType",
 	    		   	  			value:$rootScope.selectEmailType,
 	    		   	  			savecrm:value1.savecrm,
 	    		   	  			displayGrid:value1.displayGrid,
@@ -2362,7 +2423,7 @@ angular.module('newApp')
 						if(value1.component == "phoneSelect"){
 							$scope.customList.push({
 								fieldId:value1.fieldId,
-	    		   	  			key:"phoneType",
+	    		   	  			key:arr[0]+"_phoneType",
 	    		   	  			value:$rootScope.selectPhoneType,
 	    		   	  			savecrm:value1.savecrm,
 	    		   	  			displayGrid:value1.displayGrid,
@@ -2373,8 +2434,8 @@ angular.module('newApp')
 					} 
 				});
 			   });
-				
-				
+				console.log("-----------------");
+				console.log($scope.customList);
 				$scope.editLeads.customData = $scope.customList;
 	   	  		$scope.editLeads.stockWiseData = $scope.stockWiseData;
 	   	  	var files = [];
@@ -4429,10 +4490,17 @@ angular.module('newApp')
 	    						$scope.josnData.push(obj);
 	    						
 	   	    				});
-	    					
+	    					if(response1.additionalData == true){
+	    						angular.forEach(angular.fromJson(response1.jsonDataAdd), function(obj, index){
+		    						obj.formName = $scope.selectedLead;
+		    						$scope.josnData.push(obj);
+		    						
+		   	    				});
+	    					}
+	    					console.log("()()()(0");
+	    					console.log($scope.josnData);
 	    					$.each($scope.customData, function(attr, value) {
     						angular.forEach($scope.josnData, function(value1, key) {
-    							
     							if(value1.key == attr){
     							
     								if(value1.component == "leadTypeSelector"){
@@ -4451,12 +4519,14 @@ angular.module('newApp')
 			    		   	  		    displayWebsite:value1.displayWebsite,
 			    		   	  			formName:value1.formName,
 			    					});
-	    							
+	    							var arr = [];
+    								var arr = attr.split('_');
 	    							if(value1.component == "emailSelect"){
+	    								
     									//value = value+","+$rootScope.selectEmailType;
 	    								$scope.customList.push({
 		    								fieldId:value1.fieldId,
-				    		   	  			key:"emailType",
+				    		   	  			key: arr[0]+"_emailType",
 				    		   	  			value:$rootScope.selectEmailType,
 				    		   	  			savecrm:value1.savecrm,
 				    		   	  			displayGrid:value1.displayGrid,
@@ -4468,7 +4538,7 @@ angular.module('newApp')
 	    							if(value1.component == "phoneSelect"){
 	    								$scope.customList.push({
 		    								fieldId:value1.fieldId,
-				    		   	  			key:"phoneType",
+				    		   	  			key:arr[0]+"_phoneType",
 				    		   	  			value:$rootScope.selectPhoneType,
 				    		   	  			savecrm:value1.savecrm,
 				    		   	  			displayGrid:value1.displayGrid,
@@ -8969,8 +9039,8 @@ angular.module('newApp')
 		                            	} ,
 		                            });
 						
-						
-						
+						console.log("+++++++++++++++++++++++++++++++++++++++==");
+						console.log($scope.gridMapObect);
 						angular.forEach($scope.gridMapObect,function(value,key){
 							var name = value.key;
 							name = name.replace(" ","");

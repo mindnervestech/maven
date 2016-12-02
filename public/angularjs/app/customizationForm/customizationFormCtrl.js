@@ -32,10 +32,17 @@ angular.module('newApp')
 						$scope.setjson = null;
 						$scope.setjson.jsonData = null;
 						$scope.initComponent = null;
+						$scope.additionalComponent = null;
 					}else{
 						$scope.setjson = response;
 						$scope.setjson.jsonData = angular.fromJson(response.jsonData);
 						$scope.initComponent = angular.fromJson(response.jsonData);
+						if(response.additionalData == true){
+							$scope.additionalData = true;
+							$scope.additionalComponent = angular.fromJson(response.jsonDataAdd);
+						}else{
+							$scope.additionalData == false;
+						}
 					}
 					
 			});
@@ -52,6 +59,7 @@ angular.module('newApp')
 	  
 		/*------------------Form Builder ---------------------*/
 		   $scope.setjson = {};
+		   $scope.additionalComponent = [];
 		   	$scope.initComponent = [];
 			var vm = this;
 			$scope.fields = [];
@@ -64,26 +72,34 @@ angular.module('newApp')
 			    	awesomeIsForced: false,
 			  	}
 			};
+		   	$scope.additionalComponent = [];
 		  $scope.initComponent = [];
 		  $scope.FB = [];
+		  $scope.FBAdd = [];
 		  var FBuilder = {
 		    'initComponent': $scope.initComponent,
 		    'name':'default'
 		  };
+		  
+		  var FBuilderAdd = {
+				    'additionalComponent': $scope.additionalComponent,
+				    'name':'defaultAdd'
+				  };
 		    var count = 0;  
 		    $scope.FB.push(FBuilder);
+		    $scope.FBAdd.push(FBuilderAdd);
 		 
-		 console.log($builder, "$builder");
+		    console.log($builder, "$builder");
 		    $scope.addSubsection = function() {
-		    var formName = []
-		    $builder.forms['default'+count]= formName;
-		    var FBuilder = {
-		        'initComponent': $scope.initComponent,
-		        'name' : 'default'+count
-		    };
-		    $scope.subSectonsName = FBuilder.name;
-		    $scope.FB.push(FBuilder);
-		    count++; 
+			    var formName = []
+			    $builder.forms['default'+count]= formName;
+			    var FBuilder = {
+			        'initComponent': $scope.initComponent,
+			        'name' : 'default'+count
+			    };
+			    $scope.subSectonsName = FBuilder.name;
+			    $scope.FB.push(FBuilder);
+			    count++; 
 		    };
 		    
 
@@ -93,14 +109,57 @@ angular.module('newApp')
 		         console.log('$builder.forms',$builder.forms);
 		       }, true);
 		       
+		       
+		       $scope.additionalDataFunction = function(additionalData){
+		    	   $scope.additionalData = additionalData;
+		    	   if(additionalData == undefined){
+		    		   $scope.additionalData = true;
+		    	   }else if(additionalData == false){
+		    		   $scope.additionalData = true;
+		    	   }else{
+		    		   $scope.additionalData = false;
+		    	   }
+		    	   console.log("lllll");
+		    	   console.log($scope.additionalData);
+		       }
+		       
 		       $scope.editform = {};
-		      // $scope.showOutcomeMsg = 0;
+		       
+		      $scope.setKeyValues = function(){
+		    	  
+		    	 var fc = $routeParams.formType.charAt(0);
+		    	 var lc = $routeParams.formType.charAt($routeParams.formType.length-1);
+		    	  var keystart = fc+""+lc.toLowerCase();
+		    	  angular.forEach($builder.forms['default'], function(value, key) {
+						 var key;
+		               		key = value.label;
+		               		key = key.replace("  ","_");
+		               		key = key.replace(" ","_");
+		               		key = key.toLowerCase();
+		               		value.key = keystart+"_"+key;
+		               		console.log(key);
+						 console.log(value.key);
+					 });
+		    	  
+		    	  
+		    	  angular.forEach($builder.forms['defaultAdd'], function(value, key) {
+						 var key;
+		               		key = value.label;
+		               		key = key.replace("  ","_");
+		               		key = key.replace(" ","_");
+		               		key = key.toLowerCase();
+		               		value.key = keystart+"1"+"a"+"_"+key;
+		               		console.log(key);
+						 console.log(value.key);
+					 });
+		      } 
+		       
 		  $scope.saveCreateLeadForm = function(){
-			//  if($scope.outcome != undefined){
 				  $scope.showOutcomeMsg = 0;
 				  var obj = localStorage.getItem('popupType');
 				  $scope.leadId = localStorage.getItem('leadId');
-				angular.forEach($builder.forms['default'], function(value, key) {
+				  $scope.setKeyValues();
+				/*angular.forEach($builder.forms['default'], function(value, key) {
 					 var key;
 	               		key = value.label;
 	               		key = key.replace("  ","_");
@@ -109,10 +168,15 @@ angular.module('newApp')
 	               		value.key = key;
 	               		console.log(key);
 					 console.log(value.key);
-				 });
+				 });*/
 				 console.log($builder.forms['default']);
 				 $scope.editform.formType = $routeParams.formType;
 				 $scope.editform.jsonform = $builder.forms['default'];
+				 $scope.editform.jsonformAdd = $builder.forms['defaultAdd'];
+				 if($scope.additionalData == undefined){
+					 $scope.additionalData = false;
+				 }
+				 $scope.editform.additionalData = $scope.additionalData;
 				 $scope.editform.outcome = $scope.outcome;
 				 console.log($scope.editform);
 				 apiserviceCustomizationForm.getLeadCrateForm($scope.editform).then(function(data){
@@ -155,7 +219,9 @@ angular.module('newApp')
 			  $scope.showOutcomeMsg = 0;
 			  var obj = localStorage.getItem('popupType');
 			  $scope.leadId = localStorage.getItem('leadId');
-			angular.forEach($builder.forms['default'], function(value, key) {
+			  $scope.setKeyValues();
+			  
+			/*angular.forEach($builder.forms['default'], function(value, key) {
 				 var key;
                		key = value.label;
                		key = key.replace("  ","_");
@@ -164,16 +230,26 @@ angular.module('newApp')
                		value.key = key;
                		console.log(key);
 				 console.log(value.key);
-			 });
+			 });*/
+			  
 			 console.log($builder.forms['default']);
+			 console.log($builder.forms['defaultAdd']);
 			 $scope.editform.formType = $routeParams.formType;
 			 $scope.editform.jsonform = $builder.forms['default'];
+			 $scope.editform.jsonformAdd = $builder.forms['defaultAdd'];
 			 $scope.editform.outcome = $scope.outcome;
 			 console.log($scope.editform);
+			 if($scope.additionalData == undefined){
+				 $scope.additionalData = false;
+			 }
+			 $scope.editform.additionalData = $scope.additionalData;
 			 apiserviceCustomizationForm.getLeadCrateForm($scope.editform).then(function(data){
 				  
 				 apiserviceCustomizationForm.getCustomizationform($routeParams.formType).then(function(response){
 					 $scope.josnData1 = angular.fromJson(response.jsonData);
+					 angular.forEach(angular.fromJson(response.jsonDataAdd), function(value2, key2) {
+						 $scope.josnData1.push(value2);
+					 });
 					 console.log($scope.josnData1);
 					 $scope.formListData=[];
 					 		angular.forEach($scope.josnData1, function(value1, key) {
@@ -236,9 +312,6 @@ angular.module('newApp')
 					  }
 				  }
 				  
-				  console.log("checkkkkkkkkkkkkk");
-				  console.log($scope.callActionsList);
-				  console.log($scope.outcomemenu);
 				  
 				  $scope.callAction = data;
 				  $scope.callAction.actionTitle = data.leadName;

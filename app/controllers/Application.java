@@ -9253,6 +9253,7 @@ public class Application extends Controller {
     			cDataValue.setValue(custom.value);
     			cDataValue.setSaveCrm(custom.savecrm);
     			cDataValue.setDisplayGrid(custom.displayGrid);
+    			cDataValue.setFormName(custom.formName);
     			//cDataValue.setDisplayWebsite(custom.displayWebsite);
     			cDataValue.update();
     		}

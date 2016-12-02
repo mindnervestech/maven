@@ -7,6 +7,7 @@ angular.module('newApp')
 	
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		enableRowSelection: true,
 	 		    paginationPageSize: 150,
 	 		    enableFiltering: true,
 	 		    useExternalFiltering: true,
@@ -113,12 +114,32 @@ angular.module('newApp')
  			$scope.gridOptions.data = data;
 		});
 		
+		 $scope.gridOptions.onRegisterApi = function(gridApi){
+			 $scope.gridApi = gridApi;
+			 gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+			 $scope.rowData = rowEntity;
+			 $scope.$apply();
+				
+				 console.log($scope.rowData);
+					 apiserviceConfigPage.updateProductName($scope.rowData).then(function(data){
+						 $.pnotify({
+							    title: "Success",
+							    type:'success',
+							    text: "Update successfully",
+							});
+					 });
+				 
+			 });
+			 
+					 
+			 };	
 		
 		
 		$scope.gridOptions.columnDefs = [
 		                                 { name: 'name', displayName: 'Name', width:'70%',
-		                                	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.ShowCreateNewForm1(row)">{{row.entity.name}}</label></div>',
+		                                	 cellTemplate:'<div><label  style="color:#319DB5;cursor:pointer;" ng-click="grid.appScope.ShowCreateNewForm1(row)">{{row.entity.name}}</label></div>',
 		                                 },
+		                                
 		                                 
 		                                 { name: 'edit', displayName: ' ', width:'30%',
     		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.ShowCreateNewForm(row)" title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" ng-if="row.entity.name != \'Create New Lead\'" ng-click="grid.appScope.deleteCreateNewFormpopup(row)" title="Delete"></i> ', 
@@ -147,6 +168,7 @@ angular.module('newApp')
  			console.log($scope.gridOptions.data);
 		});
 		
+	
 		
 		
 		$scope.gridOptions.columnDefs = [

@@ -4,25 +4,30 @@
 		<h2>FORM CUSTOMIZATION</h2>
 		<h4>Default fields</h4>
 		<div class="col-md-6">
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    			<div class="col-md-12">
+								                    				<div class="col-md-2">
+								                    					<label>Name</label>
+								                    				</div>
+								                    				<div class="col-md-6">
+								                    					<input type="text" ng-model="lead.custNumber" class="form-control" placeholder="Search Name" required/>
+								                    				</div>
 								                    				
-								                    				<input type="text" ng-model="lead.custNumber" placeholder="Search Name" required/> <span style="color: red;">*</span>
 															    
 								                    			</div>
 								                    			
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    			<!-- <div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="lead.custNumber" placeholder="PHONE NUMBER" required/> <span style="color: red;">*</span>
-								                    			</div>
+								                    			</div> -->
 								                    			
 								                    		</div>
-								                    		<div class="col-md-6">
+								                    		<!-- <div class="col-md-6">
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="lead.custEmail" placeholder="EMAIL" required/> <span style="color: red;">*</span>
 								                    			</div>	
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="lead.custZipCode" placeholder="ZIP CODE" required/> <span style="color: red;">*</span>
 								                    			</div>
-								                    		</div>	
+								                    		</div>	 -->
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="row">
@@ -31,9 +36,10 @@
 	<div class="form-group col-sm-12">
 		<div class="row">
         <div class="col-md-6">
+         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">FIELDS</h3><br>
+                    <h3 class="panel-title">MAINFIELDS</h3><br>
                 </div>
                 <div  ng-if="initComponent.length > 0" fb-builder="default" ng-model="initComponent"></div>
                 <div  ng-if="initComponent.length <= 0" fb-builder="default" ng-model="initComponent"></div>
@@ -62,6 +68,22 @@
                     </div>
                     <label ng-if="showOutcomeMsg == 1" style="color:red;margin-left:60px">Please select outcome</label>
               </div>   -->
+              </div>
+              <div class="col-md-12">
+              	<input type="checkbox" name="additionalData" ng-click="additionalDataFunction(additionalData)" ng-model="additionalData" value="additionalData"> Add Additional fields
+              </div>
+              <div class="col-md-12" ng-if="additionalData == true">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">ADDITIONAL FIELDS</h3><br>
+                </div>
+                <div  ng-if="additionalComponent.length > 0" fb-builder="defaultAdd" ng-model="additionalComponent"></div>
+                <div  ng-if="additionalComponent.length <= 0" fb-builder="defaultAdd" ng-model="additionalComponent"></div>
+          
+            
+            </div>
+        
+              </div>
         </div>
 
         <div class="col-md-6" style="margin-top: 40px;">

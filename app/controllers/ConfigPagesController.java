@@ -10,9 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-
 import models.AddProduct;
 import models.AuthUser;
 import models.AutoPortal;
@@ -20,8 +17,8 @@ import models.CoverImage;
 import models.CreateNewForm;
 import models.CustomerPdf;
 import models.CustomerRequest;
-import models.CustomizationDataValue;
 import models.CustomerRequestManufacturerSettings;
+import models.CustomizationDataValue;
 import models.CustomizationForm;
 import models.Domain;
 import models.EmailDetails;
@@ -44,15 +41,18 @@ import models.Site;
 import models.SliderImageConfig;
 import models.VehicleImageConfig;
 import models.WebAnalytics;
-import models.cutomizationForm;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Result;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
+import play.mvc.Result;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import viewmodel.AddProductVM;
@@ -630,6 +630,30 @@ public class ConfigPagesController extends Controller{
 				List<AuthUser> user = AuthUser.getAllSalesUser();
 				return ok(Json.toJson(user)); 
 			}
+		 
+		 public static Result updateProductName(Long id,String name) {
+				CreateNewForm cForm = CreateNewForm.findById(id);
+				if(cForm != null){
+					if(!cForm.name.equals("Create New Lead")){
+							CustomizationForm cDataValue = CustomizationForm.findByLeadType(cForm.name);
+						if(cDataValue != null){
+							cDataValue.setDataType(name);
+							cDataValue.update();
+						}
+						List<CustomizationDataValue> cValue = CustomizationDataValue.findByformName(cForm.name);
+						for(CustomizationDataValue cu:cValue){
+							cu.setFormName(name);
+							cu.update();
+						}
+						cForm.setName(name);
+						cForm.update();
+					}
+					
+				}
+				return ok(); 
+			}
+		 
+		 
 		 
 		public static Result saveManfactSales() {
 			 Form<CustomerRequestManufacrurerSettingsVM> form = DynamicForm.form(CustomerRequestManufacrurerSettingsVM.class).bindFromRequest();

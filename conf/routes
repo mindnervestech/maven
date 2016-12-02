@@ -93,7 +93,7 @@ POST   /saveCampaigns					controllers.ClickyAnalyticsController.saveCampaigns()
 GET		/getCustomerPdfData		 controllers.ConfigPagesController.getCustomerPdfData()
 GET		/getEmailDetails		 controllers.ConfigPagesController.getEmailDetails()
 GET   /getCheckButton/:leadId/:intValue				 controllers.ConfigPagesController.getCheckButton(leadId:Long,intValue:Integer)
-
+GET   /updateProductName/:id/:name         controllers.ConfigPagesController.updateProductName(id:Long,name:String)
 
 
 
