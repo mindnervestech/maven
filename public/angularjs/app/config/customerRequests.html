@@ -81,7 +81,7 @@
 								</tr>
 								<tr style="width:20%" ng-repeat="sale in salesPersonList">
 									<td>{{sale.fullName}}</td>
-									<td style="text-align: right;"><span style="margin-right: 17px;" ng-show="sale.priceStart != null">From {{sale.priceStart}}, To {{sale.priceEnd}}</span> <button class="btn btn-primary" ng-click="openPopUpForPrice(sale)" style="margin-top:2%;margin-bottom: 2%;">Add</button></td>
+									<td style="text-align: right;"><span style="margin-right: 17px;" ng-show="sale.priceStart != null">From {{sale.priceStart}}, To {{sale.priceEnd}}</span> <button type="button" class="btn btn-primary" ng-click="openPopUpForPrice(sale)" style="margin-top:2%;margin-bottom: 2%;">Add</button></td>
 									<td style="text-align: center;"><input type="checkbox" name="vehicle" ng-model="sale.premiumFlag" ng-checked="sale.premiumFlag == 1" ng-click="permiumAss(sale);"><br></td> 
 								</tr>
 									  
