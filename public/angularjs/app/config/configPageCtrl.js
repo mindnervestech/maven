@@ -1178,13 +1178,38 @@ angular.module('newApp')
 		if(type == "Sales Person(s)"){
 			apiserviceConfigPage.getAllSalesPersons().then(function(data){
 					$scope.salesPersonName = data;
+					if($scope.userRoleData.role == "Manager"){
+						$scope.salesPersonName.push($scope.userRoleData); 
+					}
 			});
+			
 		}
 		else{
 			$scope.salesPersonName = [];
 		}
 	}
 	
+	$scope.realeasedTO = function(value){
+		$scope.outLeftAll = value;
+		if(value == "Sent to one of the sales people"){
+			apiserviceConfigPage.getAllFrontAndSalesPer().then(function(data){
+					$scope.salesPersonName = data;
+			});
+			
+		}
+		else{
+			$scope.salesPersonName = [];
+		}
+	}
+	$scope.listAll = {};
+	$scope.saveSalesPeople = function(nameList){
+		$scope.listAll = nameList;
+		$scope.listAll.outLeftAll = $scope.outLeftAll;
+		console.log($scope.listAll);
+		apiserviceConfigPage.saveOutListAll($scope.listAll).then(function(data){
+			console.log(data);
+		});
+	}
 	
 	$scope.saveCustomerData = function(type){
 		$scope.salespersonName = type;
@@ -1227,9 +1252,6 @@ angular.module('newApp')
 			angular.forEach($scope.allManufacturerList, function(obj, index){
 				obj.userData = angular.copy($scope.allFronAndSalesList); 
 			 });
-			
-			console.log($scope.allManufacturerList);
-			console.log($scope.editCustManufData);
 			angular.forEach($scope.allManufacturerList, function(obj, index){
 				angular.forEach($scope.editCustManufData, function(obj1, index1){
 					 if(obj.id == obj1.manufacturer.id){
@@ -1268,9 +1290,90 @@ angular.module('newApp')
 	$scope.saveDetailsOfUser = function(){
 		$scope.obj = {allManufacturerList:$scope.allManufacturerList};
 		console.log($scope.obj);
+		$scope.notSelectedSales = [];
+		var flagValue = 0;
+		var flagcheck = 0;
+		console.log($scope.allFronAndSalesList);
+		angular.forEach($scope.allFronAndSalesList,function(obj3,index3){
+			var flagUser =0;
+			angular.forEach($scope.obj.allManufacturerList, function(obj1, index1){
+				var flag = 0;
+				angular.forEach(obj1.userData, function(obj2, index2){
+						if(obj2.premiumFlag == true){
+							flag = 1;
+						}
+						if(obj3.id == obj2.id){
+							if(obj2.premiumFlag == true){
+								flagUser =1;
+								
+							}
+						}
+				});
+				if(flag == 0){
+					flagValue = 1;
+				}
+			});
+			if(flagUser == 0){
+				flagcheck = 1;
+				$scope.notSelectedSales.push(obj3); 
+			}
+		});
+		console.log($scope.notSelectedSales);
+		if(flagValue == 1){
+			$.pnotify({
+			    title: "Error",
+			    type:'success',
+			    text: "At List One Manfacturer have one Sales Person is Selected",
+			});
+		}else{  
+			if(flagcheck == 1){
+				$('#notselectedSelesPer').click();
+				
+				/*$.pnotify({
+				    title: "Error",
+				    type:'success',
+				    text: "Following sales people don't have any manufacturers assigned to them",
+				});*/
+			}
+			else{
+				apiserviceConfigPage.saveManfactSales($scope.obj).then(function(data){
+					console.log(data);
+				});
+			}
+		}
+		
+	}
+	$scope.saveManufactListCust = function(){
+		console.log($scope.obj);
 		apiserviceConfigPage.saveManfactSales($scope.obj).then(function(data){
 			console.log(data);
 		});
+	}
+	
+	
+	$scope.openPopUpForPrice = function(sale){
+		console.log(sale);
+		console.log($scope.salesPersonList);
+		$('#addPremiumPrice').click();
+		$scope.saleDeails = sale;
+	}
+	
+	$scope.addPremiumPrice = function(price){
+		
+		$scope.saleDeails.priceStart = price.priceStart;
+		$scope.saleDeails.priceEnd = price.priceEnd;
+		angular.forEach($scope.salesPersonList, function(obj, index){
+			if(obj.id == $scope.saleDeails.id){
+				obj.priceStart = price.priceStart;
+				obj.priceEnd = price.priceEnd;
+			}
+		});
+		
+		apiserviceConfigPage.savePriceFromTo($scope.saleDeails).then(function(data){
+			console.log(data);
+		});
+		console.log($scope.salesPersonList);
+		$('#addPremiumPrice').click();
 	}
 	
 }]);	

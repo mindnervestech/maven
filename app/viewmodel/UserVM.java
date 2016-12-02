@@ -55,5 +55,7 @@ public class UserVM {
 	public Long loca;
 	public HoursOperation hOperation = new HoursOperation();
 	public String portalName;
-	
+	public Integer priceEnd;
+	public Integer priceStart;
+	public String outLeftAll;
 }

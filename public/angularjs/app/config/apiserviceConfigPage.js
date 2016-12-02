@@ -683,27 +683,6 @@ angular.module('app.apiserviceConfigPage', [])
 	this.saveManfactSales=function(allManufacturerList){
 		var defer = $q.defer();
 		console.log(allManufacturerList);
-		var flagValue = 0;
-		angular.forEach(allManufacturerList.allManufacturerList, function(obj, index){
-			var flag = 0;
-			angular.forEach(obj.userData, function(obj1, index1){
-				console.log(obj1.premiumFlag);
-					if(obj1.premiumFlag == true){
-						flag = 1;
-					}
-			});
-			if(flag == 0){
-				flagValue = 1;
-			}
-		});
-		if(flagValue == 1){
-		  $.pnotify({
-			    title: "Error",
-			    type:'success',
-			    text: "At List One Sales Person is Select",
-			});
-		}
-		else{
 			$http.post('/saveManfactSales',allManufacturerList).success(function(data) {
 				$.pnotify({
 				    title: "Success",
@@ -712,7 +691,6 @@ angular.module('app.apiserviceConfigPage', [])
 				});
 				defer.resolve(data);
 			});
-		}
 		return defer.promise;
 	};
 	
@@ -734,4 +712,34 @@ angular.module('app.apiserviceConfigPage', [])
 		
 		return defer.promise;
 	};
+	
+	this.savePriceFromTo=function(priceData){
+		var defer = $q.defer();
+		console.log(priceData);
+		$http.post('/savePriceFromTo',priceData).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Update successfully",
+			});
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	this.saveOutListAll=function(priceData){
+		var defer = $q.defer();
+		console.log(priceData);
+		$http.post('/saveOutListAll',priceData).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Update successfully",
+			});
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
 })

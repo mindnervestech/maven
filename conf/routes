@@ -48,6 +48,8 @@ POST    /updateRegisterUser	      controllers.RegistrationController.updateRegis
 POST    /UpdateLeadType	      controllers.ConfigPagesController.UpdateLeadType()
 POST    /saveLeadFormPopup	      controllers.ConfigPagesController.saveLeadFormPopup()
 POST    /Updatecheckbox	      controllers.ConfigPagesController.Updatecheckbox()
+POST    /savePriceFromTo	      controllers.ConfigPagesController.savePriceFromTo()
+POST    /saveOutListAll	      controllers.ConfigPagesController.saveOutListAll()
 POST     /addnewrUser           controllers.ConfigPagesController.addnewrUser()
 POST     /addnewForm           controllers.ConfigPagesController.addnewForm()
 POST     /addnewWebSiteForm           controllers.ConfigPagesController.addnewWebSiteForm()

@@ -49,7 +49,35 @@ public class AuthUser extends Model implements Identity {
 	
 	public Date contractDurStartDate;
 	public Date contractDurEndDate;
+	public Integer priceStart;
+	public Integer priceEnd;
+	public String outLeftAll;
 	
+
+	public String getOutLeftAll() {
+		return outLeftAll;
+	}
+
+	public void setOutLeftAll(String outLeftAll) {
+		this.outLeftAll = outLeftAll;
+	}
+
+	public Integer getPriceStart() {
+		return priceStart;
+	}
+
+	public void setPriceStart(Integer priceStart) {
+		this.priceStart = priceStart;
+	}
+
+	public Integer getPriceEnd() {
+		return priceEnd;
+	}
+
+	public void setPriceEnd(Integer priceEnd) {
+		this.priceEnd = priceEnd;
+	}
+
 	public Date getContractDurStartDate() {
 		return contractDurStartDate;
 	}

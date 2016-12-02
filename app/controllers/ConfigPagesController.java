@@ -331,6 +331,8 @@ public class ConfigPagesController extends Controller{
 	    			vm.imageUrl = user.imageUrl;
 	    			vm.trial = user.trial;
 	    			vm.id = user.id;
+	    			vm.priceStart = user.priceStart;
+	    			vm.priceEnd = user.priceEnd;
 	    			for(Permission permission:user.permission){
 	    				parmi.add(permission.name);
 	    			}
@@ -758,6 +760,32 @@ public class ConfigPagesController extends Controller{
 		    	  
 		    	  return ok();
 			}	
+		 
+		 public static Result savePriceFromTo() {
+				Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
+				UserVM vm=form.get();
+				
+				AuthUser lead = AuthUser.findById(vm.id);
+				if(lead != null){
+					lead.setPriceStart(vm.priceStart);
+					lead.setPriceEnd(vm.priceEnd);
+			    	lead.update();
+				}
+		    	  return ok();
+			}
+		 public static Result saveOutListAll() {
+				Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
+				UserVM vm=form.get();
+				
+				AuthUser lead = AuthUser.findById(vm.id);
+				if(lead != null){
+					lead.setOutLeftAll(vm.outLeftAll);
+					//lead.setPriceEnd(vm.priceEnd);
+			    	lead.update();
+				}
+		    	  return ok();
+			}
+		 
 		 
 		 public static Result addnewForm() {
 				Form<CreateNewFormVM> form = DynamicForm.form(CreateNewFormVM.class).bindFromRequest();

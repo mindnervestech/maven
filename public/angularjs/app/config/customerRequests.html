@@ -74,12 +74,14 @@
 						</div>
 						<div class="form-group col-sm-12" style="margin-left: 1%;">
 							<table style="width:60%">
-								<tr>
-									<td style="text-align: center;width:80%"><b>Sales People</b></td>
+								<tr style="height: 40px;">
+									<td style="text-align: center;width:50%"><b>Sales People</b></td>
+									<td style="text-align: center;width:30%"><b>Price Range</b></td>
 									<td style="text-align: center;width:20%"><b>Premium</b></td>
 								</tr>
 								<tr style="width:20%" ng-repeat="sale in salesPersonList">
 									<td>{{sale.fullName}}</td>
+									<td style="text-align: right;"><span style="margin-right: 17px;" ng-show="sale.priceStart != null">From {{sale.priceStart}}, To {{sale.priceEnd}}</span> <button class="btn btn-primary" ng-click="openPopUpForPrice(sale)" style="margin-top:2%;margin-bottom: 2%;">Add</button></td>
 									<td style="text-align: center;"><input type="checkbox" name="vehicle" ng-model="sale.premiumFlag" ng-checked="sale.premiumFlag == 1" ng-click="permiumAss(sale);"><br></td> 
 								</tr>
 									  
@@ -139,6 +141,85 @@
 				</div>
 			</div>
 		</div> 
+   
+   		<div style="display:none;" id="addPremiumPrice" data-toggle="modal" data-target="#editPopups"></div>
+			<div class="modal fade" id="editPopups" tabindex="-1" role="dialog" aria-hidden="true">
+        		<div class="modal-dialog">
+            		<div class="modal-content">
+                		<div class="modal-header">
+                    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    		<h4 class="modal-title"><strong>Price Range</strong></h4>
+                		</div>
+						<div class="modal-body">
+							<form ng-submit="addPremiumPrice(saleDeails)">
+							<div class="col-md-12 form-group">
+								<div class="col-md-2">
+									<label>From</label>
+								</div>
+								<div class="col-md-4" style="margin-left: -32px;">
+									<input class="form-control form-white" ng-model="saleDeails.priceStart" value="saleDeails.priceStart" type="number" required>
+								</div>
+								<div class="col-md-2">
+									<label>To</label>
+								</div>
+								<div class="col-md-4" style="margin-left: -50px;">
+									<input class="form-control form-white" ng-model="saleDeails.priceEnd" value="saleDeails.priceEnd" type="number" required>
+								</div>
+							</div>
+							<input type="submit" class="btn btn-primary btn-embossed" value="Add">
+							<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+							</form>
+						</div>
+					</div>
+	            </div>
+        	</div>
+   
+   			<div class="col-sm-12" style ="font-size: 20px;" ng-if="customerReq.priceValue == 'Price'">
+   				<div class="col-md-4">
+					<label>All left out online requests should be : </label>
+				</div>
+				<div class="col-sm-5">
+					<input style="width:17px;height:17px;margin-left: -80px;" type="radio" id="releasedtoallsalespeople" name="releasedtoall" ng-model="realese.allSalesPeople" value="Released to all of the sales people" ng-click="realeasedTO('Released to all of the sales people')"> Released to all of the sales people
+				</div>
+				<div class="col-sm-5">
+					<input style="width:17px;height:17px;margin-left: -80px;" type="radio" id="senttoonesalespeople" name="releasedtoall" ng-model="realese.allSalesPeople" value="Sent to one of the sales people" ng-click="realeasedTO('Sent to one of the sales people')" > Sent to one of the sales people
+				</div>
+				
+				<div class="col-sm-12" ng-if="realese.allSalesPeople == 'Sent to one of the sales people'">
+					<div class="col-sm-4">
+					</div>
+					<div class="col-sm-8">
+						<div class="col-sm-12" style ="font-size: 20px" ng-repeat="name in salesPersonName">
+							<input style="width:17px;height:17px;" type="radio" name="allSalesPersonsData" ng-model="customerReq.firstName" value="{{name.firstName}}" ng-click="saveSalesPeople(name)"> {{name.firstName}} {{name.lastName}}
+						</div>
+					</div>
+				</div>
+			</div>
+   			<div style="display:none;" id="notselectedSelesPer" data-toggle="modal" data-target="#editPopupsSales"></div>
+			<div class="modal fade" id="editPopupsSales" tabindex="-1" role="dialog" aria-hidden="true">
+        		<div class="modal-dialog">
+            		<div class="modal-content">
+                		<div class="modal-header">
+                    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    		<h4 class="modal-title"><strong>Following sales people don't have any manufacturers assigned to them</strong></h4>
+                		</div>
+                		<table style="width:60%;margin-left: 100px;">
+								<tr>
+									<td style="text-align: center;width:40%"><b>Sales & Front User</b></td>
+								</tr>
+								<tr style="width:20%" ng-repeat="per in notSelectedSales">
+									<td><span>{{per.firstName}} {{per.lastName}} </span></td>
+								</tr>
+									  
+							</table>
+						<div class="modal-body">
+							<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal" ng-click="saveManufactListCust()">Continue Anyway</button>
+							<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Assign</button>
+						</div>
+					</div>
+	            </div>
+        	</div>
+   
    
 <style>
 .ImageBorder
