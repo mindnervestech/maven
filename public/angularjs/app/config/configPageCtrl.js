@@ -1398,4 +1398,15 @@ angular.module('newApp')
 		$('#addPremiumPrice').click();
 	}
 	
+	$scope.showCityAddPop = function(){
+		$('#editAddressPop').click();
+	}
+	
+	$scope.getZipCode = function(address){
+		console.log(address);
+		apiserviceConfigPage.getZipCodeData(address).then(function(data){
+			console.log(data);
+		});
+	}
+	
 }]);	

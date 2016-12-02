@@ -740,7 +740,6 @@ angular.module('app.apiserviceConfigPage', [])
 	};
 	this.saveOutListAll=function(priceData){
 		var defer = $q.defer();
-		console.log(priceData);
 		$http.post('/saveOutListAll',priceData).success(function(data) {
 			$.pnotify({
 			    title: "Success",
@@ -753,4 +752,21 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
+	this.getZipCodeData=function(address){
+		var defer = $q.defer();
+		
+		if(address.state != undefined && address.city != undefined){
+			console.log("success");
+			$http.get('http://www.zipcodeapi.com/rest/jaZHvS0ukJnKqFVEa8YofIBCrmz5xnRQyRy3Kyx5iVQIALnKUl8a3JMv5mBDJsth/city-zips.json/'+address.city+'/'+address.state).success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Slider config saved successfully",
+				});
+				defer.resolve(data);
+			});
+		}
+		
+		return defer.promise;
+	};
 })

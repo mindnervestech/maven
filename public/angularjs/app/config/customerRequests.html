@@ -219,7 +219,55 @@
 					</div>
 	            </div>
         	</div>
-   
+   			<div ng-if="customerReq.priceValue == 'Zip Code'">
+					<div class="form-group col-sm-12" style="margin-left: 1%;">
+						<table style="width:60%">
+							<tr style="height: 35px;">
+								<td style="text-align: center;width:50%"><b>Sales People</b></td>
+								<td style="text-align: center;width:40%"><b>City</b></td>
+								<td style="text-align: center;width:10%"><b>Settings</b></td>
+							</tr>
+							<tr style="width:20%;height:35px;" ng-repeat="sale in allFronAndSalesList">
+								<td>{{sale.firstName}} {{sale.lastName}}</td>
+								<td style="text-align: center;"></td>
+								<td style="text-align: center;"><i class="glyphicon glyphicon-pencil" ng-click="showCityAddPop()" title="Edit"></i></td> 
+							</tr>
+						</table>
+					</div>
+					<button type="submit" class="btn btn-primary" style="margin-left:16%;margin-top:4%;">Save</button>
+			</div>
+			
+			<div style="display:none;" id="editAddressPop" data-toggle="modal" data-target="#addressPopUp"></div>
+			<div class="modal fade" id="addressPopUp" tabindex="-1" role="dialog" aria-hidden="true">
+        		<div class="modal-dialog">
+            		<div class="modal-content">
+                		<div class="modal-header">
+                    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    		<h4 class="modal-title"><strong>Address</strong></h4>
+                		</div>
+						<div class="modal-body">
+							<form ng-submit="">
+							<div class="col-md-12 form-group">
+								<div class="col-md-2">
+									<label>City</label>
+								</div>
+								<div class="col-md-4" style="margin-left: -35px;">
+									<input class="form-control form-white" ng-model="address.city" value="address.city" type="text" ng-blur="getZipCode(address)" required>
+								</div>
+								<div class="col-md-2">
+									<label>State</label>
+								</div>
+								<div class="col-md-4" style="margin-left: -30px;">
+									<input class="form-control form-white" ng-model="address.state" value="address.state" type="text" ng-blur="getZipCode(address)" required>
+								</div>
+							</div>
+							<input type="submit" class="btn btn-primary btn-embossed" value="Add">
+							<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+							</form>
+						</div>
+					</div>
+	            </div>
+        	</div>
    
 <style>
 .ImageBorder
