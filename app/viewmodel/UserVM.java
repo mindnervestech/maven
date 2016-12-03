@@ -58,4 +58,5 @@ public class UserVM {
 	public Integer priceEnd;
 	public Integer priceStart;
 	public String outLeftAll;
+	public List<ZipCodeVM> zipCode;
 }

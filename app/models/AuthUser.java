@@ -52,7 +52,18 @@ public class AuthUser extends Model implements Identity {
 	public Integer priceStart;
 	public Integer priceEnd;
 	public String outLeftAll;
+	public String zipCode;
+
 	
+	
+	
+	public String getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
 
 	public String getOutLeftAll() {
 		return outLeftAll;

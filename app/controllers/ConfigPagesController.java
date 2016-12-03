@@ -37,6 +37,7 @@ import models.Permission;
 import models.PhotographerHoursOfOperation;
 import models.PremiumLeads;
 import models.RequestMoreInfo;
+import models.SalesPersonZipCode;
 import models.Site;
 import models.SliderImageConfig;
 import models.VehicleImageConfig;
@@ -65,9 +66,11 @@ import viewmodel.ImageVM;
 import viewmodel.LeadTypeVM;
 import viewmodel.MailchimpPageVM;
 import viewmodel.NewFormWebsiteVM;
+import viewmodel.SalePersonZipCodeVM;
 import viewmodel.SiteVM;
 import viewmodel.UserVM;
 import viewmodel.WebAnalyticsVM;
+import viewmodel.ZipCodeVM;
 import viewmodel.domainVM;
 
 public class ConfigPagesController extends Controller{
@@ -625,6 +628,11 @@ public class ConfigPagesController extends Controller{
 				List<CustomerRequestManufacturerSettings> frontAndSales = CustomerRequestManufacturerSettings.getAllcustManufactList();
 				return ok(Json.toJson(frontAndSales)); 
 			}
+		 public static Result getAllSalesPersonZipCode() {
+				List<SalesPersonZipCode> frontAndSales = SalesPersonZipCode.getAllcustManufactList();
+				return ok(Json.toJson(frontAndSales)); 
+			}
+		 
 		 
 		 public static Result getAllSalesPersons() {
 				List<AuthUser> user = AuthUser.getAllSalesUser();
@@ -673,6 +681,32 @@ public class ConfigPagesController extends Controller{
 			 return ok();
 	    }
 		 
+		public static Result saveZipCodeDetails() {
+			 Form<SalePersonZipCodeVM> form = DynamicForm.form(SalePersonZipCodeVM.class).bindFromRequest();
+			 SalePersonZipCodeVM vm = form.get();
+			 	deleteZipcodeData();
+		    	for(UserVM aProduct:vm.allFronAndSalesList){
+		    		if(aProduct.zipCode != null){
+		    			for(ZipCodeVM code:aProduct.zipCode){
+		    				SalesPersonZipCode custManufact = new SalesPersonZipCode();
+				    		custManufact.zipCode = code.zipcode;
+				    		custManufact.user = AuthUser.findById(aProduct.id); 
+				    		custManufact.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+				    		custManufact.save();
+		    			}
+		    		}
+		    	} 
+			 return ok();
+	    }
+		
+		public static Result deleteZipcodeData(){
+			List<SalesPersonZipCode> custList = SalesPersonZipCode.getAllcustManufactList();
+			for(SalesPersonZipCode delList:custList){
+				delList.delete();
+			}
+			return ok();
+		}
+		
 		public static Result deleteCustManfuctList(){
 			
 			List<CustomerRequestManufacturerSettings> custList = CustomerRequestManufacturerSettings.getAllcustManufactList();

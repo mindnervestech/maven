@@ -1227,6 +1227,8 @@ angular.module('newApp')
 	$scope.saveSalesPeople = function(nameList){
 		$scope.listAll = nameList;
 		$scope.listAll.outLeftAll = $scope.outLeftAll;
+	}
+	$scope.saveRedirectToAll = function(){
 		console.log($scope.listAll);
 		apiserviceConfigPage.saveOutListAll($scope.listAll).then(function(data){
 			console.log(data);
@@ -1262,18 +1264,37 @@ angular.module('newApp')
 		$scope.editCustManufData = data;
 	});
 	
+	apiserviceConfigPage.getAllSalesPersonZipCode().then(function(data){
+		console.log(data);
+		$scope.editSalesZipData = data;
+	});
+	
 	
 	apiserviceConfigPage.getAllManufacturer().then(function(data){
 		$scope.allManufacturerList =data;
 		console.log($scope.allManufacturerList);
 		apiserviceConfigPage.getAllFrontAndSalesPer().then(function(data){
 			$scope.allFronAndSalesList =data;
+			
 			angular.forEach($scope.allFronAndSalesList, function(obj, index){
 				obj.premiumFlag = false;
 			});
 			angular.forEach($scope.allManufacturerList, function(obj, index){
 				obj.userData = angular.copy($scope.allFronAndSalesList); 
 			 });
+			$scope.zipCode ={};
+			angular.forEach($scope.allFronAndSalesList, function(obj, index){
+				obj.zipCode = [];
+			});
+			console.log($scope.allFronAndSalesList);
+			angular.forEach($scope.allFronAndSalesList, function(obj, index){
+				angular.forEach($scope.editSalesZipData, function(obj1, index1){
+					if(obj.id == obj1.user.id){
+						obj.zipCode.push({zipcode:obj1.zipCode,
+							isSelected:true});
+					}
+				});
+			});
 			angular.forEach($scope.allManufacturerList, function(obj, index){
 				angular.forEach($scope.editCustManufData, function(obj1, index1){
 					 if(obj.id == obj1.manufacturer.id){
@@ -1285,7 +1306,7 @@ angular.module('newApp')
 					 }
 				 });
 			 });
-			console.log($scope.allManufacturerList);
+			console.log($scope.allFronAndSalesList);
 		});
 	});
 	
@@ -1350,12 +1371,6 @@ angular.module('newApp')
 		}else{  
 			if(flagcheck == 1){
 				$('#notselectedSelesPer').click();
-				
-				/*$.pnotify({
-				    title: "Error",
-				    type:'success',
-				    text: "Following sales people don't have any manufacturers assigned to them",
-				});*/
 			}
 			else{
 				apiserviceConfigPage.saveManfactSales($scope.obj).then(function(data){
@@ -1398,15 +1413,54 @@ angular.module('newApp')
 		$('#addPremiumPrice').click();
 	}
 	
-	$scope.showCityAddPop = function(){
+	$scope.showCityAddPop = function(salesDet){
+		console.log(salesDet);
+		$scope.zopCodeData = [];
+		$scope.salesDetail = salesDet;
+		$scope.zipCodeDetailData = [];
 		$('#editAddressPop').click();
 	}
+	
+	
+	$scope.zopCodeData =[];
+	$scope.storeZipCode = function(value){
+		console.log(value);
+		$scope.zopCodeData.push(value);
+		$scope.salesDetail.zipcode = value;
+		console.log($scope.allFronAndSalesList);
+		angular.forEach($scope.allFronAndSalesList, function(obj, index){
+			if(obj.id == $scope.salesDetail.id){
+				console.log(obj.id);
+				obj.zipCode = angular.copy($scope.zopCodeData);
+			}
+		 });
+		console.log($scope.allFronAndSalesList);
+	}
+	
 	
 	$scope.getZipCode = function(address){
 		console.log(address);
 		apiserviceConfigPage.getZipCodeData(address).then(function(data){
 			console.log(data);
+			$scope.zipCodeDetailData = [];
+			angular.forEach(data.zip_codes, function(obj, index){
+				$scope.zipCodeDetailData.push({
+					zipcode:obj,
+					isSelected:false
+				});
+			 });
+			/*angular.forEach($scope.allFronAndSalesList, function(obj, index){
+				obj.zipCode = angular.copy($scope.zipCodeDetailData); 
+			 });*/
+			console.log($scope.zipCodeDetailData);
 		});
 	}
-	
+	$scope.SaveZipCodeData = function(){
+		console.log($scope.allFronAndSalesList);
+		$scope.obj = {allFronAndSalesList:$scope.allFronAndSalesList};
+		console.log($scope.obj);
+		apiserviceConfigPage.saveZipCodeDetails($scope.obj).then(function(data){
+			console.log(data);
+		});
+	}
 }]);	

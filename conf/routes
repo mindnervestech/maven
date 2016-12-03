@@ -364,6 +364,7 @@ GET		/getMyProfile				controllers.MyProfileController.getMyProfile()
 POST     /forgotPassword            controllers.Application.forgotPass()  
 POST	/saveConfirmData			controllers.CustomersRequestController.saveConfirmData()
 POST	/saveManfactSales			controllers.ConfigPagesController.saveManfactSales()
+POST	/saveZipCodeDetails			controllers.ConfigPagesController.saveZipCodeDetails()
 
 GET		/activeAccount/:id		controllers.MyProfileController.activeAccount(id:Integer)
 GET		/getAllUsers				controllers.MyProfileController.getAllUsers()
@@ -373,6 +374,8 @@ GET     /getAllSalesUsers 			controllers.ConfigPagesController.getAllSalesUsers(
 GET     /getAllManufacturer 			controllers.ConfigPagesController.getAllManufacturer()
 GET     /getAllFrontAndSalesPer 			controllers.ConfigPagesController.getAllFrontAndSalesPer()
 GET     /getAllCustomerManufacturer 			controllers.ConfigPagesController.getAllCustomerManufacturer()
+GET     /getAllSalesPersonZipCode 			controllers.ConfigPagesController.getAllSalesPersonZipCode()
+
 GET		/getAllDeactivateUsers				controllers.MyProfileController.getAllDeactivateUsers()
 GET		/getAllUsersToAssign				controllers.MyProfileController.getAllUsersToAssign()
 GET		/getAllLocation/:timeSet				controllers.Application.getAllLocation(timeSet:String)

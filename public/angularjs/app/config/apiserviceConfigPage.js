@@ -715,6 +715,16 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
+	this.getAllSalesPersonZipCode=function(){
+		var defer = $q.defer();
+		
+		$http.get('/getAllSalesPersonZipCode').success(function(data) {
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
 	this.getUserRole = function(){
 		var defer = $q.defer();
 		$http.get('/getUserRole').success(function(data) {
@@ -757,16 +767,27 @@ angular.module('app.apiserviceConfigPage', [])
 		
 		if(address.state != undefined && address.city != undefined){
 			console.log("success");
-			$http.get('http://www.zipcodeapi.com/rest/jaZHvS0ukJnKqFVEa8YofIBCrmz5xnRQyRy3Kyx5iVQIALnKUl8a3JMv5mBDJsth/city-zips.json/'+address.city+'/'+address.state).success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Slider config saved successfully",
-				});
+			//JLnDGAvrRbmuvUflZsBNK9nNUYbS4uYOflrWVXoN8KhEEw0DZCrJLOwGNHyScwGs
+			$http.get('http://www.zipcodeapi.com/rest/js-s8CkSTl4PxAO9QiQiaL9dLZvzgppmrlPAX9tRuyH18vbYO1hZNrcyqI7G7w3zRSa/city-zips.json/'+address.city+'/'+address.state).success(function(data) {
+				
 				defer.resolve(data);
 			});
 		}
 		
+		return defer.promise;
+	};
+	
+	this.saveZipCodeDetails=function(allFronAndSalesList){
+		var defer = $q.defer();
+		console.log(allFronAndSalesList);
+			$http.post('/saveZipCodeDetails',allFronAndSalesList).success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Sales Person Zip Code saved successfully",
+				});
+				defer.resolve(data);
+			});
 		return defer.promise;
 	};
 })
