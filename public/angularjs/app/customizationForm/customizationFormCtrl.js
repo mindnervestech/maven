@@ -287,6 +287,10 @@ angular.module('newApp')
 			  console.log(leadId);
 			  apiserviceCustomizationForm.getLeadTypeDataById(leadId).then(function(data){
 				  console.log(data);
+				  if(data.confirmationMsg == null){
+					  data.confirmationMsg = "Thank you for your interest!";
+				  }
+				 
 				  var arr = [];
 				  var arr1 = [];
 				  if(data.actionOutcomes != null){

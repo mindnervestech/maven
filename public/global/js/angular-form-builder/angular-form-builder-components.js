@@ -112,7 +112,7 @@
       
       $builderProvider.registerComponent('emailSelect', {
           group: 'Default',
-          label: 'EmailId',
+          label: 'Email',
           key:'emailSelect',
           required: false,
           options: ['Work', 'Personal'],
@@ -135,7 +135,7 @@
       
       $builderProvider.registerComponent('selectGroup', {
           group: 'Default',
-          label: 'Select Group',
+          label: 'CRM Group',
           key:'selectGroup',
           required: false,
           options: ['group1', 'group2'],
@@ -274,7 +274,7 @@
       
       $builderProvider.registerComponent('multipleselect', {
           group: 'Default',
-          label: 'Multiple select',
+          label: 'Multiple option selector',
           key:'dropdown',
           required: false,
           options: ['value one', 'value two', 'value three'],
@@ -285,7 +285,7 @@
       
      $builderProvider.registerComponent('singleSelect', {
           group: 'Default',
-          label: 'single Selector',
+          label: 'Single option selector',
           key:'single_select',
           required: false,
           options: ['value one', 'value two'],
