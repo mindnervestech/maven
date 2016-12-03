@@ -5393,7 +5393,7 @@ angular.module('newApp')
 				$scope.otherLead = data;
 				//$scope.gridOptions13.data = data;
 				//$scope.AllOtherLeadSeenList = data;
-				if($scope.userType == "Sales Person"){
+				/*if($scope.userType == "Sales Person"){
 					angular.forEach($scope.otherLead,function(value,key){
 		        		$scope.getAllListLeadDate.push(value);
 		        		if(value.noteFlag == 0 && value.confirmDate == null){
@@ -5404,7 +5404,12 @@ angular.module('newApp')
 						deferred.resolve("success");
 				}else{
 					deferred.resolve("error");
-				}
+				}*/
+				angular.forEach($scope.otherLead,function(value,key){
+	        		$scope.getAllListLeadDate.push(value);
+	        		
+	        	});
+				deferred.resolve("success");
 			
 		   });
 			return deferred.promise;
@@ -5573,9 +5578,6 @@ angular.module('newApp')
 		    		    		    		       				
 		    		    		    		       				apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
 		    		    		    		       					$scope.josnData = angular.fromJson(response.jsonData);
-		    		    		    		       					
-		    		    		    		       					
-		    		    		    		       					
 		    		    		    		       				});
 		    		    				        				var findFlag = 0;
 		    		    				           				angular.forEach($scope.getAllListLeadDate,function(value,key){
@@ -5585,7 +5587,6 @@ angular.module('newApp')
 				    		    		    		       						if(value1.key == value2.key){
 				    		    		    		       							$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
 				    		    				        							findFlag = 1;
-				    		    				        							
 			    		    				        							}
 				    		    		    		       					});
 		    		    				        							
@@ -5605,6 +5606,7 @@ angular.module('newApp')
 		    		    				        						});
 		    		    				        					});
 		    		    				        				});
+		    		    				        				
 		    		    				        				$scope.flag = 0;
 		    		    				        				angular.forEach($scope.gridMapObect,function(value,key){
 		    		    				        					var name = value.key;
@@ -8943,10 +8945,7 @@ angular.module('newApp')
 	        		}
 	        	});
 	        	
-	//        	if($scope.AllOtherLeadSeenList.length <= 0){
-	      
-	  //      	}
-	        	$scope.josnData1 = null;
+	        	
 	        	$scope.josnData1 = angular.copy($scope.josnData);
 	        	apiserviceDashborad.getCustomizationform(leadInfo).then(function(response){
 		   					//$scope.josnData1 = angular.fromJson(response.jsonData);
@@ -9039,7 +9038,6 @@ angular.module('newApp')
 		                            	} ,
 		                            });
 						
-						console.log("+++++++++++++++++++++++++++++++++++++++==");
 						console.log($scope.gridMapObect);
 						angular.forEach($scope.gridMapObect,function(value,key){
 							var name = value.key;
