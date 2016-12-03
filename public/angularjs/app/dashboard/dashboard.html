@@ -9437,7 +9437,10 @@ float: right !important;
 								                    	<div ng-if="addAddress" class="col-md-12" style="margin-top: 32px;">
 								                				<formly-form model="customData" fields="userFields">
   																</formly-form>
+  																<input type="checkbox" ng-show="newFlagData == true" name="additional" ng-model="additional" ng-click="showAdditionField(additional)"><label ng-show="newFlagData == true">Additional Fields</label><br>
 								                    	</div>	
+								                    	
+								                    	
 								                    	
 								                    </div>
 								                 

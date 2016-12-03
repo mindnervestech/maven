@@ -144,14 +144,13 @@ angular.module('newApp')
 				}
 			});
 	});
-	
 	$scope.$on("selectLeadDashbord", function(event,data){
            
 		$scope.selectedLead = data;
 		$scope.userFields = angular.copy($scope.userFieldsCopy);
 		$scope.userFields1 = null;
+		$scope.newFlagData = false;
 		apiserviceDashborad.getCustomizationform($scope.selectedLead).then(function(response){
-			
 			
 			 $scope.editInput = response;
 			 $scope.userFields1 = $scope.addFormField(angular.fromJson(response.jsonData));
@@ -159,11 +158,10 @@ angular.module('newApp')
 			 angular.forEach($scope.userFields1, function(obj, index){
 				 $scope.userFields.push(obj);
 				});
+			 
 			 if(response.additionalData == true){
+				 $scope.newFlagData = true;
 				 $scope.userFields2 = $scope.addFormField(angular.fromJson(response.jsonDataAdd));
-				 angular.forEach($scope.userFields2, function(obj, index){
-					 $scope.userFields.push(obj);
-					});
 			 }
 			
 			 $scope.user = {};
@@ -173,7 +171,32 @@ angular.module('newApp')
 	    });
 		
      });
-
+	$scope.showAdditionField = function(additional){
+		console.log(additional);
+		console.log($scope.userFields2);
+		
+		if(additional == true){
+			angular.forEach($scope.userFields2, function(obj, index){
+				angular.forEach($scope.userFields, function(obj1, index1){
+					 if(obj.key == obj1.key){
+						 $scope.userFields.splice(index1,1);
+					 }
+				});
+			});	
+			
+		}
+		if(additional == undefined){
+			angular.forEach($scope.userFields2, function(obj, index){
+				 $scope.userFields.push(obj);
+			});	
+		}
+		
+		if(additional == false){
+			angular.forEach($scope.userFields2, function(obj, index){
+				 $scope.userFields.push(obj);
+			});	
+		}
+	}
         
 	
 	$scope.topListingCount = function(name,flag){
