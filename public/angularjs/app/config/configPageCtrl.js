@@ -1243,7 +1243,12 @@ angular.module('newApp')
 			}
 		});
 		if(priceFlag == 0){
-			apiserviceConfigPage.saveOutListAll($scope.listAll).then(function(data){
+			var longId = 0;
+			if($scope.realese.allSalesPeople == "Sent to one of the sales people"){
+				longId = $scope.listAll.id;
+			}
+			
+			apiserviceConfigPage.saveOutListAll($scope.realese.allSalesPeople,longId).then(function(data){
 				console.log(data);
 			});
 		}else{
