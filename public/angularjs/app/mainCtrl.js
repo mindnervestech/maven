@@ -1016,7 +1016,9 @@
                         if(form.component === "selectGroup"){
                         	 formFields.push(getJsonBForselectGroup(form));
                         }
-                        
+                        if(form.component === "zipCodes"){
+                         	 formFields.push(getJsonBForZipCodes(form));
+                         }
                         if(form.component === "multipleselect"){
                           	 formFields.push(getJsonBForMultipleselect(form));
                           }
@@ -1076,6 +1078,32 @@
                       		"label": jsonObject.label,
                     	},	
                 	};
+                	return convertedObject;
+                }
+              	
+              	
+            	function getJsonBForZipCodes(jsonObject){
+              		var key;
+                	if(jsonObject.key === ""){
+                  		key = jsonObject.label;
+                  		key = key.replace(" ","_");
+        		        key = key.toLowerCase();
+        		   	}else{
+        		    	key = jsonObject.key;
+        		  	}
+
+                	var properties = getPropertiesForEditable(jsonObject.editable);
+                	var convertedObject = {
+                      		"key": key,
+                        	"type": jsonObject.component,
+                        	"templateOptions": {
+                          		"type": "number",
+                          		"label": jsonObject.label,
+                          		"placeholder": jsonObject.placeholder,
+                          		"required": jsonObject.required
+                        	},	
+                          
+                    	};
                 	return convertedObject;
                 }
               	

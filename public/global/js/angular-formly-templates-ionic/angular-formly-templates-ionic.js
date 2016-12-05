@@ -2,7 +2,7 @@ angular.module('formlyIonic', ['formly'], ["formlyConfigProvider", function conf
     'use strict';
 
 
-    angular.forEach(['checkbox', 'input', 'radio', 'range', 'textarea', 'toggle', 'select', 'floating-input', 'stacked-input', 'inline-input','signature','ui-grid','image','financialcalculator','daterange','autocompleteText','contactssearch','inventorysearch','fileuploaders','timerange','headerlabel','numberInput','multipleselect','singleSelect','leadTypeSelector','productType','selectGroup','emailSelect','phoneSelect'], function (fieldName) {
+    angular.forEach(['checkbox', 'input', 'radio', 'range', 'textarea', 'toggle', 'select', 'floating-input', 'stacked-input', 'inline-input','signature','ui-grid','image','financialcalculator','daterange','autocompleteText','contactssearch','inventorysearch','fileuploaders','timerange','headerlabel','numberInput','multipleselect','singleSelect','leadTypeSelector','productType','selectGroup','emailSelect','phoneSelect','zipCodes'], function (fieldName) {
         if(fieldName === 'signature'){
             formlyConfigProvider.setType({
                 name: fieldName,
@@ -105,6 +105,12 @@ angular.module('formlyIonic', ['formly'], ["formlyConfigProvider", function conf
                 templateUrl: getFieldTemplateUrl(fieldName),
                 controller:'customizationCtrl'
             });
+        }else if(fieldName === 'zipCodes'){
+            formlyConfigProvider.setType({
+                name: fieldName,
+                templateUrl: getFieldTemplateUrl(fieldName),
+                controller:'customizationCtrl'
+            });
         }else{
             formlyConfigProvider.setType({
                 name: fieldName,
@@ -169,7 +175,6 @@ $templateCache.put("fields/input.html","<label class=\"item item-input form-grou
 
 $templateCache.put("fields/emailSelect.html","<label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div class=\"col-sm-5 form-group\"><input class=\"col-sm-5 form-control form-white\" ng-model=\"model[options.key]\"  type=\"{{options.templateOptions.type}}\"></div><div   class=\"col-sm-3 form-group\"><select class=\"col-sm-3 form-control form-white\" ng-change=\"selectEmailType(emailType)\" ng-model=\"emailType\"><option ng-repeat=\"option in to.options\">{{option[to.labelProp || \'name\']}}</option></select></div></label>");
 $templateCache.put("fields/phoneSelect.html","<label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div class=\"col-sm-5 form-group\"><input class=\"col-sm-5 form-control form-white\" ng-model=\"model[options.key]\"  type=\"{{options.templateOptions.type}}\"></div><div   class=\"col-sm-3 form-group\"><select class=\"col-sm-3 form-control form-white\" ng-change=\"selectPhoneType(phoneType)\" ng-model=\"phoneType\"><option ng-repeat=\"option in to.options\">{{option[to.labelProp || \'name\']}}</option></select></div></label>");
-																																																																																																																																												
 /*template: "<div class=\"form-group col-sm-12\">\n    <label for=\"{{formName+index}}\" class=\"col-md-3 control-label\">{{label}}</label>\n    <div class=\"col-md-5\" style=\"padding-right: 0px;\">\n<input type=\"text\" ng-model=\"inputText\" validator-group=\"{{formName}}\" class=\"form-control m-b\" placeholder=\"{{placeholder}}\"/></div><div class=\"col-md-3 from-group\">        <select ng-options=\"value for value in options\" id=\"{{formName+index}}\" class=\"form-control\"\n            ng-model=\"inputText\" ng-init=\"inputText = options[0]\"/>\n        <p class='help-block'>{{description}}</p>\n    </div>\n <div class='col-sm-12'> <hr> </div></div>",*/
 
 
@@ -212,6 +217,8 @@ $templateCache.put("fields/fileuploaders.html","<div class=\"form-group col-sm-1
 $templateCache.put("fields/timerange.html","<div class=\"form-group col-sm-12\"><label class=\"col-sm-2 control-label\" style=\"padding-left: 0px;text-align: right;\">{{options.templateOptions.label}}</label><div class=\"form-group col-sm-4 prepend-icon\"><input type=\"text\" name=\"timepicker\" class=\"timepicker form-control form-white hasDatepicker\" ng-model=\"model['timeSet']\"  placeholder=\"Choose a time...\" ng-click=\"showtimepick()\" data-format=\"am-pm\" id=\"bestTimes\"><i class=\"icon-clock\"></i></div>");
 $templateCache.put("fields/headerlabel.html","<label class=\"item item-input item-stacked-label form-group col-sm-12\" style=\"padding-left: 0px;\"><h2><span class=\"input-label form-group col-sm-12\"><b>{{options.templateOptions.label}}</b></span></h2></label>");
 $templateCache.put("fields/numberInput.html","<div   style=\"padding: 0px;\" class=\"col-sm-12\"><label for=\"{{formName+index}}\" class=\"col-md-4 control-label\">{{label}}</label> <div  style=\"padding: 0px;\" class=\"col-sm-7\">\n    <input type=\"number\" class=\"form-control m-b\" />\n </div></div>");
+$templateCache.put("fields/zipCodes.html","<div class=\"form-group col-sm-12\"><label class=\"col-sm-2 control-label\" style=\"padding-left: 0px;text-align: right;\">{{options.templateOptions.label}}</label><div class=\"form-group col-sm-4\"><input type=\"number\" class=\"form-control form-white\" ng-model=\"model[options.key]\"></div>");
+
 $templateCache.put("fields/multipleselect.html","<label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div class=\"col-sm-4 form-group\"><select class=\"col-sm-10 form-control form-white\" ng-model=\"model[options.key]\" ng-options=\"option[to.valueProp || \'value\'] as option[to.labelProp || \'name\'] group by 			  option[to.groupProp || \'group\'] for option in to.options\" multiple></select></div></label>");
 
 $templateCache.put("fields/singleSelect.html","<div class=\"form-group col-sm-12\" > <label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div   class=\"col-sm-4 form-group\"> <select  style=\"width: 125px\"  ng-model=\"model[options.key]\" data-ng-attr-size=\"{{to.options.length}}\"><option  ng-repeat=\"option in to.options\">{{option[to.labelProp || \'name\']}}</option></select></div></label></div>");
