@@ -40,6 +40,7 @@ import models.RequestMoreInfo;
 import models.SalesPersonZipCode;
 import models.Site;
 import models.SliderImageConfig;
+import models.State;
 import models.VehicleImageConfig;
 import models.WebAnalytics;
 
@@ -633,6 +634,10 @@ public class ConfigPagesController extends Controller{
 				return ok(Json.toJson(frontAndSales)); 
 			}
 		 
+		 public static Result getAllStateCodes() {
+				List<State> frontAndSales = State.getAllStateCodes();
+				return ok(Json.toJson(frontAndSales)); 
+			}
 		 
 		 public static Result getAllSalesPersons() {
 				List<AuthUser> user = AuthUser.getAllSalesUser();

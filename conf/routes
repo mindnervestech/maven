@@ -375,6 +375,7 @@ GET     /getAllManufacturer 			controllers.ConfigPagesController.getAllManufactu
 GET     /getAllFrontAndSalesPer 			controllers.ConfigPagesController.getAllFrontAndSalesPer()
 GET     /getAllCustomerManufacturer 			controllers.ConfigPagesController.getAllCustomerManufacturer()
 GET     /getAllSalesPersonZipCode 			controllers.ConfigPagesController.getAllSalesPersonZipCode()
+GET     /getAllStateCodes 			controllers.ConfigPagesController.getAllStateCodes()
 
 GET		/getAllDeactivateUsers				controllers.MyProfileController.getAllDeactivateUsers()
 GET		/getAllUsersToAssign				controllers.MyProfileController.getAllUsersToAssign()

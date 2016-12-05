@@ -1291,7 +1291,9 @@ angular.module('newApp')
 				angular.forEach($scope.editSalesZipData, function(obj1, index1){
 					if(obj.id == obj1.user.id){
 						obj.zipCode.push({zipcode:obj1.zipCode,
-							isSelected:true});
+							isSelected:true,
+							city:obj1.city,
+							state:obj1.state});
 					}
 				});
 			});
@@ -1478,4 +1480,9 @@ angular.module('newApp')
 			console.log(data);
 		});
 	}
+	
+	apiserviceConfigPage.getAllStateCodes().then(function(data){
+		console.log(data);
+		$scope.stateCodesList = data;
+	});
 }]);	

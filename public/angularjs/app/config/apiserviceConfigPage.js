@@ -787,4 +787,12 @@ angular.module('app.apiserviceConfigPage', [])
 			});
 		return defer.promise;
 	};
+	
+	this.getAllStateCodes=function(){
+		var defer = $q.defer();
+		$http.get('/getAllStateCodes').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 })

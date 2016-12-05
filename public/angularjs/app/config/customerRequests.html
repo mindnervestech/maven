@@ -240,7 +240,7 @@
 			
 			<div style="display:none;" id="editAddressPop" data-toggle="modal" data-target="#addressPopUp"></div>
 			<div class="modal fade" id="addressPopUp" tabindex="-1" role="dialog" aria-hidden="true">
-        		<div class="modal-dialog" style="width: 734px;height: 800px;overflow: auto;overflow-x: hidden;">
+        		<div class="modal-dialog" style="width: 734px;height: 600px;overflow: auto;overflow-x: hidden;margin-top: 110px;">
             		<div class="modal-content" style="width: 730px;">
                 		<div class="modal-header">
                     		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
@@ -259,7 +259,12 @@
 									<label>State</label>
 								</div>
 								<div class="col-md-4">
-									<input class="form-control form-white" ng-model="address.state" value="address.state" type="text"  required>
+									<!-- <input class="form-control form-white" ng-model="address.state" value="address.state" type="text"  required> -->
+									<select class="form-control form-white" id="userAge" ng-model="address.state">
+                                    	<option value="">Select</option>
+                                    	<option ng-repeat="item in stateCodesList" value="{{item.stateCode}}">{{item.stateCode}}</option>
+                                    	
+                                </select>
 								</div>
 								<div class="col-md-2">
 									<button type="button" class="btn btn-primary" ng-click="getZipCode(address)">Show ZipCodes</button>
