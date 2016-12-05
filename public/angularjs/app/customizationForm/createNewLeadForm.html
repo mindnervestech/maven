@@ -12,25 +12,20 @@
 								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{setjson.mainTitle}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Main Title')" ng-if="showSaveButton == 'Edit'"><i class="glyphicon glyphicon-edit"></i></a></h3>
 								                    		<h4>Default fields</h4>
 								                    		<div class="col-md-6">
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    			<div class="col-md-12">
+								                    				<div class="col-md-2">
+								                    					<label>Name</label>
+								                    				</div>
+								                    				<div class="col-md-6">
+								                    					<input type="text" ng-model="lead.custNumber" class="form-control" placeholder="Search Name" required/>
+								                    				</div>
 								                    				
-								                    				<input type="text" ng-model="lead.custNumber" placeholder="Search Name" required/> <span style="color: red;">*</span>
 															    
 								                    			</div>
 								                    			
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.custNumber" placeholder="PHONE NUMBER" required/> <span style="color: red;">*</span>
-								                    			</div>
+								                    			
 								                    			
 								                    		</div>
-								                    		<div class="col-md-6">
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.custEmail" placeholder="EMAIL" required/> <span style="color: red;">*</span>
-								                    			</div>	
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.custZipCode" placeholder="ZIP CODE" required/> <span style="color: red;">*</span>
-								                    			</div>
-								                    		</div>	
 								                    	</div>
 								                    </div>
 								                    <div class="row">
