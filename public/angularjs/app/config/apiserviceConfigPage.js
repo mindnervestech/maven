@@ -738,19 +738,15 @@ angular.module('app.apiserviceConfigPage', [])
 		var defer = $q.defer();
 		console.log(priceData);
 		$http.post('/savePriceFromTo',priceData).success(function(data) {
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Update successfully",
-			});
+			
 			defer.resolve(data);
 		});
 
 		return defer.promise;
 	};
-	this.saveOutListAll=function(priceData){
+	this.saveOutListAll=function(status,id){
 		var defer = $q.defer();
-		$http.post('/saveOutListAll',priceData).success(function(data) {
+		$http.get('/saveOutListAll/'+status+'/'+id).success(function(data) {
 			$.pnotify({
 			    title: "Success",
 			    type:'success',

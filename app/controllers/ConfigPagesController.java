@@ -838,8 +838,29 @@ public class ConfigPagesController extends Controller{
 				}
 		    	  return ok();
 			}
-		 public static Result saveOutListAll() {
-				Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
+		 public static Result saveOutListAll(String status,Integer id) {
+			 
+			 if(status.equals("Released to all of the sales people")){
+				 List<AuthUser> lead = AuthUser.getAllSalesAndFrontUser();
+				 for(AuthUser au:lead){
+					 au.setOutLeftAll(status);
+					 au.update();
+				 }
+			 }else if(status.equals("Sent to one of the sales people")){
+			
+				 List<AuthUser> lead = AuthUser.getAllSalesAndFrontUser();
+				 for(AuthUser au:lead){
+					 if(au.id.equals(id)){
+						 au.setOutLeftAll(status);
+					 }else{
+						 au.setOutLeftAll(null);
+					 }
+					 
+					 au.update();
+				 }
+				 
+			 }
+				/*Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
 				UserVM vm=form.get();
 				
 				AuthUser lead = AuthUser.findById(vm.id);
@@ -847,7 +868,7 @@ public class ConfigPagesController extends Controller{
 					lead.setOutLeftAll(vm.outLeftAll);
 					//lead.setPriceEnd(vm.priceEnd);
 			    	lead.update();
-				}
+				}*/
 		    	  return ok();
 			}
 		 

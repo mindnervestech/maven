@@ -46,7 +46,7 @@
 							<div class="col-sm-12" ng-if="customerReq.redirectValue == 'Automatically redirect an online customer requests based on'">
 									<div class=""></div>
 									<div class="col-sm-2" Style = "padding: 15px;">
-										<select id="customerRequest" ng-change="getAutomatically(customerReq.priceValue)" ng-model="customerReq.priceValue" ng-click="premiumData()" style="width: 200px;">
+										<select id="customerRequest" ng-model="customerReq.priceValue" style="width: 200px;">
 	                                    	<option value="">Select</option>
 	                                    	<option value="Price">Price</option>
 	                                    	<option value="Manufacturer">Manufacturer</option>
@@ -75,38 +75,44 @@
 						<div class="form-group col-sm-12" style="margin-left: 1%;">
 							<table style="width:60%">
 								<tr style="height: 40px;">
+								<td style="text-align: center;width:10%">Select</td>
 									<td style="text-align: center;width:50%"><b>Sales People</b></td>
 									<td style="text-align: center;width:30%"><b>Price Range</b></td>
 									<!-- <td style="text-align: center;width:20%"><b>Premium</b></td> -->
 								</tr>
-								<tr style="width:20%" ng-repeat="sale in salesPersonList">
-									<td>{{sale.fullName}}</td>
-									<td style="text-align: right;"><span style="margin-right: 17px;" ng-show="sale.priceStart != null">From {{sale.priceStart}}, To {{sale.priceEnd}}</span> <button type="button" class="btn btn-primary" ng-click="openPopUpForPrice(sale)" style="margin-top:2%;margin-bottom: 2%;">Add</button></td>
+								<!--  -->
+								<tr style="width:20%;" ng-repeat="sale in salesPersonList">
+									<td style="text-align: center;"><input type="checkbox" name="permissions" ng-click="clickedUser(sale,sale.showDataValue)" ng-model="sale.showDataValue"></td>
+									<td ng-class="sale.showDataValue == true ? '':'setOpacityClass'">{{sale.fullName}}</td>
+									<td style="text-align: right;" ng-class="sale.showDataValue == true ? '':'setOpacityClass'"><span style="margin-right: 17px;" ng-show="sale.priceStart != null">From {{sale.priceStart}}, To {{sale.priceEnd}}</span> <button type="button" class="btn btn-primary" ng-disabled="sale.showDataValue == false" ng-click="openPopUpForPrice(sale)" style="margin-top:2%;margin-bottom: 2%;">Add</button></td>
 									<!-- <td style="text-align: center;"><input type="checkbox" name="vehicle" ng-model="sale.premiumFlag" ng-checked="sale.premiumFlag == 1" ng-click="permiumAss(sale);"><br></td> --> 
 								</tr>
 									  
 							</table>
 						</div>
 						<div class="col-sm-12" style ="font-size: 20px;" ng-if="customerReq.priceValue == 'Price'">
-   							<div class="col-md-4">
+   							<div class="col-md-4" style="padding-right: 0px;">
 								<label>All left out online requests should be : </label>
 							</div>
-							<div class="col-sm-5">
-								<input style="width:17px;height:17px;margin-left: -80px;" type="radio" id="releasedtoallsalespeople" name="releasedtoall" ng-model="realese.allSalesPeople" value="Released to all of the sales people" ng-click="realeasedTO('Released to all of the sales people')" required> Released to all of the sales people
-							</div>
-							<div class="col-sm-5">
-								<input style="width:17px;height:17px;margin-left: -80px;" type="radio" id="senttoonesalespeople" name="releasedtoall" ng-model="realese.allSalesPeople" value="Sent to one of the sales people" ng-click="realeasedTO('Sent to one of the sales people')" required> Sent to one of the sales people
-							</div>
-				
-							<div class="col-sm-12" ng-if="realese.allSalesPeople == 'Sent to one of the sales people'">
-								<div class="col-sm-4">
+							<div class="col-sm-7">
+								<div class="col-sm-12">
+									<input style="width:16px;height:16px;" type="radio" id="releasedtoallsalespeople" name="releasedtoall" ng-model="realese.allSalesPeople" value="Released to all of the sales people" ng-click="realeasedTO('Released to all of the sales people')" required> Released to all of the sales people
 								</div>
-								<div class="col-sm-8">
-									<div class="col-sm-12" style ="font-size: 20px" ng-repeat="name in salesPersonName">
-										<input style="width:17px;height:17px;" type="radio" name="allSalesPersonsData" ng-model="customerReq.firstName" value="{{name.firstName}}" ng-click="saveSalesPeople(name)"> {{name.firstName}} {{name.lastName}}
+								<div class="col-sm-12">
+									<input style="width:16px;height:16px;" type="radio" id="senttoonesalespeople" name="releasedtoall" ng-model="realese.allSalesPeople" value="Sent to one of the sales people" ng-click="realeasedTO('Sent to one of the sales people')" required> Sent to one of the sales people
+									<div class="col-sm-12" ng-if="realese.allSalesPeople == 'Sent to one of the sales people'">
+										
+										<div class="col-sm-8">
+											<div class="col-sm-12" style ="font-size: 20px" ng-repeat="name in salesPersonName">
+												<input style="width:17px;height:17px;" type="radio" name="allSalesPersonsData" ng-model="customerReq.firstName" value="{{name.firstName}}" ng-click="saveSalesPeople(name)"> {{name.firstName}} {{name.lastName}}
+											</div>
+										</div>
 									</div>
 								</div>
+								
 							</div>
+							
+							
 						</div>
 						
 						<button type="submit" class="btn btn-primary" style="margin-left:16%;margin-top:4%;">Save</button>
@@ -220,6 +226,33 @@
 					</div>
 	            </div>
         	</div>
+        	<div class="modal fade" id="priceAlrt" tabindex="-1" role="dialog" aria-hidden="true">
+        		<div class="modal-dialog">
+            		<div class="modal-content">
+                		<div class="modal-header">
+                    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    		<h4 class="modal-title"><strong>Some of the sales people don't have a price range attached. In this case they will receive only those
+requests that don't match any of the entered price range criteria</strong></h4>
+                		</div>
+                		
+                		<table style="width:60%;margin-left: 100px;">
+								<tr>
+									<td style="text-align: center;width:40%"><b>Sales & Front User</b></td>
+								</tr>
+								<tr style="width:20%" ng-repeat="per in priceNotAssign">
+									<td><span>{{per.firstName}} {{per.lastName}} </span></td>
+								</tr>
+									  
+							</table>
+                		
+						<div class="modal-body">
+							<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="proceedForSave()">Proceed</button>
+							<button type="button" class="btn btn-primary" data-dismiss="modal" data-dismiss="modal">Assign</button>
+						</div>
+					</div>
+	            </div>
+        	</div>
+        	
    			<div ng-if="customerReq.priceValue == 'Zip Code'">
 					<div class="form-group col-sm-12" style="margin-left: 1%;">
 						<table style="width:60%">
@@ -290,7 +323,9 @@
 .noClass{
 	
 }
-
+.setOpacityClass{
+	opacity: 0.2;
+}
 table, th, td {
     border: 1px solid black;
 }

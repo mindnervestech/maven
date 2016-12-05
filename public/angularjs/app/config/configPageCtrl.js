@@ -2,8 +2,8 @@ angular.module('newApp')
 .controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$upload','$routeParams','apiserviceConfigPage','$window', function ($scope,$http,$location,$filter,$upload,$routeParams,apiserviceConfigPage,$window) {
 	$scope.premium = {};
 	
-	
-
+	$scope.realese = {};
+	$scope.realese.allSalesPeople = "Released to all of the sales people";
 	
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -44,6 +44,9 @@ angular.module('newApp')
 		
 		apiserviceConfigPage.getAllSalesUsers().then(function(data){
 			$scope.salesPersonList =data;
+			angular.forEach($scope.salesPersonList, function(obj, index){
+				obj.showDataValue = false;
+			});
 			console.log($scope.salesPersonList);
 		});
 		
@@ -1230,7 +1233,33 @@ angular.module('newApp')
 	}
 	$scope.saveRedirectToAll = function(){
 		console.log($scope.listAll);
-		apiserviceConfigPage.saveOutListAll($scope.listAll).then(function(data){
+		console.log($scope.salesPersonList);
+		var priceFlag = 0;
+		$scope.priceNotAssign = [];
+		angular.forEach($scope.salesPersonList, function(obj, index){
+			if(obj.priceEnd == null || obj.priceStart == null){
+				$scope.priceNotAssign.push(obj);
+				priceFlag = 1;
+			}
+		});
+		if(priceFlag == 0){
+			apiserviceConfigPage.saveOutListAll($scope.listAll).then(function(data){
+				console.log(data);
+			});
+		}else{
+			//$scope.priceNotAssign
+			$("#priceAlrt").modal('show');
+		}
+	}
+	
+	$scope.proceedForSave = function(){
+		var longId = 0;
+		console.log($scope.listAll.id);
+		console.log($scope.realese.allSalesPeople);
+		if($scope.realese.allSalesPeople == "Sent to one of the sales people"){
+			longId = $scope.listAll.id;
+		}
+		apiserviceConfigPage.saveOutListAll($scope.realese.allSalesPeople,longId).then(function(data){
 			console.log(data);
 		});
 	}
@@ -1242,6 +1271,7 @@ angular.module('newApp')
 	$scope.dataSalesPer = {};
 	$scope.saveSalesPersonsData = function(value){
 		console.log($scope.salespersonName);
+		
 		$scope.dataSalesPer.personValue = $scope.personValue;
 		$scope.dataSalesPer.redirectValue = $scope.redirectValue;
 		$scope.dataSalesPer.salespersonName =  $scope.salespersonName.firstName;
@@ -1399,21 +1429,37 @@ angular.module('newApp')
 	
 	$scope.addPremiumPrice = function(price){
 		
+		
 		$scope.saleDeails.priceStart = price.priceStart;
 		$scope.saleDeails.priceEnd = price.priceEnd;
 		angular.forEach($scope.salesPersonList, function(obj, index){
-			if(obj.id == $scope.saleDeails.id){
+			if(obj.showDataValue == true){
 				obj.priceStart = price.priceStart;
 				obj.priceEnd = price.priceEnd;
+				
+				$scope.addPremiumPriceByList(obj);
 			}
+			/*if(obj.id == $scope.saleDeails.id){
+				obj.priceStart = price.priceStart;
+				obj.priceEnd = price.priceEnd;
+			}*/
 		});
 		
-		apiserviceConfigPage.savePriceFromTo($scope.saleDeails).then(function(data){
-			console.log(data);
+		$.pnotify({
+		    title: "Success",
+		    type:'success',
+		    text: "Update successfully",
 		});
+		
 		console.log($scope.salesPersonList);
 		$('#addPremiumPrice').click();
 	}
+	
+	$scope.addPremiumPriceByList = function(obj){
+		apiserviceConfigPage.savePriceFromTo(obj).then(function(data){
+			console.log(data);
+		});
+	} 
 	
 	$scope.showCityAddPop = function(salesDet){
 		console.log(salesDet);
@@ -1485,4 +1531,10 @@ angular.module('newApp')
 		console.log(data);
 		$scope.stateCodesList = data;
 	});
+	
+		$scope.clickedUser = function(users, userSelect){
+		console.log(users);
+		console.log(userSelect);
+		console.log($scope.salesPersonList);
+	}
 }]);	
