@@ -4371,6 +4371,7 @@ angular.module('newApp')
 	    		
 	    			 $scope.userFieldsCopy = null;
 	    		$scope.openCreateNewLeadPopup = function() {
+	    			$scope.newFlagData = false;
 	    			$scope.addAddress = true;
 	    			$scope.editAddress = false;
 	    			$scope.stockWiseData = [];
