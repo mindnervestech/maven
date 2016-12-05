@@ -2330,6 +2330,7 @@ angular.module('newApp')
 		   	  	$scope.editLeads.custName = entity.name;
 		   	  	$scope.editLeads.custEmail = entity.email;
 		   	  	$scope.editLeads.custNumber = entity.phone;
+		   	        $scope.editLeads.custZipCode = entity.custZipCode;
 		   	  	$scope.editLeads.leadType = entity.typeOfLead;
    	  		}
    	  		
