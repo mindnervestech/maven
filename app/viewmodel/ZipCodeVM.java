@@ -9,4 +9,6 @@ public class ZipCodeVM {
 
 	public String isSelected;
 	public String zipcode;
+	public String city;
+	public String state;
 }

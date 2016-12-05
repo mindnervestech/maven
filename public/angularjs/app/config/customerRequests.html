@@ -240,26 +240,29 @@
 			
 			<div style="display:none;" id="editAddressPop" data-toggle="modal" data-target="#addressPopUp"></div>
 			<div class="modal fade" id="addressPopUp" tabindex="-1" role="dialog" aria-hidden="true">
-        		<div class="modal-dialog">
-            		<div class="modal-content">
+        		<div class="modal-dialog" style="width: 734px;height: 800px;overflow: auto;overflow-x: hidden;">
+            		<div class="modal-content" style="width: 730px;">
                 		<div class="modal-header">
                     		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
                     		<h4 class="modal-title"><strong>Address</strong></h4>
                 		</div>
-						<div class="modal-body">
+						<div class="modal-body" style="width: 660px;">
 							<form ng-submit="SaveZipCodeData()">
 							<div class="col-md-12 form-group">
-								<div class="col-md-2">
-									<label>City</label>
+								<div class="col-md-1">
+									<label>Cities</label>
 								</div>
-								<div class="col-md-4" style="margin-left: -35px;">
-									<input class="form-control form-white" ng-model="address.city" value="address.city" type="text" ng-blur="getZipCode(address)" required>
+								<div class="col-md-4">
+									<input class="form-control form-white" ng-model="address.city" value="address.city" type="text"  required>
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-1">
 									<label>State</label>
 								</div>
-								<div class="col-md-4" style="margin-left: -30px;">
-									<input class="form-control form-white" ng-model="address.state" value="address.state" type="text" ng-blur="getZipCode(address)" required>
+								<div class="col-md-4">
+									<input class="form-control form-white" ng-model="address.state" value="address.state" type="text"  required>
+								</div>
+								<div class="col-md-2">
+									<button type="button" class="btn btn-primary" ng-click="getZipCode(address)">Show ZipCodes</button>
 								</div>
 								<div class="col-md-3" style="margin-top: 10px;" ng-repeat="value in zipCodeDetailData">
 									<input type="checkbox" name="zipcode" ng-model="value.isSelected" ng-click="storeZipCode(value)">{{value.zipcode}}

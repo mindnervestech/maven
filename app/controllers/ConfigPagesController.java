@@ -690,6 +690,8 @@ public class ConfigPagesController extends Controller{
 		    			for(ZipCodeVM code:aProduct.zipCode){
 		    				SalesPersonZipCode custManufact = new SalesPersonZipCode();
 				    		custManufact.zipCode = code.zipcode;
+				    		custManufact.city = code.city;
+				    		custManufact.state = code.state;
 				    		custManufact.user = AuthUser.findById(aProduct.id); 
 				    		custManufact.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 				    		custManufact.save();

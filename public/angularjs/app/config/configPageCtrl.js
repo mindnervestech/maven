@@ -1442,11 +1442,26 @@ angular.module('newApp')
 		console.log(address);
 		apiserviceConfigPage.getZipCodeData(address).then(function(data){
 			console.log(data);
+			if(data.zip_codes.length == 0){
+				$.pnotify({
+				    title: "Warning",
+				    type:'success',
+				    text: "Zip Code not Available",
+				});
+			}else{
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Zip Code Fatched successfully",
+				});
+			}
 			$scope.zipCodeDetailData = [];
 			angular.forEach(data.zip_codes, function(obj, index){
 				$scope.zipCodeDetailData.push({
 					zipcode:obj,
-					isSelected:false
+					isSelected:false,
+					city:address.city,
+					state:address.state
 				});
 			 });
 			/*angular.forEach($scope.allFronAndSalesList, function(obj, index){
