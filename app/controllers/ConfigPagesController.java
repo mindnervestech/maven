@@ -683,6 +683,22 @@ public class ConfigPagesController extends Controller{
 		    			}
 		    		}
 		    	} 
+		    	
+		    	 CustomerRequest custData = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+					if(custData == null){
+						CustomerRequest lead = new CustomerRequest();
+						
+				    	  
+				    	   lead.redirectValue = "Automatically redirect an online customer requests based on";
+				    	   lead.personValue = "Manufacturer";
+				    	   lead.location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+				    	   lead.save();
+					}else{
+							custData.setPersonValue("Manufacturer");
+							custData.setRedirectValue("Automatically redirect an online customer requests based on");
+							custData.setLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+							custData.update();
+					}
 			 return ok();
 	    }
 		 
@@ -703,6 +719,22 @@ public class ConfigPagesController extends Controller{
 		    			}
 		    		}
 		    	} 
+		    	
+		    	 CustomerRequest custData = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+					if(custData == null){
+						CustomerRequest lead = new CustomerRequest();
+						
+				    	  
+				    	   lead.redirectValue = "Automatically redirect an online customer requests based on";
+				    	   lead.personValue = "Zip Code";
+				    	   lead.location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+				    	   lead.save();
+					}else{
+							custData.setPersonValue("Zip Code");
+							custData.setRedirectValue("Automatically redirect an online customer requests based on");
+							custData.setLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+							custData.update();
+					}
 			 return ok();
 	    }
 		
@@ -726,20 +758,31 @@ public class ConfigPagesController extends Controller{
 		 public static Result saveSalesPersons() {
 				Form<CustomerRequestVM> form = DynamicForm.form(CustomerRequestVM.class).bindFromRequest();
 				CustomerRequestVM vm = form.get();
-				CustomerRequest custData = CustomerRequest.findById(Long.valueOf(vm.id));
+				CustomerRequest custData = null;
+				custData = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 				if(custData == null){
 					CustomerRequest lead = new CustomerRequest();
-			    	   lead.firstName = vm.salespersonName;
+					if(vm.personValue.equals("Myself")){
+						lead.users = AuthUser.findById(Integer.parseInt(session("USER_KEY")));
+					}else{
+						 lead.users = AuthUser.findById(vm.userId);
+					}
+			    	  
 			    	   lead.redirectValue = vm.redirectValue;
 			    	   lead.personValue = vm.personValue;
 			    	   lead.location = Location.findById(Long.valueOf(session("USER_LOCATION")));
 			    	   lead.save();
 				}else{
-					custData.setFirstName(vm.salespersonName);
-					custData.setPersonValue(vm.personValue);
-					custData.setRedirectValue(vm.redirectValue);
-					custData.setLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
-					custData.update();
+					if(vm.personValue.equals("Myself")){
+						custData.setUsers(AuthUser.findById(Integer.parseInt(session("USER_KEY"))));
+					}else{
+						custData.setUsers(AuthUser.findById(vm.userId));
+					}
+						
+						custData.setPersonValue(vm.personValue);
+						custData.setRedirectValue(vm.redirectValue);
+						custData.setLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+						custData.update();
 				}
 				
 		    	   return ok();
@@ -840,6 +883,23 @@ public class ConfigPagesController extends Controller{
 			}
 		 public static Result saveOutListAll(String status,Integer id) {
 			 
+			 CustomerRequest custData = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+				if(custData == null){
+					CustomerRequest lead = new CustomerRequest();
+					
+			    	  
+			    	   lead.redirectValue = "Automatically redirect an online customer requests based on";
+			    	   lead.personValue = "price";
+			    	   lead.location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			    	   lead.save();
+				}else{
+						custData.setPersonValue("Price");
+						custData.setRedirectValue("Automatically redirect an online customer requests based on");
+						custData.setLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+						custData.update();
+				}
+			 
+			 
 			 if(status.equals("Released to all of the sales people")){
 				 List<AuthUser> lead = AuthUser.getAllSalesAndFrontUser();
 				 for(AuthUser au:lead){
@@ -860,15 +920,7 @@ public class ConfigPagesController extends Controller{
 				 }
 				 
 			 }
-				/*Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
-				UserVM vm=form.get();
 				
-				AuthUser lead = AuthUser.findById(vm.id);
-				if(lead != null){
-					lead.setOutLeftAll(vm.outLeftAll);
-					//lead.setPriceEnd(vm.priceEnd);
-			    	lead.update();
-				}*/
 		    	  return ok();
 			}
 		 

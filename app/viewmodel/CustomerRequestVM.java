@@ -6,7 +6,7 @@ import java.util.List;
 public class CustomerRequestVM {
 
 	public Integer id;
-	public String salespersonName;
+	public int userId ;
 	public String redirectValue;
 	public String personValue;
 }

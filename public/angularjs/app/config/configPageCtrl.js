@@ -1278,9 +1278,19 @@ angular.module('newApp')
 	$scope.saveSalesPersonsData = function(value){
 		console.log($scope.salespersonName);
 		
+		if($scope.salespersonName == undefined){
+			$scope.salespersonName = $scope.customerReq;
+		}else{
+			$scope.dataSalesPer.userId =  $scope.salespersonName.id;
+		}
+		if($scope.personValue == undefined){
+			$scope.personValue = $scope.salespersonName.personValue;
+		}
+		if($scope.redirectValue == undefined){
+			$scope.redirectValue = $scope.salespersonName.redirectValue;
+		}
 		$scope.dataSalesPer.personValue = $scope.personValue;
 		$scope.dataSalesPer.redirectValue = $scope.redirectValue;
-		$scope.dataSalesPer.salespersonName =  $scope.salespersonName.firstName;
 		$scope.dataSalesPer.id = $scope.salesId;
 		console.log($scope.dataSalesPer);
 		apiserviceConfigPage.saveSalesPersons($scope.dataSalesPer).then(function(data){
@@ -1291,6 +1301,14 @@ angular.module('newApp')
 	apiserviceConfigPage.getAllCustomerReqData().then(function(data){
 		console.log(data);
 		$scope.customerReq = data;
+		if($scope.customerReq.redirectValue == "Automatically redirect an online customer requests based on"){
+			$scope.customerReq.priceValue = $scope.customerReq.personValue;
+		}
+		if(data.users != null){
+			$scope.customerReq.userId = data.users.id;
+		}
+		
+		console.log($scope.customerReq);
 		$scope.salesId = $scope.customerReq.id;
 		console.log($scope.salerPerFirstName);
 	});
