@@ -5424,8 +5424,9 @@ angular.module('newApp')
 		
 		$scope.getOtherLeadInfo = function(id){
 			var deferred = $q.defer();
+			$scope.getAllListLeadDate = [];
 			apiserviceDashborad.getAllSalesPersonOtherLead(id).then(function(data){
-			
+				
 				$scope.otherLead = data;
 				console.log("^&^&^&^&&^&^&&^&^&");
 				console.log($scope.otherLead);
