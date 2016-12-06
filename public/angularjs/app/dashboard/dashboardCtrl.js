@@ -172,10 +172,19 @@ angular.module('newApp')
 		
      });
 	$scope.showAdditionField = function(additional){
+		
+		
+		if(additional == false){
+			additional = true;
+			$scope.additional = true;
+		}else if(additional == true){
+			additional = false;
+			$scope.additional = false;
+		}
 		console.log(additional);
 		console.log($scope.userFields2);
 		
-		if(additional == true){
+		if(additional == false){
 			angular.forEach($scope.userFields2, function(obj, index){
 				angular.forEach($scope.userFields, function(obj1, index1){
 					 if(obj.key == obj1.key){
@@ -191,7 +200,7 @@ angular.module('newApp')
 			});	
 		}
 		
-		if(additional == false){
+		if(additional == true){
 			angular.forEach($scope.userFields2, function(obj, index){
 				 $scope.userFields.push(obj);
 			});	
@@ -4372,6 +4381,7 @@ angular.module('newApp')
 	    			 $scope.userFieldsCopy = null;
 	    		$scope.openCreateNewLeadPopup = function() {
 	    			$scope.newFlagData = false;
+	    			$scope.additional = false;
 	    			$scope.addAddress = true;
 	    			$scope.editAddress = false;
 	    			$scope.stockWiseData = [];
@@ -4674,6 +4684,7 @@ angular.module('newApp')
 	    	    				$scope.initialiase();
 	    	    			});
 	    				}
+	    			$scope.getOtherLeadInfo($scope.salesPerson);
 	    			$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    		};
 	    		
@@ -5416,6 +5427,8 @@ angular.module('newApp')
 			apiserviceDashborad.getAllSalesPersonOtherLead(id).then(function(data){
 			
 				$scope.otherLead = data;
+				console.log("^&^&^&^&&^&^&&^&^&");
+				console.log($scope.otherLead);
 				//$scope.gridOptions13.data = data;
 				//$scope.AllOtherLeadSeenList = data;
 				/*if($scope.userType == "Sales Person"){
@@ -5434,6 +5447,7 @@ angular.module('newApp')
 	        		$scope.getAllListLeadDate.push(value);
 	        		
 	        	});
+				console.log($scope.getAllListLeadDate);
 				deferred.resolve("success");
 			
 		   });
@@ -8969,7 +8983,9 @@ angular.module('newApp')
 	    				leadInfo = value.typeOfLead;
 	        		}
 	        	});
-	        	
+	        	console.log($scope.otherLead);
+	        	console.log("-------------------------------");
+	        	console.log(leadInfo);
 	        	
 	        	$scope.josnData1 = angular.copy($scope.josnData);
 	        	apiserviceDashborad.getCustomizationform(leadInfo).then(function(response){
