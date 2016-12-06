@@ -41,6 +41,7 @@ angular.module('newApp')
 				$scope.premium.premiumFlag = false;
 			}
 		});
+		$scope.showFlag = 0;
 		
 		apiserviceConfigPage.getAllSalesUsers().then(function(data){
 			$scope.salesPersonList =data;
@@ -1312,6 +1313,7 @@ angular.module('newApp')
 			$scope.allFronAndSalesList =data;
 			
 			angular.forEach($scope.allFronAndSalesList, function(obj, index){
+				obj.manuCount = 0;
 				obj.premiumFlag = false;
 			});
 			angular.forEach($scope.allManufacturerList, function(obj, index){
@@ -1343,9 +1345,51 @@ angular.module('newApp')
 					 }
 				 });
 			 });
-			console.log($scope.allFronAndSalesList);
+			
+			$scope.msgShow($scope.allFronAndSalesList);
+			
 		});
+		
+	
 	});
+	
+	$scope.msgShow = function(allFronAndSalesList){
+		
+		$scope.salePersonNotass = [];
+		var saleFlag = 0;
+		angular.forEach(allFronAndSalesList, function(obj2, index2){
+			saleFlag = 0;
+			
+			angular.forEach($scope.allManufacturerList, function(obj, index){
+				 angular.forEach(obj.userData, function(obj1, index1){
+					 if(obj2.id == obj1.id){
+						 if(obj1.premiumFlag == true){
+							 saleFlag = 1;
+							 obj2.manuCount++;
+						 }
+					 }
+					 
+				 });
+			});
+			if(saleFlag == 0){
+				 $scope.salePersonNotass.push(obj2);
+			}
+			
+		});
+		angular.forEach(allFronAndSalesList, function(obj, index){
+			angular.forEach($scope.allManufacturerList, function(obj1, index1){
+				 angular.forEach(obj1.userData, function(obj2, index2){
+					 if(obj.id == obj2.id){
+							obj2.manuCount = obj.manuCount;
+					}
+				 });
+				
+			});
+		});	
+		
+		console.log("-------------------------");
+		console.log($scope.allManufacturerList);
+	}
 	
 	
 	
@@ -1415,7 +1459,7 @@ angular.module('newApp')
 				});
 			}
 		}
-		
+		$scope.msgShow($scope.allFronAndSalesList);
 	}
 	$scope.saveManufactListCust = function(){
 		console.log($scope.obj);
@@ -1538,6 +1582,7 @@ angular.module('newApp')
 	});
 	
 		$scope.clickedUser = function(users, userSelect){
+			$scope.showFlag = 1;
 		console.log(users);
 		console.log(userSelect);
 		console.log($scope.salesPersonList);

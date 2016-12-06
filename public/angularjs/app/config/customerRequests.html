@@ -83,8 +83,8 @@
 								<!--  -->
 								<tr style="width:20%;" ng-repeat="sale in salesPersonList">
 									<td style="text-align: center;"><input type="checkbox" name="permissions" ng-click="clickedUser(sale,sale.showDataValue)" ng-model="sale.showDataValue"></td>
-									<td ng-class="sale.showDataValue == true ? '':'setOpacityClass'">{{sale.fullName}}</td>
-									<td style="text-align: right;" ng-class="sale.showDataValue == true ? '':'setOpacityClass'"><span style="margin-right: 17px;" ng-show="sale.priceStart != null">From {{sale.priceStart}}, To {{sale.priceEnd}}</span> <button type="button" class="btn btn-primary" ng-disabled="sale.showDataValue == false" ng-click="openPopUpForPrice(sale)" style="margin-top:2%;margin-bottom: 2%;">Add</button></td>
+									<td ng-class="sale.showDataValue == true || showFlag == 0 ? '':'setOpacityClass'">{{sale.fullName}}</td>
+									<td style="text-align: right;" ng-class="sale.showDataValue == true || showFlag == 0 ? '':'setOpacityClass'"><span style="margin-right: 17px;" ng-show="sale.priceStart != null">From {{sale.priceStart}}, To {{sale.priceEnd}}</span> <button type="button" class="btn btn-primary" ng-disabled="sale.showDataValue == false" ng-click="openPopUpForPrice(sale)" style="margin-top:2%;margin-bottom: 2%;">Add</button></td>
 									<!-- <td style="text-align: center;"><input type="checkbox" name="vehicle" ng-model="sale.premiumFlag" ng-checked="sale.premiumFlag == 1" ng-click="permiumAss(sale);"><br></td> --> 
 								</tr>
 									  
@@ -135,6 +135,8 @@
 								</tr>
 									  
 							</table>
+							<div class="col-md-12"><label>These sales people don't have any manufactuers assigned to them: </label><label ng-repeat="name in salePersonNotass">&nbsp;&nbsp;{{name.firstName}} {{name.lastName}} ,</label></div>
+							
 							<button class="btn btn-primary" ng-click="saveDetailsOfUser()" style="margin-left:16%;margin-top:4%;margin-bottom: 4%;">Save</button>
 						</div>
 				
@@ -155,10 +157,12 @@
 								<tr>
 									<td style="text-align: center;width:40%"><b>Sales & Front User</b></td>
 									<td style="text-align: center;width:40%"><b></b></td>
+									<td style="text-align: center;width:40%"><b>Count</b></td>
 								</tr>
 								<tr style="width:20%" ng-repeat="person in salesPerDetail.userData">
 									<td><span>{{person.firstName}} {{person.lastName}} </span></td>
-									<td style="text-align: center;"><input type="checkbox" name="vehicle" ng-model="person.premiumFlag" ng-checked="person.premiumFlag == 1" ng-click="storeValue(person)"><br></td> 
+									<td style="text-align: center;"><input type="checkbox" name="vehicle" ng-model="person.premiumFlag" ng-checked="person.premiumFlag == 1" ng-click="storeValue(person)"><br></td>
+									<td style="text-align: center;">{{person.manuCount}}</td> 
 								</tr>
 									  
 							</table>
