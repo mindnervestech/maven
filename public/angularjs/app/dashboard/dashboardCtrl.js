@@ -5447,10 +5447,11 @@ angular.module('newApp')
 				}else{
 					deferred.resolve("error");
 				}*/
+				/*$scope.getAllListLeadDate = [];
 				angular.forEach($scope.otherLead,function(value,key){
 	        		$scope.getAllListLeadDate.push(value);
 	        		
-	        	});
+	        	});*/
 				console.log($scope.getAllListLeadDate);
 				deferred.resolve("success");
 			
