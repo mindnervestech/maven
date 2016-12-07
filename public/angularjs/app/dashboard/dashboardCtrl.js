@@ -4660,7 +4660,8 @@ angular.module('newApp')
 	    		            data:$scope.lead
 	    		         }).success(function(data) {
 	    		   			console.log('success');
-	    		   			$scope.getOtherLeadInfo($scope.salesPerson);
+	    		   			//$scope.getOtherLeadInfo($scope.salesPerson);
+	    		   			$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    		   		 });
 	    				}else{
 	    					console.log($scope.lead);
@@ -4682,7 +4683,7 @@ angular.module('newApp')
 	    	    					$("#tradeInApp").modal('hide');
 	    	    					window.location.reload();
 	    	    				}*/
-	    	    				$scope.getOtherLeadInfo($scope.salesPerson);
+	    	    				//$scope.getOtherLeadInfo($scope.salesPerson);
 						$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    	    				$scope.initialiase();
 	    	    			});
@@ -5427,7 +5428,7 @@ angular.module('newApp')
 		
 		$scope.getOtherLeadInfo = function(id){
 			var deferred = $q.defer();
-			$scope.getAllListLeadDate = [];
+			
 			apiserviceDashborad.getAllSalesPersonOtherLead(id).then(function(data){
 				
 				$scope.otherLead = data;
