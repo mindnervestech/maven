@@ -5161,6 +5161,7 @@ angular.module('newApp')
         	$scope.testdrv = false;
         	$scope.trdin = false;
         	$scope.cancelleads = false;
+        	$scope.allLeadd = false;
         	$scope.showLeadsV = true;
         	$scope.getAllLostAndComLeads();
         }
