@@ -4660,6 +4660,7 @@ angular.module('newApp')
 	    		            data:$scope.lead
 	    		         }).success(function(data) {
 	    		   			console.log('success');
+	    		   			$scope.getOtherLeadInfo($scope.salesPerson);
 	    		   		 });
 	    				}else{
 	    					console.log($scope.lead);
@@ -4681,11 +4682,13 @@ angular.module('newApp')
 	    	    					$("#tradeInApp").modal('hide');
 	    	    					window.location.reload();
 	    	    				}*/
+	    	    				$scope.getOtherLeadInfo($scope.salesPerson);
+						$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    	    				$scope.initialiase();
 	    	    			});
 	    				}
-	    			$scope.getOtherLeadInfo($scope.salesPerson);
-	    			$scope.getAllSalesPersonRecord($scope.salesPerson);
+	    			
+	    			
 	    		};
 	    		
 	    		$scope.changeMakeSelect = function(modelSelect) {
