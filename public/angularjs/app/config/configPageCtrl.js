@@ -1425,6 +1425,8 @@ angular.module('newApp')
 		
 	}
 	
+	
+	
 	$scope.selectedSalesPer = function(){
 		//console.log($scope.listOfSalesAndFront);
 	}
