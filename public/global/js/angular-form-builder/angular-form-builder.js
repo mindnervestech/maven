@@ -17,7 +17,6 @@
   angular.module('builder.controller', ['builder.provider']).controller('fbFormObjectEditableController', [
     '$scope', '$injector', 'ngDialog', function($scope, $injector, ngDialog) {
     	
-    	console.log(localStorage.getItem('callToAction'));
     	$scope.editLead = localStorage.getItem('callToAction');
     	var asciCode = 65;
         $scope.gridColumnOption = {
@@ -1133,7 +1132,16 @@
         },
         controller: 'fbComponentController',
         link: function(scope, element) {
-          scope.copyObjectToScope(scope.component);
+        
+        	
+        	if(localStorage.getItem('popupType') == "Lead"){
+        		if(scope.component.name != "leadTypeSelector"){
+           		 scope.copyObjectToScope(scope.component);
+           	    }
+        	}else{
+        		scope.copyObjectToScope(scope.component);
+        	}
+         
           $drag.draggable($(element), {
             mode: 'mirror',
             defer: false,
