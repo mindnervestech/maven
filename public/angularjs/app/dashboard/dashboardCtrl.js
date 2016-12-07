@@ -4663,6 +4663,7 @@ angular.module('newApp')
 	    		   			//$scope.getOtherLeadInfo($scope.salesPerson);
 	    		   			//$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    		   			$scope.getAllLeadIn();
+	    		   			$route.reload();
 	    		   		 });
 	    				}else{
 	    					console.log($scope.lead);
@@ -4686,7 +4687,7 @@ angular.module('newApp')
 	    	    				}*/
 	    	    				//$scope.getOtherLeadInfo($scope.salesPerson);
 						//$scope.getAllSalesPersonRecord($scope.salesPerson);
-	    	    				
+	    	    				$route.reload();
 	    	    				$scope.initialiase();
 	    	    			});
 	    				}
