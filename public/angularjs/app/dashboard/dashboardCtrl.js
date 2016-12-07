@@ -4661,15 +4661,16 @@ angular.module('newApp')
 	    		         }).success(function(data) {
 	    		   			console.log('success');
 	    		   			//$scope.getOtherLeadInfo($scope.salesPerson);
-	    		   			$scope.getAllSalesPersonRecord($scope.salesPerson);
+	    		   			//$scope.getAllSalesPersonRecord($scope.salesPerson);
+	    		   			$scope.getAllLeadIn();
 	    		   		 });
 	    				}else{
 	    					console.log($scope.lead);
 	    					apiserviceDashborad.createLead($scope.lead).then(function(data){
-	    					
+	    						$scope.getAllLeadIn();
 	    	    				$scope.topVisitedDataDatewise();
 	    	    				 $scope.findMystatisData(startD,endD,'person');
-	    	    				$scope.getAllSalesPersonRecord($scope.salesPerson);
+	    	    				//$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    	    				/*if($scope.lead.leadType=='2')  {
 	    	    					$scope.getScheduleTestData();
 	    	    					$("#createLeadPopup").modal('hide');
@@ -4684,7 +4685,8 @@ angular.module('newApp')
 	    	    					window.location.reload();
 	    	    				}*/
 	    	    				//$scope.getOtherLeadInfo($scope.salesPerson);
-						$scope.getAllSalesPersonRecord($scope.salesPerson);
+						//$scope.getAllSalesPersonRecord($scope.salesPerson);
+	    	    				
 	    	    				$scope.initialiase();
 	    	    			});
 	    				}
@@ -5453,7 +5455,7 @@ angular.module('newApp')
 	        		$scope.getAllListLeadDate.push(value);
 	        		
 	        	});*/
-				console.log($scope.getAllListLeadDate);
+				//console.log($scope.getAllListLeadDate);
 				deferred.resolve("success");
 			
 		   });
