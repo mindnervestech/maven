@@ -1340,17 +1340,32 @@ angular.module('newApp')
 			$scope.zipCode ={};
 			angular.forEach($scope.allFronAndSalesList, function(obj, index){
 				obj.zipCode = [];
+				obj.cityList = [];
 			});
+			console.log(")))))))))))))000000000000000");
 			console.log($scope.allFronAndSalesList);
+			$scope.list = []
 			angular.forEach($scope.allFronAndSalesList, function(obj, index){
 				angular.forEach($scope.editSalesZipData, function(obj1, index1){
+					
 					if(obj.id == obj1.user.id){
 						obj.zipCode.push({zipcode:obj1.zipCode,
 							isSelected:true,
 							city:obj1.city,
 							state:obj1.state});
+						
+						if(obj.cityList.length <= 0){
+							obj.cityList.push(obj1.city+"-"+obj1.state);
+						}else{
+							angular.forEach(obj.cityList, function(obj2, index2){
+								 if(obj1.city+"-"+obj1.state != obj2){
+									 obj.cityList.push(obj1.city+"-"+obj1.state);
+								 }
+							});
+						}
 					}
 				});
+				//obj.cityList = $scope.list;
 			});
 			angular.forEach($scope.allManufacturerList, function(obj, index){
 				angular.forEach($scope.editCustManufData, function(obj1, index1){
@@ -1370,6 +1385,39 @@ angular.module('newApp')
 		
 	
 	});
+	
+	$scope.clickOneCity = function(values, sale){
+		var arr = [];
+		var arr = values.split('-');
+		console.log(values);
+		console.log(arr[0]);
+		console.log(arr[1]);
+		$scope.rowData = sale;
+		$scope.addAdditionalFields = [];
+		
+			$scope.addAdditionalFields.push({zipcode:'',
+				isSelected:true,
+				city:arr[0],
+				state:arr[1],
+				zipCodeDetailData:$scope.zipCodeDetailData});
+
+			$scope.address = {};
+			$scope.zopCodeData = [];
+			$scope.salesDetail = sale;
+			$scope.zipCodeDetailData = [];
+			//angular.forEach(sale.zipCode, function(obj, index){
+				$scope.address.city = arr[0];
+				$scope.address.state = arr[1];
+			 //});
+			console.log($scope.address);
+			if($scope.address != null){
+				$scope.getZipCode($scope.address);
+			}
+		
+		$('#editAddressPop').click();
+		
+		
+	}
 	
 	$scope.msgShow = function(allFronAndSalesList){
 		
@@ -1550,14 +1598,15 @@ angular.module('newApp')
 	$scope.showCityAddPop = function(salesDet){
 		$scope.rowData = salesDet;
 		console.log($scope.rowData);
-		if(salesDet.zipCode.length == 0){
+		$scope.addAdditionalFields = [];
+		//if(salesDet.zipCode.length == 0){
 		$scope.addAdditionalFields.push({zipcode:'',
 			isSelected:'',
 			city:'',
 			state:'',
 			zipCodeDetailData:''});
-		}
-		else{
+		//}
+		/*else{
 			console.log(salesDet.zipCode);
 			angular.forEach(salesDet.zipCode, function(obj, index){
 				$scope.address.city = obj.city;
@@ -1579,7 +1628,7 @@ angular.module('newApp')
 		console.log($scope.address);
 		if($scope.address != null){
 			$scope.getZipCode($scope.address);
-		}
+		}*/
 		$('#editAddressPop').click();
 	}
 	

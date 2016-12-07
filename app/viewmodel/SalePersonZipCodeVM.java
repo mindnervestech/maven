@@ -8,6 +8,5 @@ import models.AuthUser;
 public class SalePersonZipCodeVM {
 
 	public String id;
-	
 	public List<UserVM> allFronAndSalesList;
-}
+}							

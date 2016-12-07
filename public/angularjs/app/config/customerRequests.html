@@ -268,8 +268,9 @@ requests that don't match any of the entered price range criteria</strong></h4>
 							</tr>
 							<tr style="width:20%;height:35px;" ng-repeat="sale in allFronAndSalesList">
 								<td>{{sale.firstName}} {{sale.lastName}}</td>
-								<td style="text-align: center;"><span ng-repeat="value in sale.zipCode" ng-show="value.zipcode != null" ng-model="value.city">{{value.city}} ,</span></td>
-								<td style="text-align: center;"><i class="glyphicon glyphicon-pencil" ng-click="showCityAddPop(sale)" title="Edit"></i></td> 
+								<td style="text-align: center;"><span ng-repeat="value in sale.cityList" ng-model="value.city"><a ng-click="clickOneCity(value,sale)">{{value}}</a> ,</span></td>
+								<!-- <td style="text-align: center;"><span ng-repeat="value in sale.zipCode" ng-show="value.zipcode != null" ng-model="value.city">{{value.city}} ,</span></td> -->
+								<td style="text-align: center;"><i class="glyphicon glyphicon-plus" ng-click="showCityAddPop(sale)" title="Edit"></i></td> 
 							</tr>
 						</table>
 					</div>
@@ -300,7 +301,7 @@ requests that don't match any of the entered price range criteria</strong></h4>
 									<!-- <input class="form-control form-white" ng-model="address.state" value="address.state" type="text"  required> -->
 									<select class="form-control form-white" id="userAge" ng-model="add.state">
                                     	<option value="">Select</option>
-                                    	<option ng-repeat="item in stateCodesList" value="{{item.stateCode}}">{{item.stateCode}}</option>
+                                    	<option ng-repeat="item in stateCodesList" ng-selected="add.state == item.stateCode" value="{{item.stateCode}}">{{item.stateCode}}</option>
                                 	</select>
 								</div>
 								
@@ -314,7 +315,7 @@ requests that don't match any of the entered price range criteria</strong></h4>
 									<input type="checkbox" name="zipcode" ng-model="value.isSelected" ng-click="storeZipCode(value)" ng-checked="value.isSelected == 1">{{value.zipcode}}
 								</div>
 								<div class="col-md-12" style = "margin-top: 15px;">
-									<h4><b><a ng-if="zipCodeDetailData.length != 0" ng-click="addAdditionalCity()">Add additional city</a></b></h4>
+									<!-- <h4><b><a ng-if="zipCodeDetailData.length != 0" ng-click="addAdditionalCity()">Add additional city</a></b></h4> -->
 									<!-- <button type="button" class="btn btn-primary" ng-if="zipCodeDetailData.length != 0" ng-click="addAdditionalCity()" >Add additional city</button> -->								
 								</div>
 							</div>

@@ -18258,7 +18258,7 @@ if(vehicles.equals("All")){
                 	
                 	map.put("uname", user.firstName+" "+user.lastName);
                 	map.put("uphone", user.phone);
-                	map.put("uemail", "yogeshpatil424@gmail.com");//user.email);
+                	map.put("uemail", user.email);
                 	map.put("clientName",info.name);
     	    		sendMail(map);
     	    	}
@@ -18479,7 +18479,7 @@ if(vehicles.equals("All")){
     	    			
     	    			InternetAddress[] usersArray = new InternetAddress[1];
     	    			int index = 0;
-    	    			usersArray[index] = new InternetAddress("yogeshpatil424@gmail.com");
+    	    			usersArray[index] = new InternetAddress(info.email);
     	    			//usersArray[index] = new InternetAddress(usersArray);
     	    			
     	    			Message message = new MimeMessage(session);
