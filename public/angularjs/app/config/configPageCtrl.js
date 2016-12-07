@@ -1317,7 +1317,7 @@ angular.module('newApp')
 		console.log(data);
 		$scope.editCustManufData = data;
 	});
-	
+	$scope.dataZipCode = {};
 	apiserviceConfigPage.getAllSalesPersonZipCode().then(function(data){
 		console.log(data);
 		$scope.editSalesZipData = data;
@@ -1517,22 +1517,49 @@ angular.module('newApp')
 		    type:'success',
 		    text: "Update successfully",
 		});
-		
 		console.log($scope.salesPersonList);
 		$('#addPremiumPrice').click();
 	}
 	
-	$scope.addPremiumPriceByList = function(obj){
+		$scope.addPremiumPriceByList = function(obj){
 		apiserviceConfigPage.savePriceFromTo(obj).then(function(data){
 			console.log(data);
 		});
 	} 
-	
+	$scope.address = {};
+	$scope.addAdditionalFields = [];
 	$scope.showCityAddPop = function(salesDet){
-		console.log(salesDet);
+		$scope.rowData = salesDet;
+		console.log($scope.rowData);
+		if(salesDet.zipCode.length == 0){
+		$scope.addAdditionalFields.push({zipcode:'',
+			isSelected:'',
+			city:'',
+			state:'',
+			zipCodeDetailData:''});
+		}
+		else{
+			angular.forEach(salesDet.zipCode, function(obj, index){
+				$scope.address.city = obj.city;
+				$scope.address.state = obj.state;
+			 });
+			$scope.addAdditionalFields.push({zipcode:'',
+				isSelected:salesDet.zipCode.isSelected,
+				city:$scope.address.city,
+				state:$scope.address.state,
+				zipCodeDetailData:$scope.zipCodeDetailData});
+		}
 		$scope.zopCodeData = [];
 		$scope.salesDetail = salesDet;
 		$scope.zipCodeDetailData = [];
+		angular.forEach(salesDet.zipCode, function(obj, index){
+			$scope.address.city = obj.city;
+			$scope.address.state = obj.state;
+		 });
+		console.log($scope.address);
+		if($scope.address != null){
+			$scope.getZipCode($scope.address);
+		}
 		$('#editAddressPop').click();
 	}
 	
@@ -1540,15 +1567,41 @@ angular.module('newApp')
 	$scope.zopCodeData =[];
 	$scope.storeZipCode = function(value){
 		console.log(value);
-		$scope.zopCodeData.push(value);
-		$scope.salesDetail.zipcode = value;
 		console.log($scope.allFronAndSalesList);
-		angular.forEach($scope.allFronAndSalesList, function(obj, index){
-			if(obj.id == $scope.salesDetail.id){
-				console.log(obj.id);
-				obj.zipCode = angular.copy($scope.zopCodeData);
+		if(value.length > 1){
+				$scope.zopCodeData.push(value);
+				$scope.salesDetail.zipcode = value;
+				console.log($scope.allFronAndSalesList[0].zipCode);
+				angular.forEach($scope.allFronAndSalesList, function(obj, index){
+					if(obj.id == $scope.salesDetail.id){
+						angular.forEach(value, function(obj1, index1){
+							console.log(obj.id);
+							obj.zipCode.push(obj1);
+						});
+					}
+				});
+		}
+		else{
+			$scope.zopCodeData.push(value);
+			$scope.salesDetail.zipcode = value;
+			if(value.isSelected == false){
+				angular.forEach($scope.allFronAndSalesList, function(obj, index){
+					if(obj.id == $scope.salesDetail.id){
+						console.log(obj.id);
+						obj.zipCode.push(value);
+					}
+				});
+			}else{
+				angular.forEach($scope.allFronAndSalesList, function(obj, index){
+					angular.forEach(obj.zipCode, function(obj2, index2){
+						if(obj2.zipcode == value.zipcode){
+							console.log(obj2);
+							obj.zipCode.splice(index2, 1);
+						}
+					});
+				});
 			}
-		 });
+		}
 		console.log($scope.allFronAndSalesList);
 	}
 	
@@ -1579,12 +1632,41 @@ angular.module('newApp')
 					state:address.state
 				});
 			 });
-			/*angular.forEach($scope.allFronAndSalesList, function(obj, index){
-				obj.zipCode = angular.copy($scope.zipCodeDetailData); 
-			 });*/
 			console.log($scope.zipCodeDetailData);
+			angular.forEach($scope.addAdditionalFields, function(obj, index){
+				angular.forEach($scope.zipCodeDetailData, function(obj1, index1){
+					if(obj.state == obj1.state){
+						obj.zipCodeDetailData = angular.copy($scope.zipCodeDetailData);
+					}
+				});
+			});
+			console.log($scope.addAdditionalFields);
+				angular.forEach($scope.rowData.zipCode, function(obj, index){
+					angular.forEach($scope.addAdditionalFields, function(obj1, index1){
+						angular.forEach(obj1.zipCodeDetailData, function(obj2, index2){
+							if(obj.zipcode == obj2.zipcode){
+								obj2.isSelected = true;
+							}
+						});
+					});
+				});
 		});
 	}
+	
+	$scope.selectAll = function(){
+		angular.forEach($scope.addAdditionalFields, function(obj, index){
+			angular.forEach($scope.zipCodeDetailData, function(obj1, index1){
+				if(obj.state == obj1.state){
+					angular.forEach(obj.zipCodeDetailData, function(obj2, index2){
+						obj2.isSelected = true;
+					});
+				}
+			});
+		});
+		console.log($scope.zipCodeDetailData);
+		$scope.storeZipCode($scope.zipCodeDetailData);
+	}
+	
 	$scope.SaveZipCodeData = function(){
 		console.log($scope.allFronAndSalesList);
 		$scope.obj = {allFronAndSalesList:$scope.allFronAndSalesList};
@@ -1599,7 +1681,15 @@ angular.module('newApp')
 		$scope.stateCodesList = data;
 	});
 	
-		$scope.clickedUser = function(users, userSelect){
+	$scope.addAdditionalCity = function(){
+		$scope.addAdditionalFields.push({zipcode:'',
+			isSelected:'',
+			city:'',
+			state:'',
+			zipCodeDetailData:''});
+		
+	}
+	$scope.clickedUser = function(users, userSelect){
 			$scope.showFlag = 1;
 		console.log(users);
 		console.log(userSelect);
