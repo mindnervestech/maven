@@ -1425,7 +1425,24 @@ angular.module('newApp')
 		
 	}
 	
-	
+	$scope.selectAllPremiumFlag = function(flag){
+		console.log(flag);
+		console.log($scope.salesPerDetail);
+		if(flag == false || flag == undefined){
+			angular.forEach($scope.salesPerDetail.userData,function(obj,index){
+				console.log("in the loop");
+				obj.premiumFlag = true;
+				
+			});
+		}else{
+			angular.forEach($scope.salesPerDetail.userData,function(obj,index){
+				console.log("in the loop");
+				obj.premiumFlag = false;
+				
+			});
+		}
+			console.log($scope.salesPerDetail);
+	}
 	
 	$scope.selectedSalesPer = function(){
 		//console.log($scope.listOfSalesAndFront);
@@ -1541,6 +1558,7 @@ angular.module('newApp')
 			zipCodeDetailData:''});
 		}
 		else{
+			console.log(salesDet.zipCode);
 			angular.forEach(salesDet.zipCode, function(obj, index){
 				$scope.address.city = obj.city;
 				$scope.address.state = obj.state;

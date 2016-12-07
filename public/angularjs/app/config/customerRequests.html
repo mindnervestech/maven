@@ -75,7 +75,7 @@
 						<div class="form-group col-sm-12" style="margin-left: 1%;">
 							<table style="width:60%">
 								<tr style="height: 40px;">
-								<td style="text-align: center;width:10%">Select</td>
+									<td style="text-align: center;width:10%">Select</td>
 									<td style="text-align: center;width:50%"><b>Sales People</b></td>
 									<td style="text-align: center;width:30%"><b>Price Range</b></td>
 									<!-- <td style="text-align: center;width:20%"><b>Premium</b></td> -->
@@ -84,7 +84,7 @@
 								<tr style="width:20%;" ng-repeat="sale in salesPersonList">
 									<td style="text-align: center;"><input type="checkbox" name="permissions" ng-click="clickedUser(sale,sale.showDataValue)" ng-model="sale.showDataValue"></td>
 									<td ng-class="sale.showDataValue == true || showFlag == 0 ? '':'setOpacityClass'">{{sale.fullName}}</td>
-									<td style="text-align: right;" ng-class="sale.showDataValue == true || showFlag == 0 ? '':'setOpacityClass'"><span style="margin-right: 17px;" ng-show="sale.priceStart != null">From {{sale.priceStart}}, To {{sale.priceEnd}}</span> <button type="button" class="btn btn-primary" ng-disabled="sale.showDataValue == false" ng-click="openPopUpForPrice(sale)" style="margin-top:2%;margin-bottom: 2%;">Add</button></td>
+									<td style="text-align: right;" ng-class="sale.showDataValue == true || showFlag == 0 ? '':'setOpacityClass'"><span style="margin-right: 17px;" ng-show="sale.priceStart != null">From {{sale.priceStart}}, To {{sale.priceEnd}}</span> <button type="button" class="btn btn-primary" ng-show="sale.showDataValue == true" ng-click="openPopUpForPrice(sale)" style="margin-top:2%;margin-bottom: 2%;">Add</button></td>
 									<!-- <td style="text-align: center;"><input type="checkbox" name="vehicle" ng-model="sale.premiumFlag" ng-checked="sale.premiumFlag == 1" ng-click="permiumAss(sale);"><br></td> --> 
 								</tr>
 									  
@@ -167,7 +167,7 @@
 									  
 							</table>
 					<div class="modal-footer">
-
+						<input type="checkbox" name="vehicle" ng-model="Flag" ng-checked="Flag == true" ng-click="selectAllPremiumFlag(Flag)">Select All
 						<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
 						<button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="selectedSalesPer()">Ok</button>
 					</div>
@@ -268,7 +268,7 @@ requests that don't match any of the entered price range criteria</strong></h4>
 							</tr>
 							<tr style="width:20%;height:35px;" ng-repeat="sale in allFronAndSalesList">
 								<td>{{sale.firstName}} {{sale.lastName}}</td>
-								<td style="text-align: center;"><span ng-repeat="value in sale.zipCode" ng-show="value.zipcode != null" ng-model="value.zipcode">{{value.zipcode}} ,</span></td>
+								<td style="text-align: center;"><span ng-repeat="value in sale.zipCode" ng-show="value.zipcode != null" ng-model="value.city">{{value.city}} ,</span></td>
 								<td style="text-align: center;"><i class="glyphicon glyphicon-pencil" ng-click="showCityAddPop(sale)" title="Edit"></i></td> 
 							</tr>
 						</table>
