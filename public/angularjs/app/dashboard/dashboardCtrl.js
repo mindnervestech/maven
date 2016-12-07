@@ -5143,6 +5143,7 @@ angular.module('newApp')
     		 $location.path('/leadCreateForm');
     	}*/
         $scope.canceledLeads = function() {
+        	$scope.allLeadd = false;
         	$scope.schedTest = false;
         	$scope.otherLeads = false;
         	$scope.showAllTypeLeads = false;
