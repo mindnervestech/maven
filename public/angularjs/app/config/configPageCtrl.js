@@ -1425,7 +1425,7 @@ angular.module('newApp')
 		var saleFlag = 0;
 		angular.forEach(allFronAndSalesList, function(obj2, index2){
 			saleFlag = 0;
-			
+			obj2.manuCount = 0;
 			angular.forEach($scope.allManufacturerList, function(obj, index){
 				 angular.forEach(obj.userData, function(obj1, index1){
 					 if(obj2.id == obj1.id){

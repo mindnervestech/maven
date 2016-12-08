@@ -9198,6 +9198,7 @@ public class Application extends Controller {
 				JSONObject jsonObj1 = jArr1.getJSONObject(i);
 				vm1.key = String.valueOf(jsonObj1.get("key"));
 				vm1.value = String.valueOf(jsonObj1.get("value"));
+				vm1.formName = String.valueOf(jsonObj1.get("formName"));
 				vmList1.add(vm1);
 				leadVM.customData.add(vm1);
 			}
@@ -9214,13 +9215,14 @@ public class Application extends Controller {
 		leadVM.custZipCode = form.data().get("custZipCode");
 		leadVM.prefferedContact = form.data().get("prefferedContact");
 		leadVM.leadType =form.data().get("leadType");
+		leadVM.manufacturers =form.data().get("manufacturers");
 		
          
     }
     
     
     private static void saveCustomData(Long infoId,LeadVM leadVM,MultipartFormData bodys,Long leadtype) {
-    	
+    	String formName = "";
     	for(KeyValueDataVM custom:leadVM.customData){
     		
     		CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId(custom.key,infoId);
@@ -9232,6 +9234,9 @@ public class Application extends Controller {
     			cValue.leadId = infoId;
     			cValue.leadType = leadtype;
     			cValue.formName = custom.formName;
+    			if(!cValue.formName.equals("Create New Lead")){
+    				formName = cValue.formName;
+    			}
     			if(custom.savecrm == null){
     				cValue.saveCrm = "false";
     			}else{
@@ -9249,7 +9254,12 @@ public class Application extends Controller {
     			}else{
     				cValue.displayWebsite = custom.displayWebsite;
     			}
-    			
+    			if(cValue.saveCrm == null){
+    				cValue.saveCrm  = "false";
+    			}
+    			if(cValue.displayGrid == null){
+    				cValue.displayGrid = "false";
+    			}
     			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			cValue.save();
     			
@@ -9289,6 +9299,8 @@ public class Application extends Controller {
     	    				cValue.leadType = leadtype;
 							cValue.displayGrid = "false";
 							cValue.saveCrm = "false";
+							cValue.displayWebsite = "false";
+							cValue.formName = formName;
     	    				cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     	    				cValue.save();
     	    			

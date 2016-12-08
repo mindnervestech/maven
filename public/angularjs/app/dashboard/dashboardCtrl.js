@@ -2416,6 +2416,7 @@ angular.module('newApp')
 					$scope.josnData.push(obj);
 					
    				});
+				var oneProduct = 0;
 				console.log($scope.josnData);
 				$.each($scope.customData, function(attr, value) {
 				angular.forEach($scope.josnData, function(value1, key) {
@@ -2426,7 +2427,10 @@ angular.module('newApp')
 							$scope.editLeads.leadType = value;
 						}
 						if(value1.component == "productType"){
-							$scope.editLeads.manufacturers = value;
+							if(oneProduct == 0){
+								$scope.editLeads.manufacturers = value;
+								oneProduct++;
+							}
 						}
 						
 						$scope.customList.push({
