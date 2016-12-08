@@ -2432,6 +2432,9 @@ angular.module('newApp')
 								oneProduct++;
 							}
 						}
+						if(value1.component == "multipleselect"){
+							value = value.toString();
+						}
 						
 						$scope.customList.push({
 							fieldId:value1.fieldId,
@@ -4538,6 +4541,8 @@ angular.module('newApp')
 	    					}
 	    					console.log("()()()(0");
 	    					console.log($scope.josnData);
+	    					console.log($scope.customData);
+	    					var oneProduct = 0;
 	    					$.each($scope.customData, function(attr, value) {
     						angular.forEach($scope.josnData, function(value1, key) {
     							if(value1.key == attr){
@@ -4546,8 +4551,16 @@ angular.module('newApp')
     									$scope.lead.leadType = value;
     								}
     								if(value1.component == "productType"){
-    									$scope.lead.manufacturers = value;
+    									if(oneProduct == 0){
+    										$scope.lead.manufacturers = value;
+    										oneProduct++;
+    									}
+    									//$scope.lead.manufacturers = value;
     								}
+    								if(value1.component == "multipleselect"){
+    									value = value.toString();
+    								}
+    								
     								
 	    							$scope.customList.push({
 	    								fieldId:value1.fieldId,
