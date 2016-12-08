@@ -9167,24 +9167,29 @@ public class Application extends Controller {
     
     private static void saveBilndVm(LeadVM leadVM,MultipartFormData bodys,Form<LeadVM> form) {
     	 
-    	 JSONArray jArr,jArr1;
+    	 JSONArray jArr = null,jArr1 = null;
     	 List<InventoryVM> vmList = new ArrayList<>();
     	 List<KeyValueDataVM> vmList1 = new ArrayList<>();
 		try {
 			form.data().get("stockWiseData");
 			System.out.println(form.data().get("stockWiseData"));
-			jArr = new JSONArray(form.data().get("stockWiseData"));
-			
-			for (int i=0; i < jArr.length(); i++) {
-				InventoryVM vm = new InventoryVM();
-				JSONObject jsonObj = jArr.getJSONObject(i);
-				vm.id = Long.parseLong(String.valueOf(jsonObj.get("id")));
-				vm.imgId = String.valueOf(jsonObj.get("imgId")); 
-				vm.title = String.valueOf(jsonObj.get("title"));
-				vm.price =  String.valueOf(jsonObj.get("price"));
-				vmList.add(vm);
-				leadVM.stockWiseData.add(vm);
+			if(form.data().get("stockWiseData") != null){
+				jArr = new JSONArray(form.data().get("stockWiseData"));
+				
+				for (int i=0; i < jArr.length(); i++) {
+					InventoryVM vm = new InventoryVM();
+					JSONObject jsonObj = jArr.getJSONObject(i);
+					vm.id = Long.parseLong(String.valueOf(jsonObj.get("id")));
+					vm.imgId = String.valueOf(jsonObj.get("imgId")); 
+					vm.title = String.valueOf(jsonObj.get("title"));
+					vm.price =  String.valueOf(jsonObj.get("price"));
+					vmList.add(vm);
+					leadVM.stockWiseData.add(vm);
+				}
 			}
+			
+			
+			
 			
 			jArr1 = new JSONArray(form.data().get("customData"));
 			
