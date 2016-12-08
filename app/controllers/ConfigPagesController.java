@@ -476,16 +476,21 @@ public class ConfigPagesController extends Controller{
 		 
 		 public static Result deleteLeadType(Long leadId){
 			 List<RequestMoreInfo> reInfo = RequestMoreInfo.findAllOtherLeadIdWise(leadId.toString());
-			 if(reInfo.size() == 0){
-				 LeadType type = LeadType.findById(leadId);
-				 if(leadId != null){
-					 type.delete();
+			 boolean isDeleted = true;
+			 for (RequestMoreInfo rInfo : reInfo) {				
+				 if(!"CANCEL".equalsIgnoreCase(rInfo.getStatus()) && !"Sold".equalsIgnoreCase(rInfo.getStatus())){
+					 isDeleted = false;
+					 break;
 				 }
-				 
-				 NewFormWebsite nWebsite = NewFormWebsite.findByName(type.leadName);
+			}
+			 if(isDeleted){
+				 LeadType type = LeadType.findById(leadId);
+				 type.setDeleted(true);
+				 type.update();
+				 /*NewFormWebsite nWebsite = NewFormWebsite.findByName(type.leadName);
 				 if(nWebsite != null){
 					 nWebsite.delete();
-				 }
+				 }*/
 				
 				 return ok();
 			 }else{

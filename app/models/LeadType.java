@@ -24,7 +24,16 @@ public class LeadType extends Model {
 	public String actionClientPdf;
 	public String maunfacturersIds;
 	public String confirmationMsg;
-		
+	public Boolean deleted;
+	
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+
 	public String getMaunfacturersIds() {
 		return maunfacturersIds;
 	}
@@ -127,10 +136,10 @@ public class LeadType extends Model {
 	}
 	
 	public static List<LeadType> findByLocation(Long location) {
-		return find.where().eq("locations.id", location).findList();
+		return find.where().eq("locations.id", location).ne("deleted", 1).findList();
 	}
 	public static LeadType findByLocations(Long location) {
-		return find.where().eq("locations.id", location).findUnique();
+		return find.where().eq("locations.id", location).ne("deleted", 1).findUnique();
 	}
 	
 	public static LeadType findByName(String name) {
@@ -138,10 +147,14 @@ public class LeadType extends Model {
 	}
 	
 	public static List<LeadType> findByLocationsAndSelected(Long location) {
-		return find.where().eq("locations.id", location).findList();
+		return find.where().eq("locations.id", location).ne("deleted", 1).findList();
 	}
 	
 	public static List<LeadType> getLeadData() {
+		return find.where().ne("deleted", 1).findList();
+	}
+	
+	public static List<LeadType> getAllLeadData() {
 		return find.all();
 	}
 	

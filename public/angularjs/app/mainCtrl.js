@@ -173,15 +173,17 @@
 		          	    }
 	          	    });
 	          	}
-	          	notification.onclick = function(event) {
-	            	console.log("on Click");
-	            	window.location.href = "#otherLeads/"+obj.isContactusType;
-	            	$http.get('/requestInfoRichNotification/'+obj.id).success(function(data) {});
-	            };
-	            notification.onclose = function(event) {
-	            	console.log("on close....");
-	            	$http.get('/requestInfoRichNotification/'+obj.id).success(function(data) {});
-	            };
+	          	if(notification != undefined){
+	          		notification.onclick = function(event) {
+		            	console.log("on Click");
+		            	window.location.href = "#otherLeads/"+obj.isContactusType;
+		            	$http.get('/requestInfoRichNotification/'+obj.id).success(function(data) {});
+		            };
+		            notification.onclose = function(event) {
+		            	console.log("on close....");
+		            	$http.get('/requestInfoRichNotification/'+obj.id).success(function(data) {});
+		            };
+	          	}	          	
             };            
             
             $scope.leadCount = function(){
