@@ -275,7 +275,7 @@ public class AddProduct extends Model {
 		return find.where().eq("title", productname).ne("sale", "sale").findList();
 	}
 	public static List<AddProduct> findByTitle(String productname) {
-		return find.where().eq("title", productname).findList();
+		return find.where().eq("title", productname).eq("publicStatus", "publish").findList();
 	}
 	
 	public static List<AddProduct> getProductByDraftStatusAndLocation(Long location) {
