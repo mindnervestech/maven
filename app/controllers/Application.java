@@ -9254,21 +9254,27 @@ public class Application extends Controller {
     			}else{
     				cValue.displayWebsite = custom.displayWebsite;
     			}
-    			if(cValue.saveCrm == null){
-    				cValue.saveCrm  = "false";
-    			}
-    			if(cValue.displayGrid == null){
-    				cValue.displayGrid = "false";
-    			}
+    			
     			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			cValue.save();
     			
     		}else{
     			cDataValue.setKeyValue(custom.key);
     			cDataValue.setValue(custom.value);
-    			cDataValue.setSaveCrm(custom.savecrm);
-    			cDataValue.setDisplayGrid(custom.displayGrid);
+    			
+    			
     			cDataValue.setFormName(custom.formName);
+    			if(custom.savecrm == null){
+    				cDataValue.setSaveCrm("false");
+    			}else{
+    				cDataValue.setSaveCrm(custom.savecrm);
+    			}
+    			if(custom.displayGrid == null){
+    				cDataValue.setDisplayGrid("false");
+    			}else{
+    				cDataValue.setDisplayGrid(custom.displayGrid);
+    			}
+				cDataValue.setFormName(custom.formName);
     			//cDataValue.setDisplayWebsite(custom.displayWebsite);
     			cDataValue.update();
     		}
