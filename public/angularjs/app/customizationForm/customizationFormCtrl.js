@@ -441,6 +441,7 @@ angular.module('newApp')
 			 $scope.callAction.outcome = $scope.actions.toString(); 
 			 if(logofile == undefined){
 				 apiserviceCustomizationForm.saveLeadFormPopup($scope.callAction).then(function(data){
+					 $scope.saveCreateLeadFormOnly();
 					 $location.path('/configuration');
 				 });
 			 }else if(logofile != undefined){
