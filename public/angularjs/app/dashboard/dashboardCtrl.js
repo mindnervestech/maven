@@ -8988,7 +8988,8 @@ angular.module('newApp')
 		   $scope.AllOtherLeadSeenList = [];
 		   
 		   $scope.otherLeadId = function(leads){
-			   
+			   $scope.nameOfLead = leads;
+			   console.log($scope.nameOfLead); 
 		  		$scope.gridOptions13.data = {};
 			   $scope.gridOptions13.columnDefs = [];
 			   $scope.AllOtherLeadSeenList = [];
@@ -9153,14 +9154,100 @@ angular.module('newApp')
 	        	 
 	    	
 		   }
+		   $scope.exportCsvPopCanceled = function(){
+			   console.log("Check");
+	   			$('#exportModalCanceled').modal('show');
+	   		};
 		   
-		
+	   		$scope.exportCsvFileCanceled = function(){
+	   			apiserviceDashborad.exportCsvFileCanceled().then(function(data){
+	   				$.fileDownload('/downloadRequestMoreFile',
+							{	   	
+							}).done(function(e, response)
+									{
+										$.pnotify({
+													title: "Success",
+													type:'success',
+													text: "File download successfully",
+										});
+									}).fail(function(e, response)
+									{
+										console.log('fail');
+										console.log(response);
+										console.log(e);
+									});
+	   			});
+	   		}		
+	   		
+		   $scope.exportCsvPop = function(){
+			   console.log($scope.nameOfLead);
+			   $('#exportModal').modal('show');
+	   		};
+	        
+	   		$scope.exportCsvFile = function(){
+	   			console.log($scope.nameOfLead);
+	   			if($scope.nameOfLead != undefined){
+	   			apiserviceDashborad.exportOtherLeadsData($scope.nameOfLead).then(function(data){
+	   				$.fileDownload('/downloadRequestMoreFile',
+							{	   	
+							}).done(function(e, response)
+									{
+										$.pnotify({
+													title: "Success",
+													type:'success',
+													text: "File download successfully",
+										});
+									}).fail(function(e, response)
+									{
+										console.log('fail');
+										console.log(response);
+										console.log(e);
+									});
+	   			});
+	   			}
+	   			else{
+	   				apiserviceDashborad.exportLeadsData().then(function(data){
+		   				$.fileDownload('/downloadRequestMoreFile',
+								{	   	
+								}).done(function(e, response)
+										{
+											$.pnotify({
+														title: "Success",
+														type:'success',
+														text: "File download successfully",
+											});
+										}).fail(function(e, response)
+										{
+											console.log('fail');
+											console.log(response);
+											console.log(e);
+										});
+		   			});
+	   			}
+	   		}		
 		 	
-		       
+	   		$scope.exportCsvPopArchive = function(){
+	   			$('#exportModalArchive').modal('show');
+	   		};
+	   		
+	   		$scope.exportCsvFileArchive = function(){
+	   			apiserviceDashborad.exportCsvFileArchive().then(function(data){
+	   				$.fileDownload('/downloadRequestMoreFile',
+							{	   	
+							}).done(function(e, response)
+									{
+										$.pnotify({
+													title: "Success",
+													type:'success',
+													text: "File download successfully",
+										});
+									}).fail(function(e, response)
+									{
+										console.log('fail');
+										console.log(response);
+										console.log(e);
+									});
+	   			});
+	   		}	
 		   
   }]);
-
-
-
-
-

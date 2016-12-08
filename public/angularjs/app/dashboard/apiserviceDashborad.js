@@ -1533,4 +1533,38 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
+	this.exportLeadsData = function(){
+		var defer = $q.defer();
+		$http.get('/exportLeadsData').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.exportCsvFileCanceled = function(){
+		var defer = $q.defer();
+		$http.get('/exportCsvFileCanceled').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	this.exportCsvFileArchive = function(){
+		var defer = $q.defer();
+		$http.get('/exportCsvFileArchive').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	this.exportOtherLeadsData = function(leadId){
+		var defer = $q.defer();
+		$http.get('/exportOtherLeadsData/'+leadId).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
 })

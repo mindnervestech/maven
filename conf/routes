@@ -627,7 +627,13 @@ GET   /getCustomerRequestLeads/:id/:vinNo/:status/:startDate/:endDate		 	control
 GET   /getFollowerLeads/:id/:vinNo/:status/:startDate/:endDate		 	 controllers.ClickyAnalyticsController.getFollowerLeads(id:Long,vinNo:String,status:String,startDate:String,endDate:String)
 GET   /getviniewsChartLeads/:id/:vinNo/:status/:startDate/:endDate		  	controllers.ClickyAnalyticsController.getviniewsChartLeads(id:Long,vinNo:String,status:String,startDate:String,endDate:String)
 GET 	/exportContactsData			  			controllers.CrmController.exportContactsData()
+GET 	/exportLeadsData			  			controllers.Application.exportLeadsData()
+GET 	/exportCsvFileCanceled			  			controllers.Application.exportCsvFileCanceled()
+GET 	/exportCsvFileArchive			  			controllers.Application.exportCsvFileArchive()
+GET 	/exportOtherLeadsData/:leadId			  			controllers.CustomersRequestController.exportOtherLeadsData(leadId:String)
+
 GET		/downloadStatusFile			  controllers.Application.downloadStatusFile()
+GET		/downloadRequestMoreFile			  controllers.Application.downloadRequestMoreFile()
 GET    /getScheduleTime/:vin/:comDate 			controllers.Application.getScheduleTime(vin:String,comDate:String)
 GET		/getDataFromCrm			controllers.Application.getDataFromCrm()
 GET		/getUserPermission			controllers.Application.getUserPermission()

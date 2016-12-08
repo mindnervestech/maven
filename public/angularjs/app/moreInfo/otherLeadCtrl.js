@@ -15,10 +15,11 @@ angular.module('newApp')
 			}
 			if(value.id == $scope.leadId){
 				$scope.leadName = value.leadName;
+				$scope.leadId = value.id;
 			}
 		});
 		console.log($scope.leadList);
-	
+		console.log($scope.leadId);
 	});
 	
   $scope.gridOptions = {
@@ -277,4 +278,30 @@ angular.module('newApp')
 		$location.path('/requestMoreInfo');
 	} 
   
+	$scope.exportCsvPop = function(){
+		console.log("check");
+		$('#exportModal').modal('show');
+	};
+	
+	$scope.exportCsvOtherLead = function(){
+		console.log($scope.leadId);
+		apiserviceMoreInfo.exportOtherLeadsData($scope.leadId).then(function(data){
+				$.fileDownload('/downloadRequestMoreFile',
+					{	   	
+					}).done(function(e, response)
+							{
+								$.pnotify({
+											title: "Success",
+											type:'success',
+											text: "File download successfully",
+								});
+							}).fail(function(e, response)
+							{
+								console.log('fail');
+								console.log(response);
+								console.log(e);
+							});
+			});
+		}
+	
 }]);

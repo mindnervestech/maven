@@ -587,4 +587,14 @@ public void setMessage(String message) {
 	public static List<RequestMoreInfo> findAllLeads(Long locationId) {
 		return find.where().eq("isRead", 0).eq("premiumFlag", 0).eq("status", null).eq("locations.id", locationId).findList();
 	}
+	
+	public static List<RequestMoreInfo> getAllRequest() {
+		return find.all();
+	}
+	public static List<RequestMoreInfo> findByContactUsType(Long locationId ,String leadId) {
+		return find.where().eq("locations.id", locationId).eq("isContactusType", leadId).findList();
+	}
+	public static List<RequestMoreInfo> findAllAssignedLeadsArchive(Long locationId) {
+		return find.where().eq("locations.id", locationId).ne("status", null).findList();
+	}
 }

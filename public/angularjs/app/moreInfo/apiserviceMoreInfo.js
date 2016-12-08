@@ -164,4 +164,13 @@ angular.module('app.apiserviceMoreInfo', [])
 
 		return defer.promise;
 	};
+	
+	this.exportOtherLeadsData = function(leadId){
+		var defer = $q.defer();
+		$http.get('/exportOtherLeadsData/'+leadId).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
 })
