@@ -343,16 +343,18 @@ angular.module('newApp')
 		}
 		$scope.leadcreateData = {};
 		$scope.saveCompleted = function(){
+			localStorage.setItem('popupType','Lead');
 			console.log($scope.leadcreate.callToAction);
 			if($scope.leadcreate.callToAction == undefined){
 				$scope.leadcreate.callToAction = false;
 			}
+			
 			$scope.leadcreateData.leadName = $scope.leadcreate.leadName;
 			$scope.leadcreateData.callToAction = $scope.leadcreate.callToAction;
 			localStorage.setItem('callToAction',$scope.leadcreate.callToAction);
 		console.log($scope.leadcreate);
 		apiserviceConfigPage.addnewrUser($scope.leadcreate).then(function(data){
-			
+			localStorage.setItem('popupType','Lead');
 			$scope.form = data;
 			console.log(data);
 			localStorage.setItem('leadId', data.id);
