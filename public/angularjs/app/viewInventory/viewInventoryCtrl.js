@@ -578,7 +578,7 @@ $scope.deleteVehicleRowPer = function() {
 			   $.pnotify({
 				    title: "Error",
 				    type:'success',
-				    text: "Can't Delete Parent Manufacturer",
+				    text: "Can't Delete parent collection",
 				});
 		   }
 		   $scope.soldTab();

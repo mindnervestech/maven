@@ -72,4 +72,7 @@ public class CustomerRequestManufacturerSettings extends Model {
 	public static List<CustomerRequestManufacturerSettings> getAllcustManufactList() {
 		return find.all();
 	}
+	public static List<CustomerRequestManufacturerSettings> getcustManufact(Long id) {
+		return find.where().eq("manufacturer.id", id).findList();
+	}
 }

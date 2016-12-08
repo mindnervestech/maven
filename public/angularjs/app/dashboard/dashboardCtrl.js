@@ -5134,6 +5134,7 @@ angular.module('newApp')
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
         	$scope.allLeadd = true;
+        	$scope.nameOfLead = 0;
         	$scope.getAllLeadsValue();
     	}
     	
@@ -9186,8 +9187,9 @@ angular.module('newApp')
 	        
 	   		$scope.exportCsvFile = function(){
 	   			console.log($scope.nameOfLead);
-	   			if($scope.nameOfLead != undefined){
-	   			apiserviceDashborad.exportOtherLeadsData($scope.nameOfLead).then(function(data){
+	   			if($scope.nameOfLead != undefined || $scope.nameOfLead == 0){
+	   				console.log($scope.nameOfLead);
+	   				apiserviceDashborad.exportOtherLeadsData($scope.nameOfLead).then(function(data){
 	   				$.fileDownload('/downloadRequestMoreFile',
 							{	   	
 							}).done(function(e, response)
@@ -9206,6 +9208,7 @@ angular.module('newApp')
 	   			});
 	   			}
 	   			else{
+	   				console.log($scope.nameOfLead);
 	   				apiserviceDashborad.exportLeadsData().then(function(data){
 		   				$.fileDownload('/downloadRequestMoreFile',
 								{	   	

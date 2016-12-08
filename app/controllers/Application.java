@@ -65,6 +65,7 @@ import models.ContactOtherField;
 import models.Contacts;
 import models.CreateNewForm;
 import models.CustomerPdf;
+import models.CustomerRequestManufacturerSettings;
 import models.CustomizationCrm;
 import models.CustomizationDataValue;
 import models.CustomizationForm;
@@ -4371,6 +4372,12 @@ public class Application extends Controller {
     	} else {
     		List<AddProduct> list = AddProduct.getProductByParentId(id);
     		if(list.size() == 0){
+    			List<CustomerRequestManufacturerSettings> listcust = CustomerRequestManufacturerSettings.getcustManufact(id);
+    			if(listcust.size() != 0){
+	    			for (CustomerRequestManufacturerSettings lis : listcust) {
+	    	    		lis.delete();
+	    	    	}
+    			}
     			List<ProductImages> pImages = ProductImages.getDeleteImagePath(id);
         		if(pImages.size() != 0){
         			for(ProductImages pI:pImages){
@@ -4386,7 +4393,28 @@ public class Application extends Controller {
     	    		file.delete();
     	    	}
     	    	return ok();
-    		}else{
+    		}else if(list.size() != 0){
+    			for (AddProduct ap : list) {
+        			ap.setParentId(null);
+        	    	ap.update();
+    			}
+    			List<CustomerRequestManufacturerSettings> listcust = CustomerRequestManufacturerSettings.getcustManufact(id);
+    			if(listcust.size() != 0){
+	    			for (CustomerRequestManufacturerSettings lis : listcust) {
+	    	    		lis.delete();
+	    	    	}
+    			}
+    			List<ProductImages> pImages = ProductImages.getDeleteImagePath(id);
+        		if(pImages.size() != 0){
+        			for(ProductImages pI:pImages){
+        				pI.delete();
+        			}
+        		}
+    			AddProduct vm = AddProduct.findById(id);
+    			vm.delete();
+    			return ok();
+    		}
+    		else{
     			return ok("Error");
     		}
     	}	

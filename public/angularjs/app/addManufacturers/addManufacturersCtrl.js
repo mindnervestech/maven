@@ -703,7 +703,7 @@ console.log($scope.cId);
 					   $.pnotify({
 						    title: "Error",
 						    type:'success',
-						    text: "Can't Delete Parent Manufacturer",
+						    text: "Can't Delete parent Manufacturer",
 						});
 				   }else{
 					   $location.path('/viewInventory');

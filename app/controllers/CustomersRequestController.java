@@ -1999,9 +1999,12 @@ public class CustomersRequestController extends Controller {
 	    			fileWriter = new FileWriter(filePath);
 	        		fileWriter.append(FILE_HEADER.toString());
 	        		fileWriter.append(NEW_LINE_SEPARATOR);
-	        		
-	        		List<RequestMoreInfo> list = RequestMoreInfo.findByContactUsType(Long.valueOf(session("USER_LOCATION")),leadId);
-	        		
+	        		List<RequestMoreInfo> list= null;
+	        		if(leadId.equals("0")){
+	        			 list = RequestMoreInfo.getAllRequest();
+	        		}else{
+	        			 list = RequestMoreInfo.findByContactUsType(Long.valueOf(session("USER_LOCATION")),leadId);
+	        		}
 	        		for (RequestMoreInfo request : list) {
 	        			
 	        			fileWriter.append(String.valueOf(request.id));
