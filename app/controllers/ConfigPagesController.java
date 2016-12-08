@@ -820,6 +820,8 @@ public class ConfigPagesController extends Controller{
 		    		   lead.shows = 1;
 		    	   }
 		    	   
+		    	   lead.deleted = false;
+		    	   
 		    	   lead.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	   lead.save();
 		    	   
