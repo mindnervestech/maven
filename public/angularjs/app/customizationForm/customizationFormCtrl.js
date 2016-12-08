@@ -216,6 +216,11 @@ angular.module('newApp')
 		  }  
 		  
 		  $scope.saveCreateLeadFormOnly = function(){
+			  $scope.saveCreateLeadFormLeads();
+			  $location.path('/configuration');
+		  }
+		  
+		  $scope.saveCreateLeadFormLeads = function(){
 			  $scope.showOutcomeMsg = 0;
 			  var obj = localStorage.getItem('popupType');
 			  $scope.leadId = localStorage.getItem('leadId');
@@ -268,7 +273,7 @@ angular.module('newApp')
 					 		$scope.objBind.customDataAll = $scope.formListData; 
 					 		apiserviceCustomizationForm.getFormBuilderData($scope.objBind).then(function(data){
 								 console.log(data);
-								 $location.path('/configuration');
+								
 							 });
 				 });
 				 
@@ -276,6 +281,7 @@ angular.module('newApp')
 		  }
 		  
 		  $scope.saveCreateLeadFormAddOuctcome = function(){
+			 
 			  var obj = localStorage.getItem('popupType');
 			  $scope.leadId = localStorage.getItem('leadId');
 			 // if(obj == "Lead"){
@@ -432,7 +438,7 @@ angular.module('newApp')
 		  
 		  $scope.callActionId ={};
 		 $scope.callToAction = function(){
-			 
+			 $scope.saveCreateLeadFormLeads();
 			 console.log($scope.leadId);
 			 $scope.callAction.id = $scope.leadId;
 			 console.log($scope.callAction);
@@ -461,7 +467,8 @@ angular.module('newApp')
 				}
 			 
 			 $("#completedPopup").modal('hide');
-			 
+			
+			 $location.path('/configuration');
 		 }
 		  
 		  $scope.editLeadInfo = function(title){
@@ -471,15 +478,60 @@ angular.module('newApp')
 		  }
 		  
 		  $scope.actions = [];
+		  $scope.checkBocId = 0;
 		  $scope.actionClicked = function(e, rolePer,value){
-				console.log(rolePer);
-				console.log(value);
-				if(value == false || value == undefined){
-					$scope.actions.push(rolePer.id);
-				}else{
-					$scope.deleteItem(rolePer);
-				}
-				console.log($scope.actions);
+			  
+			  console.log($builder.forms['default']);
+				 console.log($builder.forms['defaultAdd']);
+				 $scope.autoCrmFlag = 0;
+				 $scope.autoDateFlag = 0;
+				 $scope.autoTimeFlag = 0;
+				 angular.forEach($builder.forms['default'], function(obj, index){
+					  if(obj.component == "selectGroup"){
+						  $scope.autoCrmFlag = 1;
+					  }
+					  if(obj.component == "timerange"){
+						  $scope.autoTimeFlag = 1;
+					  }
+					  if(obj.component == "date"){
+						  $scope.autoDateFlag = 1;
+					  }
+				 });
+				 angular.forEach($builder.forms['defaultAdd'], function(obj, index){
+					 if(obj.component == "selectGroup"){
+						 $scope.autoCrmFlag = 1;
+					  }
+					 if(obj.component == "timerange"){
+						  $scope.autoTimeFlag = 1;
+					  }
+					  if(obj.component == "date"){
+						  $scope.autoDateFlag = 1;
+					  }
+				 });
+				
+				 if(rolePer.id == 4){
+					 $scope.checkBocId = 4;
+					 if($scope.autoTimeFlag == 0 || $scope.autoDateFlag == 0){
+						 $('#dateTimePopup').modal('show');
+					 }
+				 }else if(rolePer.id == 3){
+					 $scope.checkBocId = 3;
+					 if($scope.autoCrmFlag == 0){
+						 $('#crmPopup').modal('show');
+						 rolePer.isSelected = false
+						 console.log(rolePer);
+					 }
+				 }
+				 
+				 console.log(rolePer.isSelected);
+					console.log(value);
+				
+					if(value == false || value == undefined){
+						$scope.actions.push(rolePer.id);
+					}else{
+						$scope.deleteItem(rolePer);
+					}
+					console.log($scope.actions);
 			}
 			$scope.deleteItem = function(rolePer){
 				angular.forEach($scope.actions, function(obj, index){
@@ -488,6 +540,40 @@ angular.module('newApp')
 				       	return;
 				    };
 				  });
+			}
+			
+			$scope.uncheckCrm = function(){
+				console.log($scope.checkBocId);
+				
+				angular.forEach($scope.outcomemenu, function(obj, index){
+					if(obj.id == $scope.checkBocId){
+						$scope.deleteItem(obj);
+					}
+				});
+				$('#myCheckbox3').attr('checked', false);
+				console.log($scope.actions);
+				console.log($scope.outcomemenu);
+				
+			}
+			$scope.uncheckDate = function(){
+				angular.forEach($scope.outcomemenu, function(obj, index){
+					if(obj.id == $scope.checkBocId){
+						$scope.deleteItem(obj);
+					}
+				});
+				$('#myCheckbox4').attr('checked', false);
+				console.log($scope.actions);
+				console.log($scope.outcomemenu);
+			}
+			$scope.closrPopUp = function(){
+					console.log($scope.checkBocId);
+				
+				angular.forEach($scope.outcomemenu, function(obj, index){
+					if(obj.id == $scope.checkBocId){
+						$scope.deleteItem(obj);
+					}
+				});
+				 $('#completedPopup').modal('hide');
 			}
 			
 			$scope.callActionsList =[

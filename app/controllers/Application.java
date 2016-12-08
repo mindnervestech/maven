@@ -12243,53 +12243,6 @@ private static void cancelTestDriveMail(Map map) {
     		String comments="Test Drive has been canceled";
     		String subject = "Test Drive cancelled";
     		
-    		if(leadtype.equals("Schedule Test Drive")) {
-    			ScheduleTest schedule = ScheduleTest.findById(id);
-    			String vin =schedule.vin;
-    			
-    			schedule.setLeadStatus("CANCEL");
-    			schedule.setStatusDate(currDate);
-    			schedule.setStatusTime(currDate);
-    			schedule.setReason(reason);
-    	          clientEmail=schedule.email;
-    			//clientEmail="nananevase9766@gmail.com";
-    	          /* for template mail */
-    	         if(schedule.confirmDate == null){
-          		Map map = new HashMap();
-  	    		map.put("email",clientEmail);
-  	    		map.put("vin", schedule.vin);
-  	    		map.put("uname", user.firstName+" "+user.lastName);
-  	    		map.put("uphone", user.phone);
-  	    		map.put("uemail", user.email);
-  	    		map.put("clientName", schedule.name);
-  				cancelTestDriveMail(map);
-    	          
-    	         }
-    	          
-    			schedule.update();
-    			
-    			if(schedule.confirmDate != null){
-    				Map map = new HashMap();
-		    		map.put("email",clientEmail);
-		    		map.put("vin", vin);
-		    		map.put("uname", user.firstName+" "+user.lastName);
-		    		map.put("uphone", user.phone);
-		    		map.put("uemail", user.email);
-		    		map.put("clientName",schedule.name);
-    				cancelTestDriveMail(map);
-      			}
-    			
-        		UserNotes uNotes = new UserNotes();
-        		uNotes.setNote("Client didn't buy vehicle");
-        		uNotes.setAction("Other");
-        		uNotes.createdDate = currDate;
-        		uNotes.createdTime = currDate;
-        		uNotes.user = user;
-        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-        		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
-        		uNotes.save();
-        		
-    		} else if(leadtype.equals("Request More Info")) {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
     			
     			String vin=info.vin;
@@ -12322,37 +12275,7 @@ private static void cancelTestDriveMail(Map map) {
         		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
         		uNotes.save();
         		
-    		} else if(leadtype.equals("Trade-In Appraisal")) {
-    			TradeIn info = TradeIn.findById(id);
-    			String vin=info.vin;
-    			info.setStatus("CANCEL");
-    			info.setStatusDate(currDate);
-    			info.setStatusTime(currDate);
-    			info.setReason(reason);
-    			info.update();
-    			clientEmail=info.email;
-    			
-    			if(info.confirmDate != null){
-    				Map map = new HashMap();
-		    		map.put("email",clientEmail);
-		    		map.put("vin", vin);
-		    		map.put("uname", user.firstName+" "+user.lastName);
-		    		map.put("uphone", user.phone);
-		    		map.put("uemail", user.email);
-    				cancelTestDriveMail(map);
-      	    	  //sendEmail(clientEmail,subject,comments);
-      			}
-    			
-        		UserNotes uNotes = new UserNotes();
-        		uNotes.setNote("Client didn't buy vehicle");
-        		uNotes.setAction("Other");
-        		uNotes.createdDate = currDate;
-        		uNotes.createdTime = currDate;
-        		uNotes.user = user;
-        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-        		uNotes.tradeIn = TradeIn.findById(info.id);
-        		uNotes.save();
-    		}
+    		
     		
     		
     		
