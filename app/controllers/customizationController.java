@@ -57,10 +57,10 @@ public class customizationController extends Controller {
 			cust.setJsonData(json.findPath("jsonform").toString());
 			cust.setJsonDataAdd(json.findPath("jsonformAdd").toString());
 			cust.setAdditionalData(json.findPath("additionalData").booleanValue());
-			String sValue = json.findPath("outcome").toString().replace("[", "");
+			/*String sValue = json.findPath("outcome").toString().replace("[", "");
 			sValue = sValue.replace("]", "");
 			sValue = sValue.replace("\"", "");
-			cust.setOutcome(sValue);
+			cust.setOutcome(sValue);*/
 			cust.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 			cust.save();
 		}else{
@@ -68,10 +68,10 @@ public class customizationController extends Controller {
 			cForm.setJsonData(json.findPath("jsonform").toString());
 			cForm.setJsonDataAdd(json.findPath("jsonformAdd").toString());
 			cForm.setAdditionalData(json.findPath("additionalData").booleanValue());
-			String sValue = json.findPath("outcome").toString().replace("[", "");
+			/*String sValue = json.findPath("outcome").toString().replace("[", "");
 			sValue = sValue.replace("]", "");
 			sValue = sValue.replace("\"", "");
-			cForm.setOutcome(sValue);
+			cForm.setOutcome(sValue);*/
 			//cForm.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 			cForm.update();
 		}
