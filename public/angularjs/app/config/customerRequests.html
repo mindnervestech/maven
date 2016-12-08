@@ -73,18 +73,18 @@
 							<!-- <a ng-click="showToUser()">Assign</a> -->
 						</div>
 						<div class="form-group col-sm-12" style="margin-left: 1%;">
-							<table style="width:60%">
+							<table style="width:80%">
 								<tr style="height: 40px;">
 									<td style="text-align: center;width:10%">Select</td>
-									<td style="text-align: center;width:50%"><b>Sales People</b></td>
-									<td style="text-align: center;width:30%"><b>Price Range</b></td>
+									<td style="text-align: center;width:45%"><b>Sales People</b></td>
+									<td style="text-align: center;width:45%"><b>Price Range</b></td>
 									<!-- <td style="text-align: center;width:20%"><b>Premium</b></td> -->
 								</tr>
 								<!--  -->
 								<tr style="width:20%;" ng-repeat="sale in salesPersonList">
 									<td style="text-align: center;"><input type="checkbox" name="permissions" ng-click="clickedUser(sale,sale.showDataValue)" ng-model="sale.showDataValue"></td>
 									<td ng-class="sale.showDataValue == true || showFlag == 0 ? '':'setOpacityClass'">{{sale.fullName}}</td>
-									<td style="text-align: right;" ng-class="sale.showDataValue == true || showFlag == 0 ? '':'setOpacityClass'"><span style="margin-right: 17px;" ng-show="sale.priceStart != null">From {{sale.priceStart}}, To {{sale.priceEnd}}</span> <button type="button" class="btn btn-primary" ng-show="sale.showDataValue == true" ng-click="openPopUpForPrice(sale)" style="margin-top:2%;margin-bottom: 2%;">Add</button></td>
+									<td style="text-align: right;" ng-class="sale.showDataValue == true || showFlag == 0 ? '':'setOpacityClass'"><span style="margin-right: 17px;" ng-show="sale.priceStart != null">From {{sale.priceStart}}  To {{sale.priceEnd}}</span> <button type="button" class="btn btn-primary" ng-show="sale.showDataValue == true" ng-click="openPopUpForPrice(sale)" style="margin-top:2%;margin-bottom: 2%;">Add</button></td>
 									<!-- <td style="text-align: center;"><input type="checkbox" name="vehicle" ng-model="sale.premiumFlag" ng-checked="sale.premiumFlag == 1" ng-click="permiumAss(sale);"><br></td> --> 
 								</tr>
 									  
@@ -135,7 +135,8 @@
 								</tr>
 									  
 							</table>
-							<div class="col-md-12"><label>These sales people don't have any manufactuers assigned to them: </label><label ng-repeat="name in salePersonNotass">&nbsp;&nbsp;{{name.firstName}} {{name.lastName}} ,</label></div>
+							
+							<div class="col-md-12"><label ng-if="salePersonNotass.length != 0">These sales people don't have any manufactuers assigned to them: </label><label ng-repeat="name in salePersonNotass">&nbsp;&nbsp;{{name.firstName}} {{name.lastName}} ,</label></div>
 							
 							<button class="btn btn-primary" ng-click="saveDetailsOfUser()" style="margin-left:16%;margin-top:4%;margin-bottom: 4%;">Save</button>
 						</div>
@@ -338,7 +339,7 @@ requests that don't match any of the entered price range criteria</strong></h4>
 	
 }
 .setOpacityClass{
-	opacity: 0.2;
+	opacity: 0.7;
 }
 table, th, td {
     border: 1px solid black;
