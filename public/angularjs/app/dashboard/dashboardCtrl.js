@@ -1698,38 +1698,38 @@ angular.module('newApp')
      	     			 		 		 $scope.gridOptions4.enableHorizontalScrollbar = 0;
      	     			 		 		 $scope.gridOptions4.enableVerticalScrollbar = 2;
      	     			 		 		 $scope.gridOptions4.columnDefs = [
-     	     			 		 		                                 { name: 'title', displayName: 'title', width:'14%',cellEditableCondition: false,
-     	     			 		 		                                	
+     	     			 		 		                                 { name: 'title', displayName: 'title',  width:'14%',cellEditableCondition: false,
+     	     			 		 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.title}}">{{row.entity.title}}</a> ',
      	     			 		 		                                 },
      	     			 		 		                                 { name: 'designer', displayName: 'designer', width:'10%',cellEditableCondition: false,
-     	     			 		 		                                	
+     	     			 		 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.designer}}">{{row.entity.designer}}</a> ',
      	     			 		 		                                 },
      	     			 		 /*		                                 { name: 'make', displayName: 'Make', width:'8%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },*/
      	     			 		 		                                 { name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
-     	     			 				                                	 
+     	     			 		 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.name}}">{{row.entity.name}}</a> ',
      	     			 		 		                                 },
      	     			 		 		                                 { name: 'phone', displayName: 'Phone', width:'7%',cellEditableCondition: false,
-     	     			 		 		                                	
+     	     			 		 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.phone}}">{{row.entity.phone}}</a> ',
      	     			 		 		                                 },
      	     			 		 		                                 { name: 'email', displayName: 'Email', width:'8%',cellEditableCondition: false,
-     	     			 		 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
+     	     			 		 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}" title="{{row.entity.email}}">{{row.entity.email}}</a> ',
      	     			 		 		                                	
      	     			 		 		                                 },
      	     			 		 		                                 
      	     			 		 		                                { name: 'salesRep', displayName: 'Sales Rep', width:'8%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      	     			 		    		                                 
-     	     			 				                                 
+     	     			 		 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.salesRep}}">{{row.entity.salesRep}}</a> ',
      	     			 				                                 },
      	     			 				                              { name: 'leadType', displayName: 'Lead', width:'9%', cellEditableCondition: false, 
-     	     			 				                                 
+     	     			 				                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.leadType}}">{{row.entity.leadType}}</a> ',
      	     			 				                                 },
      	     			 				                              { name: 'status', displayName: 'Reason', width:'6%', cellEditableCondition: false, 
-     	     			 		    		                                 
+     	     			 				                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.status}}">{{row.entity.status}}</a> ',  
      	     			 				                                 },
      	     			 				                              { name: 'statusDate', displayName: 'Date added', width:'6%', cellEditableCondition: false,
-     	     			 		    		                                 
+     	     			 				                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.statusDate}}">{{row.entity.statusDate}}</a> ',  
   	     			 				                                 },
      	     			 				                              
      	     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'24%',cellEditableCondition: false,
@@ -1751,57 +1751,64 @@ angular.module('newApp')
      	     			 	    	 		 
      	     			 	    	 		 $scope.gridOptions6.columnDefs = [
      	     			 	    	 		                                 { name: 'vin', displayName: 'Vin', width:'12%',cellEditableCondition: false,
-     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 	    	 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.vin}}">{{row.entity.vin}}</a> ',
+     	     			 	    	 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     			 	    	 		                                       if (row.entity.isRead === false) {
      	     			 	    	 		                                         return 'red';
      	     			 	    	 		                                       }
      	     			 	    	 		                                	} ,
      	     			 	    	 		                                 },
      	     			 	    	 		                                 { name: 'model', displayName: 'Model', width:'10%',cellEditableCondition: false,
-     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 	    	 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.model}}">{{row.entity.model}}</a> ',
+     	     			 	    	 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     			 	    	  		                                       if (row.entity.isRead === false) {
      	     			 	    	  		                                         return 'red';
      	     			 	    	  		                                     }
      	     			 	    	 		                                	} ,
      	     			 	    	 		                                 },
      	     			 	    	 		                                 { name: 'make', displayName: 'Make', width:'10%',cellEditableCondition: false,
-     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 	    	 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.make}}">{{row.entity.make}}</a> ',
+     	     			 	    	 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     			 	    	  		                                       if (row.entity.isRead === false) {
      	     			 	    	  		                                         return 'red';
      	     			 	    	  		                                     }
      	     			 	    	 		                                	} ,
      	     			 	    	 		                                 },
      	     			 	    	 		                                 { name: 'name', displayName: 'Name', width:'12%',cellEditableCondition: false,
-     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 	    	 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.name}}">{{row.entity.name}}</a> ',
+     	     			 	    	 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     			 	    	  		                                       if (row.entity.isRead === false) {
      	     			 	    	  		                                         return 'red';
      	     			 	    	  		                                     }
      	     			 	    	 		                                	} ,
      	     			 	    	 		                                 },
      	     			 	    	 		                                 { name: 'phone', displayName: 'Phone', width:'12%',cellEditableCondition: false,
-     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 	    	 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.phone}}">{{row.entity.phone}}</a> ',
+     	     			 	    	 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     			 	    	  		                                       if (row.entity.isRead === false) {
      	     			 	    	  		                                         return 'red';
      	     			 	    	  		                                     }
      	     			 	    	 		                                	} ,
      	     			 	    	 		                                 },
      	     			 	    	 		                                 { name: 'email', displayName: 'Email', width:'15%',cellEditableCondition: false,
-     	     			 	    	 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
-     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 	    	 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}" title="{{row.entity.email}}">{{row.entity.email}}</a> ',
+     	     			 	    	 		                                	/*cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     			 	    	  		                                       if (row.entity.isRead === false) {
      	     			 	    	  		                                         return 'red';
      	     			 	    	  		                                     }
-     	     			 	    	 		                                	} ,
+     	     			 	    	 		                                	} ,*/
      	     			 	    	 		                                 },
      	     			 	    	 		                             { name: 'status', displayName: 'Status', width:'10%',cellEditableCondition: false,
-      	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 	    	 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.status}}">{{row.entity.status}}</a> ',
+     	     			 	    	 		                                	 /*cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
       	     			 	    	  		                                       if (row.entity.isRead === false) {
       	     			 	    	  		                                         return 'red';
       	     			 	    	  		                                     }
-      	     			 	    	 		                                	} ,
+      	     			 	    	 		                                	} ,*/
       	     			 	    	 		                                 },
       	     			 	    	 		                            { name: 'statusDate', displayName: 'Date added', width:'10%',cellEditableCondition: false,
-       	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+      	     			 	    	 		                                cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.statusDate}}">{{row.entity.statusDate}}</a> ',
+      	     			 	    	 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
        	     			 	    	  		                                       if (row.entity.isRead === false) {
        	     			 	    	  		                                         return 'red';
        	     			 	    	  		                                     }
@@ -1810,7 +1817,7 @@ angular.module('newApp')
       	     			 	    	 		                            
      	     			 	    	 		                             
      	     			 	    	 		                                { name: 'btnSold', displayName: '',enableFiltering: false, width:'12%',cellEditableCondition: false,
-     	     			 				 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button><button ng-if="false" ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">ASSIGN</button>',
+     	     			 				 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">ASSIGN</button>',
      	     			 				 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     			 				   		                                       if (row.entity.isRead === false) {
      	     			 				   		                                         return 'red';
@@ -1831,16 +1838,16 @@ angular.module('newApp')
      	     		     			 		 		 $scope.gridOptions7.enableVerticalScrollbar = 2;
      	     		     			 		 		 
      	     		     			 		 		 $scope.gridOptions7.columnDefs = [
-																					/*{ name: 'name', displayName: 'Name', width:'8%',cellEditableCondition: false,
-																					     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
+																					{ name: 'name', displayName: 'Name', width:'8%',cellEditableCondition: false,
+																					     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.name}}" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
 																					    	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																					    		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 																					                   return 'red';
 																					               }
 																					         	} ,
-																					      },*/
+																					      },
 																					      { name: 'phone', displayName: 'Phone', width:'10%',cellEditableCondition: false,
-																						     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)">{{row.entity.phone}}</a> ',
+																						     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.phone}}">{{row.entity.phone}}</a> ',
 																						     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																						     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 																						                return 'red';
@@ -1848,7 +1855,7 @@ angular.module('newApp')
 																						      	} ,
 																						      },
 																						      { name: 'custZipCode', displayName: 'ZipCode', width:'10%',cellEditableCondition: false,
-																							     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)">{{row.entity.custZipCode}}</a> ',
+																							     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.custZipCode}}">{{row.entity.custZipCode}}</a> ',
 																							     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																							     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 																							                return 'red';
@@ -1857,7 +1864,7 @@ angular.module('newApp')
 																							      },   
 																					     	
 																					      { name: 'email', displayName: 'Email', width:'10%',cellEditableCondition: false,
-																					     	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
+																					     	cellTemplate:'<a  href="mailto:{{row.entity.email}}" title="{{row.entity.email}}">{{row.entity.email}}</a> ',
 																					     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																					     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 																					                return 'red';
@@ -1865,7 +1872,7 @@ angular.module('newApp')
 																					      	} ,
 																					      },
 																					   { name: 'requestDate', displayName: 'Date Added', width:'7%',cellEditableCondition: false,
-																					     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.requestDate}}</a> ',
+																					     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.requestDate}}" style="color: #5b5b5b;">{{row.entity.requestDate}}</a> ',
 																					     	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																					     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 																					                 return 'red';
@@ -1873,14 +1880,14 @@ angular.module('newApp')
 																					       	} ,
 																					       },
      	     		     			 		 		                                 
-     	     		     			 		 		                            { name: 'typeOfLead', displayName: 'type', width:'8%',cellEditableCondition: false,
+     	     		     			 		 		                            /*{ name: 'typeOfLead', displayName: 'type', width:'8%',cellEditableCondition: false,
       	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.typeOfLead}}</a> ',
       	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
       	     		     			 		 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
       	     		     			 		   		                                         return 'red';
       	     		     			 		   		                                     }
       	     		     			 		  		                                	} ,
-      	     		     			 		 		                                 },
+      	     		     			 		 		                                 },*/
      	     		     			 		 		                                 
      	     		     			 				                               
      	     		     			 		     		                                 ];      	     		     			 		 		 
@@ -5677,11 +5684,12 @@ angular.module('newApp')
 		    		    				        				
 		    		    				        				$scope.flag = 0;
 		    		    				        				angular.forEach($scope.gridMapObect,function(value,key){
-		    		    				        					var name = value.key;
+		    		    				        					$scope.name = value.key;
 		    		    				        					$scope.flag = 1;
-		    		    				        					name = name.replace(" ","");
-		    		    				        					$scope.gridOptions7.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
-		    		    				        		              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		    		    				        					$scope.name = $scope.name.replace(" ","");
+		    		    				        					$scope.gridOptions7.columnDefs.push({ name: $scope.name, displayName: value.label, width:'10%',cellEditableCondition: false,
+		    		    				        						/*cellTemplate:'<a title="name">"'+value.values+'"</a>',*/
+		    		    				        						cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		    		    				        		              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 		    		    				        		                        return 'red';
 		    		    				        		                    }
@@ -9058,7 +9066,7 @@ angular.module('newApp')
 						
 						
 						$scope.gridOptions13.columnDefs.push({ name: 'title', displayName: 'Section', width:'14%',cellEditableCondition: false,
-		                   	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.title}}</a> ',
+		                   	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.title}}" style="color: #5b5b5b;">{{row.entity.title}}</a> ',
 		                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                          if (row.entity.noteFlag != 1) {
 		                            return 'red';
@@ -9066,16 +9074,16 @@ angular.module('newApp')
 		                   	} ,
 		                    });
 		                   
-						/*$scope.gridOptions13.columnDefs.push({ name: 'name', displayName: 'Name', width:'10%',cellEditableCondition: false,
-		                    	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
+						$scope.gridOptions13.columnDefs.push({ name: 'name', displayName: 'Name', width:'10%',cellEditableCondition: false,
+		                    	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.name}}" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
 		                    	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                            if (row.entity.noteFlag != 1) {
 		                              return 'red';
 		                          }
 		                    	} ,
-		                     });*/
+		                     });
 						$scope.gridOptions13.columnDefs.push({ name: 'phone', displayName: 'Phone', width:'7%',cellEditableCondition: false,
-		                   	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.phone}}</a> ',
+		                   	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.phone}}" style="color: #5b5b5b;">{{row.entity.phone}}</a> ',
 		                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                           if (row.entity.noteFlag != 1) {
 		                             return 'red';
@@ -9083,7 +9091,7 @@ angular.module('newApp')
 		                   	} ,
 		                    });
 						$scope.gridOptions13.columnDefs.push({ name: 'email', displayName: 'Email', width:'9%',cellEditableCondition: false,
-		                   	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
+		                   	cellTemplate:'<a  href="mailto:{{row.entity.email}}" title="{{row.entity.email}}">{{row.entity.email}}</a> ',
 		                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                           if (row.entity.noteFlag != 1) {
 		                             return 'red';
@@ -9092,7 +9100,7 @@ angular.module('newApp')
 		                    });
 						
 						$scope.gridOptions13.columnDefs.push({ name: 'custZipCode', displayName: 'ZipCode', width:'10%',cellEditableCondition: false,
-						     	cellTemplate:'<a>{{row.entity.custZipCode}}</a> ',
+						     	cellTemplate:'<a title="{{row.entity.custZipCode}}">{{row.entity.custZipCode}}</a> ',
 						     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 						     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 						                return 'red';
@@ -9101,7 +9109,7 @@ angular.module('newApp')
 						      });   
 						
 						$scope.gridOptions13.columnDefs.push({ name: 'requestDate', displayName: 'Date Added', width:'5%',cellEditableCondition: false,
-		                   	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.requestDate}}</a> ',
+		                   	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.requestDate}}" style="color: #5b5b5b;">{{row.entity.requestDate}}</a> ',
 		                           	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                                    if (row.entity.noteFlag != 1) {
 		                                      return 'red';
@@ -9114,7 +9122,7 @@ angular.module('newApp')
 							var name = value.key;
 							name = name.replace(" ","");
 							$scope.gridOptions13.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
-				              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+								cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 				              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 				                        return 'red';
 				                    }

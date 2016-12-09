@@ -3,7 +3,7 @@ angular.module('newApp')
 	$scope.premium = {};
 	
 	$scope.realese = {};
-	$scope.realese.allSalesPeople = "Released to all of the sales people";
+	//$scope.realese.allSalesPeople = "Released to all of the sales people";
 	
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -1195,6 +1195,12 @@ angular.module('newApp')
 	
 	apiserviceConfigPage.getAllSalesPersons().then(function(data){
 		$scope.salesPersonName = data;
+			angular.forEach($scope.salesPersonName, function(obj, index){
+				if(obj.outLeftAll != null){
+					$scope.realese.allSalesPeople = obj.outLeftAll;
+					$scope.customerReq.firstName = obj.firstName;
+				}
+			});
 		if($scope.userRoleData.role == "Manager"){
 			$scope.salesPersonName.push($scope.userRoleData); 
 		}
@@ -1565,10 +1571,9 @@ angular.module('newApp')
 	}
 	
 	$scope.addPremiumPrice = function(price){
-		
-		
 		$scope.saleDeails.priceStart = price.priceStart;
 		$scope.saleDeails.priceEnd = price.priceEnd;
+		
 		angular.forEach($scope.salesPersonList, function(obj, index){
 			if(obj.showDataValue == true){
 				obj.priceStart = price.priceStart;
@@ -1581,20 +1586,30 @@ angular.module('newApp')
 				obj.priceEnd = price.priceEnd;
 			}*/
 		});
-		
-		$.pnotify({
-		    title: "Success",
-		    type:'success',
-		    text: "Update successfully",
-		});
 		console.log($scope.salesPersonList);
 		$('#addPremiumPrice').click();
 	}
 	
 		$scope.addPremiumPriceByList = function(obj){
-		apiserviceConfigPage.savePriceFromTo(obj).then(function(data){
-			console.log(data);
-		});
+			console.log(obj);
+			if(obj.priceStart < obj.priceEnd){
+				console.log("success");
+				apiserviceConfigPage.savePriceFromTo(obj).then(function(data){
+					$.pnotify({
+			    		title: "Success",
+			    		type:'success',
+			    		text: "Update successfully",
+					});
+				console.log(data);
+				});
+			}else{
+				console.log("Error");
+				$.pnotify({
+		    		title: "Error",
+		    		type:'success',
+		    		text: "Price Range From should be less then to To ",
+				});
+			}
 	} 
 	$scope.address = {};
 	$scope.addAdditionalFields = [];
