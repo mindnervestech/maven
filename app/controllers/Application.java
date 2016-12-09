@@ -18613,7 +18613,11 @@ if(vehicles.equals("All")){
 	    		uNotes.save();
     	    }
 	    
-    	    String outcomeIds = cForm.outcome;
+    	    String outcomeIds = null;
+    	    if(cForm != null){
+    	    	outcomeIds = cForm.outcome;
+    	    }
+    	    
     	    if(outcomeIds != null){
     	    	
     	    String[] out_id = outcomeIds.split(",");
@@ -18897,7 +18901,7 @@ if(vehicles.equals("All")){
     	    			//context.put("work_phone", "");
     	    			context.put("email", info.getEmail());
     	    			if(cPdf != null){
-    	    				context.put("pdffilePath", cPdf.pdf_path);
+    	    				context.put("pdffilePath", "/"+cPdf.pdf_path);
     	    			}
     	    			
     	    			//context.put("pdffilePath", findpath);

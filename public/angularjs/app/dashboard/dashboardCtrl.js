@@ -144,7 +144,7 @@ angular.module('newApp')
 				}
 			});
 	});
-	$scope.$on("selectLeadDashbord", function(event,data){
+	/*$scope.$on("selectLeadDashbord", function(event,data){
            
 		$scope.selectedLead = data;
 		$scope.userFields = angular.copy($scope.userFieldsCopy);
@@ -170,7 +170,37 @@ angular.module('newApp')
 		    //$("#createLeadPopup").modal();
 	    });
 		
-     });
+     });*/
+	
+	$scope.selectLeadDashbord = function(data){
+        console.log(data);
+		$scope.selectedLead = data;
+		$scope.userFields = angular.copy($scope.userFieldsCopy);
+		$scope.userFields1 = null;
+		$scope.newFlagData = false;
+		apiserviceDashborad.getCustomizationform($scope.selectedLead).then(function(response){
+			
+			 $scope.editInput = response;
+			 $scope.userFields1 = $scope.addFormField(angular.fromJson(response.jsonData));
+			
+			 angular.forEach($scope.userFields1, function(obj, index){
+				 $scope.userFields.push(obj);
+				});
+			 
+			 if(response.additionalData == true){
+				 $scope.newFlagData = true;
+				 $scope.userFields2 = $scope.addFormField(angular.fromJson(response.jsonDataAdd));
+			 }
+			
+			 $scope.user = {};
+		
+		   // $scope.getMakes();
+		    //$("#createLeadPopup").modal();
+	    });
+		
+	}
+	
+	
 	$scope.showAdditionField = function(additional){
 		
 		

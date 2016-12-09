@@ -2055,12 +2055,9 @@ angular.module('newApp').controller('customizationCtrl',
 			});
 	    	
 	    	
-	    	$scope.selectLead = function(data){
-	    		/*$http.get('/getAllProductWise/'+"publish"+'/'+date+'/'+data).success(function(data) {
-					
-				});*/
+	    	/*$scope.selectLead = function(data){
 	    		$scope.$emit("selectLeadDashbord", data);
-    		}
+    		}*/
 	    	
 	    	$scope.selecProductType = function(productType){
 	    		console.log(productType);
