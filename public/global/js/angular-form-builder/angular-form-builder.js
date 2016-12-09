@@ -1132,31 +1132,32 @@
         },
         controller: 'fbComponentController',
         link: function(scope, element) {
-        
+        var flag = 0;
         	
         	if(localStorage.getItem('popupType') == "Lead"){
-        		if(scope.component.name != "leadTypeSelector"){
-           		 scope.copyObjectToScope(scope.component);
+        		if(scope.component.name == "leadTypeSelector"){
+        			flag = 1;
            	    }
-        	}else{
-        		scope.copyObjectToScope(scope.component);
         	}
-         
-          $drag.draggable($(element), {
-            mode: 'mirror',
-            defer: false,
-            object: {
-              componentName: scope.component.name
-            }
-          });
-          return scope.$watch('component.template', function(template) {
-            var view;
-            if (!template) {
-              return;
-            }
-            view = $compile(template)(scope);
-            return $(element).html(view);
-          });
+        	if(flag == 0){
+        		 scope.copyObjectToScope(scope.component);
+                 
+                 $drag.draggable($(element), {
+                   mode: 'mirror',
+                   defer: false,
+                   object: {
+                     componentName: scope.component.name
+                   }
+                 });
+                 return scope.$watch('component.template', function(template) {
+                   var view;
+                   if (!template) {
+                     return;
+                   }
+                   view = $compile(template)(scope);
+                   return $(element).html(view);
+                 });
+        	}
         }
       };
     }

@@ -320,7 +320,8 @@
 								                </div>
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
-								                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed" ng-if="actions.length > 0">Save</button>
+								                    <button type="button" class="btn btn-primary btn-embossed" data-toggle="modal" data-target="#SaveConfirmPopup" ng-if="actions.length <= 0">Save</button>
 								                </div>
 								                </form>
 								            </div>
@@ -375,6 +376,23 @@
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal" ng-click="uncheckDate()">No</button>
 								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="closrPopUp()">Yes</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								    
+								    <div class="modal fade" id="SaveConfirmPopup" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Message</h4>
+								                </div>
+								                <div class="modal-body">
+								                At least one of the outcomes should be selected
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal">OK</button>
 								                </div>
 								            </div>
 								        </div>

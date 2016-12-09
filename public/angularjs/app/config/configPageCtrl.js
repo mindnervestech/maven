@@ -260,6 +260,7 @@ angular.module('newApp')
 		localStorage.setItem('popupType','Form');
 		console.log(row);
 		if(row.entity.name == "Create Lead"){
+			
 			$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create Lead');
 		}else
 		if(row.entity.name == "Add Product"){
@@ -268,7 +269,7 @@ angular.module('newApp')
 			
 		}
 		else if(row.entity.name == "Create New Lead"){
-
+			localStorage.setItem('popupType','Lead');
 			$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create New Lead');
 			
 		}
@@ -304,7 +305,7 @@ angular.module('newApp')
 			
 		}
 			else if(row.entity.name == "Create New Lead"){
-				
+				localStorage.setItem('popupType','Lead');
 				$location.path('/'+'CreateLeadForm/'+"Preview"+"/"+'Create New Lead');
 				
 			}
@@ -382,7 +383,7 @@ angular.module('newApp')
 				
 			}
 			else if(row.leadName == "Create New Lead"){
-
+				localStorage.setItem('popupType','Lead');
 				$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create New Lead');
 				
 			}
@@ -773,7 +774,7 @@ angular.module('newApp')
 					
 				}
 				else if(row == "Create New Lead"){
-
+					localStorage.setItem('popupType','Lead');
 					$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create New Lead');
 					
 				}
