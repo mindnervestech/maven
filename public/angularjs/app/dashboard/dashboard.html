@@ -5705,7 +5705,7 @@ float: right !important;
 								                    				<label>Insterested In</label>
 								                    			</div>
 								                    			<div class="col-md-4" style="padding-left: 0px;">
-								                    				<select class="form-control" ng-model="editLeads.leadType"><option ng-repeat="lType in leadList" value="lType.leadName">{{lType.leadName}}</option></select>
+								                    				<select class="form-control" ng-model="editLeads.leadType" ng-change="selectLead(editLeads.leadType)"><option ng-repeat="lType in leadList" value="{{lType.id}}">{{lType.leadName}}</option></select>
 								                    			</div>
 								                    			 <span class="col-md-1" style="color: red;padding-left:0px;">*</span>
 								                    				  
@@ -9553,7 +9553,7 @@ float: right !important;
 								                    				<label>Insterested In</label>
 								                    			</div>
 								                    			<div class="col-md-4" style="padding-left: 0px;">
-								                    				<select class="form-control" ng-model="lead.leadType"><option ng-repeat="lType in leadList" value="lType.leadName">{{lType.leadName}}</option></select>
+								                    				<select class="form-control" ng-model="lead.leadType"><option ng-repeat="lType in leadList" value="{{lType.id}}">{{lType.leadName}}</option></select>
 								                    			</div>
 								                    			 <span class="col-md-1" style="color: red;padding-left:0px;">*</span>
 								                    				  

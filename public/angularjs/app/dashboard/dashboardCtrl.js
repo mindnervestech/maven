@@ -4524,7 +4524,7 @@ angular.module('newApp')
 	    			apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
 	    				
 	    			
-	    				$scope.lead.leadType = "";
+	    				//$scope.lead.leadType = "";
 	    				$scope.lead.manufacturers = "";
 	    				$scope.josnData = angular.fromJson(response.jsonData);
 	    				angular.forEach($scope.josnData, function(obj, index){
@@ -4532,7 +4532,7 @@ angular.module('newApp')
 	    				});
 	    				
 	    				$scope.josnData1 = null;
-	    				apiserviceDashborad.getCustomizationform($scope.selectedLead).then(function(response1){
+	    				apiserviceDashborad.getCustomizationform($scope.lead.leadType).then(function(response1){
 	    					$scope.josnData1 = angular.fromJson(response1.jsonData);
 	    					angular.forEach($scope.josnData1, function(obj, index){
 	    						obj.formName = $scope.selectedLead;
@@ -4547,6 +4547,7 @@ angular.module('newApp')
 		   	    				});
 	    					}
 	    					console.log("()()()(0");
+	    					console.log($scope.lead.leadType);
 	    					console.log($scope.josnData);
 	    					console.log($scope.customData);
 	    					var oneProduct = 0;
@@ -5684,12 +5685,11 @@ angular.module('newApp')
 		    		    				        				
 		    		    				        				$scope.flag = 0;
 		    		    				        				angular.forEach($scope.gridMapObect,function(value,key){
-		    		    				        					$scope.name = value.key;
+		    		    				        					var name = value.key;
 		    		    				        					$scope.flag = 1;
-		    		    				        					$scope.name = $scope.name.replace(" ","");
-		    		    				        					$scope.gridOptions7.columnDefs.push({ name: $scope.name, displayName: value.label, width:'10%',cellEditableCondition: false,
-		    		    				        						/*cellTemplate:'<a title="name">"'+value.values+'"</a>',*/
-		    		    				        						cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		    		    				        					name = name.replace(" ","");
+		    		    				        					$scope.gridOptions7.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
+		    		    				        		              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		    		    				        		              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 		    		    				        		                        return 'red';
 		    		    				        		                    }
