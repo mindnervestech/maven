@@ -10,7 +10,7 @@ angular.module('newApp')
 	
 		console.log(response);
 		angular.forEach(response, function(value, key) {
-			if(value.id > 3){
+			if(value.callToAction){
 				$scope.leadList.push(value); 
 			}
 			if(value.id == $scope.leadId){

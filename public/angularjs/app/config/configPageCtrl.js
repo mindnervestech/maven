@@ -178,7 +178,7 @@ angular.module('newApp')
 		$scope.gridOptions.columnDefs = [
 		                                 { name: 'id', displayName: 'Id', width:'15%',cellEditableCondition: false
 		                                 },
-		                                 { name: 'leadName', displayName: 'Lead Type', width:'50%',cellEditableCondition: false
+		                                 { name: 'leadName', displayName: 'Leads Types', width:'50%',cellEditableCondition: false
 		                                 },
 		                                 {name:'org', displayName:'Show on Website', width:'15%',
 		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Trade-In Appraisal\' || row.entity.leadName == \'Request More Info\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row)">  </div>',
