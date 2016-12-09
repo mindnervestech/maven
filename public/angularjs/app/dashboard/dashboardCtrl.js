@@ -9208,7 +9208,6 @@ angular.module('newApp')
 	   			});
 	   			}
 	   			else{
-	   				console.log($scope.nameOfLead);
 	   				apiserviceDashborad.exportLeadsData().then(function(data){
 		   				$.fileDownload('/downloadRequestMoreFile',
 								{	   	

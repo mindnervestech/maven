@@ -18662,6 +18662,16 @@ if(vehicles.equals("All")){
     	    	}
     	    	if(sid.equals("2")){
     	    		
+    	    		LeadType leadType = LeadType.findById(Long.parseLong(leadVM.leadType));
+    	    		CustomizationForm cForm2 = null;
+    	    		CustomerPdf cPdf = null;
+    	    		if(leadType != null){
+    	    			cForm2 = CustomizationForm.findByLeadType(leadType.leadName);
+    	    			if(cForm2 != null){
+    	    				cPdf = CustomerPdf.findPdfById(cForm2.sendPdf.id);
+    	    			}
+    	    		}
+    	    		
     	    		
     	    		
     	    		   /*------------------------------------------*/
@@ -18851,7 +18861,7 @@ if(vehicles.equals("All")){
     	    			
     	    			InternetAddress[] usersArray = new InternetAddress[1];
     	    			int index = 0;
-    	    			usersArray[index] = new InternetAddress(info.email);
+    	    			usersArray[index] = new InternetAddress("yogeshpatil424@gmail.com");//info.email);
     	    			//usersArray[index] = new InternetAddress(usersArray);
     	    			
     	    			Message message = new MimeMessage(session);
@@ -18889,8 +18899,11 @@ if(vehicles.equals("All")){
     	    			context.put("first_name", info.getName());
     	    			//context.put("work_phone", "");
     	    			context.put("email", info.getEmail());
-
-    	    			context.put("pdffilePath", findpath);
+    	    			if(cPdf != null){
+    	    				context.put("pdffilePath", cPdf.pdf_path);
+    	    			}
+    	    			
+    	    			//context.put("pdffilePath", findpath);
 
 
     	    			// vehicale info

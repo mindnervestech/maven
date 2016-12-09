@@ -25,6 +25,9 @@ public class CustomizationForm extends Model {
 	public String leadTypeTitle;
 	public String outcome;
 	
+	@ManyToOne
+	public CustomerPdf sendPdf;
+	
 		
 	@ManyToOne
 	public Location locations;
@@ -64,6 +67,14 @@ public class CustomizationForm extends Model {
 		this.jsonData = jsonData;
 	}
 	
+
+	public CustomerPdf getSendPdf() {
+		return sendPdf;
+	}
+
+	public void setSendPdf(CustomerPdf sendPdf) {
+		this.sendPdf = sendPdf;
+	}
 
 	public Boolean getAdditionalData() {
 		return additionalData;

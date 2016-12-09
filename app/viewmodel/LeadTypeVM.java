@@ -16,6 +16,7 @@ public class LeadTypeVM {
 	public String maunfacturersIds;
 	public String confirmationMsg;
 	public String systemOutcome;
+	public Long sendpdfIds;  
 
 	
 }

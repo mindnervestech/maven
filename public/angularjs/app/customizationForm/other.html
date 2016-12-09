@@ -230,10 +230,12 @@
         											<div class="col-sm-8"  style="margin-top: 20px;margin-left: 25px;" ng-repeat="find in actions" ng-if="find == 2">
 												<table  style="border: 1px solid; width:80%" ng-if="customerPdfList.length > 0">
 									    		<tr style="border: 1px solid;">
+									    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Select</td>
 									    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">PDF Name</td>
 									    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
 									    		  </tr>
 									    			<tr ng-repeat="item in customerPdfList" style="border: 1px solid;">
+									    				<td style="text-align: center;"> <input type="radio" name="sendPdf" ng-Checked="item.customerPdfId == sendpdfIds" ng-click="sendpdfId(item)"></td>
 									    				<td style="padding: 5px;border: 1px solid;" >{{item.customerPdfName}}</td>
 									    				<td style="border: 1px solid;text-align: center;" ng-click="deletePdf(item.customerPdfId)"><a class="glyphicon glyphicon-trash"></a></td>
 									    			</tr>

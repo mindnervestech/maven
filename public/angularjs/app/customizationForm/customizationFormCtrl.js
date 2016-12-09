@@ -244,12 +244,15 @@ angular.module('newApp')
 			 }
 			 $scope.editform.additionalData = $scope.additionalData;
 			 apiserviceCustomizationForm.getLeadCrateForm($scope.editform).then(function(data){
-				  
-				 apiserviceCustomizationForm.getCustomizationform($routeParams.formType).then(function(response){
+				  console.log($scope.formType);
+				 apiserviceCustomizationForm.getCustomizationform($scope.formType).then(function(response){
 					 $scope.josnData1 = angular.fromJson(response.jsonData);
-					 angular.forEach(angular.fromJson(response.jsonDataAdd), function(value2, key2) {
-						 $scope.josnData1.push(value2);
-					 });
+					 if(response.jsonDataAdd != null){
+						 angular.forEach(angular.fromJson(response.jsonDataAdd), function(value2, key2) {
+							 $scope.josnData1.push(value2);
+						 });
+					 }
+					 
 					 console.log($scope.josnData1);
 					 $scope.formListData=[];
 					 		angular.forEach($scope.josnData1, function(value1, key) {
@@ -288,6 +291,7 @@ angular.module('newApp')
 			  console.log(leadId);
 			  apiserviceCustomizationForm.getLeadTypeDataById(leadId).then(function(data){
 				  console.log(data);
+				  $scope.sendpdfIds = data.sendpdfIds;
 				  if(data.confirmationMsg == null){
 					  data.confirmationMsg = "Thank you for your interest!";
 				  }
@@ -307,6 +311,7 @@ angular.module('newApp')
 				  console.log($scope.outcomemenu);
 				  
 				  if(data.systemOutcome != null){
+					  $scope.actions = [];
 					  arr1 = data.systemOutcome.split(',');
 					  for(var i=0;i<arr1.length;i++){
 						  angular.forEach($scope.outcomemenu, function(obj, index){
@@ -431,13 +436,19 @@ angular.module('newApp')
 			$scope.checkSaveDocCallTo = function(savedoc){
 				
 			}
-		  
+			$scope.sendpdfIds = 0;
+		  $scope.sendpdfId = function(item){
+			  console.log(item);
+			  $scope.sendpdfIds = item.customerPdfId;
+		  }
 		  $scope.callActionId ={};
 		 $scope.callToAction = function(){
 			 
 			 console.log($scope.leadId);
 			 $scope.callAction.id = $scope.leadId;
 			 console.log($scope.callAction);
+			 $scope.callAction.sendpdfIds = $scope.sendpdfIds;
+			 
 			 $scope.callAction.actionOutcomes = $scope.callactions.toString(); 
 			 $scope.callAction.outcome = $scope.actions.toString(); 
 			 if(logofile == undefined){

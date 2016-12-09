@@ -1059,6 +1059,10 @@ public class ConfigPagesController extends Controller{
 					CustomizationForm cForm = CustomizationForm.findByLeadType(leadData.leadName);
 					if(cForm != null){
 						vm.systemOutcome = cForm.outcome;
+						if(cForm.sendPdf != null){
+							vm.sendpdfIds = cForm.sendPdf.id;
+						}
+						
 					}
 				}
 				
@@ -1104,6 +1108,7 @@ public class ConfigPagesController extends Controller{
 				   CustomizationForm cForm = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")), vm.leadName);
 				   if(cForm != null){
 					   cForm.setOutcome(vm.outcome);
+					   cForm.setSendPdf(CustomerPdf.findPdfById(vm.sendpdfIds));
 					   cForm.update();
 				   }
 				   lead.update();
