@@ -18692,7 +18692,7 @@ if(vehicles.equals("All")){
     	    		}
     	    		String filepath = null,findpath = null;
 
-    	    		try {
+/*    	    		try {
     	    			Document document = new Document();
     	    			createDir(pdfRootDir, Long.parseLong(session("USER_LOCATION")), info.getId());
     	    			filepath = pdfRootDir + File.separator + Long.parseLong(session("USER_LOCATION"))
@@ -18760,7 +18760,6 @@ if(vehicles.equals("All")){
     	    			PdfPCell lastnameValue = new PdfPCell(new Paragraph(info.email, font2));
     	    			lastnameValue.setBorderColor(BaseColor.WHITE);
     	    			lastnameValue.setBorderWidth(1f);
-    	    			// lastnameValue.setHorizontalAlignment(Element.ALIGN_LEFT);
     	    			contactInfo.addCell(lastnameValue);
     	    			
     	    			PdfPCell phone = new PdfPCell(new Phrase("Phone:", font1));
@@ -18778,8 +18777,6 @@ if(vehicles.equals("All")){
     		        		
     		        		CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId(custom.key,info.id);
     		        		if(cDataValue != null){
-    		        			//String abd = "sd";
-    		        			//PdfPCell[] call = new PdfPCell[];
     	    	    			PdfPCell workPhone = new PdfPCell(new Phrase(custom.key,font1));
     	    	    			workPhone.setBorderColor(BaseColor.WHITE);
     	    	    			contactInfo.addCell(workPhone);
@@ -18833,7 +18830,7 @@ if(vehicles.equals("All")){
     	    		} catch (Exception e) {
     	    			e.printStackTrace();
     	    		}
-
+*/
     	    		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
     	    		String emailName=details.name;
     	    		String port=details.port;
@@ -18861,7 +18858,7 @@ if(vehicles.equals("All")){
     	    			
     	    			InternetAddress[] usersArray = new InternetAddress[1];
     	    			int index = 0;
-    	    			usersArray[index] = new InternetAddress("yogeshpatil424@gmail.com");//info.email);
+    	    			usersArray[index] = new InternetAddress(info.email);
     	    			//usersArray[index] = new InternetAddress(usersArray);
     	    			
     	    			Message message = new MimeMessage(session);
