@@ -312,6 +312,7 @@ angular.module('newApp')
 						  angular.forEach($scope.outcomemenu, function(obj, index){
 							  if(obj.id == arr1[i]){
 								  obj.isSelected = true;
+								  $scope.actions.push(obj.id);
 							  }
 						  });
 					  }
