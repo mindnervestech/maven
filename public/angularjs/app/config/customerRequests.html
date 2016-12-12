@@ -270,7 +270,7 @@ requests that don't match any of the entered price range criteria</strong></h4>
 							</tr>
 							<tr style="width:20%;height:35px;" ng-repeat="sale in allFronAndSalesList">
 								<td>{{sale.firstName}} {{sale.lastName}}</td>
-								<td style="text-align: center;"><span ng-repeat="value in sale.cityList" ng-model="value.city"><a ng-click="clickOneCity(value,sale)">{{value}}</a> ,</span></td>
+								<td style="text-align: center;"><span ng-repeat="value in sale.cityList" ng-model="value.city"><a ng-click="clickOneCity(value,sale)">{{value}}</a>&nbsp&nbsp&nbsp&nbsp</span></td>
 								<!-- <td style="text-align: center;"><span ng-repeat="value in sale.zipCode" ng-show="value.zipcode != null" ng-model="value.city">{{value.city}} ,</span></td> -->
 								<td style="text-align: center;"><i class="glyphicon glyphicon-plus" ng-click="showCityAddPop(sale)" title="Edit"></i></td> 
 							</tr>
