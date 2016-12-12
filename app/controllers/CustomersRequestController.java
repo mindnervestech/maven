@@ -59,9 +59,11 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import viewmodel.CreateFormVM;
+import viewmodel.CreateNewFormVM;
 import viewmodel.KeyValueDataVM;
 import viewmodel.NoteVM;
 import viewmodel.RequestInfoVM;
+import viewmodel.SpecificationVM;
 import views.html.home;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -1991,10 +1993,34 @@ public class CustomersRequestController extends Controller {
 	    			} catch (Exception e) {
 	    				e.printStackTrace();
 	    			}
+	    		Map<String, String> mapOffline = new HashMap<String, String>();
+	    		String uniquetitle = null;
+	    		ArrayList<CreateNewFormVM> create = new ArrayList<>(); 
 	    		
-	    		String FILE_HEADER = "Id,Name,PreferredContact,Email,Phone,RequestDate,RequestTime,Vin,IsRead,RichNotification,Status,Reason,BestDay,BestTime,ScheduleDate,IsScheduled,ConfirmDate,ConfirmTime,LeadStatus,IsReassigned,ContactedFrom,HearedFrom,CustZipCode,ScheduleEmail,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,StatusDate,StatusTime,PremiumFlag,ParentId,OnlineOrOfflineLeads,TestDriveStatus,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag";
+	    		if(!leadId.equals("0")){
+	    			List<CustomizationDataValue> custdata = CustomizationDataValue.findByRequestId(Long.parseLong(leadId));
+		    		for(CustomizationDataValue cust : custdata){
+		    			CreateNewFormVM vm = new CreateNewFormVM();
+		    			
+		    			String langValue = mapOffline.get(cust.keyValue); 
+		            	if (langValue == null) {
+		            		uniquetitle = cust.keyValue;
+		            		mapOffline.put(cust.keyValue, cust.keyValue);
+		            		vm.name = cust.keyValue;
+		            	}
+	 					create.add(vm);
+		    		}
+	    		}
+	    		String leadName = " ";
+	    		for(CreateNewFormVM formvm : create){
+	    			if(formvm.name != null){
+	    				leadName = leadName + ",";
+	    				leadName = leadName + formvm.name;
+	    			}
+	    		}
+	    		
+	    		String FILE_HEADER = "Id,Name,PreferredContact,Email,Phone,RequestDate,RequestTime,Vin,IsRead,RichNotification,Status,Reason,BestDay,BestTime,ScheduleDate,IsScheduled,ConfirmDate,ConfirmTime,LeadStatus,IsReassigned,ContactedFrom,HearedFrom,CustZipCode,ScheduleEmail,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,StatusDate,StatusTime,PremiumFlag,ParentId,OnlineOrOfflineLeads,TestDriveStatus,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag,AssignedTo,User,Locations"+leadName;
 	    		try {
-	//"Id,Name,PreferredContact,Email,Phone,RequestDate,RequestTime,Vin,IsRead,RichNotification,Status,Reason,BestDay,BestTime,ScheduleDate,IsScheduled,ConfirmDate,ConfirmTime,LeadStatus,IsReassigned,ContactedFrom,HearedFrom,CustZipCode,ScheduleEmail,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,StatusDate,StatusTime,PremiumFlag,ParentId,OnlineOrOfflineLeads,TestDriveStatus,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag";
 
 	    			fileWriter = new FileWriter(filePath);
 	        		fileWriter.append(FILE_HEADER.toString());
@@ -2005,8 +2031,31 @@ public class CustomersRequestController extends Controller {
 	        		}else{
 	        			 list = RequestMoreInfo.findByContactUsType(Long.valueOf(session("USER_LOCATION")),leadId);
 	        		}
+	        		AddProduct pro = null;
+	        		LeadType lead = null;
+	        		AuthUser auth = null;
+	        		AuthUser user = null;
+	        		Location location = null;
+	        		List<CustomizationDataValue> custdata1 = null;
 	        		for (RequestMoreInfo request : list) {
-	        			
+	        			if(request.productId != null){
+	        				 pro = AddProduct.findById(Long.parseLong(request.productId));
+	        			}
+	        			if(request.isContactusType != null){
+	        				lead = LeadType.findById(Long.parseLong(request.isContactusType));
+	        			}
+	        			if(request.assignedTo != null){
+	        				auth = AuthUser.findById(request.assignedTo.id);
+	        			}
+	        			if(request.user != null){
+	        				user = AuthUser.findById(request.user.id);
+	        			}
+	        			if(request.locations != null){
+	        				location = Location.findById(request.locations.id);
+	        			}
+	        			if(request.id != null){
+	        				custdata1 = CustomizationDataValue.findByRequestLeadId(request.id);
+	        			}
 	        			fileWriter.append(String.valueOf(request.id));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.name));
@@ -2073,19 +2122,36 @@ public class CustomersRequestController extends Controller {
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.testDriveStatus));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.isContactusType));
+	        			fileWriter.append(String.valueOf(lead.leadName));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.message));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.productId));
+	        			fileWriter.append(String.valueOf(pro.title));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.section));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.pdfPath));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.notifFlag));
+	        			fileWriter.append(COMMA_DELIMITER);
+	        			fileWriter.append(String.valueOf(auth.firstName));
+	            		fileWriter.append(COMMA_DELIMITER);
+	            		if(request.user != null){
+	            			fileWriter.append(String.valueOf(user.firstName));
+	            			fileWriter.append(COMMA_DELIMITER);
+	            		}else{
+	            			fileWriter.append(String.valueOf("null"));
+	            			fileWriter.append(COMMA_DELIMITER);
+	            		}
+	        			fileWriter.append(String.valueOf(location.name));
+	        			fileWriter.append(COMMA_DELIMITER);
+		        		for(CustomizationDataValue cust1 : custdata1){
+		        			if(cust1.value != null){
+		        				fileWriter.append(String.valueOf(cust1.value));
+			            		fileWriter.append(COMMA_DELIMITER);
+		        			}
+	        			}
 	        			fileWriter.append(NEW_LINE_SEPARATOR);
-	        			
 					}
 	        		System.out.println("CSV file was created successfully !!!");
 	        		

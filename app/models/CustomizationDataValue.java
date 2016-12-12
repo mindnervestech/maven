@@ -176,6 +176,10 @@ public class CustomizationDataValue extends Model {
 			return find.where().eq("formName", formName).findList();
 		}
 		
-		
-	
+		public static List<CustomizationDataValue> findByRequestId(Long id) {
+			return find.where().eq("leadType", id).findList();
+		}
+		public static List<CustomizationDataValue> findByRequestLeadId(Long id) {
+			return find.where().eq("leadId", id).findList();
+		}
 }

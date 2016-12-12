@@ -1353,24 +1353,29 @@ angular.module('newApp')
 			});
 			console.log(")))))))))))))000000000000000");
 			console.log($scope.allFronAndSalesList);
-			$scope.list = []
+			$scope.list = [];
+			var flag = 0;
 			angular.forEach($scope.allFronAndSalesList, function(obj, index){
 				angular.forEach($scope.editSalesZipData, function(obj1, index1){
-					
 					if(obj.id == obj1.user.id){
+						
 						obj.zipCode.push({zipcode:obj1.zipCode,
 							isSelected:true,
 							city:obj1.city,
 							state:obj1.state});
-						
+						flag = 0;
 						if(obj.cityList.length <= 0){
 							obj.cityList.push(obj1.city+"-"+obj1.state);
 						}else{
 							angular.forEach(obj.cityList, function(obj2, index2){
-								 if(obj1.city+"-"+obj1.state != obj2){
-									 obj.cityList.push(obj1.city+"-"+obj1.state);
+								if(obj1.city+"-"+obj1.state == obj2){
+									flag = 1;
 								 }
 							});
+							if(flag == 0){
+								obj.cityList.push(obj1.city+"-"+obj1.state);
+							}
+							
 						}
 					}
 				});
@@ -1394,7 +1399,7 @@ angular.module('newApp')
 		
 	
 	});
-	
+	$scope.addFlag = 0;
 	$scope.clickOneCity = function(values, sale){
 		var arr = [];
 		var arr = values.split('-');
@@ -1422,7 +1427,7 @@ angular.module('newApp')
 			if($scope.address != null){
 				$scope.getZipCode($scope.address);
 			}
-		
+			$scope.addFlag = 1;
 		$('#editAddressPop').click();
 		
 		
@@ -1647,6 +1652,7 @@ angular.module('newApp')
 		if($scope.address != null){
 			$scope.getZipCode($scope.address);
 		}*/
+		$scope.addFlag = 0;
 		$('#editAddressPop').click();
 	}
 	
@@ -1657,24 +1663,28 @@ angular.module('newApp')
 		console.log($scope.allFronAndSalesList);
 		if(value.length > 1){
 				$scope.zopCodeData.push(value);
-				$scope.salesDetail.zipcode = value;
+				$scope.rowData.zipcode = value;
 				console.log($scope.allFronAndSalesList[0].zipCode);
 				angular.forEach($scope.allFronAndSalesList, function(obj, index){
-					if(obj.id == $scope.salesDetail.id){
+					if(obj.id == $scope.rowData.id){
 						angular.forEach(value, function(obj1, index1){
-							console.log(obj.id);
+							console.log(obj1);
+							obj.cityList.push(obj1.city+"-"+obj1.state);
 							obj.zipCode.push(obj1);
 						});
 					}
 				});
 		}
 		else{
+			
 			$scope.zopCodeData.push(value);
-			$scope.salesDetail.zipcode = value;
+			$scope.rowData.zipcode = value;
+			console.log($scope.allFronAndSalesList);
 			if(value.isSelected == false){
 				angular.forEach($scope.allFronAndSalesList, function(obj, index){
-					if(obj.id == $scope.salesDetail.id){
-						console.log(obj.id);
+					if(obj.id == $scope.rowData.id){
+						console.log(obj);
+						obj.cityList.push(value.city+"-"+value.state);
 						obj.zipCode.push(value);
 					}
 				});

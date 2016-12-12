@@ -51,6 +51,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
+import javax.persistence.ManyToOne;
 
 import models.ActionAdd;
 import models.AddCollection;
@@ -7209,17 +7210,40 @@ public class Application extends Controller {
     				e.printStackTrace();
     			}
     		
-    		String FILE_HEADER = "Id,Name,PreferredContact,Email,Phone,RequestDate,RequestTime,Vin,IsRead,RichNotification,Status,Reason,BestDay,BestTime,ScheduleDate,IsScheduled,ConfirmDate,ConfirmTime,LeadStatus,IsReassigned,ContactedFrom,HearedFrom,CustZipCode,ScheduleEmail,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,StatusDate,StatusTime,PremiumFlag,ParentId,OnlineOrOfflineLeads,TestDriveStatus,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag";
+    		
+    		String FILE_HEADER = "Id,Name,PreferredContact,Email,Phone,RequestDate,RequestTime,Vin,IsRead,RichNotification,Status,Reason,BestDay,BestTime,ScheduleDate,IsScheduled,ConfirmDate,ConfirmTime,LeadStatus,IsReassigned,ContactedFrom,HearedFrom,CustZipCode,ScheduleEmail,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,StatusDate,StatusTime,PremiumFlag,ParentId,OnlineOrOfflineLeads,TestDriveStatus,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag,AssignedTo,User,Locations";
     		try {
 //"Id,Name,PreferredContact,Email,Phone,RequestDate,RequestTime,Vin,IsRead,RichNotification,Status,Reason,BestDay,BestTime,ScheduleDate,IsScheduled,ConfirmDate,ConfirmTime,LeadStatus,IsReassigned,ContactedFrom,HearedFrom,CustZipCode,ScheduleEmail,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,StatusDate,StatusTime,PremiumFlag,ParentId,OnlineOrOfflineLeads,TestDriveStatus,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag";
-
+    			 
     			fileWriter = new FileWriter(filePath);
         		fileWriter.append(FILE_HEADER.toString());
         		fileWriter.append(NEW_LINE_SEPARATOR);
         		
         		List<RequestMoreInfo> list = RequestMoreInfo.getAllRequest();
+        		AddProduct pro = null;
+        		LeadType lead = null;
+        		AuthUser auth = null;
+        		AuthUser user = null;
+        		Location location = null;
         		
         		for (RequestMoreInfo request : list) {
+        			//List<CustomizationDataValue> cust = CustomizationDataValue.findByRequestId(request.id);
+        			
+        			if(request.productId != null){
+        				 pro = AddProduct.findById(Long.parseLong(request.productId));
+        			}
+        			if(request.isContactusType != null){
+        				lead = LeadType.findById(Long.parseLong(request.isContactusType));
+        			}
+        			if(request.assignedTo != null){
+        				auth = AuthUser.findById(request.assignedTo.id);
+        			}
+        			if(request.user != null){
+        				user = AuthUser.findById(request.user.id);
+        			}
+        			if(request.locations != null){
+        				location = Location.findById(request.locations.id);
+        			}
         			
         			fileWriter.append(String.valueOf(request.id));
             		fileWriter.append(COMMA_DELIMITER);
@@ -7287,18 +7311,28 @@ public class Application extends Controller {
             		fileWriter.append(COMMA_DELIMITER);
         			fileWriter.append(String.valueOf(request.testDriveStatus));
             		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.isContactusType));
+        			fileWriter.append(String.valueOf(lead.leadName));
             		fileWriter.append(COMMA_DELIMITER);
         			fileWriter.append(String.valueOf(request.message));
             		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.productId));
+        			fileWriter.append(String.valueOf(pro.title));
             		fileWriter.append(COMMA_DELIMITER);
         			fileWriter.append(String.valueOf(request.section));
             		fileWriter.append(COMMA_DELIMITER);
         			fileWriter.append(String.valueOf(request.pdfPath));
             		fileWriter.append(COMMA_DELIMITER);
         			fileWriter.append(String.valueOf(request.notifFlag));
+        			fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(auth.firstName));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(user.firstName));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(location.name));
         			fileWriter.append(NEW_LINE_SEPARATOR);
+        			/*for(CustomizationDataValue custvalue : cust){
+        				fileWriter.append(String.valueOf(custvalue.value));
+        				fileWriter.append(COMMA_DELIMITER);
+        			}*/
         			
 				}
         		System.out.println("CSV file was created successfully !!!");
@@ -7341,7 +7375,7 @@ public class Application extends Controller {
 	    				e.printStackTrace();
 	    			}
 	    		
-	    		String FILE_HEADER = "Id,Name,PreferredContact,Email,Phone,RequestDate,RequestTime,Vin,IsRead,RichNotification,Status,Reason,BestDay,BestTime,ScheduleDate,IsScheduled,ConfirmDate,ConfirmTime,LeadStatus,IsReassigned,ContactedFrom,HearedFrom,CustZipCode,ScheduleEmail,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,StatusDate,StatusTime,PremiumFlag,ParentId,OnlineOrOfflineLeads,TestDriveStatus,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag";
+	    		String FILE_HEADER = "Id,Name,PreferredContact,Email,Phone,RequestDate,RequestTime,Vin,IsRead,RichNotification,Status,Reason,BestDay,BestTime,ScheduleDate,IsScheduled,ConfirmDate,ConfirmTime,LeadStatus,IsReassigned,ContactedFrom,HearedFrom,CustZipCode,ScheduleEmail,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,StatusDate,StatusTime,PremiumFlag,ParentId,OnlineOrOfflineLeads,TestDriveStatus,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag,AssignedTo,User,Locations";
 	    		try {
 	//"Id,Name,PreferredContact,Email,Phone,RequestDate,RequestTime,Vin,IsRead,RichNotification,Status,Reason,BestDay,BestTime,ScheduleDate,IsScheduled,ConfirmDate,ConfirmTime,LeadStatus,IsReassigned,ContactedFrom,HearedFrom,CustZipCode,ScheduleEmail,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,StatusDate,StatusTime,PremiumFlag,ParentId,OnlineOrOfflineLeads,TestDriveStatus,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag";
 
@@ -7351,7 +7385,29 @@ public class Application extends Controller {
 	        		
 	        		List<RequestMoreInfo> list = RequestMoreInfo.findAllCancel(Long.valueOf(session("USER_LOCATION")));
 	        		
+	        		AddProduct pro = null;
+	        		LeadType lead = null;
+	        		AuthUser auth = null;
+	        		AuthUser user = null;
+	        		Location location = null;
+	        		
 	        		for (RequestMoreInfo request : list) {
+	        			if(request.productId != null){
+	        				 pro = AddProduct.findById(Long.parseLong(request.productId));
+	        			}
+	        			if(request.isContactusType != null){
+	        				lead = LeadType.findById(Long.parseLong(request.isContactusType));
+	        			}
+	        			if(request.assignedTo != null){
+	        				auth = AuthUser.findById(request.assignedTo.id);
+	        			}
+	        			if(request.user != null){
+	        				user = AuthUser.findById(request.user.id);
+	        			}
+	        			if(request.locations != null){
+	        				location = Location.findById(request.locations.id);
+	        			}
+	        			
 	        			
 	        			fileWriter.append(String.valueOf(request.id));
 	            		fileWriter.append(COMMA_DELIMITER);
@@ -7419,17 +7475,23 @@ public class Application extends Controller {
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.testDriveStatus));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.isContactusType));
+	        			fileWriter.append(String.valueOf(lead.leadName));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.message));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.productId));
+	        			fileWriter.append(String.valueOf(pro.title));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.section));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.pdfPath));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.notifFlag));
+	        			fileWriter.append(COMMA_DELIMITER);
+	        			fileWriter.append(String.valueOf(auth.firstName));
+	            		fileWriter.append(COMMA_DELIMITER);
+	        			fileWriter.append(String.valueOf(user.firstName));
+	            		fileWriter.append(COMMA_DELIMITER);
+	        			fileWriter.append(String.valueOf(location.name));
 	        			fileWriter.append(NEW_LINE_SEPARATOR);
 	        			
 					}
@@ -7473,7 +7535,7 @@ public class Application extends Controller {
 	    				e.printStackTrace();
 	    			}
 	    		
-	    		String FILE_HEADER = "Id,Name,PreferredContact,Email,Phone,RequestDate,RequestTime,Vin,IsRead,RichNotification,Status,Reason,BestDay,BestTime,ScheduleDate,IsScheduled,ConfirmDate,ConfirmTime,LeadStatus,IsReassigned,ContactedFrom,HearedFrom,CustZipCode,ScheduleEmail,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,StatusDate,StatusTime,PremiumFlag,ParentId,OnlineOrOfflineLeads,TestDriveStatus,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag";
+	    		String FILE_HEADER = "Id,Name,PreferredContact,Email,Phone,RequestDate,RequestTime,Vin,IsRead,RichNotification,Status,Reason,BestDay,BestTime,ScheduleDate,IsScheduled,ConfirmDate,ConfirmTime,LeadStatus,IsReassigned,ContactedFrom,HearedFrom,CustZipCode,ScheduleEmail,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,StatusDate,StatusTime,PremiumFlag,ParentId,OnlineOrOfflineLeads,TestDriveStatus,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag,AssignedTo,User,Locations";
 	    		try {
 	//"Id,Name,PreferredContact,Email,Phone,RequestDate,RequestTime,Vin,IsRead,RichNotification,Status,Reason,BestDay,BestTime,ScheduleDate,IsScheduled,ConfirmDate,ConfirmTime,LeadStatus,IsReassigned,ContactedFrom,HearedFrom,CustZipCode,ScheduleEmail,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,StatusDate,StatusTime,PremiumFlag,ParentId,OnlineOrOfflineLeads,TestDriveStatus,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag";
 
@@ -7483,7 +7545,29 @@ public class Application extends Controller {
 	        		
 	        		List<RequestMoreInfo> list = RequestMoreInfo.findAllAssignedLeadsArchive(Long.valueOf(session("USER_LOCATION")));
 	        		
+	        		AddProduct pro = null;
+	        		LeadType lead = null;
+	        		AuthUser auth = null;
+	        		AuthUser user = null;
+	        		Location location = null;
+	        		
 	        		for (RequestMoreInfo request : list) {
+	        			if(request.productId != null){
+	        				 pro = AddProduct.findById(Long.parseLong(request.productId));
+	        			}
+	        			if(request.isContactusType != null){
+	        				lead = LeadType.findById(Long.parseLong(request.isContactusType));
+	        			}
+	        			if(request.assignedTo != null){
+	        				auth = AuthUser.findById(request.assignedTo.id);
+	        			}
+	        			if(request.user != null){
+	        				user = AuthUser.findById(request.user.id);
+	        			}
+	        			if(request.locations != null){
+	        				location = Location.findById(request.locations.id);
+	        			}
+	        			
 	        			
 	        			fileWriter.append(String.valueOf(request.id));
 	            		fileWriter.append(COMMA_DELIMITER);
@@ -7551,17 +7635,23 @@ public class Application extends Controller {
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.testDriveStatus));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.isContactusType));
+	        			fileWriter.append(String.valueOf(lead.leadName));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.message));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.productId));
+	        			fileWriter.append(String.valueOf(pro.title));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.section));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.pdfPath));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.notifFlag));
+	        			fileWriter.append(COMMA_DELIMITER);
+	        			fileWriter.append(String.valueOf(auth.firstName));
+	            		fileWriter.append(COMMA_DELIMITER);
+	        			fileWriter.append(String.valueOf(user.firstName));
+	            		fileWriter.append(COMMA_DELIMITER);
+	        			fileWriter.append(String.valueOf(location.name));
 	        			fileWriter.append(NEW_LINE_SEPARATOR);
 	        			
 					}
