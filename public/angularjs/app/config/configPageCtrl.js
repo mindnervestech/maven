@@ -1574,25 +1574,32 @@ angular.module('newApp')
 		$('#addPremiumPrice').click();
 		$scope.saleDeails = sale;
 	}
-	
+	$scope.msgShwoFlag = 0;
 	$scope.addPremiumPrice = function(price){
 		$scope.saleDeails.priceStart = price.priceStart;
 		$scope.saleDeails.priceEnd = price.priceEnd;
+		if($scope.saleDeails.priceStart >= $scope.saleDeails.priceEnd){
+			$scope.msgShwoFlag = 1;
+			price.priceEnd = null;
+		}else{
+			$scope.msgShwoFlag = 0;
+			angular.forEach($scope.salesPersonList, function(obj, index){
+				if(obj.showDataValue == true){
+					obj.priceStart = price.priceStart;
+					obj.priceEnd = price.priceEnd;
+					
+					$scope.addPremiumPriceByList(obj);
+				}
+				/*if(obj.id == $scope.saleDeails.id){
+					obj.priceStart = price.priceStart;
+					obj.priceEnd = price.priceEnd;
+				}*/
+			});
+			console.log($scope.salesPersonList);
+			$('#addPremiumPrice').click();
+		}
 		
-		angular.forEach($scope.salesPersonList, function(obj, index){
-			if(obj.showDataValue == true){
-				obj.priceStart = price.priceStart;
-				obj.priceEnd = price.priceEnd;
-				
-				$scope.addPremiumPriceByList(obj);
-			}
-			/*if(obj.id == $scope.saleDeails.id){
-				obj.priceStart = price.priceStart;
-				obj.priceEnd = price.priceEnd;
-			}*/
-		});
-		console.log($scope.salesPersonList);
-		$('#addPremiumPrice').click();
+		
 	}
 	
 		$scope.addPremiumPriceByList = function(obj){
