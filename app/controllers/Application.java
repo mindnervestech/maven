@@ -16947,7 +16947,7 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     
-    public static Result deleteCanceledLead(String arrayString,String type) {
+    public static Result deleteCanceledLead(String arrayString) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
