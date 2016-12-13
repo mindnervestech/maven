@@ -1731,15 +1731,10 @@ angular.module('newApp')
      	     			 		 		 $scope.gridOptions4.enableHorizontalScrollbar = 2;
      	     			 		 		 $scope.gridOptions4.enableVerticalScrollbar = 2;
      	     			 		 		 $scope.gridOptions4.columnDefs = [
-     	     			 		 		                                 /*{ name: 'title', displayName: 'title',  width:'14%',cellEditableCondition: false,
-     	     			 		 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.title}}">{{row.entity.title}}</a> ',
-     	     			 		 		                                 },
-     	     			 		 		                                 { name: 'designer', displayName: 'designer', width:'10%',cellEditableCondition: false,
-     	     			 		 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.designer}}">{{row.entity.designer}}</a> ',
-     	     			 		 		                                 },*/
-     	     			 		 /*		                                 { name: 'make', displayName: 'Make', width:'8%',cellEditableCondition: false,
-     	     			 		 		                                	
-     	     			 		 		                                 },*/
+     	     			 		 		                          
+     	     			 		 		                                 { name: 'Hide', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+																							cellTemplate:'<input type="checkbox" ng-model="checkBoxSelect" ng-click="grid.appScope.doAction(row,checkBoxSelect)" autocomplete="off">', 
+																					},
      	     			 		 		                                 { name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
      	     			 		 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.name}}">{{row.entity.name}}</a> ',
      	     			 		 		                                 },
