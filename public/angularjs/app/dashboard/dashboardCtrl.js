@@ -4889,6 +4889,7 @@ angular.module('newApp')
     	
     	
     	$scope.showLeadsDrive = function(){
+    		$scope.actionSelectedLead = [];
     		$scope.showAllTypeLeads = true;
     		$scope.getAllLeadIn();
     		//$scope.requestMore();
@@ -4953,6 +4954,7 @@ angular.module('newApp')
     	}
     	
     	$scope.getAllLeadIn = function(){
+    		$scope.actionSelectedLead = [];
     		$scope.otherLeads = false;
     		$scope.schedTest = false;
     		$scope.reqMore = false;	
@@ -4989,6 +4991,7 @@ angular.module('newApp')
     		 $location.path('/leadCreateForm');
     	}*/
         $scope.canceledLeads = function() {
+        	$scope.actionSelectedLead = [];
         	$scope.allLeadd = false;
         	$scope.schedTest = false;
         	$scope.otherLeads = false;
@@ -8884,6 +8887,7 @@ angular.module('newApp')
 		   $scope.AllOtherLeadSeenList = [];
 		   
 		   $scope.otherLeadId = function(leads){
+			   $scope.actionSelectedLead = [];
 			   $scope.nameOfLead = leads;
 			   console.log($scope.nameOfLead); 
 		  		$scope.gridOptions13.data = {};
