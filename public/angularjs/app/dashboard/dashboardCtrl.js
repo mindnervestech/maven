@@ -5560,9 +5560,10 @@ angular.module('newApp')
 		
 		$scope.ducumentNames = [];
 		$scope.sendPdfEmail= function (pdf){
+			console.log($scope.actionSelectedLead);
+			$scope.pdf.pdfIds = [];
 			$scope.pdf.pdfIds = $scope.pdfDoc;
-			$scope.pdf.vin=$scope.vehiclePdfVin;
-			$scope.pdf.email=$scope.SendPdfemail;
+			$scope.pdf.email=$scope.actionSelectedLead.toString();
 			$scope.flagForMsg=0;
 			
 			if($scope.pdfDoc.length != 0 || $scope.pdf.vin != null){
@@ -5604,16 +5605,16 @@ angular.module('newApp')
 		
 		$scope.pdf={};
 		$scope.actionOnPdf= function (entity,option){
-			apiserviceDashborad.getCustomerPdfForVehicle(entity.vin).then(function(data){
+		/*	apiserviceDashborad.getCustomerPdfForVehicle(entity.vin).then(function(data){
 			
 					$scope.vehiclePdfList=data;
 				
-				});
+				});*/
 			
 			
 			
 			//$scope.pdf.typeOfLead=entity.typeOfLead;
-			if(entity.typeOfLead == "Request More Info"){
+			/*if(entity.typeOfLead == "Request More Info"){
 				$scope.pdf.typeOfLead="requestMore";
 			}
 			else if(entity.typeOfLead == "Schedule Test Drive"){
@@ -5621,15 +5622,15 @@ angular.module('newApp')
 			}
           else if(entity.typeOfLead == "Trade-In Appraisal"){
         	  $scope.pdf.typeOfLead="tradeIn";
-			}
+			}*/
 			
-			
-			$scope.pdf.id=entity.id;
+			//actionSelectedLead
+			//$scope.pdf.id=entity.id;
 				if(option == 'Schedule' || option == 'Rechedule' ){
 					$scope.scheduleTestDriveForUser(entity,2);
 				}
 				else if(option == 'SendPdf'){
-					$scope.SendPdfemail=entity.email;
+					//$scope.SendPdfemail=entity.email;
 					$('#sendPdfRequest').click();
 					
 					apiserviceDashborad.getCustomerPdfData().then(function(data){

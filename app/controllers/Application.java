@@ -10653,8 +10653,7 @@ private static void cancelTestDriveMail(Map map) {
 	    	AuthUser userObj = new AuthUser();
 	    	UserVM vm = form.get();
 	    	//List<String> aa= new ArrayList<>();
-	    		   CustomerPdf iPdf = null;
-	    		   
+	    		  
 	    		   
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
@@ -10683,9 +10682,28 @@ private static void cancelTestDriveMail(Map map) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-		  			message.setRecipients(Message.RecipientType.TO,
-		  			InternetAddress.parse(vm.email));
 		  			
+		  			String arr[] = vm.email.split(",");
+		  			
+		  			InternetAddress[] usersArray = new InternetAddress[arr.length];
+		  			int index = 0;
+		  			
+		  			for (int i=0;i<arr.length;i++) {
+		  				RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(arr[i]));
+		  				if(rInfo != null){
+		  					try {
+			  					
+			  					usersArray[index] = new InternetAddress(rInfo.email);
+			  					index++;
+			  				} catch (Exception e) {
+			  					e.printStackTrace();
+			  				}
+		  				}
+		  				
+		  			}
+		  			//message.setRecipients(Message.RecipientType.TO,
+		  		//	InternetAddress.parse("yogeshpatil424@gmail.com"));
+		  		   message.setRecipients(Message.RecipientType.TO, usersArray);
 		  			message.setSubject("Requested Documents");	  			
 		  			Multipart multipart = new MimeMultipart();
 	    			BodyPart messageBodyPart = new MimeBodyPart();
@@ -10716,7 +10734,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			String nameOfDocument= null;
 	    			StringBuffer output = new StringBuffer(110);
 	    	
-	    			if(vm.vin != null){
+	    			/*if(vm.vin != null){
 	    				
 	    				Vehicle vehicle=Vehicle.findByVin(vm.vin);
 	    				  String PdfFile = rootDir + File.separator +vehicle.pdfBrochurePath;
@@ -10732,13 +10750,34 @@ private static void cancelTestDriveMail(Map map) {
 	    				
 	    				
 	    				
-	    			}
+	    			}*/
+	    			CustomerPdf iPdf = null;
+		    		   
+		    		   for(String pdf:vm.pdfIds){
+		    			   CustomerPdf cust = CustomerPdf.findPdfById(Long.parseLong(pdf));
+		    			   if(cust != null){
+		    				   String PdfFile = rootDir + File.separator +cust.pdf_path;
+				 	    		  File f = new File(PdfFile);
+				 	    		  
+				 	    		 MimeBodyPart attachPart = new MimeBodyPart();
+				 	    		 try {
+				    					attachPart.attachFile(f);
+				    		  	      } catch (IOException e) {
+				    		  	       	// TODO Auto-generated catch block
+				    		  	       		e.printStackTrace();
+				    		  	    }
+				    			 multipart.addBodyPart(attachPart); 
+		    			   }
+		    		   }
 	    			
 	    			String nameDoc= output.toString();
 	    			String actionTitle="Followed up with the following documents: "+nameDoc;
 	    			String action="Other";
-	    			Long ids=(long)vm.id;
-	    			saveNoteOfUser(ids,actionTitle,action);
+	    			//Long ids=(long)vm.id;
+	    			for (int i=0;i<arr.length;i++) {
+	    				saveNoteOfUser(Long.parseLong(arr[i]),actionTitle,action);
+	    			}	
+	    			
 	 	    		
 	    			
 	    			
