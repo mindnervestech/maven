@@ -8860,7 +8860,9 @@ angular.module('newApp')
 						$scope.gridOptions13.data = $scope.AllOtherLeadSeenList;
 						
 						
-						
+						$scope.gridOptions13.columnDefs.push({ name: 'Hide', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+							cellTemplate:'<input type="checkbox" ng-model="checkBoxSelect" ng-click="grid.appScope.doAction(row,checkBoxSelect)" autocomplete="off">', 
+						});
 						$scope.gridOptions13.columnDefs.push({ name: 'title', displayName: 'Section', width:'14%',cellEditableCondition: false,
 		                   	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.title}}" style="color: #5b5b5b;">{{row.entity.title}}</a> ',
 		                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
