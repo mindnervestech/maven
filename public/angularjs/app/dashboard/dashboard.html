@@ -4733,9 +4733,7 @@ float: right !important;
         	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 			    <ul id="myTabs" class="nav nav-tabs" role="tablist">
 			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:15px;margin-right: 0px;" ng-click="showLeadsDrive()">Leads</button><span class="badge badge-header" style="border-radius: 17px / 17px;background-color: red;font-size: 14px;" ng-if="lengthOfAllLead >= 1"><b>{{lengthOfAllLead}}</b></span></a></li>
-			      <!-- <li role="presentation" class=""><a role="tab" id="test-drive-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size: 15px" ng-click="schedultestDrive()">Test Drives</button></a></li> -->
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-show="userType == 'General Manager' || userType == 'Manager'" ng-click="canceledLeads()">Canceled Leads</button></a></li>
-			       <!-- <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-show="userType == 'General Manager' || userType == 'Manager'" ng-click="clickY()">click</button></a></li> -->
 			       
 			       <li role="presentation" class="" style="float: right;"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="showLeadsArchive()">Archive</button></a></li>
 			    	<h3><b style="margin-left:4%;float: left;margin-bottom:5px;" ng-show="userType == 'General Manager'" >Choose Sales Person</b></h3>
@@ -4751,20 +4749,15 @@ float: right !important;
 				        
 				        <ul id="myTabs" class="nav nav-tabs" role="tablist">
 				        	<li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" ng-click="getAllLeadIn()">All </a></li>
-			      			<!-- <li role="presentation" class=" "><a id="tab" role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="requestMore()">Request More Info </a></li> -->
 			      			<li role="presentation" class="" ng-repeat="lead in leadList"><a role="tab" id="home" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="otherLeadId(lead.id)">{{lead.leadName}}</a></li>
-			      			<!-- <li role="presentation" class=""><a role="tab" id="test-drive-tabSched" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="testDrive()">Schedule Test Drive</a></li>
-			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="tradeIn()">Trade In Inquiries</a></li> 
-			      			<li role="presentation" class="" ng-repeat="lead in leadList"><a role="tab" id="home" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-if="lead.id > 3" ng-click="otherLeadId(lead.id)">{{lead.leadName}}</a></li>
-			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="contactUs()">ContactUs</a></li> -->
 			      			<li  role="presentation" class="" style="margin-top: -15px;float: right;"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="exportCsvPop()">Export CSV</button></li>
 			    		</ul>
-				         <ul>
-				         		<button class="btn btn-primary" ng-if="actionSelectedLead.length <= 1">SOLD</button>
-				         		<button class="btn btn-primary" ng-click="addNoteToRequestUser(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1">HISTORY</button>
-				         		<button class="btn btn-primary" ng-click="assignCanceledLead()">ASSIGN</button>
-				         		<button class="btn btn-primary" ng-click="cancelScheduleStatus()">CANCAL</button>
-				         		<button class="btn btn-primary" ng-click="createContact(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1">ADD TO CLIENTELE</button>
+				         <ul style="margin-top:4px;" ng-if="allLeadd == true || otherLeads == true">
+				         		<button class="btn btn-primary" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">SOLD</button>
+				         		<button class="btn btn-primary" ng-click="addNoteToRequestUser(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">HISTORY</button>
+				         		<button class="btn btn-primary" ng-click="assignCanceledLead()" style="height: 30px;font-size: 11px;">ASSIGN</button>
+				         		<button class="btn btn-primary" ng-click="cancelScheduleStatus()" style="height: 30px;font-size: 11px;">CANCAL</button>
+				         		<button class="btn btn-primary" ng-click="createContact(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">ADD TO CLIENTELE</button>
 				         		<select ng-model="action" ng-change="actionOnPdf(row.entity,action)" class="btn btn-sm btn-primary" style="text-transform :uppercase;height :34px">
 				         			<option value="" >More</option>
 				         			<option ng-if="row.entity.confirmDate == null" value="Schedule">Schedule</option>
@@ -4772,7 +4765,7 @@ float: right !important;
 				         			<option value="SendPdf">Send Pdf</option>
 				         	</select>
 				         </ul>
-				          
+				           
 						
 												</div>
 							<div ng-if="allLeadd" ui-grid="gridOptions7" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
@@ -4791,7 +4784,11 @@ float: right !important;
 				    
 				     <div id="myTabContent" class="tab-content" ng-if="showAllTypeLeads == false">
 				      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
-				        
+				        	<ul style="margin-top:2px;" ng-if="cancelleads">
+				         		<button class="btn btn-primary" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">DELETE</button>
+				         		<button class="btn btn-primary" ng-click="addNoteToRequestUser(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">HISTORY</button>
+				         		
+				         </ul>
 				        
 				        	<div ng-if="cancelleads" ui-grid="gridOptions4" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 												</div>

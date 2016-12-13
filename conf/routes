@@ -482,7 +482,7 @@ GET     /releaseLeads/:id/:leadType			controllers.CustomersRequestController.rel
 GET     /deletePremiumLead/:id/:leadType			controllers.CustomersRequestController.deletePremiumLead(id:Long,leadType:String)
 GET		/getNewToDoCount				controllers.Application.getNewToDoCount()
 GET		/setTodoSeen					controllers.Application.setTodoSeen()
-GET		/deleteCanceledLead/:id/:type	controllers.Application.deleteCanceledLead(id:Long,type:String)
+GET		/deleteCanceledLead/:arrayString	controllers.Application.deleteCanceledLead(arrayString:String)
 GET     /restoreLead/:id/:type  	controllers.Application.restoreLead(id:Long,type:String)
 GET		/getAssignedLeads				controllers.Application.getAssignedLeads()
 GET		/setLeadSeen					controllers.Application.setLeadSeen()

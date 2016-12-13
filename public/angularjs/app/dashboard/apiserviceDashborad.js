@@ -664,9 +664,9 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.deleteCanceledLead = function(leadId,leadType){
+	this.deleteCanceledLead = function(leadIdList){
 		var defer = $q.defer();
-		$http.get('/deleteCanceledLead/'+leadId+"/"+leadType).success(function(data) {
+		$http.get('/deleteCanceledLead/'+leadIdList).success(function(data) {
 			$.pnotify({
 			    title: "Success",
 			    type:'success',

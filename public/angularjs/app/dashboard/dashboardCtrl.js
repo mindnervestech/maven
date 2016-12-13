@@ -3934,7 +3934,7 @@ angular.module('newApp')
     		  }
     		  
     		  $scope.deleteMyLead = function() {
-    			  apiserviceDashborad.deleteCanceledLead($scope.leadId, $scope.leadType).then(function(data){
+    			  apiserviceDashborad.deleteCanceledLead($scope.actionSelectedLead.toString()).then(function(data){
     			  
 						$scope.getAllCanceledLeads();
 				});

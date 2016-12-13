@@ -16947,34 +16947,22 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     
-    public static Result deleteCanceledLead(Long id,String type) {
+    public static Result deleteCanceledLead(String arrayString,String type) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		if(type.equals("Request More Info")) {
-    			RequestMoreInfo info = RequestMoreInfo.findById(id);
+    		
+    		String arr[] = arrayString.split(",");
+    		for(int i=0;i<arr.length;i++){
+    			RequestMoreInfo info = RequestMoreInfo.findById(Long.parseLong(arr[i]));
     			List<UserNotes> noteList = UserNotes.findRequestMore(info);
     			for(UserNotes note: noteList) {
     				note.delete();
     			}
     			info.delete();
     		}
-			if(type.equals("Schedule Test")) {
-			    ScheduleTest schedule = ScheduleTest.findById(id);
-			    List<UserNotes> noteList = UserNotes.findScheduleTest(schedule);
-			    for(UserNotes note: noteList) {
-    				note.delete();
-    			}
-			    schedule.delete();
-			}
-			if(type.equals("Trade In")) {
-				TradeIn tradeIn = TradeIn.findById(id);
-				List<UserNotes> noteList = UserNotes.findTradeIn(tradeIn);
-				for(UserNotes note: noteList) {
-    				note.delete();
-    			}
-				tradeIn.delete();
-			}
+    			
+			
     		return ok();
     	}
     }
