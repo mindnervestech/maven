@@ -4384,12 +4384,10 @@ angular.module('newApp')
     										$scope.lead.manufacturers = value;
     										oneProduct++;
     									}
-    									//$scope.lead.manufacturers = value;
     								}
     								if(value1.component == "multipleselect"){
     									value = value.toString();
     								}
-    								
     								
 	    							$scope.customList.push({
 	    								fieldId:value1.fieldId,
@@ -5505,8 +5503,8 @@ angular.module('newApp')
 		    		    				        		              	} ,
 		    		    				        		               });
 		    		    				        				});
-		    		    		    		    				if($scope.flag == 1){ 	
-		    		    		    		    					$scope.gridOptions7.columnDefs.push({ name: 'btnSolsdd', displayName: '',enableFiltering: false, width:'40%',cellEditableCondition: false,        /* <button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate != null" class="btn btn-sm btn-primary" style="margin-left:0px;">RESCHEDULE</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate == null" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button>*/                                                                     
+		    		    		    		    				/*if($scope.flag == 1){ 	
+		    		    		    		    					$scope.gridOptions7.columnDefs.push({ name: 'btnSolsdd', displayName: '',enableFiltering: false, width:'40%',cellEditableCondition: false,         <button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate != null" class="btn btn-sm btn-primary" style="margin-left:0px;">RESCHEDULE</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate == null" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button>                                                                     
 	     	      			 		                                	cellTemplate:'<button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelScheduleStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button> <button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button> <select ng-model="action" ng-change="grid.appScope.actionOnPdf(row.entity,action)" class="btn btn-sm btn-primary" style="text-transform :uppercase;height :25px"><option value="" >Actions</option><option ng-if="row.entity.confirmDate == null" value="Schedule">Schedule</option><option ng-if="row.entity.confirmDate != null" value="Rechedule" value="Reschedule">Reschedule</option> <option value="SendPdf">Send Pdf</option> <option value="clientele">Add to Clientele </option>  </select> ',   
 	     	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	     	      			 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
@@ -5514,7 +5512,7 @@ angular.module('newApp')
 	     	       			   		                                     }
 	     	       			  		                                	} ,
 	     	       			 		                                 });
-		    		    		    		    				}
+		    		    		    		    				}*/
 		    		    				           	        	$scope.getAllCanceledLeads();
 		    		    				           	        	
 		    		    				        	        	apiserviceDashborad.getAllCanceledLeads(id).then(function(data){
@@ -8929,14 +8927,14 @@ angular.module('newApp')
 						});
 						
 						
-						$scope.gridOptions13.columnDefs.push({ name: 'btnSold', displayName: '',enableFiltering: false, width:'40%',cellEditableCondition: false,
+						/*$scope.gridOptions13.columnDefs.push({ name: 'btnSold', displayName: '',enableFiltering: false, width:'40%',cellEditableCondition: false,
 		                 	cellTemplate:'<button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.createContact(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">ADD TO CLIENTELE</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button>',
 		                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                         if (row.entity.noteFlag != 1) {
 		                           return 'red';
 		                       }
 		                 	} ,
-		                 });
+		                 });*/
    				});
 	        	
 	        	//label
