@@ -522,20 +522,24 @@ public class CustomersRequestController extends Controller {
 	    	}	
 	    }
 	  
-	  public static Result changeAssignedUser(Long id,Integer user,String leadType) {
+	  public static Result changeAssignedUser(String arrayString,Integer user,String leadType) {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 	    		AuthUser userObj = AuthUser.findById(user);
 	    	
-				    RequestMoreInfo info = RequestMoreInfo.findById(id);
-				    info.setAssignedTo(userObj);
-				    info.setPremiumFlag(0);
-				    info.setIsRead(1);
-				    info.setStatus(null);
-				    info.setLeadStatus(null);
-				    info.setIsReassigned(true);
-				    info.update();
+	    		String arr[] = arrayString.split(",");
+	    		for(int i=0;i<arr.length;i++){
+	    			 RequestMoreInfo info = RequestMoreInfo.findById(Long.parseLong(arr[i]));
+					    info.setAssignedTo(userObj);
+					    info.setPremiumFlag(0);
+					    info.setIsRead(1);
+					    info.setStatus(null);
+					    info.setLeadStatus(null);
+					    info.setIsReassigned(true);
+					    info.update();
+	    		}
+				   
 				
 	    		return ok();
 	    	}

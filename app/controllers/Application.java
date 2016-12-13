@@ -10715,28 +10715,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			messageBodyPart.setContent(content, "text/html");
 	    			String nameOfDocument= null;
 	    			StringBuffer output = new StringBuffer(110);
-	    			/*if(vm.pdfIds != null){
-	    			for(String ls:vm.pdfIds){
-	 	    		   iPdf = CustomerPdf.findPdfById(Long.parseLong(ls));  
-	 	    		   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
-	 	    		  File f = new File(PdfFile);
-	 	    		 MimeBodyPart attachPart = new MimeBodyPart();
-	 	    		 try {
-	    					attachPart.attachFile(f);
-	    		  	      } catch (IOException e) {
-	    		  	       	// TODO Auto-generated catch block
-	    		  	       		e.printStackTrace();
-	    		  	    }
-	    			 multipart.addBodyPart(attachPart);
-	    			 nameOfDocument=iPdf.pdf_name;
-	    			 
-	    			   output.append(iPdf.pdf_name);
-	    			   output.append(", ");
-	    			   
-	    			 
-	 	    	   }
-	    			
-	    			}*/
+	    	
 	    			if(vm.vin != null){
 	    				
 	    				Vehicle vehicle=Vehicle.findByVin(vm.vin);
@@ -10759,7 +10738,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			String actionTitle="Followed up with the following documents: "+nameDoc;
 	    			String action="Other";
 	    			Long ids=(long)vm.id;
-	    			saveNoteOfUser(ids,vm.typeOfLead,actionTitle,action);
+	    			saveNoteOfUser(ids,actionTitle,action);
 	 	    		
 	    			
 	    			
@@ -12697,7 +12676,7 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     
-    public static Result setScheduleStatusClose(Long id,String leadtype,String reason) {
+    public static Result setScheduleStatusClose(String arrayString,String reason) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
@@ -12711,7 +12690,9 @@ private static void cancelTestDriveMail(Map map) {
     		String comments="Test Drive has been canceled";
     		String subject = "Test Drive cancelled";
     		
-    			RequestMoreInfo info = RequestMoreInfo.findById(id);
+    		String arr[] = arrayString.split(",");
+    		for(int i=0;i<arr.length;i++){
+    			RequestMoreInfo info = RequestMoreInfo.findById(Long.parseLong(arr[i]));
     			
     			String vin=info.vin;
     			info.setStatus("CANCEL");
@@ -12742,9 +12723,7 @@ private static void cancelTestDriveMail(Map map) {
         		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
         		uNotes.save();
-        		
-    		
-    		
+    		}
     		
     		
     		return ok();
@@ -15982,12 +15961,11 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     
-    public static Result saveNoteOfUser(Long id,String type,String note,String action) {
+    public static Result saveNoteOfUser(Long id,String note,String action) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
-    		//if(type.equalsIgnoreCase("requestMore")) {
     			RequestMoreInfo requestMore = RequestMoreInfo.findById(id);
     			UserNotes notes = new UserNotes();
     			notes.note = note;
@@ -15996,56 +15974,13 @@ private static void cancelTestDriveMail(Map map) {
     			notes.saveHistory = 1;
     			if(requestMore.assignedTo !=null){
     				notes.user = requestMore.assignedTo;
-    			}/*else{
-    				notes.user = user;
-    			}*/
-    			
-    			Date date = new Date();
-    			notes.createdDate = date;
-    			notes.createdTime = date;
-				notes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    			notes.save();
-    		//}
-    	/*	if(type.equalsIgnoreCase("scheduleTest")) {
-    			ScheduleTest scheduleTest = ScheduleTest.findById(id);
-    			UserNotes notes = new UserNotes();
-    			notes.note = note;
-    			notes.action = action;
-    			notes.scheduleTest = scheduleTest;
-    			notes.saveHistory = 1;
-    			AuthUser usr = AuthUser.findById(scheduleTest.assignedTo.id);
-    			if(scheduleTest.assignedTo != null){
-    				notes.user = scheduleTest.assignedTo;
-    			}else{
-    				notes.user = user;
     			}
     			Date date = new Date();
     			notes.createdDate = date;
     			notes.createdTime = date;
 				notes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			notes.save();
-    			
-    			//scheduleTest.setNoteFlag(1);
-    			scheduleTest.update();
-    		}*/
-    	/*	if(type.equalsIgnoreCase("tradeIn")) {
-    			TradeIn tradeIn = TradeIn.findById(id);
-    			UserNotes notes = new UserNotes();
-    			notes.note = note;
-    			notes.action = action;
-    			notes.tradeIn = tradeIn;
-    			notes.saveHistory = 1;
-    			if(tradeIn.assignedTo !=null){
-    				notes.user = tradeIn.assignedTo;
-    			}else{
-    				notes.user = user;
-    			}
-    			Date date = new Date();
-    			notes.createdDate = date;
-    			notes.createdTime = date;
-				notes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    			notes.save();
-    		}*/
+    		
     		return ok();
     	}
     }
