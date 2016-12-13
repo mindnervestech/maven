@@ -1,26 +1,4 @@
-<!-- <div class="row">
-    <div class="col-md-12">
-        <div class="angular-alert alert alert-info alert-dismissible fade in" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>
 
-            <div class="media-left">
-            <img src="../../../assets/global/images/various/angularjs.png" class="dis-block" alt="angularjs logo">
-          </div>
-          <div class="media-body width-100p">
-            <p class="angular-title">Discover Make AngularJS new version!</p>
-            <div class="angular-txt">
-                <p>With AngularJS version of Make, you wil discover a very fast browsing for users. Pages change like a Single Page Application with beautiful animation.</p>
-                <p>Want to learn more? Here is tutorial from official website: <a href="https://docs.angularjs.org/tutorial" target="_blank">AngularJS tutorial</a></p>
-            </div>
-          </div>
-
-
-
-        </div>
-
-
-    </div>
-</div> -->
 <style type="text/css">
 .circleBase {
     border-radius: 50%;
@@ -1785,25 +1763,7 @@ float: right !important;
                          			</div>
                          		</div>
                          		</div>
-                         		
-                         		
-                         	<!-- 	<div class="col-sm-12">
-                         		<hr>
-                         			<label>Salepeople</label>
-                         		</div>
-                         		<div>
-                         			 <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-12" style="padding:0px;">
-				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
-				 						   	ng-model="salePer.isSelected">					
-   					 						{{salePer.fullName}}</label>
-                         		</div>
-                         		<div class="col-sm-12" ng-if="showOtherIngo == 0">
-                         			<a ng-click="showOtherIngos()">Add fields</a>
-                         		</div>
-                         		<div class="col-sm-12" ng-if="showOtherIngo == 1">
-                         			<a ng-click="showOtherIngos()">Hide fields</a>
-                         		</div>
-                         	 -->
+                         	
                           </div>
                           
                        </div>
@@ -1925,28 +1885,7 @@ float: right !important;
                          			
                          		</div>
                          		
-                         		
-                         		
-                         		
-                         		
-                         		
-                         	<!-- 	<div class="col-sm-12">
-                         		<hr>
-                         			<label>Salepeople</label>
-                         		</div>
-                         		<div>
-                         			 <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-12" style="padding:0px;">
-				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
-				 						   	ng-model="salePer.isSelected">					
-   					 						{{salePer.fullName}}</label>
-                         		</div>
-                         		<div class="col-sm-12" ng-if="showOtherIngo == 0">
-                         			<a ng-click="showOtherIngos()">Add fields</a>
-                         		</div>
-                         		<div class="col-sm-12" ng-if="showOtherIngo == 1">
-                         			<a ng-click="showOtherIngos()">Hide fields</a>
-                         		</div>
-                         	 -->
+                         
                           </div>
                           
                        </div>
@@ -2137,29 +2076,11 @@ float: right !important;
 							  </div>
 							  </div>
                             
-							  <!--<div class="append-icon">
-                              	<input type="radio" name="plan" ng-model="schPlan.scheduleBy" ng-click="getLocationDatass(0)" value="location">Location
-                              	<input id="pln" type="radio" name="plan" value="salePerson" ng-model="schPlan.scheduleBy" ng-click="getSalePersonData()" value="salePerson">Sale person
-                              </div>-->
-                            </div>
-                          </div>
-                            <!-- <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'location' && nextbutton == 0 && showGrid == 1">
-                            <div class="form-group">
-                              <div ui-grid="gridOptionsValue" style="height:400px;" ui-grid-edit ui-grid-pagination>
-									</div> 
-                              </div>
-                            </div>  -->
+							
                             
                           
                           <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'salePerson'">
-                           <!--  <div class="form-group">
-                              <label class="control-label">Sales Person</label>
-                              <div class="append-icon">
-                              	<select  class="form-control" ng-model="schPlan.salePerson" ng-change="getSalePersonData(schPlan.salePerson)" required>
-						            <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.fullName}}</option>
-						        </select>
-                              </div>
-                            </div> -->
+                          
                           </div>
                           <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'salePerson' && nextbutton == 0">
                             <div class="form-group">
@@ -4838,22 +4759,26 @@ float: right !important;
 			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="contactUs()">ContactUs</a></li> -->
 			      			<li  role="presentation" class="" style="margin-top: -15px;float: right;"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="exportCsvPop()">Export CSV</button></li>
 			    		</ul>
-				        
-						<!--    <div ng-if="reqMore" ui-grid="gridOptions5" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-						   <div class="watermark" ng-show="!gridOptions5.data.length" >No Leads has been added</div> -->
-												</div>
-							<!--  <div ng-if="testdrv" ui-grid="gridOptions2" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-							<div class="watermark" ng-show="!gridOptions2.data.length" >No Leads has been added</div>
-												</div> 
-							<div ng-if="trdin" ui-grid="gridOptions3" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-							<div class="watermark" ng-show="!gridOptions3.data.length" >No Leads has been added</div> -->
+				         <ul>
+				         		<button class="btn btn-primary" ng-if="actionSelectedLead.length <= 1">SOLD</button>
+				         		<button class="btn btn-primary" ng-click="addNoteToRequestUser(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1">HISTORY</button>
+				         		<button class="btn btn-primary" ng-click="assignCanceledLead()">ASSIGN</button>
+				         		<button class="btn btn-primary" ng-click="cancelScheduleStatus()">CANCAL</button>
+				         		<button class="btn btn-primary" ng-click="createContact(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1">ADD TO CLIENTELE</button>
+				         		<select ng-model="action" ng-change="actionOnPdf(row.entity,action)" class="btn btn-sm btn-primary" style="text-transform :uppercase;height :34px">
+				         			<option value="" >More</option>
+				         			<option ng-if="row.entity.confirmDate == null" value="Schedule">Schedule</option>
+				         			<option ng-if="row.entity.confirmDate != null" value="Rechedule" value="Reschedule">Reschedule</option> 
+				         			<option value="SendPdf">Send Pdf</option>
+				         	</select>
+				         </ul>
+				          
+						
 												</div>
 							<div ng-if="allLeadd" ui-grid="gridOptions7" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 							<div class="watermark" ng-show="!gridOptions7.data.length" >No Leads has been added</div>
 											</div>	
-							<!-- <div ng-if="contact" ui-grid="gridOptions8" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-							<div class="watermark" ng-show="!gridOptions8.data.length" >No Leads has been added</div>
-							 </div> -->
+							
 							<div ng-if="otherLeads" ui-grid="gridOptions13" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 							<div class="watermark" ng-show="!gridOptions13.data.length" >No Leads has been added</div>
 											</div>					
@@ -4862,22 +4787,7 @@ float: right !important;
 				     
 				      
 				    </div>
-				    <!-- <div id="myTabContent" class="tab-content" ng-if="schedTest">
-				      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
-				         <ul id="myTabs" class="nav nav-tabs" role="tablist">
-				        <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" ng-click="getScheduless()">Scheduled </a></li>
-			      			<li role="presentation" class=" "><a id="tab" role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="getCompletedLeads()">Completed</a></li>
-			      			
-			    		</ul>
-				        
-				        <div ng-if="schedTestGrid" ui-grid="gridOptions9" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-												</div>
-						<div ng-if="completedLeadsTest" ui-grid="gridOptions10" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-												</div>						
-																						
-				      </div>
-				      
-				    </div> -->
+				   
 				    
 				     <div id="myTabContent" class="tab-content" ng-if="showAllTypeLeads == false">
 				      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
