@@ -810,7 +810,6 @@ MakeApp.directive('angucompleteAlts', function() {
 		return{
 			template: '<angucomplete-alt id="ex1" placeholder="Title" pause="10" selected-object="selectedNames" local-data="prodSearchList" search-fields="title" title-field="title" minlength="3" focus-In="focusNameOut($index)" input-class="form-control form-control-small"></angucomplete-alt>',
 	        link: function(scope, element, attrs) {
-	        	console.log("HHHHHHHHHHHHHOOOOOOOOOOo");
 	        	console.log(attrs.listData);
 	        }
 			

@@ -2,6 +2,34 @@
 <div class="form-group col-sm-12" ng-init="initFunction()">
 	<div class="form-group col-sm-12">
 		<h2>FORM CUSTOMIZATION</h2>
+			<div ng-if="formType == 'My Leads - Canceling lead'">
+		           <h4>Website's Default fields</h4>
+		            <div class="col-md-12 form-group">
+					   <div class="col-md-6">
+						   <div class="col-md-3">
+								  <label>Please explain the reason of canceling this lead</label>
+						   </div>
+						    <div class="col-md-6">
+								      <input type="text" ng-model="lead.custNumber" class="form-control" required/>
+						     </div>
+						</div>
+					</div>
+              </div>
+              <div ng-if="formType == 'My Leads - History Log'">
+		           <h4>Website's Default fields</h4>
+		            <div class="col-md-12 form-group">
+					   <div class="col-md-6">
+						   <div class="col-md-2">
+								  <label>Note</label>
+						   </div>
+						    <div class="col-md-6">
+								      <input type="text" ng-model="lead.custNumber" class="form-control" required/>
+						     </div>
+						</div>
+					</div>
+              </div>
+								                    			
+		</div>
 		<div ng-show="showDefault == 'true'">
 		 <h4>Website's Default fields</h4>
 		   <div class="col-md-12 form-group">
@@ -44,29 +72,7 @@
 								                    				</div>
 								                    			</div>
 								                    		</div></div>
-		<!-- <div class="col-md-6">
-								                    			<div class="col-md-12">
-								                    				<div class="col-md-2">
-								                    					<label>Name</label>
-								                    				</div>
-								                    				<div class="col-md-6">
-								                    					<input type="text" ng-model="lead.custNumber" class="form-control" placeholder="Search Name" required/>
-								                    				</div>
-								                    				
-															    
-								                    			</div>
-								                    			
-								                    			
-								                    			
-								                    		</div> -->
-								                    		<!-- <div class="col-md-6">
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.custEmail" placeholder="EMAIL" required/> <span style="color: red;">*</span>
-								                    			</div>	
-								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.custZipCode" placeholder="ZIP CODE" required/> <span style="color: red;">*</span>
-								                    			</div>
-								                    		</div>	 -->
+	
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="row">

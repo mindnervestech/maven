@@ -1767,10 +1767,10 @@ angular.module('newApp')
   	     			 				                             { name: 'statusDate', displayName: 'Date Cancelled', width:'6%', cellEditableCondition: false,
   	     			 				                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.statusDate}}">{{row.entity.statusDate}}</a> ',  
 	     			 				                                 },
-     	     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'24%',cellEditableCondition: false,
+     	     			 				                              /* { name: 'btnSold', displayName: '',enableFiltering: false, width:'24%',cellEditableCondition: false,
      	     	      			 		                                	cellTemplate:'<button type="button" ng-if="false" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button><button type="button" ng-click="grid.appScope.deleteForeverLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">DELETE</button><button type="button" ng-if="false" ng-click="grid.appScope.restoreLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">RESTORE</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button>',
      	     	      			 		                                	 
-     	     	       			 		                                 },
+     	     	       			 		                                 },*/
      	     			 		     		                                 ];
      	     			 		  
      			 		 		 
@@ -3614,9 +3614,7 @@ angular.module('newApp')
 				  //$scope.init();
     		  }
     		  
-    		  $scope.deleteForeverLead = function(entity) {
-    			  $scope.leadId = entity.id;
-    			  $scope.leadType = entity.leadType;
+    		  $scope.deleteForeverLead = function() {
     			  $('#btnDeleteForever').click();
     		  }
     		  
@@ -3930,8 +3928,9 @@ angular.module('newApp')
     		  
     		  $scope.deleteMyLead = function() {
     			  apiserviceDashborad.deleteCanceledLead($scope.actionSelectedLead.toString()).then(function(data){
-    			  
+    				  $scope.actionSelectedLead = [];
 						$scope.getAllCanceledLeads();
+						
 				});
     		  }
     		  
