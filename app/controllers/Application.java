@@ -16066,8 +16066,10 @@ private static void cancelTestDriveMail(Map map) {
 		notes.createdTime = date;
 		notes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		notes.save();
+		if(vm.customData != null){
+			saveCustomData(requestMore.id,vm.customData,bodys,Long.parseLong(requestMore.isContactusType));
+		}
 		
-		saveCustomData(requestMore.id,vm.customData,bodys,Long.parseLong(requestMore.isContactusType));
 	
 	return ok();
     }

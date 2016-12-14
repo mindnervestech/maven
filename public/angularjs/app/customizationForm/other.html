@@ -15,6 +15,30 @@
 						</div>
 					</div>
               </div>
+              <div ng-if="formType == 'My Leads - Schedule an appointment'">
+		           <h4>Website's Default fields</h4>
+		            
+					<div class="col-md-12 form-group">
+					   <div class="col-md-6">
+						   <div class="col-md-3">
+								  <label>Date</label>
+						   </div>
+						    <div class="col-md-6">
+								      <input data-provide="datepicker" id="cnfstartDateValue" name="startDateValue" class="form-control" placeholder="Select Date..." ng-model="check.startDate" data-date-format="dd-mm-yyyy">
+						     </div>
+						</div>
+					</div>
+					<div class="col-md-12 form-group">
+					   <div class="col-md-6">
+						   <div class="col-md-3">
+								  <label>Time</label>
+						   </div>
+						    <div class="col-md-6">
+								      <input type="text" name="confTime" ng-model="data1.confirmTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="timeSchPick" required>
+						     </div>
+						</div>
+					</div>
+              </div>
               <div ng-if="formType == 'My Leads - History Log'">
 		           <h4>Website's Default fields</h4>
 		            <div class="col-md-12 form-group">
