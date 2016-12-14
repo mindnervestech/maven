@@ -6687,11 +6687,33 @@ angular.module('newApp')
 		   }
 		   $scope.testDriveData = {};
 		   $scope.scheduleTestDriveForUser = function(entity,option) {
+			   
+			   console.log(entity);
+			   console.log($scope.getAllListLeadDate);
+			   console.log($scope.actionSelectedLead);
+			   angular.forEach($scope.actionSelectedLead, function(obj, index){
+				   angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
+					    if(obj == obj1.id){
+					    	if(index == 0){
+					    		$scope.testDriveData = obj1;
+					    	}
+					    	
+					    }
+				   });
+				   
+			   });
+			   
+			   $scope.getFormDesign("My Leads - Schedule an appointment").then(function(response){
+				   console.log(response);
+	    			$scope.userFields = $scope.addFormField($scope.userList);
+			   });
+			   
+			   
 			   $scope.stockWiseData = [];
 			   $scope.cnTimeList = [];
 	    	   	   $scope.timeList = [];
 			   $('#btnTestDrive').click();
-			   $scope.testDriveData.id = entity.id;
+			  /* $scope.testDriveData.id = entity.id;
 			   $scope.testDriveData.name = entity.name;
 			   $scope.testDriveData.email = entity.email;
 			   $scope.testDriveData.phone = entity.phone;
@@ -6703,54 +6725,71 @@ angular.module('newApp')
 			   $scope.testDriveData.confirmTime = entity.confirmTime;
 			   $scope.testDriveData.option = option;
 			   $scope.testDriveData.typeOfLead = entity.typeOfLead;
-			   //$('#bestTime').val("");
-			   $scope.testDriveData.prefferedContact = "";
+			   $scope.testDriveData.prefferedContact = "";*/
 			   
-			   $scope.stockWiseData.push({
-					 title:entity.title,
-		   	  			stockNumber:entity.title,
-		   	  			designer:entity.designer,
-		   	  			price:entity.price,
-						year:entity.year,
-						primaryTitle:entity.primaryTitle,
-						productId:entity.productId,
-						//imgId:entity.imgId,
-					});
+			  
 			   
 		   }
 		   
 		   $scope.getScheduleTime = function(){
 		   }
 		   
+		   
+		   
+		   
 		   $scope.saveTestDrive = function() {
-			   
+			   console.log($scope.actionSelectedLead);
+			   //$scope.testDriveData
+			   //customData
 			   $scope.testDriveData.bestDay = $('#testDriveDate').val();
 			   $scope.testDriveData.bestTime = $('#bestTime').val();
 			   var aaa = $('#testDriveNature').val();
 			   $scope.testDriveData.weatherValue=$scope.wetherValue;
-			   	angular.forEach($scope.testDriveData.parentChildLead,function(value,key){
-			   			value.bestDay = $('#testDriveDate'+key).val();
-			   			value.bestTime =  $('#bestTime'+key).val();
-			   	});  
-			   
-			   $scope.testDriveData.prefferedContact = $("input:radio[name=preffered]:checked").val();
-			   apiserviceDashborad.saveTestDrive($scope.testDriveData).then(function(data){
-			   
+			
+				  $scope.josnData = null;
+				apiserviceDashborad.getCustomizationform('My Leads - Schedule an appointment').then(function(response){
+					$scope.josnData = angular.fromJson(response.jsonData);
+					angular.forEach($scope.josnData, function(obj, index){
+						obj.formName = "My Leads - Schedule an appointment";
+	   			    });
+					if(response.additionalData == true){
+						angular.forEach(angular.fromJson(response.jsonDataAdd), function(obj, index){
+							obj.formName = "My Leads - Schedule an appointment";
+							$scope.josnData.push(obj);
+		    				});
+					}
+					console.log("()()()(0");
+					console.log($scope.josnData);
+					console.log($scope.customData);
+					var oneProduct = 0;
+					
+					
+					$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
+						$scope.customList = response;
+					});
+					
+					
+				console.log($("#bestTimes").val());
+				console.log($scope.customData);
+				console.log($scope.customList);
+				
+				
+				
+				 $scope.testDriveData.customData = $scope.customList;
+		
+	   			console.log($scope.testDriveData);
+	   			apiserviceDashborad.saveTestDrive($scope.testDriveData).then(function(data){
+	 			   
 					$('#clsPop').click();
 					if(data == "success"){
-						  $scope.schedulmultidatepicker();
-						  apiserviceDashborad.getscheduletest().then(function(data){
-						   
-							   $scope.scheduleListData = data;
-						   });
-						$scope.getAllSalesPersonRecord($scope.salesPerson);
+						//  $scope.schedulmultidatepicker();
+						
 						$('#driveClose').click();
 						$.pnotify({
 						    title: "Success",
 						    type:'success',
 						    text: "Test Drive confirmation email has been sent to"+" "+$scope.testDriveData.name+" ",
 						});
-						$scope.testDrive();
 						$("#test-drive-tabSched").click();
 					}else{
 						$.pnotify({
@@ -6760,6 +6799,10 @@ angular.module('newApp')
 						});
 					}
 				});
+					
+	   	  
+		  		});
+			   
 			   
 			 
 		   }

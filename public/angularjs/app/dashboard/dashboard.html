@@ -8238,78 +8238,78 @@ float: right !important;
 								            <div class="modal-content" style="height: 650px;overflow: auto;">
 								                <div class="modal-header">
 								                    <button type="button" class="close" id="driveClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-								                    <h4 class="modal-title">Schedule Test Drive</h4>
+								                    <h4 class="modal-title">Schedule</h4>
 								                </div>
 								                 <form ng-submit="saveTestDrive()">
 								                <div class="modal-body">
-								                	<div class="form-group col-sm-12">
-								                			<div class="form-group col-md-12" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;">
-								                    			<div>
-								                    				<div class="col-md-4" style="padding-left: 0px;">
-								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
-								    									<img class="preview" style="margin-top: 7px;width: 174px;height: 121px;" src="/getImage/{{stockWiseData[0].imgId}}/thumbnail">
-								    								</div>
-								    								<div class="col-md-8" style="padding: 0px;">
-								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockWiseData[0].year}} {{stockWiseData[0].make}} {{stockWiseData[0].model}}</label>
-								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{stockWiseData[0].bodyStyle}}</label>
-								    										<label class="col-md-6">Mileage:</label><label class="col-md-6" ng-if="stockWiseData[0].mileage != null">{{stockWiseData[0].mileage}}</label><label class="col-md-6" ng-if="stockWiseData[0].mileage == null">_</label>
-								    										<label class="col-md-6">Transmission:</label><label class="col-md-6" ng-if="stockWiseData[0].transmission != null">{{stockWiseData[0].transmission}}</label><label class="col-md-6" ng-if="stockWiseData[0].transmission == null">_</label>
-								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6" ng-if="stockWiseData[0].drivetrain != null">{{stockWiseData[0].drivetrain}}</label><label class="col-md-6" ng-if="stockWiseData[0].drivetrain == null">_</label>
-								    										<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="stockWiseData[0].engine != null">{{stockWiseData[0].engine}}</label><label class="col-md-6" ng-if="stockWiseData[0].engine == null">_</label>
-								    								</div>
-								                    				
-								                    			</div>
-								                    			
-								                    		</div> 
-								                		<div class="form-group col-sm-8">
-								                			<div class="form-group col-sm-12">
-														<label class="col-sm-5 control-label" style="text-align: left;">Name</label>
-														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="testDriveData.name" required>
-														</div>
-													</div>
-													<!--<div class="form-group col-sm-12">
-														<label class="col-sm-5 control-label" style="text-align: left;">Preffered Contact</label>
-														<div class="col-sm-7">
-															<input type="radio" name="preffered" id="emailCnt" value="email" ng-model="testDriveData.prefferedContact">Email
-															<input type="radio" name="preffered" id="phoneCnt" value="phone" ng-model="testDriveData.prefferedContact">Phone
-														</div>
-													</div>-->
-								                    <div class="form-group col-sm-12">
-														<label class="col-sm-5 control-label" style="text-align: left;">Email</label>
-														<div class="col-sm-7">
-															<input type="email" class="form-control form-white" ng-model="testDriveData.email" required>
-														</div>
-													</div>
-													<div class="form-group col-sm-12">
-														<label class="col-sm-5 control-label" style="text-align: left;">Phone</label>
-														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="testDriveData.phone" required>
-														</div>
-													</div>
-													<div class="form-group col-sm-12">
-														<label class="col-sm-5 control-label" style="text-align: left;">Best Day</label>
-														<div class="col-sm-7">
+								                <div class="form-group col-sm-12">
+								                	 <div class="form-group col-sm-12">
+														<label class="col-sm-3 control-label" style="text-align: left;">Date</label>
+														<div class="col-sm-4">
 														<input data-provide="datepicker" id="testDriveDate" class="form-control input-sm" 
 														ng-model="testDriveData.confirmDate" data-date-format="yyyy-mm-dd" required>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
-														<label class="col-sm-5 control-label" style="text-align: left;">&nbsp;</label>
-														<div class="col-sm-7" id="testDriveNature">
+														<label class="col-sm-3 control-label" style="text-align: left;">&nbsp;</label>
+														<div class="col-sm-4" id="testDriveNature">
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
-														<label class="col-sm-5 control-label" style="text-align: left;">Best Time</label>
-														<div class="col-sm-7">
+														<label class="col-sm-3 control-label" style="text-align: left;">Time</label>
+														<div class="col-sm-4">
 															<div class="prepend-icon">
 								                              <input type="text" name="timepicker" ng-model="testDriveData.confirmTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime">
 								                              <i class="icon-clock"></i>
 								                            </div>
 														</div> 
 													</div>
+								                	<div class="col-md-12" style="margin-top: 32px;">
+								                				<formly-form model="customData" fields="userFields">
+  																</formly-form>
+								                    	</div>
+								                	
+								                			
+								                		<div class="form-group col-sm-8">
+								                			<div class="form-group col-sm-12">
+														<label class="col-sm-5 control-label" style="text-align: left;">Name</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="testDriveData.name" readonly>
+														</div>
+													</div>
+													
+													<div class="form-group col-sm-12">
+														<label class="col-sm-5 control-label" style="text-align: left;">Phone Number</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="testDriveData.phone" readonly>
+														</div>
+													</div>
+													
+								                    <div class="form-group col-sm-12">
+														<label class="col-sm-5 control-label" style="text-align: left;">Email</label>
+														<div class="col-sm-7">
+															<input type="email" class="form-control form-white" ng-model="testDriveData.email" readonly>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-5 control-label" style="text-align: left;">Zip Code</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="testDriveData.custZipCode" readonly>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-5 control-label" style="text-align: left;">Insterested In</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="testDriveData.typeOfLead" readonly>
+															<!-- <select class="form-control" ng-model="testDriveData.typeOfLead"  ng-change="selectLeadDashbord(lead.leadType)" readonly><option ng-repeat="lType in leadList" value="{{lType.leadName}}" ng-selected="lType.id == testDriveData.leadId">{{lType.leadName}}</option></select> -->
+														</div>
+													</div>
+													
 								                </div>
-								                <div class="form-group col-sm-4">
+								                
+								                
+								                
+								                <!-- <div class="form-group col-sm-4">
 								                			<table>
 								                    		<tr>
 								                    			<td>Existing Appointments</td>
@@ -8318,7 +8318,7 @@ float: right !important;
 								                    				<td>{{noteStatus}}</td>
 								                    			</tr>
 								                    		</table>	
-								                		</div>
+								                		</div> -->
 								               </div>
 								               		<div ng-repeat="parentchil in testDriveData.parentChildLead">
 										                			
