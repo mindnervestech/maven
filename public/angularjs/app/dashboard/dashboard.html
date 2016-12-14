@@ -4756,8 +4756,8 @@ float: right !important;
 				         		<button class="btn btn-primary" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">SOLD</button>
 				         		<button class="btn btn-primary" ng-click="addNoteToRequestUser(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">HISTORY</button>
 				         		<button class="btn btn-primary" ng-click="assignCanceledLead()" style="height: 30px;font-size: 11px;">ASSIGN</button>
-				         		<button class="btn btn-primary" ng-click="cancelScheduleStatus()" style="height: 30px;font-size: 11px;">CANCAL</button>
-				         		<button class="btn btn-primary" ng-click="createContact(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">ADD TO CLIENTELE</button>
+				         		<button class="btn btn-primary" ng-click="cancelScheduleStatus()" style="height: 30px;font-size: 11px;">CANCEL</button>
+				         		<button class="btn btn-primary" ng-click="createContact(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">ADD TO CRM</button>
 				         		<select ng-model="action" ng-change="actionOnPdf(row.entity,action)" class="btn btn-sm btn-primary" style="text-transform :uppercase;height :34px">
 				         			<option value="" >More</option>
 				         			<option ng-if="row.entity.confirmDate == null" value="Schedule">Schedule</option>
