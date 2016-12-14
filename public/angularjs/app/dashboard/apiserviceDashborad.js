@@ -1078,17 +1078,23 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.setScheduleStatusClose = function(arrayString, reasonToCancel){
+	this.setScheduleStatusClose = function(closeleadObj){
+		
 		var defer = $q.defer();
-		$http.get('/setScheduleStatusClose/'+arrayString+'/'+reasonToCancel).success(function(data) {
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Status changed successfully",
+			$http.post('/setScheduleStatusClose',closeleadObj).success(function(data) {
+				  $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Status changed successfully",
+				});
+				defer.resolve(data);
 			});
+		
+		/*$http.get('/setScheduleStatusClose/'+arrayString+'/'+reasonToCancel).success(function(data) {
+			
 			defer.resolve(data);
 			
-		});
+		});*/
 		return defer.promise;
 	};
 	
@@ -1261,9 +1267,9 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.saveNoteOfUser = function(userNoteId, userNote, action){
+	this.saveNoteOfUser = function(notOnject){
 		var defer = $q.defer();
-		$http.get('/saveNoteOfUser/'+userNoteId+'/'+userNote+'/'+action).success(function(data) {
+		$http.post('/saveNoteOfUser',notOnject).success(function(data) {
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
@@ -1271,6 +1277,10 @@ angular.module('app.apiserviceDashborad', [])
 			});
 			defer.resolve(data);
 		});
+		/*$http.get('/saveNoteOfUser/'+userNoteId+'/'+userNote+'/'+action).success(function(data) {
+		
+			defer.resolve(data);
+		});*/
 		return defer.promise;
 	};
 	

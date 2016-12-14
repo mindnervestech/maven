@@ -963,6 +963,9 @@
                         if(form.component === "select"){
                           formFields.push(getJsonBForSelect(form));
                         }
+                        if(form.component === "action"){
+                            formFields.push(getJsonBForAction(form));
+                         }
                         if(form.component === "date"){
                           formFields.push(getJsonBForDate(form));
                         }
@@ -1459,6 +1462,39 @@
                     return convertedObject;
                   }
 
+                
+                
+                function getJsonBForAction(jsonObject){
+                    var key;
+                    if(jsonObject.key === ""){
+                      key = jsonObject.label;
+                      key = key.replace(" ","_");
+                      key = key.toLowerCase();
+                    }else{
+                      key = jsonObject.key;
+                    }
+                    var properties = getPropertiesForEditable(jsonObject.editable);
+                    var options = [];
+                    options = getPropertiesForSelectOptions(jsonObject.options);
+                    var convertedObject = {
+                      "key": key,
+                      "type": jsonObject.component,
+                      "templateOptions": {
+                        "label": jsonObject.label,
+                        "options": options,
+                        "valueProp": "id",
+                        "labelProp": "label",
+                        "required": jsonObject.required
+                        },
+                        "expressionProperties": properties,
+                        "hideExpression" : function($viewValue, $modelValue, scope) {
+                          return isHideComponent(jsonObject);
+                        }
+                    }
+                    return convertedObject;
+                  }
+                
+                
                 function getJsonBForSelect(jsonObject){
                   var key;
                   if(jsonObject.key === ""){

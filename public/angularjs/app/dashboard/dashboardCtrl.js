@@ -178,10 +178,39 @@ angular.module('newApp')
 		$scope.userFields = angular.copy($scope.userFieldsCopy);
 		$scope.userFields1 = null;
 		$scope.newFlagData = false;
-		apiserviceDashborad.getCustomizationform($scope.selectedLead).then(function(response){
+		
+		$scope.getFormDesign($scope.selectedLead).then(function(response){
+			console.log(response);
+			 $scope.userFields1 = $scope.addFormField($scope.userList);
+				
+			 angular.forEach($scope.userFields1, function(obj, index){
+				 $scope.userFields.push(obj);
+				});
+			 
+			 if(response.additionalData == true){
+				 $scope.newFlagData = true;
+				 $scope.userFields2 = $scope.addFormField(angular.fromJson(response.jsonDataAdd));
+			 }
+			
+			 $scope.user = {};
+		});
+		/*apiserviceDashborad.getCustomizationform($scope.selectedLead).then(function(response){
 			
 			 $scope.editInput = response;
-			 $scope.userFields1 = $scope.addFormField(angular.fromJson(response.jsonData));
+			 
+				$scope.userList = [];
+				angular.forEach(angular.fromJson(response.jsonData), function(obj, index){
+					$scope.userList.push(obj);
+					if(obj.component == "daterange"){
+						obj.label = "Start Date";
+						var objlist = angular.copy(obj);
+						objlist.key = objlist.key+"_endDate";
+						objlist.label = "End Date";
+						$scope.userList.push(objlist);
+					}
+				});
+			 
+			 $scope.userFields1 = $scope.addFormField($scope.userList);
 			
 			 angular.forEach($scope.userFields1, function(obj, index){
 				 $scope.userFields.push(obj);
@@ -196,7 +225,7 @@ angular.module('newApp')
 		
 		   // $scope.getMakes();
 		    //$("#createLeadPopup").modal();
-	    });
+	    });*/
 		
 	}
 	
@@ -2250,9 +2279,7 @@ angular.module('newApp')
 				console.log($scope.josnData);
 				$.each($scope.customData, function(attr, value) {
 				angular.forEach($scope.josnData, function(value1, key) {
-					
 					if(value1.key == attr){
-					
 						if(value1.component == "leadTypeSelector"){
 							$scope.editLeads.leadType = value;
 						}
@@ -2262,6 +2289,10 @@ angular.module('newApp')
 								oneProduct++;
 							}
 						}
+					}
+					if(value1.key == attr){
+					
+						
 						if(value1.component == "multipleselect"){
 							value = value.toString();
 						}
@@ -2278,7 +2309,6 @@ angular.module('newApp')
 						var arr = [];
 						var arr = attr.split('_');
 						if(value1.component == "emailSelect"){
-							//value = value+","+$rootScope.selectEmailType;
 							$scope.customList.push({
 								fieldId:value1.fieldId,
 	    		   	  			key:arr[0]+"_emailType",
@@ -4229,18 +4259,42 @@ angular.module('newApp')
 	    			});	
 	    			
 	    			$scope.customData = {};
-	    			apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
-	    			
-	    				
-	    				 $scope.editInput = response;
-	    				 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
-	    				 $scope.userFieldsCopy = angular.copy($scope.userFields);
+	    			$scope.getFormDesign('Create New Lead').then(function(success){
 	    				 $scope.user = {};
+	    				 $scope.userFields = $scope.addFormField($scope.userList);
+	    				 $scope.userFieldsCopy = angular.copy($scope.userFields);
+	 	    			$scope.getMakes();
+	 	    			$("#createLeadPopup").modal();
+	    			});
 	    			
-	    			$scope.getMakes();
-	    			$("#createLeadPopup").modal();
-	    		 });
 	    		}	
+	    		
+	    		
+	    		$scope.getFormDesign = function(formType){
+	    			var deferred = $q.defer();
+	    			
+	    			apiserviceDashborad.getCustomizationform(formType).then(function(response){
+		    			
+	    				$scope.userList = [];
+	    				angular.forEach(angular.fromJson(response.jsonData), function(obj, index){
+	    					$scope.userList.push(obj);
+	    					if(obj.component == "daterange"){
+	    						obj.label = "Start Date";
+	    						var objlist = angular.copy(obj);
+	    						objlist.key = objlist.key+"_endDate";
+	    						objlist.label = "End Date";
+	    						$scope.userList.push(objlist);
+	    					}
+	    				});
+	    				 $scope.editInput = response;
+	    				 
+	    				 deferred.resolve(response);
+	    		   });
+	    			
+	    			return deferred.promise;
+	    		}
+	    		
+	    		
 	    		$scope.openCreateNewLeads = function(item) {
 	    			$scope.stockWiseData = [];
 	    			apiserviceDashborad.getStockDetails(item).then(function(response){
@@ -4263,7 +4317,7 @@ angular.module('newApp')
 	    			$("#createLeadPopup").modal();
 	    		};
 	    		
-	    		
+	    	
 	    		
 	    		
 	    		
@@ -4346,7 +4400,6 @@ angular.module('newApp')
 	    			apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
 	    				
 	    			
-	    				//$scope.lead.leadType = "";
 	    				$scope.lead.manufacturers = "";
 	    				$scope.josnData = angular.fromJson(response.jsonData);
 	    				angular.forEach($scope.josnData, function(obj, index){
@@ -4373,65 +4426,29 @@ angular.module('newApp')
 	    					console.log($scope.josnData);
 	    					console.log($scope.customData);
 	    					var oneProduct = 0;
+	    					
+	    					
 	    					$.each($scope.customData, function(attr, value) {
-    						angular.forEach($scope.josnData, function(value1, key) {
-    							if(value1.key == attr){
-    							
-    								if(value1.component == "leadTypeSelector"){
-    									$scope.lead.leadType = value;
-    								}
-    								if(value1.component == "productType"){
-    									if(oneProduct == 0){
-    										$scope.lead.manufacturers = value;
-    										oneProduct++;
-    									}
-    								}
-    								if(value1.component == "multipleselect"){
-    									value = value.toString();
-    								}
-    								
-	    							$scope.customList.push({
-	    								fieldId:value1.fieldId,
-			    		   	  			key:attr,
-			    		   	  			value:value,
-			    		   	  			savecrm:value1.savecrm,
-			    		   	  			displayGrid:value1.displayGrid,
-			    		   	  		    displayWebsite:value1.displayWebsite,
-			    		   	  			formName:value1.formName,
-			    					});
-	    							var arr = [];
-    								var arr = attr.split('_');
-	    							if(value1.component == "emailSelect"){
-	    								
-    									//value = value+","+$rootScope.selectEmailType;
-	    								$scope.customList.push({
-		    								fieldId:value1.fieldId,
-				    		   	  			key: arr[0]+"_emailType",
-				    		   	  			value:$rootScope.selectEmailType,
-				    		   	  			savecrm:value1.savecrm,
-				    		   	  			displayGrid:value1.displayGrid,
-				    		   	  		    displayWebsite:value1.displayWebsite,
-				    		   	  			formName:value1.formName,
-				    					});
-    								}
-	    							
-	    							if(value1.component == "phoneSelect"){
-	    								$scope.customList.push({
-		    								fieldId:value1.fieldId,
-				    		   	  			key:arr[0]+"_phoneType",
-				    		   	  			value:$rootScope.selectPhoneType,
-				    		   	  			savecrm:value1.savecrm,
-				    		   	  			displayGrid:value1.displayGrid,
-				    		   	  		    displayWebsite:value1.displayWebsite,
-				    		   	  			formName:value1.formName,
-				    					});
-    								}
-	    						} 
+	    						angular.forEach($scope.josnData, function(value1, key) {
+	    							if(value1.key == attr){
+	    								if(value1.component == "leadTypeSelector"){
+	    									$scope.lead.leadType = value;
+	    								}
+	    								if(value1.component == "productType"){
+	    									if(oneProduct == 0){
+	    										$scope.lead.manufacturers = value;
+	    										oneProduct++;
+	    									}
+	    								}
+	    							}
+	    						});
+	    					});	
+	    					
+	    					$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
+	    						$scope.customList = response;
 	    					});
-		    			   });
-
-	    			
-	    				
+	    					
+	    					
 	    				console.log($("#bestTimes").val());
     	    			console.log($scope.customData);
     	    			console.log($scope.customList);
@@ -4440,7 +4457,6 @@ angular.module('newApp')
     	    			$scope.lead.customData = $scope.customList;
     	    			console.log($scope.lead);
     	    			console.log($("#autocomplete").val());
-    	    			//$scope.lead.custName = $('#ex1_value').val();
     	    			if($scope.lead.custName == ''){
     	    				$scope.lead.custName = $('#ex1s_value').val();
     	    			}
@@ -4461,6 +4477,81 @@ angular.module('newApp')
 	    			});
 	    			
 	    		};
+	    		
+	    		
+	    		$scope.getCreateCustomList = function(customeDataList , josnData){
+	    			 var deferred = $q.defer();
+    				 
+	    			$scope.customList = [];
+	    			$.each(customeDataList, function(attr, value) {
+						angular.forEach(josnData, function(value1, key) {
+							if(value1.key == attr){
+								
+								if(value1.component == "multipleselect"){
+									value = value.toString();
+								}
+								
+    							$scope.customList.push({
+    								fieldId:value1.fieldId,
+		    		   	  			key:attr,
+		    		   	  			value:value,
+		    		   	  			savecrm:value1.savecrm,
+		    		   	  			displayGrid:value1.displayGrid,
+		    		   	  		    displayWebsite:value1.displayWebsite,
+		    		   	  			formName:value1.formName,
+		    					});
+    							
+								if(value1.component == "daterange"){
+									$.each(customeDataList, function(attr1, value3) {
+										if(value1.key+"_endDate" == attr1){
+											$scope.customList.push({
+			    								fieldId:value1.fieldId,
+					    		   	  			key:attr1,
+					    		   	  			value:value3,
+					    		   	  			savecrm:value1.savecrm,
+					    		   	  			displayGrid:value1.displayGrid,
+					    		   	  		    displayWebsite:value1.displayWebsite,
+					    		   	  			formName:value1.formName,
+					    					});
+    									}
+									});
+								}
+
+    							
+    							var arr = [];
+								var arr = attr.split('_');
+    							if(value1.component == "emailSelect"){
+    								
+    								$scope.customList.push({
+	    								fieldId:value1.fieldId,
+			    		   	  			key: arr[0]+"_emailType",
+			    		   	  			value:$rootScope.selectEmailType,
+			    		   	  			savecrm:value1.savecrm,
+			    		   	  			displayGrid:value1.displayGrid,
+			    		   	  		    displayWebsite:value1.displayWebsite,
+			    		   	  			formName:value1.formName,
+			    					});
+								}
+    							
+    							if(value1.component == "phoneSelect"){
+    								$scope.customList.push({
+	    								fieldId:value1.fieldId,
+			    		   	  			key:arr[0]+"_phoneType",
+			    		   	  			value:$rootScope.selectPhoneType,
+			    		   	  			savecrm:value1.savecrm,
+			    		   	  			displayGrid:value1.displayGrid,
+			    		   	  		    displayWebsite:value1.displayWebsite,
+			    		   	  			formName:value1.formName,
+			    					});
+								}
+    						} 
+    					});
+	    			   });
+	    			
+	    			deferred.resolve($scope.customList);
+	    			
+	    			return deferred.promise;
+	    		}
 	    		
 	    		$scope.makeLeadEdit = function(){
 	    				$scope.lead.leadType = '3';
@@ -5884,6 +5975,10 @@ angular.module('newApp')
     	
     	$scope.cancelScheduleStatus = function() {
     		//$scope.scheduleStatusCancel = entity;
+    		$scope.getFormDesign("My Leads - Canceling lead").then(function(response){
+    			console.log(response);
+    			$scope.userFields = $scope.addFormField($scope.userList);
+    		});
     		$scope.reasonToCancel = "";
     		$('#btnCancelSchedule').click();
     	}
@@ -5908,6 +6003,7 @@ angular.module('newApp')
     	}
     	
     	$scope.cancelSure = function(){
+    		
     		$('#scheduleCancelModal').modal("toggle");
     			$scope.saveScheduleClose();
     		
@@ -5920,14 +6016,55 @@ angular.module('newApp')
     	
     	$scope.saveScheduleClose = function() {
     		
+    		$scope.closeleadObj = {};
+    		console.log($scope.customData);
     		console.log($scope.actionSelectedLead);
     		console.log($scope.actionSelectedLead.toString());
-    		apiserviceDashborad.setScheduleStatusClose($scope.actionSelectedLead.toString(),  $scope.reasonToCancel).then(function(data){
-	    		
-					$('#scheduleCancelBtn').click();
-					$route.reload();
-					
-			});
+    				
+    				$scope.josnData = null;
+    				apiserviceDashborad.getCustomizationform('My Leads - Canceling lead').then(function(response){
+    					$scope.josnData = angular.fromJson(response.jsonData);
+    					angular.forEach($scope.josnData, function(obj, index){
+    						obj.formName = "My Leads - Canceling lead";
+    	    			});
+    					if(response.additionalData == true){
+    						angular.forEach(angular.fromJson(response.jsonDataAdd), function(obj, index){
+        						obj.formName = "My Leads - Canceling lead";
+        						$scope.josnData.push(obj);
+       	    				});
+    					}
+    					console.log("()()()(0");
+    					console.log($scope.josnData);
+    					console.log($scope.customData);
+    					var oneProduct = 0;
+    					
+    					
+    					$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
+    						$scope.customList = response;
+    					});
+    					
+    					
+    				console.log($("#bestTimes").val());
+        			console.log($scope.customData);
+        			console.log($scope.customList);
+        			
+        			
+        			$scope.closeleadObj.actionSelectedLead = $scope.actionSelectedLead;
+    	    		$scope.closeleadObj.reasonToCancel = $scope.reasonToCancel;
+    	    		$scope.closeleadObj.customData = $scope.customList;
+    		
+    	    			console.log($scope.closeleadObj);
+    					
+    	    	   apiserviceDashborad.setScheduleStatusClose($scope.closeleadObj).then(function(data){
+    		    		
+    					$('#scheduleCancelBtn').click();
+    					$route.reload();
+    					
+    				});
+      	  		});
+    			
+    				
+    		
     	}
     	
     	$scope.soldContact = {};
@@ -6442,13 +6579,15 @@ angular.module('newApp')
 		   
 		   
 		   $scope.addNoteToRequestUser = function(entity) {
-			   console.log("0000000000000");
 			   console.log(entity);
 			   $scope.userNoteId = entity.id;
 			   $scope.action = "";
 			   $scope.typeOfNote = entity.typeOfLead;
 			
-			   
+			   $scope.getFormDesign("My Leads - History Log").then(function(response){
+	    			console.log(response);
+	    			$scope.userFields = $scope.addFormField($scope.userList);
+	    		});
 			   $scope.userNoteList = entity.note;
 			   $scope.userNote = "";
 			   apiserviceDashborad.getAllAction().then(function(data){
@@ -6487,19 +6626,72 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.saveUserNote = function() {
+			   $scope.notOnject = {};
+			   var actionkey = "";
+			   $scope.josnData = null;
+				apiserviceDashborad.getCustomizationform('My Leads - History Log').then(function(response){
+					$scope.josnData = angular.fromJson(response.jsonData);
+					console.log("-------------------------------------------");
+					console.log($scope.josnData);
+					angular.forEach($scope.josnData, function(obj, index){
+						if(obj.component == "action"){
+							actionkey = obj.key;
+						}
+						
+						obj.formName = "My Leads - History Log";
+	    			});
+					if(response.additionalData == true){
+						angular.forEach(angular.fromJson(response.jsonDataAdd), function(obj, index){
+   						obj.formName = "My Leads - History Log";
+   						$scope.josnData.push(obj);
+  	    				});
+					}
+					
+					
+					console.log($scope.josnData);
+					console.log($scope.customData);
+					var oneProduct = 0;
+					
+					
+					$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
+						$scope.customList = response;
+					});
+					
+					
+				 console.log($("#bestTimes").val());
+   			     console.log($scope.customData);
+   			     console.log($scope.customList);
+   			  
+   			  $scope.list = [];
+   			  angular.forEach($scope.customList, function(obj, index){
+   				  if(actionkey == obj.key){
+   					$scope.notOnject.action = obj.value;
+   				  }else{
+   					$scope.list.push(obj);
+   				  }
+   			  })
+   			    $scope.notOnject.userNoteId = $scope.userNoteId;
+	    		$scope.notOnject.customData = $scope.list;
+	    		$scope.notOnject.userNote = $scope.userNote;
+		
+	    			console.log($scope.notOnject);
+					
+	    			  apiserviceDashborad.saveNoteOfUser($scope.notOnject).then(function(data){
+	 		 			 $scope.getAllSalesPersonRecord($scope.salesPerson);
+	 					$('#noteClose').click();
+	 										
+	 		 		});
+ 	  		});
 			   
+			   /*apiserviceDashborad.saveNoteOfUser($scope.userNoteId, $scope.userNote, $scope.action).then(function(data){
 			   
-			   apiserviceDashborad.saveNoteOfUser($scope.userNoteId, $scope.userNote, $scope.action).then(function(data){
-			   
-		 			
 		 			 $scope.getAllSalesPersonRecord($scope.salesPerson);
 					$('#noteClose').click();
 					
-					//if($scope.typeOfNote == 'requestMore') {
-						//$scope.getRequestMoreData();
-					//}
-					
-		 		});
+										
+		 		});*/
+			   
+			 
 		   }
 		   $scope.testDriveData = {};
 		   $scope.scheduleTestDriveForUser = function(entity,option) {

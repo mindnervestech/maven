@@ -2,7 +2,7 @@ angular.module('formlyIonic', ['formly'], ["formlyConfigProvider", function conf
     'use strict';
 
 
-    angular.forEach(['checkbox', 'input', 'radio', 'range', 'textarea', 'toggle', 'select', 'floating-input', 'stacked-input', 'inline-input','signature','ui-grid','image','financialcalculator','daterange','autocompleteText','contactssearch','inventorysearch','fileuploaders','timerange','headerlabel','numberInput','multipleselect','singleSelect','leadTypeSelector','productType','selectGroup','emailSelect','phoneSelect','zipCodes'], function (fieldName) {
+    angular.forEach(['checkbox', 'input', 'radio', 'range', 'textarea', 'toggle', 'select', 'floating-input', 'stacked-input', 'inline-input','signature','ui-grid','image','financialcalculator','daterange','autocompleteText','contactssearch','inventorysearch','fileuploaders','timerange','headerlabel','numberInput','multipleselect','singleSelect','leadTypeSelector','productType','selectGroup','emailSelect','phoneSelect','zipCodes','action'], function (fieldName) {
         if(fieldName === 'signature'){
             formlyConfigProvider.setType({
                 name: fieldName,
@@ -38,6 +38,13 @@ angular.module('formlyIonic', ['formly'], ["formlyConfigProvider", function conf
         }
         
         else if(fieldName === 'singleSelect'){
+            formlyConfigProvider.setType({
+                name: fieldName,
+                templateUrl: getFieldTemplateUrl(fieldName),
+                controller:'customizationCtrl'
+            });
+        }
+        else if(fieldName === 'action'){
             formlyConfigProvider.setType({
                 name: fieldName,
                 templateUrl: getFieldTemplateUrl(fieldName),
@@ -184,6 +191,7 @@ $templateCache.put("fields/radio.html","<label class=\"item item-input item-stac
 
 $templateCache.put("fields/range.html","<div class=\"item range\" ng-class=\"\'range-\' + options.templateOptions.rangeClass\"><span class=\"col-sm-3\" style=\"text-align: right;\">{{options.templateOptions.label}}</span> <i class=\"icon\" ng-if=\"options.templateOptions.minIcon\" ng-class=\"options.templateOptions.minIcon\"></i> <input type=\"range\" min=\"{{options.templateOptions.min}}\" max=\"{{options.templateOptions.max}}\" step=\"{{options.templateOptions.step}}\" value=\"{{options.templateOptions.value}}\" ng-model=\"model[options.key]\"> <i class=\"icon\" ng-if=\"options.templateOptions.maxIcon\" ng-class=\"options.templateOptions.maxIcon\"></i></div>");
 $templateCache.put("fields/select.html","<label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div class=\"col-sm-4 form-group\"><select class=\"col-sm-10 form-control form-white\" ng-model=\"model[options.key]\" ng-options=\"option[to.valueProp || \'value\'] as option[to.labelProp || \'name\'] group by 			  option[to.groupProp || \'group\'] for option in to.options\"></select></div></label>");
+$templateCache.put("fields/action.html","<label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div class=\"col-sm-4 form-group\"><select class=\"col-sm-10 form-control form-white\" ng-model=\"model[options.key]\" ng-options=\"option[to.valueProp || \'value\'] as option[to.labelProp || \'name\'] group by 			  option[to.groupProp || \'group\'] for option in to.options\"></select></div></label>");
 
 $templateCache.put("fields/leadTypeSelector.html","<label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div class=\"col-sm-4 form-group\"><select class=\"col-sm-10 form-control form-white\" ng-model=\"model[options.key]\" ng-change=\"selectLead(model[options.key])\"><option ng-repeat=\"lType in leadList\">{{lType.leadName}}</option></select></div></label>");
 $templateCache.put("fields/productType.html","<label class=\"item item-input item-select form-group col-sm-12\" style=\"padding-left: 0px;\"><div class=\"input-label form-group col-sm-2\" style=\"text-align: right;\">{{to.label}}</div><div class=\"col-sm-4 form-group\"><select class=\"col-sm-10 form-control form-white\" ng-model=\"model[options.key]\" ng-change=\"selecProductType(model[options.key])\"><option ng-repeat=\"mType in manufacturerslist\">{{mType.title}}</option></select></div></label>");

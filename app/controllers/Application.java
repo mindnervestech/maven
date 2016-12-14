@@ -145,6 +145,7 @@ import viewmodel.AddProductVM;
 import viewmodel.AudioVM;
 import viewmodel.BarChartVM;
 import viewmodel.ClickyPagesVM;
+import viewmodel.CloseLeadVM;
 import viewmodel.ContactsVM;
 import viewmodel.CreateNewFormVM;
 import viewmodel.DateAndValueVM;
@@ -3893,7 +3894,7 @@ public class Application extends Controller {
 		    			rInfo.update();
 		    			if(rInfo.isContactusType != null){
 			    			if(!rInfo.isContactusType.equals("contactUs")){
-			    				saveCustomData(rInfo.id,vm,bodys, Long.parseLong(rInfo.isContactusType));
+			    				saveCustomData(rInfo.id,vm.customData,bodys, Long.parseLong(rInfo.isContactusType));
 			    			}
 		    			}
 		    			reqDate = rInfo.requestDate;
@@ -10104,9 +10105,9 @@ public class Application extends Controller {
     }
     
     
-    private static void saveCustomData(Long infoId,LeadVM leadVM,MultipartFormData bodys,Long leadtype) {
+    private static void saveCustomData(Long infoId,List<KeyValueDataVM> customData,MultipartFormData bodys,Long leadtype) {
     	String formName = "";
-    	for(KeyValueDataVM custom:leadVM.customData){
+    	for(KeyValueDataVM custom:customData){
     		
     		CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId(custom.key,infoId);
     		if(cDataValue == null){
@@ -12732,31 +12733,35 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     
-    public static Result setScheduleStatusClose(String arrayString,String reason) {
+    public static Result setScheduleStatusClose() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
+    		Form<CloseLeadVM> form = DynamicForm.form(CloseLeadVM.class).bindFromRequest();
+    		CloseLeadVM vm = form.get();
     		String clientEmail=null;
     		String clientPhone=null;
     		String clientName=null;
-    		
+    		MultipartFormData bodys = request().body().asMultipartFormData();
     		AuthUser user = getLocalUser();
     		Date currDate = new Date();
     		
     		String comments="Test Drive has been canceled";
     		String subject = "Test Drive cancelled";
     		
-    		String arr[] = arrayString.split(",");
-    		for(int i=0;i<arr.length;i++){
-    			RequestMoreInfo info = RequestMoreInfo.findById(Long.parseLong(arr[i]));
+    		//String arr[] = arrayString.split(",");
+    		for(String value:vm.actionSelectedLead){
+    			RequestMoreInfo info = RequestMoreInfo.findById(Long.parseLong(value));
     			
     			String vin=info.vin;
     			info.setStatus("CANCEL");
     			info.setStatusDate(currDate);
     			info.setStatusTime(currDate);
-    			info.setReason(reason);
+    			info.setReason(vm.reasonToCancel);
     			info.update();
     			clientEmail=info.email;
+    			
+    			saveCustomData(info.id,vm.customData,bodys,Long.parseLong(info.isContactusType));
     			
     			if(info.confirmDate != null){
     				Map map = new HashMap();
@@ -16041,6 +16046,33 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     
+    public static Result saveNoteOfALLUser() {
+    	Form<CloseLeadVM> form = DynamicForm.form(CloseLeadVM.class).bindFromRequest();
+		CloseLeadVM vm = form.get();
+		MultipartFormData bodys = request().body().asMultipartFormData();
+		AuthUser user = getLocalUser();
+		
+		RequestMoreInfo requestMore = RequestMoreInfo.findById(vm.userNoteId);
+		UserNotes notes = new UserNotes();
+		notes.note = vm.userNote;
+		notes.action = vm.action;
+		notes.requestMoreInfo = requestMore;
+		notes.saveHistory = 1;
+		if(requestMore.assignedTo !=null){
+			notes.user = requestMore.assignedTo;
+		}
+		Date date = new Date();
+		notes.createdDate = date;
+		notes.createdTime = date;
+		notes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		notes.save();
+		
+		saveCustomData(requestMore.id,vm.customData,bodys,Long.parseLong(requestMore.isContactusType));
+	
+	return ok();
+    }
+    
+    
     public static Result getAllAction(){
     	List<ActionAdd> actionAdd = ActionAdd.getAll();
     	return ok(Json.toJson(actionAdd));
@@ -19032,7 +19064,7 @@ if(vehicles.equals("All")){
 	    		info.setIsContactusType(leadVM.leadType);
 	    		info.save();
 	    		
-	    		saveCustomData(info.id,leadVM,bodys,Long.parseLong(leadVM.leadType));
+	    		saveCustomData(info.id,leadVM.customData,bodys,Long.parseLong(leadVM.leadType));
 	    	
 	    		
 	    		UserNotes uNotes = new UserNotes();

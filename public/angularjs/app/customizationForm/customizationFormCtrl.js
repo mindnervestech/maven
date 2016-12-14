@@ -13,7 +13,9 @@ angular.module('newApp')
 
 	  	$scope.showSaveButton = $routeParams.pageType;
 	  	$scope.formType = $routeParams.formType;
+	  	localStorage.setItem('formType',$routeParams.formType);
 	  	console.log($routeParams.formType);
+	  	
 	  	$scope.showDefault = localStorage.getItem('callToAction');
 	  if($routeParams.formType == "Request Appointment"){
 		  $scope.appointFlag=1;

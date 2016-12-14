@@ -5708,19 +5708,31 @@ float: right !important;
 
 									<div class="modal fade" id="scheduleCancelModal" tabindex="-1" role="dialog" aria-hidden="true">
 								        <div class="modal-dialog">
-								            <div class="modal-content">
+								            <div class="modal-content" style="width: 800px;">
 								                <div class="modal-header">
 								                    <button type="button" class="close" id="scheduleCancelBtn" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
 								                    <h4 class="modal-title">Close test drive</h4>
 								                </div>
 								                <form ng-submit="cancelSure()">
 								                <div class="modal-body">
-								                    <b style="margin-left:3%;">Please explain the reason of canceling this Lead</b><br>
+								                <div class="col-md-12">
+								                	<div class="col-md-2">
+								                		<label>Please explain the reason of canceling this Lead</label>
+								                	</div>
+								                	<div class="col-md-6">
+								                		<input class="form-control form-white" style="" ng-model="reasonToCancel" type="text" required>
+								                	</div>
+								                </div>
+								                   <!--  <b style="margin-left:3%;">Please explain the reason of canceling this Lead</b><br>
 								                     <div class="form-group col-sm-12">
 														<div class="col-sm-5=10">
 															<input class="form-control form-white" style="" ng-model="reasonToCancel" type="text" required>
 														</div>
-													</div>
+													</div> -->
+													<div class="col-md-12" style="margin-top: 32px;">
+								                				<formly-form model="customData" fields="userFields">
+  																</formly-form>
+								                    	</div>
 								                </div>
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
@@ -6372,7 +6384,7 @@ float: right !important;
 								    </div>
 								    
 								     <div class="modal fade" id="userNoteModal" tabindex="-1" role="dialog" aria-hidden="true">
-								        <div class="modal-dialog">
+								        <div class="modal-dialog" style="margin-left: 250px;">
 								            <div class="modal-content" style="width: 962px">
 								                <div class="modal-header">
 								                    <button type="button" class="close" id="noteClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
@@ -6381,12 +6393,16 @@ float: right !important;
 								                 <form ng-submit="saveUserNote()">
 								                <div class="modal-body">
 								                    <div class="form-group col-sm-12">
-														<label class="col-sm-3 control-label" style="text-align: right;">Note</label>
+														<label class="col-sm-2 control-label" style="text-align: right;">Note</label>
 														<div class="col-sm-7">
 															<input type="text" class="form-control form-white" ng-model="userNote" required>
 														</div>
 													</div>
-													<div class="form-group col-sm-12">
+													<div class="col-md-12" style="margin-top: 32px;">
+								                				<formly-form model="customData" fields="userFields">
+  																</formly-form>
+								                    	</div>
+													<!-- <div class="form-group col-sm-12">
 														<label class="col-sm-3 control-label" style="text-align: right;">Action</label>
 														<div class="col-sm-7">
 														<select class="form-control form-white" ng-model="action" ng-change="selectOther(action)" required>
@@ -6396,7 +6412,7 @@ float: right !important;
 																<option value="Other">Other</option>
 															</select>
 															</div>
-													</div>
+													</div> -->
 													<div class="form-group col-sm-12" ng-if="showOtherText == 1">
 														<label class="col-sm-3 control-label" style="text-align: right;">Other</label>
 														<div class="col-sm-6">
