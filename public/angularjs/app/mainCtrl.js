@@ -1739,17 +1739,19 @@
                      }
                      var properties = getPropertiesForEditable(jsonObject.editable);
                      var convertedObject = {
-                       "key": key,
-                         "type": 'daterange',
-                         "templateOptions": {
-                           "type": "date",
-                           "label": jsonObject.label,
-                           "placeholder": jsonObject.placeholder,
-                           "required": jsonObject.required
-                         },
-                         "expressionProperties": properties,
-                         
-                     };
+                             "key": key,
+                               "type": 'stacked-input',
+                               "templateOptions": {
+                                 "type": "date",
+                                 "label": jsonObject.label,
+                                 "placeholder": jsonObject.placeholder,
+                                 "required": jsonObject.required
+                               },
+                               "expressionProperties": properties,
+                               "hideExpression" : function($viewValue, $modelValue, scope) {
+                                 return isHideComponent(jsonObject);
+                               }
+                           };
                      return convertedObject;
                 }
 

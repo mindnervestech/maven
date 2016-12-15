@@ -189,49 +189,26 @@ angular.module('newApp')
 			 
 			 if(response.additionalData == true){
 				 $scope.newFlagData = true;
-				 $scope.userFields2 = $scope.addFormField(angular.fromJson(response.jsonDataAdd));
+				 $scope.userFieldOnjson = angular.fromJson(response.jsonDataAdd);
+				 var arrayList = [];
+				 angular.forEach(angular.fromJson(response.jsonDataAdd), function(obj, index){
+					 arrayList.push(obj);
+					 if(obj.component == "daterange"){
+							obj.label = "Start Date";
+							var objlist = angular.copy(obj);
+							objlist.key = objlist.key+"_endDate";
+							objlist.label = "End Date";
+							arrayList.push(objlist);
+					}
+				 });
+				 $scope.userFields2 = $scope.addFormField(arrayList);
 			 }
-			
 			 $scope.user = {};
 		});
-		/*apiserviceDashborad.getCustomizationform($scope.selectedLead).then(function(response){
-			
-			 $scope.editInput = response;
-			 
-				$scope.userList = [];
-				angular.forEach(angular.fromJson(response.jsonData), function(obj, index){
-					$scope.userList.push(obj);
-					if(obj.component == "daterange"){
-						obj.label = "Start Date";
-						var objlist = angular.copy(obj);
-						objlist.key = objlist.key+"_endDate";
-						objlist.label = "End Date";
-						$scope.userList.push(objlist);
-					}
-				});
-			 
-			 $scope.userFields1 = $scope.addFormField($scope.userList);
-			
-			 angular.forEach($scope.userFields1, function(obj, index){
-				 $scope.userFields.push(obj);
-				});
-			 
-			 if(response.additionalData == true){
-				 $scope.newFlagData = true;
-				 $scope.userFields2 = $scope.addFormField(angular.fromJson(response.jsonDataAdd));
-			 }
-			
-			 $scope.user = {};
-		
-		   // $scope.getMakes();
-		    //$("#createLeadPopup").modal();
-	    });*/
-		
 	}
 	
 	
 	$scope.showAdditionField = function(additional){
-		
 		
 		if(additional == false){
 			additional = true;
@@ -251,18 +228,22 @@ angular.module('newApp')
 					 }
 				});
 			});	
-			
 		}
+		
 		if(additional == undefined){
 			angular.forEach($scope.userFields2, function(obj, index){
-				 $scope.userFields.push(obj);
+				console.log(obj);
+				$scope.userFields.push(obj);
+				 
 			});	
 		}
 		
 		if(additional == true){
 			angular.forEach($scope.userFields2, function(obj, index){
-				 $scope.userFields.push(obj);
+				console.log(obj);
+				$scope.userFields.push(obj);
 			});	
+			
 		}
 	}
         
@@ -2298,6 +2279,23 @@ angular.module('newApp')
     		   	  		    displayWebsite:value1.displayWebsite,
     		   	  		    formName:value1.formName,
     					});
+						
+						if(value1.component == "daterange"){
+							$.each($scope.customData, function(attr1, value3) {
+								if(value1.key+"_endDate" == attr1){
+									$scope.customList.push({
+	    								fieldId:value1.fieldId,
+			    		   	  			key:attr1,
+			    		   	  			value:value3,
+			    		   	  			savecrm:value1.savecrm,
+			    		   	  			displayGrid:value1.displayGrid,
+			    		   	  		    displayWebsite:value1.displayWebsite,
+			    		   	  			formName:value1.formName,
+			    					});
+								}
+							});
+						}
+						
 						var arr = [];
 						var arr = attr.split('_');
 						if(value1.component == "emailSelect"){
@@ -9175,13 +9173,14 @@ angular.module('newApp')
 	        	console.log("-------------------------------");
 	        	console.log(leadInfo);
 	        	
+	        	
 	        	$scope.josnData1 = angular.copy($scope.josnData);
 	        	apiserviceDashborad.getCustomizationform(leadInfo).then(function(response){
 		   					//$scope.josnData1 = angular.fromJson(response.jsonData);
 		   					angular.forEach(angular.fromJson(response.jsonData),function(value,key){
 		   						$scope.josnData1.push(value);
 		   					});
-		   					
+		   					console.log($scope.josnData1);			
 		   	        	
 		   				var findFlag = 0;
 		   				angular.forEach($scope.AllOtherLeadSeenList,function(value,key){
@@ -9189,7 +9188,24 @@ angular.module('newApp')
 		   						angular.forEach(value.customData,function(value1,key1){
 		   							angular.forEach($scope.josnData1,function(value2,key2){
 		   								if(value1.key == value2.key){
-		   									$scope.gridMapObect.push({values: value1.value , key: value1.key, label: value2.label});
+		   									console.log(value.customData);
+	   										console.log(value1.key);
+	   										
+	   										if(value2.component == "daterange"){
+	   											$scope.gridMapObect.push({values: value1.value , key: value1.key, label: "Start Date"});
+	   											angular.forEach(value.customData,function(value3,key3){
+		   											if(value3.key == value1.key+"_endDate"){
+		   												$scope.gridMapObect.push({values: value3.value , key: value3.key, label: "End Date"});
+			   										}
+		   										});
+	   										}else{
+	   											$scope.gridMapObect.push({values: value1.value , key: value1.key, label: value2.label});
+	   										}
+	   										
+	   										
+		   									
+		   										
+		   								//	}
 		   									findFlag = 1;
 		   								}
 		   								

@@ -191,7 +191,7 @@
           disableWeekends: false,
           readOnly: false,
           displayTemplate:"<div class=\"form-group col-sm-12\" id=\"{{formName+index | nospace}}\">\ndate</div>",
-          template: "<div style=\"margin-left: 2px;padding: 0px;\" class=\"form-group col-sm-12\"><div class=\"form-group col-sm-6\"><label class=\"form-group col-sm-5\">Start Date</label><div class=\"form-group col-sm-9\"><ui-date weekends=\"{{disableWeekends}}\"></ui-date></div></div><div class=\"form-group col-sm-6\"><label class=\"form-group col-sm-5\">End Date</label><div class=\"form-group col-sm-9\"><ui-date weekends=\"{{disableWeekends}}\"></ui-date></div></div> <div class='col-sm-12'> <hr> </div> </div>",
+          template: "<div style=\"margin-left: 2px;padding: 0px;\" class=\"form-group col-sm-12\"><div class=\"form-group col-sm-12\"><label class=\"form-group col-sm-4\">Start Date</label><div class=\"form-group col-sm-7\"><ui-date weekends=\"{{disableWeekends}}\"></ui-date></div></div><div class=\"form-group col-sm-12\"><label class=\"form-group col-sm-4\">End Date</label><div class=\"form-group col-sm-7\"><ui-date weekends=\"{{disableWeekends}}\"></ui-date></div></div> <div class='col-sm-12'> <hr> </div> </div>",
           popoverTemplateUrl: '/dealer/template/datepicker.html'
         });
       

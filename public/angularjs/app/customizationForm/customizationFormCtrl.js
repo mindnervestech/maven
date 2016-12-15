@@ -176,6 +176,31 @@ angular.module('newApp')
 				 $scope.editform.formType = $routeParams.formType;
 				 $scope.editform.jsonform = $builder.forms['default'];
 				 $scope.editform.jsonformAdd = $builder.forms['defaultAdd'];
+				/* angular.forEach($scope.editform.jsonform, function(value, key) {
+					 if(value.component == "daterange"){
+						 value.label = "Start Date"
+					    var obj = angular.copy(value);
+						 obj.key = obj.key+"_endDate";
+						 obj.label = "End Date";
+						 if(value.fieldId == $scope.editform.jsonform[key].fieldId){
+							 $scope.editform.jsonform[key].key = obj.key;
+							 $scope.editform.jsonform[key].label = obj.label;
+						 }else{
+								 
+								 $scope.editform.jsonform.push(obj);
+						 }
+						 
+					 }
+				 });
+				 angular.forEach($scope.editform.jsonformAdd, function(value, key) {
+					 if(value.component == "daterange"){
+						 value.label = "Start Date"
+						 var obj = angular.copy(value);
+						 obj.key = obj.key+"_endDate";
+						 obj.label = "End Date";
+						 $scope.editform.jsonformAdd.push(obj);
+					 }
+				 });*/
 				 if($scope.additionalData == undefined){
 					 $scope.additionalData = false;
 				 }
@@ -240,6 +265,20 @@ angular.module('newApp')
 			 $scope.editform.formType = $routeParams.formType;
 			 $scope.editform.jsonform = $builder.forms['default'];
 			 $scope.editform.jsonformAdd = $builder.forms['defaultAdd'];
+			/* angular.forEach($scope.editform.jsonform, function(value, key) {
+				 if(value.component == "daterange"){
+					 var obj = angular.copy(value);
+					 obj.key = obj.key+"_endDate"; 
+					 $scope.editform.jsonform.push(obj);
+				 }
+			 });
+			 angular.forEach($scope.editform.jsonformAdd, function(value, key) {
+				 if(value.component == "daterange"){
+					 var obj = angular.copy(value);
+					 obj.key = obj.key+"_endDate"; 
+					 $scope.editform.jsonformAdd.push(obj);
+				 }
+			 });*/
 			 $scope.editform.outcome = $scope.outcome;
 			 console.log($scope.editform);
 			 if($scope.additionalData == undefined){
