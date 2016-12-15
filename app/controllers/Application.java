@@ -10083,6 +10083,11 @@ public class Application extends Controller {
 				vm1.key = String.valueOf(jsonObj1.get("key"));
 				vm1.value = String.valueOf(jsonObj1.get("value"));
 				vm1.formName = String.valueOf(jsonObj1.get("formName"));
+				vm1.fieldId = Long.parseLong(String.valueOf(jsonObj1.get("fieldId")));
+				vm1.displayGrid = String.valueOf(jsonObj1.get("displayGrid"));
+				vm1.displayWebsite = String.valueOf(jsonObj1.get("displayWebsite"));
+				vm1.savecrm = String.valueOf(jsonObj1.get("savecrm"));
+				vm1.component = String.valueOf(jsonObj1.get("component"));
 				vmList1.add(vm1);
 				leadVM.customData.add(vm1);
 			}
@@ -10114,7 +10119,13 @@ public class Application extends Controller {
     			CustomizationDataValue cValue = new CustomizationDataValue();
     			cValue.fieldId = custom.fieldId;
     			cValue.keyValue = custom.key;
-    			cValue.value = custom.value;
+    			if(custom.component.equals("fileuploaders")){
+    				String fileN = custom.value.replaceAll("[-+^:,() ]","");
+    				cValue.value = rootDir+File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileN; 
+    			}else{
+    				cValue.value = custom.value;
+    			}
+    			
     			cValue.leadId = infoId;
     			cValue.leadType = leadtype;
     			cValue.formName = custom.formName;
@@ -10144,10 +10155,16 @@ public class Application extends Controller {
     			
     		}else{
     			cDataValue.setKeyValue(custom.key);
-    			cDataValue.setValue(custom.value);
     			
+    			if(custom.component.equals("fileuploaders")){
+    				String fileN = custom.value.replaceAll("[-+^:,() ]","");
+    				cDataValue.setValue(rootDir+File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileN); 
+    			}else{
+    				cDataValue.setValue(custom.value);
+    			}
     			
     			cDataValue.setFormName(custom.formName);
+    			formName = custom.formName;
     			if(custom.savecrm == null){
     				cDataValue.setSaveCrm("false");
     			}else{
@@ -10159,7 +10176,6 @@ public class Application extends Controller {
     				cDataValue.setDisplayGrid(custom.displayGrid);
     			}
 				cDataValue.setFormName(custom.formName);
-    			//cDataValue.setDisplayWebsite(custom.displayWebsite);
     			cDataValue.update();
     		}
 			
@@ -10180,7 +10196,7 @@ public class Application extends Controller {
     	    	    FileUtils.moveFile(file, new File(filePath));
     	    	    
     				
-    				CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId("fileupload",infoId);
+    /*				CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId("fileupload",infoId);
     	    		if(cDataValue == null){
     	    			 CustomizationDataValue cValue = new CustomizationDataValue();
     	    				cValue.keyValue = "fileupload";
@@ -10199,7 +10215,7 @@ public class Application extends Controller {
     	    			cDataValue.setValue(session("USER_LOCATION")+File.separator+"leads"+File.separator+infoId+File.separator+fileName);
     	    			cDataValue.update();
     	    		}
-    				
+    */				
     			} catch (Exception e) {
 					e.printStackTrace();
 				}

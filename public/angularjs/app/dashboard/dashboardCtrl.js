@@ -2031,9 +2031,43 @@ angular.module('newApp')
    	  	    $scope.stockWiseData = [];
    	  	    
    	  	    
+   	  	  $scope.showFomeD = function(type){
+   	  		  if(type == "editLead"){
+   	  			 $scope.addAddress = false;
+   				 $scope.editAddress = true;
+   				 $scope.historyAddressBar = false;
+   				 $scope.cancellingAddress = false;
+   				 $scope.scheduleAddress = false;
+   	  		  }else if(type == "createLead"){
+   	  			 $scope.addAddress = true;
+    			 $scope.editAddress = false;
+    			 $scope.historyAddressBar = false;
+    			 $scope.cancellingAddress = false;
+    			 $scope.scheduleAddress = false;
+   	  		  }else if(type == "History Log"){
+   	  			 $scope.addAddress = false;
+  				 $scope.editAddress = false;
+  				 $scope.historyAddressBar = true;
+  				 $scope.cancellingAddress = false;
+  				 $scope.scheduleAddress = false;
+   	  		  }else if(type == "Canceling lead"){
+   	  		     $scope.addAddress = false;
+				 $scope.editAddress = false;
+				 $scope.historyAddressBar = false;
+				 $scope.cancellingAddress = true;
+				 $scope.scheduleAddress = false;
+   	  		  }else if(type == "Schedule lead"){
+   	  			$scope.addAddress = false;
+				 $scope.editAddress = false;
+				 $scope.historyAddressBar = false;
+				 $scope.cancellingAddress = false;
+				 $scope.scheduleAddress = true;
+   	  		  }
+   	  		
+   	  	  }  
+   	  	    
    	  	  $scope.editVinData = function(entity){
-   	  		$scope.addAddress = false;
-			$scope.editAddress = true;
+   	  		$scope.showFomeD("editLead");
    	  		$scope.customData = entity.customMapData;
    	  		console.log(entity);
    	  		$("#ex1_value").val(entity.name);
@@ -2277,6 +2311,7 @@ angular.module('newApp')
     		   	  			savecrm:value1.savecrm,
     		   	  			displayGrid:value1.displayGrid,
     		   	  		    displayWebsite:value1.displayWebsite,
+    		   	  		    component:value1.component,
     		   	  		    formName:value1.formName,
     					});
 						
@@ -2290,6 +2325,7 @@ angular.module('newApp')
 			    		   	  			savecrm:value1.savecrm,
 			    		   	  			displayGrid:value1.displayGrid,
 			    		   	  		    displayWebsite:value1.displayWebsite,
+			    		   	  		    component:value1.component,
 			    		   	  			formName:value1.formName,
 			    					});
 								}
@@ -2306,6 +2342,7 @@ angular.module('newApp')
 	    		   	  			savecrm:value1.savecrm,
 	    		   	  			displayGrid:value1.displayGrid,
 	    		   	  		    displayWebsite:value1.displayWebsite,
+	    		   	  		    component:value1.component,
 	    		   	  			formName:value1.formName,
 	    					});
 						}
@@ -2318,6 +2355,7 @@ angular.module('newApp')
 	    		   	  			savecrm:value1.savecrm,
 	    		   	  			displayGrid:value1.displayGrid,
 	    		   	  		    displayWebsite:value1.displayWebsite,
+	    		   	  		    component:value1.component,
 	    		   	  			formName:value1.formName,
 	    					});
 						}
@@ -4236,12 +4274,8 @@ angular.module('newApp')
 	    		
 	    			 $scope.userFieldsCopy = null;
 	    		$scope.openCreateNewLeadPopup = function() {
-	    			$scope.newFlagData = false;
-	    			$scope.additional = false;
-	    			$scope.addAddress = true;
-	    			$scope.editAddress = false;
-	    			$scope.stockWiseData = [];
-	    			$scope.stockWiseData = [{}];
+	    			 $scope.showFomeD("createLead");
+	    		
 	    			apiserviceDashborad.getSelectedLeadType().then(function(response){
 	    			
 	    				$scope.leadList = response; 
@@ -4384,6 +4418,7 @@ angular.module('newApp')
 	    			if($scope.customData.autocompleteText == undefined){
 	    				delete $scope.customData.autocompleteText;
 	    			}
+	    			
 	    			$scope.josnData = 0;
 	    			
 	    			
@@ -4471,10 +4506,48 @@ angular.module('newApp')
 	    		
 	    		$scope.getCreateCustomList = function(customeDataList , josnData){
 	    			 var deferred = $q.defer();
-    				 
+    				 var addrs = 0;
+    				 var fileFlag = 0;
 	    			$scope.customList = [];
 	    			$.each(customeDataList, function(attr, value) {
 						angular.forEach(josnData, function(value1, key) {
+							
+							if(addrs == 0){
+								if(value1.component == "autocompleteText"){
+									addrs = 1;
+									$scope.customList.push({
+	    								fieldId:value1.fieldId,
+			    		   	  			key:value1.key,
+			    		   	  			value:customeDataList.autocompleteText,
+			    		   	  			savecrm:value1.savecrm,
+			    		   	  			displayGrid:value1.displayGrid,
+			    		   	  		    displayWebsite:value1.displayWebsite,
+			    		   	  		    component:value1.component,
+			    		   	  			formName:value1.formName,
+			    					});
+								}
+							}
+							
+							
+							if(fileFlag == 0){
+								if(value1.component == "fileuploaders"){
+									if($rootScope.fileCustom != undefined){
+					    				console.log($rootScope.fileCustom[0].name);
+					    				fileFlag = 1;
+										$scope.customList.push({
+		    								fieldId:value1.fieldId,
+				    		   	  			key:value1.key,
+				    		   	  			value:$rootScope.fileCustom[0].name,
+				    		   	  			savecrm:value1.savecrm,
+				    		   	  			displayGrid:value1.displayGrid,
+				    		   	  		    displayWebsite:value1.displayWebsite,
+				    		   	  		    component:value1.component,
+				    		   	  			formName:value1.formName,
+				    					});
+					    			}
+								}
+							}
+							
 							if(value1.key == attr){
 								
 								if(value1.component == "multipleselect"){
@@ -4488,6 +4561,7 @@ angular.module('newApp')
 		    		   	  			savecrm:value1.savecrm,
 		    		   	  			displayGrid:value1.displayGrid,
 		    		   	  		    displayWebsite:value1.displayWebsite,
+		    		   	  		    component:value1.component,
 		    		   	  			formName:value1.formName,
 		    					});
     							
@@ -4501,6 +4575,7 @@ angular.module('newApp')
 					    		   	  			savecrm:value1.savecrm,
 					    		   	  			displayGrid:value1.displayGrid,
 					    		   	  		    displayWebsite:value1.displayWebsite,
+					    		   	  		    component:value1.component,
 					    		   	  			formName:value1.formName,
 					    					});
     									}
@@ -4519,6 +4594,7 @@ angular.module('newApp')
 			    		   	  			savecrm:value1.savecrm,
 			    		   	  			displayGrid:value1.displayGrid,
 			    		   	  		    displayWebsite:value1.displayWebsite,
+			    		   	  		    component:value1.component,
 			    		   	  			formName:value1.formName,
 			    					});
 								}
@@ -4531,6 +4607,7 @@ angular.module('newApp')
 			    		   	  			savecrm:value1.savecrm,
 			    		   	  			displayGrid:value1.displayGrid,
 			    		   	  		    displayWebsite:value1.displayWebsite,
+			    		   	  		    component:value1.component,
 			    		   	  			formName:value1.formName,
 			    					});
 								}
@@ -5997,6 +6074,7 @@ angular.module('newApp')
     	
     	$scope.cancelScheduleStatus = function() {
     		//$scope.scheduleStatusCancel = entity;
+    		 $scope.showFomeD("Canceling lead");
     		$scope.getFormDesign("My Leads - Canceling lead").then(function(response){
     			console.log(response);
     			$scope.userFields = $scope.addFormField($scope.userList);
@@ -6605,7 +6683,7 @@ angular.module('newApp')
 			   $scope.userNoteId = entity.id;
 			   $scope.action = "";
 			   $scope.typeOfNote = entity.typeOfLead;
-			
+			   
 			   $scope.getFormDesign("My Leads - History Log").then(function(response){
 	    			console.log(response);
 	    			$scope.userFields = $scope.addFormField($scope.userList);
@@ -6616,6 +6694,7 @@ angular.module('newApp')
 			   
 				   $scope.allAction = data;
 		   		});
+			   $scope.showFomeD('History Log');
 			   $('#btnUserNote').click();
 		   }
 		   
@@ -6732,7 +6811,7 @@ angular.module('newApp')
 				   });
 				   
 			   });
-			   
+			   $scope.showFomeD("Schedule lead");
 			   $scope.getFormDesign("My Leads - Schedule an appointment").then(function(response){
 				   console.log(response);
 	    			$scope.userFields = $scope.addFormField($scope.userList);
@@ -9172,6 +9251,7 @@ angular.module('newApp')
 	        	console.log($scope.otherLead);
 	        	console.log("-------------------------------");
 	        	console.log(leadInfo);
+	        	console.log($scope.AllOtherLeadSeenList);
 	        	
 	        	
 	        	$scope.josnData1 = angular.copy($scope.josnData);
@@ -9188,31 +9268,29 @@ angular.module('newApp')
 		   						angular.forEach(value.customData,function(value1,key1){
 		   							angular.forEach($scope.josnData1,function(value2,key2){
 		   								if(value1.key == value2.key){
-		   									console.log(value.customData);
-	   										console.log(value1.key);
-	   										
 	   										if(value2.component == "daterange"){
-	   											$scope.gridMapObect.push({values: value1.value , key: value1.key, label: "Start Date"});
+	   											$scope.gridMapObect.push({values: value1.value , key: value1.key, label: "Start Date", component: value2.component});
 	   											angular.forEach(value.customData,function(value3,key3){
 		   											if(value3.key == value1.key+"_endDate"){
-		   												$scope.gridMapObect.push({values: value3.value , key: value3.key, label: "End Date"});
+		   												$scope.gridMapObect.push({values: value3.value , key: value3.key, label: "End Date", component: value2.component});
 			   										}
 		   										});
 	   										}else{
-	   											$scope.gridMapObect.push({values: value1.value , key: value1.key, label: value2.label});
+	   											$scope.gridMapObect.push({values: value1.value , key: value1.key, label: value2.label, component: value2.component});
 	   										}
-	   										
-	   										
-		   									
 		   										
 		   								//	}
-		   									findFlag = 1;
+		   									//findFlag = 1;
 		   								}
 		   								
 		   							});	
 		   						});
 		   					}
 		   				});
+		   				
+		   				$scope.gridMapObect = UniqueArraybyId($scope.gridMapObect ,"key");
+    					//console.log(uniqueStandards);
+    					//$scope.gridOptions6.columnDefs = uniqueStandards; 
 		   		        
 						angular.forEach($scope.AllOtherLeadSeenList,function(value,key){
 							angular.forEach($scope.gridMapObect,function(value1,key1){
@@ -9287,15 +9365,29 @@ angular.module('newApp')
 						
 						console.log($scope.gridMapObect);
 						angular.forEach($scope.gridMapObect,function(value,key){
-							var name = value.key;
-							name = name.replace(" ","");
-							$scope.gridOptions13.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
-								cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-				              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
-				                        return 'red';
-				                    }
-				              	} ,
-				               });
+							$scope.name = value.key;
+							$scope.dataValue = value.values; 
+							$scope.name = $scope.name.replace(" ","");
+							/*if(value.component == "autocompleteText"){
+								
+								$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'5%',cellEditableCondition: false,
+				                   	cellTemplate:'<a ng-click="grid.appScope.showGoogleMap(grid.appScope.dataValue)" class="ui-grid-cell-contents" title="{{grid.appScope.dataValue}}" style="color: #5b5b5b;">{{grid.appScope.dataValue}}</a>',
+				                           	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+				                                    if (row.entity.noteFlag != 1) {
+				                                      return 'red';
+				                                  }
+				                            	} ,
+				                            });
+							}else{*/
+								$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'10%',cellEditableCondition: false,
+									cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+					              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+					                        return 'red';
+					                    }
+					              	} ,
+					               });
+							//}
+							
 						});
 						
 						
@@ -9335,6 +9427,11 @@ angular.module('newApp')
 			   console.log("Check");
 	   			$('#exportModalCanceled').modal('show');
 	   		};
+	   		
+	   		
+	   		$scope.showGoogleMap = function(values){
+	   			console.log(values);
+	   		}
 		   
 	   		$scope.exportCsvFileCanceled = function(){
 	   			apiserviceDashborad.exportCsvFileCanceled().then(function(data){

@@ -12,4 +12,5 @@ public class KeyValueDataVM {
 	public String displayWebsite;
 	public String formName;
 	public Long fieldId;
+	public String component;
 }

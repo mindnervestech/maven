@@ -5729,7 +5729,7 @@ float: right !important;
 															<input class="form-control form-white" style="" ng-model="reasonToCancel" type="text" required>
 														</div>
 													</div> -->
-													<div class="col-md-12" style="margin-top: 32px;">
+													 <div ng-if="cancellingAddress" class="col-md-12" style="margin-top: 32px;">
 								                				<formly-form model="customData" fields="userFields">
   																</formly-form>
 								                    	</div>
@@ -6398,10 +6398,10 @@ float: right !important;
 															<input type="text" class="form-control form-white" ng-model="userNote" required>
 														</div>
 													</div>
-													<div class="col-md-12" style="margin-top: 32px;">
+													 <div ng-if="historyAddressBar" class="col-md-12" style="margin-top: 32px;">
 								                				<formly-form model="customData" fields="userFields">
   																</formly-form>
-								                    	</div>
+								                    	</div> 
 													<!-- <div class="form-group col-sm-12">
 														<label class="col-sm-3 control-label" style="text-align: right;">Action</label>
 														<div class="col-sm-7">
@@ -8267,7 +8267,7 @@ float: right !important;
 														</div> 
 													</div>
 												</div>	
-								                	<div class="col-md-12" style="margin-top: 32px;">
+								                	<div ng-if="scheduleAddress" class="col-md-12" style="margin-top: 32px;">
 								                				<formly-form model="customData" fields="userFields">
   																</formly-form>
 								                    	</div>
