@@ -1140,15 +1140,6 @@
         		if(scope.component.name == "leadTypeSelector"){
         			flag = 1;
            	    }
-        		if(scope.component.name == "action"){
-        			flag = 1;
-           	    }
-        	}else{
-        		if(localStorage.getItem('formType') != "My Leads - History Log"){
-            		if(scope.component.name == "action"){
-            			flag = 1;
-               	    }
-            	}
         	}
         	if(flag == 0){
         		 scope.copyObjectToScope(scope.component);
