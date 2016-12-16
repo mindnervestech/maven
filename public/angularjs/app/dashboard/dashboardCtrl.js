@@ -9503,7 +9503,7 @@ angular.module('newApp')
 							if(value.component == "autocompleteText"){
 								$scope.dataValue = value.values; 
 								$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'5%',cellEditableCondition: false,
-				                   	cellTemplate:'<a ng-click="grid.appScope.showGoogleMap(grid.appScope.dataValue)" class="ui-grid-cell-contents" title="{{grid.appScope.dataValue}}" style="color: #5b5b5b;">{{grid.getCellValue(row, col)}}</a>',
+				                   	cellTemplate:'<a ng-click="grid.appScope.showGoogleMap(grid.getCellValue(row, col))" class="ui-grid-cell-contents" title="{{grid.appScope.dataValue}}" style="color: #5b5b5b;">{{grid.getCellValue(row, col)}}</a>',
 				                           	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 				                                    if (row.entity.noteFlag != 1) {
 				                                      return 'red';
@@ -9647,56 +9647,19 @@ angular.module('newApp')
 	   		$scope.showGoogleMap = function(values){
 	   			
 	   			
-	   			/*<iframe id="map" ng-src="{{googleMapLocation}}" width="100%" height="310" frameborder="0" style="border:0" class="iframe"> </iframe>*/
-	   			$scope.googleMapLocation = 'http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q='+values+'&amp;z=15&amp;output=embed';
-	   			
-	   			$scope.googleMapLocation = $sce.trustAsResourceUrl($scope.googleMapLocation);
-	   			
-	   			//$('#map').attr('src', $scope.googleMapLocation)
+	   			var data = '<iframe id="map" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q='+values+'&amp;z=15&amp;output=embed" width="100%" height="310" frameborder="0" style="border:0" class="iframe"> </iframe>';
+	   			//$scope.googleMapLocation = 'http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q='+values+'&amp;z=15&amp;output=embed';
+	   			//$scope.googleMapLocation = "http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q="+values+"&amp;z=15&amp;output=embed";
+	   			$scope.googleMapLocation = $sce.trustAsHtml(data);
 	   			console.log($scope.googleMapLocation);
 	   			$('#googleMap').modal('show');
 	   			console.log(values);
 	   		}
 	   		
-	   		$scope.htmlSafe = function (data) {
-	   			//var html = '<iframe id="map" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q='+values+'&amp;z=15&amp;output=embed';
-	   	        return $sce.trustAsHtml(data);
-	   	    }
-	   		$scope.fileDow = function(files){
-	   			console.log(files);
-	   			
-	   			//apiserviceMoreInfo.exportOtherLeadsData($scope.leadId).then(function(data){
-					$.fileDownload('/downloadMoreFile/'+file,
-						{	   	
-						}).done(function(e, response)
-								{
-									$.pnotify({
-												title: "Success",
-												type:'success',
-												text: "File download successfully",
-									});
-								}).fail(function(e, response)
-								{
-									console.log('fail');
-									console.log(response);
-									console.log(e);
-								});
-				//});
-	   		}
+	   	
 	   		
-	   		/*$.fileDownload('/downloadFile',
-					{	  
-					  httpMethod : "POST",
-					  data : {
-					  path : $scope.productData.filePath
-					  }
-					}).done(function(e, response)
-					{
-						console.log("Success");
-					}).fail(function(e, response)
-					{
-						console.log("Fail");
-					});*/
+	   		
+	   	
 		   
 	   		$scope.exportCsvFileCanceled = function(){
 	   			apiserviceDashborad.exportCsvFileCanceled().then(function(data){
