@@ -9382,20 +9382,24 @@ angular.module('newApp')
 								console.log(value.values);
 								$scope.arr = [];
 								$scope.arr = value.values.split('\\');
-	   							console.log($scope.arr[leng - 2]);
-	   							console.log($scope.arr[leng - 3]);
-								$scope.dataValue = value.values; 
-								$scope.keyValue = value.key;
-								console.log($scope.dataValue);
-								//ng-click="grid.appScope.fileDow(grid.appScope.dataValue)"
-								$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'5%',cellEditableCondition: false,
-				                   	cellTemplate:'<a href="/downloadMoreFile/{{grid.appScope.arr[leng - 2]}}/{{grid.appScope.arr[leng - 3]}}/{{grid.appScope.keyValue}}" title="{{grid.appScope.dataValue}}" style="color: #5b5b5b;">{{grid.getCellValue(row, col)}}</a>',
-				                           	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-				                                    if (row.entity.noteFlag != 1) {
-				                                      return 'red';
-				                                  }
-				                            	} ,
-				                            });
+								var leng = $scope.arr.length; 
+								if(value.values != null){
+									console.log($scope.arr[leng - 2]);
+		   							console.log($scope.arr[leng - 3]);
+									$scope.dataValue = value.values; 
+									$scope.keyValue = value.key;
+									console.log($scope.dataValue);
+									//ng-click="grid.appScope.fileDow(grid.appScope.dataValue)"
+									$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'5%',cellEditableCondition: false,
+					                   	cellTemplate:'<a href="/downloadMoreFile/{{grid.appScope.arr[leng - 2]}}/{{grid.appScope.arr[leng - 3]}}/{{grid.appScope.keyValue}}" title="{{grid.appScope.dataValue}}" style="color: #5b5b5b;">{{grid.getCellValue(row, col)}}</a>',
+					                           	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+					                                    if (row.entity.noteFlag != 1) {
+					                                      return 'red';
+					                                  }
+					                            	} ,
+					                            });
+								}
+	   							
 							}else{
 								$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'10%',cellEditableCondition: false,
 									cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
