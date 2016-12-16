@@ -24100,5 +24100,26 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 			e.printStackTrace();
 		}
 	}
+    
+    
+    public static Result downloadMoreFile(String leadType,String leadId,String keyValue){
+		
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+			return ok(home.render("",userRegistration));
+		} else {
+			AuthUser userObj = (AuthUser) getLocalUser();
+			//File fdir = new File(rootDir+paths);
+			CustomizationDataValue cValue = CustomizationDataValue.findByCustomeLeadByName(Long.parseLong(leadType), Long.parseLong(leadId),keyValue);
+			//AddProduct product = AddProduct.findById(id);
+			String path =null;
+			if(cValue != null){
+				path = rootDir+cValue.value;
+			}
+					
+			File f = new File(path);
+			
+			return ok(f);
+		}
+	} 
 	
 }

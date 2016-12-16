@@ -138,6 +138,7 @@ GET     /getProductData/:id              controllers.InventoryController.getProd
 GET     /getList                         controllers.InventoryController.collectionList()
 POST    /updateProductInfo               controllers.InventoryController.updateProductInfo()
 GET     /downloadFile/:id				 controllers.InventoryController.fileDownload(id:Long)
+GET     /downloadMoreFile/:leadtype/:leadId/:keyValue				 controllers.Application.downloadMoreFile(leadtype:String,leadId:String,keyValue:String)
 GET     /cadFileDownload/:id			 controllers.InventoryController.cadFileDownload(id:Long)
 GET     /getAllCollection		         controllers.InventoryController.getAllCollection()
 GET     /getCollectionData/:id           controllers.InventoryController.getCollectionData(id:Long)  

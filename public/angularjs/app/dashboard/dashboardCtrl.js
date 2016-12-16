@@ -9366,19 +9366,37 @@ angular.module('newApp')
 						console.log($scope.gridMapObect);
 						angular.forEach($scope.gridMapObect,function(value,key){
 							$scope.name = value.key;
-							$scope.dataValue = value.values; 
+							
 							$scope.name = $scope.name.replace(" ","");
-							/*if(value.component == "autocompleteText"){
-								
+							if(value.component == "autocompleteText"){
+								$scope.dataValue = value.values; 
 								$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'5%',cellEditableCondition: false,
-				                   	cellTemplate:'<a ng-click="grid.appScope.showGoogleMap(grid.appScope.dataValue)" class="ui-grid-cell-contents" title="{{grid.appScope.dataValue}}" style="color: #5b5b5b;">{{grid.appScope.dataValue}}</a>',
+				                   	cellTemplate:'<a ng-click="grid.appScope.showGoogleMap(grid.appScope.dataValue)" class="ui-grid-cell-contents" title="{{grid.appScope.dataValue}}" style="color: #5b5b5b;">{{grid.getCellValue(row, col)}}</a>',
 				                           	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 				                                    if (row.entity.noteFlag != 1) {
 				                                      return 'red';
 				                                  }
 				                            	} ,
 				                            });
-							}else{*/
+							}else if(value.component == "fileuploaders"){
+								console.log(value.values);
+								$scope.arr = [];
+								$scope.arr = value.values.split('\\');
+	   							console.log($scope.arr[leng - 2]);
+	   							console.log($scope.arr[leng - 3]);
+								$scope.dataValue = value.values; 
+								$scope.keyValue = value.key;
+								console.log($scope.dataValue);
+								//ng-click="grid.appScope.fileDow(grid.appScope.dataValue)"
+								$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'5%',cellEditableCondition: false,
+				                   	cellTemplate:'<a href="/downloadMoreFile/{{grid.appScope.arr[leng - 2]}}/{{grid.appScope.arr[leng - 3]}}/{{grid.appScope.keyValue}}" title="{{grid.appScope.dataValue}}" style="color: #5b5b5b;">{{grid.getCellValue(row, col)}}</a>',
+				                           	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+				                                    if (row.entity.noteFlag != 1) {
+				                                      return 'red';
+				                                  }
+				                            	} ,
+				                            });
+							}else{
 								$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'10%',cellEditableCondition: false,
 									cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 					              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
@@ -9386,7 +9404,7 @@ angular.module('newApp')
 					                    }
 					              	} ,
 					               });
-							//}
+							}
 							
 						});
 						
@@ -9432,6 +9450,41 @@ angular.module('newApp')
 	   		$scope.showGoogleMap = function(values){
 	   			console.log(values);
 	   		}
+	   		$scope.fileDow = function(files){
+	   			console.log(files);
+	   			
+	   			//apiserviceMoreInfo.exportOtherLeadsData($scope.leadId).then(function(data){
+					$.fileDownload('/downloadMoreFile/'+file,
+						{	   	
+						}).done(function(e, response)
+								{
+									$.pnotify({
+												title: "Success",
+												type:'success',
+												text: "File download successfully",
+									});
+								}).fail(function(e, response)
+								{
+									console.log('fail');
+									console.log(response);
+									console.log(e);
+								});
+				//});
+	   		}
+	   		
+	   		/*$.fileDownload('/downloadFile',
+					{	  
+					  httpMethod : "POST",
+					  data : {
+					  path : $scope.productData.filePath
+					  }
+					}).done(function(e, response)
+					{
+						console.log("Success");
+					}).fail(function(e, response)
+					{
+						console.log("Fail");
+					});*/
 		   
 	   		$scope.exportCsvFileCanceled = function(){
 	   			apiserviceDashborad.exportCsvFileCanceled().then(function(data){
