@@ -9384,14 +9384,16 @@ angular.module('newApp')
 								$scope.arr = value.values.split('\\');
 								var leng = $scope.arr.length; 
 								if(value.values != null){
-									console.log($scope.arr[leng - 2]);
-		   							console.log($scope.arr[leng - 3]);
+									$scope.leadTypeValue = $scope.arr[leng - 2];
+									$scope.leadIdValue = $scope.arr[leng - 3];
 									$scope.dataValue = value.values; 
 									$scope.keyValue = value.key;
-									console.log($scope.dataValue);
+									//{{grid.appScope.arr[grid.appScope.leadTypeValue]}}/{{grid.appScope.arr[grid.appScope.leadIdValue]}}/{{grid.appScope.keyValue}}
+									$scope.url = $scope.arr[leng - 2]+"/"+$scope.arr[leng - 3]+"/"+value.key;
+									console.log($scope.url);
 									//ng-click="grid.appScope.fileDow(grid.appScope.dataValue)"
 									$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'5%',cellEditableCondition: false,
-					                   	cellTemplate:'<a href="/downloadMoreFile/{{grid.appScope.arr[leng - 2]}}/{{grid.appScope.arr[leng - 3]}}/{{grid.appScope.keyValue}}" title="{{grid.appScope.dataValue}}" style="color: #5b5b5b;">{{grid.getCellValue(row, col)}}</a>',
+					                   	cellTemplate:'<a href="/downloadMoreFile/{{grid.appScope.url}}" title="{{grid.appScope.dataValue}}" style="color: #5b5b5b;">{{grid.getCellValue(row, col)}}</a>',
 					                           	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 					                                    if (row.entity.noteFlag != 1) {
 					                                      return 'red';
@@ -9452,6 +9454,7 @@ angular.module('newApp')
 	   		
 	   		
 	   		$scope.showGoogleMap = function(values){
+	   			$('#googleMap').modal('show');
 	   			console.log(values);
 	   		}
 	   		$scope.fileDow = function(files){

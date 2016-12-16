@@ -148,9 +148,9 @@ angular.module('app.apiserviceDashborad', [])
 	
 	this.getUserLocationByDateInfo = function(id,startD,endD,locOrPer){
 		var defer = $q.defer();
-		$http.get('/getUserLocationByDateInfo/'+id+"/"+startD+'/'+endD+'/'+locOrPer).success(function(data) {
+		/*$http.get('/getUserLocationByDateInfo/'+id+"/"+startD+'/'+endD+'/'+locOrPer).success(function(data) {
 			defer.resolve(data);
-		});
+		});*/
 		
 		return defer.promise;
 	};
@@ -443,9 +443,9 @@ angular.module('app.apiserviceDashborad', [])
 	
 	this.getVisitorOnline = function(){
 		var defer = $q.defer();
-		$http.get('/getVisitorOnline').success(function(data) {
+		/*$http.get('/getVisitorOnline').success(function(data) {
 			defer.resolve(data);
-		});
+		});*/
 		
 		return defer.promise;
 	};
