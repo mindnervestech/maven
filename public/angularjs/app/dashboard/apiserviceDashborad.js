@@ -1134,9 +1134,9 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.getScheduleTime = function(vin, sDate){
+	this.getScheduleTime = function(productId, sDate){
 		var defer = $q.defer();
-		$http.get("/getScheduleTime/"+vin+'/'+sDate).success(function(data) {
+		$http.get("/getScheduleTime/"+productId+'/'+sDate).success(function(data) {
 			defer.resolve(data);
 		});
 		return defer.promise;

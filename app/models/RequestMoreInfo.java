@@ -564,14 +564,17 @@ public void setMessage(String message) {
 		// TODO Auto-generated method stub
 		return find.where().eq("vin", vin).findList();
 	}
+	public static List<RequestMoreInfo> findByProductId(String productId) {
+		return find.where().eq("productId", productId).findList();
+	}
 	public static List<RequestMoreInfo> findByVinStatus(String vin) {
 		return find.where().eq("vin", vin).eq("status", null).findList();
 	}
 	public static List<RequestMoreInfo> findByVinStat(String productId) {
 		return find.where().eq("productId", productId).eq("status", null).findList();
 	}
-	public static List<RequestMoreInfo> findByVinDate(String vin, Date date) {
-		return find.where().eq("vin", vin).eq("confirm_date", date).findList();
+	public static List<RequestMoreInfo> findByVinDate(String productId, Date date) {
+		return find.where().eq("productId", productId).eq("confirm_date", date).findList();
 	}
 	public static List<RequestMoreInfo> findByScheduler() {
 		return find.where().eq("schedule_email", 0).findList();

@@ -16198,7 +16198,7 @@ private static void cancelTestDriveMail(Map map) {
 				confirmDate = df.parse(vm.bestDay);
 				requestMoreInfo.setConfirmDate(confirmDate);
 				requestMoreInfo.setConfirmTime(parseTime.parse(vm.bestTime));
-				List<RequestMoreInfo> list = RequestMoreInfo.findByVin(vm.vin);
+				List<RequestMoreInfo> list = RequestMoreInfo.findByProductId(vm.productId);
 				Date date = parseTime.parse(vm.bestTime);
 				
 				for (RequestMoreInfo info2 : list) {
@@ -16223,9 +16223,9 @@ private static void cancelTestDriveMail(Map map) {
 		//	requestMoreInfo.setIsScheduled(true);
 			if(msg.equals("success")){
 				requestMoreInfo.update();
-				
-				saveCustomData(requestMoreInfo.id,vm.customData,bodys,Long.parseLong(requestMoreInfo.getIsContactusType()));
-				
+				if(vm.customData != null){
+					saveCustomData(requestMoreInfo.id,vm.customData,bodys,Long.parseLong(requestMoreInfo.getIsContactusType()));
+				}
 				UserNotes uNotes = new UserNotes();
 	    		uNotes.setNote("Scheduled lead");
 	    		uNotes.setAction("Other");
@@ -22576,7 +22576,7 @@ private static void salesPersonPlanMail(Map map) {
 		return ok();
 	}
 	
-	public static Result getScheduleTime(String vin,String comDate){
+	public static Result getScheduleTime(String productId,String comDate){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
@@ -22586,17 +22586,10 @@ private static void salesPersonPlanMail(Map map) {
     				DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
     				SimpleDateFormat time = new SimpleDateFormat("h:mm:a");
         			Date d = df1.parse(comDate);
-        			List<RequestMoreInfo> moreInfo = RequestMoreInfo.findByVinDate(vin,d);
-        			List<ScheduleTest> schedule = ScheduleTest.findByVinDate(vin,d);
-        			List<TradeIn> traidInfo = TradeIn.findByVinDate(vin,d);
+        			List<RequestMoreInfo> moreInfo = RequestMoreInfo.findByVinDate(productId,d);
         			List<ScheduleTest> schList = ScheduleTest.findByUserDate(user,d);
-        			for (TradeIn info : traidInfo) {
-        				timeList.add(time.format(info.confirmTime));
-					}
+        			
         			for (RequestMoreInfo info : moreInfo) {
-        				timeList.add(time.format(info.confirmTime));
-					}
-        			for (ScheduleTest info : schedule) {
         				timeList.add(time.format(info.confirmTime));
 					}
         			

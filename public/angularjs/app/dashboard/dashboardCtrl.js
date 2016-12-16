@@ -1392,9 +1392,9 @@ angular.module('newApp')
  	 		 $scope.gridOptions13.enableHorizontalScrollbar = 2;
  	 		 $scope.gridOptions13.enableVerticalScrollbar = 2;
  	 		 $scope.gridOptions13.columnDefs = [
-											{ name: 'Hide', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+											/*{ name: 'Hide', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 												cellTemplate:'<input type="checkbox" ng-model="checkBoxSelect" ng-click="grid.appScope.doAction(row,checkBoxSelect)" autocomplete="off">', 
-											},
+											},*/
  	 		                                 { name: 'title', displayName: 'Section', width:'14%',cellEditableCondition: false,
  	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.title}}</a> ',
  	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -1743,8 +1743,10 @@ angular.module('newApp')
      	     			 		 		 $scope.gridOptions4.columnDefs = [
      	     			 		 		                          
      	     			 		 		                                 { name: 'Hide', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																							cellTemplate:'<input type="checkbox" ng-model="checkBoxSelect" ng-click="grid.appScope.doAction(row,checkBoxSelect)" autocomplete="off">', 
-																					},
+     	     			 		 		                                	headerCellTemplate:	'<label style="margin-top: 5px; margin-left: 8px;">Select</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 5px; margin-left: 8px;" type=\"checkbox\"  ng-model=\"checker.checked\"  ng-change="grid.appScope.selectAllCancelled(checker.checked)" autocomplete="off">',
+																			cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doAction(row,row.entity.checkBoxSelect)" autocomplete="off">',		
+     	     			 		 		                                	 /*cellTemplate:'<input type="checkbox" ng-model="checkBoxSelect" ng-click="grid.appScope.doAction(row,checkBoxSelect)" autocomplete="off">',*/ 
+     	     			 		 		                                 },
      	     			 		 		                                 { name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
      	     			 		 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.name}}">{{row.entity.name}}</a> ',
      	     			 		 		                                 },
@@ -1783,7 +1785,35 @@ angular.module('newApp')
      	     	       			 		                                 },*/
      	     			 		     		                                 ];
      	     			 		  
-     			 		 		 
+     			 		 
+     	     			 		 		$scope.actionSelectedLead = [];
+     	     			 	     		$scope.actionSelectedLeadObj = "";
+     	     			 	     		$scope.selectAllCancelled = function(checked){
+     	     			 	     			if(checked){
+     	     			 	     				for(var i=0;i<$scope.gridOptions4.data.length;i++){
+     	     			 	     					$scope.gridOptions4.data[i].checkBoxSelect = true;
+     	     			 	     				}
+     	     			 	     				angular.forEach($scope.cancelledLeadData, function(obj, index){
+     	     			 	     					$scope.actionSelectedLead.push(obj.id);
+     	     			 	           	  			$scope.actionSelectedLeadObj = obj;
+     	     			 	     	   			 });
+     	     			 	     			}else{
+     	     			 	     				for(var i=0;i<$scope.gridOptions4.data.length;i++){
+     	     			 	     					$scope.gridOptions4.data[i].checkBoxSelect = false;
+     	     			 	     				}
+     	     			 	       	  			$scope.deleteActionSelectCan($scope.actionSelectedLead);
+     	     			 	     				
+     	     			 	     			}
+     	     			 	     		}
+     	     			 	     		
+     	     			 	     		$scope.deleteActionSelectCan = function(objList){
+     	     			 	       				 if ((objList == $scope.actionSelectedLead)) {
+     	     			 	       					 $scope.actionSelectedLead = [];
+     	     			 	       			       	return;
+     	     			 	       			    };
+     	     			 	       	  	}	
+     	     			 		 		 
+     	     			 		 		 
      	     			 		 	 $scope.gridOptions6 = {
      	     			 	    	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
      	     			 	    	 		    paginationPageSize: 150,
@@ -1863,7 +1893,6 @@ angular.module('newApp')
                      	     			 	    	 		                           
      	     			 	    	     		                                 ]; 
      	     			 	    	 		 
-     	     			 	    	 		 
      	     			 	    	 		$scope.gridOptions7 = {
      	     		     			 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
      	     		     			 		 		    paginationPageSize: 150,
@@ -1873,10 +1902,10 @@ angular.module('newApp')
      	     		     			 		 		 };
      	     		     			 		 		 $scope.gridOptions7.enableHorizontalScrollbar = 2;
      	     		     			 		 		 $scope.gridOptions7.enableVerticalScrollbar = 2;
-     	     		     			 		 		 
      	     		     			 		 		 $scope.gridOptions7.columnDefs = [
-																					{ name: 'Hide', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																							cellTemplate:'<input type="checkbox" ng-model="checkBoxSelect" ng-click="grid.appScope.doAction(row,checkBoxSelect)" autocomplete="off">', 
+																					{ name: 'Hide',field:'checker', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+																						headerCellTemplate:	'<label style="margin-top: 5px; margin-left: 8px;">Select</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 5px; margin-left: 8px;" type=\"checkbox\"  ng-model=\"checker.checked\"  ng-change="grid.appScope.selectAllCheck(checker.checked)" autocomplete="off">',
+																						cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doAction(row,row.entity.checkBoxSelect)" autocomplete="off">', 
 																					},
 																					{ name: 'name', displayName: 'Name', width:'8%',cellEditableCondition: false,
 																					     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.name}}" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
@@ -1942,7 +1971,44 @@ angular.module('newApp')
      			 		 		//$("#cnfDate").datepicker("setDate", new Date());
      			 		 		$('#cnfDate').val(new Date());
      			 		 		$('#timepicker1').timepicker(); 
-     			 		 		
+     		
+     		$scope.actionSelectedLead = [];
+     		$scope.actionSelectedLeadObj = "";
+     		$scope.selectAllCheck = function(checked){
+     			if(checked){
+     				for(var i=0;i<$scope.gridOptions7.data.length;i++){
+     					$scope.gridOptions7.data[i].checkBoxSelect = true;
+     				}//checked = checked
+     				angular.forEach($scope.getAllListLeadDate, function(obj, index){
+     					$scope.actionSelectedLead.push(obj.id);
+           	  			$scope.actionSelectedLeadObj = obj;
+     	   			 });
+     			}else{
+     				for(var i=0;i<$scope.gridOptions7.data.length;i++){
+     					$scope.gridOptions7.data[i].checkBoxSelect = false;
+     				}
+       	  			$scope.deleteActionSelected($scope.actionSelectedLead);
+     				
+     			}
+     			/*if($scope.selectAll == undefined || $scope.selectAll == false){
+     				console.log($scope.getAllListLeadDate);
+     				angular.forEach($scope.getAllListLeadDate, function(obj, index){
+     					$scope.actionSelectedLead.push(obj.id);
+           	  			$scope.actionSelectedLeadObj = obj;
+     	   			 });
+     				
+       	  		}else{
+       	  			$scope.deleteActionSelected($scope.actionSelectedLead);
+       	  		}
+     			console.log($scope.actionSelectedLead);*/
+     		}
+     		
+     		$scope.deleteActionSelected = function(objList){
+       				 if ((objList == $scope.actionSelectedLead)) {
+       					 $scope.actionSelectedLead = [];
+       			       	return;
+       			    };
+       	  	}	
      		
     		  
 	    		  $scope.gridOptions7.onRegisterApi = function(gridApi){
@@ -5702,6 +5768,9 @@ angular.module('newApp')
 		    		    		    		       	//		function(success){
 		    		    		       				$scope.addData().then(
 		    		    		    		       			function(success){
+		    		    		    		       				for(var i=0;i<$scope.getAllListLeadDate.length;i++){
+		    		    		    		       					$scope.getAllListLeadDate[i].checkBoxSelect = false;
+		    		    		    		       				}
 		    		    		    		       				$scope.gridOptions7.data = $scope.getAllListLeadDate;
 		    		    		    		       				
 		    		    		    		       				apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
@@ -5762,6 +5831,10 @@ angular.module('newApp')
 		    		    				           	        	
 		    		    				        	        	apiserviceDashborad.getAllCanceledLeads(id).then(function(data){
 		    		    				           	        	
+		    		    				        	        		for(var i=0;i<data.length;i++){
+			    		    		    		       					data[i].checkBoxSelect = false;
+			    		    		    		       				}
+		    		    				        	        		$scope.cancelledLeadData = data;
 		    		    				           					$scope.gridOptions4.data = data;
 		    		    				           					
 		    		    				           					$scope.gridMapObect = [];
@@ -9251,8 +9324,6 @@ angular.module('newApp')
 	        	console.log($scope.otherLead);
 	        	console.log("-------------------------------");
 	        	console.log(leadInfo);
-	        	console.log($scope.AllOtherLeadSeenList);
-	        	
 	        	
 	        	$scope.josnData1 = angular.copy($scope.josnData);
 	        	apiserviceDashborad.getCustomizationform(leadInfo).then(function(response){
@@ -9260,7 +9331,7 @@ angular.module('newApp')
 		   					angular.forEach(angular.fromJson(response.jsonData),function(value,key){
 		   						$scope.josnData1.push(value);
 		   					});
-		   					console.log($scope.josnData1);			
+		   					
 		   	        	
 		   				var findFlag = 0;
 		   				angular.forEach($scope.AllOtherLeadSeenList,function(value,key){
@@ -9305,11 +9376,16 @@ angular.module('newApp')
 							});
 						});	
 				//		$scope.gridOptions13.columnDefs = [];
+						for(var i=0;i<$scope.AllOtherLeadSeenList.length;i++){
+							$scope.AllOtherLeadSeenList[i].checkBoxSelect = false;
+	       				}
 						$scope.gridOptions13.data = $scope.AllOtherLeadSeenList;
 						
 						
 						$scope.gridOptions13.columnDefs.push({ name: 'Hide', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-							cellTemplate:'<input type="checkbox" ng-model="checkBoxSelect" ng-click="grid.appScope.doAction(row,checkBoxSelect)" autocomplete="off">', 
+							headerCellTemplate:	'<label style="margin-top: 5px; margin-left: 8px;">Select</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 5px; margin-left: 8px;" type=\"checkbox\"  ng-model=\"checker.checked\"  ng-change="grid.appScope.selectAllOther(checker.checked)" autocomplete="off">',
+							cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doAction(row,row.entity.checkBoxSelect)" autocomplete="off">',
+							/*cellTemplate:'<input type="checkbox" ng-model="checkBoxSelect" ng-click="grid.appScope.doAction(row,checkBoxSelect)" autocomplete="off">',*/ 
 						});
 						$scope.gridOptions13.columnDefs.push({ name: 'title', displayName: 'Section', width:'14%',cellEditableCondition: false,
 		                   	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.title}}" style="color: #5b5b5b;">{{row.entity.title}}</a> ',
@@ -9447,6 +9523,37 @@ angular.module('newApp')
 	        	 
 	    	
 		   }
+		   
+		   
+		    $scope.actionSelectedLead = [];
+	     		$scope.actionSelectedLeadObj = "";
+	     		$scope.selectAllOther = function(checked){
+	     			if(checked){
+	     				for(var i=0;i<$scope.gridOptions13.data.length;i++){
+	     					$scope.gridOptions13.data[i].checkBoxSelect = true;
+	     				}
+	     				angular.forEach($scope.AllOtherLeadSeenList, function(obj, index){
+	     					$scope.actionSelectedLead.push(obj.id);
+	           	  			$scope.actionSelectedLeadObj = obj;
+	     	   			 });
+	     			}else{
+	     				for(var i=0;i<$scope.gridOptions13.data.length;i++){
+	     					$scope.gridOptions13.data[i].checkBoxSelect = false;
+	     				}
+	       	  			$scope.deleteActionSelectOther($scope.actionSelectedLead);
+	     				
+	     			}
+	     		}
+	     		
+	     		$scope.deleteActionSelectOther = function(objList){
+	       				 if ((objList == $scope.actionSelectedLead)) {
+	       					 $scope.actionSelectedLead = [];
+	       			       	return;
+	       			    };
+	       	  	}	
+		   
+		   
+		   
 		   $scope.exportCsvPopCanceled = function(){
 			   console.log("Check");
 	   			$('#exportModalCanceled').modal('show');

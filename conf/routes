@@ -635,7 +635,7 @@ GET 	/exportOtherLeadsData/:leadId			  			controllers.CustomersRequestController
 
 GET		/downloadStatusFile			  controllers.Application.downloadStatusFile()
 GET		/downloadRequestMoreFile			  controllers.Application.downloadRequestMoreFile()
-GET    /getScheduleTime/:vin/:comDate 			controllers.Application.getScheduleTime(vin:String,comDate:String)
+GET    /getScheduleTime/:productId/:comDate 			controllers.Application.getScheduleTime(productId:String,comDate:String)
 GET		/getDataFromCrm			controllers.Application.getDataFromCrm()
 GET		/getUserPermission			controllers.Application.getUserPermission()
 GET    /updateVehiclePrice/:vin/:price 			controllers.Application.updateVehiclePrice(vin:String,price:String)
