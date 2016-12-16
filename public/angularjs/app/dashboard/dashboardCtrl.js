@@ -9458,6 +9458,11 @@ angular.module('newApp')
 								console.log(value.values);
 								$scope.arr = [];
 								$scope.arr = value.values.split('\\');
+								if(value.values != null){
+									if($scope.arr.length <= 1){
+										$scope.arr = value.values.split('/');
+									}
+								}
 								var leng = $scope.arr.length; 
 								if(value.values != null){
 									$scope.leadTypeValue = $scope.arr[leng - 2];
@@ -9561,6 +9566,9 @@ angular.module('newApp')
 	   		
 	   		
 	   		$scope.showGoogleMap = function(values){
+	   			
+	   			//http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q={{googleMapLocation}}&amp;z=15&amp;output=embed
+	   			$scope.googleMapLocation = "http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q="+values+"&amp;z=15&amp;output=embed";
 	   			$('#googleMap').modal('show');
 	   			console.log(values);
 	   		}
