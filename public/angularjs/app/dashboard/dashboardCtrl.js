@@ -15,7 +15,7 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder','$rootScope','apiserviceDashborad', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder, $rootScope, apiserviceDashborad) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder','$rootScope','apiserviceDashborad','$sce', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder, $rootScope, apiserviceDashborad,$sce) {
 	  
 	  $scope.showFormly = "1";
 	  var ele = document.getElementById('loadingmanual');	
@@ -4574,6 +4574,7 @@ angular.module('newApp')
 	    			 var deferred = $q.defer();
     				 var addrs = 0;
     				 var fileFlag = 0;
+    				 var timeRangs = 0;
 	    			$scope.customList = [];
 	    			$.each(customeDataList, function(attr, value) {
 						angular.forEach(josnData, function(value1, key) {
@@ -4593,7 +4594,22 @@ angular.module('newApp')
 			    					});
 								}
 							}
-							
+							if(timeRangs == 0){
+								
+								if(value1.component == "timerange"){
+									timeRangs = 1;
+									$scope.customList.push({
+	    								fieldId:value1.fieldId,
+			    		   	  			key:value1.key,
+			    		   	  			value:customeDataList.time_range,
+			    		   	  			savecrm:value1.savecrm,
+			    		   	  			displayGrid:value1.displayGrid,
+			    		   	  		    displayWebsite:value1.displayWebsite,
+			    		   	  		    component:value1.component,
+			    		   	  			formName:value1.formName,
+			    					});
+								}
+							}
 							
 							if(fileFlag == 0){
 								if(value1.component == "fileuploaders"){
@@ -9567,11 +9583,22 @@ angular.module('newApp')
 	   		
 	   		$scope.showGoogleMap = function(values){
 	   			
-	   			//http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q={{googleMapLocation}}&amp;z=15&amp;output=embed
-	   			$scope.googleMapLocation = "http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q="+values+"&amp;z=15&amp;output=embed";
+	   			
+	   			/*<iframe id="map" ng-src="{{googleMapLocation}}" width="100%" height="310" frameborder="0" style="border:0" class="iframe"> </iframe>*/
+	   			$scope.googleMapLocation = 'http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q='+values+'&amp;z=15&amp;output=embed';
+	   			
+	   			$scope.googleMapLocation = $sce.trustAsResourceUrl($scope.googleMapLocation);
+	   			
+	   			//$('#map').attr('src', $scope.googleMapLocation)
+	   			console.log($scope.googleMapLocation);
 	   			$('#googleMap').modal('show');
 	   			console.log(values);
 	   		}
+	   		
+	   		$scope.htmlSafe = function (data) {
+	   			//var html = '<iframe id="map" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q='+values+'&amp;z=15&amp;output=embed';
+	   	        return $sce.trustAsHtml(data);
+	   	    }
 	   		$scope.fileDow = function(files){
 	   			console.log(files);
 	   			

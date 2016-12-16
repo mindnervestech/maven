@@ -868,9 +868,9 @@ angular.module('app.apiserviceDashborad', [])
 	
 	this.getAssignedLeads = function(){
 		var defer = $q.defer();
-		$http.get('/getAssignedLeads').success(function(data) {
+		/*$http.get('/getAssignedLeads').success(function(data) {
 			defer.resolve(data);
-		});
+		});*/
 		return defer.promise;
 	};
 	
