@@ -5847,6 +5847,16 @@ angular.module('newApp')
 		    		    				           	        	
 		    		    				        	        	apiserviceDashborad.getAllCanceledLeads(id).then(function(data){
 		    		    				           	        	
+		    		    				        	        		
+		    		    				        	        		$scope.josnData1 = angular.copy($scope.josnData);
+		    		    				        		        	apiserviceDashborad.getCustomizationform("My Leads - Canceling lead").then(function(response){
+		    		    				        			   					//$scope.josnData1 = angular.fromJson(response.jsonData);
+		    		    				        			   					angular.forEach(angular.fromJson(response.jsonData),function(value,key){
+		    		    				        			   						$scope.josnData1.push(value);
+		    		    				        			   					});
+		    		    				        			   					console.log($scope.josnData1);
+		    		    				        	        		console.log(data);
+		    		    				        	        		
 		    		    				        	        		for(var i=0;i<data.length;i++){
 			    		    		    		       					data[i].checkBoxSelect = false;
 			    		    		    		       				}
@@ -5854,23 +5864,43 @@ angular.module('newApp')
 		    		    				           					$scope.gridOptions4.data = data;
 		    		    				           					
 		    		    				           					$scope.gridMapObect = [];
-		    		    				           	        		angular.forEach(data,function(value,key){
-		    		    				           							angular.forEach(value.customDataAll,function(value1,key1){
-		    		    				           								angular.forEach($scope.josnData,function(value2,key2){
+		    		    				        	        		
+		    		    				        	        		angular.forEach(data,function(value,key){
+		    		    				    		   						angular.forEach(value.customData,function(value1,key1){
+		    		    				    		   							angular.forEach($scope.josnData1,function(value2,key2){
+		    		    				    		   								if(value1.key == value2.key){
+		    		    				    	   										if(value2.component == "daterange"){
+		    		    				    	   											$scope.gridMapObect.push({values: value1.value , key: value1.key, label: "Start Date", component: value2.component});
+		    		    				    	   											angular.forEach(value.customData,function(value3,key3){
+		    		    				    		   											if(value3.key == value1.key+"_endDate"){
+		    		    				    		   												$scope.gridMapObect.push({values: value3.value , key: value3.key, label: "End Date", component: value2.component});
+		    		    				    			   										}
+		    		    				    		   										});
+		    		    				    	   										}else{
+		    		    				    	   											$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
+		    		    				    	   										}
+		    		    				    		   								}
+		    		    				    		   							});	
+		    		    				    		   						});
+		    		    				    		   				});
+		    		    				        	        		
+		    		    				           	        		/*angular.forEach(data,function(value,key){
+		    		    				           							angular.forEach(value.customData,function(value1,key1){
+		    		    				           								angular.forEach($scope.josnData1,function(value2,key2){
 		    		    				           		       						if(value1.key == value2.key){
 		    		    				           		       							$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
 		    		    				           	    							}
 		    		    				           		       					});
-		    		    				           								
-		    		    				           								
 		    		    				           							});
-		    		    				           					});
+		    		    				           					});*/
+		    		    				        	        		$scope.gridMapObect = UniqueArraybyId($scope.gridMapObect ,"key");
+		    		    				        	        		
 		    		    				           	        		angular.forEach(data,function(value,key){
 		    		    				           						angular.forEach($scope.gridMapObect,function(value1,key1){
 		    		    				           							var name = value1.key;
 		    		    				           							name = name.replace(" ","");
 		    		    				           							value[name] = null;
-		    		    				           							angular.forEach(value.customDataAll,function(value2,key2){
+		    		    				           							angular.forEach(value.customData,function(value2,key2){
 		    		    				           								if(value1.key == value2.key){
 		    		    				           									value[name] = value2.value;
 		    		    				           								}
@@ -5893,6 +5923,9 @@ angular.module('newApp')
 		    		    				           					console.log($scope.gridOptions4.data);
 		    		    				           					$scope.canceledLead = data;
 		    		    				           				});
+		    		    				        	        		
+		    		    				        		        	});		
+		    		    				        	        		
 		    		    				        	        	apiserviceDashborad.getAllSalesPersonLostAndComp(id).then(function(data){
 		    		    						       			 
 		    		    						       			 		$scope.gridOptions6.data = data;

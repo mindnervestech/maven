@@ -16411,60 +16411,10 @@ private static void cancelTestDriveMail(Map map) {
     		}else{
     			user = AuthUser.findById(leadId);
     		}
-	    	List<ScheduleTest> listData = ScheduleTest.getAllFailedById(Long.valueOf(session("USER_LOCATION")), user);
-    		
-	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
-	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
+    		List<RequestInfoVM> infoVMList = new ArrayList<>();
+    		SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-	    	for(ScheduleTest info: listData) {
-	    		RequestInfoVM vm = new RequestInfoVM();
-	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
-	    		}
-	    			    		
-	    		vm.name = info.name;
-	    		vm.phone = info.phone;
-	    		vm.email = info.email;
-	    		vm.status = info.reason;
-	    		if(info.statusDate != null){
-	    			vm.statusDate = df.format(info.statusDate);
-	    		}	
-	    		if(info.assignedTo != null) {
-	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
-	    		}
-	    		if(info.scheduleDate != null){
-	    			vm.requestDate = df.format(info.scheduleDate);
-	    		}
-	    		
-	    		/*List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);*/
-	    		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
-	    		Integer nFlag = 0;
-	    		List<NoteVM> list = new ArrayList<>();
-	    		for(UserNotes noteObj :notesList) {
-	    			NoteVM obj = new NoteVM();
-	    			obj.id = noteObj.id;
-	    			obj.note = noteObj.note;
-	    			obj.action = noteObj.action;
-	    			obj.date = df.format(noteObj.createdDate);
-	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory != null){
-	    				if(noteObj.saveHistory.equals(1)){
-	        				nFlag = 1;
-	        			}
-	    			}
-	    			list.add(obj);
-	    		}
-	    		vm.note = list;
-	    		vm.noteFlag = nFlag;
-	    		vm.typeOfLead = "Schedule Test";
-	    		infoVMList.add(vm);
-	    	}
-	    	
+
 	    	List<RequestMoreInfo> requestData = RequestMoreInfo.findAllCancelByUser(Long.valueOf(session("USER_LOCATION")),user);
 	    	for(RequestMoreInfo info: requestData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
@@ -16518,57 +16468,7 @@ private static void cancelTestDriveMail(Map map) {
 	    		vm.typeOfLead = "Request More Info";
 	    		infoVMList.add(vm);
 	    	}
-	    	
-	    	List<TradeIn> tradeInData = TradeIn.findAllCanceledByUser(Long.valueOf(session("USER_LOCATION")),user);
-	    	for(TradeIn info: tradeInData) {
-	    		RequestInfoVM vm = new RequestInfoVM();
-	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-	    		vm.vin = info.vin;
-	    		if(vehicle != null) {
-	    			vm.model = vehicle.model;
-	    			vm.make = vehicle.make;
-	    			vm.stock = vehicle.stock;
-	    		}
-	    		if(info.lastName != null){
-	    			vm.name = info.firstName+" "+info.lastName;
-	    		}else{
-	    			vm.name = info.firstName;
-	    		}
 
-	    		vm.phone = info.phone;
-	    		vm.email = info.email;
-	    		vm.status = info.reason;
-	    		if(info.statusDate != null){
-	    			vm.statusDate = df.format(info.statusDate);
-	    		}
-	    		if(info.assignedTo != null) {
-	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
-	    		}
-	    		
-	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
-	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
-	    		Integer nFlag = 0;
-	    		List<NoteVM> list = new ArrayList<>();
-	    		for(UserNotes noteObj :notesList) {
-	    			NoteVM obj = new NoteVM();
-	    			obj.id = noteObj.id;
-	    			obj.note = noteObj.note;
-	    			obj.action = noteObj.action;
-	    			obj.date = df.format(noteObj.createdDate);
-	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory != null){
-	    				if(noteObj.saveHistory.equals(1)){
-	        				nFlag = 1;
-	        			}
-	    			}
-	    			list.add(obj);
-	    		}
-	    		vm.note = list;
-	    		vm.noteFlag = nFlag;
-	    		vm.typeOfLead = "Trade In";
-	    		infoVMList.add(vm);
-	    	}
 	    	
 	    	return ok(Json.toJson(infoVMList));
     	}
