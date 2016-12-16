@@ -2363,7 +2363,7 @@ angular.module('newApp')
 							}
 						}
 					}
-					if(value1.key == attr){
+					/*if(value1.key == attr){
 					
 						
 						if(value1.component == "multipleselect"){
@@ -2425,9 +2425,16 @@ angular.module('newApp')
 	    		   	  			formName:value1.formName,
 	    					});
 						}
-					} 
+					} */
 				});
 			   });
+				
+				
+				$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
+					$scope.customList = response;
+				});
+				
+				
 				console.log("-----------------");
 				console.log($scope.customList);
 				$scope.editLeads.customData = $scope.customList;
@@ -9503,6 +9510,17 @@ angular.module('newApp')
 				                                  }
 				                            	} ,
 				                            });
+							}else if(value.component == "multipleselect"){
+								$scope.valuesMulti = [];
+								$scope.valuesMulti = value.values.split(',');
+								$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'10%',cellEditableCondition: false,
+				                   	cellTemplate:'<a style="color: #5b5b5b;">{{grid.getCellValue(row, col)}}</a>',
+				                           	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+				                                    if (row.entity.noteFlag != 1) {
+				                                      return 'red';
+				                                  }
+				                            	} ,
+				                            });
 							}else if(value.component == "fileuploaders"){
 								console.log(value.values);
 								$scope.arr = [];
@@ -9514,16 +9532,12 @@ angular.module('newApp')
 								}
 								var leng = $scope.arr.length; 
 								if(value.values != null){
-									$scope.leadTypeValue = $scope.arr[leng - 2];
-									$scope.leadIdValue = $scope.arr[leng - 3];
-									$scope.dataValue = value.values; 
-									$scope.keyValue = value.key;
-									//{{grid.appScope.arr[grid.appScope.leadTypeValue]}}/{{grid.appScope.arr[grid.appScope.leadIdValue]}}/{{grid.appScope.keyValue}}
+									$scope.fileName = $scope.arr[leng - 1];
+									value.values = $scope.fileName;
 									$scope.url = $scope.arr[leng - 2]+"/"+$scope.arr[leng - 3]+"/"+value.key;
 									console.log($scope.url);
-									//ng-click="grid.appScope.fileDow(grid.appScope.dataValue)"
-									$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'5%',cellEditableCondition: false,
-					                   	cellTemplate:'<a href="/downloadMoreFile/{{grid.appScope.url}}" title="{{grid.appScope.dataValue}}" style="color: #5b5b5b;">{{grid.getCellValue(row, col)}}</a>',
+									$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'10%',cellEditableCondition: false,
+					                   	cellTemplate:'<a href="/downloadMoreFile/{{grid.appScope.url}}" style="color: #5b5b5b;">{{grid.appScope.splitName(grid.getCellValue(row, col))}}</a>',
 					                           	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 					                                    if (row.entity.noteFlag != 1) {
 					                                      return 'red';
@@ -9613,6 +9627,22 @@ angular.module('newApp')
 	   			$('#exportModalCanceled').modal('show');
 	   		};
 	   		
+	   			   		
+	   		$scope.splitName = function(valuecheck){
+	   			var arr = [];
+	   			arr = valuecheck.split('\\');
+	   			
+	   			if(arr.length <= 1){
+	   				arr = [];
+	   				arr = valuecheck.split('/');
+	   			}
+	   			if(arr.length >= 1){
+	   				return arr[arr.length - 1];
+	   			}else{
+	   				return null;
+	   			}
+	   			
+	   		}
 	   		
 	   		$scope.showGoogleMap = function(values){
 	   			
