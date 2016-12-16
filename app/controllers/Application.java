@@ -10121,7 +10121,7 @@ public class Application extends Controller {
     			cValue.keyValue = custom.key;
     			if(custom.component.equals("fileuploaders")){
     				String fileN = custom.value.replaceAll("[-+^:,() ]","");
-    				cValue.value = rootDir+File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileN; 
+    				cValue.value = File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileN; 
     			}else{
     				cValue.value = custom.value;
     			}
@@ -10158,7 +10158,7 @@ public class Application extends Controller {
     			
     			if(custom.component.equals("fileuploaders")){
     				String fileN = custom.value.replaceAll("[-+^:,() ]","");
-    				cDataValue.setValue(rootDir+File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileN); 
+    				cDataValue.setValue(File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileN); 
     			}else{
     				cDataValue.setValue(custom.value);
     			}
@@ -24102,7 +24102,7 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 		} else {
 			AuthUser userObj = (AuthUser) getLocalUser();
 			//File fdir = new File(rootDir+paths);
-			CustomizationDataValue cValue = CustomizationDataValue.findByCustomeLeadByName(Long.parseLong(leadType), Long.parseLong(leadId),keyValue);
+			CustomizationDataValue cValue = CustomizationDataValue.findByCustomeLeadByName(Long.parseLong(leadId),Long.parseLong(leadType),keyValue);
 			//AddProduct product = AddProduct.findById(id);
 			String path =null;
 			if(cValue != null){
