@@ -6924,6 +6924,7 @@ angular.module('newApp')
 			 
 		   }
 		   $scope.testDriveData = {};
+		   $scope.scheduLeadId = [];
 		   $scope.scheduleTestDriveForUser = function(entity,option) {
 			   
 			   console.log(entity);
@@ -6934,6 +6935,7 @@ angular.module('newApp')
 					    if(obj == obj1.id){
 					    	if(index == 0){
 					    		$scope.testDriveData = obj1;
+					    		$scope.scheduLeadId.push(obj1);
 					    	}
 					    	
 					    }
@@ -6969,23 +6971,58 @@ angular.module('newApp')
 			   
 		   }
 		   
+		   $scope.saveandgoNext = function(){
+			   console.log($('#testDriveDate').val());
+			   $scope.testDriveData.bestDay = $('#testDriveDate').val();
+			   $scope.testDriveData.bestTime = $('#bestTime').val();
+			   $scope.saveTestDrive("notclose");
+			  
+			  
+			   console.log($scope.getAllListLeadDate);
+			   console.log($scope.actionSelectedLead);
+			   console.log($scope.scheduLeadId);
+			   var countIndex = 0;
+			   var flag=0;
+			   angular.forEach($scope.actionSelectedLead, function(obj, index){
+				   angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
+					    if(obj == obj1.id){
+					    	flag=0;
+					    	 angular.forEach($scope.scheduLeadId, function(obj3, index3){
+					    		 if(obj3.id == obj1.id){
+					    			 flag = 1;
+					    		 }
+					    	 });
+					    	 if(flag == 0){
+				    			 if(countIndex == 0){
+				    				 $scope.testDriveData = obj1;
+				    				 $scope.scheduLeadId.push(obj1);
+				    				 countIndex = 1;
+				    			 }
+				    		 }
+					    }
+				   });
+				   
+			   });
+		   }
+		   
 		   $scope.getScheduleTime = function(){
 		   }
 		   
 		   
 		   
 		   
-		   $scope.saveTestDrive = function() {
+		   $scope.saveTestDrive = function(popupstatus) {
 			   console.log($scope.actionSelectedLead);
 			   //$scope.testDriveData
 			   //customData
-			   $scope.testDriveData.bestDay = $('#testDriveDate').val();
-			   $scope.testDriveData.bestTime = $('#bestTime').val();
+			  
 			   var aaa = $('#testDriveNature').val();
 			   $scope.testDriveData.weatherValue=$scope.wetherValue;
 			
 				  $scope.josnData = null;
 				apiserviceDashborad.getCustomizationform('My Leads - Schedule an appointment').then(function(response){
+					 $scope.testDriveData.bestDay = $('#testDriveDate').val();
+					   $scope.testDriveData.bestTime = $('#bestTime').val();
 					$scope.josnData = angular.fromJson(response.jsonData);
 					angular.forEach($scope.josnData, function(obj, index){
 						obj.formName = "My Leads - Schedule an appointment";
@@ -7007,28 +7044,31 @@ angular.module('newApp')
 					});
 					
 					
-				console.log($("#bestTimes").val());
 				console.log($scope.customData);
 				console.log($scope.customList);
 				
 				
 				
 				 $scope.testDriveData.customData = $scope.customList;
-		
 	   			console.log($scope.testDriveData);
 	   			apiserviceDashborad.saveTestDrive($scope.testDriveData).then(function(data){
 	 			   
-					$('#clsPop').click();
+	   				if(popupstatus == "popupclose"){
+	   					$('#clsPop').click();
+	   				}
 					if(data == "success"){
 						//  $scope.schedulmultidatepicker();
-						
-						$('#driveClose').click();
+						if(popupstatus == "popupclose"){
+							$('#driveClose').click();
+						}
 						$.pnotify({
 						    title: "Success",
 						    type:'success',
 						    text: "Test Drive confirmation email has been sent to"+" "+$scope.testDriveData.name+" ",
 						});
-						$("#test-drive-tabSched").click();
+						if(popupstatus == "popupclose"){
+							$("#test-drive-tabSched").click();
+						}	
 					}else{
 						$.pnotify({
 						    title: "Error",

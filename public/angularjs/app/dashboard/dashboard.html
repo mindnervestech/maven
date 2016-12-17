@@ -5173,12 +5173,8 @@ float: right !important;
                 <div class="modal-body">
                    
 				        <div class="left">
-						<div class="mapImg" style="-webkit-filter: grayscale(100%);
-						filter: grayscale(100%);" >
+						<div class="mapImg">
 							<div ng-bind-html="googleMapLocation"></div>
-						  <!-- <iframe id="map" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=7878 U.S. 1, Louisville, GA, United States&amp;z=15&amp;output=embed" width="100%" height="310" frameborder="0" style="border:0" class="iframe"> </iframe> -->
-						  <!-- <iframe id="map" src="{{googleMapLocation}}" width="100%" height="310" frameborder="0" style="border:0" class="iframe"> </iframe> 
-						 7878 U.S. 1, Louisville, GA, United States -->
 						</div>
 					</div>
                 </div>
@@ -8405,7 +8401,9 @@ float: right !important;
 																			                	
 								                <div class="modal-footer" style="float: left;">
 								                    <button id="clsPop" type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
-								                    <button type="submit" class="btn btn-primary btn-embossed" ng-click="saveTestDrive()">Save</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed" ng-click="saveTestDrive('popupclose')">Save</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed" ng-click="saveandgoNext()">Save &
+Go to the next appointment</button>
 								                </div>
 								                </form>
 								            </div>
