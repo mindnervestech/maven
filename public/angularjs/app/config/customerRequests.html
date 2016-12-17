@@ -292,43 +292,47 @@ requests that don't match any of the entered price range criteria</strong></h4>
 							<div class="form-group" ng-repeat="add in addAdditionalFields">
 								
 								<div ng-hide="add.indexValue == '1'">
-								<div class="col-md-12" style = "margin-top: 15px;" ng-if="addFlag == 0">
-									<h4><b><a ng-if="$index != 0" ng-click="hideAdditionalCity($index,addAdditionalFields)">Hide additional city</a></b></h4>
-									<!-- <button type="button" class="btn btn-primary" ng-if="zipCodeDetailData.length != 0" ng-click="addAdditionalCity()" >Add additional city</button> -->								
-								</div>
-								<div class="col-md-1">
-									<label>Cities</label>
-								</div>
-								<div class="col-md-3">
-									<input class="form-control form-white" ng-model="add.city" value="address.city" type="text"  required>
-								</div>
-								<div class="col-md-1">
-									<label>State</label>
-								</div>
-								<div class="col-md-3">
-									<!-- <input class="form-control form-white" ng-model="address.state" value="address.state" type="text"  required> -->
-									<select class="form-control form-white" id="userAge" ng-model="add.state">
-                                    	<option value="">Select</option>
-                                    	<option ng-repeat="item in stateCodesList" ng-selected="add.state == item.stateCode" value="{{item.stateCode}}">{{item.stateCode}}</option>
-                                	</select>
-								</div>
+									<div class="col-md-12" style = "margin-top: 15px;" ng-if="addFlag == 0">
+										<h4><b><a ng-if="$index != 0" ng-click="hideAdditionalCity($index,addAdditionalFields)">Hide additional city</a></b></h4>
+										<!-- <button type="button" class="btn btn-primary" ng-if="zipCodeDetailData.length != 0" ng-click="addAdditionalCity()" >Add additional city</button> -->								
+									</div>
+									<div class="col-md-1">
+										<label>Cities</label>
+									</div>
+									<div class="col-md-3">
+										<input class="form-control form-white" ng-model="add.city" value="address.city" type="text"  required>
+									</div>
+									<div class="col-md-1">
+										<label>State</label>
+									</div>
+									<div class="col-md-3">
+										<!-- <input class="form-control form-white" ng-model="address.state" value="address.state" type="text"  required> -->
+										<select class="form-control form-white" id="userAge" ng-model="add.state">
+                                    		<option value="">Select</option>
+                                    		<option ng-repeat="item in stateCodesList" ng-selected="add.state == item.stateCode" value="{{item.stateCode}}">{{item.stateCode}}</option>
+                                		</select>
+									</div>
 								
-								<div class="col-md-2">
-									<button type="button" class="btn btn-primary" ng-click="getZipCode(add)">Show ZipCodes</button>
-								</div>
-								<div class="col-md-1" style="margin-left: 52px;" ng-if="zipCodeFlag == 1">
-									<button ng-if="selectFlag == 0" type="button" class="btn btn-primary" ng-click="selectAll()">Select All</button>
-									<button ng-if="selectFlag == 1" type="button" class="btn btn-primary" ng-click="unSelectAll()"> Unselect All</button>
-								</div>
-								<div class="col-md-2" style="margin-top: 10px;margin-left: 10px;" ng-repeat="value in add.zipCodeDetailData">
-									<input type="checkbox" name="zipcode" ng-model="value.isSelected" ng-click="storeZipCode(value)" ng-checked="value.isSelected == 1">{{value.zipcode}}
-								</div>
+									<div class="col-md-2">
+										<button type="button" class="btn btn-primary" ng-click="getZipCode(add)">Show ZipCodes</button>
+									</div>
+									<div class="col-md-1" style="margin-left: 52px;" ng-if="zipCodeFlag == 1">
+										<div ng-if="add.selectFlag == 0">
+											<button type="button" class="btn btn-primary" ng-click="selectAll($index, add)">Select All</button>
+										</div>
+										<div ng-if="add.selectFlag == 1">
+											<button type="button" class="btn btn-primary" ng-click="unSelectAll($index, add)"> Unselect All</button>
+										</div>
+									</div>
+									<div class="col-md-2" style="margin-top: 10px;margin-left: 10px;" ng-repeat="value in add.zipCodeDetailData">
+										<input type="checkbox" name="zipcode" ng-model="value.isSelected" ng-click="storeZipCode(value)" ng-checked="value.isSelected == 1">{{value.zipcode}}
+									</div>
 								</div>
 							</div>
 							<div class="col-md-12" style = "margin-top: 15px;" ng-if="addFlag == 0">
 									<h4><b><a ng-click="addAdditionalCity()">Add additional city</a></b></h4>
 									<!-- <button type="button" class="btn btn-primary" ng-if="zipCodeDetailData.length != 0" ng-click="addAdditionalCity()" >Add additional city</button> -->								
-								</div>
+							</div>
 							<div class="col-md-12">
 								<button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal">Add</button>
 								<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
