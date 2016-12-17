@@ -6976,43 +6976,10 @@ angular.module('newApp')
 			   $scope.testDriveData.bestDay = $('#testDriveDate').val();
 			   $scope.testDriveData.bestTime = $('#bestTime').val();
 			   $scope.saveTestDrive("notclose");
-			  
-			  
-			   console.log($scope.getAllListLeadDate);
-			   console.log($scope.actionSelectedLead);
-			   console.log($scope.scheduLeadId);
-	   			if($scope.scheduLeadId.length == $scope.actionSelectedLead.length){
-					console.log("popup close");
-					$('#scheduleTestDriveModal').modal('hide');
-				}
-			   var countIndex = 0;
-			   var flag=0;
-			   angular.forEach($scope.actionSelectedLead, function(obj, index){
-				   angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
-					    if(obj == obj1.id){
-					    	flag=0;
-					    	 angular.forEach($scope.scheduLeadId, function(obj3, index3){
-					    		 if(obj3.id == obj1.id){
-					    			 flag = 1;
-					    		 }
-					    	 });
-					    	 if(flag == 0){
-				    			 if(countIndex == 0){
-				    				 $scope.testDriveData = obj1;
-				    				 $scope.scheduLeadId.push(obj1);
-				    				 countIndex = 1;
-				    			 }
-				    		 }
-					    }
-				   });
-				   
-			   });
 		   }
 		   
 		   $scope.getScheduleTime = function(){
 		   }
-		   
-		   
 		   
 		   
 		   $scope.saveTestDrive = function(popupstatus) {
@@ -7080,6 +7047,39 @@ angular.module('newApp')
 						    text: "Test Drive Time Allready Exist",
 						});
 					}
+					
+					if(popupstatus == "notclose"){
+						  console.log($scope.getAllListLeadDate);
+						   console.log($scope.actionSelectedLead);
+						   console.log($scope.scheduLeadId);
+				   			if($scope.scheduLeadId.length == $scope.actionSelectedLead.length){
+								console.log("popup close");
+								$('#scheduleTestDriveModal').modal('hide');
+							}
+						   var countIndex = 0;
+						   var flag=0;
+						   angular.forEach($scope.actionSelectedLead, function(obj, index){
+							   angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
+								    if(obj == obj1.id){
+								    	flag=0;
+								    	 angular.forEach($scope.scheduLeadId, function(obj3, index3){
+								    		 if(obj3.id == obj1.id){
+								    			 flag = 1;
+								    		 }
+								    	 });
+								    	 if(flag == 0){
+							    			 if(countIndex == 0){
+							    				 $scope.testDriveData = obj1;
+							    				 $scope.scheduLeadId.push(obj1);
+							    				 countIndex = 1;
+							    			 }
+							    		 }
+								    }
+							   });
+							   
+						   });
+					}
+					
 				});
 					
 	   	  
