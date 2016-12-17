@@ -6981,6 +6981,10 @@ angular.module('newApp')
 			   console.log($scope.getAllListLeadDate);
 			   console.log($scope.actionSelectedLead);
 			   console.log($scope.scheduLeadId);
+	   			if($scope.scheduLeadId.length == $scope.actionSelectedLead.length){
+					console.log("popup close");
+					$('#scheduleTestDriveModal').modal('hide');
+				}
 			   var countIndex = 0;
 			   var flag=0;
 			   angular.forEach($scope.actionSelectedLead, function(obj, index){
