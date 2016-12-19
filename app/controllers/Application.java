@@ -18807,9 +18807,12 @@ if(vehicles.equals("All")){
 	    		}
 	    		if(zipcode.size() == 0){
 	    			AuthUser auth = AuthUser.findByOutLeftAll(Long.valueOf(session("USER_LOCATION")));
-	    			info.setAssignedTo(auth);
+	    			if(auth != null){
+	    				info.setAssignedTo(auth);
+	    			}else{
+	    				info.setAssignedTo(user);
+	    			}
 	    		}
-	    		
 	    		//info.setAssignedTo(user);
 	    		 //product = Inventory.findById(inventoryVM.id);
 	    		info.setProductId(inventoryVM.id.toString());
