@@ -1023,11 +1023,13 @@
                          	 formFields.push(getJsonBForZipCodes(form));
                          }
                         if(form.component === "multipleselect"){
+                        	//formFields.push(getJsonBForCheckBox(form));
                           	 formFields.push(getJsonBForMultipleselect(form));
                           }
                           if(form.component === "singleSelect"){
                         	console.log("insisdeee");
                           	 formFields.push(getJsonBForSingleSelect(form));
+                        	//formFields.push(getJsonBForRadio(form));
                           }
                       });
                       /* form_details.name = subSectons[i];

@@ -171,40 +171,52 @@ angular.module('newApp')
 	    });
 		
      });*/
+	$scope.getselectLeadDashbord = function(leadType){
+		 var deferred = $q.defer();
+		
+			$scope.selectedLead = leadType;
+			$scope.userFields = angular.copy($scope.userFieldsCopy);
+			$scope.userFields1 = null;
+			$scope.newFlagData = false;
+			
+			
+			$scope.getFormDesign($scope.selectedLead).then(function(response){
+				console.log(response);
+				 $scope.userFields1 = $scope.addFormField($scope.userList);
+					
+				 angular.forEach($scope.userFields1, function(obj, index){
+					 $scope.userFields.push(obj);
+					});
+				 
+				 if(response.additionalData == true){
+					 $scope.newFlagData = true;
+					 $scope.additional = false;
+					 $scope.userFieldOnjson = angular.fromJson(response.jsonDataAdd);
+					 var arrayList = [];
+					 angular.forEach(angular.fromJson(response.jsonDataAdd), function(obj, index){
+						 arrayList.push(obj);
+						 if(obj.component == "daterange"){
+								obj.label = "Start Date";
+								var objlist = angular.copy(obj);
+								objlist.key = objlist.key+"_endDate";
+								objlist.label = "End Date";
+								arrayList.push(objlist);
+						}
+					 });
+					 $scope.userFields2 = $scope.addFormField(arrayList);
+				
+				 }
+				 $scope.user = {};
+				 deferred.resolve(response);
+			});
+			
+			return deferred.promise;
+	}
 	
 	$scope.selectLeadDashbord = function(data){
-        console.log(data);
-		$scope.selectedLead = data;
-		$scope.userFields = angular.copy($scope.userFieldsCopy);
-		$scope.userFields1 = null;
-		$scope.newFlagData = false;
-		
-		$scope.getFormDesign($scope.selectedLead).then(function(response){
-			console.log(response);
-			 $scope.userFields1 = $scope.addFormField($scope.userList);
+			$scope.getselectLeadDashbord(data).then(function(response){
 				
-			 angular.forEach($scope.userFields1, function(obj, index){
-				 $scope.userFields.push(obj);
-				});
-			 
-			 if(response.additionalData == true){
-				 $scope.newFlagData = true;
-				 $scope.userFieldOnjson = angular.fromJson(response.jsonDataAdd);
-				 var arrayList = [];
-				 angular.forEach(angular.fromJson(response.jsonDataAdd), function(obj, index){
-					 arrayList.push(obj);
-					 if(obj.component == "daterange"){
-							obj.label = "Start Date";
-							var objlist = angular.copy(obj);
-							objlist.key = objlist.key+"_endDate";
-							objlist.label = "End Date";
-							arrayList.push(objlist);
-					}
-				 });
-				 $scope.userFields2 = $scope.addFormField(arrayList);
-			 }
-			 $scope.user = {};
-		});
+		    });
 	}
 	
 	
@@ -2134,8 +2146,12 @@ angular.module('newApp')
    	  	    
    	  	  $scope.editVinData = function(entity){
    	  		$scope.showFomeD("editLead");
+   	  		$("#editLeads").modal("show");
+   	  	   // $scope.selectLeadDashbord(entity.typeOfLead);
+   	  		console.log(entity.customMapData);
    	  		$scope.customData = entity.customMapData;
    	  		console.log(entity);
+   	  	    $scope.userFieldsList = null;
    	  		$("#ex1_value").val(entity.name);
    	  		apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
    	  			
@@ -2165,14 +2181,34 @@ angular.module('newApp')
 	   			   });
 				 $scope.editInput = response;
 				 $scope.userFieldsList = angular.fromJson(response.jsonData);
-	   	  		  apiserviceDashborad.getCustomizationform(entity.leadType).then(function(response1){
+				 $scope.userFields = $scope.addFormField($scope.userFieldsList);
+				 $scope.userFieldsCopy = angular.copy($scope.userFields);
+				 $scope.getselectLeadDashbord(entity.typeOfLead).then(function(response1){
+					 console.log(angular.fromJson(response1.jsonData));
+					 angular.forEach(angular.fromJson(response1.jsonData), function(obj, index){
+						  if(obj.component == "multipleselect"){
+							  $.each($scope.customData, function(attr, value) {
+								  if(attr == obj.key){
+									  var arr1 = [];
+			   						  var arr1 = value.split(',');
+			   						  for(var i=0;i<arr1.length;i++){
+			   							$scope.customData[arr1[i]] = true;
+			   						  }
+			   						  
+								  }
+							  });
+						  }
+					 });
+				 });
+				 console.log($scope.customData);
+	   	  		/*  apiserviceDashborad.getCustomizationform(entity.typeOfLead).then(function(response1){
 						$scope.josnDataList = angular.fromJson(response1.jsonData);
 						angular.forEach($scope.josnDataList, function(obj, index){
 							var arr = [];
    							var arr = obj.key.split('_');
    							console.log(obj.key);
    							
-						/*	if(obj.component == "emailSelect"){
+							if(obj.component == "emailSelect"){
 								 $.each($scope.customData, function(attr, value) {
 									 if(attr == arr[0]+"_emailType"){
 										 $scope.emailType = value;
@@ -2188,29 +2224,33 @@ angular.module('newApp')
 									 $scope.phoneType = value;
 								 }
 							 });
-	   						}*/
-							$scope.userFieldsList.push(obj);
-							
-		   			    });
-						angular.forEach(angular.fromJson(response1.jsonDataAdd), function(obj, index){
-							var arr = [];
-   							var arr = obj.key.split('_');
-							/*if(obj.component == "emailSelect"){
-	   							console.log("0000000111");
-	   							console.log($scope.customData.arr[0]+"_emailType");
-	   							$scope.emailType = $scope.customData.arr[0]+"emailType";
 	   						}
-	   						if(obj.component == "phoneSelect"){
-	   							console.log("0000000");
-	   							console.log($scope.customData.arr[0]+"_phoneT");
-	   							$scope.phoneType = $scope.customData.arr[0]+"phoneType";
-	   						}*/
 							$scope.userFieldsList.push(obj);
 							
 		   			    });
-					 $scope.userFields = $scope.addFormField($scope.userFieldsList);
-					 $scope.user = {};
-   	  			});
+						if(response1.jsonDataAdd != null && response1.jsonDataAdd != ""){
+							angular.forEach(angular.fromJson(response1.jsonDataAdd), function(obj, index){
+								var arr = [];
+	   							var arr = obj.key.split('_');
+								if(obj.component == "emailSelect"){
+		   							console.log("0000000111");
+		   							console.log($scope.customData.arr[0]+"_emailType");
+		   							$scope.emailType = $scope.customData.arr[0]+"emailType";
+		   						}
+		   						if(obj.component == "phoneSelect"){
+		   							console.log("0000000");
+		   							console.log($scope.customData.arr[0]+"_phoneT");
+		   							$scope.phoneType = $scope.customData.arr[0]+"phoneType";
+		   						}
+								$scope.userFieldsList.push(obj);
+								
+			   			    });
+						}
+					
+						 $scope.userFields = $scope.addFormField($scope.userFieldsList);
+						 $scope.user = {};
+   	  			});*/
+	   	  	
    	  		
 				 //$scope.editInput = response;
 				 //$scope.josnData = angular.fromJson(response.jsonData);
@@ -2225,38 +2265,7 @@ angular.module('newApp')
    	  		
    	  		
    	  		
-   	  		
-   	  			
-   	  		  $scope.financeData.downPayment=1000;
-   	  		  $scope.financeData.annualInterestRate=7;
-   	  		  $scope.financeData.numberOfYears=5;
-   	  		  $scope.financeData.price=entity.price;
-   	  		  $scope.financeData.frequencyOfPayments=26;
-   	  		$scope.payments="00";
-   	  		$scope.payment="0.000";
-   	  		  
-   	  		 // $scope.financeData.frequencyOfPayments=
-   	  			$scope.stockWiseData = [];
-   	  			$scope.editLeads = {};
-   	  			//$scope.getAllVehical();
-   	  			$('#btneditleads').click();
-   	  			//$scope.editLeads = entity;
-   	  			if(entity.typeOfLead == "Trade In" || entity.typeOfLead == "Trade-In Appraisal") {
-				   $scope.pdffile = entity.pdfPath;
-				   $scope.lead = entity.leadsValue;
-			   }   	  		  
-   	  			
-   	  		$scope.stockWiseData.push({
-   	  			title:entity.title,
-   	  			stockNumber:entity.title,
-   	  			designer:entity.designer,
-   	  			price:entity.price,
-				year:entity.year,
-				primaryTitle:entity.primaryTitle,
-				productId:entity.productId,
-				id:entity.id,
-				imgId:entity.imgId,
-			});
+   	  	
    	  			$scope.editLeads.productId = entity.productId;
 				$('#vinSearch_value').val(entity.productId);
 				$('#vinSearch').val(entity.productId);
@@ -2300,22 +2309,10 @@ angular.module('newApp')
    	  				
    	  			});
    	  		}
-   	 $scope.calculateFinancialData = function(financeData){
-   		 
-   	  	var cost         =financeData.price;
-		var down_payment =financeData.downPayment;
-		var interest     =financeData.annualInterestRate;
-		var loan_years   =financeData.numberOfYears;
-		var frequency_rate    =financeData.frequencyOfPayments;
-		
-		var interest_rate = (interest) / 100;
-		 var rate          = interest_rate / frequency_rate;
-		 $scope.payments      = loan_years * frequency_rate;
-		var difference    = cost - down_payment;
-		$scope.payment = Math.floor((difference*rate)/(1-Math.pow((1+rate),(-1* $scope.payments)))*100)/100;
-   	 }
+   	
    	  	
    	  	$scope.editleads = function(){
+   	  	$scope.multiSelectBindWithCustomData();
    	  		$scope.customList = [];
    	  		$scope.customData.setTime = $("#bestTimes").val()
 			if($scope.customData.setTime == undefined){
@@ -4476,8 +4473,16 @@ angular.module('newApp')
 	    		/*$scope.selectedObjs = function(select){
 	    			console.log(select);
 	    		}*/
+	    		
+	    		$scope.multiSelectBindWithCustomData = function(){
+	    			$.each($rootScope.rObj, function(attr, value) {
+	    				$scope.customData[attr] = value;
+	    			});
+	    		}
+	    		
 	    		$scope.customData = {};
 	    		$scope.createLead = function() {
+	    			$scope.multiSelectBindWithCustomData();
 	    			$scope.customList =[];
 	    			$scope.customData.time_range = $("#bestTimes").val();
 	    			if($scope.customData.time_range == undefined){
@@ -4491,7 +4496,6 @@ angular.module('newApp')
 	    			if($scope.customData.autocompleteText == undefined){
 	    				delete $scope.customData.autocompleteText;
 	    			}
-	    			
 	    			$scope.josnData = 0;
 	    			
 	    			
@@ -4571,7 +4575,7 @@ angular.module('newApp')
     					
 	    					
 	      	  		});
-	    			
+	    				
 	    			});
 	    			
 	    		};
@@ -5861,7 +5865,7 @@ angular.module('newApp')
 		    		    				        			   					angular.forEach(angular.fromJson(response.jsonData),function(value,key){
 		    		    				        			   						$scope.josnData1.push(value);
 		    		    				        			   					});
-		    		    				        			   					console.log($scope.josnData1);
+		    		    				        			   					
 		    		    				        	        		console.log(data);
 		    		    				        	        		
 		    		    				        	        		for(var i=0;i<data.length;i++){
@@ -6244,7 +6248,7 @@ angular.module('newApp')
     	}
     	
     	$scope.saveScheduleClose = function() {
-    		
+    		$scope.multiSelectBindWithCustomData();
     		$scope.closeleadObj = {};
     		console.log($scope.customData);
     		console.log($scope.actionSelectedLead);
@@ -6857,6 +6861,7 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.saveUserNote = function() {
+			   $scope.multiSelectBindWithCustomData();
 			   $scope.notOnject = {};
 			   var actionkey = "";
 			   $scope.josnData = null;

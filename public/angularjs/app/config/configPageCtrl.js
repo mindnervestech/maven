@@ -1241,7 +1241,6 @@ angular.module('newApp')
 		$scope.listAll = nameList;
 		$scope.listAll.outLeftAll = $scope.outLeftAll;
 	}
-	
 	$scope.saveRedirectToAll = function(){
 		console.log($scope.listAll);
 		console.log($scope.salesPersonList);
@@ -1327,7 +1326,6 @@ angular.module('newApp')
 		console.log(data);
 		$scope.editCustManufData = data;
 	});
-	
 	$scope.dataZipCode = {};
 	apiserviceConfigPage.getAllSalesPersonZipCode().then(function(data){
 		console.log(data);
@@ -1398,8 +1396,9 @@ angular.module('newApp')
 			$scope.msgShow($scope.allFronAndSalesList);
 			
 		});
-	});
+		
 	
+	});
 	$scope.selectCheckFlag = 0;
 	$scope.addFlag = 0;
 	$scope.clickOneCity = function(values, sale){
