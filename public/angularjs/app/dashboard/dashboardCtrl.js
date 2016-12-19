@@ -6477,9 +6477,10 @@ angular.module('newApp')
     		  $scope.scheduleTestData.confirmTime = entity.confirmTime;
     		  $scope.scheduleTestData.option = entity.option;
     		  $scope.scheduleTestData.vin = entity.vin;
+    		  $scope.scheduleTestData.productId = entity.productId;
+    		  
 			   var sDate = entity.confirmDate;
-			   apiserviceDashborad.getScheduleTime(entity.vin, sDate).then(function(data){
-			   
+			   apiserviceDashborad.getScheduleTime(entity.productId, sDate).then(function(data){
 				   $scope.cnTimeList = data;
 				   $scope.timeList = [];
 				   $.each(data, function(i, el){
@@ -6991,103 +6992,106 @@ angular.module('newApp')
 			   $scope.testDriveData.weatherValue=$scope.wetherValue;
 			
 				  $scope.josnData = null;
-				apiserviceDashborad.getCustomizationform('My Leads - Schedule an appointment').then(function(response){
-					 $scope.testDriveData.bestDay = $('#testDriveDate').val();
-					   $scope.testDriveData.bestTime = $('#bestTime').val();
-					$scope.josnData = angular.fromJson(response.jsonData);
-					angular.forEach($scope.josnData, function(obj, index){
-						obj.formName = "My Leads - Schedule an appointment";
-	   			    });
-					if(response.additionalData == true){
-						angular.forEach(angular.fromJson(response.jsonDataAdd), function(obj, index){
-							obj.formName = "My Leads - Schedule an appointment";
-							$scope.josnData.push(obj);
-		    				});
-					}
-					console.log("()()()(0");
-					console.log($scope.josnData);
-					console.log($scope.customData);
-					var oneProduct = 0;
+				  apiserviceDashborad.getCustomizationform('My Leads - Schedule an appointment').then(function(response){
+					  $scope.testDriveData.bestDay = $('#testDriveDate').val();
+					  $scope.testDriveData.bestTime = $('#bestTime').val();
+					  $scope.josnData = angular.fromJson(response.jsonData);
+					  angular.forEach($scope.josnData, function(obj, index){
+						  obj.formName = "My Leads - Schedule an appointment";
+	   			      });
+					  if(response.additionalData == true){
+						  angular.forEach(angular.fromJson(response.jsonDataAdd), function(obj, index){
+							  obj.formName = "My Leads - Schedule an appointment";
+							  $scope.josnData.push(obj);
+		    			  });
+					  }
+					  console.log("()()()(0");
+					  console.log($scope.josnData);
+					  console.log($scope.customData);
+					  var oneProduct = 0;
 					
 					
-					$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
-						$scope.customList = response;
-					});
-					
-					
-				console.log($scope.customData);
-				console.log($scope.customList);
-				
-				
-				
-				 $scope.testDriveData.customData = $scope.customList;
-	   			console.log($scope.testDriveData);
-	   			apiserviceDashborad.saveTestDrive($scope.testDriveData).then(function(data){
-	 			   
-	   				if(popupstatus == "popupclose"){
-	   					$('#clsPop').click();
-	   				}
-					if(data == "success"){
-						//  $scope.schedulmultidatepicker();
-						if(popupstatus == "popupclose"){
-							$('#driveClose').click();
-						}
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Test Drive confirmation email has been sent to"+" "+$scope.testDriveData.name+" ",
-						});
-						if(popupstatus == "popupclose"){
-							$("#test-drive-tabSched").click();
-						}	
-					}else{
-						$.pnotify({
-						    title: "Error",
-						    type:'success',
-						    text: "Test Drive Time Allready Exist",
-						});
-					}
-					
-					if(popupstatus == "notclose"){
-						  console.log($scope.getAllListLeadDate);
-						   console.log($scope.actionSelectedLead);
-						   console.log($scope.scheduLeadId);
-				   			if($scope.scheduLeadId.length == $scope.actionSelectedLead.length){
-								console.log("popup close");
-								$('#scheduleTestDriveModal').modal('hide');
-							}
-						   var countIndex = 0;
-						   var flag=0;
-						   angular.forEach($scope.actionSelectedLead, function(obj, index){
-							   angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
-								    if(obj == obj1.id){
-								    	flag=0;
-								    	 angular.forEach($scope.scheduLeadId, function(obj3, index3){
-								    		 if(obj3.id == obj1.id){
-								    			 flag = 1;
+					  $scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
+						  $scope.customList = response;
+					  });
+					  console.log($scope.customData);
+					  console.log($scope.customList);
+					  $scope.testDriveData.customData = $scope.customList;
+					  console.log($scope.testDriveData);
+					  console.log($scope.testDriveData.bestDay);
+					  if($scope.testDriveData.bestDay != "" && $scope.testDriveData.bestTime != ""){
+						  apiserviceDashborad.saveTestDrive($scope.testDriveData).then(function(data){
+				 			   
+							  if(popupstatus == "popupclose"){
+								  $('#clsPop').click();
+							  }
+							  if(data == "success"){
+								  //  $scope.schedulmultidatepicker();
+								  if(popupstatus == "popupclose"){
+									  $('#driveClose').click();
+								  }
+								  $.pnotify({
+									  title: "Success",
+									  type:'success',
+									  text: "Appointment invitation has been successfully sent to "+" "+$scope.testDriveData.name+" ",
+								  });
+								  if(popupstatus == "popupclose"){
+									  $("#test-drive-tabSched").click();
+								  }	
+							  	  }else{
+							  		  $.pnotify({
+							  			  title: "Error",
+							  			  type:'success',
+							  			  text: "Test Drive Time Allready Exist",
+							  		  });
+							  	  }
+						
+							  	  if(popupstatus == "notclose"){
+							  	  console.log($scope.actionSelectedLead);
+							  	  console.log($scope.scheduLeadId);
+							  	  	if($scope.scheduLeadId.length == $scope.actionSelectedLead.length){
+							  	  		console.log("popup close");
+							  	  		$('#scheduleTestDriveModal').modal('hide');
+							  	  	}
+							  	  	var countIndex = 0;
+							  	  	var flag=0;
+							  	  	angular.forEach($scope.actionSelectedLead, function(obj, index){
+							  	  	angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
+							  	  		if(obj == obj1.id){
+									    	flag=0;
+									    	 angular.forEach($scope.scheduLeadId, function(obj3, index3){
+									    		 if(obj3.id == obj1.id){
+									    			 flag = 1;
+									    		 }
+									    	 });
+									    	 if(flag == 0){
+								    			 if(countIndex == 0){
+								    				 $scope.testDriveData = obj1;
+								    				 $scope.scheduLeadId.push(obj1);
+								    				 countIndex = 1;
+								    			 }
 								    		 }
-								    	 });
-								    	 if(flag == 0){
-							    			 if(countIndex == 0){
-							    				 $scope.testDriveData = obj1;
-							    				 $scope.scheduLeadId.push(obj1);
-							    				 countIndex = 1;
-							    			 }
-							    		 }
-								    }
+									    }
+								   });
+								   
 							   });
-							   
-						   });
-					}
+						}
+						
+					});
+				}
+				else{
+					$.pnotify({
+			  			  title: "Error",
+			  			  type:'success',
+			  			  text: "Date and Time Should bu Mandatory",
+			  		  });
+				}
 					
-				});
-					
-	   	  
-		  		});
+		  	});
 			   
 			   
 			 
-		   }
+		  }
 		   
 		   $scope.changeType = function(){
 			   if($scope.cal_whe_flag){
@@ -7231,8 +7235,7 @@ angular.module('newApp')
 			   
 			   $('#testDriveDate').on('changeDate', function(e) {
 				   var sDate = $('#testDriveDate').val();
-				   apiserviceDashborad.getScheduleTime($scope.testDriveData.vin, sDate).then(function(data){
-				   
+				   apiserviceDashborad.getScheduleTime($scope.testDriveData.productId, sDate).then(function(data){
 					   $scope.timeList = [];
 					   $.each(data, function(i, el){
 					       if($.inArray(el, $scope.timeList) === -1) $scope.timeList.push(el);
@@ -7280,8 +7283,7 @@ angular.module('newApp')
 			   
 			   $('#cnfDate').on('changeDate', function(e) {
 				   var sDate = $('#cnfDate').val();
-				   apiserviceDashborad.getScheduleTime($scope.scheduleTestData.vin, sDate).then(function(data){
-				   
+				   apiserviceDashborad.getScheduleTime($scope.scheduleTestData.productId, sDate).then(function(data){
 					   $scope.cnTimeList = data;
 					   $scope.timeList = [];
 					   $.each(data, function(i, el){

@@ -1195,12 +1195,12 @@ angular.module('newApp')
 	
 	apiserviceConfigPage.getAllSalesPersons().then(function(data){
 		$scope.salesPersonName = data;
-			angular.forEach($scope.salesPersonName, function(obj, index){
-				if(obj.outLeftAll != null){
-					$scope.realese.allSalesPeople = obj.outLeftAll;
-					$scope.customerReq.firstName = obj.firstName;
-				}
-			});
+		angular.forEach($scope.salesPersonName, function(obj, index){
+			if(obj.outLeftAll != null){
+				$scope.realese.allSalesPeople = obj.outLeftAll;
+				$scope.customerReq.firstName = obj.firstName;
+			}
+		});
 		if($scope.userRoleData.role == "Manager"){
 			$scope.salesPersonName.push($scope.userRoleData); 
 		}
@@ -1241,6 +1241,7 @@ angular.module('newApp')
 		$scope.listAll = nameList;
 		$scope.listAll.outLeftAll = $scope.outLeftAll;
 	}
+	
 	$scope.saveRedirectToAll = function(){
 		console.log($scope.listAll);
 		console.log($scope.salesPersonList);
@@ -1326,6 +1327,7 @@ angular.module('newApp')
 		console.log(data);
 		$scope.editCustManufData = data;
 	});
+	
 	$scope.dataZipCode = {};
 	apiserviceConfigPage.getAllSalesPersonZipCode().then(function(data){
 		console.log(data);
@@ -1396,9 +1398,8 @@ angular.module('newApp')
 			$scope.msgShow($scope.allFronAndSalesList);
 			
 		});
-		
-	
 	});
+	
 	$scope.selectCheckFlag = 0;
 	$scope.addFlag = 0;
 	$scope.clickOneCity = function(values, sale){
@@ -1476,8 +1477,6 @@ angular.module('newApp')
 		console.log($scope.allManufacturerList);
 	}
 	
-	
-	
 	$scope.listOfSalesAndFront = [];
 	$scope.salesPersonListPop = function(salesper){
 		console.log(salesper);
@@ -1509,10 +1508,6 @@ angular.module('newApp')
 			});
 		}
 			console.log($scope.salesPerDetail);
-	}
-	
-	$scope.selectedSalesPer = function(){
-		//console.log($scope.listOfSalesAndFront);
 	}
 	
 	$scope.saveDetailsOfUser = function(){
@@ -1579,6 +1574,7 @@ angular.module('newApp')
 		$('#addPremiumPrice').click();
 		$scope.saleDeails = sale;
 	}
+	
 	$scope.msgShwoFlag = 0;
 	$scope.addPremiumPrice = function(price){
 		$scope.saleDeails.priceStart = price.priceStart;
@@ -1603,7 +1599,6 @@ angular.module('newApp')
 			console.log($scope.salesPersonList);
 			$('#addPremiumPrice').click();
 		}
-		
 		
 	}
 	
@@ -1773,6 +1768,7 @@ angular.module('newApp')
 		});
 		
 	}
+	
 	$scope.selectFlag = 0;
 	$scope.selectAll = function(value ,checkOneValue){
 		console.log(value);

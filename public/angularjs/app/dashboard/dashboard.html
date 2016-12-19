@@ -8282,7 +8282,7 @@ float: right !important;
 														<label class="col-sm-5 control-label" style="text-align: left;">Time</label>
 														<div class="col-sm-7">
 															<div class="prepend-icon">
-								                              <input type="text" name="timepicker" ng-model="testDriveData.confirmTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime">
+								                              <input type="text" name="timepicker" ng-model="testDriveData.confirmTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime" required>
 								                              <i class="icon-clock"></i>
 								                            </div>
 														</div> 
@@ -8401,8 +8401,8 @@ float: right !important;
 																			                	
 								                <div class="modal-footer" style="float: left;">
 								                    <button id="clsPop" type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
-								                    <button type="submit" class="btn btn-primary btn-embossed" ng-click="saveTestDrive('popupclose')">Save</button>
-								                    <button type="submit" class="btn btn-primary btn-embossed" ng-click="saveandgoNext()">Save & Go to the next appointment</button>
+								                    <button ng-if="actionSelectedLead.length == 1 || actionSelectedLead.length == scheduLeadId.length" type="submit" class="btn btn-primary btn-embossed" ng-click="saveTestDrive('popupclose')">Save</button>
+								                    <button ng-if="actionSelectedLead.length > scheduLeadId.length" type="submit" class="btn btn-primary btn-embossed" ng-click="saveandgoNext()">Save & Go to the next appointment</button>
 								                </div>
 								                </form>
 								            </div>
