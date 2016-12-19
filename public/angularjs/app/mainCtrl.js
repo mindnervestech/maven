@@ -1639,7 +1639,7 @@
                         "options": options,
                         "valueProp": "id",
                         "labelProp": "label",
-                        "required": jsonObject.required
+                        "required": false
                         },
                         "expressionProperties": properties,
                         "hideExpression" : function($viewValue, $modelValue, scope) {
@@ -1669,7 +1669,7 @@
                         "options": options,
                         "valueProp": "id",
                         "labelProp": "label",
-                        "required": jsonObject.required
+                        "required": false
                         },
                         "expressionProperties": properties,
                         "hideExpression" : function($viewValue, $modelValue, scope) {
@@ -2039,6 +2039,54 @@ angular.module('newApp').controller('customizationCtrl',
 				$scope.leadList = data; 
 				
 			});
+
+	    	$rootScope.rObj = {};
+	    	$rootScope.firstTime = 0;
+	    	$scope.multipleselectFunction = function(item,options,check){
+	    		console.log(item);
+	    		console.log(options);
+	    		console.log(check);
+	    		
+	    		/*$scope.rObj['name'] = item.id;
+	    		$scope.rObj['value'] = "34";
+	    		*/
+	    		var arr = [];
+	    		if($rootScope.firstTime == 0){
+	    			arr[0] = item.id;
+	    			$rootScope.rObj[options.key] = item.id;
+	    			$rootScope.firstTime = 1;
+	    		}else{
+	    			var flag = 0;
+	    			$.each($rootScope.rObj, function(attr, value) {
+						if(options.key == attr){
+							if(check == true){
+								arr = [];
+								arr = value.toString().split(',');
+								arr[arr.length] = item.id;
+								$rootScope.rObj[options.key] = arr;
+							}else{
+								angular.forEach(value, function(value1, key) {
+									if(value1 == item.id){
+										value.splice(key, 1);
+									}
+									
+								});
+								$rootScope.rObj[options.key] = value;
+							}
+							
+							flag = 1;
+						}
+				    });
+	    			
+	    			if(flag == 0){
+	    				arr = [];
+	    				arr[0] = item.id;
+	    				$rootScope.rObj[options.key] = arr;
+	    			}
+	    		}
+	    		   
+	    		  console.log($rootScope.rObj); 
+	    	}
 	    	
 	    	$scope.selectEmailType = function(emailType){
 	    		console.log(emailType);
