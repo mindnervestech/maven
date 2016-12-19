@@ -41,9 +41,12 @@
 								                <div class="modal-body">
 								                <h4 class="modal-title">ADD NEW Form Name</h4>
 								                    <div class="col-sm-6">
-																<input type="text" name="title" ng-model="addform.name" placeholder="TITLE " required>
+														<input type="text" name="title" ng-model="addform.name" placeholder="TITLE " required>
         											</div>
 								                </div>
+								                <div class="col-sm-7">
+													<label ng-if="msgFormFlag == 1" style="color:red;margin-left: 15px;">"#" Keyword Not allowed</label>
+        										</div>
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
 								                    <button type="submit" class="btn btn-primary btn-embossed">Add</button>

@@ -342,6 +342,8 @@ angular.module('newApp')
 			//$('#createLeadPopup').click();
 			$('#completedPopup').modal('show');
 		}
+		
+		$scope.msgLeadsFlag = 0;
 		$scope.leadcreateData = {};
 		$scope.saveCompleted = function(){
 			localStorage.setItem('popupType','Lead');
@@ -353,17 +355,25 @@ angular.module('newApp')
 			$scope.leadcreateData.leadName = $scope.leadcreate.leadName;
 			$scope.leadcreateData.callToAction = $scope.leadcreate.callToAction;
 			localStorage.setItem('callToAction',$scope.leadcreate.callToAction);
-		console.log($scope.leadcreate);
-		apiserviceConfigPage.addnewrUser($scope.leadcreate).then(function(data){
-			localStorage.setItem('popupType','Lead');
-			$scope.form = data;
-			console.log(data);
-			localStorage.setItem('leadId', data.id);
-			$scope.ShowFormBuilderSave($scope.leadcreateData);
-			$("#completedPopup").modal('hide');
-			 $scope.leadTypeAll();
-			 
-			});
+			$scope.namelead1 = [];
+			console.log($scope.leadcreate);
+		$scope.nameLead = $scope.leadcreate.leadName;
+		$scope.namelead1 = $scope.nameLead.split('');
+		console.log($scope.namelead1[0]);
+		if($scope.namelead1[0] == "#"){
+			$scope.msgLeadsFlag = 1;
+		}else{
+			apiserviceConfigPage.addnewrUser($scope.leadcreate).then(function(data){
+				localStorage.setItem('popupType','Lead');
+				$scope.form = data;
+				console.log(data);
+				localStorage.setItem('leadId', data.id);
+				$scope.ShowFormBuilderSave($scope.leadcreateData);
+				$("#completedPopup").modal('hide');
+				 $scope.leadTypeAll();
+				 
+				});
+			}
 		}
 		$scope.ShowFormBuilderSave = function(row){
 			$window.location.reload();
@@ -487,14 +497,21 @@ angular.module('newApp')
 			}
 		 
 		
-		 
+		 	$scope.msgFormFlag = 0;
+		 	$scope.nameform = [];
 			$scope.savedNewForm = function(){
-				apiserviceConfigPage.addnewForm($scope.addform).then(function(data){
-				$scope.form = data;
-				$("#completedPopup").modal('hide');
-				 $scope.allFormName();
-				 
-				});
+				$scope.nameform = $scope.addform.name;
+				$scope.nameform1 = $scope.nameform.split('');
+				if($scope.nameform1[0] == "#"){
+					$scope.msgFormFlag = 1;
+				}else{
+					apiserviceConfigPage.addnewForm($scope.addform).then(function(data){
+						$scope.form = data;
+						$("#completedPopup").modal('hide');
+						 $scope.allFormName();
+						 
+					});
+				}
 			}
 			
 			$scope.flagForChart1 = true;
@@ -1241,6 +1258,7 @@ angular.module('newApp')
 		$scope.listAll = nameList;
 		$scope.listAll.outLeftAll = $scope.outLeftAll;
 	}
+	
 	$scope.saveRedirectToAll = function(){
 		console.log($scope.listAll);
 		console.log($scope.salesPersonList);
@@ -1326,6 +1344,7 @@ angular.module('newApp')
 		console.log(data);
 		$scope.editCustManufData = data;
 	});
+	
 	$scope.dataZipCode = {};
 	apiserviceConfigPage.getAllSalesPersonZipCode().then(function(data){
 		console.log(data);
@@ -1396,9 +1415,8 @@ angular.module('newApp')
 			$scope.msgShow($scope.allFronAndSalesList);
 			
 		});
-		
-	
 	});
+	
 	$scope.selectCheckFlag = 0;
 	$scope.addFlag = 0;
 	$scope.clickOneCity = function(values, sale){
