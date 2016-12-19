@@ -1894,6 +1894,7 @@ angular.module('newApp')
 		apiserviceConfigPage.saveZipCodeDetails($scope.obj).then(function(data){
 			console.log(data);
 		});
+		$scope.saveRedirectToAll();
 	}
 	
 	apiserviceConfigPage.getAllStateCodes().then(function(data){

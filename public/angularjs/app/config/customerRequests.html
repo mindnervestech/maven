@@ -276,6 +276,29 @@ requests that don't match any of the entered price range criteria</strong></h4>
 							</tr>
 						</table>
 					</div>
+					
+					<div class="col-sm-12" style ="font-size: 20px;">
+   							<div class="col-md-4" style="padding-right: 0px;">
+								<label>All left out online requests should be : </label>
+							</div>
+							<div class="col-sm-7">
+								<div class="col-sm-12">
+									<input style="width:16px;height:16px;" type="radio" id="releasedtoallsalespeople" name="releasedtoall" ng-model="realese.allSalesPeople" value="Released to all of the sales people" ng-click="realeasedTO('Released to all of the sales people')" required> Released to all of the sales people
+								</div>
+								<div class="col-sm-12">
+									<input style="width:16px;height:16px;" type="radio" id="senttoonesalespeople" name="releasedtoall" ng-model="realese.allSalesPeople" value="Sent to one of the sales people" ng-click="realeasedTO('Sent to one of the sales people')" required> Sent to one of the sales people
+									<div class="col-sm-12" ng-if="realese.allSalesPeople == 'Sent to one of the sales people'">
+										
+										<div class="col-sm-8">
+											<div class="col-sm-12" style ="font-size: 20px" ng-repeat="name in salesPersonName">
+												<input style="width:17px;height:17px;" type="radio" name="allSalesPersonsData" ng-model="customerReq.firstName" value="{{name.firstName}}" ng-click="saveSalesPeople(name)"> {{name.firstName}} {{name.lastName}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					
 					<button type="button" class="btn btn-primary" ng-click="SaveZipCodeData()" style="margin-left:16%;margin-top:4%;">Save</button>
 			</div>
 			
