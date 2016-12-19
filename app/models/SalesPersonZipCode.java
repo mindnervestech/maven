@@ -87,4 +87,7 @@ public class SalesPersonZipCode extends Model {
 	public static List<SalesPersonZipCode> getAllcustManufactList() {
 		return find.all();
 	}
+	public static List<SalesPersonZipCode> findByZipCode(Long location , String custZipCode) {
+		return find.where().eq("locations.id", location).eq("zipCode", custZipCode).findList();
+	}
 }

@@ -6987,7 +6987,7 @@ angular.module('newApp')
 		   $scope.getScheduleTime = function(){
 		   }
 		   
-		   
+		   $scope.notificationFlag = 0;
 		   $scope.saveTestDrive = function(popupstatus) {
 			   console.log($scope.actionSelectedLead);
 			   //$scope.testDriveData
@@ -7084,12 +7084,11 @@ angular.module('newApp')
 						
 					});
 				}
-				else{
-					$.pnotify({
-			  			  title: "Error",
-			  			  type:'success',
-			  			  text: "Date and Time Should bu Mandatory",
-			  		  });
+				else if($scope.testDriveData.bestDay == ""){
+					$scope.notificationFlag = 1;
+				}
+				else if($scope.testDriveData.bestTime == ""){
+					$scope.notificationFlag = 2;
 				}
 					
 		  	});

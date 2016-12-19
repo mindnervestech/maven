@@ -8271,6 +8271,7 @@ float: right !important;
 														<input data-provide="datepicker" id="testDriveDate" class="form-control input-sm" 
 														ng-model="testDriveData.confirmDate" data-date-format="yyyy-mm-dd" required>
 														</div>
+														<label ng-if="notificationFlag == 1" style="color:red;">Please select a appointment Date</label>
 													</div>
 													<div class="form-group col-sm-12">
 														<label class="col-sm-3 control-label" style="text-align: left;">&nbsp;</label>
@@ -8285,7 +8286,8 @@ float: right !important;
 								                              <input type="text" name="timepicker" ng-model="testDriveData.confirmTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime" required>
 								                              <i class="icon-clock"></i>
 								                            </div>
-														</div> 
+														</div>
+														<label ng-if="notificationFlag == 2" style="color:red;">Please select a appointment Time</label> 
 													</div>
 												</div>	
 								                	<div ng-if="scheduleAddress" class="col-md-12" style="margin-top: 32px;">

@@ -93,6 +93,7 @@ import models.PriceChange;
 import models.ProductImages;
 import models.Registration;
 import models.RequestMoreInfo;
+import models.SalesPersonZipCode;
 import models.SalesPlanSchedule;
 import models.ScheduleTest;
 import models.Site;
@@ -169,6 +170,7 @@ import viewmodel.PlanScheduleVM;
 import viewmodel.PriceChangeVM;
 import viewmodel.PriceFormatDate;
 import viewmodel.RequestInfoVM;
+import viewmodel.SalePersonZipCodeVM;
 import viewmodel.SalepeopleMonthPlanVM;
 import viewmodel.ScheduleTestVM;
 import viewmodel.SetPriceChangeFlag;
@@ -18784,7 +18786,7 @@ if(vehicles.equals("All")){
     	Date date = new Date();
     	int parentFlag = 0;
     	long parentLeadId = 0L;
-    	
+    	List<SalesPersonZipCode> zipcode = SalesPersonZipCode.findByZipCode(Long.valueOf(session("USER_LOCATION")), leadVM.custZipCode);
     	List<AddProduct> productlist = AddProduct.findByTitle(leadVM.manufacturers);
     	RequestMoreInfo info = new RequestMoreInfo();
     	    for(AddProduct inventoryVM:productlist){
@@ -18797,7 +18799,18 @@ if(vehicles.equals("All")){
 	    		info.setPhone(leadVM.custNumber);
 	    		info.setCustZipCode(leadVM.custZipCode);
 	    		info.setEnthicity(leadVM.enthicity);
-	    		info.setAssignedTo(user);
+	    		for(SalesPersonZipCode per:zipcode){
+	    			if(per.zipCode != null){
+	    				info.setAssignedTo(per.user);
+	    				break;
+	    			}
+	    		}
+	    		if(zipcode.size() == 0){
+	    			AuthUser auth = AuthUser.findByOutLeftAll(Long.valueOf(session("USER_LOCATION")));
+	    			info.setAssignedTo(auth);
+	    		}
+	    		
+	    		//info.setAssignedTo(user);
 	    		 //product = Inventory.findById(inventoryVM.id);
 	    		info.setProductId(inventoryVM.id.toString());
 	    		info.setUser(user);
