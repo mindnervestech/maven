@@ -12778,8 +12778,10 @@ private static void cancelTestDriveMail(Map map) {
     			info.setReason(vm.reasonToCancel);
     			info.update();
     			clientEmail=info.email;
+    			if(vm.customData != null){
+    				saveCustomData(info.id,vm.customData,bodys,Long.parseLong(info.isContactusType));
+    			}
     			
-    			saveCustomData(info.id,vm.customData,bodys,Long.parseLong(info.isContactusType));
     			
     			if(info.confirmDate != null){
     				Map map = new HashMap();
