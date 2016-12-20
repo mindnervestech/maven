@@ -248,76 +248,67 @@ angular.module('newApp')
 			  var obj = localStorage.getItem('popupType');
 			  $scope.leadId = localStorage.getItem('leadId');
 			  $scope.setKeyValues();
-			  
-			/*angular.forEach($builder.forms['default'], function(value, key) {
-				 var key;
-               		key = value.label;
-               		key = key.replace("  ","_");
-               		key = key.replace(" ","_");
-               		key = key.toLowerCase();
-               		value.key = key;
-               		console.log(key);
-				 console.log(value.key);
-			 });*/
-			  
-			 console.log($builder.forms['default']);
-			 console.log($builder.forms['defaultAdd']);
-			 $scope.editform.formType = $routeParams.formType;
-			 $scope.editform.jsonform = $builder.forms['default'];
-			 $scope.editform.jsonformAdd = $builder.forms['defaultAdd'];
-			/* angular.forEach($scope.editform.jsonform, function(value, key) {
-				 if(value.component == "daterange"){
-					 var obj = angular.copy(value);
-					 obj.key = obj.key+"_endDate"; 
-					 $scope.editform.jsonform.push(obj);
+			  $scope.flagAppointment = 0;
+			  if($scope.formType == "My Leads - Schedule an appointment"){
+				  angular.forEach($builder.forms['default'], function(value, key) {
+						 if(value.key == "Mt_appointment_type"){
+							 if(value.options.length <= 0){
+								 $scope.flagAppointment = 1;
+							 }else{
+								 $scope.flagAppointment = 0;
+							 }
+						 }
+					 });
+			  }
+			if($scope.flagAppointment == 0){
+				 console.log($builder.forms['default']);
+				 console.log($builder.forms['defaultAdd']);
+				 $scope.editform.formType = $routeParams.formType;
+				 $scope.editform.jsonform = $builder.forms['default'];
+				 $scope.editform.jsonformAdd = $builder.forms['defaultAdd'];
+				
+				 $scope.editform.outcome = $scope.outcome;
+				 console.log($scope.editform);
+				 if($scope.additionalData == undefined){
+					 $scope.additionalData = false;
 				 }
-			 });
-			 angular.forEach($scope.editform.jsonformAdd, function(value, key) {
-				 if(value.component == "daterange"){
-					 var obj = angular.copy(value);
-					 obj.key = obj.key+"_endDate"; 
-					 $scope.editform.jsonformAdd.push(obj);
-				 }
-			 });*/
-			 $scope.editform.outcome = $scope.outcome;
-			 console.log($scope.editform);
-			 if($scope.additionalData == undefined){
-				 $scope.additionalData = false;
-			 }
-			 $scope.editform.additionalData = $scope.additionalData;
-			 apiserviceCustomizationForm.getLeadCrateForm($scope.editform).then(function(data){
-				  console.log($scope.formType);
-				 apiserviceCustomizationForm.getCustomizationform($scope.formType).then(function(response){
-					 $scope.josnData1 = angular.fromJson(response.jsonData);
-					 if(response.jsonDataAdd != null){
-						 angular.forEach(angular.fromJson(response.jsonDataAdd), function(value2, key2) {
-							 $scope.josnData1.push(value2);
-						 });
-					 }
-					 
-					 console.log($scope.josnData1);
-					 $scope.formListData=[];
-					 		angular.forEach($scope.josnData1, function(value1, key) {
-					 			$scope.formListData.push({
-					 				fieldId:value1.fieldId,
-		    		   	  			value:$routeParams.formType,
-		    		   	  			key:value1.key,
-		    		   	  			savecrm:value1.savecrm,
-		    		   	  			displayGrid:value1.displayGrid,
-		    		   	  		    displayWebsite:value1.displayWebsite,
-		    		   	  			
-		    					});
-					 			console.log($scope.formListData);
-					 		});
-					 		$scope.objBind = {};
-					 		$scope.objBind.customDataAll = $scope.formListData; 
-					 		apiserviceCustomizationForm.getFormBuilderData($scope.objBind).then(function(data){
-								 console.log(data);
-								// $location.path('/configuration');
+				 $scope.editform.additionalData = $scope.additionalData;
+				 apiserviceCustomizationForm.getLeadCrateForm($scope.editform).then(function(data){
+					  console.log($scope.formType);
+					 apiserviceCustomizationForm.getCustomizationform($scope.formType).then(function(response){
+						 $scope.josnData1 = angular.fromJson(response.jsonData);
+						 if(response.jsonDataAdd != null){
+							 angular.forEach(angular.fromJson(response.jsonDataAdd), function(value2, key2) {
+								 $scope.josnData1.push(value2);
 							 });
-				 });
-				 
-			});
+						 }
+						 
+						 console.log($scope.josnData1);
+						 $scope.formListData=[];
+						 		angular.forEach($scope.josnData1, function(value1, key) {
+						 			$scope.formListData.push({
+						 				fieldId:value1.fieldId,
+			    		   	  			value:$routeParams.formType,
+			    		   	  			key:value1.key,
+			    		   	  			savecrm:value1.savecrm,
+			    		   	  			displayGrid:value1.displayGrid,
+			    		   	  		    displayWebsite:value1.displayWebsite,
+			    		   	  			
+			    					});
+						 			console.log($scope.formListData);
+						 		});
+						 		$scope.objBind = {};
+						 		$scope.objBind.customDataAll = $scope.formListData; 
+						 		apiserviceCustomizationForm.getFormBuilderData($scope.objBind).then(function(data){
+									 console.log(data);
+									// $location.path('/configuration');
+								 });
+					 });
+					 
+				});
+			}
+			  
+			
 		  }
 		  
 		  $scope.saveCreateLeadFormAddOuctcome = function(){
