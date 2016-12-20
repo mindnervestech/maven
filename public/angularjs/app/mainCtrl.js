@@ -2040,10 +2040,11 @@ angular.module('newApp').controller('customizationCtrl',
 				
 			});
 
-	    	$rootScope.rObj = {};
+	    	
 	    	$rootScope.firstTime = 0;
 	    	$scope.multipleselectFunction = function(item,options,check){
-	    		console.log(item);
+	    		$rootScope.rObj = {};
+	    		console.log(item);	
 	    		console.log(options);
 	    		console.log(check);
 	    		
