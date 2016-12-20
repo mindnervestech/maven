@@ -4475,9 +4475,13 @@ angular.module('newApp')
 	    		}*/
 	    		
 	    		$scope.multiSelectBindWithCustomData = function(){
-	    			$.each($rootScope.rObj, function(attr, value) {
-	    				$scope.customData[attr] = value;
-	    			});
+	    			console.log($rootScope.rObj);
+	    			if(Object.keys($rootScope.rObj).length >0){
+	    				console.log("in if conditions");
+	    				$.each($rootScope.rObj, function(attr, value) {
+		    				$scope.customData[attr] = value;
+		    			});
+	    			}
 	    		}
 	    		
 	    		$scope.customData = {};
