@@ -1648,15 +1648,29 @@ angular.module('newApp')
 		$scope.rowData = salesDet;
 		console.log($scope.rowData);
 		$scope.addAdditionalFields = [];
-		//if(salesDet.zipCode.length == 0){
-		$scope.addAdditionalFields.push({zipcode:'',
-			isSelected:'',
-			city:'',
-			state:'',
-			selectFlag:'',
-			zipCodeDetailData:''});
-		$scope.zipCodeFlag = 0;
-		//}
+		
+		if(salesDet.zipCode.length <= 0){
+			$scope.addAdditionalFields.push({zipcode:'',
+				isSelected:'',
+				city:'',
+				state:'',
+				selectFlag:'',
+				zipCodeDetailData:''});
+			$scope.zipCodeFlag = 0;
+		}else{
+			angular.forEach(salesDet.cityList, function(obj, index){
+				var arr = [];
+				var arr = obj.split('-');
+				
+				var address= {};
+				address.city = arr[0];
+				address.state = arr[1];
+				$scope.getZipCode(address);
+				$scope.addAdditionalFields.push(address);
+			
+			});
+		
+		}
 		/*else{
 			console.log(salesDet.zipCode);
 			angular.forEach(salesDet.zipCode, function(obj, index){
@@ -1747,11 +1761,7 @@ angular.module('newApp')
 				    text: "Zip Code not Available",
 				});
 			}else{
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Zip Code Fatched successfully",
-				});
+				
 				$scope.zipCodeFlag = 1;
 			}
 			$scope.zipCodeDetailData = [];
