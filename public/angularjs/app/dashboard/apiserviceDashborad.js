@@ -1576,5 +1576,12 @@ angular.module('app.apiserviceDashborad', [])
 		
 		return defer.promise;
 	};
-	
+	this.getAllMeetingData=function(){
+		var defer = $q.defer();
+		
+		$http.get('/getAllMeetingData').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 })

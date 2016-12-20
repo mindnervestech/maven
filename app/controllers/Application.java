@@ -885,6 +885,24 @@ public class Application extends Controller {
     	return ok(Json.toJson(permissionList));
     }
     
+    public static Result getAllMeetingData(){
+    	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    	List<ScheduleTestVM> scheListData= new ArrayList<>();
+    	List<ScheduleTest> scheList = ScheduleTest.findAllBestDatAndTime(Long.valueOf(session("USER_LOCATION")));
+    	for (ScheduleTest obj : scheList) {
+    		ScheduleTestVM vm =new ScheduleTestVM();
+			vm.name = obj.name;
+			vm.id = obj.id;
+			if(obj.bestDay != null){
+				String[] dates = obj.bestDay.split("-");
+				vm.bestDay = dates[2]+"-"+dates[1]+"-"+dates[0];
+			}
+			vm.bestTime = obj.bestTime;
+			scheListData.add(vm);
+		}
+    	return ok(Json.toJson(scheListData));
+    }
+    
     public static Result getAllPermissionById(){
     	List<PermissionVM> permissionListData= new ArrayList<>();
     	List<Permission> permission = Permission.getAllPermissionById();

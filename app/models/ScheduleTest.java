@@ -706,4 +706,7 @@ public class ScheduleTest extends Model {
 	public static List<ScheduleTest> getacceptMeeting(AuthUser user) {
 		return find.where().eq("user", user).eq("meetingAcceptFlag", 1).orderBy("scheduleDate desc").findList();
 	}
+	public static List<ScheduleTest> findAllBestDatAndTime(Long location) {
+		return find.where().eq("location", location).findList();
+	}
 }

@@ -6963,6 +6963,7 @@ angular.module('newApp')
 			   $scope.cnTimeList = [];
 	    	   	   $scope.timeList = [];
 			   $('#btnTestDrive').click();
+			   $scope.getAllMeetingData();
 			  /* $scope.testDriveData.id = entity.id;
 			   $scope.testDriveData.name = entity.name;
 			   $scope.testDriveData.email = entity.email;
@@ -6990,13 +6991,19 @@ angular.module('newApp')
 		   
 		   $scope.getScheduleTime = function(){
 		   }
+		   $scope.getAllMeetingData = function(){
+			   apiserviceDashborad.getAllMeetingData().then(function(data){
+				   console.log(data);
+				   $scope.meetingData = data;
+		 		});
+		  }
+		   
 		   
 		   $scope.notificationFlag = 0;
 		   $scope.saveTestDrive = function(popupstatus) {
 			   console.log($scope.actionSelectedLead);
 			   //$scope.testDriveData
 			   //customData
-			  
 			   var aaa = $('#testDriveNature').val();
 			   $scope.testDriveData.weatherValue=$scope.wetherValue;
 			
@@ -7028,73 +7035,98 @@ angular.module('newApp')
 					  $scope.testDriveData.customData = $scope.customList;
 					  console.log($scope.testDriveData);
 					  console.log($scope.testDriveData.bestDay);
-					  if($scope.testDriveData.bestDay != "" && $scope.testDriveData.bestTime != ""){
-						  apiserviceDashborad.saveTestDrive($scope.testDriveData).then(function(data){
-				 			   
-							  if(popupstatus == "popupclose"){
-								  $('#clsPop').click();
-							  }
-							  if(data == "success"){
-								  //  $scope.schedulmultidatepicker();
-								  if(popupstatus == "popupclose"){
-									  $('#driveClose').click();
+					  console.log($scope.timeList);
+					  $scope.bestTime = [];
+					  $scope.bestTime = $scope.testDriveData.bestTime.split(' ');
+					  $scope.bestTime1 = ($scope.bestTime[0]+':'+$scope.bestTime[1]);
+					  console.log($scope.bestTime1);
+					  $scope.notiFlag = 0;
+					  angular.forEach($scope.timeList, function(obj, index){
+						 console.log(obj);
+						 console.log($scope.testDriveData.bestTime);
+						  if(obj == $scope.bestTime1){
+							  console.log("time is same");
+							  $scope.notiFlag = 1;
+						  }
+	    			  });
+	    			  angular.forEach($scope.meetingData, function(obj, index){
+							  if(obj.bestDay == $scope.testDriveData.bestDay){
+								  if(obj.bestTime == $scope.testDriveData.bestTime){
+									  $scope.notiFlag = 1;
 								  }
-								  $.pnotify({
-									  title: "Success",
-									  type:'success',
-									  text: "Appointment invitation has been successfully sent to "+" "+$scope.testDriveData.name+" ",
-								  });
+							  }
+		    			  });
+					  if($scope.notiFlag == 0){
+						  if($scope.testDriveData.bestDay != "" && $scope.testDriveData.bestTime != ""){
+							  apiserviceDashborad.saveTestDrive($scope.testDriveData).then(function(data){
+								  $scope.notificationFlag = 0;
 								  if(popupstatus == "popupclose"){
-									  $("#test-drive-tabSched").click();
-								  }	
-							  	  }else{
-							  		  $.pnotify({
-							  			  title: "Error",
-							  			  type:'success',
-							  			  text: "Test Drive Time Allready Exist",
-							  		  });
-							  	  }
-						
-							  	  if(popupstatus == "notclose"){
-							  	  console.log($scope.actionSelectedLead);
-							  	  console.log($scope.scheduLeadId);
-							  	  	if($scope.scheduLeadId.length == $scope.actionSelectedLead.length){
-							  	  		console.log("popup close");
-							  	  		$('#scheduleTestDriveModal').modal('hide');
-							  	  	}
-							  	  	var countIndex = 0;
-							  	  	var flag=0;
-							  	  	angular.forEach($scope.actionSelectedLead, function(obj, index){
-							  	  	angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
-							  	  		if(obj == obj1.id){
-									    	flag=0;
-									    	 angular.forEach($scope.scheduLeadId, function(obj3, index3){
-									    		 if(obj3.id == obj1.id){
-									    			 flag = 1;
+									  $('#clsPop').click();
+								  }
+								  if(data == "success"){
+									  //  $scope.schedulmultidatepicker();
+									  if(popupstatus == "popupclose"){
+										  $('#driveClose').click();
+									  }
+									  $.pnotify({
+										  title: "Success",
+										  type:'success',
+										  text: "Appointment invitation has been successfully sent to "+" "+$scope.testDriveData.name+" ",
+									  });
+									  if(popupstatus == "popupclose"){
+										  $("#test-drive-tabSched").click();
+									  }	
+								  	  }else{
+								  		  $.pnotify({
+								  			  title: "Error",
+								  			  type:'success',
+								  			  text: "Test Drive Time Allready Exist",
+								  		  });
+								  	  }
+								  $scope.listOfTimeAppoint();
+								  $scope.testDriveData.bestDay = $('#testDriveDate').val("");
+									$scope.testDriveData.bestTime = $('#bestTime').val("");
+								  	  if(popupstatus == "notclose"){
+								  	  console.log($scope.actionSelectedLead);
+								  	  console.log($scope.scheduLeadId);
+								  	  	if($scope.scheduLeadId.length == $scope.actionSelectedLead.length){
+								  	  		console.log("popup close");
+								  	  		$('#scheduleTestDriveModal').modal('hide');
+								  	  	}
+								  	  	var countIndex = 0;
+								  	  	var flag=0;
+								  	  	angular.forEach($scope.actionSelectedLead, function(obj, index){
+								  	  	angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
+								  	  		if(obj == obj1.id){
+										    	flag=0;
+										    	 angular.forEach($scope.scheduLeadId, function(obj3, index3){
+										    		 if(obj3.id == obj1.id){
+										    			 flag = 1;
+										    		 }
+										    	 });
+										    	 if(flag == 0){
+									    			 if(countIndex == 0){
+									    				 $scope.testDriveData = obj1;
+									    				 $scope.scheduLeadId.push(obj1);
+									    				 countIndex = 1;
+									    			 }
 									    		 }
-									    	 });
-									    	 if(flag == 0){
-								    			 if(countIndex == 0){
-								    				 $scope.testDriveData = obj1;
-								    				 $scope.scheduLeadId.push(obj1);
-								    				 countIndex = 1;
-								    			 }
-								    		 }
-									    }
+										    }
+									   });
+									   
 								   });
-								   
-							   });
-						}
-						
-					});
-				}
-				else if($scope.testDriveData.bestDay == ""){
-					$scope.notificationFlag = 1;
-				}
-				else if($scope.testDriveData.bestTime == ""){
-					$scope.notificationFlag = 2;
-				}
+							}
+							
+						});
+					}
+					else if($scope.testDriveData.bestDay == ""){
+						$scope.notificationFlag = 1;
+					}
+					else if($scope.testDriveData.bestTime == ""){
+						$scope.notificationFlag = 2;
+					}
 					
+				}
 		  	});
 			   
 			   
@@ -7240,6 +7272,16 @@ angular.module('newApp')
 					  }
 				   });
 			   });
+			   
+			   	$scope.listOfTimeAppoint = function(){
+			   		var sDate = $('#testDriveDate').val();
+					   apiserviceDashborad.getScheduleTime($scope.testDriveData.productId, sDate).then(function(data){
+						   $scope.timeList = [];
+						   $.each(data, function(i, el){
+						       if($.inArray(el, $scope.timeList) === -1) $scope.timeList.push(el);
+						   })
+					   });
+			   	}
 			   
 			   $('#testDriveDate').on('changeDate', function(e) {
 				   var sDate = $('#testDriveDate').val();
