@@ -9,7 +9,7 @@
  */
 
 angular.module('newApp')
-  .controller('customizationFormCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder','$routeParams','apiserviceCustomizationForm',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder,$routeParams,apiserviceCustomizationForm) {
+  .controller('customizationFormCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder','$routeParams','apiserviceCustomizationForm','$window',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder,$routeParams,apiserviceCustomizationForm,$window) {
 
 	  	$scope.showSaveButton = $routeParams.pageType;
 	  	$scope.formType = $routeParams.formType;
@@ -165,6 +165,7 @@ angular.module('newApp')
 				  $scope.oneField = 0;
 				  if($builder.forms['default'].length <= 0){
 					  $scope.oneField = 1;
+					  $window.scrollTo(0, 0);
 				  }else{
 					  $scope.oneField = 0;
 				  }
@@ -227,6 +228,7 @@ angular.module('newApp')
 			  console.log($builder.forms['default']);
 			  if($builder.forms['default'].length <= 0){
 				  $scope.oneField = 1;
+				  $window.scrollTo(0, 0);
 			  }else{
 				  $scope.oneField = 0;
 			  }
@@ -236,6 +238,7 @@ angular.module('newApp')
 						 if(value.key == "Mt_appointment_type"){
 							 if(value.options.length <= 0){
 								 $scope.flagAppointment = 1;
+								 $window.scrollTo(0, 0);
 							 }else{
 								 $scope.flagAppointment = 0;
 							 }
