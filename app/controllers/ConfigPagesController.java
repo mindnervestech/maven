@@ -475,7 +475,8 @@ public class ConfigPagesController extends Controller{
 			}
 		 
 		 public static Result deleteLeadType(Long leadId){
-			 List<RequestMoreInfo> reInfo = RequestMoreInfo.findAllOtherLeadIdWise(leadId.toString());
+			 AuthUser user=(AuthUser)getLocalUser();
+			 List<RequestMoreInfo> reInfo = RequestMoreInfo.findAllOtherLeadIdUser(leadId.toString(),user);
 			 boolean isDeleted = true;
 			 for (RequestMoreInfo rInfo : reInfo) {				
 				 if(!"CANCEL".equalsIgnoreCase(rInfo.getStatus()) && !"Sold".equalsIgnoreCase(rInfo.getStatus())){

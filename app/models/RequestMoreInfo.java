@@ -349,6 +349,9 @@ public void setMessage(String message) {
 	public static List<RequestMoreInfo> findAllOtherLeadIdWise(String leadId) {
 		return find.where().eq("isContactusType", leadId).findList();
 	}
+	public static List<RequestMoreInfo> findAllOtherLeadIdUser(String leadId,AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("isContactusType", leadId).findList();
+	}
 	
 	public static List<RequestMoreInfo> findAllContactData() {
 		return find.where().ne("isContactusType", null).findList();

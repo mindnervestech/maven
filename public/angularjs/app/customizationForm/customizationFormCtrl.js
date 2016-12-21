@@ -344,12 +344,15 @@ angular.module('newApp')
 				  console.log($scope.callAction);
 				  console.log(data.callToAction);
 				  console.log($scope.callAction.actionOutcomes);
-				  var arr = [];
-				  arr = $scope.callAction.actionOutcomes.split(',');
-				  for(var i=0;i<arr.length;i++){
-					  $scope.callactions.push(arr[i]);
-				  }	  
-				  console.log($scope.callactions);
+				  if($scope.callAction.actionOutcomes != null){
+					  var arr = [];
+					  arr = $scope.callAction.actionOutcomes.split(',');
+					  for(var i=0;i<arr.length;i++){
+						  $scope.callactions.push(arr[i]);
+					  }	  
+					  console.log($scope.callactions);
+				  }
+				 
 				  if(data.callToAction == true){
 					  $scope.callToActonP = "1";
 				  }else{

@@ -146,11 +146,11 @@ angular.module('app.apiserviceCustomizationForm', [])
 		var defer = $q.defer();
 		console.log(formData);
 		$http.post('/getFormBuilderData',formData).success(function(data) {
-			$.pnotify({
+			/*$.pnotify({
 			    title: "Success",
 			    type:'success',
 			    text: "success successfully",
-			});
+			});*/
 			defer.resolve(data);
 		});
 		return defer.promise;
