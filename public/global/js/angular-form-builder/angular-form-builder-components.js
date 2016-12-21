@@ -252,6 +252,27 @@
           popoverTemplateUrl: '/dealer/template/headerPop.html'
         });*/
       
+      $builderProvider.registerComponent('multipleselect', {
+          group: 'Default',
+          label: 'Multiple option selector',
+          key:'checkbox',
+          required: false,
+          options: ['value one', 'value two'],
+          template: "<div class=\"col-md-12\" style=\"padding: 0px;\"><label class=\"col-md-4 control-label\">{{label}}</label><div class=\"col-md-8\"><input type='hidden' ng-model=\"inputText\" />\n<div class='checkbox' ng-repeat=\"item in options track by $index\">\n            <label><input type='checkbox' ng-model=\"$parent.inputArray[$index]\" value='item'/>\n{{item}}\n</label></div></div></div>",
+          popoverTemplateUrl: "/dealer/template/select.html"
+        });
+    //popoverTemplate: "<form>\n    <div class=\"form-group\">\n        <label class='control-label'>Label</label>\n        <input type='text' ng-model=\"label\" validator=\"[required]\" class='form-control'/>\n    </div>\n    <div class=\"form-group\">\n        <label class='control-label'>Description</label>\n        <input type='text' ng-model=\"description\" class='form-control'/>\n    </div>\n    <div class=\"form-group\">\n        <label class='control-label'>Options</label>\n        <textarea class=\"form-control\" rows=\"3\" ng-model=\"optionsText\"/>\n    </div>\n    <div class=\"checkbox\">\n        <label>\n            <input type='checkbox' ng-model=\"required\" />\n            Required\n        </label>\n    </div>\n\n    <hr/>\n    <div class='form-group'>\n        <input type='submit' ng-click=\"popover.save($event)\" class='btn btn-primary' value='Save'/>\n        <input type='button' ng-click=\"popover.cancel($event)\" class='btn btn-default' value='Cancel'/>\n        <input type='button' ng-click=\"popover.remove($event)\" class='btn btn-danger' value='Delete'/>\n    </div>\n</form>"
+    $builderProvider.registerComponent('singleSelect', {
+          group: 'Default',
+          label: 'Single option selector',
+          key:'radio',
+          required: false,
+          options: ['value one', 'value two'],
+          template: "<div class=\"col-md-12\" style=\"padding: 0px;\"><label class=\"col-md-4 control-label\">{{label}}</label><div class=\"col-md-8\"><div class='radio' ng-repeat=\"item in options track by $index\">\n<label><input name='{{formName+index}}' ng-model=\"$parent.inputText\" value='{{item}}' type='radio'/>\n{{item}}\n </label></div></div>\n</div>",
+          // popoverTemplate: "<form>\n    <div class=\"form-group\">\n        <label class='control-label'>Label1</label>\n        <input type='text' ng-model=\"label\" validator=\"[required]\" class='form-control'/>\n    </div>\n    <div class=\"form-group\">\n        <label class='control-label'>Description</label>\n        <input type='text' ng-model=\"description\" class='form-control'/>\n    </div>\n <div class=\"form-group\">\n        <label class='control-label'>Name</label>\n        <input type='text' ng-model=\"key\" class='form-control'/>\n    </div>\n   <div class=\"form-group\">\n        <label class='control-label'>Options</label>\n        <textarea class=\"form-control\" rows=\"3\" ng-model=\"optionsText\"/>\n    </div>\n\n    <hr/>\n    <div class='form-group'>\n        <input type='submit' ng-click=\"popover.save($event)\" class='btn btn-primary' value='Save'/>\n        <input type='button' ng-click=\"popover.cancel($event)\" class='btn btn-default' value='Cancel'/>\n        <input type='button' ng-click=\"popover.remove($event)\" class='btn btn-danger' value='Delete'/>\n    </div>\n</form>"
+          popoverTemplateUrl: '/dealer/template/radio.html'
+        });
+      
       $builderProvider.registerComponent('timerange', {
     	  group: 'Default',
           label: 'Time Selector',
@@ -288,27 +309,7 @@
           popoverTemplateUrl: '/dealer/template/textarea.html'
         });
 
-$builderProvider.registerComponent('multipleselect', {
-      group: 'Default',
-      label: 'Multiple option selector',
-      key:'checkbox',
-      required: false,
-      options: ['value one', 'value two'],
-      arrayToText: true,
-      template: "<div class=\"form-group\">\n    <label for=\"{{formName+index}}\" class=\"col-md-4 control-label\" ng-class=\"{'fb-required':required}\">{{label}}</label>\n    <div class=\"col-md-8\">\n        <input type='hidden' ng-model=\"inputText\" validator-required=\"{{required}}\" validator-group=\"{{formName}}\"/>\n        <div class='checkbox' ng-repeat=\"item in options track by $index\">\n            <label><input type='checkbox' ng-model=\"$parent.inputArray[$index]\" value='item'/>\n                {{item}}\n            </label>\n        </div>\n        <p class='help-block'>{{description}}</p>\n    </div>\n</div>",
-      popoverTemplate: "<form>\n    <div class=\"form-group\">\n        <label class='control-label'>Label</label>\n        <input type='text' ng-model=\"label\" validator=\"[required]\" class='form-control'/>\n    </div>\n    <div class=\"form-group\">\n        <label class='control-label'>Description</label>\n        <input type='text' ng-model=\"description\" class='form-control'/>\n    </div>\n    <div class=\"form-group\">\n        <label class='control-label'>Options</label>\n        <textarea class=\"form-control\" rows=\"3\" ng-model=\"optionsText\"/>\n    </div>\n    <div class=\"checkbox\">\n        <label>\n            <input type='checkbox' ng-model=\"required\" />\n            Required\n        </label>\n    </div>\n\n    <hr/>\n    <div class='form-group'>\n        <input type='submit' ng-click=\"popover.save($event)\" class='btn btn-primary' value='Save'/>\n        <input type='button' ng-click=\"popover.cancel($event)\" class='btn btn-default' value='Cancel'/>\n        <input type='button' ng-click=\"popover.remove($event)\" class='btn btn-danger' value='Delete'/>\n    </div>\n</form>"
-    });
 
-$builderProvider.registerComponent('singleSelect', {
-      group: 'Default',
-      label: 'Single option selector',
-      key:'radio',
-      required: false,
-      options: ['value one', 'value two'],
-      template: "<div class=\"form-group\">\n    <label for=\"{{formName+index}}\" class=\"col-md-4 control-label\" ng-class=\"{'fb-required':required}\">{{label}}</label>\n    <div class=\"col-md-8\">\n        <div class='radio' ng-repeat=\"item in options track by $index\">\n            <label><input name='{{formName+index}}' ng-model=\"$parent.inputText\" validator-group=\"{{formName}}\" value='{{item}}' type='radio'/>\n                {{item}}\n            </label>\n        </div>\n        <p class='help-block'>{{description}}</p>\n    </div>\n</div>",
-      // popoverTemplate: "<form>\n    <div class=\"form-group\">\n        <label class='control-label'>Label1</label>\n        <input type='text' ng-model=\"label\" validator=\"[required]\" class='form-control'/>\n    </div>\n    <div class=\"form-group\">\n        <label class='control-label'>Description</label>\n        <input type='text' ng-model=\"description\" class='form-control'/>\n    </div>\n <div class=\"form-group\">\n        <label class='control-label'>Name</label>\n        <input type='text' ng-model=\"key\" class='form-control'/>\n    </div>\n   <div class=\"form-group\">\n        <label class='control-label'>Options</label>\n        <textarea class=\"form-control\" rows=\"3\" ng-model=\"optionsText\"/>\n    </div>\n\n    <hr/>\n    <div class='form-group'>\n        <input type='submit' ng-click=\"popover.save($event)\" class='btn btn-primary' value='Save'/>\n        <input type='button' ng-click=\"popover.cancel($event)\" class='btn btn-default' value='Cancel'/>\n        <input type='button' ng-click=\"popover.remove($event)\" class='btn btn-danger' value='Delete'/>\n    </div>\n</form>"
-      popoverTemplateUrl: '/dealer/template/radio.html'
-    });
      /* $builderProvider.registerComponent('multipleselect', {
           group: 'Default',
           label: 'Multiple option selector',
