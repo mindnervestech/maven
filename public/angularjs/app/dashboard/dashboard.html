@@ -5746,7 +5746,14 @@ float: right !important;
 								                	<div class="col-md-6">
 								                		<input class="form-control form-white" style="" ng-model="reasonToCancel" type="text" required>
 								                	</div>
+								                	<label ng-if="notiCanFlag == 1" style="color:red;">{{rowData.name}} has an appointment scheduled on {{rowData.bestDay}} at {{rowData.bestTime}}. Canceling the lead will
+															also remove an appointment. Do you want to proceed?</label>
 								                </div>
+								                <div class="col-md-12" ng-if="cancelFlag == 1">
+								                 	<input style="margin-left: 15px;margin-top: 25px;" type="checkbox" name="selectAll"  ng-click="cancelAllLead(selectAll)"
+				 						   				ng-model="selectAll">					
+   					 									Cancel All Lead
+   					 							</div>
 								                   <!--  <b style="margin-left:3%;">Please explain the reason of canceling this Lead</b><br>
 								                     <div class="form-group col-sm-12">
 														<div class="col-sm-5=10">
@@ -5759,8 +5766,10 @@ float: right !important;
 								                    	</div>
 								                </div>
 								                <div class="modal-footer">
-								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
-								                    <button type="submit" class="btn btn-primary btn-embossed">Yes</button>
+								                	<button ng-if="cancelFlag == 1 && allCanFlag != 1" type="button" class="btn btn-primary btn-embossed" ng-click="proceedToNext()">Proceed to the next lead</button>
+								                	<button ng-if="cancelFlag == 2 || allCanFlag == 1" type="submit" class="btn btn-primary">Proceed</button>
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    
 								                </div>
 								                </form>
 								            </div>

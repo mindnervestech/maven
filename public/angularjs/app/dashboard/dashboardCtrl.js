@@ -2059,7 +2059,7 @@ angular.module('newApp')
    	  	$scope.doAction = function(row,checkBoxSelect){
    	  		console.log(checkBoxSelect);
    	  		console.log(row.entity);
-   	  		
+   	  		$scope.rowData = row.entity;
    	  		if(checkBoxSelect == undefined || checkBoxSelect == false){
    	  			$scope.actionSelectedLead.push(row.entity.id);
    	  		$scope.actionSelectedLeadObj = row.entity;
@@ -6217,10 +6217,28 @@ angular.module('newApp')
 
     		$('#btnCompleteRequest').click();
     	}
+    	$scope.allCanFlag = 0;
+    	$scope.cancelAllLead = function(value){
+    		console.log(value);
+    		if(value == undefined || value == false){
+    			$scope.allCanFlag = 1;
+    		}else{
+    			$scope.allCanFlag = 0;
+    		}
+    	}
     	
-    	
-    	
+    	$scope.cancelFlag = 0;
+    	$scope.notiCanFlag = 0;
     	$scope.cancelScheduleStatus = function() {
+    		console.log($scope.rowData);
+    		if($scope.rowData.bestDay != null && $scope.rowData.bestTime != null){
+    			$scope.notiCanFlag = 1;
+    		}
+    		if($scope.actionSelectedLead.length > 1){
+    			$scope.cancelFlag = 1;
+    		}else{
+    			$scope.cancelFlag = 2;
+    		}
     		//$scope.scheduleStatusCancel = entity;
     		 $scope.showFomeD("Canceling lead");
     		$scope.getFormDesign("My Leads - Canceling lead").then(function(response){
@@ -6250,8 +6268,35 @@ angular.module('newApp')
     		$route.reload();
     	}
     	
+    	$scope.proceedToNext = function(){
+    		console.log($scope.actionSelectedLead);
+		  	console.log($scope.getAllListLeadDate);
+		  	  	/*
+		  	  	var countIndex = 0;
+		  	  	var flag=0;
+		  	  	angular.forEach($scope.actionSelectedLead, function(obj, index){
+		  	  	angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
+		  	  		if(obj == obj1.id){
+				    	flag=0;
+				    	 angular.forEach($scope.scheduLeadId, function(obj3, index3){
+				    		 if(obj3.id == obj1.id){
+				    			 flag = 1;
+				    		 }
+				    	 });
+				    	 if(flag == 0){
+			    			 if(countIndex == 0){
+			    				 $scope.testDriveData = obj1;
+			    				 $scope.scheduLeadId.push(obj1);
+			    				 countIndex = 1;
+			    			 }
+			    		 }
+				    }
+			   });
+			   
+		   });*/
+    	}
+    	
     	$scope.cancelSure = function(){
-    		
     		$('#scheduleCancelModal').modal("toggle");
     			$scope.saveScheduleClose();
     		
@@ -6270,7 +6315,7 @@ angular.module('newApp')
     		console.log($scope.actionSelectedLead.toString());
     				
     				$scope.josnData = null;
-    				apiserviceDashborad.getCustomizationform('My Leads - Canceling lead').then(function(response){
+    				/*apiserviceDashborad.getCustomizationform('My Leads - Canceling lead').then(function(response){
     					$scope.josnData = angular.fromJson(response.jsonData);
     					angular.forEach($scope.josnData, function(obj, index){
     						obj.formName = "My Leads - Canceling lead";
@@ -6309,7 +6354,7 @@ angular.module('newApp')
     					$route.reload();
     					
     				});
-      	  		});
+      	  		});*/
     			
     				
     		

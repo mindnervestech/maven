@@ -331,6 +331,8 @@ public class CustomersRequestController extends Controller {
 		    		vm.name = info.name;
 		    		vm.phone = info.phone;
 		    		vm.email = info.email;
+		    		vm.bestDay = info.bestDay;
+		    		vm.bestTime = info.bestTime;
 		    		vm.custZipCode = info.custZipCode;
 		    		//vm.enthicity = info.enthicity;
 		    		vm.isContactusType = info.isContactusType;
