@@ -18444,7 +18444,7 @@ if(vehicles.equals("All")){
     	Date date = new Date();
     	int parentFlag = 0;
     	long parentLeadId = 0L;
-    	List<SalesPersonZipCode> zipcode = SalesPersonZipCode.findByZipCode(Long.valueOf(session("USER_LOCATION")), leadVM.custZipCode);
+    	//List<SalesPersonZipCode> zipcode = SalesPersonZipCode.findByZipCode(Long.valueOf(session("USER_LOCATION")), leadVM.custZipCode);
     	List<AddProduct> productlist = AddProduct.findByTitle(leadVM.manufacturers);
     	RequestMoreInfo info = new RequestMoreInfo();
     	    for(AddProduct inventoryVM:productlist){
@@ -18457,7 +18457,7 @@ if(vehicles.equals("All")){
 	    		info.setPhone(leadVM.custNumber);
 	    		info.setCustZipCode(leadVM.custZipCode);
 	    		info.setEnthicity(leadVM.enthicity);
-	    		for(SalesPersonZipCode per:zipcode){
+	    		/*for(SalesPersonZipCode per:zipcode){
 	    			if(per.zipCode != null){
 	    				info.setAssignedTo(per.user);
 	    				break;
@@ -18470,8 +18470,8 @@ if(vehicles.equals("All")){
 	    			}else{
 	    				info.setAssignedTo(user);
 	    			}
-	    		}
-	    		//info.setAssignedTo(user);
+	    		}*/
+	    		info.setAssignedTo(user);
 	    		 //product = Inventory.findById(inventoryVM.id);
 	    		info.setProductId(inventoryVM.id.toString());
 	    		info.setUser(user);

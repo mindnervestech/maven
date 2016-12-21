@@ -7075,6 +7075,7 @@ angular.module('newApp')
 									  });
 									  if(popupstatus == "popupclose"){
 										  $("#test-drive-tabSched").click();
+										 // $route.reload();
 									  }	
 								  	  }else{
 								  		  $.pnotify({
@@ -7083,15 +7084,17 @@ angular.module('newApp')
 								  			  text: "Test Drive Time Allready Exist",
 								  		  });
 								  	  }
-								  $scope.listOfTimeAppoint();
-								  $scope.testDriveData.bestDay = $('#testDriveDate').val("");
+								  //$scope.listOfTimeAppoint();
+								  	$scope.testDriveData.bestDay = $('#testDriveDate').val("");
 									$scope.testDriveData.bestTime = $('#bestTime').val("");
+									$scope.timeList = [];
 								  	  if(popupstatus == "notclose"){
 								  	  console.log($scope.actionSelectedLead);
 								  	  console.log($scope.scheduLeadId);
 								  	  	if($scope.scheduLeadId.length == $scope.actionSelectedLead.length){
 								  	  		console.log("popup close");
 								  	  		$('#scheduleTestDriveModal').modal('hide');
+								  	  		
 								  	  	}
 								  	  	var countIndex = 0;
 								  	  	var flag=0;
@@ -9532,7 +9535,6 @@ angular.module('newApp')
 							$scope.AllOtherLeadSeenList[i].checkBoxSelect = false;
 	       				}
 						$scope.gridOptions13.data = $scope.AllOtherLeadSeenList;
-						
 						
 						$scope.gridOptions13.columnDefs.push({ name: 'Hide', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 							headerCellTemplate:	'<label style="margin-top: 5px; margin-left: 8px;">Select</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 5px; margin-left: 8px;" type=\"checkbox\"  ng-model=\"checker.checked\"  ng-change="grid.appScope.selectAllOther(checker.checked)" autocomplete="off">',

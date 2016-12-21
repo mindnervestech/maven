@@ -184,7 +184,7 @@ angular.module('newApp')
 		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Trade-In Appraisal\' || row.entity.leadName == \'Request More Info\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row)">  </div>',
 		                                 },
 		                                 { name: 'edit', displayName: ' ', width:'20%',
-    		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test Drive\' && row.entity.leadName != \'Trade-In Appraisal\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test Drive\' && row.entity.leadName != \'Trade-In Appraisal\'" ng-click="grid.appScope.DeleteUserPopup(row)"  title="Edit"></i>', 
+    		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test Drive\' && row.entity.leadName != \'Trade-In Appraisal\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test Drive\' && row.entity.leadName != \'Trade-In Appraisal\'" ng-click="grid.appScope.DeleteUserPopup(row)"  title="Delete"></i>', 
     		                                 /*ng-if="(row.entity.leadName != "Request More Info" || row.entity.leadName != "Schedule Test" || row.entity.leadName != "Trade In")"*/
 		                                 },
 		                                    ];
@@ -1898,13 +1898,17 @@ angular.module('newApp')
 	}
 	
 	$scope.SaveZipCodeData = function(){
+		$scope.saveRedirectToAll();
+	}
+	
+	$scope.addZipCodeData = function(){
+		//$scope.SaveZipCodeData();
 		console.log($scope.allFronAndSalesList);
 		$scope.obj = {allFronAndSalesList:$scope.allFronAndSalesList};
 		console.log($scope.obj);
 		apiserviceConfigPage.saveZipCodeDetails($scope.obj).then(function(data){
 			console.log(data);
 		});
-		$scope.saveRedirectToAll();
 	}
 	
 	apiserviceConfigPage.getAllStateCodes().then(function(data){

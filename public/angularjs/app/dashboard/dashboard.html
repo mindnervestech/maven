@@ -566,9 +566,9 @@ float: right !important;
                              		<span class="todo-task"> {{schedule.make}}&nbsp;&nbsp; {{schedule.year}}&nbsp;&nbsp; {{schedule.model}}  &nbsp;&nbsp;{{schedule.trim}}</span><br>
 									<span class="todo-task col-md-12" style="padding: 0px;overflow: hidden;"> {{schedule.name}}</span><br>
 									<label class="col-md-12" style="padding: 0px;margin-left: 28px;overflow: hidden;" ng-if="schedule.is_google == true || schedule.meeting == 'meeting'">Host's Info</label><br>
-                             		<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Host's Name: {{schedule.hostName}}</span><br>
-									<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Host's Email: {{schedule.email}}</span><br>
-									<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Host's Phone: {{schedule.phone}}</span>
+                             		<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Invited Person's Name: {{schedule.name}}</span><br>
+									<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Invited Person's Email: {{schedule.email}}</span><br>
+									<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Invited Person's Phone: {{schedule.phone}}</span>
                              	</div>
                              	<div class="col-md-6" style="padding: 0px;" ng-if="schedule.userdata.length > 0">
                              		<label class="col-md-12">Members</label>
@@ -8288,7 +8288,7 @@ float: right !important;
 								                            </div>
 														</div>
 														<label ng-if="notificationFlag == 2" style="color:red;">Please select an appointment's time</label>
-														<label ng-if="notiFlag == 1" style="color:red;">Appointment's time is already schedule</label> 
+														<label ng-if="notiFlag == 1" style="color:red;">You have a different appointemnt scheduled at this time. Please select a different time</label> 
 													</div>
 												</div>	
 								                	<div ng-if="scheduleAddress" class="col-md-12" style="margin-top: 32px;">
