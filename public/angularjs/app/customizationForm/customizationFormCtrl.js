@@ -249,6 +249,14 @@ angular.module('newApp')
 			  $scope.leadId = localStorage.getItem('leadId');
 			  $scope.setKeyValues();
 			  $scope.flagAppointment = 0;
+			  $scope.oneField = 0;
+			  console.log($builder.forms['default']);
+			  if($builder.forms['default'].length <= 0){
+				  $scope.oneField = 1;
+			  }else{
+				  $scope.oneField = 0;
+			  }
+			
 			  if($scope.formType == "My Leads - Schedule an appointment"){
 				  angular.forEach($builder.forms['default'], function(value, key) {
 						 if(value.key == "Mt_appointment_type"){
@@ -260,7 +268,7 @@ angular.module('newApp')
 						 }
 					 });
 			  }
-			if($scope.flagAppointment == 0){
+			if($scope.flagAppointment == 0 && $scope.oneField == 0){
 				 console.log($builder.forms['default']);
 				 console.log($builder.forms['defaultAdd']);
 				 $scope.editform.formType = $routeParams.formType;
