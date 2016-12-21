@@ -4465,6 +4465,7 @@ angular.module('newApp')
 	    		$scope.initialiase();
 	    		$scope.isInValid = false;
 	    		$scope.isInValid2 = false;
+	    		$scope.isInValidDate = false;
 	    		$scope.isStockError = false;
 	    		$scope.focusIn = function(itm){
 					$scope.len = itm;
@@ -4501,7 +4502,7 @@ angular.module('newApp')
 	    				delete $scope.customData.autocompleteText;
 	    			}
 	    			$scope.josnData = 0;
-	    			
+	    			console.log($scope.customData);
 	    			
 	    			apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
 	    				
@@ -4571,9 +4572,12 @@ angular.module('newApp')
     	    			//}else 
     	    			if($scope.lead.leadType == "" || $scope.lead.manufacturers == ""){ 
     	    				$scope.isInValid2 = true;
-    	    			}else {
+    	    			}else if($scope.dateFlag == 1){
+    	    				$scope.isInValidDate = true;
+    	    			}else{
     	    				$scope.isInValid2 = false;
     	    				$scope.isInValid = false;
+    	    				$scope.isInValidDate = false;
     	    				$scope.makeLead();
     	    			}
     					
@@ -4590,6 +4594,7 @@ angular.module('newApp')
     				 var addrs = 0;
     				 var fileFlag = 0;
     				 var timeRangs = 0;
+    				 $scope.dateFlag = 0
 	    			$scope.customList = [];
 	    			$.each(customeDataList, function(attr, value) {
 						angular.forEach(josnData, function(value1, key) {
@@ -4630,7 +4635,7 @@ angular.module('newApp')
 								if(value1.component == "fileuploaders"){
 									if($rootScope.fileCustom != undefined){
 					    				console.log($rootScope.fileCustom[0].name);
-					    				fileFlag = 1;
+					    				 $scope.fileFlag = 1;
 										$scope.customList.push({
 		    								fieldId:value1.fieldId,
 				    		   	  			key:value1.key,
@@ -4663,8 +4668,14 @@ angular.module('newApp')
 		    					});
     							
 								if(value1.component == "daterange"){
+									
 									$.each(customeDataList, function(attr1, value3) {
 										if(value1.key+"_endDate" == attr1){
+											var startDate =$filter('date')(value, 'dd-MM-yyyy');
+							 				var endDate = $filter('date')(value3, 'dd-MM-yyyy');
+											if(startDate >= endDate){
+												$scope.dateFlag = 1;
+											}
 											$scope.customList.push({
 			    								fieldId:value1.fieldId,
 					    		   	  			key:attr1,
@@ -4711,7 +4722,7 @@ angular.module('newApp')
     						} 
     					});
 	    			   });
-	    			
+	    				    			
 	    			deferred.resolve($scope.customList);
 	    			
 	    			return deferred.promise;
