@@ -2054,6 +2054,7 @@ angular.module('newApp')
    	  	
 			$scope.allVehicalss = data;
 		});
+   	  	
    	  	$scope.actionSelectedLead = [];
    	  	$scope.actionSelectedLeadObj = "";
    	  	$scope.doAction = function(row,checkBoxSelect){
@@ -2066,6 +2067,7 @@ angular.module('newApp')
    	  		}else{
    	  			$scope.deleteActionSelectedLead(row.entity);
    	  		}
+   	  		 
    	  			
    	  		console.log($scope.actionSelectedLead);
    	  	}
@@ -6217,6 +6219,7 @@ angular.module('newApp')
 
     		$('#btnCompleteRequest').click();
     	}
+    	
     	$scope.allCanFlag = 0;
     	$scope.cancelAllLead = function(value){
     		console.log(value);
@@ -6227,15 +6230,42 @@ angular.module('newApp')
     		}
     	}
     	
+    	var countIndex = 0;
+  	  	var flag=0;
     	$scope.cancelFlag = 0;
     	$scope.notiCanFlag = 0;
+    	$scope.scheduLeadId = [];
+    	$scope.leadDetId = [];
     	$scope.cancelScheduleStatus = function() {
-    		console.log($scope.rowData);
-    		if($scope.rowData.bestDay != null && $scope.rowData.bestTime != null){
-    			$scope.notiCanFlag = 1;
-    		}
+    			if($scope.rowData.bestDay != null && $scope.rowData.bestTime != null){
+        			$scope.notiCanFlag = 1;
+        		}
+    		/*angular.forEach($scope.actionSelectedLead, function(obj, index){
+		  	  	angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
+		  	  		if(obj == obj1.id){
+				    	flag=0;
+				    	 angular.forEach($scope.scheduLeadId, function(obj3, index3){
+				    		 if(obj3.id == obj1.id){
+				    			 flag = 1;
+				    		 }
+				    	 });
+				    	 
+				    	 if(flag == 0){
+			    			 if(countIndex == 0){
+			    				 $scope.closeleadObj = obj1;
+			    				 $scope.scheduLeadId.push(obj1);
+			    				 countIndex = 1;
+			    				// $scope.leadDetId.push(obj1.id);
+			    			 }
+			    		 }
+				    }
+			   });
+			   
+		   });*/
+    		console.log($scope.leadDetId);
     		if($scope.actionSelectedLead.length > 1){
     			$scope.cancelFlag = 1;
+    			
     		}else{
     			$scope.cancelFlag = 2;
     		}
@@ -6268,10 +6298,15 @@ angular.module('newApp')
     		$route.reload();
     	}
     	
+    	
+    	$scope.scheduLeadId = [];
     	$scope.proceedToNext = function(){
     		console.log($scope.actionSelectedLead);
 		  	console.log($scope.getAllListLeadDate);
-		  	  	/*
+		  	console.log($scope.scheduLeadId);
+		  	$scope.saveScheduleClose();
+		  	
+		  	
 		  	  	var countIndex = 0;
 		  	  	var flag=0;
 		  	  	angular.forEach($scope.actionSelectedLead, function(obj, index){
@@ -6285,15 +6320,17 @@ angular.module('newApp')
 				    	 });
 				    	 if(flag == 0){
 			    			 if(countIndex == 0){
-			    				 $scope.testDriveData = obj1;
+			    				 $scope.closeleadObj = obj1;
 			    				 $scope.scheduLeadId.push(obj1);
 			    				 countIndex = 1;
+			    				 $scope.leadDetId.push(obj1.id);
 			    			 }
 			    		 }
 				    }
 			   });
 			   
-		   });*/
+		   });
+		  	  console.log($scope.leadDetId);
     	}
     	
     	$scope.cancelSure = function(){
@@ -6315,7 +6352,7 @@ angular.module('newApp')
     		console.log($scope.actionSelectedLead.toString());
     				
     				$scope.josnData = null;
-    				/*apiserviceDashborad.getCustomizationform('My Leads - Canceling lead').then(function(response){
+    				apiserviceDashborad.getCustomizationform('My Leads - Canceling lead').then(function(response){
     					$scope.josnData = angular.fromJson(response.jsonData);
     					angular.forEach($scope.josnData, function(obj, index){
     						obj.formName = "My Leads - Canceling lead";
@@ -6341,20 +6378,26 @@ angular.module('newApp')
         			console.log($scope.customData);
         			console.log($scope.customList);
         			
-        			
-        			$scope.closeleadObj.actionSelectedLead = $scope.actionSelectedLead;
+        			console.log($scope.leadDetId);
+        			if($scope.leadDetId.length != 0){
+        				$scope.closeleadObj.actionSelectedLead = $scope.leadDetId;
+        			}else{
+        				$scope.closeleadObj.actionSelectedLead = $scope.actionSelectedLead;
+        			}
+        			console.log($scope.closeleadObj.actionSelectedLead);
     	    		$scope.closeleadObj.reasonToCancel = $scope.reasonToCancel;
     	    		$scope.closeleadObj.customData = $scope.customList;
-    		
-    	    			console.log($scope.closeleadObj);
+    	    		console.log($scope.closeleadObj);
     					
-    	    	   apiserviceDashborad.setScheduleStatusClose($scope.closeleadObj).then(function(data){
+    	    	 apiserviceDashborad.setScheduleStatusClose($scope.closeleadObj).then(function(data){
     		    		
-    					$('#scheduleCancelBtn').click();
-    					$route.reload();
-    					
+    	    		  $scope.reasonToCancel = "";
     				});
-      	  		});*/
+    	    	  	if($scope.actionSelectedLead.length == $scope.leadDetId.length){
+    	    	  		$('#scheduleCancelBtn').click();
+  						$route.reload();
+    	    	  }
+      	  		});
     			
     				
     		
