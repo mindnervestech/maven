@@ -1214,6 +1214,8 @@ angular.module('newApp')
 		$scope.salesPersonName = data;
 		angular.forEach($scope.salesPersonName, function(obj, index){
 			if(obj.outLeftAll != null){
+				console.log($scope.customerReq);
+				console.log(obj.firstName);
 				$scope.realese.allSalesPeople = obj.outLeftAll;
 				$scope.customerReq.firstName = obj.firstName;
 			}

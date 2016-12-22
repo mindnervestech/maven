@@ -6221,8 +6221,6 @@ angular.module('newApp')
     	$scope.allCanFlag = 0;
     	$scope.cancelAllLead = function(value){
     		console.log(value);
-    		console.log($scope.actionSelectedLead)
-    		
     		if(value == undefined || value == false){
     			$scope.allCanFlag = 1;
     			$scope.leadDetId = $scope.actionSelectedLead;
