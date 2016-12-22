@@ -6414,23 +6414,29 @@ angular.module('newApp')
     	    		$scope.closeleadObj.reasonToCancel = $scope.reasonToCancel;
     	    		$scope.closeleadObj.customData = $scope.customList;
     	    		console.log($scope.closeleadObj);
-    					
-    	    	apiserviceDashborad.setScheduleStatusClose($scope.closeleadObj).then(function(data){
-    	    		 $.pnotify({
-    					    title: "Success",
-    					    type:'success',
-    					    text: "Successfully canclled "+" "+$scope.closeleadObj.actionSelectedLead.length+ " leads",
-    					});
-    	    		 
-    	    		 $scope.schedulmultidatepicker();
-    	    		 $scope.proceedToNext();
-    	    		 
-    	    		  $scope.reasonToCancel = "";
-    				});
-    	    	  	if($scope.actionSelectedLead.length == $scope.scheduLeadId.length){
-    	    	  		$('#scheduleCancelBtn').click();
-  						$route.reload();
-    	    	  }
+    	    		$scope.reasonFlag = 0;
+    					if($scope.closeleadObj.reasonToCancel != ""){
+    						$scope.reasonFlag = 0;
+    						apiserviceDashborad.setScheduleStatusClose($scope.closeleadObj).then(function(data){
+    		    	    		 $.pnotify({
+    		    					    title: "Success",
+    		    					    type:'success',
+    		    					    text: "Successfully canclled "+" "+$scope.closeleadObj.actionSelectedLead.length+ " leads",
+    		    					});
+    		    	    		 
+    		    	    		 $scope.schedulmultidatepicker();
+    		    	    		 $scope.proceedToNext();
+    		    	    		 
+    		    	    		  $scope.reasonToCancel = "";
+    		    				});
+    		    	    	  	if($scope.actionSelectedLead.length == $scope.scheduLeadId.length){
+    		    	    	  		$('#scheduleCancelBtn').click();
+    		  						$route.reload();
+    		    	    	  }
+    					}else{
+    						$scope.reasonFlag = 1;
+    					}
+    	    	
       	  		});
     			
     				
