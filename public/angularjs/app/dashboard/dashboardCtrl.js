@@ -2060,7 +2060,6 @@ angular.module('newApp')
    	  	$scope.doAction = function(row,checkBoxSelect){
    	  		console.log(checkBoxSelect);
    	  		console.log(row.entity);
-   	  		$scope.rowData = row.entity;
    	  		if(checkBoxSelect == undefined || checkBoxSelect == false){
    	  			$scope.actionSelectedLead.push(row.entity.id);
    	  		$scope.actionSelectedLeadObj = row.entity;
@@ -6222,45 +6221,51 @@ angular.module('newApp')
     	$scope.allCanFlag = 0;
     	$scope.cancelAllLead = function(value){
     		console.log(value);
+    		console.log($scope.actionSelectedLead)
+    		
     		if(value == undefined || value == false){
     			$scope.allCanFlag = 1;
+    			$scope.leadDetId = $scope.actionSelectedLead;
     		}else{
     			$scope.allCanFlag = 0;
+    			$scope.leadDetId = [];
     		}
     	}
     	
-    	var countIndex = 0;
+    	$scope.rowData = {};
   	  	var flag=0;
     	$scope.cancelFlag = 0;
     	$scope.notiCanFlag = 0;
-    	$scope.scheduLeadId = [];
+    	$scope.scheduLeadIdData = [];
     	$scope.leadDetId = [];
     	$scope.cancelScheduleStatus = function() {
-    			if($scope.rowData.bestDay != null && $scope.rowData.bestTime != null){
-        			$scope.notiCanFlag = 1;
-        		}
-    		/*angular.forEach($scope.actionSelectedLead, function(obj, index){
+    			
+    		var flag = 0;
+    		angular.forEach($scope.actionSelectedLead, function(obj, index){
 		  	  	angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
+		  	  		if(flag == 0){
 		  	  		if(obj == obj1.id){
-				    	flag=0;
-				    	 angular.forEach($scope.scheduLeadId, function(obj3, index3){
-				    		 if(obj3.id == obj1.id){
-				    			 flag = 1;
-				    		 }
-				    	 });
-				    	 
-				    	 if(flag == 0){
-			    			 if(countIndex == 0){
-			    				 $scope.closeleadObj = obj1;
+		  	  			flag = 1;
+		  	  		$scope.leadDetId = [];
+			    				// $scope.closeleadObj = obj1;
 			    				 $scope.scheduLeadId.push(obj1);
-			    				 countIndex = 1;
-			    				// $scope.leadDetId.push(obj1.id);
-			    			 }
-			    		 }
+			    				 $scope.leadDetId.push(obj1.id);
+			    				 console.log($scope.leadDetId);
+			    				 $scope.rowData.name = obj1.name;
+			    				 $scope.rowData.bestDay = obj1.bestDay;
+			    				 $scope.rowData.bestTime = obj1.bestTime;
+			    				 if($scope.rowData.bestDay != null && $scope.rowData.bestTime != null){
+			    	        			$scope.notiCanFlag = 1;
+			    				 }
+			    				 else{
+			    					 $scope.notiCanFlag = 0;
+			    				 }
 				    }
+		  	  		}
+		  	  		
 			   });
 			   
-		   });*/
+		   });
     		console.log($scope.leadDetId);
     		if($scope.actionSelectedLead.length > 1){
     			$scope.cancelFlag = 1;
@@ -6268,8 +6273,7 @@ angular.module('newApp')
     		}else{
     			$scope.cancelFlag = 2;
     		}
-    		//$scope.scheduleStatusCancel = entity;
-    		 $scope.showFomeD("Canceling lead");
+    		$scope.showFomeD("Canceling lead");
     		$scope.getFormDesign("My Leads - Canceling lead").then(function(response){
     			console.log(response);
     			$scope.userFields = $scope.addFormField($scope.userList);
@@ -6280,13 +6284,11 @@ angular.module('newApp')
     	
     	$scope.cancelScheduleComfir = function(entity){
               $scope.entityVar=entity;
-    		$('#btnCancelTestDrive').click();
+              $('#btnCancelTestDrive').click();
     		
 				entity.bestDay = "";
 				entity.bestTime = "";
 				$scope.getAllSalesPersonRecord($scope.salesPerson);
-			
-    		
     	}
     	
     	
@@ -6299,36 +6301,46 @@ angular.module('newApp')
     	
     	
     	$scope.scheduLeadId = [];
+    	$scope.flagCancel = 0;
     	$scope.proceedToNext = function(){
     		console.log($scope.actionSelectedLead);
 		  	console.log($scope.getAllListLeadDate);
 		  	console.log($scope.scheduLeadId);
-		  	$scope.saveScheduleClose();
 		  	
-		  	
-		  	  	var countIndex = 0;
+		  		var countIndex = 0;
 		  	  	var flag=0;
 		  	  	angular.forEach($scope.actionSelectedLead, function(obj, index){
 		  	  	angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
 		  	  		if(obj == obj1.id){
 				    	flag=0;
-				    	 angular.forEach($scope.scheduLeadId, function(obj3, index3){
-				    		 if(obj3.id == obj1.id){
-				    			 flag = 1;
-				    		 }
-				    	 });
-				    	 if(flag == 0){
-			    			 if(countIndex == 0){
-			    				 $scope.closeleadObj = obj1;
-			    				 $scope.scheduLeadId.push(obj1);
-			    				 countIndex = 1;
-			    				 $scope.leadDetId.push(obj1.id);
-			    			 }
+				    		angular.forEach($scope.scheduLeadId, function(obj3, index3){
+				    			if(obj3.id == obj1.id){
+				    				flag = 1;
+				    			}
+				    		});
+				    		if(flag == 0){
+				    			if(countIndex == 0){
+				    				$scope.leadDetId = [];
+				    				$scope.closeleadObj = obj1;
+				    				$scope.scheduLeadId.push(obj1);
+				    				$scope.leadDetId.push(obj1.id);
+				    				countIndex = 1;
+				    				$scope.rowData.name = obj1.name;
+				    				$scope.rowData.bestDay = obj1.bestDay;
+				    				$scope.rowData.bestTime = obj1.bestTime;
+				    				if($scope.rowData.bestDay != null && $scope.rowData.bestTime != null){
+				    					$scope.notiCanFlag = 1;
+				    				 }
+				    				 else{
+				    					 $scope.notiCanFlag = 0;
+				    				 }
+				    	 	}
 			    		 }
+				    	 
 				    }
 			   });
 			   
-		   });
+		  	  });
 		  	  console.log($scope.leadDetId);
     	}
     	
@@ -6383,16 +6395,23 @@ angular.module('newApp')
         			}else{
         				$scope.closeleadObj.actionSelectedLead = $scope.actionSelectedLead;
         			}
+        			console.log($scope.closeleadObj.actionSelectedLead.length);
         			console.log($scope.closeleadObj.actionSelectedLead);
     	    		$scope.closeleadObj.reasonToCancel = $scope.reasonToCancel;
     	    		$scope.closeleadObj.customData = $scope.customList;
     	    		console.log($scope.closeleadObj);
     					
-    	    	 apiserviceDashborad.setScheduleStatusClose($scope.closeleadObj).then(function(data){
-    		    		
+    	    	apiserviceDashborad.setScheduleStatusClose($scope.closeleadObj).then(function(data){
+    	    		 $.pnotify({
+    					    title: "Success",
+    					    type:'success',
+    					    text: "Successfully canclled "+" "+$scope.closeleadObj.actionSelectedLead.length+ " leads",
+    					});
+    	    		 
+    	    		 $scope.proceedToNext();
     	    		  $scope.reasonToCancel = "";
     				});
-    	    	  	if($scope.actionSelectedLead.length == $scope.leadDetId.length){
+    	    	  	if($scope.actionSelectedLead.length == $scope.scheduLeadId.length){
     	    	  		$('#scheduleCancelBtn').click();
   						$route.reload();
     	    	  }

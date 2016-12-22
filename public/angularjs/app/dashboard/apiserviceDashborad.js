@@ -1082,11 +1082,7 @@ angular.module('app.apiserviceDashborad', [])
 		
 		var defer = $q.defer();
 			$http.post('/setScheduleStatusClose',closeleadObj).success(function(data) {
-				  $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Status changed successfully",
-				});
+				 
 				defer.resolve(data);
 			});
 		
