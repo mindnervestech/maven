@@ -7193,7 +7193,7 @@ angular.module('newApp')
 									  });
 									  if(popupstatus == "popupclose"){
 										  $("#test-drive-tabSched").click();
-										 // $route.reload();
+										  $route.reload();
 									  }	
 								  	  }else{
 								  		  $.pnotify({
