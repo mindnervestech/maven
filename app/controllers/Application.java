@@ -12645,7 +12645,7 @@ private static void cancelTestDriveMail(Map map) {
 	    		uNotes.save();
 	    		
 	    		//otherParentChildLeadsStatus(vm,user,currDate);
-	    		lostLeadsFunction(info.productId, currDate);
+	    		//lostLeadsFunction(info.productId, currDate);
     	 
     	 SoldContact contact = new SoldContact();
  		contact.name = vm.name;
