@@ -4672,13 +4672,29 @@ angular.module('newApp')
 									
 									$.each(customeDataList, function(attr1, value3) {
 										if(value1.key+"_endDate" == attr1){
+											console.log("*&*^&^%&^%&^%*%%&*^*&^*&^*&^*&&^");
+											console.log(value);
+											console.log(value3);
+											console.log($filter('date')(value, 'dd-MM-yyyy'));
+										
+											console.log(new Date(value));
+											console.log(new Date(value3));
+											console.log(new Date(value3) >= new Date(value));
+											if(new Date(value) >= new Date(value3)){
+												$scope.dateFlag = 1;
+											}else{
+												$scope.dateFlag = 0;
+											}
+											/*var date = new Date();
+											var currentDate1 = dateFilter(date.getMilliseconds(), clockFormat);
+											//console.log(currentDate1);
 											var startDate =$filter('date')(value, 'dd-MM-yyyy');
 							 				var endDate = $filter('date')(value3, 'dd-MM-yyyy');
 											if(startDate >= endDate){
 												$scope.dateFlag = 1;
 											}else{
 												$scope.dateFlag = 0;
-											}
+											}*/
 											$scope.customList.push({
 			    								fieldId:value1.fieldId,
 					    		   	  			key:attr1,
