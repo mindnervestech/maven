@@ -6408,7 +6408,9 @@ angular.module('newApp')
     					    text: "Successfully canclled "+" "+$scope.closeleadObj.actionSelectedLead.length+ " leads",
     					});
     	    		 
+    	    		 $scope.schedulmultidatepicker();
     	    		 $scope.proceedToNext();
+    	    		 
     	    		  $scope.reasonToCancel = "";
     				});
     	    	  	if($scope.actionSelectedLead.length == $scope.scheduLeadId.length){
