@@ -2043,7 +2043,7 @@ angular.module('newApp').controller('customizationCtrl',
 	    	
 	    	$rootScope.firstTime = 0;
 	    	$scope.multipleselectFunction = function(item,options,check){
-	    		$rootScope.rObj = {};
+	    		//$rootScope.rObj = {};
 	    		console.log(item);	
 	    		console.log(options);
 	    		console.log(check);
@@ -2053,6 +2053,7 @@ angular.module('newApp').controller('customizationCtrl',
 	    		*/
 	    		var arr = [];
 	    		if($rootScope.firstTime == 0){
+	    			$rootScope.rObj = {};
 	    			arr[0] = item.id;
 	    			$rootScope.rObj[options.key] = item.id;
 	    			$rootScope.firstTime = 1;

@@ -9719,22 +9719,10 @@ angular.module('newApp')
 				                            	} ,
 				                            });
 							}else if(value.component == "fileuploaders"){
-								console.log(value.values);
-								$scope.arr = [];
-								$scope.arr = value.values.split('\\');
 								if(value.values != null){
-									if($scope.arr.length <= 1){
-										$scope.arr = value.values.split('/');
-									}
-								}
-								var leng = $scope.arr.length; 
-								if(value.values != null){
-									$scope.fileName = $scope.arr[leng - 1];
-									value.values = $scope.fileName;
-									$scope.url = $scope.arr[leng - 2]+"/"+$scope.arr[leng - 3]+"/"+value.key;
-									console.log($scope.url);
+									$scope.keyValue = value.key;
 									$scope.gridOptions13.columnDefs.push({ name: $scope.name, displayName: value.label, width:'10%',cellEditableCondition: false,
-					                   	cellTemplate:'<a href="/downloadMoreFile/{{grid.appScope.url}}" style="color: #5b5b5b;">{{grid.appScope.splitName(grid.getCellValue(row, col))}}</a>',
+					                   	cellTemplate:'<a ng-click="grid.appScope.showdownloadFile(grid.getCellValue(row, col),grid.appScope.keyValue)" style="color: #5b5b5b;">{{grid.appScope.splitName(grid.getCellValue(row, col))}}</a>',
 					                           	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 					                                    if (row.entity.noteFlag != 1) {
 					                                      return 'red';
@@ -9789,6 +9777,43 @@ angular.module('newApp')
 	    	
 		   }
 		   
+		   $scope.showdownloadFile = function(filepath,keyValue){
+			   console.log(filepath);
+			   console.log(keyValue);
+			   if(filepath != null){
+				   $scope.arr = [];
+				   $scope.arr = filepath.split('\\');
+					if(filepath != null){
+						if($scope.arr.length <= 1){
+							$scope.arr = filepath.split('/');
+						}
+					}
+					var leng = $scope.arr.length;
+					$scope.fileName = $scope.arr[leng - 1];
+					//value.values = $scope.fileName;
+					$scope.url = $scope.arr[leng - 2]+"/"+$scope.arr[leng - 3]+"/"+keyValue;
+					console.log("--------------------url----------------");
+					console.log($scope.arr[leng - 2]+"______"+$scope.arr[leng - 3]);
+					console.log($scope.url);
+				   
+				   $.fileDownload('/downloadMoreFile/'+$scope.url,
+							{	   	
+							}).done(function(e, response)
+									{
+										$.pnotify({
+													title: "Success",
+													type:'success',
+													text: "File download successfully",
+										});
+									}).fail(function(e, response)
+									{
+										console.log('fail');
+										console.log(response);
+										console.log(e);
+									});
+			   }
+			   
+		   }
 		   
 		    $scope.actionSelectedLead = [];
 	     		$scope.actionSelectedLeadObj = "";
@@ -9827,16 +9852,19 @@ angular.module('newApp')
 	   			   		
 	   		$scope.splitName = function(valuecheck){
 	   			var arr = [];
-	   			arr = valuecheck.split('\\');
-	   			
-	   			if(arr.length <= 1){
-	   				arr = [];
-	   				arr = valuecheck.split('/');
-	   			}
-	   			if(arr.length >= 1){
-	   				return arr[arr.length - 1];
+	   			if(valuecheck != null){
+	   				arr = valuecheck.split('\\');
+		   			if(arr.length <= 1){
+		   				arr = [];
+		   				arr = valuecheck.split('/');
+		   			}
+		   			if(arr.length >= 1){
+		   				return arr[arr.length - 1];
+		   			}else{
+		   				return "";
+		   			}
 	   			}else{
-	   				return null;
+	   				return "";
 	   			}
 	   			
 	   		}

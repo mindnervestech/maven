@@ -165,6 +165,7 @@ angular.module('newApp')
 				  $scope.oneField = 0;
 				  if($builder.forms['default'].length <= 0){
 					  $scope.oneField = 1;
+					  $('#oneFieldAdd').modal('show');
 					  $window.scrollTo(0, 0);
 				  }else{
 					  $scope.oneField = 0;
@@ -228,6 +229,7 @@ angular.module('newApp')
 			  console.log($builder.forms['default']);
 			  if($builder.forms['default'].length <= 0){
 				  $scope.oneField = 1;
+				  $('#oneFieldAdd').modal('show');
 				  $window.scrollTo(0, 0);
 			  }else{
 				  $scope.oneField = 0;
@@ -238,6 +240,7 @@ angular.module('newApp')
 						 if(value.key == "Mt_appointment_type"){
 							 if(value.options.length <= 0){
 								 $scope.flagAppointment = 1;
+								 $('#oneFieldAdd').modal('show');
 								 $window.scrollTo(0, 0);
 							 }else{
 								 $scope.flagAppointment = 0;
