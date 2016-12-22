@@ -516,7 +516,7 @@ public void setMessage(String message) {
 	}
 	
 	public static List<SqlRow> getRequestedDates(AuthUser user, String cD) {
-		SqlQuery q = Ebean.createSqlQuery("select distinct request_more_info.confirm_date from request_more_info where (request_more_info.assigned_to_id = '"+user.id+"') and request_more_info.confirm_date is not null");
+		SqlQuery q = Ebean.createSqlQuery("select distinct request_more_info.confirm_date from request_more_info where (request_more_info.assigned_to_id = '"+user.id+"') and request_more_info.confirm_date is not null and request_more_info.status is null");
 		List<SqlRow> rows = q.findList();
 		return rows;
 	}
