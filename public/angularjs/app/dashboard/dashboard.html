@@ -5741,12 +5741,13 @@ float: right !important;
 								                <div class="modal-body">
 								                <div class="col-md-12">
 								                	<div class="col-md-2">
-								                		<label>Reason</label>
+								                		<label>Reason</label><span style="color: red;">*</span>
 								                	</div>
 								                	<div class="col-md-6">
 								                		<input class="form-control form-white" style="" ng-model="reasonToCancel" type="text" required>
 								                	</div>
-								                	<label ng-if="notiCanFlag == 1" style="color:red;">{{rowData.name}} has an appointment scheduled on {{rowData.bestDay}} at {{rowData.bestTime}}. Canceling the lead will
+								                	<label ng-if="reasonFlag == 1" style="color:red;">Reason field should be mandatory</label>
+								                	<label ng-if="notiCanFlag == 1" style="color:black;">{{rowData.name}} has an appointment scheduled on {{rowData.bestDay}} at {{rowData.bestTime}}. Canceling the lead will
 															also remove an appointment. Do you want to proceed?</label>
 								                </div>
 								                <div class="col-md-12" ng-if="cancelFlag == 1">

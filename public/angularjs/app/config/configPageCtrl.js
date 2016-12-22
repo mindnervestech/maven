@@ -1217,7 +1217,9 @@ angular.module('newApp')
 				console.log($scope.customerReq);
 				console.log(obj.firstName);
 				$scope.realese.allSalesPeople = obj.outLeftAll;
-				$scope.customerReq.firstName = obj.firstName;
+				if($scope.customerReq != undefined){
+					$scope.customerReq.firstName = obj.firstName;
+				}
 			}
 		});
 		if($scope.userRoleData.role == "Manager"){
