@@ -1114,7 +1114,7 @@ angular.module('app.apiserviceDashborad', [])
 	
 	this.setRequestStatusComplete = function(soldContact){
 		var defer = $q.defer();
-		$http.get('/setRequestStatusComplete/'+soldContact).success(function(data) {
+		$http.post('/setRequestStatusComplete',soldContact).success(function(data) {
 			defer.resolve(data);
 			
 		});

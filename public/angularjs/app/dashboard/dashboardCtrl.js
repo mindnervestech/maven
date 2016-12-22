@@ -4677,6 +4677,8 @@ angular.module('newApp')
 							 				var endDate = $filter('date')(value3, 'dd-MM-yyyy');
 											if(startDate >= endDate){
 												$scope.dateFlag = 1;
+											}else{
+												$scope.dateFlag = 0;
 											}
 											$scope.customList.push({
 			    								fieldId:value1.fieldId,
@@ -6188,6 +6190,7 @@ angular.module('newApp')
 		
 		
     	$scope.soldScheduleStatus = function(entity) {
+    		console.log(entity);
     		$scope.scheduleStatusVal = entity;
     		$scope.soldContact = {};
     		$scope.soldContact.infoId = entity.id;
@@ -6196,7 +6199,6 @@ angular.module('newApp')
     		$scope.soldContact.phone = entity.phone;
     		$scope.soldContact.productId = entity.productId;
     		$scope.soldContact.custZipCode = entity.custZipCode;
-    		$scope.soldContact.enthicity = entity.enthicity;
     		$scope.soldContact.typeOfLead = entity.typeOfLead;
     		$scope.soldContact.parentChildLead = entity.parentChildLead;
     		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
@@ -6209,10 +6211,7 @@ angular.module('newApp')
     		} else {
     			$scope.soldContact.howFoundUs = "";
     		}
-    		$scope.vehicletype=entity.typeofVehicle;
-    		$scope.soldContact.make = entity.make;
     		$scope.soldContact.year = entity.year;
-    		$scope.soldContact.mileage = entity.mileage;
     		$scope.soldContact.price = entity.price;
     		$scope.soldContact.designer = entity.designer;
     		$scope.soldContact.title = entity.title;
@@ -6488,7 +6487,8 @@ angular.module('newApp')
     	
     	$scope.saveRequestStatus = function() {
     		$('#soldBtn').attr("disabled", true);
-    		apiserviceDashborad.setRequestStatusComplete($scope.soldContact).then(function(data){
+    		console.log($scope.soldContact);
+    		 apiserviceDashborad.setRequestStatusComplete($scope.soldContact).then(function(data){
     		
 				$route.reload();
 				if(data=='contact error'){

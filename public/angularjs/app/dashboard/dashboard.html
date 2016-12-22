@@ -4753,7 +4753,7 @@ float: right !important;
 			      			<li  role="presentation" class="" style="margin-top: -15px;float: right;"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="exportCsvPop()">Export CSV</button></li>
 			    		</ul>
 				         <ul style="margin-top:4px;" ng-if="(allLeadd == true || otherLeads == true) && (actionSelectedLead.length >= 1)">
-				         		<button class="btn btn-primary" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">SOLD</button>
+				         		<button class="btn btn-primary" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;" ng-click="soldScheduleStatus(actionSelectedLeadObj)">SOLD</button>
 				         		<button class="btn btn-primary" ng-click="addNoteToRequestUser(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">HISTORY</button>
 				         		<button class="btn btn-primary" ng-click="assignCanceledLead()" style="height: 30px;font-size: 11px;">ASSIGN</button>
 				         		<button class="btn btn-primary" ng-click="cancelScheduleStatus()" style="height: 30px;font-size: 11px;">CANCEL</button>
@@ -5868,7 +5868,7 @@ float: right !important;
 								            <div class="modal-content">
 								                <div class="modal-header">
 								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-								                    <h4 class="modal-title">Sold Vehicle</h4>
+								                    <h4 class="modal-title">Sold</h4>
 								                </div>
 								                <form ng-submit="saveRequestStatus()">
 								                <div class="modal-body" style="height:752px;overflow-x:auto;">
@@ -5920,20 +5920,6 @@ float: right !important;
 														</div>
 													</div>
 													
-													<div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">Enthicity</label>
-														<div class="col-sm-7">
-															<select class="form-control form-white" ng-model="soldContact.enthicity" required>
-																<option value="">Select</option>
-																<option value="White">White</option>
-																<option value="Hispanic or Latino">Hispanic or Latino</option>
-																<option value="Black or African American">Black or African American</option>
-																<option value="Native American or American Indian">Native American or American Indian</option>
-																<option value="Asian / Pacific Islander">Asian / Pacific Islander</option>
-																<option value="Other">Other</option>
-															</select>
-														</div>
-													</div>
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Buying for</label>
 														<div class="col-sm-7">
@@ -6000,41 +5986,16 @@ float: right !important;
 															<input type="text" class="form-control form-white" ng-model="soldContact.year" required>
 														</div>
 													</div>
-													<div class="form-group col-sm-12" ng-if="vehicletype != 'New'" >
-														<label class="col-sm-4 control-label" style="text-align: right;">Designer</label>
-														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.designer" required>
-														</div>
-													</div>
+													
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Final Price</label>
 														<div class="col-sm-7">
 															<input type="text" class="form-control form-white" ng-model="soldContact.price" required>
 														</div>
 													</div>
-													<!-- <div class="form-group col-sm-12">
-														<table class="table">
-								                    		<tr>
-									                    		<td>Vin</td>
-									                    		<td>Model</td>
-									                    		<td>Make</td>
-									                    		<td>Assign Status</td>
-								                    		</tr>
-								                    		<tr ng-repeat="otherLeads in soldContact.parentChildLead">
-									                    		<td>{{otherLeads.vin}}</td>
-									                    		<td>{{otherLeads.model}}</td>
-									                    		<td>{{otherLeads.make}}</td>
-									                    		<td><select class="form-control form-white" ng-model="otherLeads.status" required>
-																			<option value="">Select</option>
-																			<option value="Sold">Sold</option>
-																			<option value="Cancel">CANCEL</option>
-																			<option value="No Change">No Change</option>
-																	</select></td>
-								                    		</tr>
-								                    	</table>
-													</div> -->
 													
-													<div ng-repeat="otherLeads in soldContact.parentChildLead">
+													
+													<!-- <div ng-repeat="otherLeads in soldContact.parentChildLead">
 								                			<div class="col-md-12">
 								                			<div class="col-md-1" style="padding-left: 0px;">
 								                				<div class="col-md-1" style="font-size: 29px;margin-top: 54px;">
@@ -6044,7 +6005,7 @@ float: right !important;
 								                			<div class="form-group col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;">
 								                    			<div>
 								                    				<div class="col-md-4" style="padding-left: 0px;">
-								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
+								                    				<img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}">
 								    									<img class="preview" style="margin-top: 7px;width: 124px;height: 121px;" src="/getImage/{{otherLeads.imgId}}/thumbnail">
 								    								</div>
 								    								<div class="col-md-8" style="padding: 0px;">
@@ -6080,7 +6041,7 @@ float: right !important;
 																</div>
 								                    		</div>	
 								                    		</div>
-								                    	</div>
+								                    	</div> -->
 													
 													
 								                </div>

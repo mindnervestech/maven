@@ -12613,82 +12613,15 @@ private static void cancelTestDriveMail(Map map) {
     		
     		Date date = new Date();
     		List<CustomizationDataValue> keyValue = null;
-    	 if(vm.typeOfLead.equals("Trade-In Appraisal")){
-    			
-        		TradeIn info = TradeIn.findById(vm.infoId);
-        		keyValue = CustomizationDataValue.findByCustomeSaveCRMLead(3L, vm.infoId);
-        		Inventory product = Inventory.getByProductId(info.productId);
-	    		/*if(product != null){
-	    			product.setSale("sale");
-	    			product.setSoldDate(date);
-	    			product.setSoldUser(user);
-	    			product.setPrice(Integer.parseInt(vm.price));
-	    			product.update();
-	    		}*/
-        		info.setStatus("COMPLETE");
-        		info.setCustZipCode(vm.custZipCode);
-        		info.setEnthicity(vm.enthicity);
-        		info.setStatusDate(currDate);
-        		info.setStatusTime(currDate);
-        		info.update();
-        		
-        		
-        		UserNotes uNotes = new UserNotes();
-        		uNotes.setNote("Vehicle Sold");
-        		uNotes.setAction("Other");
-        		uNotes.createdDate = currDate;
-        		uNotes.createdTime = currDate;
-        		uNotes.user = user;
-        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-        		uNotes.tradeIn = TradeIn.findById(info.id);
-        		uNotes.save();
-        		
-        		otherParentChildLeadsStatus(vm,user,currDate);
-        		lostLeadsFunction(info.productId, currDate);
-        		
-        	
-    		}else if(vm.typeOfLead.equals("Schedule Test Drive")){
-    			
-    			ScheduleTest schedule = ScheduleTest.findById(vm.infoId);
-    			keyValue = CustomizationDataValue.findByCustomeSaveCRMLead(2L, vm.infoId);
-        		schedule.setLeadStatus("COMPLETE");
-        		schedule.setStatusDate(currDate);
-        		schedule.setStatusTime(currDate);
-        		schedule.setCustZipCode(vm.custZipCode);
-        		schedule.setEnthicity(vm.enthicity);
-        		schedule.update();
-        		
-        		Inventory product = Inventory.getByProductId(schedule.productId);
-	    		if(product != null){
-	    			/*product.setSale("sale");
-	    			product.setSoldDate(date);
-	    			product.setSoldUser(user);*/
-	    			product.setPrice(Integer.parseInt(vm.price));
-	    			product.update();
-	    		}
-        		UserNotes uNotes = new UserNotes();
-        		uNotes.setNote("Vehicle Sold");
-        		uNotes.setAction("Other");
-        		uNotes.createdDate = currDate;
-        		uNotes.createdTime = currDate;
-        		uNotes.user = user;
-        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-        		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
-        		uNotes.save();
-        		otherParentChildLeadsStatus(vm,user,currDate);
-        		lostLeadsFunction(schedule.parentId.toString(), currDate);
-    		}else {
-    			/*if(vm.typeOfLead.equals("Request More Info")){
-    				
-    			}*/
+    		
     			LeadType lType = LeadType.findByName(vm.typeOfLead);
 	    		RequestMoreInfo info = RequestMoreInfo.findById(vm.infoId);
 	    		keyValue = CustomizationDataValue.findByCustomeSaveCRMLead(lType.id, vm.infoId);
-	    		Inventory product = Inventory.getByProductId(info.productId);
+	    		AddProduct product = AddProduct.findById(Long.parseLong(info.productId));
 	    		if(product != null){
-	    			/*product.setSale("sale");
+	    			/*product.setSale("sale");*/
 	    			product.setSoldDate(date);
-	    			product.setSoldUser(user);*/
+	    			product.setSoldUser(user);
 	    			product.setPrice(Integer.parseInt(vm.price));
 	    			product.update();
 	    		}
@@ -12711,9 +12644,8 @@ private static void cancelTestDriveMail(Map map) {
 	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
 	    		uNotes.save();
 	    		
-	    		otherParentChildLeadsStatus(vm,user,currDate);
+	    		//otherParentChildLeadsStatus(vm,user,currDate);
 	    		lostLeadsFunction(info.productId, currDate);
-		}
     	 
     	 SoldContact contact = new SoldContact();
  		contact.name = vm.name;
@@ -12944,52 +12876,6 @@ private static void cancelTestDriveMail(Map map) {
     	List<String> vinList = new ArrayList<>();
     	List<RequestInfoVM>vinAndEmailList =new ArrayList<>();
     	
-    	List<TradeIn> tIn = TradeIn.findByProductIdAndLocation(pId, Location.findById(Long.parseLong(session("USER_LOCATION"))));
-		for(TradeIn tradeIn:tIn){
-			if(tradeIn.status == null){
-				tradeIn.setStatus("LOST");
-				tradeIn.setStatusDate(currDate);
-				tradeIn.setStatusTime(currDate);
-				tradeIn.update();
-				
-				UserNotes uNotes1 = new UserNotes();
-	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-	    		uNotes1.setAction("Other");
-	    		uNotes1.createdDate = currDate;
-	    		uNotes1.createdTime = currDate;
-	    		//uNotes1.user = user;
-	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
-	    		uNotes1.save();
-	    		
-			}else if(!tradeIn.status.equals("COMPLETE")){
-				tradeIn.setStatus("LOST");
-				tradeIn.setStatusDate(currDate);
-				tradeIn.setStatusTime(currDate);
-				tradeIn.update();
-				
-				UserNotes uNotes1 = new UserNotes();
-	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-	    		uNotes1.setAction("Other");
-	    		uNotes1.createdDate = currDate;
-	    		uNotes1.createdTime = currDate;
-	    		//uNotes1.user = user;
-	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
-	    		
-	    		uNotes1.save();
-			}
-			if(tradeIn.assignedTo !=null){
-				RequestInfoVM vm=new RequestInfoVM();
-				vm.vin=tradeIn.vin;
-				AuthUser userObj = AuthUser.findById(tradeIn.assignedTo.id);
-				if(userObj !=null){
-					//emailList.add(userObj.email);
-					vm.email=userObj.email;
-				}
-				vinAndEmailList.add(vm);
-			}
-		}
 		
 		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByProductIdAndLocation(pId.toString(), Location.findById(Long.parseLong(session("USER_LOCATION"))));
 		for(RequestMoreInfo rMoreInfo:rInfos){
@@ -13037,54 +12923,6 @@ private static void cancelTestDriveMail(Map map) {
 					
 				}
 				vinAndEmailList.add(vm1);
-			}
-		}
-		
-		
-		List<ScheduleTest> sTests = ScheduleTest.findByProductAndLocation(pId.toString(), Location.findById(Long.parseLong(session("USER_LOCATION"))));
-		for(ScheduleTest scheduleTest:sTests){
-			if(scheduleTest.leadStatus == null){
-				scheduleTest.setLeadStatus("LOST");
-				scheduleTest.setStatusDate(currDate);
-				scheduleTest.setStatusTime(currDate);
-				scheduleTest.update();
-				
-				UserNotes uNotes1 = new UserNotes();
-	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-	    		uNotes1.setAction("Other");
-	    		uNotes1.createdDate = currDate;
-	    		uNotes1.createdTime = currDate;
-	    		//uNotes1.user = user;
-	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
-	    		uNotes1.save();
-			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
-				scheduleTest.setLeadStatus("LOST");
-				scheduleTest.setStatusDate(currDate);
-				scheduleTest.setStatusTime(currDate);
-				scheduleTest.update();
-				
-				UserNotes uNotes1 = new UserNotes();
-	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-	    		uNotes1.setAction("Other");
-	    		uNotes1.createdDate = currDate;
-	    		uNotes1.createdTime = currDate;
-	    		//uNotes1.user = user;
-	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
-	    		
-	    		uNotes1.save();
-			}
-			if(scheduleTest.assignedTo !=null){
-				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
-				RequestInfoVM vm2=new RequestInfoVM();
-				vm2.vin=scheduleTest.vin;
-				if(userObj !=null){
-					//emailList.add(userObj.email);
-					vm2.email=userObj.communicationemail;
-					
-				}
-				vinAndEmailList.add(vm2);
 			}
 		}
 		
