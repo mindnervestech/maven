@@ -1734,8 +1734,17 @@ angular.module('newApp')
 				angular.forEach($scope.allFronAndSalesList, function(obj, index){
 					if(obj.id == $scope.rowData.id){
 						console.log(obj);
-						obj.cityList.push(value.city+"-"+value.state);
+						var flag = 0;
+						angular.forEach(obj.cityList, function(obj2, index2){
+							 if(obj2 == value.city+"-"+value.state){
+								 flag = 1;
+							 }
+						});
+						if(flag == 0){
+							obj.cityList.push(value.city+"-"+value.state);
+						}
 						obj.zipCode.push(value);
+						console.log(obj.cityList);
 					}
 				});
 			}else{
@@ -1751,6 +1760,7 @@ angular.module('newApp')
 		}
 		console.log($scope.allFronAndSalesList);
 	}
+	
 	
 	
 	$scope.getZipCode = function(address){
