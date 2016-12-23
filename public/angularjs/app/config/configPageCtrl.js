@@ -1222,9 +1222,13 @@ angular.module('newApp')
 				}
 			}
 		});
-		if($scope.userRoleData.role == "Manager"){
-			$scope.salesPersonName.push($scope.userRoleData); 
+		if($scope.userRoleData == undefined){
+			if($scope.userRoleData.role == "Manager"){
+				$scope.salesPersonName.push($scope.userRoleData); 
+			}
 		}
+		
+		
 		console.log($scope.salesPersonName);
 	});
 	
