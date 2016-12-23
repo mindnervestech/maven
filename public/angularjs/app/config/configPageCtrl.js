@@ -1369,8 +1369,8 @@ angular.module('newApp')
 		apiserviceConfigPage.getAllManufacturer().then(function(data){
 			$scope.allManufacturerList =data;
 			console.log($scope.allManufacturerList);
-			apiserviceConfigPage.getAllFrontAndSalesPer().then(function(data){
-				$scope.allFronAndSalesList =data;
+			apiserviceConfigPage.getAllFrontAndSalesPer().then(function(data1){
+				$scope.allFronAndSalesList =data1;
 				
 				angular.forEach($scope.allFronAndSalesList, function(obj, index){
 					obj.manuCount = 0;
@@ -1430,6 +1430,8 @@ angular.module('newApp')
 				
 			});
 		});
+		console.log("&&&&&&&&&&&^^^^^^^^^^^^^^^^^^^&&&&&&&&&&");
+		console.log($scope.allFronAndSalesList);
 	}
 	
 	
