@@ -1,6 +1,6 @@
-<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" >
-  <ul id="myTabs" class="nav nav-tabs" role="tablist">
-      	<!-- <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li> -->
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="getAllInventory()" >
+	<ul id="myTabs" class="nav nav-tabs" role="tablist">
+		<!-- <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li> -->
        	<li ng-sec="Leads" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="leadTypeInfo()">Leads</button></a></li>
       	<li ng-sec="Emails" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email</button></a></li>
       	<li ng-sec="Documentation" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="documentationSetting()">Documentation </button></a></li>
@@ -11,22 +11,52 @@
  		<li ng-sec="Forms" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="form()">Forms </button></a></li>
  		<li ng-sec="System Setting Website Analytics" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="websiteAnalytics()">Website Analytics</button></a></li>
 		<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="inventoryManagement()">Inventory Management</button></a></li>
-  </ul>
-   <!--  <ul id="myTabs" class="nav nav-tabs" role="tablist"> 
+	</ul>
+   	<!--  <ul id="myTabs" class="nav nav-tabs" role="tablist"> 
       
-      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="true"><button type="button" class="btn btn-blue"  ng-click="init()">Premium Leads</button></a></li>
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue"  ng-click="leadTypeInfo()">Lead type</button></a></li>
+		<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="true"><button type="button" class="btn btn-blue"  ng-click="init()">Premium Leads</button></a></li>
+      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue"  ng-click="leadTypeInfo()">Lead type</button></a></li>
     </ul> -->
 	    
-  </div> 
+</div> 
 
-	<div class="form-group col-sm-12" style="margin-top: 35px;">
-		<input style="width: 13px;height: 13px;" type="checkbox" value="true" ng-model="enableInven" ng-click="enableInventory(enableInven)"><label>&nbsp&nbsp Enable Inventory Management</label>
-	</div>
+		<div class="form-group col-sm-12" style="margin-top: 35px;">
+			<input style="width: 13px;height: 13px;" type="checkbox" value="false" ng-model="enableInven" ng-click="enableInventory(enableInven)"><label>&nbsp&nbsp Enable Inventory Management</label>
+		</div>
 	
-   <div class="form-group col-sm-12">
-		<input style="width: 13px;height: 13px;" type="checkbox" value="true" ng-model="enableInven" ng-click="enableInventory(enableInven)"><label>&nbsp&nbsp Enable Inventory Management</label>
-	</div>
+   		<div class="form-group col-sm-12" ng-if="collectionFlag == 1">
+   			<form ng-submit="saveMainCollect()">
+		 		<div ng-repeat="value in addMainCollFields">
+		 			<div class="col-sm-2">
+						<label>Name Your Main Collection</label>
+					</div>
+					<div class="col-sm-2">
+						<input type="text"placeholder="Name Your Collection" class="form-control form-white"ng-model="value.collection" >
+					</div>
+					<button  type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</form>
+			<h4 style="margin-top: 10px;" ng-click="addMainColllection()"><b><a>Add an additional main collection</a></b></h4>
+		</div>
+		
+		<div class="modal fade" id="collectionPopup" tabindex="-1" role="dialog" aria-hidden="true">
+    		<div class="modal-dialog">
+        		<div class="modal-content">
+            		<div class="modal-header">
+            		</div>
+            		<form ng-submit="proceedToAll()">
+            			<div class="modal-body">
+            				<h4 class="modal-title">Are you sure you want to disable an Inventory Management ?</h4>
+            			</div>
+            			<div class="modal-footer">
+            				<button type="submit" class="btn btn-primary btn-embossed">Proceed</button>
+                			<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal" ng-click="changeFlagOfColl()">Close</button>
+            			</div>
+            		</form>
+        		</div>
+    		</div>
+		</div>
+	
 <style>
 .ImageBorder
 {

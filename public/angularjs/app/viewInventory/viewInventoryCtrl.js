@@ -538,10 +538,18 @@ angular.module('newApp')
     	
    $scope.vehiClesList = [];
   
+   $scope.addMainCollFields = [];
    $scope.viewVehiclesInit = function() {
 	   console.log("?>?>?>?>?");
 	   $scope.newlyArrivedTab();
 	   setTimeout(function(){ $scope.newlyArrivedTab(); }, 1000);
+	   
+	   apiserviceViewInventory.getAllInventoryData().then(function(data){
+			console.log(data);
+			$scope.addMainCollFields = data;
+			console.log($scope.addMainCollFields);
+	   });
+			
    }
    
    $scope.deleteVehicle = function(row,type){

@@ -791,4 +791,35 @@ angular.module('app.apiserviceConfigPage', [])
 		});
 		return defer.promise;
 	};
+	
+	this.saveMainCollect=function(addMainCollFields){
+		var defer = $q.defer();
+		$http.post('/saveMainCollect',addMainCollFields).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Main collection saved successfully",
+			});
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
+	this.getAllInventoryData=function(){
+		var defer = $q.defer();
+		$http.get('/getAllInventoryData').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.deleteMainCollection=function(addMainCollFields){
+		var defer = $q.defer();
+		$http.post('/deleteMainCollection',addMainCollFields).success(function(data) {
+			
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 })

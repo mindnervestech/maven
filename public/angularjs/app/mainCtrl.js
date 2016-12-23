@@ -59,6 +59,19 @@
                
             })
             
+            $http.get('/getAllInventoryData').success(function(data) {
+            	console.log(data);
+		    	angular.forEach(data, function(obj, index){
+		    		$scope.enableInven = obj.enableInven;
+		    			if($scope.enableInven == true){
+		    				$scope.collectionFlag = 1;
+		    			}else{
+		    				$scope.collectionFlag = 0;
+		    			}
+		    	});
+		    });
+            
+            
             $http.get('/getAllPermissionData')
             .success(function(data){
 			console.log(data);
@@ -2214,4 +2227,6 @@ angular.module('newApp').controller('customizationCtrl',
 		    		/*$scope.selectedObjs = function(select){
 		    			console.log(select);
 		    		}*/
+		    		
+		    		 
 }]);

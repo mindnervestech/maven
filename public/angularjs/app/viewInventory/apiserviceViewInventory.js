@@ -227,6 +227,14 @@ angular.module('app.apiserviceViewInventory', [])
 		});
 		return defer.promise;
 	};
+	
+	this.getAllInventoryData=function(){
+		var defer = $q.defer();
+		$http.get('/getAllInventoryData').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 })
 
 /*angular.module('app.apiserviceViewInventory', [])

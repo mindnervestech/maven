@@ -24,6 +24,7 @@ import models.Domain;
 import models.EmailDetails;
 import models.FeaturedImageConfig;
 import models.InternalPdf;
+import models.InventorySetting;
 import models.LeadType;
 import models.Location;
 import models.MailchimpList;
@@ -64,6 +65,7 @@ import viewmodel.CustomerRequestManufacrurerSettingsVM;
 import viewmodel.CustomerRequestVM;
 import viewmodel.DocumentationVM;
 import viewmodel.ImageVM;
+import viewmodel.InventorySettingVM;
 import viewmodel.LeadTypeVM;
 import viewmodel.MailchimpPageVM;
 import viewmodel.NewFormWebsiteVM;
@@ -1830,5 +1832,47 @@ public class ConfigPagesController extends Controller{
 		    		
 		    		return ok();
 		    	
+			}
+		    
+		    public static Result saveMainCollect(){
+				
+	    		Form<InventorySettingVM> form = DynamicForm.form(InventorySettingVM.class).bindFromRequest();
+	    		InventorySettingVM vm = form.get();
+	    		deleteMainCollectionType();
+	    		for(InventorySettingVM inven:vm.addMainCollFields){
+	    			InventorySetting inventory = new InventorySetting();
+	    			inventory.collection = inven.collection;
+	    			inventory.enableInven = true;
+	    			inventory.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    			inventory.save();
+	    		}
+	    			
+	    		return ok();
+	    	}
+		    
+		   public static Result deleteMainCollectionType(){
+				List<InventorySetting> custList = InventorySetting.getAllCollection();
+				for(InventorySetting delList:custList){
+					delList.delete();
+				}
+				return ok();
+			}
+		    
+		    public static Result deleteMainCollection(){
+		    	Form<InventorySettingVM> form = DynamicForm.form(InventorySettingVM.class).bindFromRequest();
+	    		InventorySettingVM vm = form.get();
+	    		
+	    		List<InventorySetting> lead =  InventorySetting.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    		for(InventorySetting inven:lead){
+	    			inven.setEnableInven(false);
+	    			inven.update();
+	    		}
+	    			
+	    		return ok();
+			}
+		    public static Result getAllInventoryData() {
+				List<InventorySetting> lead = InventorySetting.findByLocation(Long.valueOf(session("USER_LOCATION")));
+				return ok(Json.toJson(lead)); 
+				
 			}
 }

@@ -1973,8 +1973,71 @@ angular.module('newApp')
 	
 	/*-------------------------------------Inventory Management---------------------------------*/
 	
+	$scope.enableInven = false;
+	$scope.collectionFlag = 0;
 	$scope.enableInventory = function(enableInven){
 		console.log(enableInven);
+		
+		if(enableInven == false){
+			$scope.collectionFlag = 1;
+			$scope.addMainCollFields.push({collection:'',
+				enableInven:true
+			});
+		}else{
+			$scope.collectionFlag = 0;
+			$scope.openColectionPopup();
+		}
+	}
+	$scope.collect = [];
+	$scope.saveMainCollect = function(){
+		console.log($scope.addMainCollFields);
+		$scope.obj = {addMainCollFields:$scope.addMainCollFields};
+		apiserviceConfigPage.saveMainCollect($scope.obj).then(function(data){
+			console.log(data);
+		});
+	}
+	
+	$scope.openColectionPopup = function(){
+		console.log("Checkkkk");
+		$('#collectionPopup').modal('show');
+	}
+	
+	$scope.proceedToAll = function(){
+		console.log($scope.addMainCollFields);
+		$scope.obj = {addMainCollFields:$scope.addMainCollFields};
+		apiserviceConfigPage.deleteMainCollection($scope.obj).then(function(data){
+			console.log(data);
+		});
+		$('#collectionPopup').modal('hide');
+	}
+	
+	$scope.addMainCollFields = [];
+	$scope.addMainColllection = function(){
+		console.log("in add additional field");
+		$scope.addMainCollFields.push({collection:'',
+			enableInven:true
+			});
+	}
+	$scope.addMainCollFields = [];
+	$scope.getAllInventory = function(){
+		apiserviceConfigPage.getAllInventoryData().then(function(data){
+			console.log(data);
+			$scope.addMainCollFields = data;
+			console.log($scope.addMainCollFields);
+			angular.forEach($scope.addMainCollFields, function(obj, index){
+				$scope.enableInven = obj.enableInven;
+				if($scope.enableInven == true){
+					$scope.collectionFlag = 1;
+				}else{
+					$scope.collectionFlag = 0;
+				}
+			});
+		});
+	}
+	
+	$scope.changeFlagOfColl = function(){
+		console.log("in cancel button");
+		$scope.getAllInventory();
 	}
 	
 }]);	

@@ -48,6 +48,7 @@ POST    /updateRegisterUser	      controllers.RegistrationController.updateRegis
 POST    /UpdateLeadType	      controllers.ConfigPagesController.UpdateLeadType()
 POST    /saveLeadFormPopup	      controllers.ConfigPagesController.saveLeadFormPopup()
 POST    /Updatecheckbox	      controllers.ConfigPagesController.Updatecheckbox()
+POST    /saveMainCollect	      controllers.ConfigPagesController.saveMainCollect()
 POST    /savePriceFromTo	      controllers.ConfigPagesController.savePriceFromTo()
 GET    /saveOutListAll/:status/:id	      controllers.ConfigPagesController.saveOutListAll(status:String,id:Integer)
 POST     /addnewrUser           controllers.ConfigPagesController.addnewrUser()
@@ -57,7 +58,8 @@ POST     /getEditFormWebsite           controllers.ConfigPagesController.getEdit
 POST     /updatenewWebSiteForm           controllers.ConfigPagesController.updatenewWebSiteForm()
 GET   /getAllLeadData			controllers.ConfigPagesController.getAllLeadData()
 GET   /getAllSalesPersons			controllers.ConfigPagesController.getAllSalesPersons()
-
+GET   /getAllInventoryData			controllers.ConfigPagesController.getAllInventoryData()
+POST   /deleteMainCollection			controllers.ConfigPagesController.deleteMainCollection()
 GET   /allFormName			controllers.ConfigPagesController.allFormName()
 GET   /showEditData/:id			controllers.ConfigPagesController.showEditData(id:Long)
 # Map static resources from the /public folder to the /assets URL path
