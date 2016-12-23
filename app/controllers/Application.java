@@ -3780,10 +3780,12 @@ public class Application extends Controller {
 	    		vm1.isContactusType = sc.isContactusType;
 	    		String imagePath=null;
 	    		if(sc.productId != null){
-	    			Long pId = Long.parseLong(sc.productId);
-	    			AddProduct image=AddProduct.getDefaultImg(pId);
-	    			if(image != null){
-	    				imagePath=image.filePath;
+	    			if(!sc.productId.equals("null")){
+	    				Long pId = Long.parseLong(sc.productId);
+		    			AddProduct image=AddProduct.getDefaultImg(pId);
+		    			if(image != null){
+		    				imagePath=image.filePath;
+		    			}
 	    			}
 	    		}
 	    		vm1.imageUrl=imageUrlPath+imagePath;
