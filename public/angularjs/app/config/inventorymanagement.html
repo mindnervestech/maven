@@ -1,4 +1,4 @@
-<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="websiteAnalyticsData()" >
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" >
   <ul id="myTabs" class="nav nav-tabs" role="tablist">
       	<!-- <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li> -->
        	<li ng-sec="Leads" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="leadTypeInfo()">Leads</button></a></li>
@@ -8,26 +8,25 @@
        	<!-- <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="autoPortal()">Auto Portals </button></a></li>
        	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="plansAndBill()">Plans & Billing </button></a></li> -->
        	<li ng-sec="Domain" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="domainDetails()">Domain </button></a></li>
-       	<li ng-sec="Forms" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="form()">Forms</button></a></li>
-  		<li ng-sec="System Setting Website Analytics" role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="websiteAnalytics()">Website Analytics</button></a></li>
-  		<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="inventoryManagement()">Inventory Management</button></a></li>
+ 		<li ng-sec="Forms" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="form()">Forms </button></a></li>
+ 		<li ng-sec="System Setting Website Analytics" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="websiteAnalytics()">Website Analytics</button></a></li>
+		<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="inventoryManagement()">Inventory Management</button></a></li>
   </ul>
-  
-  		<h2><b>Google Analytics Tracking Code</b></h2>
-  		<h4 style="margin-top: 30px;"><b>You can find more information about how to obtain Google Analytics Tracking code by visiting:</b></h4>
-  		<h4 style="margin-top: 10px;"><b><a target="_blank" href="https://support.google.com/analytics/answer/1008080?hl=en">https://support.google.com/analytics/answer/1008080?hl=en</a></b></h4>
-    	<div class="form-group col-sm-12">
+   <!--  <ul id="myTabs" class="nav nav-tabs" role="tablist"> 
+      
+      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="true"><button type="button" class="btn btn-blue"  ng-click="init()">Premium Leads</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue"  ng-click="leadTypeInfo()">Lead type</button></a></li>
+    </ul> -->
+	    
+  </div> 
 
-			<div class="col-sm-4" id="textArea">
-				<textarea rows="8" cols="50" style="border-color:blue;" ng-model="webanlyatics.tracking_code" class="form-control form-white ng-pristine ng-valid" id="autocomplete" placeholder=" " ></textarea>
-			</div>
-		</div>
-		<div class="form-group col-sm-12" >
-					 <button  type="submit" ng-click="saveWebsite(webanlyatics)" class="btn btn-primary btn-embossed ">Save</button>
-		</div>
-</div> 
-
-   
+	<div class="form-group col-sm-12" style="margin-top: 35px;">
+		<input style="width: 13px;height: 13px;" type="checkbox" value="true" ng-model="enableInven" ng-click="enableInventory(enableInven)"><label>&nbsp&nbsp Enable Inventory Management</label>
+	</div>
+	
+   <div class="form-group col-sm-12">
+		<input style="width: 13px;height: 13px;" type="checkbox" value="true" ng-model="enableInven" ng-click="enableInventory(enableInven)"><label>&nbsp&nbsp Enable Inventory Management</label>
+	</div>
 <style>
 .ImageBorder
 {

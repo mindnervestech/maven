@@ -232,6 +232,12 @@ var MakeApp = angular
             templateUrl: '/dealer/config/websiteAnalytics.html',
             controller: 'ConfigPageCtrl'
         })
+        
+        .when('/inventoryManagement', {
+            templateUrl: '/dealer/config/inventoryManagement.html',
+            controller: 'ConfigPageCtrl'
+        })
+        
          .when('/mailchimpPage', {
             templateUrl: '/dealer/config/mailchimp.html',
             controller: 'ConfigPageCtrl'

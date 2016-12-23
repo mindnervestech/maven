@@ -878,6 +878,11 @@ angular.module('newApp')
 		
 	}
 	
+	$scope.inventoryManagement= function() {
+		$location.path('/inventoryManagement');
+		
+	}
+	
 	$scope.mailchimp= function() {
 		$location.path('/mailchimpPage');
 		
@@ -1963,6 +1968,13 @@ angular.module('newApp')
 		console.log(users);
 		console.log(userSelect);
 		console.log($scope.salesPersonList);
+	}
+	
+	
+	/*-------------------------------------Inventory Management---------------------------------*/
+	
+	$scope.enableInventory = function(enableInven){
+		console.log(enableInven);
 	}
 	
 }]);	
