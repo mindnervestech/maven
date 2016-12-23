@@ -1359,10 +1359,10 @@ angular.module('newApp')
 	});
 	
 	$scope.dataZipCode = {};
-	apiserviceConfigPage.getAllSalesPersonZipCode().then(function(data){
+	/*apiserviceConfigPage.getAllSalesPersonZipCode().then(function(data){
 		console.log(data);
 		$scope.editSalesZipData = data;
-	});
+	});*/
 	
 	$scope.initCustomerRequ = function(){
 		console.log("000000000000000--------------");
@@ -1372,29 +1372,27 @@ angular.module('newApp')
 			console.log($scope.allManufacturerList);
 			apiserviceConfigPage.getAllFrontAndSalesPer().then(function(data1){
 				$scope.allFronAndSalesList =data1;
+				angular.forEach($scope.allFronAndSalesList, function(obj, index){
+					obj.zipCode = [];
+					obj.cityList = [];
+				});
+				angular.forEach($scope.allFronAndSalesList, function(obj, index){
+					obj.manuCount = 0;
+					obj.premiumFlag = false;
+				});
+				angular.forEach($scope.allManufacturerList, function(obj, index){
+					obj.userData = angular.copy($scope.allFronAndSalesList); 
+				 });
 				apiserviceConfigPage.getAllSalesPersonZipCode().then(function(data2){
 					console.log(data2);
 					$scope.editSalesZipData = data2;
 					
-					angular.forEach($scope.allFronAndSalesList, function(obj, index){
-						obj.zipCode = [];
-						obj.cityList = [];
-					});
-					
-					angular.forEach($scope.allFronAndSalesList, function(obj, index){
-						obj.manuCount = 0;
-						obj.premiumFlag = false;
-					});
-					angular.forEach($scope.allManufacturerList, function(obj, index){
-						obj.userData = angular.copy($scope.allFronAndSalesList); 
-					 });
 					$scope.zipCode ={};
 					
 					console.log(")))))))))))))000000000000000");
 					console.log($scope.allFronAndSalesList);
 					$scope.list = [];
 					var flag = 0;
-					
 					
 						angular.forEach($scope.allFronAndSalesList, function(obj, index){
 							angular.forEach($scope.editSalesZipData, function(obj1, index1){
