@@ -2101,10 +2101,40 @@ angular.module('newApp')
 	$scope.deleteMainColl = function(obj){
 		angular.forEach($scope.addMainCollFields, function(value, index){
 			if(obj == value){
-				$scope.addMainCollFields.splice(index,1);
+				if(value.id == null){
+					console.log("New Collection");
+					$scope.addMainCollFields.splice(index,1);
+				}else{
+					console.log("Old Collection");
+					$scope.deleteObj = value;
+					$scope.delInd = index;
+					$('#deletePop').modal('show');
+				}
 			}
 		});
 		setTimeout(function(){$scope.$apply();},100);
+	};
+	
+	$scope.deletMainCollection = function(){
+		console.log($scope.deleteObj);
+		apiserviceConfigPage.deleteOneMainCollection($scope.deleteObj).then(function(data){
+			console.log(data);
+			if(data=='error'){
+				$.pnotify({
+				    title: "Error",
+				    type:'success',
+				    text: "Can't delete this main collection.",
+				});
+			}else{
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Main collection delete successfully.",
+				});
+				$scope.addMainCollFields.splice($scope.delInd,1);
+			}
+		});
+		$('#deletePop').modal('hide');
 	};
 	
 	$scope.changeFlagOfColl = function(){

@@ -1891,13 +1891,21 @@ public class ConfigPagesController extends Controller{
 				
 	    		Form<InventorySettingVM> form = DynamicForm.form(InventorySettingVM.class).bindFromRequest();
 	    		InventorySettingVM vm = form.get();
-	    		deleteMainCollectionType();
+	    		//deleteMainCollectionType();
 	    		for(InventorySettingVM inven:vm.addMainCollFields){
-	    			InventorySetting inventory = new InventorySetting();
-	    			inventory.collection = inven.collection;
-	    			inventory.enableInven = true;
-	    			inventory.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
-	    			inventory.save();
+	    			if(inven.id == null){
+	    				InventorySetting inventory = new InventorySetting();
+		    			inventory.collection = inven.collection;
+		    			inventory.enableInven = true;
+		    			inventory.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    			inventory.save();
+	    			}else{
+	    				InventorySetting inventory = InventorySetting.findById(inven.id);
+		    			inventory.setCollection(inven.collection);
+		    			inventory.setEnableInven(inven.enableInven);
+		    			inventory.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+		    			inventory.update();
+	    			}	    			
 	    		}
 	    			
 	    		return ok();
@@ -1909,6 +1917,19 @@ public class ConfigPagesController extends Controller{
 					delList.delete();
 				}
 				return ok();
+			}
+		   
+		   public static Result deleteOneMainCollection(){
+		    	Form<InventorySettingVM> form = DynamicForm.form(InventorySettingVM.class).bindFromRequest();
+	    		InventorySettingVM vm = form.get();	    		
+	    		try {
+					InventorySetting inv = InventorySetting.findById(vm.id);
+					inv.delete();
+					return ok();
+				} catch (Exception e) {
+					e.printStackTrace();
+					return ok("error");
+				}	    		
 			}
 		    
 		    public static Result deleteMainCollection(){

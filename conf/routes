@@ -60,6 +60,7 @@ GET   /getAllLeadData			controllers.ConfigPagesController.getAllLeadData()
 GET   /getAllSalesPersons			controllers.ConfigPagesController.getAllSalesPersons()
 GET   /getAllInventoryData			controllers.ConfigPagesController.getAllInventoryData()
 POST   /deleteMainCollection			controllers.ConfigPagesController.deleteMainCollection()
+POST   /deleteOneMainCollection			controllers.ConfigPagesController.deleteOneMainCollection()
 GET   /allFormName			controllers.ConfigPagesController.allFormName()
 GET   /showEditData/:id			controllers.ConfigPagesController.showEditData(id:Long)
 # Map static resources from the /public folder to the /assets URL path

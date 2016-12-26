@@ -838,4 +838,13 @@ angular.module('app.apiserviceConfigPage', [])
 		});
 		return defer.promise;
 	};
+	
+	this.deleteOneMainCollection=function(addMainCollFields){
+		var defer = $q.defer();
+		$http.post('/deleteOneMainCollection',addMainCollFields).success(function(data) {
+			
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 })
