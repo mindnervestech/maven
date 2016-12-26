@@ -1367,16 +1367,16 @@ angular.module('newApp')
 			});
 		}else{
 			apiserviceConfigPage.getAllFrontAndSalesPer(type).then(function(data1){
-				$scope.allFronAndSalesList =data1.authUser;
+				$scope.allFronAndSalesList =data1;
 				angular.forEach($scope.allFronAndSalesList, function(obj, index){
 					obj.zipCode = [];
 					obj.cityList = [];
 				});
 				
-			//	apiserviceConfigPage.getAllSalesPersonZipCode().then(function(data2){
-				//	console.log(data2);
-					$scope.editSalesZipData = data1.zipcodeList;
-					
+				apiserviceConfigPage.getAllSalesPersonZipCode().then(function(data2){
+					console.log(data2);
+					//$scope.editSalesZipData = data1.zipcodeList;
+				$scope.editSalesZipData = data2;
 					$scope.zipCode ={};
 					
 					console.log(")))))))))))))000000000000000");
@@ -1414,7 +1414,7 @@ angular.module('newApp')
 					
 					$scope.msgShow($scope.allFronAndSalesList);
 					
-				//});
+				});
 			});
 		}
 		
