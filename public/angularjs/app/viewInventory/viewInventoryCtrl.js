@@ -1,5 +1,25 @@
 angular.module('newApp')
 .controller('viewInventoryCtrl', ['$scope','$http','$location','$filter','$upload','apiserviceViewInventory', function ($scope,$http,$location,$filter,$upload,apiserviceViewInventory) {
+	
+	
+	$scope.addObj = "collection";
+	$scope.getAllInventory = function(){
+		apiserviceViewInventory.getAllInventoryData().then(function(data){
+			console.log(data);
+			$scope.allCollectionDate = data;
+		});
+	}
+	
+	$scope.getAllInventory();
+	
+	$scope.getCollectionData = function(obj){
+		console.log(obj);
+	};
+	$scope.changeOption = function(obj){
+		$scope.addObj = obj;
+	};
+	
+	
 	$scope.tempDate = new Date().getTime();
 	$scope.type = "All";
 	$scope.vType;
@@ -770,7 +790,9 @@ $scope.deleteVehicleRowPer = function() {
 	}
 	
 	$scope.addManufacturers = function(){
-		$location.path('/addManufacturers');
+		if($scope.addObj == 'collection'){
+			$location.path('/addManufacturers');
+		}
 		
 	}
 	

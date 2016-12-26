@@ -1,44 +1,48 @@
 <div ng-init = viewVehiclesInit();>
     
     <input type="file" id="uploadId" name="logoFile" ng-file-select="onLogoFileSelect($files)" style="visibility: hidden; width: 1px; height: 1px" accept="image/*"/>
-    <div class="col-sm-12">
-    <div class="col-sm-10">
-    </div>
-    <!-- <div class="col-sm-4">
-    </div> -->
-    	<div class="col-sm-2">
-    		<button ng-sec="Only View Inventory" type="button" id="comparisonSale" class="btn btn-blue"  ng-click="addManufacturers()">+ ADD</button>
-    	</div>
-   
+      
 </div>		
     <tabset class="nav-tabs2">
-                                <tab>
-                                    <tab-heading>
-                                        <button type="button"  class="btn btn-blue" ng-click="newlyArrivedTab()">Current Manufacturers</button>
-                                    </tab-heading>
-								    
-    							</tab>
-    							<tab>
-                                    <tab-heading>
-                                        <button type="button" id="soldBtn" class="btn btn-blue" ng-click="soldTab()">Deleted</button>
-                                    </tab-heading>
-                               </tab>   
-                                <tab>
-                                    <tab-heading>
-                                        <button type="button" class="btn btn-blue" ng-click="draftTab()">Drafts</button>
-                                    </tab-heading>
-                               </tab> 
-                               <!-- <tab ng-repeat="item in addMainCollFields">
-                                    <tab-heading>
-                                        <button  type="button" class="btn btn-blue">{{item.collection}}</button>
-                                    </tab-heading>
-                               </tab>   -->  
-                                <!-- <tab>
-                                    <tab-heading>
-                                        <button type="button" class="btn btn-blue" ng-click="allCollectionData()">Collection</button>
-                                    </tab-heading>
-                               </tab> -->    
-     </tabset>
+            <tab ng-repeat="coll in allCollectionDate">
+                <tab-heading>
+                    <button type="button" class="btn btn-blue" ng-click="getCollectionData(coll)">{{coll.collection}}</button>
+                </tab-heading>
+			    
+			</tab>
+                                  
+     </tabset>   
+     <tabset class="nav-tabs2">
+            <tab>
+                <tab-heading>
+                    <button type="button"  class="btn btn-blue" ng-click="newlyArrivedTab()">Collection</button>
+                </tab-heading>			    
+			</tab>
+			<tab>
+                <tab-heading>
+                    <button type="button"  class="btn btn-blue" >Product</button>
+                </tab-heading>			    
+			</tab>
+			<tab>
+                <tab-heading>
+                    <button type="button" id="soldBtn" class="btn btn-blue" ng-click="soldTab()">Deleted</button>
+                </tab-heading>
+           </tab>   
+            <tab>
+                <tab-heading>
+                    <button type="button" class="btn btn-blue" ng-click="draftTab()">Drafts</button>
+                </tab-heading>
+           </tab> 
+           <tab style="float:right;">
+                <tab-heading>
+                	<select ng-model="addObj" ng-change="changeOption(addObj)">
+                		<option value="collection">Collection</option>
+                		<option value="product">Product</option>
+                	</select>
+                    <button ng-sec="Only View Inventory" type="button" id="comparisonSale" class="btn btn-blue" ng-click="addManufacturers()">+ ADD</button>
+                </tab-heading>
+           </tab>                                  
+     </tabset>    
      <div  ng-if="doPublic == 0"><div id="grid1" ui-grid="gridOptions" class="grid"  style="height:500px;" ui-grid-edit ui-grid-pagination>
 	</div></div>         
        <div ng-if="doPublic == 1"><div id="grid1" ui-grid="gridOptions1" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-draggable-rows>
@@ -414,7 +418,11 @@
 <style>
 .green {color: red;background-color:yellow !important;}
 </style>    
-
+<script>
+	/*$(document).ready(function(){
+	    $('.selectpicker').selectpicker();
+	});*/
+</script>
 
 <!-- <div ng-init = viewInit();>
     

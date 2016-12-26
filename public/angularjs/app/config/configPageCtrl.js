@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$upload','$routeParams','apiserviceConfigPage','$window', function ($scope,$http,$location,$filter,$upload,$routeParams,apiserviceConfigPage,$window) {
+.controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$upload','$routeParams','apiserviceConfigPage','$window','$route', function ($scope,$http,$location,$filter,$upload,$routeParams,apiserviceConfigPage,$window,$route) {
 	$scope.premium = {};
 	
 	$scope.realese = {};
@@ -2052,6 +2052,7 @@ angular.module('newApp')
 		$scope.obj = {addMainCollFields:$scope.addMainCollFields};
 		apiserviceConfigPage.saveMainCollect($scope.obj).then(function(data){
 			console.log(data);
+			$window.location.reload();
 		});
 	}
 	
@@ -2065,6 +2066,7 @@ angular.module('newApp')
 		$scope.obj = {addMainCollFields:$scope.addMainCollFields};
 		apiserviceConfigPage.deleteMainCollection($scope.obj).then(function(data){
 			console.log(data);
+			$window.location.reload();
 		});
 		$('#collectionPopup').modal('hide');
 	}
