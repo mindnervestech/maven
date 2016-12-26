@@ -681,10 +681,10 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
-	this.getAllFrontAndSalesPer=function(){
+	this.getAllFrontAndSalesPer=function(type){
 		var defer = $q.defer();
 		
-		$http.get('/getAllFrontAndSalesPer').success(function(data) {
+		$http.get('/getAllFrontAndSalesPer/'+type).success(function(data) {
 			defer.resolve(data);
 		});
 

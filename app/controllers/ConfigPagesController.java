@@ -629,9 +629,18 @@ public class ConfigPagesController extends Controller{
 				return ok(Json.toJson(manufact)); 
 			}
 		 
-		 public static Result getAllFrontAndSalesPer() {
-				List<AuthUser> frontAndSales = AuthUser.getAllSalesAndFrontUser();
-				return ok(Json.toJson(frontAndSales)); 
+		 public static Result getAllFrontAndSalesPer(String type) {
+			 List<AuthUser> authuser = AuthUser.getAllSalesAndFrontUser();
+			 if(!type.equals("Zip Code")){
+					return ok(Json.toJson(authuser)); 
+			 }else{
+				 List<SalesPersonZipCode> zipcode = SalesPersonZipCode.getAllcustManufactList();
+				 Map<String, Object> map = new HashMap<String, Object>();
+				 map.put("authUser", authuser);
+				 map.put("zipcodeList", zipcode);
+				 return ok(Json.toJson(map));
+			 }
+				
 			}
 		 public static Result getAllCustomerManufacturer() {
 				List<CustomerRequestManufacturerSettings> frontAndSales = CustomerRequestManufacturerSettings.getAllcustManufactList();
