@@ -631,15 +631,15 @@ public class ConfigPagesController extends Controller{
 		 
 		 public static Result getAllFrontAndSalesPer(String type) {
 			 List<AuthUser> authuser = AuthUser.getAllSalesAndFrontUser();
-			 if(!type.equals("Zip Code")){
+			// if(!type.equals("Zip Code")){
 					return ok(Json.toJson(authuser)); 
-			 }else{
+			 /*}else{
 				 List<SalesPersonZipCode> zipcode = SalesPersonZipCode.getAllcustManufactList();
 				 Map<String, Object> map = new HashMap<String, Object>();
 				 map.put("authUser", authuser);
 				 map.put("zipcodeList", zipcode);
 				 return ok(Json.toJson(map));
-			 }
+			 }*/
 				
 			}
 		 public static Result getAllCustomerManufacturer() {
