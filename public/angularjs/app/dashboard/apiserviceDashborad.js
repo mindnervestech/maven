@@ -935,13 +935,22 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	/*this.getAllSalesPersonScheduleTestAssigned = function(id){
+	this.getAllSalesPersonScheduleTestAssigned = function(id){
 		var defer = $q.defer();
 		$http.get('/getAllSalesPersonScheduleTestAssigned/'+id).success(function(data) {
 			defer.resolve(data);
 		});
 		return defer.promise;
-	};*/
+	};
+	
+	this.setApplointmentComp = function(appoint){
+		var defer = $q.defer();
+		$http.post("/setApplointmentComp",appoint).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
 	
 	/*this.getAllSalesPersonRequestInfoSeen = function(id){
 		var defer = $q.defer();

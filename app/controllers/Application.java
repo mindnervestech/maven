@@ -14315,7 +14315,7 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     
-   /* public static Result getAllSalesPersonScheduleTestAssigned(Integer id){
+    public static Result getAllSalesPersonScheduleTestAssigned(Integer id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
@@ -14326,214 +14326,23 @@ private static void cancelTestDriveMail(Map map) {
     			user = AuthUser.findById(id);
     		}
 	    	
-	    	List<ScheduleTest> listData = ScheduleTest.findAllAssigned(user);
+	    	//List<ScheduleTest> listData = ScheduleTest.findAllAssigned(user);
 	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllScheduledUser(user);
-	    	List<TradeIn> tradeIns = TradeIn.findAllScheduledUser(user);
+	    	//List<TradeIn> tradeIns = TradeIn.findAllScheduledUser(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	Calendar time = Calendar.getInstance();
-	    	for(ScheduleTest info: listData) {
-	    		RequestInfoVM vm = new RequestInfoVM();
-	    		vm.id = info.id;
-	    		Inventory product = Inventory.getByProductId(info.productId);
-	    		vm.productId = info.productId;
-	    		if(product != null) {
-	    			vm.title = product.title;
-	    			vm.price = (int) product.price;
-	    			InventoryImage pImage = InventoryImage.getDefaultImage(product.productId);
-	        		if(pImage!=null) {
-	        			vm.imgId = pImage.getId().toString();
-	        		}
-	        		else {
-	        			vm.imgId = "/assets/images/no-image.jpg";
-	        		}
-	    		}
-	    		vm.name = info.name;
-	    		vm.phone = info.phone;
-	    		vm.email = info.email;
-	    		
-	    		if(info.bestDay != null){
-	    			String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[2]+"-"+chaArr[1]+"-"+chaArr[0];
-	    			//vm.bestDay = info.bestDay;
-	    		}	
-	    		vm.bestTime = info.bestTime;
-	    		vm.custZipCode = info.custZipCode;
-	    		vm.enthicity = info.enthicity;
-	    		vm.typeOfLead = "Schedule Test Drive";
-	    		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
-	    		Integer nFlag =0;
-	    		List<NoteVM> list = new ArrayList<>();
-	    		for(UserNotes noteObj :notesList) {
-	    			NoteVM obj = new NoteVM();
-	    			obj.id = noteObj.id;
-	    			obj.note = noteObj.note;
-	    			obj.action = noteObj.action;
-	    			obj.date = df.format(noteObj.createdDate);
-	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory != null){
-	    				if(noteObj.saveHistory.equals(1)){
-	        				nFlag = 1;
-	        			}
-	    			}
-	    			list.add(obj);
-	    		}
-	    		vm.note = list;
-	    		vm.noteFlag = nFlag;
-	    		if(info.getConfirmDate() != null) {
-	    			String chaArr[] = df.format(info.getConfirmDate()).split("-");
-	    			vm.confirmDate = chaArr[2]+"-"+chaArr[1]+"-"+chaArr[0];
-	    		}
-	    		
-	    		if(info.getConfirmTime() != null) {
-	    			time.setTime(info.getConfirmTime());
-	    			String ampm = "";
-	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
-	    				ampm = "PM";
-	    			} else {
-	    				ampm = "AM";
-	    			}
-	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
-	    		}
-	    		if(info.scheduleDate != null){
-	    			vm.requestDate = df.format(info.scheduleDate);
-	    		}
-	    		if(info.isRead == 0) {
-	    			vm.isRead = false;
-	    		}
-	    		
-	    		if(info.isRead == 1) {
-	    			vm.isRead = true;
-	    		}
-	    		vm.option = 0;
-	    		
-	    		findCustomeData(info.id,vm,2L);
-	    		
-	    		findSchedulParentChildAndBro(infoVMList, info, df, vm);
-	    		
-	    		
-	    	}
-	    	
-	    	for(TradeIn info: tradeIns) {
-	    		RequestInfoVM vm = new RequestInfoVM();
-	    		vm.id = info.id;
-	    		Inventory product = Inventory.getByProductId(info.productId);
-	    		vm.productId = info.productId;
-	    		if(product != null) {
-	    			vm.title = product.title;
-	    			vm.price = (int) product.price;
-	    			InventoryImage pImage = InventoryImage.getDefaultImage(product.productId);
-	        		if(pImage!=null) {
-	        			vm.imgId = pImage.getId().toString();
-	        		}
-	        		else {
-	        			vm.imgId = "/assets/images/no-image.jpg";
-	        		}
-	    		}
-	    		vm.name = info.firstName;
-	    		vm.phone = info.phone;
-	    		vm.email = info.email;
-	    		vm.custZipCode = info.custZipCode;
-	    		vm.enthicity = info.enthicity;
-	    		vm.pdfPath = info.pdfPath;
-	    		if(info.bestDay != null){
-	    			vm.bestDay = info.bestDay;
-	    		}
-	    		vm.bestTime = info.bestTime;
-	    		vm.typeOfLead = "Trade-In Appraisal";
-	    		
-	    		LeadVM lVm = new LeadVM();
-	    		lVm.id = info.id.toString();
-    			lVm.comments = info.comments;
-    		if(info.year != null){
-    			if(!info.year.equals("null")){
-	    			lVm.year = info.year;
-	    		}
-    		}
-    		
-    		
-    			lVm.rentalReturn = info.leaseOrRental;
-    		
-    			lVm.odometerAccurate = info.operationalAndAccurate;
-    	
-    			lVm.serviceRecords = info.serviceRecord;
-    			lVm.lienholder = info.lienholder;
-    			lVm.prefferedContact = info.preferredContact;
-    			lVm.equipment = info.equipment;
-    			lVm.paint = info.paint;
-    			lVm.salvage = info.salvage;
-    			lVm.damage = info.damage;
-	    			lVm.titleholder = info.holdsThisTitle;
-	    			lVm.prefferedContact = info.preferredContact;
-	    			
-	    			
-	    			List<String> sList = new ArrayList<>();
-	    			String arr[] =  info.optionValue.split(",");
-	    			for(int i=0;i<arr.length;i++){
-	    				sList.add(arr[i]);
-	    			}
-	    			lVm.options = sList;
-	    			
-	    		vm.leadsValue = lVm;	
-	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
-	    		Integer nFlag = 0;
-	    		List<NoteVM> list = new ArrayList<>();
-	    		for(UserNotes noteObj :notesList) {
-	    			NoteVM obj = new NoteVM();
-	    			obj.id = noteObj.id;
-	    			obj.note = noteObj.note;
-	    			obj.action = noteObj.action;
-	    			obj.date = df.format(noteObj.createdDate);
-	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory != null){
-	    				if(noteObj.saveHistory.equals(1)){
-	        				nFlag = 1;
-	        			}
-	    			}	    			list.add(obj);
-	    		}
-	    		vm.note = list;
-	    		vm.noteFlag = 0;
-	    		if(info.getConfirmDate() != null) {
-	    			vm.confirmDate = df.format(info.getConfirmDate());
-	    		}
-	    		
-	    		if(info.getConfirmTime() != null) {
-	    			time.setTime(info.getConfirmTime());
-	    			String ampm = "";
-	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
-	    				ampm = "PM";
-	    			} else {
-	    				ampm = "AM";
-	    			}
-	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
-	    		}
-	    		if(info.scheduleDate != null){
-	    			vm.requestDate = df.format(info.scheduleDate);
-	    		}
-	    		if(info.isRead == 0) {
-	    			vm.isRead = false;
-	    		}
-	    		
-	    		if(info.isRead == 1) {
-	    			vm.isRead = true;
-	    		}
-	    		vm.option = 2;
-	    		
-	    		
-	    		findTreadParentChildAndBro(infoVMList, info, df, vm);
-	    		
-	    	}
-	    	
+	    
 	    	for(RequestMoreInfo info: requestMoreInfos) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Inventory product = Inventory.getByProductId(info.productId);
+	    		AddProduct product = AddProduct.findById(Long.parseLong(info.productId));
 	    		vm.productId = info.productId;
 	    		if(product != null) {
 	    			vm.title = product.title;
 	    			vm.price = (int) product.price;
-	    			InventoryImage pImage = InventoryImage.getDefaultImage(product.productId);
+	    			ProductImages pImage = ProductImages.findDefaultImg(product.id);
 	        		if(pImage!=null) {
 	        			vm.imgId = pImage.getId().toString();
 	        		}
@@ -14550,7 +14359,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			vm.bestDay = info.bestDay;
 	    		}
 	    		vm.bestTime = info.bestTime;
-	    		vm.typeOfLead = "Request More Info";
+	    		
 	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
@@ -14594,9 +14403,14 @@ private static void cancelTestDriveMail(Map map) {
 	    		if(info.isRead == 1) {
 	    			vm.isRead = true;
 	    		}
+	    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));
+	    		if(lType != null){
+	    			    vm.typeOfLead = lType.leadName;
+		    			Application.findCustomeData(info.id,vm,lType.id);
+	    		}
 	    		vm.option = 1;
-	    		
-	    		findRequestParentChildAndBro(infoVMList, info, df, vm);
+	    		infoVMList.add(vm);
+	    		//findRequestParentChildAndBro(infoVMList, info, df, vm);
 	    		
 	    		
 	    	}
@@ -14605,7 +14419,7 @@ private static void cancelTestDriveMail(Map map) {
     	}
     	
     	
-    }*/
+    }
     
     public static Result getAllSalesPersonContactUsSeen(Integer id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -15720,7 +15534,7 @@ private static void cancelTestDriveMail(Map map) {
 			requestMoreInfo.setPreferredContact(vm.prefferedContact);
 			requestMoreInfo.setScheduleDate(new Date());
 			requestMoreInfo.setUser(user);
-		//	requestMoreInfo.setIsScheduled(true);
+			requestMoreInfo.setIsScheduled(true);
 			if(msg.equals("success")){
 				requestMoreInfo.update();
 				if(vm.customData != null){
@@ -16203,6 +16017,56 @@ private static void cancelTestDriveMail(Map map) {
     		}
     		return ok();
     	}
+    }
+    
+    
+    public static Result setApplointmentComp(){
+    	Form<CloseLeadVM> form = DynamicForm.form(CloseLeadVM.class).bindFromRequest();
+		CloseLeadVM vm = form.get();
+		MultipartFormData bodys = request().body().asMultipartFormData();
+		AuthUser user = getLocalUser();
+		Date currDate = new Date();
+		
+		
+		//String arr[] = arrayString.split(",");
+		for(String value:vm.leadIds){
+			RequestMoreInfo info = RequestMoreInfo.findById(Long.parseLong(value));
+			
+			String vin=info.vin;
+			info.setStatus("COMPLETE");
+			info.setStatusDate(currDate);
+			info.setStatusTime(currDate);
+			info.update();
+			if(vm.customData != null){
+				saveCustomData(info.id,vm.customData,bodys,Long.parseLong(info.isContactusType));
+			}
+			
+			
+			/*if(info.confirmDate != null){
+				Map map = new HashMap();
+	    		map.put("email",clientEmail);
+	    		map.put("vin", vin);
+	    		map.put("uname", user.firstName+" "+user.lastName);
+	    		map.put("uphone", user.phone);
+	    		map.put("uemail", user.email);
+	    		map.put("clintName", info.name);
+				cancelTestDriveMail(map);
+    	    	  //sendEmail(clientEmail,subject,comments);
+    			}*/
+			
+    		UserNotes uNotes = new UserNotes();
+    		uNotes.setNote("product sold");
+    		uNotes.setAction("Other");
+    		uNotes.createdDate = currDate;
+    		uNotes.createdTime = currDate;
+    		uNotes.user = user;
+    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+    		uNotes.save();
+		}
+		
+		
+    	return ok();
     }
     
     public static Result restoreLead(Long id,String type){

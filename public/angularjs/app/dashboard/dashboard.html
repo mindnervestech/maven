@@ -4733,6 +4733,7 @@ float: right !important;
         	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 			    <ul id="myTabs" class="nav nav-tabs" role="tablist">
 			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:15px;margin-right: 0px;" ng-click="showLeadsDrive()">Leads</button><span class="badge badge-header" style="border-radius: 17px / 17px;background-color: red;font-size: 14px;" ng-if="lengthOfAllLead >= 1"><b>{{lengthOfAllLead}}</b></span></a></li>
+			       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="schedultestDrive()">My Appointmetns</button></a></li> 
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-show="userType == 'General Manager' || userType == 'Manager'" ng-click="canceledLeads()">Canceled Leads</button></a></li>
 			       
 			       <li role="presentation" class="" style="float: right;"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="showLeadsArchive()">Archive</button></a></li>
@@ -4744,6 +4745,7 @@ float: right !important;
                         <li ng-if="cancelleads" role="presentation" class="" style="margin-top: -15px;float: right;"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="exportCsvPopCanceled()">Export CSV</button></li>
                         <li ng-if="showLeadsV" role="presentation" class="" style="margin-top: -15px;float: right;"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="exportCsvPopArchive()">Export CSV Archive</button></li>       
 			    </ul>
+			    
 				    <div id="myTabContent" class="tab-content" ng-if="showAllTypeLeads" style="background-color: white;">
 				      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 				        
@@ -4752,6 +4754,7 @@ float: right !important;
 			      			<li role="presentation" class="" ng-repeat="lead in leadList"><a role="tab" id="home" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="otherLeadId(lead.id)">{{lead.leadName}}</a></li>
 			      			<li  role="presentation" class="" style="margin-top: -15px;float: right;"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="exportCsvPop()">Export CSV</button></li>
 			    		</ul>
+			    		
 				         <ul style="margin-top:4px;" ng-if="(allLeadd == true || otherLeads == true) && (actionSelectedLead.length >= 1)">
 				         		<button class="btn btn-primary" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;" ng-click="soldScheduleStatus(actionSelectedLeadObj)">SOLD</button>
 				         		<button class="btn btn-primary" ng-click="addNoteToRequestUser(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">HISTORY</button>
@@ -4771,6 +4774,8 @@ float: right !important;
 							<div ng-if="allLeadd" ui-grid="gridOptions7" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 							<div class="watermark" ng-show="!gridOptions7.data.length" >No Leads has been added</div>
 											</div>	
+											
+									
 							
 							<div ng-if="otherLeads" ui-grid="gridOptions13" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 							<div class="watermark" ng-show="!gridOptions13.data.length" >No Leads has been added</div>
@@ -4793,7 +4798,9 @@ float: right !important;
 				        	<div ng-if="cancelleads" ui-grid="gridOptions4" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 												</div>
 							<div ng-if="showLeadsV" ui-grid="gridOptions6" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-												</div>																
+												</div>		
+			    		  <div ng-if="testdrv" ui-grid="gridOptions2" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+							<div class="watermark" ng-show="!gridOptions2.data.length" >No Leads has been added</div> 	 																			
 				      </div>
 				      
 				    </div>
@@ -6073,6 +6080,28 @@ float: right !important;
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
 								                    <button type="submit" class="btn btn-primary btn-embossed">Yes</button>
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div>
+								    <div class="modal fade" id="appointmentCompleted" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" id="requestCancelBtn" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">appointment Completed</h4>
+								                </div>
+								                <form ng-submit="saveAppointmentCompleted()">
+								                <div class="modal-body">
+								                     <div ng-if="appointmentFlag" class="col-md-12" style="margin-top: 32px;">
+								                				<formly-form model="customData" fields="userFields">
+  																</formly-form>
+								                    	</div> 
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
 								                </div>
 								                </form>
 								            </div>

@@ -1569,7 +1569,7 @@ angular.module('newApp')
     				 		                                 },
     	    	     		                                 ];*/
     	 		
-    			/* $scope.gridOptions2 = {
+    			 $scope.gridOptions2 = {
      			 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
      			 		    paginationPageSize: 150,
      			 		    enableFiltering: true,
@@ -1579,74 +1579,57 @@ angular.module('newApp')
      			 		 $scope.gridOptions2.enableHorizontalScrollbar = 2;
      			 		 $scope.gridOptions2.enableVerticalScrollbar = 2;
      			 		 $scope.gridOptions2.columnDefs = [
-                 											{ name: 'title', displayName: 'Title', width:'14%',cellEditableCondition: false,
-    														  	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.title}}</a> ',
-    														  	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-    														         if (row.entity.noteFlag != 1) {
-    														           return 'red';
-    														         }
-    														  	} ,
-    														   },
-    														   { name: 'collectionName', displayName: 'Collection Name', width:'8%',cellEditableCondition: false,
-    														  	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.collectionName}}</a> ',
-    														  	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-    														          if (row.entity.noteFlag != 1) {
-    														            return 'red';
-    														        }
-    														  	} ,
-    														   },
-    														   { name: 'price', displayName: 'Price', width:'10%',cellEditableCondition: false,
-    														  	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.price}}</a> ',
-    														  	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-    														          if (row.entity.noteFlag != 1) {
-    														            return 'red';
-    														        }
-    														  	} ,
-    														   },
-     			 		                                      			 		                                 
-     			 		                                 { name: 'name', displayName: 'Name', width:'6%',cellEditableCondition: false,
-     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
-     					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     				  		                                       if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
-     				  		                                         return 'red';
-     				  		                                     }
-     				 		                                	} ,
-     			 		                                 },
-     			 		                                 { name: 'phone', displayName: 'Phone', width:'6%',cellEditableCondition: false,
-     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.phone}}</a> ',
-     			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     			   		                                       if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
-     			   		                                         return 'red';
-     			   		                                     }
-     			  		                                	} ,
-     			 		                                 },
-     			 		                                 { name: 'email', displayName: 'Email', width:'7%',cellEditableCondition: false,
-     			 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
-     			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     			   		                                       if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
-     			   		                                         return 'red';
-     			   		                                     }
-     			  		                                	} ,
-     			 		                                 },
-     			 		                               
-     			 		                               { name: 'bestDay', displayName: 'Date Added', width:'8%',cellEditableCondition: false,
-     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.bestDay}}</a> ',
-      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-      			   		                                       if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
-      			   		                                         return 'red';
-      			   		                                     }
-      			  		                                	} ,
-      					                                 },
-      					                                 { name: 'bestTime', displayName: 'Requested Time', width:'8%',cellEditableCondition: false,
-      					                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.bestTime}}</a> ',
-      					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-      				  		                                       if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
-      				  		                                         return 'red';
-      				  		                                     }
-      				 		                                	} ,
-      			 		                                 },
+     			 		                             	{ name: 'name', displayName: 'Name', width:'8%',cellEditableCondition: false,
+    													 	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.name}}" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
+    														 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    															 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+    													               return 'red';
+    													           }
+    													     	} ,
+    													  },
+    													  { name: 'phone', displayName: 'Phone', width:'10%',cellEditableCondition: false,
+    													     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.phone}}">{{row.entity.phone}}</a> ',
+    													     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    													     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+    													                return 'red';
+    													            }
+    													      	} ,
+    													      },
+    													      { name: 'custZipCode', displayName: 'ZipCode', width:'10%',cellEditableCondition: false,
+    														     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.custZipCode}}">{{row.entity.custZipCode}}</a> ',
+    														     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    														     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+    														                return 'red';
+    														            }
+    														      	} ,
+    														      },   
+    													 	
+	    													  { name: 'email', displayName: 'Email', width:'10%',cellEditableCondition: false,
+	    													 	cellTemplate:'<a  href="mailto:{{row.entity.email}}" title="{{row.entity.email}}">{{row.entity.email}}</a> ',
+	    													 	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	    													 		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+	    													            return 'red';
+	    													        }
+	    													  	} ,
+	    													  },
+	    													{ name: 'bestDay', displayName: 'Date', width:'7%',cellEditableCondition: false,
+	    													 	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.bestDay}}" style="color: #5b5b5b;">{{row.entity.bestDay}}</a> ',
+	    													 	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	    													 		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+	    													             return 'red';
+	    													         }
+	    													   	} ,
+	    													   },
+	    													   { name: 'bestTime', displayName: 'Time', width:'7%',cellEditableCondition: false,
+		    													 	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.bestTime}}" style="color: #5b5b5b;">{{row.entity.bestTime}}</a> ',
+		    													 	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		    													 		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+		    													             return 'red';
+		    													         }
+		    													   	} ,
+		    													   },
      			 		                                
-     			     		                                 ];*/
+     			     		                                 ];
     	 		 
      			 		 
      			 	/*	$scope.gridOptions3 = {
@@ -2117,30 +2100,43 @@ angular.module('newApp')
    				 $scope.historyAddressBar = false;
    				 $scope.cancellingAddress = false;
    				 $scope.scheduleAddress = false;
+   				$scope.appointmentFlag = false;
    	  		  }else if(type == "createLead"){
    	  			 $scope.addAddress = true;
     			 $scope.editAddress = false;
     			 $scope.historyAddressBar = false;
     			 $scope.cancellingAddress = false;
     			 $scope.scheduleAddress = false;
+    			 $scope.appointmentFlag = false;
    	  		  }else if(type == "History Log"){
    	  			 $scope.addAddress = false;
   				 $scope.editAddress = false;
   				 $scope.historyAddressBar = true;
   				 $scope.cancellingAddress = false;
   				 $scope.scheduleAddress = false;
+  				$scope.appointmentFlag = false;
    	  		  }else if(type == "Canceling lead"){
    	  		     $scope.addAddress = false;
 				 $scope.editAddress = false;
 				 $scope.historyAddressBar = false;
 				 $scope.cancellingAddress = true;
 				 $scope.scheduleAddress = false;
+				 $scope.appointmentFlag = false;
    	  		  }else if(type == "Schedule lead"){
    	  			$scope.addAddress = false;
 				 $scope.editAddress = false;
 				 $scope.historyAddressBar = false;
 				 $scope.cancellingAddress = false;
+				 $scope.appointmentFlag = false;
 				 $scope.scheduleAddress = true;
+				 
+   	  		  }else if(type == "appointment"){
+   	  			$scope.addAddress = false;
+				 $scope.editAddress = false;
+				 $scope.historyAddressBar = false;
+				 $scope.cancellingAddress = false;
+				 $scope.scheduleAddress = false;
+				 $scope.appointmentFlag = true;
    	  		  }
    	  		
    	  	  }  
@@ -5179,18 +5175,19 @@ angular.module('newApp')
     		$scope.getAllLeadIn();
     		//$scope.requestMore();
     	}
-    	/*$scope.schedultestDrive = function(){
+    	$scope.schedultestDrive = function(){
     		$scope.showAllTypeLeads = false;
-    		$scope.schedTest = true;
-    		$scope.schedTestGrid = true;
     		$scope.reqMore = false;	
-        	$scope.testdrv = false;
+        	$scope.testdrv = true;
         	$scope.trdin = false;
         	$scope.allLeadd = false;
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
         	$scope.contact = false;
-    	}*/
+        	$scope.getScheduleData($scope.salesPerson).then(function(success){
+        		
+        	});
+    	}
     	
     	$scope.requestMore = function() {
     		$scope.otherLeads = false;
@@ -5483,62 +5480,104 @@ angular.module('newApp')
 		};
 	
 		
-		/*$scope.getScheduleData = function(id){
+		$scope.getScheduleData = function(id){
 			var deferred = $q.defer();
 			apiserviceDashborad.getAllSalesPersonScheduleTestAssigned(id).then(function(data){
-			
+			console.log(data);
+			console.log("=-=-=-=-============================================-000");
 			$scope.gridOptions2.data = data;
 			
 			$scope.gridMapObect = [];
 			var findFlag = 0;
-			angular.forEach($scope.gridOptions2.data,function(value,key){
-				if(findFlag == 0){
-					angular.forEach(value.customData,function(value1,key1){
-						$scope.gridMapObect.push({values: value1.value , key: value1.key});
-						findFlag = 1;
+			console.log($scope.josnData);
+			apiserviceDashborad.getCustomizationform('My Leads - Schedule an appointment').then(function(response){
+					$scope.josnData1 = angular.fromJson(response.jsonData);
+					angular.forEach($scope.josnData,function(value,key){
+						$scope.josnData1.push(value);
 					});
-				}
-			});
-			angular.forEach($scope.gridOptions2.data,function(value,key){
-				angular.forEach($scope.gridMapObect,function(value1,key1){
-					var name = value1.key;
-					name = name.replace(" ","");
-					value[name] = null;
-					angular.forEach(value.customData,function(value2,key2){
-						if(value1.key == value2.key){
-							value[name] = value2.value;
-						}
+					
+					
+					angular.forEach($scope.gridOptions2.data,function(value,key){
+						//if(findFlag == 0){
+							angular.forEach(value.customData,function(value1,key1){
+								angular.forEach($scope.josnData1,function(value2,key2){
+	   								if(value1.key == value2.key){
+   										if(value2.component == "daterange"){
+   											$scope.gridMapObect.push({values: value1.value , key: value1.key, label: "Start Date", component: value2.component});
+   											angular.forEach(value.customData,function(value3,key3){
+	   											if(value3.key == value1.key+"_endDate"){
+	   												$scope.gridMapObect.push({values: value3.value , key: value3.key, label: "End Date", component: value2.component});
+		   										}
+	   										});
+   										}else{
+   											$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
+   										}
+	   								}
+	   							});	
+							});
+						//}
 					});
-				});
-			});	
+					
+					
+					
+					angular.forEach($scope.gridOptions2.data,function(value,key){
+						angular.forEach($scope.gridMapObect,function(value1,key1){
+							var name = value1.key;
+							name = name.replace(" ","");
+							value[name] = null;
+							angular.forEach(value.customData,function(value2,key2){
+								if(value1.key == value2.key){
+									value[name] = value2.value;
+								}
+							});
+						});
+					});	
+									console.log($scope.gridMapObect);
+									var uniqueStandards = UniqueArraybyId($scope.gridMapObect ,"key");
+									$scope.gridMapObect = uniqueStandards;
+					angular.forEach($scope.gridMapObect,function(value,key){
+    					var name = value.key;
+    					
+    					$scope.flag = 1;
+    					name = name.replace(" ","");
+    					$scope.gridOptions2.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
+    		              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	    		              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+	    		                        return 'red';
+	    		                    }
+    		              	   } ,
+    		                 });
+    				   });
+					
+					
+					   $scope.gridOptions2.columnDefs.push({ name: 'complete', displayName: 'Complete', width:'7%',cellEditableCondition: false,
+	                   	cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doCheckBoxAction(row,row.entity.checkBoxSelect)" autocomplete="off">',
+	                   	
+	                    });
+					
+			      });
 			
-			angular.forEach($scope.gridMapObect,function(value,key){
-				var name = value.key;
-				name = name.replace(" ","");
-				$scope.gridOptions2.columnDefs.push({ name: name, displayName: name, width:'10%',cellEditableCondition: false,
-	              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-	              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
-	                        return 'red';
-	                    }
-	              	} ,
-	               });
-			});
 			
-			$scope.gridOptions2.columnDefs.push({ name: 'isRead', displayName: 'Confirm',enableFiltering: false, width:'10%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+			
+		
+			
+			
+			
+			/*$scope.gridOptions2.columnDefs.push({ name: 'isRead', displayName: 'Confirm',enableFiltering: false, width:'10%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
              	 cellTemplate:'<div class="icheck-list"ng-show="grid.appScope.userType != \'\'" ></div><button type="button" ng-click="grid.appScope.confirmDateTime(row.entity)"ng-show="grid.appScope.userType != \'\'"ng-show="row.entity.isRead" data-toggle="modal" data-target="#modal-basic" class="btn btn-sm btn-primary" style="margin-top:2%;" ng-click="confres()">Confirm/Reschedule</button>', 
              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
                      if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
                        return 'red';
                    }
              	} ,
-              },{ name: 'btnSold', displayName: '',enableFiltering: false, width:'30%',cellEditableCondition: false,
+              }*//*,{ name: 'btnSold', displayName: '',enableFiltering: false, width:'30%',cellEditableCondition: false,
               	cellTemplate:'<button type="button" ng-click="grid.appScope.soldScheduleStatus(row.entity)" ng-show="grid.appScope.userType != \'\'"class="btn btn-sm btn-primary" style="margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelScheduleStatus(row.entity)" ng-show="grid.appScope.userType != \'\'"class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'scheduleTest\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.createContact(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">ADD TO CLIENTELE</button><button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button>',
               	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
                         if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
                           return 'red';
                       }
                 	} ,
-                });
+                }*///);
 			
 			
 			
@@ -5560,7 +5599,7 @@ angular.module('newApp')
 				}
 		    });
 			return deferred.promise;
-		};*/
+		};
 		
 		$scope.gridMapObect = [];
 	/*	$scope.getRequestData = function(id){
@@ -5635,6 +5674,79 @@ angular.module('newApp')
 		   });
 			return deferred.promise;
 		};*/
+		
+		$scope.completeAppoint = [];
+		$scope.doCheckBoxAction = function(row,value){
+			console.log(value);
+			console.log(row.entity);
+			$scope.completeAppoint.push(row.entity.id);
+			 $scope.showFomeD("appointment"); 
+			 $scope.getFormDesign("Appointment Completed").then(function(response){
+	    			console.log(response);
+	    			$scope.userFields = $scope.addFormField($scope.userList);
+	    		});
+			 $("#appointmentCompleted").modal("show");
+			
+		}
+		
+		$scope.saveAppointmentCompleted = function(){
+			   $scope.appointObject = {};
+			    $scope.multiSelectBindWithCustomData();
+	    		console.log($scope.customData);
+	    		console.log($scope.completeAppoint.toString());
+	    				
+	    				$scope.josnData = null;
+	    				apiserviceDashborad.getCustomizationform('Appointment Completed').then(function(response){
+	    					$scope.josnData = angular.fromJson(response.jsonData);
+	    					angular.forEach($scope.josnData, function(obj, index){
+	    						obj.formName = "Appointment Completed";
+	    	    			});
+	    					if(response.additionalData == true){
+	    						angular.forEach(angular.fromJson(response.jsonDataAdd), function(obj, index){
+	        						obj.formName = "Appointment Completed";
+	        						$scope.josnData.push(obj);
+	       	    				});
+	    					}
+	    					console.log("()()()(0");
+	    					console.log($scope.josnData);
+	    					console.log($scope.customData);
+	    					var oneProduct = 0;
+	    					
+	    					
+	    					$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
+	    						$scope.customList = response;
+	    					});
+	    					
+	    					
+	    				console.log($("#bestTimes").val());
+	        			console.log($scope.customData);
+	        			console.log($scope.customList);
+	        			
+	        			console.log($scope.leadDetId);
+	        			
+	        			 $scope.appointObject.leadIds = $scope.completeAppoint;
+	        			 $scope.appointObject.customData = $scope.customList;
+	    	    		console.log($scope.appointObject);
+	    						apiserviceDashborad.setApplointmentComp($scope.appointObject).then(function(data){
+	    		    	    		 $.pnotify({
+	    		    					    title: "Success",
+	    		    					    type:'success',
+	    		    					    text: "Successfully",
+	    		    					});
+	    		    	    		 $("#appointmentCompleted").modal("hide");
+	    		    	    		 $scope.schedulmultidatepicker();
+	    		    	    		 $scope.getScheduleData($scope.salesPerson).then(function(success){
+	    		    	    			 
+	    		    	    		 });
+	    		    				});
+	    		    	    	  	/*if($scope.actionSelectedLead.length == $scope.scheduLeadId.length){
+	    		    	    	  		$('#scheduleCancelBtn').click();
+	    		  						$route.reload();
+	    		    	    	  }*/
+	    					
+	    	    	
+	      	  		});
+		}
 		
 		$scope.getOtherLeadInfo = function(id){
 			var deferred = $q.defer();
