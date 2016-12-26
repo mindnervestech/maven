@@ -1338,20 +1338,7 @@ angular.module('newApp')
 		});
 	}
 	
-	apiserviceConfigPage.getAllCustomerReqData().then(function(data){
-		console.log(data);
-		$scope.customerReq = data;
-		if($scope.customerReq.redirectValue == "Automatically redirect an online customer requests based on"){
-			$scope.customerReq.priceValue = $scope.customerReq.personValue;
-		}
-		if(data.users != null){
-			$scope.customerReq.userId = data.users.id;
-		}
-		
-		console.log($scope.customerReq);
-		$scope.salesId = $scope.customerReq.id;
-		console.log($scope.salerPerFirstName);
-	});
+	
 	
 	apiserviceConfigPage.getAllCustomerManufacturer().then(function(data){
 		console.log(data);
@@ -1366,6 +1353,20 @@ angular.module('newApp')
 	
 	$scope.initCustomerRequ = function(){
 		console.log("000000000000000--------------");
+		apiserviceConfigPage.getAllCustomerReqData().then(function(data){
+			console.log(data);
+			$scope.customerReq = data;
+			if($scope.customerReq.redirectValue == "Automatically redirect an online customer requests based on"){
+				$scope.customerReq.priceValue = $scope.customerReq.personValue;
+			}
+			if(data.users != null){
+				$scope.customerReq.userId = data.users.id;
+			}
+			
+			console.log($scope.customerReq);
+			$scope.salesId = $scope.customerReq.id;
+			console.log($scope.salerPerFirstName);
+		});
 		
 		apiserviceConfigPage.getAllManufacturer().then(function(data){
 			$scope.allManufacturerList =data;
