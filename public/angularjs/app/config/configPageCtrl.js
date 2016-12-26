@@ -1940,7 +1940,23 @@ angular.module('newApp')
 	}
 	
 	$scope.SaveZipCodeData = function(){
-		$scope.saveRedirectToAll();
+		//$scope.saveRedirectToAll();
+		
+			console.log($scope.listAll);
+			console.log($scope.salesPersonList);
+			console.log($scope.realese.allSalesPeople);
+			var priceFlag = 0;
+			
+			if(priceFlag == 0){
+				var longId = 0;
+				if($scope.realese.allSalesPeople == "Sent to one of the sales people"){
+					longId = $scope.listAll.id;
+				}
+				apiserviceConfigPage.saveZipCode($scope.realese.allSalesPeople,longId).then(function(data){
+					console.log(data);
+				});
+			}
+		
 	}
 	
 	$scope.addZipCodeData = function(){

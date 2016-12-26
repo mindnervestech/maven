@@ -758,6 +758,22 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
+	this.saveZipCode=function(status,id){
+		var defer = $q.defer();
+		$http.get('/saveZipCode/'+status+'/'+id).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Update successfully",
+			});
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
+	
+	
 	this.getZipCodeData=function(address){
 		var defer = $q.defer();
 		if(address.state != undefined && address.city != undefined){

@@ -368,7 +368,7 @@ POST     /forgotPassword            controllers.Application.forgotPass()
 POST	/saveConfirmData			controllers.CustomersRequestController.saveConfirmData()
 POST	/saveManfactSales			controllers.ConfigPagesController.saveManfactSales()
 POST	/saveZipCodeDetails			controllers.ConfigPagesController.saveZipCodeDetails()
-
+GET     /saveZipCode/:status/:userId   controllers.ConfigPagesController.saveZipCode(status:String,userId:Integer)
 GET		/activeAccount/:id		controllers.MyProfileController.activeAccount(id:Integer)
 GET		/getAllUsers				controllers.MyProfileController.getAllUsers()
 GET		/getAllPhotographer/:name/:locationId				controllers.MyProfileController.getAllPhotographer(name:String, locationId:Long)

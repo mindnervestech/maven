@@ -935,6 +935,50 @@ public class ConfigPagesController extends Controller{
 			}
 		 
 		 
+	 public static Result saveZipCode(String status,Integer id) {
+			 
+		 CustomerRequest custData = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+			if(custData == null){
+				CustomerRequest lead = new CustomerRequest();
+				
+		    	  
+		    	   lead.redirectValue = "Automatically redirect an online customer requests based on";
+		    	   lead.personValue = "Zip Code";
+		    	   lead.location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    	   lead.save();
+			}else{
+					custData.setPersonValue("Zip Code");
+					custData.setRedirectValue("Automatically redirect an online customer requests based on");
+					custData.setLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+					custData.update();
+			}
+		 
+		 
+		 if(status.equals("Released to all of the sales people")){
+			 List<AuthUser> lead = AuthUser.getAllSalesAndFrontUser();
+			 for(AuthUser au:lead){
+				 au.setOutLeftAll(status);
+				 au.update();
+			 }
+		 }else if(status.equals("Sent to one of the sales people")){
+		
+			 List<AuthUser> lead = AuthUser.getAllSalesAndFrontUser();
+			 for(AuthUser au:lead){
+				 if(au.id.equals(id)){
+					 au.setOutLeftAll(status);
+				 }else{
+					 au.setOutLeftAll(null);
+				 }
+				 
+				 au.update();
+			 }
+			 
+		 }
+				
+		    	  return ok();
+			}
+		 
+		 
 		 public static Result addnewForm() {
 				Form<CreateNewFormVM> form = DynamicForm.form(CreateNewFormVM.class).bindFromRequest();
 				CreateNewFormVM vm=form.get();
