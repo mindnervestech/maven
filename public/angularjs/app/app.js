@@ -234,7 +234,7 @@ var MakeApp = angular
         })
         
         .when('/inventoryManagement', {
-            templateUrl: '/dealer/config/inventoryManagement.html',
+            templateUrl: '/dealer/config/inventorymanagement.html',
             controller: 'ConfigPageCtrl'
         })
         
