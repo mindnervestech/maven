@@ -1367,7 +1367,6 @@ angular.module('newApp')
 			$scope.salesId = $scope.customerReq.id;
 			console.log($scope.salerPerFirstName);
 			
-			
 			apiserviceConfigPage.getAllManufacturer().then(function(data){
 				$scope.allManufacturerList =data;
 				console.log($scope.allManufacturerList);
@@ -1437,11 +1436,14 @@ angular.module('newApp')
 						$scope.msgShow($scope.allFronAndSalesList);
 						
 					});
-					
 				});
 				
 			});
 		});
+		
+	
+		
+		
 		console.log("&&&&&&&&&&&^^^^^^^^^^^^^^^^^^^&&&&&&&&&&");
 		console.log($scope.allFronAndSalesList);
 	}
