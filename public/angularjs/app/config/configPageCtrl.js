@@ -2032,12 +2032,12 @@ angular.module('newApp')
 	$scope.enableInven = false;
 	$scope.collectionFlag = 0;
 	$scope.enableInventory = function(enableInven){
-		console.log(enableInven);
+		console.log(enableInven,$scope.addMainCollFields);
 		
-		if(enableInven == false){
-			$scope.collectionFlag = 1;
-			$scope.addMainCollFields.push({collection:'',
-				enableInven:true
+		if(enableInven == true){
+			$scope.collectionFlag = 1;		
+			angular.forEach($scope.addMainCollFields, function(obj, index){
+				obj.enableInven = true;
 			});
 		}else{
 			$scope.collectionFlag = 0;
@@ -2045,6 +2045,8 @@ angular.module('newApp')
 		}
 	}
 	$scope.collect = [];
+	
+	
 	$scope.saveMainCollect = function(){
 		console.log($scope.addMainCollFields);
 		$scope.obj = {addMainCollFields:$scope.addMainCollFields};
@@ -2067,14 +2069,17 @@ angular.module('newApp')
 		$('#collectionPopup').modal('hide');
 	}
 	
-	$scope.addMainCollFields = [];
 	$scope.addMainColllection = function(){
 		console.log("in add additional field");
 		$scope.addMainCollFields.push({collection:'',
 			enableInven:true
 			});
 	}
+	
 	$scope.addMainCollFields = [];
+	$scope.addMainCollFields.push({collection:'',
+		enableInven:true
+	});
 	$scope.getAllInventory = function(){
 		apiserviceConfigPage.getAllInventoryData().then(function(data){
 			console.log(data);
@@ -2090,6 +2095,15 @@ angular.module('newApp')
 			});
 		});
 	}
+	
+	$scope.deleteMainColl = function(obj){
+		angular.forEach($scope.addMainCollFields, function(value, index){
+			if(obj == value){
+				$scope.addMainCollFields.splice(index,1);
+			}
+		});
+		setTimeout(function(){$scope.$apply();},100);
+	};
 	
 	$scope.changeFlagOfColl = function(){
 		console.log("in cancel button");

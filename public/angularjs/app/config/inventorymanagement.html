@@ -21,22 +21,28 @@
 </div> 
 
 		<div class="form-group col-sm-12" style="margin-top: 35px;">
-			<input style="width: 13px;height: 13px;" type="checkbox" value="false" ng-model="enableInven" ng-click="enableInventory(enableInven)"><label>&nbsp&nbsp Enable Inventory Management</label>
+			<input style="width: 13px;height: 13px;" type="checkbox" ng-model="enableInven" ng-change="enableInventory(enableInven)"><label>&nbsp&nbsp Enable Inventory Management</label>
 		</div>
 	
    		<div class="form-group col-sm-12" ng-if="collectionFlag == 1">
-   			<form ng-submit="saveMainCollect()">
-		 		<div ng-repeat="value in addMainCollFields">
+   			<form name= "addCollFrm" ng-submit="saveMainCollect()">
+		 		<div class="col-sm-12" ng-repeat="value in addMainCollFields">
 		 			<div class="col-sm-2">
 						<label>Name Your Main Collection</label>
 					</div>
 					<div class="col-sm-2">
-						<input type="text"placeholder="Name Your Collection" class="form-control form-white"ng-model="value.collection" >
+						<input type="text"placeholder="Name Your Collection" name="abc{{value.id}}" class="form-control form-white"ng-model="value.collection" required>
 					</div>
-					<button  type="submit" class="btn btn-primary">Save</button>
+					<div class="col-sm-8">
+						<i class="fa fa-close" title="delete" ng-click="deleteMainColl(value)" style="cursor: pointer;"></i>
+					</div>
 				</div>
+				<div class="col-sm-12">
+					<span class="col-sm-2 col-sm-offset-2" ng-if="addCollFrm.$invalid" style="color:orange">plaese enter collection name</span>
+				</div>				
+				<h4 style="margin-top: 10px;" ng-click="addMainColllection()"><b><a>Add an additional main collection</a></b></h4>
+				<button  type="submit" ng-disabled="addCollFrm.$invalid" ng-if="collectionFlag == 1" class="btn btn-primary">Save</button>
 			</form>
-			<h4 style="margin-top: 10px;" ng-click="addMainColllection()"><b><a>Add an additional main collection</a></b></h4>
 		</div>
 		
 		<div class="modal fade" id="collectionPopup" tabindex="-1" role="dialog" aria-hidden="true">
