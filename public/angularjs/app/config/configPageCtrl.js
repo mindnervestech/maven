@@ -1366,75 +1366,77 @@ angular.module('newApp')
 			console.log($scope.customerReq);
 			$scope.salesId = $scope.customerReq.id;
 			console.log($scope.salerPerFirstName);
-		});
-		
-		apiserviceConfigPage.getAllManufacturer().then(function(data){
-			$scope.allManufacturerList =data;
-			console.log($scope.allManufacturerList);
-			apiserviceConfigPage.getAllFrontAndSalesPer().then(function(data1){
-				$scope.allFronAndSalesList =data1;
-				angular.forEach($scope.allFronAndSalesList, function(obj, index){
-					obj.zipCode = [];
-					obj.cityList = [];
-				});
-				angular.forEach($scope.allFronAndSalesList, function(obj, index){
-					obj.manuCount = 0;
-					obj.premiumFlag = false;
-				});
-				angular.forEach($scope.allManufacturerList, function(obj, index){
-					obj.userData = angular.copy($scope.allFronAndSalesList); 
-				 });
-				apiserviceConfigPage.getAllSalesPersonZipCode().then(function(data2){
-					console.log(data2);
-					$scope.editSalesZipData = data2;
-					
-					$scope.zipCode ={};
-					
-					console.log(")))))))))))))000000000000000");
-					console.log($scope.allFronAndSalesList);
-					$scope.list = [];
-					var flag = 0;
-					
-						angular.forEach($scope.allFronAndSalesList, function(obj, index){
-							angular.forEach($scope.editSalesZipData, function(obj1, index1){
-								if(obj.id == obj1.user.id){
-									
-									obj.zipCode.push({zipcode:obj1.zipCode,
-										isSelected:true,
-										city:obj1.city,
-										state:obj1.state});
-									flag = 0;
-									if(obj.cityList.length <= 0){
-										obj.cityList.push(obj1.city+"-"+obj1.state);
-									}else{
-										angular.forEach(obj.cityList, function(obj2, index2){
-											if(obj1.city+"-"+obj1.state == obj2){
-												flag = 1;
-											 }
-										});
-										if(flag == 0){
-											obj.cityList.push(obj1.city+"-"+obj1.state);
-										}
-										
-									}
-								}
-							});
-							//obj.cityList = $scope.list;
-						});
-					
+			
+			
+			apiserviceConfigPage.getAllManufacturer().then(function(data){
+				$scope.allManufacturerList =data;
+				console.log($scope.allManufacturerList);
+				apiserviceConfigPage.getAllFrontAndSalesPer().then(function(data1){
+					$scope.allFronAndSalesList =data1;
+					angular.forEach($scope.allFronAndSalesList, function(obj, index){
+						obj.zipCode = [];
+						obj.cityList = [];
+					});
+					angular.forEach($scope.allFronAndSalesList, function(obj, index){
+						obj.manuCount = 0;
+						obj.premiumFlag = false;
+					});
 					angular.forEach($scope.allManufacturerList, function(obj, index){
-						angular.forEach($scope.editCustManufData, function(obj1, index1){
-							 if(obj.id == obj1.manufacturer.id){
-								 angular.forEach(obj.userData, function(obj2, index2){
-									 if(obj2.id == obj1.user.id){
-										 obj2.premiumFlag = true;
-									 }
-								 });
-							 }
-						 });
+						obj.userData = angular.copy($scope.allFronAndSalesList); 
 					 });
-					
-					$scope.msgShow($scope.allFronAndSalesList);
+					apiserviceConfigPage.getAllSalesPersonZipCode().then(function(data2){
+						console.log(data2);
+						$scope.editSalesZipData = data2;
+						
+						$scope.zipCode ={};
+						
+						console.log(")))))))))))))000000000000000");
+						console.log($scope.allFronAndSalesList);
+						$scope.list = [];
+						var flag = 0;
+						
+							angular.forEach($scope.allFronAndSalesList, function(obj, index){
+								angular.forEach($scope.editSalesZipData, function(obj1, index1){
+									if(obj.id == obj1.user.id){
+										
+										obj.zipCode.push({zipcode:obj1.zipCode,
+											isSelected:true,
+											city:obj1.city,
+											state:obj1.state});
+										flag = 0;
+										if(obj.cityList.length <= 0){
+											obj.cityList.push(obj1.city+"-"+obj1.state);
+										}else{
+											angular.forEach(obj.cityList, function(obj2, index2){
+												if(obj1.city+"-"+obj1.state == obj2){
+													flag = 1;
+												 }
+											});
+											if(flag == 0){
+												obj.cityList.push(obj1.city+"-"+obj1.state);
+											}
+											
+										}
+									}
+								});
+								//obj.cityList = $scope.list;
+							});
+						
+						angular.forEach($scope.allManufacturerList, function(obj, index){
+							angular.forEach($scope.editCustManufData, function(obj1, index1){
+								 if(obj.id == obj1.manufacturer.id){
+									 angular.forEach(obj.userData, function(obj2, index2){
+										 if(obj2.id == obj1.user.id){
+											 obj2.premiumFlag = true;
+										 }
+									 });
+								 }
+							 });
+						 });
+						
+						$scope.msgShow($scope.allFronAndSalesList);
+						
+					});
 					
 				});
 				
