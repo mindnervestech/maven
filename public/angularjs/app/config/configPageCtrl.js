@@ -1207,28 +1207,8 @@ angular.module('newApp')
 		$scope.userRoleData = data;
 		console.log($scope.userRoleData.role);
 	});
+	//$scope.customerReq = {};
 	
-	apiserviceConfigPage.getAllSalesPersons().then(function(data){
-		$scope.salesPersonName = data;
-		angular.forEach($scope.salesPersonName, function(obj, index){
-			if(obj.outLeftAll != null){
-				console.log($scope.customerReq);
-				console.log(obj.firstName);
-				$scope.realese.allSalesPeople = obj.outLeftAll;
-				if($scope.customerReq != undefined){
-					$scope.customerReq.firstName = obj.firstName;
-				}
-			}
-		});
-		if($scope.userRoleData != undefined){
-			if($scope.userRoleData.role == "Manager"){
-				$scope.salesPersonName.push($scope.userRoleData); 
-			}
-		}
-		
-		
-		console.log($scope.salesPersonName);
-	});
 	
 	$scope.personsWiseData = function(type){
 		$scope.personValue = type;
@@ -1426,6 +1406,29 @@ angular.module('newApp')
 	}
 	
 	$scope.initCustomerRequ = function(){
+		
+		
+		apiserviceConfigPage.getAllSalesPersons().then(function(data){
+			$scope.salesPersonName = data;
+			angular.forEach($scope.salesPersonName, function(obj, index){
+				if(obj.outLeftAll != null){
+					console.log($scope.customerReq);
+					console.log(obj.firstName);
+					$scope.realese.allSalesPeople = obj.outLeftAll;
+					if($scope.customerReq != undefined){
+						$scope.customerReq.firstName = obj.firstName;
+					}
+				}
+			});
+			if($scope.userRoleData != undefined){
+				if($scope.userRoleData.role == "Manager"){
+					$scope.salesPersonName.push($scope.userRoleData); 
+				}
+			}
+			
+			
+			console.log($scope.salesPersonName);
+		});
 		
 		apiserviceConfigPage.getAllSalesUsers().then(function(data){
 			$scope.salesPersonList =data;
