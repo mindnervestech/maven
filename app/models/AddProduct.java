@@ -38,9 +38,15 @@ public class AddProduct extends Model {
 	public String externalUrlLink;
 	public String status;
 	
+	@ManyToOne
+	public InventorySetting mainCollection;	
 	
-	
-	
+	public InventorySetting getMainCollection() {
+		return mainCollection;
+	}
+	public void setMainCollection(InventorySetting mainCollection) {
+		this.mainCollection = mainCollection;
+	}
 	public String getStatus() {
 		return status;
 	}
@@ -289,6 +295,9 @@ public class AddProduct extends Model {
 	}
 	public static List<AddProduct> getProductByStatus(Long location, String status) {
 		return find.where().eq("publicStatus", status).orderBy("order_index").findList();		
+	}
+	public static List<AddProduct> getProductByStatusMainColl(Long location, String status,InventorySetting coll) {
+		return find.where().eq("mainCollection", coll).eq("publicStatus", status).orderBy("order_index").findList();		
 	}
 	public static List<AddProduct> getProduct(Long location) {
 		return find.where().ne("publicStatus", "deleted").orderBy("order_index").findList();		

@@ -32,16 +32,16 @@
 		<input class="form-control form-white" type="text" style="width:30%;" ng-model="addProduct.externalUrlLink">
 	</div>
 	
-	<div class="form-group col-sm-12">
+	<!--<div class="form-group col-sm-12">
 		<div>
 			<label class="control-label " style="width: 40%;"><font size="3">ADD TO EXISTING MANUFACTURER</font></label>
 		</div>
-	<select id="section" class="from-control form-white" style="width:30%;height: 35px;" ng-model="addProduct.parentId" ng-change="chengeSection()" required>
+	<select id="section" class="from-control form-white" style="width:30%;height: 35px;" ng-model="mainCollection" ng-change="chengeSection()" required>
 
-				<option ng-repeat="item in childManuData" value="{{item.id}}">{{item.title}}</option>
+				<option ng-repeat="coll in mainCollections" value="{{coll}}">{{coll.collection}}</option>
 			</select>
 
-	</div>
+	</div>-->
 		
 	
 	

@@ -168,6 +168,7 @@ public class productController extends Controller {
 	    	    		add.parentId = vm.parentId;
 	    	    		add.externalUrlLink = vm.externalUrlLink;
 	    	    		add.user = userObj;
+	    	    		add.mainCollection = vm.mainCollection;
 	    	    		add.save();
 	    	    		
 	    	    		productVM.id = add.id;
@@ -240,6 +241,7 @@ public class productController extends Controller {
 	    		add.parentId = vm.parentId;
 	    		add.addedDate = curDate;
 	    		add.user = userObj;
+	    		add.mainCollection = vm.mainCollection;
 	    		add.save();
 	    		productVM.id = add.id;
 	    	}

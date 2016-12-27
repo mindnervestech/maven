@@ -7,13 +7,28 @@ angular.module('newApp')
 		apiserviceViewInventory.getAllInventoryData().then(function(data){
 			console.log(data);
 			$scope.allCollectionDate = data;
+			if(data.length >0){
+				localStorage.setItem('mainCollection', JSON.stringify(data[0]));
+				$scope.mainCollId = data[0].id;
+			}
 		});
 	}
 	
 	$scope.getAllInventory();
 	
 	$scope.getCollectionData = function(obj){
-		console.log(obj);
+		//localStorage.removeItem("mainCollection");
+		$scope.mainCollId = obj.id;
+		delete obj.$$hashKey;
+		localStorage.setItem('mainCollection', JSON.stringify(obj));
+		console.log($scope.doPublic,obj);
+		if($scope.doPublic == 0){
+			$scope.newlyArrivedTab();
+		}if($scope.doPublic == 1){
+			$scope.draftTab();
+		}if($scope.doPublic == 2){
+			$scope.soldTab();
+		}		
 	};
 	$scope.changeOption = function(obj){
 		$scope.addObj = obj;
@@ -454,7 +469,7 @@ angular.module('newApp')
     		    			 		});
     		    				 }
     		    				 else{
-    		    					 apiserviceViewInventory.getAllProduct($scope.userLocationId,"publish").then(function(data){
+    		    					 apiserviceViewInventory.getAllProduct($scope.userLocationId,"publish",$scope.mainCollId).then(function(data){
     		    					
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].price = "$ "+data[i].price;
@@ -480,7 +495,7 @@ angular.module('newApp')
     		    				 $scope.ch = false;
     		    				 $scope.doPublic = 2;
     		    				 $scope.flagForUser = true;
-    		    				 apiserviceViewInventory.getAllProduct(16,"deleted").then(function(data){
+    		    				 apiserviceViewInventory.getAllProduct(16,"deleted",$scope.mainCollId).then(function(data){
     		    				 
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
@@ -507,7 +522,7 @@ angular.module('newApp')
 		    							$scope.userLocationId = data;
     		    				 if($scope.userType == "Photographer"){
     		    					 console.log($scope.userLocationId);
-    		    					 apiserviceViewInventory.getAllProduct($scope.userLocationId,"draft").then(function(data){
+    		    					 apiserviceViewInventory.getAllProduct($scope.userLocationId,"draft",$scope.mainCollId).then(function(data){
     		    					 
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
@@ -531,7 +546,7 @@ angular.module('newApp')
     		    			 		});
     		    				 }
     		    				 else{
-    		    					 apiserviceViewInventory.getAllProduct($scope.userLocationId,"draft").then(function(data){
+    		    					 apiserviceViewInventory.getAllProduct($scope.userLocationId,"draft",$scope.mainCollId).then(function(data){
     		    					 
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].price = "$ "+data[i].price;

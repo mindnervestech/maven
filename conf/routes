@@ -133,7 +133,7 @@ GET     /deleteProductById/:id           controllers.InventoryController.deleteP
 GET		/getOnlyReadyMade		         controllers.InventoryController.getOnlyReadyMade()
 GET		/getAllAccessories		         controllers.InventoryController.getAllAccessories()
 GET		/getAllProductTypes				 controllers.InventoryController.getAllProductTypes()
-GET     /getAllProduct/:status/:date   				 controllers.InventoryController.getAllProduct(status:String, date:String)
+GET     /getAllProduct/:status/:collection/:date   				 controllers.InventoryController.getAllProduct(status:String,collection:Long, date:String)
 GET     /getAllProductWise/:status/:date/:leadType   				 controllers.InventoryController.getAllProductWise(status:String, date:String, leadType:String)
 GET     /getAllProductData/:status   				 controllers.InventoryController.getAllProductData(status:String)
 GET		/getProductCollection		     controllers.InventoryController.getProductCollection()
