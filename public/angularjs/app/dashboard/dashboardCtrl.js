@@ -5737,7 +5737,11 @@ angular.module('newApp')
 				 $("#appointmentCompleted").modal("show");
 			}else{
 						apiserviceDashborad.setApplointmentCancel(row.entity.id).then(function(data){
-							console.log("scce");
+							 $.pnotify({
+		    					    title: "Success",
+		    					    type:'success',
+		    					    text: "Successfully",
+		    					});
 						});
 			}
 			
