@@ -83,11 +83,11 @@ angular.module('app.apiserviceViewInventory', [])
 		return defer.promise;
 	};
 	
-	this.getAllProduct=function(userLocationId,status){
+	this.getAllProduct=function(userLocationId,status,mainCollId){
 		var defer = $q.defer();
 		var date = new Date().getTime();
 		console.log(date);
-		$http.get('/getAllProduct/'+status+'/'+date).success(function(data) {
+		$http.get('/getAllProduct/'+status+'/'+mainCollId+'/'+date).success(function(data) {
 			defer.resolve(data);
 		});
 		return defer.promise;

@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import models.AddCollection;
 import models.AddProduct;
 import models.AuthUser;
+import models.InventorySetting;
 import models.LeadType;
 import models.ProductImages;
 import models.Sections;
@@ -515,6 +516,7 @@ public class InventoryController extends Controller {
 	    		vm.description = product.description;
 	    		vm.parentId = product.parentId;
 	    		vm.externalUrlLink = product.externalUrlLink;
+	    		vm.mainCollection = product.mainCollection;
 	    		return ok(Json.toJson(vm));
 	    	}
 	    }
@@ -549,6 +551,7 @@ public class InventoryController extends Controller {
 	        		add.setDescription(vm.getDescription());
 	        		add.setPublicStatus(vm.getPublicStatus());
 	        		add.setParentId(vm.getParentId());
+	        		add.setMainCollection(vm.mainCollection);
 	        		add.setExternalUrlLink(vm.getExternalUrlLink());
 	        		add.update();
 	    
@@ -972,8 +975,15 @@ public class InventoryController extends Controller {
 		}
 
 	   
-	   public static Result getAllProduct(String status, String date) {
-			List<AddProduct> pList = AddProduct.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
+	   public static Result getAllProduct(String status, Long collId, String date) {
+		   List<AddProduct> pList = new ArrayList<>();
+		   if(collId != null){
+			   InventorySetting mainCollection = InventorySetting.findById(collId);
+			   pList = AddProduct.getProductByStatusMainColl(Long.valueOf(session("USER_LOCATION")), status,mainCollection);
+		   }else{
+			    pList = AddProduct.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
+		   }
+			
 			List<AddProductVM> aList = new ArrayList<AddProductVM>();
 			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 			for(AddProduct aProduct:pList){

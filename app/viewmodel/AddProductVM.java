@@ -2,6 +2,8 @@ package viewmodel;
 
 import java.util.List;
 
+import models.InventorySetting;
+
 
 
 public class AddProductVM {
@@ -27,6 +29,14 @@ public class AddProductVM {
 	public long imgId;
 	public List<UserVM> userData;
 	
+	public InventorySetting mainCollection;	
+	
+	public InventorySetting getMainCollection() {
+		return mainCollection;
+	}
+	public void setMainCollection(InventorySetting mainCollection) {
+		this.mainCollection = mainCollection;
+	}
 	
 	
 	public String getExternalUrlLink() {

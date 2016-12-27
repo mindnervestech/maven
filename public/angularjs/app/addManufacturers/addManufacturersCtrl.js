@@ -38,6 +38,18 @@ angular.module('newApp')
 		console.log($scope.childManuData);
 	});
 	
+		
+	$http.get('/getAllInventoryData').success(function(data) {
+		console.log(data);
+		$scope.mainCollections = data;
+		var mainColl = localStorage.getItem('mainCollection');
+		if(mainColl != undefined){
+			$scope.mainCollection = mainColl;
+		}
+		console.log(JSON.parse($scope.mainCollection));
+		//setTimeout(function(){$scope.$apply();},100);
+	});
+	
 	$scope.setOpenPopup = function(){
 		$('#cancelModal').modal('show');
 	}
@@ -46,6 +58,12 @@ angular.module('newApp')
 	}
 	
 	$scope.saveManufacturers = function(){
+		if($scope.mainCollection != null || $scope.mainCollection != undefined){
+			$scope.addProduct.mainCollection = JSON.parse($scope.mainCollection);
+			delete $scope.addProduct.mainCollection.locations.createdDate;
+			//var date = new Date(1324339200000);
+		}
+		console.log($scope.addProduct);
 		//$("#submit").attr("disabled", true);
 		$scope.addProduct.publicStatus = $scope.statusValue;
 		 $scope.addProduct.id = $('#sectionId').val();
@@ -500,13 +518,21 @@ angular.module('newApp')
 		$scope.childManuData = data;
 		console.log($scope.childManuData);
 	});
-		
+			
+	$http.get('/getAllInventoryData').success(function(data) {
+		console.log(data);
+		$scope.mainCollections = data;
+	});
+	
 	$http.get('/getProductData/'+$routeParams.id)
 	.success(function(data) {
 			console.log("Update data = ");	
 			console.log(data);	
 			$scope.productData = data;
 			setTimeout(function(){
+				if(data.mainCollection != null){
+					$scope.mainCollection = JSON.stringify(data.mainCollection);
+				}
 				if(data.parentId != null)
 					$scope.productData.parentId = data.parentId.toString();
 				$scope.$apply();
@@ -563,6 +589,10 @@ console.log($scope.cId);
 	var files =[];
 	$scope.updateProduct = function(){
 		console.log("In update Product function");
+		if($scope.mainCollection != null || $scope.mainCollection != undefined){
+			$scope.productData.mainCollection = JSON.parse($scope.mainCollection);
+			delete $scope.productData.mainCollection.locations.createdDate;
+		}
 		$scope.productData.id = $routeParams.id;
 		$scope.productData.publicStatus = $scope.statusValue;
 		$scope.productData.collectionId = 0;
