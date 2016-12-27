@@ -5543,8 +5543,7 @@ angular.module('newApp')
 						$scope.josnData1.push(value);
 					});
 					
-					
-					angular.forEach($scope.gridOptions2.data,function(value,key){
+ 					angular.forEach($scope.gridOptions2.data,function(value,key){
 						//if(findFlag == 0){
 							angular.forEach(value.customData,function(value1,key1){
 								angular.forEach($scope.josnData1,function(value2,key2){
@@ -5742,6 +5741,10 @@ angular.module('newApp')
 		    					    type:'success',
 		    					    text: "Successfully",
 		    					});
+							 
+							 $scope.getScheduleData($scope.salesPerson).then(function(success){
+		    	    			 
+		    	    		 });
 						});
 			}
 			
@@ -5754,16 +5757,16 @@ angular.module('newApp')
 	    		console.log($scope.customData);
 	    		console.log($scope.completeAppoint.toString());
 	    				
-	    				$scope.josnData = null;
+	    				$scope.josnData1 = null;
 	    				apiserviceDashborad.getCustomizationform('Appointment Completed').then(function(response){
-	    					$scope.josnData = angular.fromJson(response.jsonData);
-	    					angular.forEach($scope.josnData, function(obj, index){
+	    					$scope.josnData1 = angular.fromJson(response.jsonData);
+	    					angular.forEach($scope.josnData1, function(obj, index){
 	    						obj.formName = "Appointment Completed";
 	    	    			});
 	    					if(response.additionalData == true){
 	    						angular.forEach(angular.fromJson(response.jsonDataAdd), function(obj, index){
 	        						obj.formName = "Appointment Completed";
-	        						$scope.josnData.push(obj);
+	        						$scope.josnData1.push(obj);
 	       	    				});
 	    					}
 	    					console.log("()()()(0");
