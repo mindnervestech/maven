@@ -1326,6 +1326,7 @@ angular.module('newApp')
 		
 	$scope.getchangesManufactures = function(type){
 		if(type != "Zip Code"){
+			
 			apiserviceConfigPage.getAllManufacturer().then(function(data){
 				$scope.allManufacturerList =data;
 				console.log($scope.allManufacturerList);
@@ -1445,8 +1446,6 @@ angular.module('newApp')
 			console.log($scope.salerPerFirstName);
 			if($scope.customerReq.priceValue != "Zip Code"){
 				
-				$scope.getchangesManufactures($scope.customerReq.priceValue);
-				
 				apiserviceConfigPage.getAllFrontAndSalesPer($scope.customerReq.priceValue).then(function(data1){
 					$scope.allFronAndSalesList =data1;
 					angular.forEach($scope.allFronAndSalesList, function(obj, index){
@@ -1454,7 +1453,11 @@ angular.module('newApp')
 						obj.premiumFlag = false;
 					});
 					$scope.msgShow($scope.allFronAndSalesList);
+					$scope.getchangesManufactures($scope.customerReq.priceValue);
 				});
+				
+				
+				
 				
 			}else{
 				
