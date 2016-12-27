@@ -7323,7 +7323,11 @@ angular.module('newApp')
 			   $scope.stockWiseData = [];
 			   $scope.cnTimeList = [];
 	    	   	   $scope.timeList = [];
-	    	   	$scope.customData = entity.customMapData;
+	    	   	   
+	    	   	   if(entity != undefined){
+	    	   		   $scope.customData = entity.customMapData;
+	    	   	   }
+	    	   	
 	    	   	
 			   $('#btnTestDrive').click();
 			   $scope.getAllMeetingData();
@@ -7650,10 +7654,10 @@ angular.module('newApp')
 			   
 			   $('#testDriveDate').on('changeDate', function(e) {
 				   var sDate = $('#testDriveDate').val();
-				   $scope.changeDateWeather(sDate);
+				   $scope.changeDateWeather(sDate,"schedule");
 			   });
 			   
-			   $scope.changeDateWeather = function(sDate){
+			   $scope.changeDateWeather = function(sDate,type){
 				  console.log(sDate);
 				  console.log(new Date(sDate));
 				   apiserviceDashborad.getScheduleTime($scope.testDriveData.productId, sDate).then(function(data){
@@ -7663,7 +7667,12 @@ angular.module('newApp')
 					   })
 				   });
 				   
-				   document.getElementById("testDriveNatures").innerHTML = "";
+				   if(type == "schedule"){
+					   document.getElementById("testDriveNature").innerHTML = "";
+				   }else if(type == "reSchedule"){
+					   document.getElementById("testDriveNatures").innerHTML = "";
+				   }
+				   
 				   
 				   var day = moment(new Date(sDate)).format('DD MMM YYYY');
 				   var img= "";
@@ -7697,7 +7706,13 @@ angular.module('newApp')
 								img = "<i class='glyphicon glyphicon-cloud' title='Show Weather'></i>";  
 						  }
 						  $scope.wetherValue = value.text+"&"+value.low+"&deg;";
-						  document.getElementById("testDriveNatures").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
+						  
+						  if(type == "schedule"){
+							  document.getElementById("testDriveNature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
+						  }else if(type == "reSchedule"){
+							  document.getElementById("testDriveNatures").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";  
+						  }
+						  
 					  }
 				   });
 			   }
