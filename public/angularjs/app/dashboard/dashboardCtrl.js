@@ -1579,6 +1579,11 @@ angular.module('newApp')
      			 		 $scope.gridOptions2.enableHorizontalScrollbar = 2;
      			 		 $scope.gridOptions2.enableVerticalScrollbar = 2;
      			 		 $scope.gridOptions2.columnDefs = [
+														{ name: 'Hide', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+														    	headerCellTemplate:	'<label style="margin-top: 5px; margin-left: 8px;">Select</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 5px; margin-left: 8px;" type=\"checkbox\"  ng-model=\"checker.checked\"  ng-change="grid.appScope.selectAllAppointment(checker.checked)" autocomplete="off">',
+															cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doAction(row,row.entity.checkBoxSelect)" autocomplete="off">',		
+														    	 /*cellTemplate:'<input type="checkbox" ng-model="checkBoxSelect" ng-click="grid.appScope.doAction(row,checkBoxSelect)" autocomplete="off">',*/ 
+														     },
      			 		                             	{ name: 'name', displayName: 'Name', width:'8%',cellEditableCondition: false,
     													 	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" title="{{row.entity.name}}" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
     														 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -1807,7 +1812,33 @@ angular.module('newApp')
      	     			 	       			       	return;
      	     			 	       			    };
      	     			 	       	  	}	
-     	     			 		 		 
+     	     			 	     	$scope.actionSelectedLead = [];
+ 	     			 	     		$scope.actionSelectedLeadObj = "";
+ 	     			 	     		$scope.selectAllAppointment = function(checked){
+ 	     			 	     			if(checked){
+ 	     			 	     				for(var i=0;i<$scope.gridOptions2.data.length;i++){
+ 	     			 	     					$scope.gridOptions2.data[i].checkBoxSelect = true;
+ 	     			 	     				}
+ 	     			 	     				angular.forEach($scope.AllScheduleTestAssignedList, function(obj, index){
+ 	     			 	     					$scope.actionSelectedLead.push(obj.id);
+ 	     			 	           	  			$scope.actionSelectedLeadObj = obj;
+ 	     			 	     	   			 });
+ 	     			 	     			}else{
+ 	     			 	     				for(var i=0;i<$scope.gridOptions2.data.length;i++){
+ 	     			 	     					$scope.gridOptions2.data[i].checkBoxSelect = false;
+ 	     			 	     				}
+ 	     			 	       	  			$scope.deleteAllAppointment($scope.actionSelectedLead);
+ 	     			 	     				
+ 	     			 	     			}
+ 	     			 	     		}
+ 	     			 	     		
+ 	     			 	     		$scope.deleteAllAppointment = function(objList){
+ 	     			 	       				 if ((objList == $scope.actionSelectedLead)) {
+ 	     			 	       					 $scope.actionSelectedLead = [];
+ 	     			 	       			       	return;
+ 	     			 	       			    };
+ 	     			 	       	  	}	
+     	     			 	     	
      	     			 		 		 
      	     			 		 	 $scope.gridOptions6 = {
      	     			 	    	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -5176,6 +5207,7 @@ angular.module('newApp')
     		//$scope.requestMore();
     	}
     	$scope.schedultestDrive = function(){
+    		$scope.actionSelectedLead = [];
     		$scope.showAllTypeLeads = false;
     		$scope.reqMore = false;	
         	$scope.testdrv = true;
@@ -5485,6 +5517,9 @@ angular.module('newApp')
 			apiserviceDashborad.getAllSalesPersonScheduleTestAssigned(id).then(function(data){
 			console.log(data);
 			console.log("=-=-=-=-============================================-000");
+			for(var i=0;i<data.length;i++){
+				data[i].checkBoxSelect = false;
+			}
 			$scope.gridOptions2.data = data;
 			
 			$scope.gridMapObect = [];
@@ -5551,7 +5586,7 @@ angular.module('newApp')
 					
 					
 					   $scope.gridOptions2.columnDefs.push({ name: 'complete', displayName: 'Complete', width:'7%',cellEditableCondition: false,
-	                   	cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doCheckBoxAction(row,row.entity.checkBoxSelect)" autocomplete="off">',
+	                   	cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelected\"  ng-click="grid.appScope.doCheckBoxAction(row,row.entity.checkBoxSelected)" autocomplete="off">',
 	                   	
 	                    });
 					
@@ -5584,6 +5619,7 @@ angular.module('newApp')
 			
 			
 			$scope.AllScheduleTestAssignedList = $scope.gridOptions2.data;
+			$scope.getAllListLeadDate = $scope.AllScheduleTestAssignedList;
 			var countUnReadLead = 0;
 				if($scope.userType == "Sales Person"){
 					angular.forEach($scope.gridOptions2.data,function(value,key){
@@ -6166,6 +6202,7 @@ angular.module('newApp')
 		
 		$scope.pdf={};
 		$scope.actionOnPdf= function (entity,option){
+			console.log(entity);
 		/*	apiserviceDashborad.getCustomerPdfForVehicle(entity.vin).then(function(data){
 			
 					$scope.vehiclePdfList=data;
@@ -6209,6 +6246,13 @@ angular.module('newApp')
 				
 			
 		}
+		
+		$scope.reschedule = function(entity){
+			console.log("reschedule");
+			console.log(entity);
+			$scope.scheduleTestDriveForUser(entity,2);
+		}
+		
 		$scope.pdfDoc = [];
 		$scope.selectPdf = function(e,item,value){
 			if(value == false || value == undefined){
@@ -6370,9 +6414,9 @@ angular.module('newApp')
     		angular.forEach($scope.actionSelectedLead, function(obj, index){
 		  	  	angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
 		  	  		if(flag == 0){
-		  	  		if(obj == obj1.id){
-		  	  			flag = 1;
-		  	  		$scope.leadDetId = [];
+		  	  			if(obj == obj1.id){
+		  	  				flag = 1;
+		  	  				$scope.leadDetId = [];
 			    				// $scope.closeleadObj = obj1;
 			    				 $scope.scheduLeadId.push(obj1);
 			    				 $scope.leadDetId.push(obj1.id);
@@ -6386,7 +6430,7 @@ angular.module('newApp')
 			    				 else{
 			    					 $scope.notiCanFlag = 0;
 			    				 }
-				    }
+		  	  			}
 		  	  		}
 		  	  		
 			   });
@@ -6470,9 +6514,10 @@ angular.module('newApp')
 		  	  console.log($scope.leadDetId);
     	}
     	
-    	$scope.cancelSure = function(){
+    	$scope.cancelSure = function(reasonToCancel){
     		$('#scheduleCancelModal').modal("toggle");
-    			$scope.saveScheduleClose();
+    		console.log(reasonToCancel);
+    			$scope.saveScheduleClose(reasonToCancel);
     		
     	}
     	
@@ -6481,7 +6526,7 @@ angular.module('newApp')
     		$('#cancelBtnTradeIn').click();
     	}
     	
-    	$scope.saveScheduleClose = function() {
+    	$scope.saveScheduleClose = function(reasonToCancel) {
     		$scope.multiSelectBindWithCustomData();
     		$scope.closeleadObj = {};
     		console.log($scope.customData);
@@ -6521,9 +6566,9 @@ angular.module('newApp')
         			}else{
         				$scope.closeleadObj.actionSelectedLead = $scope.actionSelectedLead;
         			}
-        			console.log($scope.closeleadObj.actionSelectedLead.length);
+        			console.log(reasonToCancel);
         			console.log($scope.closeleadObj.actionSelectedLead);
-    	    		$scope.closeleadObj.reasonToCancel = $scope.reasonToCancel;
+    	    		$scope.closeleadObj.reasonToCancel = reasonToCancel;
     	    		$scope.closeleadObj.customData = $scope.customList;
     	    		console.log($scope.closeleadObj);
     	    		$scope.reasonFlag = 0;
@@ -7216,21 +7261,20 @@ angular.module('newApp')
 	    	   	   $scope.timeList = [];
 			   $('#btnTestDrive').click();
 			   $scope.getAllMeetingData();
-			  /* $scope.testDriveData.id = entity.id;
-			   $scope.testDriveData.name = entity.name;
-			   $scope.testDriveData.email = entity.email;
-			   $scope.testDriveData.phone = entity.phone;
-			   $scope.testDriveData.vin = entity.vin;
-			   $scope.testDriveData.parentChildLead = entity.parentChildLead;
-			   $scope.testDriveData.bestDay = entity.bestDay;
-			   $scope.testDriveData.bestTime = entity.bestTime;
-			   $scope.testDriveData.confirmDate = entity.confirmDate;
-			   $scope.testDriveData.confirmTime = entity.confirmTime;
-			   $scope.testDriveData.option = option;
-			   $scope.testDriveData.typeOfLead = entity.typeOfLead;
-			   $scope.testDriveData.prefferedContact = "";*/
+			   /*if(entity != undefined){
+				   $scope.testDriveData.id = entity.id;
+				   $scope.testDriveData.name = entity.name;
+				   $scope.testDriveData.email = entity.email;
+				   $scope.testDriveData.phone = entity.phone;
+				   $scope.testDriveData.bestDay = entity.bestDay;
+				   $scope.testDriveData.bestTime = entity.bestTime;
+				   $scope.testDriveData.confirmDate = entity.confirmDate;
+				   $scope.testDriveData.confirmTime = entity.confirmTime;
+				   $scope.testDriveData.option = option;
+				   $scope.testDriveData.typeOfLead = entity.typeOfLead;
+				   $scope.testDriveData.prefferedContact = "";
+			   }*/
 			   
-			  
 			   
 		   }
 		   
