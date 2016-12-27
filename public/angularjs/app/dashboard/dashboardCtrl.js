@@ -6308,6 +6308,9 @@ angular.module('newApp')
 	    			$scope.userFields = $scope.addFormField($scope.userList);
 			   });
 			   
+			   if(entity != undefined){
+    	   		   $scope.customData = entity.customMapData;
+    	   	   }
 			   
 			   $scope.stockWiseData = [];
 			   $scope.cnTimeList = [];
@@ -7659,6 +7662,7 @@ angular.module('newApp')
 			   
 			   $scope.changeDateWeather = function(sDate,type){
 				  console.log(sDate);
+				  console.log(type);
 				  console.log(new Date(sDate));
 				   apiserviceDashborad.getScheduleTime($scope.testDriveData.productId, sDate).then(function(data){
 					   $scope.timeList = [];
