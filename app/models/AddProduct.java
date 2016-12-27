@@ -265,6 +265,9 @@ public class AddProduct extends Model {
 	public static List<AddProduct> getAllProducts() {
 		return find.all();
 	}
+	public static List<AddProduct> getAllCollection(InventorySetting mainColl) {
+		return find.where().eq("mainCollection", mainColl).findList();
+	}
 	public static List<AddProduct> findProductsByCollection(AddCollection collection) {
 		return find.where().eq("collection", collection).findList();
 	}
