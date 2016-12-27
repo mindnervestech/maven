@@ -59,6 +59,7 @@ public class RequestMoreInfo extends Model {
 	public String productId;
 	public String section;
 	public String pdfPath;
+	public Boolean isCompleteFlag = false;
 	
 	public int notifFlag;
 	
@@ -82,6 +83,13 @@ public void setProductId(String productId) {
 	this.productId = productId;
 }
 	
+	
+	public Boolean getIsCompleteFlag() {
+	return isCompleteFlag;
+}
+public void setIsCompleteFlag(Boolean isCompleteFlag) {
+	this.isCompleteFlag = isCompleteFlag;
+}
 	public String getMessage() {
 	return message;
 }

@@ -1330,11 +1330,6 @@ angular.module('newApp')
 		console.log(data);
 		$scope.editSalesZipData = data;
 	});*/
-<<<<<<< HEAD
-	
-	$scope.initCustomerRequ = function(){
-=======
->>>>>>> c9d6f26a5db54586b1cbdafc9c6bc69dfb6a0d05
 		
 	$scope.getchangesManufactures = function(type){
 		if(type != "Zip Code"){

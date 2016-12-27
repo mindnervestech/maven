@@ -7646,10 +7646,10 @@ angular.module('newApp')
 								img = "<i class='glyphicon glyphicon-cloud' title='Show Weather'></i>";  
 						  }
 						  $scope.wetherValue = value.text+"&"+value.low+"&deg;";
-						  document.getElementById("testDriveNature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
+						  document.getElementById("testDriveNatures").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
 					  }
 				   });
-			   });
+			   }
 			   
 			   $('#cnfDate').on('changeDate', function(e) {
 				   var sDate = $('#cnfDate').val();

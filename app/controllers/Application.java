@@ -14350,6 +14350,8 @@ private static void cancelTestDriveMail(Map map) {
 	        			vm.imgId = "/assets/images/no-image.jpg";
 	        		}
 	    		}
+	    		
+	    		vm.isCompleteFlag = info.isCompleteFlag;
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
@@ -16033,7 +16035,8 @@ private static void cancelTestDriveMail(Map map) {
 			RequestMoreInfo info = RequestMoreInfo.findById(Long.parseLong(value));
 			
 			String vin=info.vin;
-			info.setStatus("COMPLETE");
+			//info.setStatus("COMPLETE");
+			info.setIsCompleteFlag(true);
 			info.setStatusDate(currDate);
 			info.setStatusTime(currDate);
 			info.update();
