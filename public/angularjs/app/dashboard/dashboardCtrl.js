@@ -4097,7 +4097,7 @@ angular.module('newApp')
     			  apiserviceDashborad.getToDoBySelectedDate(date).then(function(data){
     				  $scope.toDoDateList = data;
 				}); 
-    			  
+    			  $scope.getScheduleData($scope.salesPerson);
     		  }
     		  
     			  /*$http.get('/getAllScheduleTestAssigned')
@@ -6278,6 +6278,44 @@ angular.module('newApp')
 			console.log(entity);
 			$scope.scheduleTestDriveForUser(entity,2);
 		}
+		
+		$scope.rescheduleTestDrive = function(entity){
+			console.log(entity);
+			$scope.RescheduleTestDriveForUser(entity,2);
+		}
+		
+		$scope.testDriveData = {};
+		   $scope.scheduLeadId = [];
+		   $scope.RescheduleTestDriveForUser = function(entity,option) {
+			   $scope.recheduleId = [];
+			   $scope.recheduleId.push(entity.id);
+			   $scope.actionSelectedLead = $scope.recheduleId;
+			   angular.forEach($scope.actionSelectedLead, function(obj, index){
+				   angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
+					   if(obj == obj1.id){
+					    	if(index == 0){
+					    		$scope.testDriveData = obj1;
+					    		$scope.scheduLeadId.push(obj1);
+					    	}
+					    	
+					    }
+				   });
+				   
+			   });
+			   $scope.showFomeD("Schedule lead");
+			   $scope.getFormDesign("My Leads - Schedule an appointment").then(function(response){
+				   console.log(response);
+	    			$scope.userFields = $scope.addFormField($scope.userList);
+			   });
+			   
+			   
+			   $scope.stockWiseData = [];
+			   $scope.cnTimeList = [];
+	    	   	   $scope.timeList = [];
+			   $('#btnTestDrive').click();
+			   $scope.getAllMeetingData();
+			   
+		   }
 		
 		$scope.pdfDoc = [];
 		$scope.selectPdf = function(e,item,value){
