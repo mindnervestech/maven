@@ -681,10 +681,10 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
-	this.getAllFrontAndSalesPer=function(){
+	this.getAllFrontAndSalesPer=function(type){
 		var defer = $q.defer();
 		
-		$http.get('/getAllFrontAndSalesPer').success(function(data) {
+		$http.get('/getAllFrontAndSalesPer/'+type).success(function(data) {
 			defer.resolve(data);
 		});
 
@@ -758,6 +758,22 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
+	this.saveZipCode=function(status,id){
+		var defer = $q.defer();
+		$http.get('/saveZipCode/'+status+'/'+id).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Update successfully",
+			});
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
+	
+	
 	this.getZipCodeData=function(address){
 		var defer = $q.defer();
 		if(address.state != undefined && address.city != undefined){
@@ -817,6 +833,15 @@ angular.module('app.apiserviceConfigPage', [])
 	this.deleteMainCollection=function(addMainCollFields){
 		var defer = $q.defer();
 		$http.post('/deleteMainCollection',addMainCollFields).success(function(data) {
+			
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.deleteOneMainCollection=function(addMainCollFields){
+		var defer = $q.defer();
+		$http.post('/deleteOneMainCollection',addMainCollFields).success(function(data) {
 			
 			defer.resolve(data);
 		});

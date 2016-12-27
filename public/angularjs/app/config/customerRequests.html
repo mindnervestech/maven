@@ -47,7 +47,7 @@
 							<div class="col-sm-12" ng-if="customerReq.redirectValue == 'Automatically redirect an online customer requests based on'">
 									<div class=""></div>
 									<div class="col-sm-2" Style = "padding: 15px;">
-										<select id="customerRequest" ng-model="customerReq.priceValue" style="width: 200px;">
+										<select id="customerRequest" ng-model="customerReq.priceValue" ng-change="getchangesManufactures(customerReq.priceValue)" style="width: 200px;">
 	                                    	<option value="">Select</option>
 	                                    	<option value="Price">Price</option>
 	                                    	<option value="Manufacturer">Manufacturer</option>

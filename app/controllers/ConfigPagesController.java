@@ -629,9 +629,18 @@ public class ConfigPagesController extends Controller{
 				return ok(Json.toJson(manufact)); 
 			}
 		 
-		 public static Result getAllFrontAndSalesPer() {
-				List<AuthUser> frontAndSales = AuthUser.getAllSalesAndFrontUser();
-				return ok(Json.toJson(frontAndSales)); 
+		 public static Result getAllFrontAndSalesPer(String type) {
+			 List<AuthUser> authuser = AuthUser.getAllSalesAndFrontUser();
+			// if(!type.equals("Zip Code")){
+					return ok(Json.toJson(authuser)); 
+			 /*}else{
+				 List<SalesPersonZipCode> zipcode = SalesPersonZipCode.getAllcustManufactList();
+				 Map<String, Object> map = new HashMap<String, Object>();
+				 map.put("authUser", authuser);
+				 map.put("zipcodeList", zipcode);
+				 return ok(Json.toJson(map));
+			 }*/
+				
 			}
 		 public static Result getAllCustomerManufacturer() {
 				List<CustomerRequestManufacturerSettings> frontAndSales = CustomerRequestManufacturerSettings.getAllcustManufactList();
@@ -930,6 +939,50 @@ public class ConfigPagesController extends Controller{
 				 }
 				 
 			 }
+				
+		    	  return ok();
+			}
+		 
+		 
+	 public static Result saveZipCode(String status,Integer id) {
+			 
+		 CustomerRequest custData = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+			if(custData == null){
+				CustomerRequest lead = new CustomerRequest();
+				
+		    	  
+		    	   lead.redirectValue = "Automatically redirect an online customer requests based on";
+		    	   lead.personValue = "Zip Code";
+		    	   lead.location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    	   lead.save();
+			}else{
+					custData.setPersonValue("Zip Code");
+					custData.setRedirectValue("Automatically redirect an online customer requests based on");
+					custData.setLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+					custData.update();
+			}
+		 
+		 
+		 if(status.equals("Released to all of the sales people")){
+			 List<AuthUser> lead = AuthUser.getAllSalesAndFrontUser();
+			 for(AuthUser au:lead){
+				 au.setOutLeftAll(status);
+				 au.update();
+			 }
+		 }else if(status.equals("Sent to one of the sales people")){
+		
+			 List<AuthUser> lead = AuthUser.getAllSalesAndFrontUser();
+			 for(AuthUser au:lead){
+				 if(au.id.equals(id)){
+					 au.setOutLeftAll(status);
+				 }else{
+					 au.setOutLeftAll(null);
+				 }
+				 
+				 au.update();
+			 }
+			 
+		 }
 				
 		    	  return ok();
 			}
@@ -1838,13 +1891,21 @@ public class ConfigPagesController extends Controller{
 				
 	    		Form<InventorySettingVM> form = DynamicForm.form(InventorySettingVM.class).bindFromRequest();
 	    		InventorySettingVM vm = form.get();
-	    		deleteMainCollectionType();
+	    		//deleteMainCollectionType();
 	    		for(InventorySettingVM inven:vm.addMainCollFields){
-	    			InventorySetting inventory = new InventorySetting();
-	    			inventory.collection = inven.collection;
-	    			inventory.enableInven = true;
-	    			inventory.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
-	    			inventory.save();
+	    			if(inven.id == null){
+	    				InventorySetting inventory = new InventorySetting();
+		    			inventory.collection = inven.collection;
+		    			inventory.enableInven = true;
+		    			inventory.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    			inventory.save();
+	    			}else{
+	    				InventorySetting inventory = InventorySetting.findById(inven.id);
+		    			inventory.setCollection(inven.collection);
+		    			inventory.setEnableInven(inven.enableInven);
+		    			inventory.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+		    			inventory.update();
+	    			}	    			
 	    		}
 	    			
 	    		return ok();
@@ -1856,6 +1917,19 @@ public class ConfigPagesController extends Controller{
 					delList.delete();
 				}
 				return ok();
+			}
+		   
+		   public static Result deleteOneMainCollection(){
+		    	Form<InventorySettingVM> form = DynamicForm.form(InventorySettingVM.class).bindFromRequest();
+	    		InventorySettingVM vm = form.get();	    		
+	    		try {
+					InventorySetting inv = InventorySetting.findById(vm.id);
+					inv.delete();
+					return ok();
+				} catch (Exception e) {
+					e.printStackTrace();
+					return ok("error");
+				}	    		
 			}
 		    
 		    public static Result deleteMainCollection(){

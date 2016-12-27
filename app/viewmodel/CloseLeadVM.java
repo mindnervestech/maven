@@ -11,5 +11,6 @@ public class CloseLeadVM {
 	public String action;
 	public Long userNoteId;
 	public String userNote;
+	public List<String> leadIds;
 	
 }

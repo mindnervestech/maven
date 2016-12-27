@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$upload','$routeParams','apiserviceConfigPage','$window', function ($scope,$http,$location,$filter,$upload,$routeParams,apiserviceConfigPage,$window) {
+.controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$upload','$routeParams','apiserviceConfigPage','$window','$route', function ($scope,$http,$location,$filter,$upload,$routeParams,apiserviceConfigPage,$window,$route) {
 	$scope.premium = {};
 	
 	$scope.realese = {};
@@ -43,13 +43,6 @@ angular.module('newApp')
 		});
 		$scope.showFlag = 0;
 		
-		apiserviceConfigPage.getAllSalesUsers().then(function(data){
-			$scope.salesPersonList =data;
-			angular.forEach($scope.salesPersonList, function(obj, index){
-				obj.showDataValue = false;
-			});
-			console.log($scope.salesPersonList);
-		});
 		
 			/*$scope.showToUser = function(){
 		$scope.showTable = 1;
@@ -146,7 +139,7 @@ angular.module('newApp')
 		                                
 		                                 
 		                                 { name: 'edit', displayName: ' ', width:'30%',
-    		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.ShowCreateNewForm(row)" title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" ng-if="row.entity.name != \'Create New Lead\' && row.entity.name != \'My Leads - Canceling lead\' && row.entity.name != \'My Leads - History Log\' && row.entity.name != \'My Leads - Schedule an appointment\'" ng-click="grid.appScope.deleteCreateNewFormpopup(row)" title="Delete"></i> ', 
+    		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.ShowCreateNewForm(row)" title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" ng-if="row.entity.name != \'Create New Lead\' && row.entity.name != \'My Leads - Canceling lead\' && row.entity.name != \'My Leads - History Log\' && row.entity.name != \'My Leads - Schedule an appointment\' && row.entity.name != \'Appointment Completed\'" ng-click="grid.appScope.deleteCreateNewFormpopup(row)" title="Delete"></i> ', 
     		                                 /*ng-if="(row.entity.leadName != "Request More Info" || row.entity.leadName != "Schedule Test" || row.entity.leadName != "Trade In")"*/
 		                                 },
 		                                    ];
@@ -1227,7 +1220,7 @@ angular.module('newApp')
 				}
 			}
 		});
-		if($scope.userRoleData == undefined){
+		if($scope.userRoleData != undefined){
 			if($scope.userRoleData.role == "Manager"){
 				$scope.salesPersonName.push($scope.userRoleData); 
 			}
@@ -1338,20 +1331,7 @@ angular.module('newApp')
 		});
 	}
 	
-	apiserviceConfigPage.getAllCustomerReqData().then(function(data){
-		console.log(data);
-		$scope.customerReq = data;
-		if($scope.customerReq.redirectValue == "Automatically redirect an online customer requests based on"){
-			$scope.customerReq.priceValue = $scope.customerReq.personValue;
-		}
-		if(data.users != null){
-			$scope.customerReq.userId = data.users.id;
-		}
-		
-		console.log($scope.customerReq);
-		$scope.salesId = $scope.customerReq.id;
-		console.log($scope.salerPerFirstName);
-	});
+	
 	
 	apiserviceConfigPage.getAllCustomerManufacturer().then(function(data){
 		console.log(data);
@@ -1363,29 +1343,45 @@ angular.module('newApp')
 		console.log(data);
 		$scope.editSalesZipData = data;
 	});*/
+<<<<<<< HEAD
 	
 	$scope.initCustomerRequ = function(){
+=======
+>>>>>>> c9d6f26a5db54586b1cbdafc9c6bc69dfb6a0d05
 		
-		apiserviceConfigPage.getAllManufacturer().then(function(data){
-			$scope.allManufacturerList =data;
-			console.log($scope.allManufacturerList);
-			apiserviceConfigPage.getAllFrontAndSalesPer().then(function(data1){
+	$scope.getchangesManufactures = function(type){
+		if(type != "Zip Code"){
+			apiserviceConfigPage.getAllManufacturer().then(function(data){
+				$scope.allManufacturerList =data;
+				console.log($scope.allManufacturerList);
+				angular.forEach($scope.allManufacturerList, function(obj, index){
+					obj.userData = angular.copy($scope.allFronAndSalesList); 
+				 });
+				
+				angular.forEach($scope.allManufacturerList, function(obj, index){
+					angular.forEach($scope.editCustManufData, function(obj1, index1){
+						 if(obj.id == obj1.manufacturer.id){
+							 angular.forEach(obj.userData, function(obj2, index2){
+								 if(obj2.id == obj1.user.id){
+									 obj2.premiumFlag = true;
+								 }
+							 });
+						 }
+					 });
+				 });
+			});
+		}else{
+			apiserviceConfigPage.getAllFrontAndSalesPer(type).then(function(data1){
 				$scope.allFronAndSalesList =data1;
 				angular.forEach($scope.allFronAndSalesList, function(obj, index){
 					obj.zipCode = [];
 					obj.cityList = [];
 				});
-				angular.forEach($scope.allFronAndSalesList, function(obj, index){
-					obj.manuCount = 0;
-					obj.premiumFlag = false;
-				});
-				angular.forEach($scope.allManufacturerList, function(obj, index){
-					obj.userData = angular.copy($scope.allFronAndSalesList); 
-				 });
+				
 				apiserviceConfigPage.getAllSalesPersonZipCode().then(function(data2){
 					console.log(data2);
-					$scope.editSalesZipData = data2;
-					
+					//$scope.editSalesZipData = data1.zipcodeList;
+				$scope.editSalesZipData = data2;
 					$scope.zipCode ={};
 					
 					console.log(")))))))))))))000000000000000");
@@ -1420,24 +1416,65 @@ angular.module('newApp')
 							//obj.cityList = $scope.list;
 						});
 					
-					angular.forEach($scope.allManufacturerList, function(obj, index){
-						angular.forEach($scope.editCustManufData, function(obj1, index1){
-							 if(obj.id == obj1.manufacturer.id){
-								 angular.forEach(obj.userData, function(obj2, index2){
-									 if(obj2.id == obj1.user.id){
-										 obj2.premiumFlag = true;
-									 }
-								 });
-							 }
-						 });
-					 });
 					
 					$scope.msgShow($scope.allFronAndSalesList);
 					
 				});
-				
 			});
+		}
+		
+	}
+	
+	$scope.initCustomerRequ = function(){
+		
+		apiserviceConfigPage.getAllSalesUsers().then(function(data){
+			$scope.salesPersonList =data;
+			angular.forEach($scope.salesPersonList, function(obj, index){
+				obj.showDataValue = false;
+			});
+			console.log($scope.salesPersonList);
 		});
+		
+		apiserviceConfigPage.getAllCustomerReqData().then(function(data){
+			console.log(data);
+			$scope.customerReq = data;
+			if($scope.customerReq.redirectValue == "Automatically redirect an online customer requests based on"){
+				$scope.customerReq.priceValue = $scope.customerReq.personValue;
+			}
+			if(data.users != null){
+				$scope.customerReq.userId = data.users.id;
+			}
+			
+			console.log($scope.customerReq);
+			$scope.salesId = $scope.customerReq.id;
+			console.log($scope.salerPerFirstName);
+			if($scope.customerReq.priceValue != "Zip Code"){
+				
+				$scope.getchangesManufactures($scope.customerReq.priceValue);
+				
+				apiserviceConfigPage.getAllFrontAndSalesPer($scope.customerReq.priceValue).then(function(data1){
+					$scope.allFronAndSalesList =data1;
+					angular.forEach($scope.allFronAndSalesList, function(obj, index){
+						obj.manuCount = 0;
+						obj.premiumFlag = false;
+					});
+					$scope.msgShow($scope.allFronAndSalesList);
+				});
+				
+			}else{
+				
+				$scope.getchangesManufactures($scope.customerReq.priceValue);
+				
+			}
+			
+				
+				
+			
+		});
+		
+	
+		
+		
 		console.log("&&&&&&&&&&&^^^^^^^^^^^^^^^^^^^&&&&&&&&&&");
 		console.log($scope.allFronAndSalesList);
 	}
@@ -1934,7 +1971,21 @@ angular.module('newApp')
 	}
 	
 	$scope.SaveZipCodeData = function(){
-		$scope.saveRedirectToAll();
+		//$scope.saveRedirectToAll();
+		
+			console.log($scope.listAll);
+			console.log($scope.salesPersonList);
+			console.log($scope.realese.allSalesPeople);
+			var priceFlag = 0;
+			
+				var longId = 0;
+				if($scope.realese.allSalesPeople == "Sent to one of the sales people"){
+					longId = $scope.listAll.id;
+				}
+				apiserviceConfigPage.saveZipCode($scope.realese.allSalesPeople,longId).then(function(data){
+					console.log(data);
+				});
+		
 	}
 	
 	$scope.addZipCodeData = function(){
@@ -1986,12 +2037,12 @@ angular.module('newApp')
 	$scope.enableInven = false;
 	$scope.collectionFlag = 0;
 	$scope.enableInventory = function(enableInven){
-		console.log(enableInven);
+		console.log(enableInven,$scope.addMainCollFields);
 		
-		if(enableInven == false){
-			$scope.collectionFlag = 1;
-			$scope.addMainCollFields.push({collection:'',
-				enableInven:true
+		if(enableInven == true){
+			$scope.collectionFlag = 1;		
+			angular.forEach($scope.addMainCollFields, function(obj, index){
+				obj.enableInven = true;
 			});
 		}else{
 			$scope.collectionFlag = 0;
@@ -1999,11 +2050,14 @@ angular.module('newApp')
 		}
 	}
 	$scope.collect = [];
+	
+	
 	$scope.saveMainCollect = function(){
 		console.log($scope.addMainCollFields);
 		$scope.obj = {addMainCollFields:$scope.addMainCollFields};
 		apiserviceConfigPage.saveMainCollect($scope.obj).then(function(data){
 			console.log(data);
+			$window.location.reload();
 		});
 	}
 	
@@ -2017,18 +2071,22 @@ angular.module('newApp')
 		$scope.obj = {addMainCollFields:$scope.addMainCollFields};
 		apiserviceConfigPage.deleteMainCollection($scope.obj).then(function(data){
 			console.log(data);
+			$window.location.reload();
 		});
 		$('#collectionPopup').modal('hide');
 	}
 	
-	$scope.addMainCollFields = [];
 	$scope.addMainColllection = function(){
 		console.log("in add additional field");
 		$scope.addMainCollFields.push({collection:'',
 			enableInven:true
 			});
 	}
+	
 	$scope.addMainCollFields = [];
+	$scope.addMainCollFields.push({collection:'',
+		enableInven:true
+	});
 	$scope.getAllInventory = function(){
 		apiserviceConfigPage.getAllInventoryData().then(function(data){
 			console.log(data);
@@ -2044,6 +2102,45 @@ angular.module('newApp')
 			});
 		});
 	}
+	
+	$scope.deleteMainColl = function(obj){
+		angular.forEach($scope.addMainCollFields, function(value, index){
+			if(obj == value){
+				if(value.id == null){
+					console.log("New Collection");
+					$scope.addMainCollFields.splice(index,1);
+				}else{
+					console.log("Old Collection");
+					$scope.deleteObj = value;
+					$scope.delInd = index;
+					$('#deletePop').modal('show');
+				}
+			}
+		});
+		setTimeout(function(){$scope.$apply();},100);
+	};
+	
+	$scope.deletMainCollection = function(){
+		console.log($scope.deleteObj);
+		apiserviceConfigPage.deleteOneMainCollection($scope.deleteObj).then(function(data){
+			console.log(data);
+			if(data=='error'){
+				$.pnotify({
+				    title: "Error",
+				    type:'success',
+				    text: "Can't delete this main collection.",
+				});
+			}else{
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Main collection delete successfully.",
+				});
+				$scope.addMainCollFields.splice($scope.delInd,1);
+			}
+		});
+		$('#deletePop').modal('hide');
+	};
 	
 	$scope.changeFlagOfColl = function(){
 		console.log("in cancel button");

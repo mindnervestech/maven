@@ -577,7 +577,7 @@ public void setMessage(String message) {
 		return find.where().eq("productId", productId).eq("status", null).findList();
 	}
 	public static List<RequestMoreInfo> findByVinDate(String productId, Date date) {
-		return find.where().eq("productId", productId).eq("confirm_date", date).findList();
+		return find.where().eq("productId", productId).ne("status", null).eq("confirm_date", date).findList();
 	}
 	public static List<RequestMoreInfo> findByScheduler() {
 		return find.where().eq("schedule_email", 0).findList();

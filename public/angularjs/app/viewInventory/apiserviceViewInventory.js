@@ -13,6 +13,14 @@ angular.module('app.apiserviceViewInventory', [])
 		return defer.promise;
 	};
 	
+	this.getAllInventoryData=function(){
+		var defer = $q.defer();
+		$http.get('/getAllInventoryData').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 	this.getVehicleHistory=function(vin){
 		var defer = $q.defer();
 		
