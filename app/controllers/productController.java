@@ -24,6 +24,9 @@ import com.tinify.Tinify;
 import models.AddCollection;
 import models.AddProduct;
 import models.AuthUser;
+import models.InventorySetting;
+import models.Location;
+import models.Product;
 import models.ProductImages;
 import play.Play;
 import play.libs.Json;
@@ -32,6 +35,7 @@ import play.mvc.Result;
 import viewmodel.AddCollectionVM;
 import viewmodel.AddProductVM;
 import viewmodel.ImageVM;
+import viewmodel.ProductVM;
 import viewmodel.SpecificationVM;
 import views.html.home;
 import play.mvc.Http.MultipartFormData;
@@ -130,6 +134,81 @@ public class productController extends Controller {
 	    	AuthUser user = AuthUser.find.byId(Integer.parseInt(id));
 			return user;
 		}
+	 
+	 public static Result saveNewProduct(){
+		 try {
+			 AuthUser userObj = (AuthUser) getLocalUser();
+			 MultipartFormData body = request().body().asMultipartFormData();
+			 Form<ProductVM> form = DynamicForm.form(ProductVM.class).bindFromRequest();
+			 ProductVM vm = form.get();
+			 FilePart pdfFile = null ;
+			 
+			 Product product = new Product();
+			 product.secondaryTitle = vm.secondaryTitle;
+			 product.primaryTitle = vm.primaryTitle;
+			 product.description = vm.description;
+			 product.designer = vm.designer;
+			 product.price = vm.price;
+			 product.cost = vm.cost;
+			 product.newFlag = vm.newFlag;
+			 product.year = vm.year;
+			 product.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			 product.user = userObj;
+			 if(vm.mainCollection != null)
+				 product.mainCollection = InventorySetting.findById(vm.mainCollection);
+			 if(vm.collection != null)
+				 product.collection = AddProduct.findById(vm.collection);
+			 product.save();
+			 
+			 if(body != null){			 
+		    		List<FilePart> filePart =  body.getFiles();
+		    		if (filePart != null) {
+		    			if(filePart.size() > 0){   				
+		    	    		for(int i= 0; i<filePart.size(); i++){	    	    			
+				    	    		 pdfFile = filePart.get(i);	
+				       				 String fileName = pdfFile.getFilename().replaceAll("[-+^:,() ]","");
+				       	       		 System.out.println(fileName);
+				       	     		 String ext = FilenameUtils.getExtension(fileName);
+				       	     		 System.out.println(ext);
+				       	       		 fileName = product.id +"_"+ fileName;
+				       	       		 
+				       	       	    String contentType = pdfFile.getContentType(); 
+				       	       	    File fdir = new File(rootDir+File.separator+"productFiles"+File.separator+product.id);
+				       	       	    if(!fdir.exists()) {
+				       	       	    	fdir.mkdir();
+				       	       	    }   	       	
+				       	       	    String filePath = rootDir+File.separator+"productFiles"+File.separator+product.id+File.separator+fileName;
+				       	       	    try {
+				       	       	    	Boolean sts = FileUtils.deleteQuietly(new File(filePath));
+				       	       	    	System.out.println("delete "+sts);
+				       	       	    } catch (Exception e) {
+				       	       	    	e.printStackTrace();
+				       	       	    }
+					       	       	try {
+						       	       	File file = pdfFile.getFile();
+						       	       	if(ext.equalsIgnoreCase("pdf")){
+				       	       	    		FileUtils.moveFile(file, new File(filePath));
+				       	       	    		product.setFileName(fileName);
+				       	       	    		product.setFilePath(File.separator+"productFiles"+File.separator+product.id+File.separator+fileName);
+				       	       	    		product.update();			       		    		   		
+				       	       	    	}else if(ext.equalsIgnoreCase("cad")||ext.equalsIgnoreCase("zip")||ext.equalsIgnoreCase("rar")){
+				       	       	    		FileUtils.moveFile(file, new File(filePath));
+				       	       	    		product.setCadfileName(fileName);
+				       	       	    		product.setCadfilePath(File.separator+"productFiles"+File.separator+product.id+File.separator+fileName);
+				       	       	    		product.update();
+				       	       	    	}
+				       	       	    } catch (Exception e) {
+				       	       	    	e.printStackTrace();
+				       	       	    }			       	       	    
+		    	    		}
+		    			}
+		            }
+		    	}
+			 return ok("success");
+		} catch (Exception e) {
+			 return ok("error");
+		}		
+	 }
 	 
 	 
 	 public static Result addProduct(){

@@ -118,10 +118,10 @@ var MakeApp = angular
         })
         */
         
-       /* .when('/addProduct', {
-            templateUrl: 'dealer/addProduct/add_product.html',
-            controller: 'addProductCtrl'
-        })*/
+       .when('/product', {
+            templateUrl: 'dealer/product/product.html',
+            controller: 'productCtrl'
+        })
         
         .when('/myCalendar', {
             templateUrl: 'dealer/myCalendar/myCalendar.html',

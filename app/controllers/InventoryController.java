@@ -595,27 +595,15 @@ public class InventoryController extends Controller {
 		} 
 	   
 	   
-	   public static Result getAllCollection() {
+	   public static Result getAllCollection(Long id) {
 		   	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 		   		return ok(home.render("",userRegistration));
 		   	} else {
-		   		/*AuthUser userObj = (AuthUser) getLocalUser();
-			    	List<AddCollection> collectionList = AddCollection.findAllcollection();
-			    	
-			    	List<AddCollectionVM> collectionVMList = new ArrayList<>(); 
-			    	for(AddCollection collection : collectionList) {
-			    			AddCollectionVM aCollectionVM = new AddCollectionVM();
-			    			aCollectionVM.setId(collection.getId());
-			    			aCollectionVM.setDescription(collection.getDescription());
-			    			aCollectionVM.setSection(collection.getSection());
-			    			aCollectionVM.setTitle(collection.getTitle());
-			    			aCollectionVM.setPath(collection.getPath());
-			    			collectionVMList.add(aCollectionVM);
-			    		
-			    	}
-			    	return ok(Json.toJson(collectionVMList));*/
+		   		AuthUser userObj = (AuthUser) getLocalUser();
+		   		InventorySetting mainColl = InventorySetting.findById(id);
+			    List<AddProduct> collectionList = AddProduct.getAllCollection(mainColl);
+			    return ok(Json.toJson(collectionList));
 		   	}
-		   	return ok();
 		   }
 	   
 	   public static Result getCollectionData(Long id) {

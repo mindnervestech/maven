@@ -807,6 +807,8 @@ $scope.deleteVehicleRowPer = function() {
 	$scope.addManufacturers = function(){
 		if($scope.addObj == 'collection'){
 			$location.path('/addManufacturers');
+		}else{
+			$location.path('/product');
 		}
 		
 	}

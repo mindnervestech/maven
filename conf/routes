@@ -107,6 +107,7 @@ GET   /updateProductName/:id/:name         controllers.ConfigPagesController.upd
 GET     /getColl				         controllers.AddEditInventoryController.getCollectionList()
 #GET 	/getSections			         controllers.productController.getSections()
 POST    /saveProduct                     controllers.productController.addProduct()
+POST	/saveNewProduct					 controllers.productController.saveNewProduct()
 GET     /removeDefaultProduct/:newId	 controllers.productController.removeDefaultProduct(newId:Long)
 GET		/deleteImage/:id		         controllers.productController.deleteImage(id:Long)
 
@@ -143,7 +144,7 @@ POST    /updateProductInfo               controllers.InventoryController.updateP
 GET     /downloadFile/:id				 controllers.InventoryController.fileDownload(id:Long)
 GET     /downloadMoreFile/:leadtype/:leadId/:keyValue				 controllers.Application.downloadMoreFile(leadtype:String,leadId:String,keyValue:String)
 GET     /cadFileDownload/:id			 controllers.InventoryController.cadFileDownload(id:Long)
-GET     /getAllCollection		         controllers.InventoryController.getAllCollection()
+GET     /getAllCollection/:id		         controllers.InventoryController.getAllCollection(id:Long)
 GET     /getCollectionData/:id           controllers.InventoryController.getCollectionData(id:Long)  
 POST    /updateCollection		         controllers.InventoryController.updateCollection()
 POST    /updateReadyCollection		     controllers.InventoryController.updateReadyCollection()
