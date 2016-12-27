@@ -1261,6 +1261,13 @@ angular.module('newApp')
 			if($scope.realese.allSalesPeople == "Sent to one of the sales people"){
 				longId = $scope.listAll.id;
 			}
+			if(longId == undefined){
+				angular.forEach($scope.salesPersonName, function(obj, index){
+					if(obj.outLeftAll != undefined && obj.outLeftAll != null){
+						longId = obj.id
+					}
+				});
+			}
 			
 			apiserviceConfigPage.saveOutListAll($scope.realese.allSalesPeople,longId).then(function(data){
 				console.log(data);
