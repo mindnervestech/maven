@@ -1365,7 +1365,6 @@ angular.module('newApp')
 	});*/
 	
 	$scope.initCustomerRequ = function(){
-		console.log("000000000000000--------------");
 		
 		apiserviceConfigPage.getAllManufacturer().then(function(data){
 			$scope.allManufacturerList =data;
