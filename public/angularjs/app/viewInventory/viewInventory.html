@@ -20,7 +20,7 @@
 			</tab>
 			<tab>
                 <tab-heading>
-                    <button type="button"  class="btn btn-blue" >Product</button>
+                    <button type="button"  class="btn btn-blue" ng-click="productTab()">Product</button>
                 </tab-heading>			    
 			</tab>
 			<tab>
@@ -41,13 +41,19 @@
     	</select>
         <button ng-sec="Only View Inventory" type="button" id="comparisonSale" class="btn btn-blue" ng-click="addManufacturers()">+ ADD</button>
      </div>  
-     <div  ng-if="doPublic == 0"><div id="grid1" ui-grid="gridOptions" class="grid"  style="height:500px;" ui-grid-edit ui-grid-pagination>
-	</div></div>         
-       <div ng-if="doPublic == 1"><div id="grid1" ui-grid="gridOptions1" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-draggable-rows>
-	</div></div>
-	<div ng-if="doPublic == 2"><div  ui-grid="gridOptions2" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-draggable-rows>
-	</div></div>
-		<div class="col-md-12" ng-if="doPublic == 3" style="text-align:right;"><button type="button" id="comparisonSale" class="btn btn-blue"  ng-click="addCollection()">Add Collection</button></div>
+    <div  ng-if="doPublic == 0">
+     	<div id="grid1" ui-grid="gridOptions" class="grid"  style="height:500px;" ui-grid-edit ui-grid-pagination></div>
+	</div>         
+	<div ng-if="doPublic == 1">
+		<div id="grid1" ui-grid="gridOptions1" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-draggable-rows></div>
+	</div>
+	<div ng-if="doPublic == 2">
+		<div  ui-grid="gridOptions2" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-draggable-rows></div>
+	</div>
+	<div ng-if="doPublic == 4">
+		<div  ui-grid="gridOptions4" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-draggable-rows></div>
+	</div>
+	<div class="col-md-12" ng-if="doPublic == 3" style="text-align:right;"><button type="button" id="comparisonSale" class="btn btn-blue"  ng-click="addCollection()">Add Collection</button></div>
 	    <div ng-if="doPublic == 3">
 	    <div  style="margin-top:5%;" ng-show="flagForChart1" id="grid1" ui-grid="gridOptions3" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-draggable-rows>
 		   </div>  </div> 

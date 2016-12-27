@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -34,7 +36,7 @@ public class Product extends Model {
 	public Location locations;
 	
 	
-	public boolean isNewFlag() {
+	public boolean getNewFlag() {
 		return newFlag;
 	}
 	public void setNewFlag(boolean newFlag) {
@@ -146,5 +148,9 @@ public class Product extends Model {
 	
 	public static Product findAll() {
 		return (Product) find.all();
+	}
+	
+	public static List<Product> getAllProductByMainCollection(InventorySetting mainColl) {
+		return find.where().eq("mainCollection", mainColl).findList();
 	}
 }

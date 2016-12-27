@@ -208,6 +208,14 @@ angular.module('app.apiserviceViewInventory', [])
 		return defer.promise;
 	};
 	
+	this.getAllProductByCollection=function(id){
+		var defer = $q.defer();		
+		$http.get('/getAllProductByCollection/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 	this.addNewCollection=function(collections){
 		var defer = $q.defer();
 		

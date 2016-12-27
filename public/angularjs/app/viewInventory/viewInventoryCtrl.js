@@ -28,7 +28,9 @@ angular.module('newApp')
 			$scope.draftTab();
 		}if($scope.doPublic == 2){
 			$scope.soldTab();
-		}		
+		}if($scope.doPublic == 4){
+			$scope.productTab();
+		}			
 	};
 	$scope.changeOption = function(obj){
 		$scope.addObj = obj;
@@ -341,6 +343,41 @@ angular.module('newApp')
     			 };
     			 
     			 
+    			 $scope.gridOptions4 = {
+    				paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+		    	 	paginationPageSize: 150,
+			 	    enableFiltering: true,
+			 	    useExternalFiltering: true,
+		    	    rowTemplate: '<div grid="grid" class="ui-grid-draggable-row" draggable="true"><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader, \'custom\': true }" ui-grid-cell></div></div>',
+    			 };
+    			 
+    			 $scope.gridOptions4.enableHorizontalScrollbar = 0;
+    			 $scope.gridOptions4.enableVerticalScrollbar = 2;
+    			 $scope.gridOptions4.columnDefs = [
+														{ name: 'secondaryTitle', displayName: 'Secondary Title', width:'15%',cellEditableCondition: false,enableFiltering: true,
+															 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.secondaryTitle}}">{{row.entity.secondaryTitle}}</a></div>',
+														},
+														{ name: 'primaryTitle', displayName: 'Primary Title', width:'15%',cellEditableCondition: false,enableFiltering: true,
+															 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.primaryTitle}}">{{row.entity.primaryTitle}}</a></div>',
+														},
+														{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.description}}" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
+														},
+														{ name: 'designer', displayName: 'Designer',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.designer}}" data-content="{{row.entity.designer}}" >{{row.entity.designer}}</label> </div>',
+														},
+														{ name: 'price', displayName: 'Price',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.price}}" data-content="{{row.entity.price}}" >{{row.entity.price}}</label> </div>',
+														},
+														{ name: 'cost', displayName: 'Cost',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.cost}}" data-content="{{row.entity.cost}}" >{{row.entity.cost}}</label> </div>',
+														},
+														{ name: 'edit', displayName: 'Action', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+															 cellTemplate:'<i class="glyphicon glyphicon-picture"  ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit"  ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" title="sessions"></i>&nbsp;', 
+														},
+    			                                   ];
+    			 
+    			 
     			 $scope.historyVehicle = function(row){
     				 apiserviceViewInventory.getVehicleHistory(row.entity.vin).then(function(data){
     				 
@@ -489,7 +526,17 @@ angular.module('newApp')
     		    					 
     		    				 }
     		    				 });
-    		    			 }	    			 
+    		    			 }
+    		    			 
+    		    			 $scope.productTab = function() {
+    		    				 $scope.ch = false;
+    		    				 $scope.doPublic = 4;
+    		    				 $scope.flagForUser = true;
+    		    				 apiserviceViewInventory.getAllProductByCollection($scope.mainCollId).then(function(data){
+    		    					 console.log(data);
+    		    			 		 $scope.gridOptions4.data = data;
+    		    			 	});
+    		    			 }
     		    			 
     		    			 $scope.soldTab = function() {
     		    				 $scope.ch = false;

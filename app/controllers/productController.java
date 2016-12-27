@@ -135,6 +135,15 @@ public class productController extends Controller {
 			return user;
 		}
 	 
+	 public static Result getAllProductByCollection(Long id){
+		 InventorySetting mainColl = InventorySetting.findById(id);
+		 List<Product> collectionList = Product.getAllProductByMainCollection(mainColl);
+		 for (Product product : collectionList) {
+			
+		}
+		 return ok(Json.toJson(collectionList));
+	 }
+	 
 	 public static Result saveNewProduct(){
 		 try {
 			 AuthUser userObj = (AuthUser) getLocalUser();
