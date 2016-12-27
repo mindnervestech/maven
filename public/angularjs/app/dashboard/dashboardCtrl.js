@@ -5735,6 +5735,10 @@ angular.module('newApp')
 		    			$scope.userFields = $scope.addFormField($scope.userList);
 		    		});
 				 $("#appointmentCompleted").modal("show");
+			}else{
+						apiserviceDashborad.setApplointmentCancel(row.entity.id).then(function(data){
+							console.log("scce");
+						});
 			}
 			
 			

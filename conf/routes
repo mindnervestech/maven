@@ -448,6 +448,7 @@ GET     /getSalesUserList/:managerid      controllers.Application.getSalesUserLi
 GET     /getSalesUser                   controllers.Application.getSalesUser() 
 GET     /getAllSalesPersonScheduleTestAssigned/:id         controllers.Application.getAllSalesPersonScheduleTestAssigned(id:Integer)
 POST    /setApplointmentComp 				  controllers.Application.setApplointmentComp() 
+GET    /setApplointmentCancel/:id 			  controllers.Application.setApplointmentCancel(id:String)
 #GET     /getAllSalesPersonRequestInfoSeen/:id               controllers.Application.getAllSalesPersonRequestInfoSeen(id:Integer)
 GET     /getAllSalesPersonContactUsSeen/:id               controllers.Application.getAllSalesPersonContactUsSeen(id:Integer)
 #GET     /getAllSalesPersonTradeInSeen/:id                      controllers.Application.getAllSalesPersonTradeInSeen(id:Integer)

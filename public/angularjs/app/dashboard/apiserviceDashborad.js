@@ -952,6 +952,15 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
+	
+	this.setApplointmentCancel = function(id){
+		var defer = $q.defer();
+		$http.get('/setApplointmentCancel/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 	/*this.getAllSalesPersonRequestInfoSeen = function(id){
 		var defer = $q.defer();
 		$http.get('/getAllSalesPersonRequestInfoSeen/'+id).success(function(data) {

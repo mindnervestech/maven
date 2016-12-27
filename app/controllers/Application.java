@@ -16022,6 +16022,15 @@ private static void cancelTestDriveMail(Map map) {
     }
     
     
+    public static Result setApplointmentCancel(String id){
+    	RequestMoreInfo info = RequestMoreInfo.findById(Long.parseLong(id));
+    	if(info != null){
+    		info.setIsCompleteFlag(false);
+			info.update();
+    	}
+    	return ok();
+    }
+    
     public static Result setApplointmentComp(){
     	Form<CloseLeadVM> form = DynamicForm.form(CloseLeadVM.class).bindFromRequest();
 		CloseLeadVM vm = form.get();
