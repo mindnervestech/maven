@@ -1400,11 +1400,11 @@ angular.module('newApp')
 		
 	}
 	
-	$scope.initCustomerRequ = function(){
-		
-		
+	
+	$scope.getAllsalePerson = function(){
 		apiserviceConfigPage.getAllSalesPersons().then(function(data){
 			$scope.salesPersonName = data;
+			console.log($scope.salesPersonName);
 			angular.forEach($scope.salesPersonName, function(obj, index){
 				if(obj.outLeftAll != null){
 					console.log($scope.customerReq);
@@ -1420,18 +1420,15 @@ angular.module('newApp')
 					$scope.salesPersonName.push($scope.userRoleData); 
 				}
 			}
+			console.log("dddddddddddddddddddd");
+			console.log($scope.customerReq);
 			
 			
-			console.log($scope.salesPersonName);
 		});
+	}
+	
+	$scope.initCustomerRequ = function(){
 		
-		apiserviceConfigPage.getAllSalesUsers().then(function(data){
-			$scope.salesPersonList =data;
-			angular.forEach($scope.salesPersonList, function(obj, index){
-				obj.showDataValue = false;
-			});
-			console.log($scope.salesPersonList);
-		});
 		
 		apiserviceConfigPage.getAllCustomerReqData().then(function(data){
 			console.log(data);
@@ -1464,18 +1461,61 @@ angular.module('newApp')
 				$scope.getchangesManufactures($scope.customerReq.priceValue);
 				
 			}
-			
-				
-				
+			$scope.getAllsalePerson();
 			
 		});
-		
-	
-		
 		
 		console.log("&&&&&&&&&&&^^^^^^^^^^^^^^^^^^^&&&&&&&&&&");
 		console.log($scope.allFronAndSalesList);
 	}
+		
+		
+		apiserviceConfigPage.getAllSalesUsers().then(function(data){
+			$scope.salesPersonList =data;
+			angular.forEach($scope.salesPersonList, function(obj, index){
+				obj.showDataValue = false;
+			});
+			console.log($scope.salesPersonList);
+		});
+		
+		/*apiserviceConfigPage.getAllCustomerReqData().then(function(data){
+			console.log(data);
+			$scope.customerReq = data;
+			if($scope.customerReq.redirectValue == "Automatically redirect an online customer requests based on"){
+				$scope.customerReq.priceValue = $scope.customerReq.personValue;
+			}
+			if(data.users != null){
+				$scope.customerReq.userId = data.users.id;
+			}
+			
+			console.log($scope.customerReq);
+			$scope.salesId = $scope.customerReq.id;
+			console.log($scope.salerPerFirstName);
+			if($scope.customerReq.priceValue != "Zip Code"){
+				
+				$scope.getchangesManufactures($scope.customerReq.priceValue);
+				
+				apiserviceConfigPage.getAllFrontAndSalesPer($scope.customerReq.priceValue).then(function(data1){
+					$scope.allFronAndSalesList =data1;
+					angular.forEach($scope.allFronAndSalesList, function(obj, index){
+						obj.manuCount = 0;
+						obj.premiumFlag = false;
+					});
+					$scope.msgShow($scope.allFronAndSalesList);
+				});
+				
+			}else{
+				
+				$scope.getchangesManufactures($scope.customerReq.priceValue);
+				
+			}
+			
+			
+		});
+		
+		console.log("&&&&&&&&&&&^^^^^^^^^^^^^^^^^^^&&&&&&&&&&");
+		console.log($scope.allFronAndSalesList);
+	}*/
 	
 	
 	$scope.selectCheckFlag = 0;
@@ -1970,6 +2010,7 @@ angular.module('newApp')
 	
 	$scope.SaveZipCodeData = function(){
 		//$scope.saveRedirectToAll();
+		console.log($scope.salesPersonName);
 		
 			console.log($scope.listAll);
 			console.log($scope.salesPersonList);
@@ -1979,6 +2020,15 @@ angular.module('newApp')
 				var longId = 0;
 				if($scope.realese.allSalesPeople == "Sent to one of the sales people"){
 					longId = $scope.listAll.id;
+				}
+				if(longId == undefined){
+					angular.forEach($scope.salesPersonName, function(obj, index){
+						if(obj.outLeftAll != undefined && obj.outLeftAll != null){
+							longId = obj.id
+						}
+					});
+					
+					
 				}
 				apiserviceConfigPage.saveZipCode($scope.realese.allSalesPeople,longId).then(function(data){
 					console.log(data);
