@@ -7323,6 +7323,8 @@ angular.module('newApp')
 			   $scope.stockWiseData = [];
 			   $scope.cnTimeList = [];
 	    	   	   $scope.timeList = [];
+	    	   	$scope.customData = entity.customMapData;
+	    	   	
 			   $('#btnTestDrive').click();
 			   $scope.getAllMeetingData();
 			   /*if(entity != undefined){
