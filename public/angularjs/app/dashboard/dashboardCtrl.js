@@ -5522,6 +5522,18 @@ angular.module('newApp')
 			}
 			$scope.gridOptions2.data = data;
 			
+			$scope.gridOptions2.data.sort(function(a, b) {
+			    a = new Date(a.bestDay);
+			    b = new Date(b.bestDay);
+			    return a<b ? -1 : a>b ? 1 : 0;
+			});
+			
+			$scope.gridOptions2.data.sort(function(a, b) {
+			    a = new Date(a.isCompleteFlag);
+			    b = new Date(b.isCompleteFlag);
+			    return a<b ? -1 : a>b ? 1 : 0;
+			});
+			
 			$scope.gridMapObect = [];
 			var findFlag = 0;
 			console.log($scope.josnData);
@@ -5586,7 +5598,7 @@ angular.module('newApp')
 					
 					
 					   $scope.gridOptions2.columnDefs.push({ name: 'complete', displayName: 'Complete', width:'7%',cellEditableCondition: false,
-	                   	cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelected\"  ng-click="grid.appScope.doCheckBoxAction(row,row.entity.checkBoxSelected)" autocomplete="off">',
+	                   	cellTemplate:'<input type=\"checkbox\" ng-selected="row.entity.isCompleteFlag" ng-model=\"row.entity.isCompleteFlag\"  ng-change="grid.appScope.doCheckBoxAction(row,row.entity.isCompleteFlag)" autocomplete="off">',
 	                   	
 	                    });
 					
@@ -5715,13 +5727,16 @@ angular.module('newApp')
 		$scope.doCheckBoxAction = function(row,value){
 			console.log(value);
 			console.log(row.entity);
-			$scope.completeAppoint.push(row.entity.id);
-			 $scope.showFomeD("appointment"); 
-			 $scope.getFormDesign("Appointment Completed").then(function(response){
-	    			console.log(response);
-	    			$scope.userFields = $scope.addFormField($scope.userList);
-	    		});
-			 $("#appointmentCompleted").modal("show");
+			if(value == true){
+				$scope.completeAppoint.push(row.entity.id);
+				 $scope.showFomeD("appointment"); 
+				 $scope.getFormDesign("Appointment Completed").then(function(response){
+		    			console.log(response);
+		    			$scope.userFields = $scope.addFormField($scope.userList);
+		    		});
+				 $("#appointmentCompleted").modal("show");
+			}
+			
 			
 		}
 		
@@ -7584,6 +7599,12 @@ angular.module('newApp')
 			   
 			   $('#testDriveDate').on('changeDate', function(e) {
 				   var sDate = $('#testDriveDate').val();
+				   $scope.changeDateWeather(sDate);
+			   });
+			   
+			   $scope.changeDateWeather = function(sDate){
+				  console.log(sDate);
+				  console.log(new Date(sDate));
 				   apiserviceDashborad.getScheduleTime($scope.testDriveData.productId, sDate).then(function(data){
 					   $scope.timeList = [];
 					   $.each(data, function(i, el){
@@ -7591,9 +7612,9 @@ angular.module('newApp')
 					   })
 				   });
 				   
-				   document.getElementById("testDriveNature").innerHTML = "";
+				   document.getElementById("testDriveNatures").innerHTML = "";
 				   
-				   var day = moment(e.date).format('DD MMM YYYY');
+				   var day = moment(new Date(sDate)).format('DD MMM YYYY');
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
