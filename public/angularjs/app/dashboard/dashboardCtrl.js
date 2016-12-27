@@ -7659,7 +7659,6 @@ angular.module('newApp')
 			   
 			   $scope.changeDateWeather = function(sDate,type){
 				  console.log(sDate);
-				  console.log(type);
 				  console.log(new Date(sDate));
 				   apiserviceDashborad.getScheduleTime($scope.testDriveData.productId, sDate).then(function(data){
 					   $scope.timeList = [];
