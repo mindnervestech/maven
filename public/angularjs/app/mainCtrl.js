@@ -2117,8 +2117,15 @@ angular.module('newApp').controller('customizationCtrl',
 	    	
 	    	
 			var date = new Date().getTime();
-	    	$http.get('/getAllProduct/'+"publish"+'/'+date).success(function(data) {
+	    	/*$http.get('/getAllProduct/'+"publish"+'/'+date).success(function(data) {
 				$scope.manufacturerslist = data; 
+			});*/
+	    	
+	    	$http.get('/getAllInventoryData').success(function(data) {
+	    		
+	    		$scope.manufacturerslist = data; 
+	    		console.log($scope.manufacturerslist);
+	    		
 			});
 	    	
 	    	$http.get('/getAllGroupList').success(function(data) {
@@ -2131,13 +2138,26 @@ angular.module('newApp').controller('customizationCtrl',
     		}*/
 	    	
 	    	$scope.selecProductType = function(productType){
+	    		
+	    		$http.get('/getAllCollection/'+productType).success(function(data) {
+	    			console.log("oooooo---");
+	    			console.log(data);
+	    			$scope.subCollectionlist = data;
+			
+	    		});
+	    		
 	    		console.log(productType);
-	    		$http.get('/getSelectedLeadTypeWise/'+productType).success(function(data) {
+	    		/*$http.get('/getSelectedLeadTypeWise/'+productType).success(function(data) {
 	    			console.log(data);
 	    			console.log($scope.leadList);
 	    			$scope.leadList = data; 
 			
-	    		});
+	    		});*/
+	    	}
+	    	
+	    	$scope.selectSubCollectionType = function(subColl){
+	    		console.log(subColl);
+	    		$rootScope.subColl = subColl;
 	    	}
 	    	
 	    	
@@ -2149,7 +2169,7 @@ angular.module('newApp').controller('customizationCtrl',
   	  		  $scope.financeData.frequencyOfPayments=26;
 	    	
 	    	
-	    	 $scope.calculateFinancialData = function(financeData){
+	    	 /*$scope.calculateFinancialData = function(financeData){
 	    	   	  	var cost         =financeData.price;
 	    			var down_payment =financeData.downPayment;
 	    			var interest     =financeData.annualInterestRate;
@@ -2161,7 +2181,7 @@ angular.module('newApp').controller('customizationCtrl',
 	    			 $scope.payments      = loan_years * frequency_rate;
 	    			var difference    = cost - down_payment;
 	    			$scope.payment = Math.floor((difference*rate)/(1-Math.pow((1+rate),(-1* $scope.payments)))*100)/100;
-	          }
+	          }*/
 	            
 	    	 
 	    	  $scope.test = function(){

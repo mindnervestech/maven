@@ -18202,9 +18202,10 @@ if(vehicles.equals("All")){
     	int parentFlag = 0;
     	long parentLeadId = 0L;
     	//List<SalesPersonZipCode> zipcode = SalesPersonZipCode.findByZipCode(Long.valueOf(session("USER_LOCATION")), leadVM.custZipCode);
-    	List<AddProduct> productlist = AddProduct.findByTitle(leadVM.manufacturers);
+    	//List<AddProduct> productlist = AddProduct.findByTitle(leadVM.manufacturers);
+    	AddProduct inventoryVM = AddProduct.findById(Long.parseLong(leadVM.manufacturers));
     	RequestMoreInfo info = new RequestMoreInfo();
-    	    for(AddProduct inventoryVM:productlist){
+    	   // for(AddProduct inventoryVM:productlist){
     	   
 	    		
 	    		info.setIsReassigned(true);
@@ -18257,7 +18258,7 @@ if(vehicles.equals("All")){
 	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
 	    		uNotes.save();
-    	    }
+    	   // }
 	    
     	    String outcomeIds = null;
     	    if(cForm != null){

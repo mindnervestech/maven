@@ -2390,7 +2390,7 @@ angular.module('newApp')
 						}
 						if(value1.component == "productType"){
 							if(oneProduct == 0){
-								$scope.editLeads.manufacturers = value;
+								$scope.editLeads.manufacturers = $rootScope.subColl;
 								oneProduct++;
 							}
 						}
@@ -4517,7 +4517,9 @@ angular.module('newApp')
 		    				$scope.customData[attr] = value;
 		    			});
 	    			}
-	    			
+	    			if($rootScope.subColl != undefined){
+		    				$scope.customData["subCollection"] = $rootScope.subColl;
+	    			}
 	    		}
 	    		
 	    		$scope.customData = {};
@@ -4578,7 +4580,7 @@ angular.module('newApp')
 	    								}
 	    								if(value1.component == "productType"){
 	    									if(oneProduct == 0){
-	    										$scope.lead.manufacturers = value;
+	    										$scope.lead.manufacturers = $rootScope.subColl;
 	    										oneProduct++;
 	    									}
 	    								}
@@ -4685,6 +4687,7 @@ angular.module('newApp')
 								}
 							}
 							
+							
 							if(value1.key == attr){
 								
 								if(value1.component == "multipleselect"){
@@ -4701,19 +4704,24 @@ angular.module('newApp')
 		    		   	  		    component:value1.component,
 		    		   	  			formName:value1.formName,
 		    					});
+    							if(value1.component == "productType"){
+    								$scope.customList.push({
+        								fieldId:value1.fieldId,
+    		    		   	  			key:attr+'_subCollection',
+    		    		   	  			value:$rootScope.subColl,
+    		    		   	  			savecrm:value1.savecrm,
+    		    		   	  			displayGrid:value1.displayGrid,
+    		    		   	  		    displayWebsite:value1.displayWebsite,
+    		    		   	  		    component:value1.component,
+    		    		   	  			formName:value1.formName,
+    		    					});
+    							}
     							
 								if(value1.component == "daterange"){
 									
 									$.each(customeDataList, function(attr1, value3) {
 										if(value1.key+"_endDate" == attr1){
-											console.log("*&*^&^%&^%&^%*%%&*^*&^*&^*&^*&&^");
-											console.log(value);
-											console.log(value3);
-											console.log($filter('date')(value, 'dd-MM-yyyy'));
-										
-											console.log(new Date(value));
-											console.log(new Date(value3));
-											console.log(new Date(value3) >= new Date(value));
+											
 											if(new Date(value) >= new Date(value3)){
 												$scope.dateFlag = 1;
 											}else{
