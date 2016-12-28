@@ -252,6 +252,7 @@ angular.module('newApp')
 		$window.location.reload();
 		localStorage.setItem('popupType','Form');
 		console.log(row);
+		localStorage.setItem('typeOfForm', row.entity.name);
 		if(row.entity.name == "Create Lead"){
 			
 			$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create Lead');
@@ -289,7 +290,7 @@ angular.module('newApp')
 		//$location.path('/leadCreateForm/'+"Preview");
 		localStorage.setItem('popupType','Form');
 		console.log($scope.entityname);
-
+		localStorage.setItem('typeOfForm', row.entity.name);
 		if(row.entity.name == "Create Lead"){
 			$location.path('/'+'CreateLeadForm/'+"Preview"+"/"+'Create Lead');
 			}else if(row.entity.name == "Add Product"){
@@ -370,12 +371,14 @@ angular.module('newApp')
 		}
 		$scope.ShowFormBuilderSave = function(row){
 			$window.location.reload();
+			localStorage.setItem('typeOfForm', row.leadName);
 			$location.path('/otherForm/'+"save"+"/"+row.leadName);
 		}
 		$scope.ShowFormBuilder = function(row){
 			localStorage.setItem('popupType','Lead');
 			console.log(row);
 			console.log(row.leadName);
+			localStorage.setItem('typeOfForm', row.leadName);
 			$window.location.reload();
 			if(row.leadName == "Create Lead"){
 				$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create Lead');
@@ -638,6 +641,7 @@ angular.module('newApp')
 				 $scope.allLeadRender = function(row){
 						console.log(row);
 						if(row.entity.lead_name != ""){
+							localStorage.setItem('typeOfForm', row.entity.lead_name);
 						 if(row.entity.lead_name == "Request More Info"){
 							$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.lead_name);
 						}
@@ -775,6 +779,7 @@ angular.module('newApp')
 			 localStorage.setItem('popupType','Lead');
 				console.log(row);
 				console.log(row.leadName);
+				localStorage.setItem('typeOfForm', row);
 				if(row == "Create Lead"){
 					$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create Lead');
 				}else

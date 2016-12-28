@@ -18,6 +18,7 @@
     '$scope', '$injector', 'ngDialog', function($scope, $injector, ngDialog) {
     	
     	$scope.editLead = localStorage.getItem('callToAction');
+    	$scope.typeOfForm = localStorage.getItem('typeOfForm');
     	var asciCode = 65;
         $scope.gridColumnOption = {
             'column_name' : '',
