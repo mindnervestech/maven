@@ -373,7 +373,7 @@ angular.module('newApp')
 															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.cost}}" data-content="{{row.entity.cost}}" >{{row.entity.cost}}</label> </div>',
 														},
 														{ name: 'edit', displayName: 'Action', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-															 cellTemplate:'<i class="glyphicon glyphicon-picture"  ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit"  ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" title="sessions"></i>&nbsp;', 
+															 cellTemplate:'<i class="glyphicon glyphicon-picture"  ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit"  ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit" ng-click="grid.appScope.updateProduct(row.entity)"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.deleteProduct(row.entity)"></i>&nbsp;', 
 														},
     			                                   ];
     			 
@@ -386,6 +386,40 @@ angular.module('newApp')
     					});
     			 };
     			 
+    			 $scope.updateProduct = function(row){
+    				 console.log(row);
+    				 $location.path('/update-product/'+row.id);    				 
+    			 };
+    			 
+    			 $scope.deleteProduct = function(row){
+    				 console.log(row);
+    				 $scope.deleteObj = row;
+    				 $('#productDeletePop').modal('show');
+    			 };
+    			 
+    			 $scope.deleteError = false;
+    			 $scope.deleteThisProduct = function(){
+    				 console.log($scope.deleteObj);
+    				 apiserviceViewInventory.deleteThisProduct($scope.deleteObj.id).then(function(data){    					 
+    					 if(data == 'error'){
+    						 $.pnotify({
+  							    title: "Error",
+  							    type:'error',
+  							    text: "Can't delete this product",
+  							});
+    						 $scope.deleteError = true;
+    					 }else{
+    						 $scope.productTab();
+        					 $('#productDeletePop').modal('hide');
+    						 $.pnotify({
+  							    title: "Success",
+  							    type:'success',
+  							    text: "Product delete successfully",
+  							});
+    						 $scope.deleteError = false;
+    					 }    					 
+ 					});    				 
+    			 };
     			 
     			 $scope.hideProduct = function(row){
     				 console.log(row);

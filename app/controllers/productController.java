@@ -144,6 +144,21 @@ public class productController extends Controller {
 		 return ok(Json.toJson(collectionList));
 	 }
 	 
+	 public static Result getProductDataById(Long id){
+		 Product product = Product.findById(id);
+		 return ok(Json.toJson(product));
+	 }
+	 
+	 public static Result deleteThisProduct(Long id) {
+		 try {
+			 	Product product = Product.findById(id);
+			 	product.delete();
+			 	return ok("success");
+		} catch (Exception e) {
+			return ok("error");
+		}		   
+	  }
+	 
 	 public static Result saveNewProduct(){
 		 try {
 			 AuthUser userObj = (AuthUser) getLocalUser();
@@ -214,6 +229,88 @@ public class productController extends Controller {
 		            }
 		    	}
 			 return ok("success");
+		} catch (Exception e) {
+			 return ok("error");
+		}		
+	 }
+	 
+	 public static Result updateNewProduct(){
+		 try {
+			 AuthUser userObj = (AuthUser) getLocalUser();
+			 MultipartFormData body = request().body().asMultipartFormData();
+			 Form<ProductVM> form = DynamicForm.form(ProductVM.class).bindFromRequest();
+			 ProductVM vm = form.get();
+			 FilePart pdfFile = null ;
+			 
+			 Product product = Product.findById(vm.id);
+			 if(product != null){
+				 product.setSecondaryTitle(vm.secondaryTitle);
+				 product.setPrimaryTitle(vm.primaryTitle);
+				 product.setDescription(vm.description);
+				 product.setDesigner(vm.designer);
+				 product.setPrice(vm.price);
+				 product.setCost(vm.cost);
+				 product.setNewFlag(vm.newFlag);
+				 product.setYear(vm.year);
+				 product.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+				 product.setUser(userObj);
+				 
+				 if(vm.mainCollection != null)
+					 product.setMainCollection(InventorySetting.findById(vm.mainCollection));
+				 if(vm.collection != null)
+					 product.setCollection(AddProduct.findById(vm.collection));
+				 
+				 product.update();
+				 
+				 if(body != null){			 
+			    		List<FilePart> filePart =  body.getFiles();
+			    		if (filePart != null) {
+			    			if(filePart.size() > 0){   				
+			    	    		for(int i= 0; i<filePart.size(); i++){	    	    			
+					    	    		 pdfFile = filePart.get(i);	
+					       				 String fileName = pdfFile.getFilename().replaceAll("[-+^:,() ]","");
+					       	       		 System.out.println(fileName);
+					       	     		 String ext = FilenameUtils.getExtension(fileName);
+					       	     		 System.out.println(ext);
+					       	       		 fileName = product.id +"_"+ fileName;
+					       	       		 
+					       	       	    String contentType = pdfFile.getContentType(); 
+					       	       	    File fdir = new File(rootDir+File.separator+"productFiles"+File.separator+product.id);
+					       	       	    if(!fdir.exists()) {
+					       	       	    	fdir.mkdir();
+					       	       	    }   	       	
+					       	       	    String filePath = rootDir+File.separator+"productFiles"+File.separator+product.id+File.separator+fileName;
+					       	       	    try {
+					       	       	    	Boolean sts = FileUtils.deleteQuietly(new File(filePath));
+					       	       	    	System.out.println("delete "+sts);
+					       	       	    } catch (Exception e) {
+					       	       	    	e.printStackTrace();
+					       	       	    }
+						       	       	try {
+							       	       	File file = pdfFile.getFile();
+							       	       	if(ext.equalsIgnoreCase("pdf")){
+					       	       	    		FileUtils.moveFile(file, new File(filePath));
+					       	       	    		product.setFileName(fileName);
+					       	       	    		product.setFilePath(File.separator+"productFiles"+File.separator+product.id+File.separator+fileName);
+					       	       	    		product.update();			       		    		   		
+					       	       	    	}else if(ext.equalsIgnoreCase("cad")||ext.equalsIgnoreCase("zip")||ext.equalsIgnoreCase("rar")){
+					       	       	    		FileUtils.moveFile(file, new File(filePath));
+					       	       	    		product.setCadfileName(fileName);
+					       	       	    		product.setCadfilePath(File.separator+"productFiles"+File.separator+product.id+File.separator+fileName);
+					       	       	    		product.update();
+					       	       	    	}
+					       	       	    } catch (Exception e) {
+					       	       	    	e.printStackTrace();
+					       	       	    }			       	       	    
+			    	    		}
+			    			}
+			            }
+			    	}
+				 return ok("success");
+			 }else{
+				 return ok("error");
+			 }
+			 
 		} catch (Exception e) {
 			 return ok("error");
 		}		

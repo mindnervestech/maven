@@ -30,6 +30,14 @@ angular.module('app.apiserviceViewInventory', [])
 		return defer.promise;
 	};
 	
+	this.deleteThisProduct=function(id){
+		var defer = $q.defer();		
+		$http.get('/deleteThisProduct/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 	this.getHideProduct=function(id){
 		var defer = $q.defer();
 		

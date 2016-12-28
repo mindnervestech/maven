@@ -108,8 +108,11 @@ GET     /getColl				         controllers.AddEditInventoryController.getCollectio
 #GET 	/getSections			         controllers.productController.getSections()
 POST    /saveProduct                     controllers.productController.addProduct()
 POST	/saveNewProduct					 controllers.productController.saveNewProduct()
+POST	/updateNewProduct				 controllers.productController.updateNewProduct()
 GET     /removeDefaultProduct/:newId	 controllers.productController.removeDefaultProduct(newId:Long)
 GET		/deleteImage/:id		         controllers.productController.deleteImage(id:Long)
+GET     /deleteThisProduct/:id           controllers.productController.deleteThisProduct(id:Long)
+GET		/getProductDataById/:id			controllers.productController.getProductDataById(id:Long)
 
 POST		/saveImageTitle		         controllers.productController.saveImageTitle()
 GET		/getImagesByProduct/:id		     controllers.productController.getImagesByProduct(id:Long)

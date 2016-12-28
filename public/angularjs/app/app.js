@@ -123,6 +123,11 @@ var MakeApp = angular
             controller: 'productCtrl'
         })
         
+        .when('/update-product/:id', {
+            templateUrl: 'dealer/product/update-product.html',
+            controller: 'updateProductCtrl'
+        })
+        
         .when('/myCalendar', {
             templateUrl: 'dealer/myCalendar/myCalendar.html',
             controller: 'myCalendarCtrl'
