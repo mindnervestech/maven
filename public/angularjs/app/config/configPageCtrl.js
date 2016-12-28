@@ -1439,6 +1439,16 @@ angular.module('newApp')
 		});
 	}
 	
+	apiserviceConfigPage.getAllFrontAndSalesPer("Manufacturer").then(function(data1){
+		$scope.allFronAndSalesList =data1;
+		angular.forEach($scope.allFronAndSalesList, function(obj, index){
+			obj.manuCount = 0;
+			obj.premiumFlag = false;
+		});
+		$scope.msgShow($scope.allFronAndSalesList);
+		$scope.getchangesManufactures("Manufacturer");
+	});
+	
 	$scope.initCustomerRequ = function(){
 		
 		apiserviceConfigPage.getAllCustomerReqData().then(function(data){
