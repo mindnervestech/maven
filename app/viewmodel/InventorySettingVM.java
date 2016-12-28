@@ -8,6 +8,6 @@ public class InventorySettingVM {
 	public String collection;
 	public Boolean enableInven;
 	public List<InventorySettingVM> addMainCollFields;
-
+	public List<UserVM> userData;
 	
 }

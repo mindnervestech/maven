@@ -17,8 +17,10 @@ public class CustomerRequestManufacturerSettings extends Model {
 	@ManyToOne
 	public AuthUser user;
 	
+	/*@ManyToOne
+	public AddProduct manufacturer;*/
 	@ManyToOne
-	public AddProduct manufacturer;
+	public InventorySetting manufacturer;
 	@ManyToOne
 	public Location locations;
 
@@ -41,11 +43,11 @@ public class CustomerRequestManufacturerSettings extends Model {
 		this.locations = locations;
 	}
 
-	public AddProduct getManufacturer() {
+	public InventorySetting getManufacturer() {
 		return manufacturer;
 	}
 
-	public void setManufacturer(AddProduct manufacturer) {
+	public void setManufacturer(InventorySetting manufacturer) {
 		this.manufacturer = manufacturer;
 	}
 

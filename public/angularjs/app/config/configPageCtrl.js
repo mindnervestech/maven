@@ -1433,7 +1433,6 @@ angular.module('newApp')
 					$scope.salesPersonName.push($scope.userRoleData); 
 				}
 			}
-			console.log("dddddddddddddddddddd");
 			console.log($scope.customerReq);
 			
 			
@@ -1441,7 +1440,6 @@ angular.module('newApp')
 	}
 	
 	$scope.initCustomerRequ = function(){
-		
 		
 		apiserviceConfigPage.getAllCustomerReqData().then(function(data){
 			console.log(data);
@@ -1467,9 +1465,6 @@ angular.module('newApp')
 					$scope.msgShow($scope.allFronAndSalesList);
 					$scope.getchangesManufactures($scope.customerReq.priceValue);
 				});
-				
-				
-				
 				
 			}else{
 				

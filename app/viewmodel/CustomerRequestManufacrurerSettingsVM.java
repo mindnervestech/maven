@@ -8,6 +8,6 @@ import models.AuthUser;
 public class CustomerRequestManufacrurerSettingsVM {
 
 	public String id;
-	public List<AddProductVM> allManufacturerList;
-	
+	//public List<AddProductVM> allManufacturerList;
+	public List<InventorySettingVM> allManufacturerList;
 }

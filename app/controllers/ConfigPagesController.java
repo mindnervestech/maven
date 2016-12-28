@@ -625,7 +625,7 @@ public class ConfigPagesController extends Controller{
 			}
 		 
 		 public static Result getAllManufacturer() {
-				List<AddProduct> manufact = AddProduct.getProductByDraftStatus();
+				List<InventorySetting> manufact = InventorySetting.findByLocation(Long.valueOf(session("USER_LOCATION")));
 				return ok(Json.toJson(manufact)); 
 			}
 		 
@@ -689,11 +689,11 @@ public class ConfigPagesController extends Controller{
 			 Form<CustomerRequestManufacrurerSettingsVM> form = DynamicForm.form(CustomerRequestManufacrurerSettingsVM.class).bindFromRequest();
 			 CustomerRequestManufacrurerSettingsVM vm = form.get();
 			 	deleteCustManfuctList();
-		    	for(AddProductVM aProduct:vm.allManufacturerList){
+		    	for(InventorySettingVM aProduct:vm.allManufacturerList){
 		    		for(UserVM user:aProduct.userData){
 		    			if(user.premiumFlag.equals("true")){
 		    			CustomerRequestManufacturerSettings custManufact = new CustomerRequestManufacturerSettings();
-		    			custManufact.manufacturer = AddProduct.findById(aProduct.id);
+		    			custManufact.manufacturer = InventorySetting.findById(aProduct.id);
 		    			custManufact.user = AuthUser.findById(user.id);
 		    			custManufact.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    			custManufact.save();
