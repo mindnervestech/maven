@@ -487,7 +487,7 @@ angular.module('newApp')
    								}
    								if(value1.component == "productType"){
    									if(oneProduct == 0){
-   										$scope.contactsDetails.manufacturers = value;
+   										$scope.contactsDetails.manufacturers =  $rootScope.subColl;
    										oneProduct++;
    									}
    								}
@@ -643,7 +643,7 @@ angular.module('newApp')
     								}
     								if(value1.component == "productType"){
     									if(oneProduct == 0){
-    										$scope.contactsDetails.manufacturers = value;
+    										$scope.contactsDetails.manufacturers =  $rootScope.subColl;
     										oneProduct++;
     									}
     								}
@@ -688,6 +688,9 @@ angular.module('newApp')
 				$.each($rootScope.rObj, function(attr, value) {
    				$scope.customData[attr] = value;
    			});
+			}
+			if($rootScope.subColl != undefined){
+				$scope.customData["subCollection"] = $rootScope.subColl;
 			}
 			
 		}
@@ -776,6 +779,19 @@ angular.module('newApp')
    		   	  		    component:value1.component,
    		   	  			formName:value1.formName,
    					});
+						
+						if(value1.component == "productType"){
+							$scope.customList.push({
+								fieldId:value1.fieldId,
+	    		   	  			key:attr+'_subCollection',
+	    		   	  			value:$rootScope.subColl,
+	    		   	  			savecrm:value1.savecrm,
+	    		   	  			displayGrid:value1.displayGrid,
+	    		   	  		    displayWebsite:value1.displayWebsite,
+	    		   	  		    component:value1.component,
+	    		   	  			formName:value1.formName,
+	    					});
+						}
 						
 						if(value1.component == "daterange"){
 							
