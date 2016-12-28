@@ -1633,14 +1633,7 @@ angular.module('newApp')
 		    													         }
 		    													   	} ,
 		    													   },
-		    													   { name: 'wethar', displayName: 'Weather', width:'8%',cellEditableCondition: false,
-		     	     					                                	cellTemplate:'<a style="color: #5b5b5b;">{{row.entity.wether}}&deg;</a> ',
-		     	     					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-		     	     					                                	 if (row.entity.isRead === false) {
-		     	     					                                		 return 'red';
-		     	     					                                	 }
-		     	     				 		                              } ,
-		     	     			 		                            },
+     			 		                                
      			     		                                 ];
     	 		 
      			 		 
@@ -5355,11 +5348,12 @@ angular.module('newApp')
         }*/
 
         $scope.setWether = function(gridValue){
+			  
 			   angular.forEach(gridValue,function(value1,key1){
 				   var day = moment(value1.confirmDate).format('D MMM YYYY');
 				   var img= "";
 			   angular.forEach($scope.whDataArr,function(value,key){
-				   if(angular.equals(day, value.date)){
+				  if(angular.equals(day, value.date)){
 					  value1.wether = value.text+"  "+value.low;
 				  }
 			   });
@@ -5516,6 +5510,7 @@ angular.module('newApp')
 //			$scope.getAllLeadIn();
 //			$('#home-tab').click();
 		};
+	
 		
 		$scope.getScheduleData = function(id){
 			var deferred = $q.defer();
@@ -5526,8 +5521,7 @@ angular.module('newApp')
 				data[i].checkBoxSelect = false;
 			}
 			$scope.gridOptions2.data = data;
-			$scope.setWether($scope.gridOptions2.data);
-			console.log($scope.gridOptions2.data);
+			
 			$scope.gridOptions2.data.sort(function(a, b) {
 			    a = new Date(a.bestDay);
 			    b = new Date(b.bestDay);
