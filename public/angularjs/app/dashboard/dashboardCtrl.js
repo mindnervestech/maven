@@ -6469,6 +6469,17 @@ angular.module('newApp')
     		}
     	}
     	
+    	$scope.cancelAllLeadSchedule = function(value){
+    		console.log(value);
+    		if(value == undefined || value == false){
+    			$scope.allCanFlag = 1;
+    			$scope.leadDetId = $scope.actionSelectedLead;
+    		}else{
+    			$scope.allCanFlag = 0;
+    			$scope.leadDetId = [];
+    		}
+    	}
+    	
     	$scope.rowData = {};
   	  	var flag=0;
     	$scope.cancelFlag = 0;
@@ -6517,6 +6528,53 @@ angular.module('newApp')
     		});
     		$scope.reasonToCancel = "";
     		$('#btnCancelSchedule').click();
+    	}
+    	$scope.cancelFromCalend = function(schedule){
+    		console.log(schedule);
+    		$scope.cancelLeadId = [];
+    		$scope.cancelLeadId = schedule.id;
+    		$scope.actionSelectedLead = $scope.cancelLeadId; 
+    		console.log($scope.actionSelectedLead);
+    		console.log($scope.getAllListLeadDate);
+    		$scope.cancelScheduleLeads();
+    	}
+    	
+    	$scope.cancelScheduleLeads = function() {
+    		var flag = 0;
+    		angular.forEach($scope.actionSelectedLead, function(obj, index){
+		  	  	angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
+		  	  		if(flag == 0){
+		  	  			if(obj == obj1.id){
+		  	  				flag = 1;
+		  	  				$scope.leadDetId = [];
+			    				 $scope.scheduLeadId.push(obj1);
+			    				 $scope.leadDetId.push(obj1.id);
+			    				 console.log($scope.leadDetId);
+			    				 $scope.rowData.name = obj1.name;
+			    				 $scope.rowData.bestDay = obj1.bestDay;
+			    				 $scope.rowData.bestTime = obj1.bestTime;
+			    				 if($scope.rowData.bestDay != null && $scope.rowData.bestTime != null){
+			    	        			$scope.notiCanFlag = 1;
+			    				 }
+			    				 else{
+			    					 $scope.notiCanFlag = 0;
+			    				 }
+		  	  			}
+		  	  		}
+			   });
+		   });
+    		if($scope.actionSelectedLead.length > 1){
+    			$scope.cancelFlag = 1;
+    		}else{
+    			$scope.cancelFlag = 2;
+    		}
+    		$scope.showFomeD("Canceling lead");
+    		$scope.getFormDesign("My Leads - Canceling lead").then(function(response){
+    			console.log(response);
+    			$scope.userFields = $scope.addFormField($scope.userList);
+    		});
+    		$scope.reasonToCancel = "";
+    		$('#btnCancelScheduleLead').click();
     	}
     	
     	$scope.cancelScheduleComfir = function(entity){
@@ -6579,6 +6637,75 @@ angular.module('newApp')
 			   
 		  	  });
 		  	  console.log($scope.leadDetId);
+    	}
+    	
+    	$scope.cancelSureLead = function(reasonToCancel){
+    		$('#scheduleCancelModalLead').modal("toggle");
+    		console.log(reasonToCancel);
+    			$scope.saveScheduleCancel(reasonToCancel);
+    	}
+    	
+    	$scope.saveScheduleCancel = function(reasonToCancel) {
+    		$scope.multiSelectBindWithCustomData();
+    		$scope.closeleadObj = {};
+    				$scope.josnData = null;
+    				apiserviceDashborad.getCustomizationform('My Leads - Canceling lead').then(function(response){
+    					$scope.josnData = angular.fromJson(response.jsonData);
+    					angular.forEach($scope.josnData, function(obj, index){
+    						obj.formName = "My Leads - Canceling lead";
+    	    			});
+    					if(response.additionalData == true){
+    						angular.forEach(angular.fromJson(response.jsonDataAdd), function(obj, index){
+        						obj.formName = "My Leads - Canceling lead";
+        						$scope.josnData.push(obj);
+       	    				});
+    					}
+    					var oneProduct = 0;
+    					$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
+    						$scope.customList = response;
+    					});
+        			if($scope.leadDetId.length != 0){
+        				$scope.closeleadObj.actionSelectedLead = $scope.leadDetId;
+        			}else{
+        				$scope.closeleadObj.actionSelectedLead = $scope.actionSelectedLead;
+        			}
+        			console.log($scope.closeleadObj.actionSelectedLead);
+    	    		$scope.closeleadObj.reasonToCancel = reasonToCancel;
+    	    		$scope.closeleadObj.customData = $scope.customList;
+    	    		console.log($scope.closeleadObj);
+    	    		$scope.reasonFlag = 0;
+    					if($scope.closeleadObj.reasonToCancel != ""){
+    						$scope.reasonFlag = 0;
+    						apiserviceDashborad.setScheduleStatusCancel($scope.closeleadObj).then(function(data){
+    		    	    		 $.pnotify({
+    		    					    title: "Success",
+    		    					    type:'success',
+    		    					    text: "Successfully schedule canclled "+" "+$scope.closeleadObj.actionSelectedLead.length+ " leads",
+    		    					});
+    		    	    		 $scope.schedulmultidatepicker();
+    		    	    		 $scope.proceedToNext();
+    		    	    		  $scope.reasonToCancel = "";
+    		    				});
+    		    	    	if($scope.actionSelectedLead.length != undefined){
+    		    	    		console.log("defined");
+    		    	    		if($scope.actionSelectedLead.length == $scope.scheduLeadId.length){
+    		    	    	  		console.log("reload page");
+    		    	    			$('#scheduleCancelBtn').click();
+    		  						$route.reload();
+    		    	    	  	}
+    		    	    	}  	
+    		    	    	else{
+    		    	    		console.log("Undefined");
+    		    	    		if($scope.cancelLeadId.length == undefined){
+    		    	    			console.log("reload page");
+    		    	    			$('#scheduleCancelBtn').click();
+    		  						$route.reload();
+    		    	    	  	}
+    		    	    	}
+    					}else{
+    						$scope.reasonFlag = 1;
+    					}
+      	  		});
     	}
     	
     	$scope.cancelSure = function(reasonToCancel){

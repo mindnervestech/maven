@@ -12602,6 +12602,67 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     
+    public static Result setScheduleStatusCancel() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		Form<CloseLeadVM> form = DynamicForm.form(CloseLeadVM.class).bindFromRequest();
+    		CloseLeadVM vm = form.get();
+    		String clientEmail=null;
+    		String clientPhone=null;
+    		String clientName=null;
+    		MultipartFormData bodys = request().body().asMultipartFormData();
+    		AuthUser user = getLocalUser();
+    		Date currDate = new Date();
+    		
+    		String comments="Test Drive has been canceled";
+    		String subject = "Test Drive cancelled";
+    		
+    		//String arr[] = arrayString.split(",");
+    		for(String value:vm.actionSelectedLead){
+    			RequestMoreInfo info = RequestMoreInfo.findById(Long.parseLong(value));
+    			
+    			String vin=info.vin;
+    			info.setStatus(null);
+    			info.setStatusDate(null);
+    			info.setStatusTime(null);
+    			info.setReason(vm.reasonToCancel);
+    			info.setBestDay(null);
+    			info.setBestTime(null);
+    			info.setScheduleDate(null);
+    			info.setConfirmDate(null);
+    			info.setConfirmTime(null);
+    			info.setIsScheduled(false);
+    			info.update();
+    			clientEmail=info.email;
+    			if(vm.customData != null){
+    				saveCustomData(info.id,vm.customData,bodys,Long.parseLong(info.isContactusType));
+    			}
+    			if(info.confirmDate != null){
+    				Map map = new HashMap();
+		    		map.put("email",clientEmail);
+		    		map.put("vin", vin);
+		    		map.put("uname", user.firstName+" "+user.lastName);
+		    		map.put("uphone", user.phone);
+		    		map.put("uemail", user.email);
+		    		map.put("clintName", info.name);
+    				cancelTestDriveMail(map);
+        	    	  //sendEmail(clientEmail,subject,comments);
+        			}
+        		UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Client didn't buy vehicle");
+        		uNotes.setAction("Other");
+        		uNotes.createdDate = currDate;
+        		uNotes.createdTime = currDate;
+        		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+        		uNotes.save();
+    		}
+    		return ok();
+    	}
+    }
+    
     public static Result setRequestStatusComplete() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));

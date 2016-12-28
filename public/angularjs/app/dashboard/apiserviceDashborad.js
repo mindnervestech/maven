@@ -1598,4 +1598,12 @@ angular.module('app.apiserviceDashborad', [])
 		});
 		return defer.promise;
 	};
+	
+this.setScheduleStatusCancel = function(closeleadObj){
+		var defer = $q.defer();
+			$http.post('/setScheduleStatusCancel',closeleadObj).success(function(data) {
+				defer.resolve(data);
+			});
+		return defer.promise;
+	};
 })

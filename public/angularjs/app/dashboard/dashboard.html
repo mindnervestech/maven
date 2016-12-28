@@ -570,8 +570,14 @@ float: right !important;
 									<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Invited Person's Email: {{schedule.email}}</span><br>
 									<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Invited Person's Phone: {{schedule.phone}}</span>
 									<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;"><label class="col-md-4">Weather:</label><div class="col-sm-4" id="testDriveNatures" ng-init="changeDateWeather(selectedDate,'reSchedule')"></div> </span>
-									<div class="col-md-7"><button class="btn btn-primary" ng-click="rescheduleTestDrive(schedule)" style="height: 30px;font-size: 12px;">Reschedule</button>
-									</div>
+									<div class="col-md-12">
+										<div class="col-md-7">
+											<button class="btn btn-primary" ng-click="rescheduleTestDrive(schedule)" style="height: 30px;font-size: 12px;">Reschedule</button>
+										</div>
+										<div class="col-md-5">
+											<button type="button" class="btn btn-primary" ng-click="cancelFromCalend(schedule)">Cancel</button>
+                             			</div>
+                             		</div>
                              	</div>
                              	<div class="col-md-6" style="padding: 0px;" ng-if="schedule.userdata.length > 0">
                              		<label class="col-md-12">Members</label>
@@ -4796,7 +4802,7 @@ float: right !important;
 				      			<li  role="presentation" class="" style="margin-top: -15px;float: right;"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="exportCsvPop()">Export CSV</button></li>
 				    		</ul> -->
 				        	<ul style="margin-top:4px;" ng-if="(testdrv == true) && (actionSelectedLead.length >= 1)">
-				         		<button class="btn btn-primary" ng-click="cancelScheduleStatus()" style="height: 30px;font-size: 11px;">CANCEL</button>
+				         		<button class="btn btn-primary" ng-click="cancelScheduleLeads()" style="height: 30px;font-size: 11px;">CANCEL</button>
 				         		<button class="btn btn-primary" ng-click="reschedule(actionSelectedLeadObj)" style="height: 30px;font-size: 12px;">RESCHEDULE</button>
 				         	</ul>
 						</div>
@@ -5354,6 +5360,7 @@ float: right !important;
 							<button id="btneditleads" data-toggle="modal" data-target="#editLeads" style="display: none;"></button>	    
 							<!-- <button id="btnStatusSchedule" data-toggle="modal" data-target="#scheduleStatusModal" style="display: none;"></button> -->
 							<button id="btnCancelSchedule" data-toggle="modal" data-target="#scheduleCancelModal" style="display: none;"></button>
+							<button id="btnCancelScheduleLead" data-toggle="modal" data-target="#scheduleCancelModalLead" style="display: none;"></button>
 							<button id="cancelBtn" data-toggle="modal" data-target="#cancelForeverModal" style="display: none;"></button>
 							<button id="cancelBtnTradeIn" data-toggle="modal" data-target="#cancelTradeInLead" style="display: none;"></button>
 							<button id="btnCancelTestDrive" data-toggle="modal" data-target="#cancelTestDriveModal" style="display: none;"></button>
@@ -5794,6 +5801,47 @@ float: right !important;
 								                </div>
 								                <div class="modal-footer">
 								                	<button ng-if="cancelFlag == 1 && allCanFlag != 1" type="button" class="btn btn-primary btn-embossed" ng-click="saveScheduleClose()">Proceed to the next lead</button>
+								                	<button ng-if="cancelFlag == 2 || allCanFlag == 1" type="submit" class="btn btn-primary">Proceed</button>
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div>
+								    
+								    <div class="modal fade" id="scheduleCancelModalLead" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content" style="width: 800px;">
+								                <div class="modal-header">
+								                    <button type="button" class="close" id="scheduleCancelBtn" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">CANCEL LEAD</h4>
+								                </div>
+								                <form ng-submit="cancelSureLead(reasonToCancel)">
+								                <div class="modal-body">
+								                <div class="col-md-12">
+								                	<div class="col-md-2">
+								                		<label>Reason</label><span style="color: red;">*</span>
+								                	</div>
+								                	<div class="col-md-6">
+								                		<input class="form-control form-white" ng-model="reasonToCancel" type="text" required>
+								                	</div>
+								                	<label ng-if="reasonFlag == 1" style="color:red;">Reason field should be mandatory</label>
+								                	<label ng-if="notiCanFlag == 1" style="color:black;">{{rowData.name}} has an appointment scheduled on {{rowData.bestDay}} at {{rowData.bestTime}}. Canceling the lead will
+															also remove an appointment. Do you want to proceed?</label>
+								                </div>
+								                <div class="col-md-12" ng-if="cancelFlag == 1">
+								                 	<input style="margin-left: 15px;margin-top: 25px;" type="checkbox" name="selectAll"  ng-click="cancelAllLeadSchedule(selectAll)"
+				 						   				ng-model="selectAll">					
+   					 									Apply this decision to all selected leads
+   					 							</div>
+													 <div ng-if="cancellingAddress" class="col-md-12" style="margin-top: 32px;">
+								                				<formly-form model="customData" fields="userFields">
+  																</formly-form>
+								                    	</div>
+								                </div>
+								                <div class="modal-footer">
+								                	<button ng-if="cancelFlag == 1 && allCanFlag != 1" type="button" class="btn btn-primary btn-embossed" ng-click="saveScheduleCancel()">Proceed to the next lead</button>
 								                	<button ng-if="cancelFlag == 2 || allCanFlag == 1" type="submit" class="btn btn-primary">Proceed</button>
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
 								                    
