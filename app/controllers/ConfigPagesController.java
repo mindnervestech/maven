@@ -664,7 +664,7 @@ public class ConfigPagesController extends Controller{
 		 public static Result updateProductName(Long id,String name) {
 				CreateNewForm cForm = CreateNewForm.findById(id);
 				if(cForm != null){
-					if(!cForm.name.equals("Create New Lead")){
+					if(!cForm.name.equals("Create New Lead") && !cForm.name.equals("My Leads - Canceling lead") && !cForm.name.equals("My Leads - History Log") && !cForm.name.equals("My Leads - Schedule an appointment") && !cForm.name.equals("Appointment Completed") && !cForm.name.equals("New Contact")){
 							CustomizationForm cDataValue = CustomizationForm.findByLeadType(cForm.name);
 						if(cDataValue != null){
 							cDataValue.setDataType(name);

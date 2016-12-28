@@ -21,6 +21,7 @@ import controllers.MailchipControllers.MailIntegrationServices;
 import models.AuthUser;
 import models.Contacts;
 import models.CustomizationCrm;
+import models.CustomizationDataValue;
 import models.GroupTable;
 import models.Location;
 import models.MailchimpList;
@@ -81,7 +82,7 @@ public class CrmController extends Controller {
     	} else {
     		
     		AuthUser userObj = (AuthUser) getLocalUser();
-    		
+    		MultipartFormData body = request().body().asMultipartFormData();
     		Form<ContactsVM> form = DynamicForm.form(ContactsVM.class).bindFromRequest();
     		ContactsVM vm = form.get();
     		Contacts obj = Contacts.findByEmail(vm.email);
@@ -119,50 +120,23 @@ public class CrmController extends Controller {
  		    contacts.setEnthicity(vm.enthicity);
  		    contacts.setCustZipCode(vm.zip);
  		   contacts.setLastName(vm.lastName);
- 		   /*
- 		     contacts.setAllEmail(vm.allEmail);
- 		    contacts.setAllPhone(vm.allPhone);
- 		    contacts.setType(vm.type);
- 		    contacts.setSalutation(vm.salutation);
- 		    contacts.setMiddleName(vm.middleName);
- 		    contacts.setLastName(vm.lastName);
- 		    contacts.setSuffix(vm.suffix);  
- 		    contacts.setStreet(vm.street);
- 		   	contacts.setCity(vm.city);
- 		    contacts.setState(vm.state);
- 		   	contacts.setZip(vm.zip);
- 		    contacts.setCountry(vm.country);
- 		    contacts.setBirthday(vm.birthday);
- 		    contacts.setBackgroundInfo(vm.backgroundInfo);
- 		    contacts.setIndustry(vm.industry);
- 		    contacts.setNumberOfEmployees(vm.numberOfEmployees);
- 		    contacts.setCreationDate(vm.creationDate);
- 		    contacts.setLastEditedDate(vm.lastEditedDate);
- 		    contacts.setRelationships(vm.relationships);
- 		    contacts.setNotes(vm.notes);*/
-    			/*if(vm.newsletter == true) {
-    				contacts.setNewsLetter(1);
-    			} else {
-    				contacts.setNewsLetter(0);
-    			}*/
- 		   contacts.setNewsLetter(1);
+	 		 if(vm.newsletter == true) {
+	 			contacts.setNewsLetter(1);
+	  		}
+	  		if(vm.newsletter == false) {
+	  			contacts.setNewsLetter(0);
+	  		}
+ 		   //contacts.setNewsLetter(1);
     			contacts.save();
     			MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L);
     			if(mSchedular != null){
     				if(mSchedular.synchronizeContact){
-    					saveCustomCrmData(contacts.contactId,vm);
+    					saveCustomCrmData(contacts.contactId,vm,body);
     	    			MailIntegrationServices objMail = new MailIntegrationServices();
     	    			msg = objMail.addUser(vm.lastName, vm.firstName, vm.email);
     				}
     			}
-    			/*MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L); //Long.valueOf(session("USER_LOCATION"))
-    			if(mSchedular != null){
-    				if(mSchedular.schedularTime.equals("Immediately")){
-    					MailIntegrationServices objMail = new MailIntegrationServices();
-    	    			//obj.getLists(Long.valueOf(session("USER_LOCATION")));
-    	    			objMail.addUser(vm.firstName, vm.lastName, vm.email);
-    				}
-    			}*/
+    			
     			
     			
     		} else {
@@ -177,6 +151,7 @@ public class CrmController extends Controller {
     		return ok(home.render("",userRegistration));
     	} else {
     		String msg = "";
+    		MultipartFormData body = request().body().asMultipartFormData();
     		Form<ContactsVM> form = DynamicForm.form(ContactsVM.class).bindFromRequest();
     		ContactsVM vm = form.get();
     		Contacts contacts = Contacts.findById(vm.contactId);
@@ -214,7 +189,7 @@ public class CrmController extends Controller {
     			contacts.setRelationships(vm.relationships);
     			contacts.setNotes(vm.notes);
     			contacts.update();
-    			saveCustomCrmData(contacts.contactId,vm);
+    			saveCustomCrmData(contacts.contactId,vm,body);
     			MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L);
     			if(mSchedular != null){
     				if(mSchedular.synchronizeContact){
@@ -226,7 +201,7 @@ public class CrmController extends Controller {
     	}
 	}
 	
-	private static void saveCustomCrmData(Long InventoryId,ContactsVM vm) {
+	/*private static void saveCustomCrmData(Long InventoryId,ContactsVM vm) {
        	
        	for(KeyValueDataVM custom:vm.customData){
        		
@@ -248,7 +223,87 @@ public class CrmController extends Controller {
        		}
    			
    		}
-       }
+       }*/
+	
+	 private static void saveCustomCrmData(Long crmId,ContactsVM vm,MultipartFormData bodys) {
+	    	String formName = "";
+	    	for(KeyValueDataVM custom:vm.customData){
+	    		
+	    		CustomizationCrm cDataValue = CustomizationCrm.findByKeyAndLeadId(custom.key,crmId);
+	    		if(cDataValue == null){
+	    			CustomizationCrm cValue = new CustomizationCrm();
+	    			cValue.fieldId = custom.fieldId;
+	    			cValue.keyValue = custom.key;
+	    			if(custom.component.equals("fileuploaders")){
+	    				String fileN = custom.value.replaceAll("[-+^:,() ]","");
+	    				cValue.value = File.separator+session("USER_LOCATION")+File.separator+"CRM"+File.separator+crmId+File.separator+fileN; 
+	    			}else{
+	    				cValue.value = custom.value;
+	    			}
+	    			
+	    			cValue.crmId = crmId;
+	    			cValue.formName = custom.formName;
+	    			if(!cValue.formName.equals("Create New Lead")){
+	    				formName = cValue.formName;
+	    			}
+	    				    			
+	    			if(custom.displayGrid == null){
+	    				cValue.displayGrid = "false";
+	    			}else{
+	    				cValue.displayGrid = custom.displayGrid;
+	    			}
+	    			
+	    			
+	    			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    			cValue.save();
+	    			
+	    		}else{
+	    			cDataValue.setKeyValue(custom.key);
+	    			
+	    			if(custom.component.equals("fileuploaders")){
+	    				String fileN = custom.value.replaceAll("[-+^:,() ]","");
+	    				cDataValue.setValue(File.separator+session("USER_LOCATION")+File.separator+"CRM"+File.separator+crmId+File.separator+fileN); 
+	    			}else{
+	    				cDataValue.setValue(custom.value);
+	    			}
+	    			
+	    			cDataValue.setFormName(custom.formName);
+	    			formName = custom.formName;
+	    			
+	    			if(custom.displayGrid == null){
+	    				cDataValue.setDisplayGrid("false");
+	    			}else{
+	    				cDataValue.setDisplayGrid(custom.displayGrid);
+	    			}
+					cDataValue.setFormName(custom.formName);
+	    			cDataValue.update();
+	    		}
+				
+			}
+	    	
+	    	
+	    	if(bodys != null){
+	    		FilePart picture = bodys.getFile("file0");
+	    		if (picture != null) {
+	    			String fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
+	    			File file = picture.getFile();
+	    			try {
+	    				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"CRM"+File.separator+crmId+File.separator+fileName);
+	    	    	    if(!fdir.exists()) {
+	    	    	    	fdir.mkdir();
+	    	    	    }
+	    	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"CRM"+File.separator+crmId+File.separator+fileName;
+	    	    	    FileUtils.moveFile(file, new File(filePath));
+	    	    	    
+	    			
+	    			} catch (Exception e) {
+						e.printStackTrace();
+					}
+	    		}
+	    	}
+	    	
+			
+	    }
 	 
 	public static Result callList() {
 		
@@ -847,26 +902,14 @@ public class CrmController extends Controller {
 	    	Map<String, String> mapCar = new HashMap<String, String>();
 	    	for(CustomizationCrm custD:custData){
 	    		mapCar.put(custD.keyValue, custD.value);
-	    		//if(custD.displayGrid.equals("true")){
-	    			//if(keyValueList.size() == 0){
-	    				KeyValueDataVM keyValue = new KeyValueDataVM();
-	            		keyValue.key = custD.keyValue;
-	            		keyValue.value = custD.value;
-	            		keyValue.displayGrid = custD.displayGrid;
-	            		keyValueList.add(keyValue);
-	    			//}else{
-	            		/*for(KeyValueDataVM ks:keyValueList){
-	    					if(!ks.equals(custD.keyValue)){
-	    						KeyValueDataVM keyValue = new KeyValueDataVM();
-	    	            		keyValue.key = custD.keyValue;
-	    	            		keyValue.value = custD.value;
-	    	            		keyValue.displayGrid = custD.displayGrid;
-	    	            		keyValueList.add(keyValue);
-	    					}
-	    				}
-	    			}*/
-	    			
-	    		//}
+	    		if(custD.displayGrid.equals("true")){
+	    			KeyValueDataVM keyValue = new KeyValueDataVM();
+	            	keyValue.key = custD.keyValue;
+	            	keyValue.value = custD.value;
+	            	keyValue.displayGrid = custD.displayGrid;
+	            	keyValue.formName = custD.formName;
+	            	keyValueList.add(keyValue);
+	    		}
 	    		
 	    	}
 	    	inventoryvm.customData = keyValueList;

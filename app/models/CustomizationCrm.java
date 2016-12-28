@@ -24,7 +24,9 @@ public class CustomizationCrm extends Model {
 	public String value;
 	public String keyValue;
 	public String displayGrid;
+	public String formName;
 	public Long crmId;
+	public Long fieldId;
 	
 	@ManyToOne
 	public Location locations;
@@ -51,6 +53,30 @@ public class CustomizationCrm extends Model {
 	}
 
 	
+	public String getFormName() {
+		return formName;
+	}
+
+	public void setFormName(String formName) {
+		this.formName = formName;
+	}
+
+	public Long getCrmId() {
+		return crmId;
+	}
+
+	public void setCrmId(Long crmId) {
+		this.crmId = crmId;
+	}
+
+	public Long getFieldId() {
+		return fieldId;
+	}
+
+	public void setFieldId(Long fieldId) {
+		this.fieldId = fieldId;
+	}
+
 	public Long getcrmId() {
 		return crmId;
 	}

@@ -9988,27 +9988,7 @@ public class Application extends Controller {
     	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileName;
     	    	    FileUtils.moveFile(file, new File(filePath));
     	    	    
-    				
-    /*				CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId("fileupload",infoId);
-    	    		if(cDataValue == null){
-    	    			 CustomizationDataValue cValue = new CustomizationDataValue();
-    	    				cValue.keyValue = "fileupload";
-    	    				cValue.value = session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileName;
-    	    				cValue.leadId = infoId;
-    	    				cValue.leadType = leadtype;
-							cValue.displayGrid = "false";
-							cValue.saveCrm = "false";
-							cValue.displayWebsite = "false";
-							cValue.formName = formName;
-    	    				cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    				cValue.save();
-    	    			
-    	    		}else{
-    	    			//cDataValue.setKeyValue(custom.key);
-    	    			cDataValue.setValue(session("USER_LOCATION")+File.separator+"leads"+File.separator+infoId+File.separator+fileName);
-    	    			cDataValue.update();
-    	    		}
-    */				
+    			
     			} catch (Exception e) {
 					e.printStackTrace();
 				}

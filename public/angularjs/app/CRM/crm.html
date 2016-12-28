@@ -97,8 +97,7 @@
 															
 															
 														</div>
-														
-												      <div class="col-md-12" style="margin-top: 10px;" ng-if="showFormly1 == '1'">
+												      <div  ng-if="showFormly == '0'" class="col-md-12" style="margin-top: 10px;">
 								                				<formly-form model="customData" fields="userFields">
   																</formly-form>
 								                    	</div>
@@ -186,19 +185,16 @@
 															
 															
 														</div>
-												       <div class="col-md-12" style="margin-top: 10px;" ng-if="showFormly == '1'">
+												       <div  class="col-md-12" style="margin-top: 10px;">
 								                				<formly-form model="customData" fields="userFields">
   																</formly-form>
 								                    	</div> 
-												
-														
-													
 								                </div>
-								               
 								                <div class="modal-footer">
 								                	<p style="color:red;">{{contactMsg}}</p>
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
 								                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+								                    <input type="checkbox" ng-model="contactsDetails.newsletter" data-checkbox="icheckbox_flat-blue" style="margin-left:42%;">Newsletter 
 								                </div>
 								                </form>
 								            </div>
