@@ -3112,7 +3112,10 @@ angular.module('newApp')
 			
 			
 			 
-			
+			apiserviceDashborad.getAllInventoryData().then(function(data){
+   				$scope.getAllCollection = data;
+   				console.log($scope.getAllCollection);
+   		     });
 			
 			$scope.planMsg = function(){
 				apiserviceDashborad.getPlanMsg().then(function(data){
@@ -5569,7 +5572,16 @@ angular.module('newApp')
 	   												$scope.gridMapObect.push({values: value3.value , key: value3.key, label: "End Date", component: value2.component});
 		   										}
 	   										});
-   										}else{
+   										}else if(value2.component == "productType"){
+   											angular.forEach($scope.getAllCollection,function(obj,val){
+  												 if(obj.id.toString() == value1.value){
+  													value1.value = obj.collection;
+  													//$scope.gridMapObect.push({values:  "abcd" , key: value1.key+"_subCollection",label:"SubCollection"});
+  													$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
+  												 }
+  											});
+  											
+  										}else{
    											$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
    										}
 	   								}
@@ -6031,7 +6043,26 @@ angular.module('newApp')
 		    		    				        						angular.forEach(value.customDataAll,function(value1,key1){
 		    		    				        							angular.forEach($scope.josnData,function(value2,key2){
 				    		    		    		       						if(value1.key == value2.key){
-				    		    		    		       							$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
+				    		    		    		       							if(value2.component == "daterange"){
+				    		    		       											$scope.gridMapObect.push({values: value1.value , key: value1.key, label: "Start Date", component: value2.component});
+				    		    		       											angular.forEach(value.customData,function(value3,key3){
+				    		    		    	   											if(value3.key == value1.key+"_endDate"){
+				    		    		    	   												$scope.gridMapObect.push({values: value3.value , key: value3.key, label: "End Date", component: value2.component});
+				    		    		    		   										}
+				    		    		    	   										});
+				    		    		       										}else if(value2.component == "productType"){
+				    		    		       											angular.forEach($scope.getAllCollection,function(obj,val){
+				    		    		      												 if(obj.id.toString() == value1.value){
+				    		    		      													value1.value = obj.collection;
+				    		    		      													//$scope.gridMapObect.push({values:  "abcd" , key: value1.key+"_subCollection",label:"SubCollection"});
+				    		    		      													$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
+				    		    		      												 }
+				    		    		      											});
+				    		    		      											
+				    		    		      										}else{
+				    		    		      											$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
+				    		    		      										}
+				    		    		    		       							
 				    		    				        							findFlag = 1;
 			    		    				        							}
 				    		    		    		       					});
@@ -6109,7 +6140,16 @@ angular.module('newApp')
 		    		    				    		   												$scope.gridMapObect.push({values: value3.value , key: value3.key, label: "End Date", component: value2.component});
 		    		    				    			   										}
 		    		    				    		   										});
-		    		    				    	   										}else{
+		    		    				    	   										}else if(value2.component == "productType"){
+		    		    				    	   											angular.forEach($scope.getAllCollection,function(obj,val){
+		    		    				    	  												 if(obj.id.toString() == value1.value){
+		    		    				    	  													value1.value = obj.collection;
+		    		    				    	  													//$scope.gridMapObect.push({values:  "abcd" , key: value1.key+"_subCollection",label:"SubCollection"});
+		    		    				    	  													$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
+		    		    				    	  												 }
+		    		    				    	  											});
+		    		    				    	  											
+		    		    				    	  										}else{
 		    		    				    	   											$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
 		    		    				    	   										}
 		    		    				    		   								}
@@ -10029,7 +10069,16 @@ angular.module('newApp')
 		   												$scope.gridMapObect.push({values: value3.value , key: value3.key, label: "End Date", component: value2.component});
 			   										}
 		   										});
-	   										}else{
+	   										}else if(value2.component == "productType"){
+	   											angular.forEach($scope.getAllCollection,function(obj,val){
+	  												 if(obj.id.toString() == value1.value){
+	  													value1.value = obj.collection;
+	  													//$scope.gridMapObect.push({values:  "abcd" , key: value1.key+"_subCollection",label:"SubCollection"});
+	  													$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
+	  												 }
+	  											});
+	  											
+	  										}else{
 	   											$scope.gridMapObect.push({values: value1.value , key: value1.key, label: value2.label, component: value2.component});
 	   										}
 		   										

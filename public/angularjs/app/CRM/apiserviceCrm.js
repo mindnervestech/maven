@@ -26,6 +26,17 @@ angular.module('app.apiserviceCrm', [])
 		return defer.promise;
 	};
 	
+	this.getAllInventoryData = function(){
+		var defer = $q.defer();
+		$http.get('/getAllInventoryData').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	
+	
 	this.exportContactsData = function(){
 		var defer = $q.defer();
 		$http.get('/exportContactsData').success(function(data) {
