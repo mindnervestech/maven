@@ -1235,9 +1235,9 @@ angular.module('newApp')
 	$scope.realeasedTO = function(value){
 		$scope.outLeftAll = value;
 		if(value == "Sent to one of the sales people"){
-			apiserviceConfigPage.getAllFrontAndSalesPer().then(function(data){
+			/*apiserviceConfigPage.getAllFrontAndSalesPer().then(function(data){
 					$scope.salesPersonName = data;
-			});
+			});*/
 			
 		}
 		else{
@@ -1418,6 +1418,11 @@ angular.module('newApp')
 		apiserviceConfigPage.getAllSalesPersons().then(function(data){
 			$scope.salesPersonName = data;
 			console.log($scope.salesPersonName);
+			if($scope.userRoleData != undefined){
+				if($scope.userRoleData.role == "Manager"){
+					$scope.salesPersonName.push($scope.userRoleData); 
+				}
+			}
 			angular.forEach($scope.salesPersonName, function(obj, index){
 				if(obj.outLeftAll != null){
 					console.log($scope.customerReq);
@@ -1428,11 +1433,7 @@ angular.module('newApp')
 					}
 				}
 			});
-			if($scope.userRoleData != undefined){
-				if($scope.userRoleData.role == "Manager"){
-					$scope.salesPersonName.push($scope.userRoleData); 
-				}
-			}
+			
 			console.log($scope.customerReq);
 			
 			

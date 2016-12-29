@@ -963,26 +963,26 @@ public class ConfigPagesController extends Controller{
 			}
 		 
 		 
-		 if(status.equals("Released to all of the sales people")){
-			 List<AuthUser> lead = AuthUser.getAllSalesAndFrontUser();
-			 for(AuthUser au:lead){
-				 au.setOutLeftAll(status);
-				 au.update();
-			 }
-		 }else if(status.equals("Sent to one of the sales people")){
-		
-			 List<AuthUser> lead = AuthUser.getAllSalesAndFrontUser();
-			 for(AuthUser au:lead){
-				 if(au.id.equals(id)){
+			 if(status.equals("Released to all of the sales people")){
+				 List<AuthUser> lead = AuthUser.getAllSalesAndFrontUser();
+				 for(AuthUser au:lead){
 					 au.setOutLeftAll(status);
-				 }else{
-					 au.setOutLeftAll(null);
+					 au.update();
+				 }
+			 }else if(status.equals("Sent to one of the sales people")){
+			
+				 List<AuthUser> lead = AuthUser.findByLocatio(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+				 for(AuthUser au:lead){
+					 if(au.id.equals(id)){
+						 au.setOutLeftAll(status);
+					 }else{
+						 au.setOutLeftAll(null);
+					 }
+					 
+					 au.update();
 				 }
 				 
-				 au.update();
 			 }
-			 
-		 }
 				
 		    	  return ok();
 			}
