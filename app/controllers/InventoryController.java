@@ -14,6 +14,7 @@ import models.AddProduct;
 import models.AuthUser;
 import models.InventorySetting;
 import models.LeadType;
+import models.Product;
 import models.ProductImages;
 import models.Sections;
 import net.coobird.thumbnailator.Thumbnails;
