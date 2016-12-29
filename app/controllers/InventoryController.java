@@ -357,7 +357,7 @@ public class InventoryController extends Controller {
 	    		      		
 	    		       	    File file = picture.getFile();
 	    		       	 try {
-	    		       		 if(ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("gif")){
+	    		       		 if(ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("svg") || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("gif")){
 			       	       	    	FileUtils.moveFile(file, new File(filePath));
 			       	       	    	add.setFileName(fileName);
 	     		    		   		add.setFilePath("/"+add.getId()+"-"+userObj.id+"/"+"Logo"+"/"+fileName);

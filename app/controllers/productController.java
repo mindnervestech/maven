@@ -384,7 +384,7 @@ public class productController extends Controller {
 			       	       	    File file = pdfFile.getFile();
 			       	       	    try {
 			       	       	    	
-			       	       	    	if(ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("gif")){
+			       	       	    	if(ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("gif") || ext.equalsIgnoreCase("svg")){
 			       	       	    		FileUtils.moveFile(file, new File(filePath));
 			       		    		   		AddProduct obj = AddProduct.findById(productVM.id);
 			       		    		   		obj.setFileName(fileName);
