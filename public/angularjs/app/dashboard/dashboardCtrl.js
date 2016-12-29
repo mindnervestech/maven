@@ -2138,7 +2138,8 @@ angular.module('newApp')
    				 $scope.historyAddressBar = false;
    				 $scope.cancellingAddress = false;
    				 $scope.scheduleAddress = false;
-   				$scope.appointmentFlag = false;
+   				 $scope.appointmentFlag = false;
+   				 $scope.createContactFlag = false;
    	  		  }else if(type == "createLead"){
    	  			 $scope.addAddress = true;
     			 $scope.editAddress = false;
@@ -2146,13 +2147,15 @@ angular.module('newApp')
     			 $scope.cancellingAddress = false;
     			 $scope.scheduleAddress = false;
     			 $scope.appointmentFlag = false;
+    			 $scope.createContactFlag = false;
    	  		  }else if(type == "History Log"){
    	  			 $scope.addAddress = false;
   				 $scope.editAddress = false;
   				 $scope.historyAddressBar = true;
   				 $scope.cancellingAddress = false;
   				 $scope.scheduleAddress = false;
-  				$scope.appointmentFlag = false;
+  				 $scope.appointmentFlag = false;
+  				 $scope.createContactFlag = false;
    	  		  }else if(type == "Canceling lead"){
    	  		     $scope.addAddress = false;
 				 $scope.editAddress = false;
@@ -2160,6 +2163,7 @@ angular.module('newApp')
 				 $scope.cancellingAddress = true;
 				 $scope.scheduleAddress = false;
 				 $scope.appointmentFlag = false;
+				 $scope.createContactFlag = false;
    	  		  }else if(type == "Schedule lead"){
    	  			$scope.addAddress = false;
 				 $scope.editAddress = false;
@@ -2167,7 +2171,7 @@ angular.module('newApp')
 				 $scope.cancellingAddress = false;
 				 $scope.appointmentFlag = false;
 				 $scope.scheduleAddress = true;
-				 
+				 $scope.createContactFlag = false;
    	  		  }else if(type == "appointment"){
    	  			$scope.addAddress = false;
 				 $scope.editAddress = false;
@@ -2175,7 +2179,16 @@ angular.module('newApp')
 				 $scope.cancellingAddress = false;
 				 $scope.scheduleAddress = false;
 				 $scope.appointmentFlag = true;
-   	  		  }
+				 $scope.createContactFlag = false;
+   	  		  }else if(type == "Create Contact"){
+   	  			 $scope.addAddress = false;
+   				 $scope.editAddress = false;
+   				 $scope.historyAddressBar = false;
+   				 $scope.cancellingAddress = false;
+   				 $scope.scheduleAddress = false;
+   				 $scope.appointmentFlag = false;
+   				 $scope.createContactFlag = true;
+      	  		  }
    	  		
    	  	  }  
    	  	    
@@ -2518,6 +2531,19 @@ angular.module('newApp')
     			  $scope.contactsDetails.firstName = entity.name;
     			  $scope.contactsDetails.email = entity.email;
     			  $scope.contactsDetails.phone = entity.phone;
+    			  
+    			  $scope.formField = [];
+    			   $scope.getFormDesign('Create New Lead').then(function(success){
+    				   $scope.formField = $scope.userList;
+    				   $scope.getFormDesign('New Contact').then(function(success){
+    					   angular.forEach($scope.userList, function(value, key) {
+    						   $scope.formField.push(value);
+    					   });
+    					   $scope.userFields = $scope.addFormField($scope.formField);
+    						 $scope.userFieldsCopy = angular.copy($scope.userFields);
+    				   });
+    			   });
+    			   $scope.showFomeD("Create Contact");
     			  $('#createcontactsModal').modal();
     		  }
     		  apiserviceDashborad.getUsers().then(function(data){
@@ -2547,19 +2573,82 @@ angular.module('newApp')
     				});
     		   }
     		   
-    		  
-    		  $scope.saveContact = function() {
-    			  apiserviceDashborad.saveContactsData($scope.contactsDetails).then(function(data){
-    			   
-	    					 if(data == "") {
-		    					 $('#createcontactsModal').modal('hide');
-		    					 
-	    					 } else {
-	    						 $scope.contactMsg = data;
-	    					 }
-    					});
+    		   $scope.saveContact = function() {
+    			   $scope.customList =[];
+    			   console.log($("#autocomplete").val());
+    			   console.log($scope.specification);
+    			   $scope.multiSelectBindWithCustomData();
+    	   		   $scope.customList =[];
+    	   		   $scope.customData.time_range = $("#bestTimes").val();
+    	   		   if($scope.customData.time_range == undefined){
+    	   			   delete $scope.customData.time_range;
+    	   		   }
+    	   		   $scope.customData.custName = $('#exCustoms_value').val();
+    	   		   if($scope.customData.custName == undefined){
+    	   			   delete $scope.customData.custName;
+    	   		   }
+    	   		   $scope.customData.autocompleteText = $("#autocomplete").val();
+    	   		   if($scope.customData.autocompleteText == undefined){
+    	   			   delete $scope.customData.autocompleteText;
+    	   		   }
+    	   		   apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
+    	   			   $scope.josnData = angular.fromJson(response.jsonData);
+    	   			   angular.forEach($scope.josnData, function(obj, index){
+    	   			   obj.formName = "Create New Lead";
+    	    		});
+    	    				
+    	    		$scope.josnData1 = null;
+    	    		apiserviceDashborad.getCustomizationform('New Contact').then(function(response1){
+    	    			$scope.josnData1 = angular.fromJson(response1.jsonData);
+    	    			angular.forEach($scope.josnData1, function(obj, index){
+    	    				obj.formName = 'New Contact';
+    	    				$scope.josnData.push(obj);
+    	   	    		});
+    	    			if(response1.additionalData == true){
+    	    				angular.forEach(angular.fromJson(response1.jsonDataAdd), function(obj, index){
+    	    					obj.formName = $scope.selectedLead;
+    	    					$scope.josnData.push(obj);
+    	    				});
+    	    			}
+    	    			console.log($scope.josnData);
+    	    			console.log($scope.customData);
+    	    			var oneProduct = 0;
+    	    			$.each($scope.customData, function(attr, value) {
+    	    				angular.forEach($scope.josnData, function(value1, key) {
+    	    					if(value1.key == attr){
+    	    						if(value1.component == "leadTypeSelector"){
+    	    							$scope.contactsDetails.leadType = value;
+    	    						}
+    	    						if(value1.component == "productType"){
+    	    							if(oneProduct == 0){
+    	    								$scope.contactsDetails.manufacturers = value;
+    	    								oneProduct++;
+    	    							}
+    	    						}
+    	    					}
+    	    				});
+    	    			});
+    	    			$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
+    	    				$scope.customList = response;
+    	    			});
+    	    			console.log($("#bestTimes").val());
+    	    			console.log($scope.customData);
+    	    			console.log($scope.customList);
+    	    			$scope.contactsDetails.customData = $scope.customList;
+    	    				console.log($scope.contactsDetails);
+    	    				apiserviceDashborad.saveContactsData($scope.contactsDetails).then(function(data){
+    	    						console.log(data);
+    	    						if(data == "") {
+    	    							$('#createcontactsModal').modal('hide');
+    	    						}else {
+    	    							$scope.contactMsg = data;
+    	    						}
+    	    				});
+    	    			});
+    				});
     		   }
-    		  $scope.flags = {};
+    		  
+    		 $scope.flags = {};
     		 $scope.checkIndex = function(item,values){
     			 angular.forEach($scope.currentData, function(value, key) {
     				 if(value.id == item.id){

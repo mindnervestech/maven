@@ -9164,14 +9164,14 @@ float: right !important;
 									                <div class="modal-body" style="height:500px;overflow-x:auto;">
 									                    	<div class="form-group col-sm-12">
 									                    	<div class="col-sm-6">
-																<label class="col-sm-12 control-label">Name</label>
-																	<div class="col-sm-12">
+																<label class="col-sm-4 control-label" style="text-align: right;">First Name</label>
+																	<div class="col-sm-8">
 																		<input type="text" class="form-control form-white" ng-model="contactsDetails.firstName" >
 																	</div>
 															</div>
 															<div class="col-sm-6">
-																<label class="col-sm-12 control-label">Assigned to</label>
-																<select class="from-control form-white col-sm-12" style="height: 35px;" ng-model="contactsDetails.assignedTo" required>
+																<label class="col-sm-4 control-label">Assigned to</label>
+																<select class="from-control form-white col-sm-8" style="height: 35px;" ng-model="contactsDetails.assignedTo" required>
          																		<option ng-repeat="alUser in allUser" value="{{alUser.id}}">{{alUser.fullName}}</option>
  																   </select>
 																<!-- <div class="col-sm-12">
@@ -9180,6 +9180,14 @@ float: right !important;
 															</div>
 														</div>
 														<div class="form-group col-sm-12">
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align: right;">Last Name</label>
+																	<div class="col-sm-8">
+																		<input type="text" class="form-control form-white" ng-model="contactsDetails.lastName" >
+																	</div>
+															</div>														
+														</div>
+														<!-- <div class="form-group col-sm-12">
 									                    	<div class="col-sm-6">
 																<label class="col-sm-12 control-label">Enthicity</label>
 																	<div class="col-sm-12">
@@ -9199,31 +9207,31 @@ float: right !important;
 																	<input type="text" class="form-control form-white" ng-model="contactsDetails.zip" >
 																</div>
 															</div>
-														</div>
+														</div> -->
 														<div class="form-group col-sm-12">
 															<div class="col-sm-6">
-																<label class="col-sm-12 control-label">Email</label>
+																<label class="col-sm-4 control-label" style="text-align: right;">Email</label>
 																<div class="col-sm-8">
 																	<input type="email" class="form-control form-white" ng-model="contactsDetails.email" required>
-																	<a style="float: right;" ng-click="showEmail1 = 1" ng-show="showEmail1 != 1"><u>Add another email Address</u></a>	
+																	<!-- <a style="float: right;" ng-click="showEmail1 = 1" ng-show="showEmail1 != 1"><u>Add another email Address</u></a> -->	
 																</div>
-																<div class="col-sm-4">
+																<!-- <div class="col-sm-4">
 																	<select class="from-control form-white" style="height: 35px;" ng-model="contactsDetails.workEmail" required>
          																		<option value="Work">Work</option>
          																		<option value="Personal">Personal</option>
  																   </select>
-																</div>
+																</div> -->
 																
 															</div>
-															<div class="col-sm-6">
+															<!-- <div class="col-sm-6">
 																<label class="col-sm-12 control-label">Company Name</label>
 																<div class="col-sm-12">
 																	<input type="text" class="form-control form-white" ng-model="contactsDetails.companyName" >
 																</div>
-															</div>
+															</div> -->
 														</div>
 														
-														<div class="form-group col-sm-12" ng-if="showEmail1 == 1">
+														<!-- <div class="form-group col-sm-12" ng-if="showEmail1 == 1">
 															<div class="col-sm-6">
 																<label class="col-sm-12 control-label">Email1</label>
 																<div class="col-sm-8">
@@ -9241,30 +9249,30 @@ float: right !important;
 															<div class="col-sm-6">
 																
 															</div>
-														</div>
+														</div> -->
 														
 														<div class="form-group col-sm-12">
 															<div class="col-sm-6">
-																<label class="col-sm-12 control-label">Phone</label>
+																<label class="col-sm-4 control-label" style="text-align: right;">Phone</label>
 																<div class="col-sm-8">
 																	<input type="text" class="form-control form-white" ng-model="contactsDetails.phone" >
-																	<a ng-show="showanotherPhone != 1" style="float: right;" ng-click="showanotherPhone = 1"><u>Add another phone number</u></a>
+																	<!-- <a ng-show="showanotherPhone != 1" style="float: right;" ng-click="showanotherPhone = 1"><u>Add another phone number</u></a> -->
 																</div>
-																<div class="col-sm-4">
+																<!-- <div class="col-sm-4">
 																	<select id="sectionId" class="from-control form-white" style="height: 35px;" ng-model="contactsDetails.workPhone" required>
          																		<option value="Work">Work</option>
          																		<option value="Personal">Personal</option>
  																   </select>
-																</div>
+																</div> -->
 															</div>
-															<div class="col-sm-6">
+															<!-- <div class="col-sm-6">
 																<label class="col-sm-12 control-label">Title</label>
 																<div class="col-sm-12">
 																	<input type="text" class="form-control form-white" ng-model="contactsDetails.title" >
 																</div>
-															</div>
+															</div> -->
 														</div>
-															<div class="form-group col-sm-12" ng-if="showanotherPhone == 1">
+															<!-- <div class="form-group col-sm-12" ng-if="showanotherPhone == 1">
 															<div class="col-sm-6">
 																<label class="col-sm-12 control-label">Phone1</label>
 																<div class="col-sm-8">
@@ -9280,10 +9288,9 @@ float: right !important;
 															<div class="col-sm-6">
 																
 															</div>
-														</div>
+														</div> -->
 														
-														
-														<div class="form-group col-sm-12">
+														<!-- <div class="form-group col-sm-12">
 														<hr>
 														</div>
 														<div class="form-group col-sm-12">
@@ -9305,11 +9312,11 @@ float: right !important;
 																		<textarea class="form-control form-white" ng-model="contactsDetails.campaignSource" ></textarea>
 																	</div>
 															</div>
-														</div>	
+														</div>	 -->
 														
 														
 														
-														<div class="form-group col-sm-12">
+														<!-- <div class="form-group col-sm-12">
 															<div class="col-sm-6" ng-show="showWebsite != 1">
 															 	<a ng-click="showWebsite = 1"><u>Add a Website</u></a>
 															</div>
@@ -9359,8 +9366,11 @@ float: right !important;
 																</div>
 																
 															</div>
-														</div>	
-													
+														</div>	 -->
+													<div ng-if="createContactFlag" class="col-md-12" style="margin-top: 10px;">
+								                				<formly-form model="customData" fields="userFields">
+  																</formly-form>
+								                    	</div>
 								                </div>
 								                <div class="modal-footer">
 								                	<p style="color:red;">{{contactMsg}}</p>
