@@ -11,41 +11,34 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import net.coobird.thumbnailator.Thumbnails;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.net.ftp.FTPClient;
-
-import com.tinify.Options;
-import com.tinify.Source;
-import com.tinify.Tinify;
-
-import models.AddCollection;
 import models.AddProduct;
 import models.AuthUser;
 import models.InventorySetting;
 import models.Location;
 import models.Product;
 import models.ProductImages;
+import net.coobird.thumbnailator.Thumbnails;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+
 import play.Play;
-import play.libs.Json;
-import play.mvc.Controller;
-import play.mvc.Result;
-import viewmodel.AddCollectionVM;
-import viewmodel.AddProductVM;
-import viewmodel.ImageVM;
-import viewmodel.ProductVM;
-import viewmodel.SpecificationVM;
-import views.html.home;
-import play.mvc.Http.MultipartFormData;
-import play.mvc.Http.MultipartFormData.FilePart;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
-
-/*----------*/
+import play.mvc.Controller;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
+import play.mvc.Result;
 import securesocial.core.Identity;
+import viewmodel.AddProductVM;
+import viewmodel.ImageVM;
+import viewmodel.ProductVM;
+import views.html.home;
+
+import com.tinify.Source;
+import com.tinify.Tinify;
+/*----------*/
 
 
 
@@ -321,7 +314,14 @@ public class productController extends Controller {
 			
 			MultipartFormData body = request().body().asMultipartFormData();
 	    	Form<AddProductVM> form = DynamicForm.form(AddProductVM.class).bindFromRequest();
-	    	AddProductVM vm = form.get();
+	    	AddProductVM vm = new AddProductVM();
+	    	if(body != null){
+	    		AddProductVM vm1 = new AddProductVM();
+	       		InventoryController.saveVm(vm1,body,form);
+	       		vm = vm1;
+	       	}else{
+	       		vm = form.get();
+	       	}
 	    	FilePart pdfFile = null ;
 	    	Tinify.setKey(tinifyKey);
 	     	

@@ -92,6 +92,8 @@ angular.module('newApp')
 	   			
 	   		});
 		}else if(logofile != undefined){
+			if($scope.addProduct.userData == null)
+				delete $scope.addProduct.userData;
 			$scope.addProduct.id = 0;
 		console.log("logofile");
 		 $upload.upload({
@@ -119,6 +121,8 @@ angular.module('newApp')
    			
    		 });
 		}else if(logofile == undefined){
+			if($scope.addProduct.userData == null)
+				delete $scope.addProduct.userData;
 			console.log("cadfile");
 			 $upload.upload({
 	            url : '/saveProduct',
@@ -602,6 +606,8 @@ console.log($scope.cId);
 		delete $scope.productData.pageViewCount;
 		if($scope.productData.parentId == null)
 			delete $scope.productData.parentId;
+		if($scope.productData.userData == null)
+			delete $scope.productData.userData;
 		console.log($scope.productData);
 		if(logofile != null){
 			console.log("logofile");

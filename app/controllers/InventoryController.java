@@ -2,13 +2,13 @@ package controllers;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+
 import models.AddCollection;
 import models.AddProduct;
 import models.AuthUser;
@@ -17,14 +17,12 @@ import models.LeadType;
 import models.ProductImages;
 import models.Sections;
 import net.coobird.thumbnailator.Thumbnails;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.tinify.Source;
-import com.tinify.Tinify;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import play.Play;
 import play.data.DynamicForm;
@@ -34,13 +32,16 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import securesocial.core.Identity;
 import viewmodel.AddCollectionVM;
 import viewmodel.AddProductVM;
-import viewmodel.ImageVM;
 import viewmodel.LeadTypeVM;
 import viewmodel.SectionsVM;
 import views.html.home;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.tinify.Source;
+import com.tinify.Tinify;
 
 public class InventoryController extends Controller {
 
@@ -272,11 +273,48 @@ public class InventoryController extends Controller {
 	    	return ok();
 	    }
 	   
+	   public static void saveVm(AddProductVM pVm,MultipartFormData bodys,Form<AddProductVM> form) {
+	    	 
+	    	 JSONArray jArr1 = null;
+			try {
+		
+				jArr1 = new JSONArray(form.data().get("mainCollection"));
+				
+				for (int i=0; i < jArr1.length(); i++) {
+					InventorySetting vm1 = new InventorySetting();
+					JSONObject jsonObj1 = jArr1.getJSONObject(i);
+					vm1.collection = String.valueOf(jsonObj1.get("collection"));
+					vm1.enableInven = Boolean.parseBoolean(String.valueOf(jsonObj1.get("enableInven")));
+					vm1.id = Long.parseLong(String.valueOf(jsonObj1.get("id")));
+					pVm.mainCollection = vm1;
+				}
+				
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+	         pVm.id = Long.parseLong(form.data().get("id"));
+	         pVm.description = form.data().get("description");
+	         pVm.externalUrlLink = form.data().get("externalUrlLink");
+	         pVm.externalUrlLink = form.data().get("externalUrlLink");
+	         pVm.fileName = form.data().get("fileName");
+	         pVm.publicStatus = form.data().get("publicStatus");
+	         pVm.title = form.data().get("title");
+	    }
+	   
 	   public static Result updateProduct(){
 	    	
 	    	MultipartFormData body = request().body().asMultipartFormData();
 	    	Form<AddProductVM> form = DynamicForm.form(AddProductVM.class).bindFromRequest();
-	    	AddProductVM vm = form.get();
+	    	AddProductVM vm = new AddProductVM();
+	    	if(body != null){
+	    		AddProductVM vm1 = new AddProductVM();
+	       		saveVm(vm1,body,form);
+	       		vm = vm1;
+	       	}else{
+	       		vm = form.get();
+	       	}
+	    	
 	    	System.out.println(vm.getId());
 	    	FilePart picture = null ;
 	    	
