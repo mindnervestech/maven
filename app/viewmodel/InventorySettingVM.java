@@ -9,5 +9,5 @@ public class InventorySettingVM {
 	public Boolean enableInven;
 	public List<InventorySettingVM> addMainCollFields;
 	public List<UserVM> userData;
-	
+	public boolean hideWebsite;
 }

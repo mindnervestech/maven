@@ -58,7 +58,10 @@
 	    <div  style="margin-top:5%;" ng-show="flagForChart1" id="grid1" ui-grid="gridOptions3" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-draggable-rows>
 		   </div>  </div> 
 		 
-		 
+		 <div class="form-group col-sm-12" style="margin-top:10px;">
+			<input type="checkbox" class="ng-pristine ng-valid" ng-model="hideWebsite" ng-click="updateHideData(hideWebsite)" name="newFlag" id="newflag"/>
+			Hide from the website
+		</div>
 		
 	             
 </div>   

@@ -169,6 +169,8 @@ public class productController extends Controller {
 			 product.cost = vm.cost;
 			 product.newFlag = vm.newFlag;
 			 product.year = vm.year;
+			 product.amount = vm.amount;
+			 product.amountFlag = vm.amountFlag;
 			 product.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 			 product.user = userObj;
 			 if(vm.mainCollection != null)
@@ -245,6 +247,8 @@ public class productController extends Controller {
 				 product.setCost(vm.cost);
 				 product.setNewFlag(vm.newFlag);
 				 product.setYear(vm.year);
+				 product.setAmount(vm.amount);
+				 product.setAmountFlag(vm.amountFlag);
 				 product.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 				 product.setUser(userObj);
 				 

@@ -1023,7 +1023,8 @@ public class InventoryController extends Controller {
 				if(aProduct.addedDate != null){
 					aVm.addedDate = df.format(aProduct.addedDate);
 				}
-				
+				List<Product> pro =Product.getAllProductById(aProduct.id);
+				aVm.countProduct = pro.size();
 				aVm.publicStatus = aProduct.publicStatus;
 				List<ProductImages> pImages = ProductImages.getByProduct(aProduct); 
 				aVm.countImages = pImages.size();

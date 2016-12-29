@@ -25,6 +25,8 @@ public class Product extends Model {
 	public String cadfileName;
 	public String cadfilePath;	
 	public boolean newFlag;
+	public double amount;
+	public boolean amountFlag;
 	
 	@ManyToOne
 	public InventorySetting mainCollection;
@@ -140,6 +142,20 @@ public class Product extends Model {
 	}
 	
 	
+	public double getAmount() {
+		return amount;
+	}
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+	public boolean isAmountFlag() {
+		return amountFlag;
+	}
+	public void setAmountFlag(boolean amountFlag) {
+		this.amountFlag = amountFlag;
+	}
+
+
 	public static Finder<Long,Product> find = new Finder<>(Long.class,Product.class);
 	
 	public static Product findById(Long id) {
@@ -152,5 +168,8 @@ public class Product extends Model {
 	
 	public static List<Product> getAllProductByMainCollection(InventorySetting mainColl) {
 		return find.where().eq("mainCollection", mainColl).findList();
+	}
+	public static List<Product> getAllProductById(Long id) {
+		return find.where().eq("collection.id", id).findList();
 	}
 }

@@ -10,13 +10,14 @@ angular.module('newApp')
 	
 	$scope.getSubCollection = function(obj){
 		console.log(obj);
-		$http.get('/getAllCollection/'+JSON.parse(obj).id).success(function(data) {
+		$http.get('/getAllCollection/'+obj.id).success(function(data) {
 			console.log(data);
 			$scope.subCollections = data;
 		});
 	};
-	
 	 var mainCollObj = localStorage.getItem('mainCollection');
+	 $scope.mainCollection = JSON.parse(mainCollObj);
+	 $scope.getSubCollection($scope.mainCollection);
 	 if(mainCollObj != undefined){
 		 //$scope.mainCollection = mainCollObj;
 		 //console.log($scope.mainCollection);
@@ -54,7 +55,7 @@ angular.module('newApp')
 	
 	$scope.saveProduct = function(){
 		if($scope.mainCollection != null && $scope.mainCollection != undefined)
-			$scope.product.mainCollection = JSON.parse($scope.mainCollection).id;
+			$scope.product.mainCollection = $scope.mainCollection.id;
 		if($scope.subCollection != null && $scope.subCollection != undefined)
 			$scope.product.collection = JSON.parse($scope.subCollection).id;
 
@@ -74,7 +75,6 @@ angular.module('newApp')
 	   		});
 		}else{				
 			console.log(names);
-			console.log(files.length);
 			console.log(files);
 			console.log("bothfile");
 			$upload.upload({

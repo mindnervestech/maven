@@ -1911,6 +1911,21 @@ public class ConfigPagesController extends Controller{
 	    		return ok();
 	    	}
 		    
+		    public static Result updateHideData(){
+				
+	    		Form<InventorySettingVM> form = DynamicForm.form(InventorySettingVM.class).bindFromRequest();
+	    		InventorySettingVM vm = form.get();
+	    				InventorySetting inventory = InventorySetting.findById(vm.id);
+	    				if(vm.hideWebsite == false){
+	    					inventory.setHideWebsite(true);
+	    				}
+	    				else{
+	    					inventory.setHideWebsite(false);
+	    				}
+		    			inventory.update();
+	    		return ok();
+	    	}
+		    
 		   public static Result deleteMainCollectionType(){
 				List<InventorySetting> custList = InventorySetting.getAllCollection();
 				for(InventorySetting delList:custList){

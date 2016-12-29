@@ -24,6 +24,8 @@ public class ProductVM {
 	public Long collection;
 	public AuthUser user;
 	public Location locations;
+	public double amount;
+	public boolean amountFlag;
 	public Long getId() {
 		return id;
 	}
@@ -126,4 +128,17 @@ public class ProductVM {
 	public void setLocations(Location locations) {
 		this.locations = locations;
 	}
+	public double getAmount() {
+		return amount;
+	}
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+	public boolean isAmountFlag() {
+		return amountFlag;
+	}
+	public void setAmountFlag(boolean amountFlag) {
+		this.amountFlag = amountFlag;
+	}
+	
 }

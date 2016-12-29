@@ -47,6 +47,7 @@ angular.module('newApp')
 			$scope.mainCollection = mainColl;
 		}
 		console.log(JSON.parse($scope.mainCollection));
+		$scope.mainCollectionData = JSON.parse($scope.mainCollection).collection
 		//setTimeout(function(){$scope.$apply();},100);
 	});
 	

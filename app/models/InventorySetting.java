@@ -15,6 +15,7 @@ public class InventorySetting extends Model {
 	public Long id;
 	public String collection;
 	public Boolean enableInven;
+	public Boolean hideWebsite;
 	@ManyToOne
 	public Location locations;
 
@@ -26,6 +27,13 @@ public class InventorySetting extends Model {
 	}
 
 	
+	
+	public Boolean getHideWebsite() {
+		return hideWebsite;
+	}
+	public void setHideWebsite(Boolean hideWebsite) {
+		this.hideWebsite = hideWebsite;
+	}
 	public Boolean getEnableInven() {
 		return enableInven;
 	}

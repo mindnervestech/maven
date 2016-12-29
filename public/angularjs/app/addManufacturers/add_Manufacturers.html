@@ -15,7 +15,12 @@
 		</div>
 		<input class="form-control form-white" type="text" style="border-color:red;width:30%;" ng-model="addProduct.description"  required>
 	</div>
-	
+	<div class="form-group col-sm-12" >
+		<div>
+			<label class="control-label" style="width: 21%;"><font size="3">Main Collection </font></label>
+		</div>
+		<input class="form-control form-white" type="text" style="border-color:red;width:30%;" ng-model="mainCollectionData"  readOnly>
+	</div>
 
 	<div class="form-group col-sm-12">
 		<div>
@@ -31,6 +36,12 @@
 		</div>
 		<input class="form-control form-white" type="text" style="width:30%;" ng-model="addProduct.externalUrlLink">
 	</div>
+	<div class="form-group col-sm-12">
+	
+			<input type="checkbox" class="ng-pristine ng-valid" ng-model="addProduct.hideWebsite" name="newFlag" id="newflag"/>
+			Automatically hide a collection from the website if it doesn't have any products
+	
+		</div>
 	
 	<!--<div class="form-group col-sm-12">
 		<div>

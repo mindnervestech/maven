@@ -29,7 +29,7 @@ public class AddProductVM {
 	public String imgPath;
 	public long imgId;
 	public List<UserVM> userData;
-	
+	public int countProduct;
 	public InventorySetting mainCollection;	
 	
 	public InventorySetting getMainCollection() {
@@ -62,6 +62,12 @@ public class AddProductVM {
 		return designer;
 	}
 	
+	public int getCountProduct() {
+		return countProduct;
+	}
+	public void setCountProduct(int countProduct) {
+		this.countProduct = countProduct;
+	}
 	public Long getParentId() {
 		return parentId;
 	}
