@@ -21,6 +21,16 @@ public class ProductImages extends Model {
 	public String imageName;
 	public boolean defaultImage;
 	public String title;
+	public String description;
+	
+	@ManyToOne
+	public Product product;
+	
+	@ManyToOne
+	public AuthUser user;
+	
+	
+	
 	public String getTitle() {
 		return title;
 	}
@@ -36,14 +46,6 @@ public class ProductImages extends Model {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public String description;
-	
-	@ManyToOne
-	public AddProduct product;
-	
-	@ManyToOne
-	public AuthUser user;
 
 	public Long getId() {
 		return id;
@@ -77,11 +79,13 @@ public class ProductImages extends Model {
 		this.imageName = imageName;
 	}
 
-	public AddProduct getProduct() {
+	
+
+	public Product getProduct() {
 		return product;
 	}
 
-	public void setProduct(AddProduct product) {
+	public void setProduct(Product product) {
 		this.product = product;
 	}
 
@@ -111,6 +115,9 @@ public class ProductImages extends Model {
 	}
 	
 	public static List<ProductImages> getByProduct(AddProduct product) {
+		return find.where().eq("product", product).findList();
+	}
+	public static List<ProductImages> getByProductImg(Product product) {
 		return find.where().eq("product", product).findList();
 	}
 	

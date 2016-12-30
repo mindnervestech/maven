@@ -15,6 +15,15 @@ angular.module('newApp')
 			$scope.subCollections = data;
 		});
 	};
+	
+	$scope.getSubCollectionData = function(obj){
+		console.log(obj);
+		$http.get('/getAllCollection/'+JSON.parse(obj).id).success(function(data) {
+			console.log(data);
+			$scope.subCollections = data;
+		});
+	};
+	
 	 var mainCollObj = localStorage.getItem('mainCollection');
 	 $scope.mainCollection = JSON.parse(mainCollObj);
 	 $scope.getSubCollection($scope.mainCollection);
@@ -53,7 +62,12 @@ angular.module('newApp')
 		}
 	}
 	
-	$scope.saveProduct = function(){
+	$scope.setStatusvalue = function(value){
+		$scope.statusValue = value;
+		console.log($scope.statusValue);
+	}
+	
+	/*$scope.saveProduct = function(){
 		if($scope.mainCollection != null && $scope.mainCollection != undefined)
 			$scope.product.mainCollection = $scope.mainCollection.id;
 		if($scope.subCollection != null && $scope.subCollection != undefined)
@@ -95,7 +109,171 @@ angular.module('newApp')
 		   });
 		}
 	};
+*/	
 	
+	 $scope.showDefaultMsg = 0;
+	   $scope.valuepul = 0;
+	   $scope.init = function() {
+		   $scope.showDefaultMsg = 0;
+		   console.log("hhhhhhhhh");
+		   console.log($routeParams.id);
+			/*$http.get('/getImagesByProductId/'+$routeParams.id)
+			.success(function(data) {
+				console.log(data);
+				angular.forEach(data, function(value, key) {
+					$scope.valuepul = $scope.valuepul + 1;
+					if(value.defaultImage == true){
+						$scope.showDefaultMsg =1;
+					}
+				});
+				if($scope.valuepul == 0){
+					$scope.showDefaultMsg = 1;
+				}
+				if($scope.showDefaultMsg == 0 ){
+					 $('#msgModal').modal();
+				}
+				if(data.length < 2 ){
+					 $('#msgModal').modal();
+				}
+				$scope.imageList = data;
+			});*/
+	   };
+	
+	$scope.uploadImagesFiles = function(){
+		   Dropzone.autoDiscover = false;
+		   myDropzone.processQueue();
+		   $location.path('/viewInventory');
+	   };
+	
+	$scope.saveProduct = function(){
+		if($scope.mainCollection != null && $scope.mainCollection != undefined)
+			$scope.product.mainCollection = $scope.mainCollection.id;
+		if($scope.subCollection != null && $scope.subCollection != undefined)
+			$scope.product.collection = JSON.parse($scope.subCollection).id;
+		
+		console.log($scope.product);
+		//$("#submit").attr("disabled", true);
+		$scope.product.publicStatus = $scope.statusValue;
+		$scope.product.id = $scope.mainCollection.id;
+		 console.log($('#sectionId').val());
+		 if($scope.product.newFlag != true)
+			 $scope.product.newFlag=false;
+
+		 
+		 console.log("check.."+$scope.product.newFlag);
+		 if(logofile == undefined){
+			console.log($scope.product);
+			$http.post('/saveNewProduct',$scope.product).success(function(data){
+	   			$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Update successfully",
+				});
+	   			$("#submit").attr("disabled", false);
+	   			if($scope.statusValue != "draft"){
+	   				$location.path('/productImages/'+data.id);
+	   			}else{
+	   				$location.path('/viewInventory');
+	   				
+	   			}
+	   			
+	   		});
+		}else if(logofile != undefined){
+			if($scope.product.userData == null)
+				delete $scope.product.userData;
+			$scope.product.id = 0;
+		console.log("logofile");
+		 $upload.upload({
+            url : '/saveNewProduct',
+            method: 'POST',
+            file:logofile,
+            data:$scope.product
+         }).success(function(data) {
+   			console.log(data);
+   			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Your Progress has been Saved",
+			});
+   			console.log('success');
+   			console.log($location);
+   			$("#submit").attr("disabled", false);
+   			
+   			if($scope.statusValue != "draft"){
+   				$location.path('/productImages/'+data.id);
+   			}else{
+   				$location.path('/product');
+   				$scope.addProduct= [];
+   			}
+   			
+   		 });
+		}else if(logofile == undefined){
+			if($scope.product.userData == null)
+				delete $scope.product.userData;
+			console.log("cadfile");
+			 $upload.upload({
+	            url : '/saveNewProduct',
+	            method: 'POST',
+	            file:cadfile,
+	            data:$scope.product
+	         }).success(function(data) {
+	        	 $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Update successfully",
+					});
+	   			console.log(data);
+	   			console.log('success');
+	   			console.log($location);
+	   			$("#submit").attr("disabled", false);
+	   			if($scope.statusValue != "draft"){
+	   				$location.path('/productImages/'+data.id);
+	   			}else{
+	   				$location.path('/viewInventory');
+	   			}
+	   				
+	   				
+	   			
+	   		 });
+			}else if(logofile != undefined){
+				
+				
+				console.log(names);
+				console.log(files.length);
+				console.log(files);
+				console.log("bothfile");
+				 $upload.upload({
+		            url : '/saveNewProduct',
+		            method: 'POST',
+		            fileFormDataName: names,
+		            file:files,
+		            //file:files,
+		            
+		            //file:files,
+		            //file: files
+		            //file:$scope.files,
+		            //file:logofile,cadfile,
+		            data:$scope.product
+		         }).success(function(data) {
+		        	 $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Update successfully",
+						});
+		   			console.log(data);
+		   			console.log('success');
+		   			console.log($location);
+		   			$("#submit").attr("disabled", false);
+		   			if($scope.statusValue != "draft"){
+		   				$location.path('/productImages/'+data.id);
+		   			}else{
+		   				$location.path('/viewInventory');
+		   			}
+		   			
+		   		 });
+				}
+		 
+	}
 	
 }]);
 

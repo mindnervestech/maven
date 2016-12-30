@@ -36,6 +36,7 @@ import play.mvc.Result;
 import viewmodel.AddCollectionVM;
 import viewmodel.AddProductVM;
 import viewmodel.LeadTypeVM;
+import viewmodel.ProductVM;
 import viewmodel.SectionsVM;
 import views.html.home;
 
@@ -1027,8 +1028,8 @@ public class InventoryController extends Controller {
 				List<Product> pro =Product.getAllProductById(aProduct.id);
 				aVm.countProduct = pro.size();
 				aVm.publicStatus = aProduct.publicStatus;
-				List<ProductImages> pImages = ProductImages.getByProduct(aProduct); 
-				aVm.countImages = pImages.size();
+				//List<ProductImages> pImages = ProductImages.getByProduct(aProduct); 
+				//aVm.countImages = pImages.size();
 				
 				String params = "&date=last-28-days&type=visitors-list&limit=all";
 		    	Long visitorCount = 0l;

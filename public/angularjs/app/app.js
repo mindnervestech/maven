@@ -628,7 +628,12 @@ var MakeApp = angular
        .when('/editProduct/:id/:flag', {
             templateUrl: 'dealer/addManufacturers/editProduct.html',
             controller: 'editProductsCtrl',
-        })  
+        })
+        
+         .when('/productImages/:id', {
+            templateUrl: 'dealer/product/productImages.html',
+            controller: 'ProductImagesCtrl'
+        })
        /* .when('/allReadyMadeCollection', {
             templateUrl: 'dealer/inventory/readyMadeInventory.html',
             controller: 'ReadyMadeCollectionCtrl'
