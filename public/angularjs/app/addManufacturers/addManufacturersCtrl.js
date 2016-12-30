@@ -538,8 +538,6 @@ angular.module('newApp')
 				if(data.mainCollection != null){
 					$scope.mainCollection = JSON.stringify(data.mainCollection);
 				}
-				$scope.mainCollectionData = JSON.parse($scope.mainCollection).collection;
-				console.log($scope.mainCollectionData);
 				if(data.parentId != null)
 					$scope.productData.parentId = data.parentId.toString();
 				$scope.$apply();

@@ -27,10 +27,7 @@ public class Product extends Model {
 	public boolean newFlag;
 	public double amount;
 	public boolean amountFlag;
-	public String publicStatus;
-	public String externalUrlLink;
-	public String imageName;
-	public String imagePath;
+	
 	@ManyToOne
 	public InventorySetting mainCollection;
 	@ManyToOne
@@ -41,30 +38,6 @@ public class Product extends Model {
 	public Location locations;
 	
 	
-	public String getImageName() {
-		return imageName;
-	}
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
-	}
-	public String getImagePath() {
-		return imagePath;
-	}
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
-	public String getPublicStatus() {
-		return publicStatus;
-	}
-	public void setPublicStatus(String publicStatus) {
-		this.publicStatus = publicStatus;
-	}
-	public String getExternalUrlLink() {
-		return externalUrlLink;
-	}
-	public void setExternalUrlLink(String externalUrlLink) {
-		this.externalUrlLink = externalUrlLink;
-	}
 	public boolean getNewFlag() {
 		return newFlag;
 	}

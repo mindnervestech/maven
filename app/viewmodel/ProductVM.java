@@ -26,9 +26,6 @@ public class ProductVM {
 	public Location locations;
 	public double amount;
 	public boolean amountFlag;
-	public String externalUrlLink;
-	public String publicStatus;
-	public InventorySetting mainCollecti;
 	public Long getId() {
 		return id;
 	}
@@ -40,19 +37,6 @@ public class ProductVM {
 	}
 	public void setSecondaryTitle(String secondaryTitle) {
 		this.secondaryTitle = secondaryTitle;
-	}
-	
-	public String getExternalUrlLink() {
-		return externalUrlLink;
-	}
-	public void setExternalUrlLink(String externalUrlLink) {
-		this.externalUrlLink = externalUrlLink;
-	}
-	public String getPublicStatus() {
-		return publicStatus;
-	}
-	public void setPublicStatus(String publicStatus) {
-		this.publicStatus = publicStatus;
 	}
 	public String getPrimaryTitle() {
 		return primaryTitle;
