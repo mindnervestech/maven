@@ -362,10 +362,14 @@ public class productController extends Controller {
 	    	    		add.hideWebsite = vm.hideWebsite;
 	    	    		if(vm.parentId == null){
 	    	    			add.subhideWebsite = vm.subhideWebsite;
+	    	    		}else{
+	    	    			add.subhideWebsite = 0;
 	    	    		}
 	    	    		AddCollection aCollection = AddCollection.findById(vm.parentId);
 	    	    		if(aCollection != null){
 	    	    			add.hideWebsite = aCollection.subhideWebsite;
+	    	    		}else{
+	    	    			add.hideWebsite = 0;
 	    	    		}
 	    	    		add.mainCollection = vm.mainCollection;
 	    	    		add.save();
@@ -728,6 +732,24 @@ public class productController extends Controller {
 	    		Form<ProductImages> form = DynamicForm.form(ProductImages.class).bindFromRequest();
 	    		ProductImages vm = form.get();
 		    	ProductImages image = ProductImages.findById(vm.id);
+		    	if("undefined".equalsIgnoreCase(vm.description) || "".equalsIgnoreCase(vm.description) || "null".equalsIgnoreCase(vm.description))
+		    		vm.description = null;
+		    	if("undefined".equalsIgnoreCase(vm.title) || "".equalsIgnoreCase(vm.title) || "null".equalsIgnoreCase(vm.title))
+		    		vm.title = null;
+		    	image.setDescription(vm.description);
+		    	image.setTitle(vm.title);
+		    	image.update();
+		    	return ok();
+	    	}
+	    }
+	 
+	 public static Result saveImageCollectionTitle() {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+	    		Form<CollectionImages> form = DynamicForm.form(CollectionImages.class).bindFromRequest();
+	    		CollectionImages vm = form.get();
+	    		CollectionImages image = CollectionImages.findById(vm.id);
 		    	if("undefined".equalsIgnoreCase(vm.description) || "".equalsIgnoreCase(vm.description) || "null".equalsIgnoreCase(vm.description))
 		    		vm.description = null;
 		    	if("undefined".equalsIgnoreCase(vm.title) || "".equalsIgnoreCase(vm.title) || "null".equalsIgnoreCase(vm.title))

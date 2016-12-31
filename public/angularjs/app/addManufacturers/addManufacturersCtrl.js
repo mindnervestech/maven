@@ -368,7 +368,7 @@ angular.module('newApp')
 		
 		$scope.saveImageTitle = function(imageObj){
 			console.log(imageObj);
-			$http.post('/saveImageTitle',imageObj)
+			$http.post('/saveImageCollectionTitle',imageObj)
 			.success(function(data) {
 				console.log('success');
 				$scope.manufactureImage = {};

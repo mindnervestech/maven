@@ -116,6 +116,7 @@ GET     /deleteThisProduct/:id           controllers.productController.deleteThi
 GET		/getProductDataById/:id			controllers.productController.getProductDataById(id:Long)
 
 POST		/saveImageTitle		         controllers.productController.saveImageTitle()
+POST    /saveImageCollectionTitle         controllers.productController.saveImageCollectionTitle()
 GET		/getImagesByProduct/:id		     controllers.productController.getImagesByProduct(id:Long)
 
 POST    /uploadCollectionPhoto   			 controllers.productController.uploadCollectionPhoto()
