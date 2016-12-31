@@ -171,6 +171,7 @@ public class productController extends Controller {
 			 product.newFlag = vm.newFlag;
 			 product.year = vm.year;
 			 product.amount = vm.amount;
+			 product.publicStatus = vm.publicStatus;
 			 product.isAmountFlag = vm.amountFlag;
 			 product.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 			 product.user = userObj;
@@ -224,7 +225,7 @@ public class productController extends Controller {
 		    			}
 		            }
 		    	}
-			 return ok("success");
+			 return ok(Json.toJson(product.id));
 		} catch (Exception e) {
 			 return ok("error");
 		}		
@@ -538,13 +539,92 @@ public class productController extends Controller {
 	    	
 	    }
 	 
+	 public static Result uploadProductImg() {
+	    	
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	MultipartFormData body = request().body().asMultipartFormData();
+		    	String productId = request().getHeader("id");
+		    	Long id = Long.parseLong(productId);
+		    	Identity user = getLocalUser();
+		    	AuthUser userObj = (AuthUser)user;
+		    	String fileName = null;
+
+		    	Tinify.setKey(tinifyKey);
+		    	
+		    	Source source;
+		    	Source source1;
+
+		    	
+		    	FilePart picture = body.getFile("file");
+		    	  if (picture != null) {
+		    	    Product aProduct = Product.findById(id);
+		    	    aProduct.setPublicStatus("publish");
+		    	    aProduct.update();
+		    	    
+		    	    fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
+		    	    String contentType = picture.getContentType(); 
+		    	    File fdir = new File(rootDir+File.separator+id+"-"+userObj.id);
+		    	    if(!fdir.exists()) {
+		    	    	fdir.mkdir();
+		    	    }
+		    	    String filePath = rootDir+File.separator+id+"-"+userObj.id+File.separator+fileName;
+		    	    String thumbnailPath = rootDir+File.separator+id+"-"+userObj.id+File.separator+"thumbnail_"+fileName;
+		    	    File thumbFile = new File(thumbnailPath);
+		    	    File file = picture.getFile();
+		    	    try {
+		    	    	System.out.println("????????");
+		    	    	System.out.println(filePath);
+		    	    BufferedImage originalImage = ImageIO.read(file);
+		    	    Thumbnails.of(originalImage).size(150, 150).toFile(thumbFile);
+		    	    File _f = new File(filePath);
+					Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+					
+					/*source = Tinify.fromFile(filePath);
+					source.toFile(filePath);
+					source = Tinify.fromFile(thumbnailPath);
+					source.toFile(thumbnailPath);*/
+					
+					ProductImages imageObj = ProductImages.getByImagePath("/"+id+"-"+userObj.id+"/"+fileName);
+					if(imageObj == null) {
+						ProductImages vImage = new ProductImages();
+						vImage.product = Product.findById(id);
+						vImage.imageName = fileName.replaceAll(" ","%20");
+						vImage.path = "/"+id+"-"+userObj.id+"/"+fileName;
+						vImage.path = vImage.path.replaceAll(" ","%20");
+						vImage.thumbPath = "/"+id+"-"+userObj.id+"/"+"thumbnail_"+fileName;
+						vImage.thumbPath = vImage.thumbPath.replaceAll(" ","%20");
+						vImage.user = userObj;
+						vImage.save();
+						
+						/*try {
+							source = Tinify.fromFile(filePath);
+							source.toFile(thumbnailPath);
+						
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}*/
+					}
+		    	  } catch (FileNotFoundException e) {
+		  			e.printStackTrace();
+			  		} catch (IOException e) {
+			  			e.printStackTrace();
+			  		} 
+		    	  } 
+		    	return ok();
+	    	}	
+	    	
+	    }
+	 
 	 public static Result getImagesByProduct(Long id) {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	Identity user = getLocalUser();
 		    	AuthUser userObj = (AuthUser)user;
-		    	AddCollection product = AddCollection.findById(id);
+		    	Product product = Product.findById(id);
 		    	List<ProductImages> imageList = ProductImages.getByProductImg(product);
 		    	//reorderImagesForFirstTime(imageList);
 		    	List<ImageVM> vmList = new ArrayList<>();
@@ -596,6 +676,25 @@ public class productController extends Controller {
 		    	return ok(file);
 	    	}	
 	    }
+	 
+	 public static Result getImageProductAll(Long id, String type) {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	File file = null;
+		    	ProductImages image = ProductImages.findById(id);
+		    	if(type.equals("thumbnail")) {
+			    	file = new File(rootDir+image.thumbPath.replaceAll("%20"," "));
+		    	}
+		    	
+		    	if(type.equals("full")) {
+		    		file = new File(rootDir+image.path.replaceAll("%20"," "));
+		    	}
+		    	return ok(file);
+	    	}	
+	    }
+	 
+	 
 	 
 	 public static Result saveImageTitle() {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {

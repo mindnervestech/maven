@@ -24,7 +24,7 @@ public class ProductImages extends Model {
 	public String description;
 	
 	@ManyToOne
-	public AddCollection product;
+	public Product product;
 	
 	@ManyToOne
 	public AuthUser user;
@@ -80,11 +80,12 @@ public class ProductImages extends Model {
 	}
 
 
-	public AddCollection getProduct() {
+
+	public Product getProduct() {
 		return product;
 	}
 
-	public void setProduct(AddCollection product) {
+	public void setProduct(Product product) {
 		this.product = product;
 	}
 
@@ -113,10 +114,10 @@ public class ProductImages extends Model {
 		return find.where().eq("product.id", id).eq("default_image", 1).findUnique();
 	}
 	
-	public static List<ProductImages> getByProduct(AddCollection product) {
+	public static List<ProductImages> getByProduct(Product product) {
 		return find.where().eq("product", product).findList();
 	}
-	public static List<ProductImages> getByProductImg(AddCollection product) {
+	public static List<ProductImages> getByProductImg(Product product) {
 		return find.where().eq("product", product).findList();
 	}
 	

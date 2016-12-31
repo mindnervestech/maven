@@ -632,7 +632,7 @@ var MakeApp = angular
         
          .when('/productImages/:id', {
             templateUrl: 'dealer/product/productImages.html',
-            controller: 'ProductImagesCtrl'
+            controller: 'ProductImgCtrl'
         })
        /* .when('/allReadyMadeCollection', {
             templateUrl: 'dealer/inventory/readyMadeInventory.html',

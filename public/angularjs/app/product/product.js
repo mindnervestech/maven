@@ -70,6 +70,9 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Update successfully",
 					});
+					if($scope.product.publicStatus != "draft"){
+						$location.path('/productImages/'+data);
+					}
 					$route.reload();
 				}	   			
 	   		});
@@ -90,6 +93,9 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Update successfully",
 					});
+						if($scope.product.publicStatus != "draft"){
+						$location.path('/productImages/'+data);
+					}
 					$route.reload();
 				}		   			
 		   });
@@ -191,7 +197,10 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Update successfully",
 					});
-					$location.path('/viewInventory');
+					if($scope.product.publicStatus != "draft"){
+						$location.path('/productImages/'+$scope.product.id);
+					}
+					//$location.path('/viewInventory');
 				}else{
 					$.pnotify({
 					    title: "Error",
@@ -214,7 +223,10 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Update successfully",
 					});
-					$location.path('/viewInventory');
+					if($scope.product.publicStatus != "draft"){
+						$location.path('/productImages/'+$scope.product.id);
+					}
+					//$location.path('/viewInventory');
 				}else{
 					$.pnotify({
 					    title: "Error",

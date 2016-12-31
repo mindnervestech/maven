@@ -1010,7 +1010,7 @@ public class InventoryController extends Controller {
 				List<Product> pro =Product.getAllProductById(aProduct.id);
 				aVm.countProduct = pro.size();
 				aVm.publicStatus = aProduct.publicStatus;
-				List<ProductImages> pImages = ProductImages.getByProduct(aProduct); 
+				List<CollectionImages> pImages = CollectionImages.getByProduct(aProduct); 
 				aVm.countImages = pImages.size();
 				
 				String params = "&date=last-28-days&type=visitors-list&limit=all";
@@ -1055,12 +1055,11 @@ public class InventoryController extends Controller {
 				}
 				
 				aVm.publicStatus = aProduct.publicStatus;
-				List<ProductImages> pImages = ProductImages.getByProduct(aProduct); 
+				List<CollectionImages> pImages = CollectionImages.getByProduct(aProduct); 
 				aVm.countImages = pImages.size();
 				
 				String params = "&date=last-28-days&type=visitors-list&limit=all";
 		    	Long visitorCount = 0l;
-		    	
        		
 		    	aVm.pageViewCount = visitorCount;
 				

@@ -110,7 +110,12 @@
 			New
 	
 		</div>
-		<input type="submit" id="submit" class="btn btn-primary "  value="SAVE" style="margin-top:3%;margin-left:46%;">
+		<div class="form-group col-sm-12">
+		<div class="col-md-4"></div>
+				<input type="submit" id="submit" class="btn btn-primary col-md-2"  value="SAVE & GoToPhoto" ng-click="product.publicStatus = 'publish'" style="margin-top:3%;margin-left:46%;">
+		<input type="submit" id="submit" class="btn btn-primary col-md-2" value="SAVE & Draft" ng-click="product.publicStatus = 'draft'" style="margin-top:3%;margin-left:46%;">
+		</div>
+		
 		<p>
 			<font color="orange"><strong>Warning Tip :</strong> You must crop images after uploading to keep the website's image grid consistent.</font>
 		</p>
