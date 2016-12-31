@@ -460,10 +460,22 @@ public class productController extends Controller {
 	    		if(vm.parentId == null){
 	    			add.subhideWebsite = vm.subhideWebsite;
 	    		}
-	    		AddCollection aCollection = AddCollection.findById(vm.parentId);
+	    		/*AddCollection aCollection = AddCollection.findById(vm.parentId);
 	    		if(aCollection != null){
 	    			add.hideWebsite = aCollection.subhideWebsite;
-	    		}	
+	    		}*/	
+	    		
+	    		if(vm.parentId != null){
+	    			AddCollection aCollection = AddCollection.findById(vm.parentId);
+    	    		if(aCollection != null){
+    	    			add.hideWebsite = aCollection.subhideWebsite;
+    	    		}else{
+    	    			add.hideWebsite = 0;
+    	    		}
+	    		}else{
+					add.hideWebsite = 0;
+				}
+	    		
 	    		add.addedDate = curDate;
 	    		add.user = userObj;
 	    		add.mainCollection = vm.mainCollection;
