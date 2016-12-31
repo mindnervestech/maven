@@ -172,7 +172,7 @@ public class productController extends Controller {
 			 product.year = vm.year;
 			 product.amount = vm.amount;
 			 product.publicStatus = vm.publicStatus;
-			 product.isAmountFlag = vm.amountFlag;
+			 product.isAmountFlag = vm.isAmountFlag;
 			 product.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 			 product.user = userObj;
 			 if(vm.mainCollection != null)
@@ -250,7 +250,7 @@ public class productController extends Controller {
 				 product.setNewFlag(vm.newFlag);
 				 product.setYear(vm.year);
 				 product.setAmount(vm.amount);
-				 product.setAmountFlag(vm.amountFlag);
+				 product.setAmountFlag(vm.isAmountFlag);
 				 product.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 				 product.setUser(userObj);
 				 
@@ -365,12 +365,17 @@ public class productController extends Controller {
 	    	    		}else{
 	    	    			add.subhideWebsite = 0;
 	    	    		}
-	    	    		AddCollection aCollection = AddCollection.findById(vm.parentId);
-	    	    		if(aCollection != null){
-	    	    			add.hideWebsite = aCollection.subhideWebsite;
+	    	    		if(vm.parentId != null){
+	    	    			AddCollection aCollection = AddCollection.findById(vm.parentId);
+		    	    		if(aCollection != null){
+		    	    			add.hideWebsite = aCollection.subhideWebsite;
+		    	    		}else{
+		    	    			add.hideWebsite = 0;
+		    	    		}
 	    	    		}else{
-	    	    			add.hideWebsite = 0;
-	    	    		}
+							add.hideWebsite = 0;
+						}
+	    	    		
 	    	    		add.mainCollection = vm.mainCollection;
 	    	    		add.save();
 	    	    		

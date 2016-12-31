@@ -133,6 +133,7 @@ angular.module('newApp')
 	
 	$scope.getSubCollection = function(obj){
 		console.log(obj);
+		$scope.subCollections = "";
 		$http.get('/getAllCollection/'+JSON.parse(obj).id).success(function(data) {
 			console.log(data);
 			$scope.subCollections = data;

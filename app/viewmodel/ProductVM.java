@@ -24,7 +24,7 @@ public class ProductVM {
 	public AuthUser user;
 	public Location locations;
 	public double amount;
-	public boolean amountFlag;
+	public boolean isAmountFlag;
 	public String externalUrlLink;
 	public String publicStatus;
 	public InventorySetting mainCollecti;
@@ -143,17 +143,13 @@ public class ProductVM {
 	public void setLocations(Location locations) {
 		this.locations = locations;
 	}
-	public double getAmount() {
-		return amount;
-	}
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
 	public boolean isAmountFlag() {
-		return amountFlag;
+		return isAmountFlag;
 	}
-	public void setAmountFlag(boolean amountFlag) {
-		this.amountFlag = amountFlag;
+	public void setAmountFlag(boolean isAmountFlag) {
+		this.isAmountFlag = isAmountFlag;
 	}
+	
+	
 	
 }
