@@ -276,7 +276,7 @@ public class AddCollection extends Model {
 		return find.all();
 	}
 	public static List<AddCollection> getAllCollection(InventorySetting mainColl) {
-		return find.where().eq("mainCollection", mainColl).findList();
+		return find.where().eq("mainCollection", mainColl).eq("publicStatus", "publish").findList();
 	}
 	public static List<AddCollection> findProductsByCollection(AddCollection collection) {
 		return find.where().eq("collection", collection).findList();

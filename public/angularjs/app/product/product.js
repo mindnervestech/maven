@@ -15,6 +15,16 @@ angular.module('newApp')
 			$scope.subCollections = data;
 		});
 	};
+	
+	
+	$scope.getSubCollectionId = function(id){
+		console.log(id);
+		$scope.subCollections = "";
+		$http.get('/getAllCollection/'+id).success(function(data) {
+			console.log(data);
+			$scope.subCollections = data;
+		});
+	};
 	 var mainCollObj = localStorage.getItem('mainCollection');
 	 $scope.mainCollection = JSON.parse(mainCollObj);
 	 $scope.getSubCollection($scope.mainCollection);
@@ -140,6 +150,16 @@ angular.module('newApp')
 		});
 	};
 		
+	$scope.getSubCollectionId = function(id){
+		console.log(id);
+		$scope.subCollections = "";
+		$http.get('/getAllCollection/'+id).success(function(data) {
+			console.log(data);
+			$scope.subCollections = data;
+		});
+	};
+	
+	
 	 var cadfile;
 	 var logofile;
 	 var names=[];

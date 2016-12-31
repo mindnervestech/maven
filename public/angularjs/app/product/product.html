@@ -54,7 +54,7 @@
 			<div>
 				<label class="control-label" style="width: 21%;"><font size="3">AMOUNT * </font></label>
 			</div>
-			<input class="form-control form-white" name="amount" type="number" style="border-color:orange;width:50%;" ng-model="product.amount"  required>
+			<input class="form-control form-white" name="amount" type="number" style="border-color:orange;width:50%;" ng-model="product.amount" ng-disabled="product.isAmountFlag" required>
 		</div>
 		
 		<div class="form-group col-sm-12">
@@ -69,8 +69,8 @@
 				<label class="control-label " style="width: 40%;"><font size="3">ADD TO EXISTING MAIN COLLECTION* </font></label>
 			</div>
 			<div>
-				 <select id="sectionId" name="mainCollection" class="from-control form-white" style="width:50%;height: 35px;border-color:orange;" ng-model="mainCollection" ng-change="getSubCollection(mainCollection)">	
-					<option ng-repeat="coll in mainCollections" ng-selected="mainCollection.id == coll.id" value="{{coll}}">{{coll.collection}}</option>
+				 <select id="sectionId" name="mainCollection" class="from-control form-white" style="width:50%;height: 35px;border-color:orange;" ng-change="getSubCollectionId(mainCollection)" ng-model="mainCollection" >	
+					<option ng-repeat="coll in mainCollections" ng-selected="mainCollection.id == coll.id" value="{{coll.id}}">{{coll.collection}}</option>
 				</select>
 			</div>
 		</div>

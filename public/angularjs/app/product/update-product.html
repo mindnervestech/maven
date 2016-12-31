@@ -54,12 +54,12 @@
 			<div>
 				<label class="control-label" style="width: 21%;"><font size="3">AMOUNT * </font></label>
 			</div>
-			<input class="form-control form-white" name="amount" type="number" style="border-color:orange;width:50%;" ng-model="product.amount"  required>
+			<input class="form-control form-white" name="amount" type="number" style="border-color:orange;width:50%;" ng-model="product.amount" ng-disabled="product.isAmountFlag"  required>
 		</div>
 		
 		<div class="form-group col-sm-12">
 	
-			<input type="checkbox" class="ng-pristine ng-valid" ng-model="product.amountFlag" name="newFlag" id="newflag"/>
+			<input type="checkbox" class="ng-pristine ng-valid" ng-model="product.isAmountFlag" name="newFlag" id="newflag"/>
 			Do not calculate the amount
 	
 		</div>
