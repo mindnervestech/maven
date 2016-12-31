@@ -6,7 +6,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -51,11 +50,9 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
-import javax.persistence.ManyToOne;
 
 import models.ActionAdd;
 import models.AddCollection;
-import models.AddProduct;
 import models.AuthUser;
 import models.Blog;
 import models.ClickyActionList;
@@ -93,7 +90,6 @@ import models.PriceChange;
 import models.ProductImages;
 import models.Registration;
 import models.RequestMoreInfo;
-import models.SalesPersonZipCode;
 import models.SalesPlanSchedule;
 import models.ScheduleTest;
 import models.Site;
@@ -142,7 +138,7 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
-import viewmodel.AddProductVM;
+import viewmodel.AddCollectionVM;
 import viewmodel.AudioVM;
 import viewmodel.BarChartVM;
 import viewmodel.ClickyPagesVM;
@@ -170,7 +166,6 @@ import viewmodel.PlanScheduleVM;
 import viewmodel.PriceChangeVM;
 import viewmodel.PriceFormatDate;
 import viewmodel.RequestInfoVM;
-import viewmodel.SalePersonZipCodeVM;
 import viewmodel.SalepeopleMonthPlanVM;
 import viewmodel.ScheduleTestVM;
 import viewmodel.SetPriceChangeFlag;
@@ -212,16 +207,6 @@ import com.google.api.services.tasks.model.Task;
 import com.google.api.services.tasks.model.TaskList;
 import com.google.api.services.tasks.model.TaskLists;
 import com.google.api.services.tasks.model.Tasks;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Font.FontFamily;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import com.mnt.dataone.Equipment;
 import com.mnt.dataone.InstalledEquipment;
 import com.mnt.dataone.Option;
@@ -2382,7 +2367,7 @@ public class Application extends Controller {
         					rVm.subscribers = vCount;
         					
         					rVm.comingSoonDate = formatter.format(vehicle.comingSoonDate);
-        					AddProduct vehicleImg = AddProduct.getDefaultImg(vehicle.id);
+        					AddCollection vehicleImg = AddCollection.getDefaultImg(vehicle.id);
         					if(vehicleImg != null) {
         						rVm.imageUrl = "http://glider-autos.com/MavenImg/images"+vehicleImg.filePath;
         					}else {
@@ -3054,7 +3039,7 @@ public class Application extends Controller {
           			acti.notes = "You have a test drive scheduled in 1 hour ";
           			
           			acti.id = rInfo.id;
-           		AddProduct vehicle = AddProduct.findByVinAndStat(rInfo.id.toString());
+           		AddCollection vehicle = AddCollection.findByVinAndStat(rInfo.id.toString());
            		acti.vin = rInfo.vin;
            		if(vehicle != null) {
            			
@@ -3099,7 +3084,7 @@ public class Application extends Controller {
           			
           			
           			acti.id = rInfo.id;
-           		AddProduct vehicle = AddProduct.findByVinAndStat(rInfo.id.toString());
+           		AddCollection vehicle = AddCollection.findByVinAndStat(rInfo.id.toString());
            		acti.vin = rInfo.vin;
            		if(vehicle != null) {
            			acti.title = vehicle.title;
@@ -3363,7 +3348,7 @@ public class Application extends Controller {
 	    		vm1.typeOfLead="Schedule Test Drive";
 	    		String imagePath=null;
 	    		if(sc.vin != null){
-	    			AddProduct image = AddProduct.getDefaultImg(sc.id);
+	    			AddCollection image = AddCollection.getDefaultImg(sc.id);
 	    			if(image != null){
 	    				imagePath=image.filePath;
 	    			}
@@ -3444,7 +3429,7 @@ public class Application extends Controller {
 	    		//vm1.notifFlag=sc.notifFlag;
 	    		String imagePath=null;
 	    		if(sc.vin != null){
-	    			AddProduct image=AddProduct.getDefaultImg(sc.id);
+	    			AddCollection image=AddCollection.getDefaultImg(sc.id);
 	    			if(image != null){
 	    				imagePath=image.filePath;
 	    			}
@@ -3524,7 +3509,7 @@ public class Application extends Controller {
 	    		String typeoflead=null;
 	    		if(sc.productId != null || sc.isContactusType == null){
 	    			Long pId = Long.parseLong(sc.productId);
-	    			AddProduct image=AddProduct.getDefaultImg(pId);
+	    			AddCollection image=AddCollection.getDefaultImg(pId);
 	    			if(image != null){
 	    				imagePath=image.filePath;
 	    			}
@@ -3619,7 +3604,7 @@ public class Application extends Controller {
 	    		//vm1.notifFlag=sc.notifFlag;
 	    		String imagePath=null;
 	    		if(sc.vin != null){
-	    			AddProduct image=AddProduct.getDefaultImg(sc.id);
+	    			AddCollection image=AddCollection.getDefaultImg(sc.id);
 	    			if(image != null){
 	    				imagePath=image.filePath;
 	    			}
@@ -3698,7 +3683,7 @@ public class Application extends Controller {
 	    		//vm1.notifFlag=sc.notifFlag;
 	    		String imagePath=null;
 	    		if(sc.vin != null){
-	    			AddProduct image=AddProduct.getDefaultImg(sc.id);
+	    			AddCollection image=AddCollection.getDefaultImg(sc.id);
 	    			if(image != null){
 	    				imagePath=image.filePath;
 	    			}
@@ -3782,7 +3767,7 @@ public class Application extends Controller {
 	    		if(sc.productId != null){
 	    			if(!sc.productId.equals("null")){
 	    				Long pId = Long.parseLong(sc.productId);
-		    			AddProduct image=AddProduct.getDefaultImg(pId);
+		    			AddCollection image=AddCollection.getDefaultImg(pId);
 		    			if(image != null){
 		    				imagePath=image.filePath;
 		    			}
@@ -4082,7 +4067,7 @@ public class Application extends Controller {
     } 
     public static Result addPublicCar(Long id){
     	
-    	AddProduct vehicle= AddProduct.findById(id);
+    	AddCollection vehicle= AddCollection.findById(id);
     	if(vehicle != null){
     		vehicle.setPublicStatus("public");
         	vehicle.update();
@@ -4135,8 +4120,8 @@ public class Application extends Controller {
 	
 	public static Result getGoTodraft(Long id){
 		
-		AddProduct vehicle= AddProduct.findById(id);
-		List<AddProduct> list = AddProduct.getProductByParentId(id);
+		AddCollection vehicle= AddCollection.findById(id);
+		List<AddCollection> list = AddCollection.getProductByParentId(id);
 		if(vehicle != null){
 			if(vehicle.publicStatus.equals("publish")){
 				vehicle.setPublicStatus("draft");
@@ -4145,7 +4130,7 @@ public class Application extends Controller {
 			}
 			vehicle.update();
 		}
-		for (AddProduct ap : list) {
+		for (AddCollection ap : list) {
 			if(vehicle.publicStatus.equals("publish")){
 				ap.setPublicStatus("publish");
 			}else{
@@ -4288,10 +4273,10 @@ public class Application extends Controller {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-	    	List <AddProduct> draftVehicleObjList = AddProduct.getProductByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
+	    	List <AddCollection> draftVehicleObjList = AddCollection.getProductByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	ArrayList<SpecificationVM> draftVMs = new ArrayList<>(); 
-	     	for(AddProduct vm : draftVehicleObjList){
+	     	for(AddCollection vm : draftVehicleObjList){
 	     	//	InventoryImage vehicleImg = InventoryImage.getDefaultImage(vm.vin);
 	     		SpecificationVM vehicle = new SpecificationVM();
 	     		vehicle.id = vm.id;
@@ -4394,7 +4379,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		List<AddProduct> list = AddProduct.getProductByParentId(id);
+    		List<AddCollection> list = AddCollection.getProductByParentId(id);
     		if(list.size() == 0){
     			List<CustomerRequestManufacturerSettings> listcust = CustomerRequestManufacturerSettings.getcustManufact(id);
     			if(listcust.size() != 0){
@@ -4408,7 +4393,7 @@ public class Application extends Controller {
         				pI.delete();
         			}
         		}
-    	    	AddProduct vm = AddProduct.findById(id);
+    	    	AddCollection vm = AddCollection.findById(id);
     	    	AuthUser user = (AuthUser) getLocalUser();
     	    	if(vm != null){
     	    		
@@ -4418,7 +4403,7 @@ public class Application extends Controller {
     	    	}
     	    	return ok();
     		}else if(list.size() != 0){
-    			for (AddProduct ap : list) {
+    			for (AddCollection ap : list) {
         			ap.setParentId(null);
         	    	ap.update();
     			}
@@ -4434,7 +4419,7 @@ public class Application extends Controller {
         				pI.delete();
         			}
         		}
-    			AddProduct vm = AddProduct.findById(id);
+    			AddCollection vm = AddCollection.findById(id);
     			vm.delete();
     			return ok();
     		}
@@ -4449,12 +4434,12 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		List<AddProduct> list = AddProduct.getProductByParentId(id);
-    		for (AddProduct ap : list) {
+    		List<AddCollection> list = AddCollection.getProductByParentId(id);
+    		for (AddCollection ap : list) {
     			ap.setPublicStatus("deleted");
     	    	ap.update();
 			}
-	    	AddProduct vm = AddProduct.findById(id);
+	    	AddCollection vm = AddCollection.findById(id);
 	    	vm.setPublicStatus("deleted");
 	    	vm.update();
 	    	return ok();
@@ -4834,9 +4819,9 @@ public class Application extends Controller {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		Form<AddProductVM> form = DynamicForm.form(AddProductVM.class).bindFromRequest();
-    		AddProductVM vm = form.get();
-    		AddProduct product = AddProduct.findById(vm.id);
+    		Form<AddCollectionVM> form = DynamicForm.form(AddCollectionVM.class).bindFromRequest();
+    		AddCollectionVM vm = form.get();
+    		AddCollection product = AddCollection.findById(vm.id);
     		if(product != null){
     			product.setTitle(vm.title);
     			product.setDescription(vm.description);
@@ -6883,7 +6868,7 @@ public class Application extends Controller {
     		RequestInfoVM vm = new RequestInfoVM();
     		vm.id = info.id;
     		if(info.productId != null){
-    			AddProduct aProduct = AddProduct.findById(Long.parseLong(info.productId));
+    			AddCollection aProduct = AddCollection.findById(Long.parseLong(info.productId));
     			if(aProduct != null){
     				vm.year = aProduct.year;
     				vm.name = aProduct.title;
@@ -7030,7 +7015,7 @@ public class Application extends Controller {
         		fileWriter.append(NEW_LINE_SEPARATOR);
         		
         		List<RequestMoreInfo> list = RequestMoreInfo.getAllRequest();
-        		AddProduct pro = null;
+        		AddCollection pro = null;
         		LeadType lead = null;
         		AuthUser auth = null;
         		AuthUser user = null;
@@ -7040,7 +7025,7 @@ public class Application extends Controller {
         			//List<CustomizationDataValue> cust = CustomizationDataValue.findByRequestId(request.id);
         			
         			if(request.productId != null){
-        				 pro = AddProduct.findById(Long.parseLong(request.productId));
+        				 pro = AddCollection.findById(Long.parseLong(request.productId));
         			}
         			if(request.isContactusType != null){
         				lead = LeadType.findById(Long.parseLong(request.isContactusType));
@@ -7309,7 +7294,7 @@ public class Application extends Controller {
 	        		
 	        		List<RequestMoreInfo> list = RequestMoreInfo.findAllCancel(Long.valueOf(session("USER_LOCATION")));
 	        		
-	        		AddProduct pro = null;
+	        		AddCollection pro = null;
 	        		LeadType lead = null;
 	        		AuthUser auth = null;
 	        		AuthUser user = null;
@@ -7317,7 +7302,7 @@ public class Application extends Controller {
 	        		
 	        		for (RequestMoreInfo request : list) {
 	        			if(request.productId != null){
-	        				 pro = AddProduct.findById(Long.parseLong(request.productId));
+	        				 pro = AddCollection.findById(Long.parseLong(request.productId));
 	        			}
 	        			if(request.isContactusType != null){
 	        				lead = LeadType.findById(Long.parseLong(request.isContactusType));
@@ -7587,7 +7572,7 @@ public class Application extends Controller {
 	        		
 	        		List<RequestMoreInfo> list = RequestMoreInfo.findAllAssignedLeadsArchive(Long.valueOf(session("USER_LOCATION")));
 	        		
-	        		AddProduct pro = null;
+	        		AddCollection pro = null;
 	        		LeadType lead = null;
 	        		AuthUser auth = null;
 	        		AuthUser user = null;
@@ -7595,7 +7580,7 @@ public class Application extends Controller {
 	        		
 	        		for (RequestMoreInfo request : list) {
 	        			if(request.productId != null){
-	        				 pro = AddProduct.findById(Long.parseLong(request.productId));
+	        				 pro = AddCollection.findById(Long.parseLong(request.productId));
 	        			}
 	        			if(request.isContactusType != null){
 	        				lead = LeadType.findById(Long.parseLong(request.isContactusType));
@@ -9821,10 +9806,10 @@ public class Application extends Controller {
     private static void makeToDo(Long pId) {
     	AuthUser user = (AuthUser) getLocalUser();
     	ToDo todo = new ToDo();
-    	AddProduct pAddProduct = AddProduct.findByIdNotSale(pId);
+    	AddCollection pAddCollection = AddCollection.findByIdNotSale(pId);
 		//Vehicle vobj = Vehicle.findByVinAndStatus(vin);
-		if(pAddProduct != null){
-			todo.task = "Follow up with the client about test Drive for"+pAddProduct.designer+" "+pAddProduct.title;
+		if(pAddCollection != null){
+			todo.task = "Follow up with the client about test Drive for"+pAddCollection.designer+" "+pAddCollection.title;
 			todo.assignedTo = user;
 			todo.assignedBy = user;
 			todo.priority = "High";
@@ -10934,11 +10919,11 @@ private static void cancelTestDriveMail(Map map) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	 	List<AddProduct> product1 = AddProduct.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
+	 	List<AddCollection> product1 = AddCollection.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
 		int flag1=0;
 		lDataVM.flagForBestSaleIcon = 0;
 		if(product1 != null){
-	 	for(AddProduct product:product1){
+	 	for(AddCollection product:product1){
 	 		if((product != null && product.soldDate.after(startD) && product.soldDate.before(endD)) || product.soldDate.equals(startD) || product.soldDate.equals(endD)) {
 	 			flag1=1;
 	 			lDataVM.flagForBestSaleIcon=flag1;
@@ -11079,9 +11064,9 @@ private static void cancelTestDriveMail(Map map) {
    	Integer pricecount = 0;
    	int saleCarCount = 0;
    	if(users.role.equals("Manager") && locOrPer.equals("location")){
-   		List<AddProduct> pList = AddProduct.findByLocationAndSold(location.id);
+   		List<AddCollection> pList = AddCollection.findByLocationAndSold(location.id);
        	
-       	for(AddProduct proList:pList){
+       	for(AddCollection proList:pList){
        		//	if(vehList.soldDate.after(timeBack)) {
        		if((proList.soldDate.after(startD) && proList.soldDate.before(endD)) || proList.soldDate.equals(endD) || proList.soldDate.equals(startD)){
            			saleCarCount++;
@@ -11104,8 +11089,8 @@ private static void cancelTestDriveMail(Map map) {
    		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(users);
    		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(users);
    		
-   		List<AddProduct> pList = AddProduct.findBySoldUserAndSold(users);
-   		for (AddProduct product : pList) {
+   		List<AddCollection> pList = AddCollection.findBySoldUserAndSold(users);
+   		for (AddCollection product : pList) {
    			if((product.soldDate.after(startD) && product.soldDate.before(endD)) || product.soldDate.equals(endD) || product.soldDate.equals(startD)) {
        			saleCarCount++;
        			pricecount = (int) (pricecount + product.price);
@@ -11150,10 +11135,10 @@ private static void cancelTestDriveMail(Map map) {
    	
    	
    	
-   	List<AddProduct> allProdList = AddProduct.findByLocation(location.id);
+   	List<AddCollection> allProdList = AddCollection.findByLocation(location.id);
    	int saleCar = 0;
    	int newCar = 0;
-   	for(AddProduct product:allProdList){
+   	for(AddCollection product:allProdList){
    		if(product.status.equals("Sold")){
    			if((product.soldDate.after(startD) && product.soldDate.before(endD)) || product.soldDate.equals(endD) || product.soldDate.equals(startD)){
    				saleCar++;
@@ -11236,8 +11221,8 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(AuthUser aUser: allLoUser){
 	    		pricecountOther = 0;
 	    		if(allLoUser != null){
-	    			List<AddProduct> pList = AddProduct.findBySoldUserAndSold(aUser);
-	        		for (AddProduct product : pList) {
+	    			List<AddCollection> pList = AddCollection.findBySoldUserAndSold(aUser);
+	        		for (AddCollection product : pList) {
 	    				if(monthCal.equals(onlyMonth.format(product.soldDate))){
 	    					pricecountOther = (int) (pricecountOther + product.price);
 	    				}
@@ -11254,7 +11239,7 @@ private static void cancelTestDriveMail(Map map) {
 			sAndValues.add(sValue);
    }
    	
-   	List<AddProduct> pList2 = AddProduct.findByLocationAndSold(locationId);
+   	List<AddCollection> pList2 = AddCollection.findByLocationAndSold(locationId);
    		
    	if(pList2.size() != 0){
    		List<Integer> longV = new ArrayList<>();
@@ -11314,7 +11299,7 @@ private static void cancelTestDriveMail(Map map) {
 					   sAndValues.plan = planSchedule.vehicalesToSell;
 				   }
 				 //calculate total lead closed
-				   List<AddProduct> totalCount = AddProduct.findBySoldUserAndSoldDate(user,startDate,endDate);
+				   List<AddCollection> totalCount = AddCollection.findBySoldUserAndSoldDate(user,startDate,endDate);
 				   total = totalCount.size();
 			   }
 			   if("Leads to Generate".equalsIgnoreCase(planValue)){
@@ -11352,7 +11337,7 @@ private static void cancelTestDriveMail(Map map) {
 					   sAndValues.plan = planSchedule.vehiclesSell;
 				   }
 				 //calculate total lead closed
-				   List<AddProduct> totalCount = AddProduct.findByLocationAndSoldDate(loc,startDate,endDate);
+				   List<AddCollection> totalCount = AddCollection.findByLocationAndSoldDate(loc,startDate,endDate);
 				   total = totalCount.size();
 			   }
 			   if("Leads to Generate".equalsIgnoreCase(planValue)){
@@ -11379,8 +11364,8 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(AuthUser aUser: allLoUser){
 	    		pricecountOther = 0;
 	    		if(allLoUser != null){
-	    			List<AddProduct> pList = AddProduct.findBySoldUserAndSold(aUser);
-	        		/*for (AddProduct product : pList) {
+	    			List<AddCollection> pList = AddCollection.findBySoldUserAndSold(aUser);
+	        		/*for (AddCollection product : pList) {
 	        			 productCount++;
 	    				if(monthCal.equals(onlyMonth.format(product.soldDate))){
 	    					pricecountOther = (int) (pricecountOther + product.price);
@@ -12660,7 +12645,7 @@ private static void cancelTestDriveMail(Map map) {
     			LeadType lType = LeadType.findByName(vm.typeOfLead);
 	    		RequestMoreInfo info = RequestMoreInfo.findById(vm.infoId);
 	    		keyValue = CustomizationDataValue.findByCustomeSaveCRMLead(lType.id, vm.infoId);
-	    		AddProduct product = AddProduct.findById(Long.parseLong(info.productId));
+	    		AddCollection product = AddCollection.findById(Long.parseLong(info.productId));
 	    		if(product != null){
 	    			/*product.setSale("sale");*/
 	    			product.setSoldDate(date);
@@ -14378,7 +14363,7 @@ private static void cancelTestDriveMail(Map map) {
 	    	for(RequestMoreInfo info: requestMoreInfos) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		AddProduct product = AddProduct.findById(Long.parseLong(info.productId));
+	    		AddCollection product = AddCollection.findById(Long.parseLong(info.productId));
 	    		vm.productId = info.productId;
 	    		if(product != null) {
 	    			vm.title = product.title;
@@ -16712,11 +16697,11 @@ private static void cancelTestDriveMail(Map map) {
 			if(arrVin.length > 5){
 				if(!arrVin[5].equals("\"")){
 					String van[] = arrVin[5].split("\"");
-					AddProduct vehicle = null;
+					AddCollection vehicle = null;
 					if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
-						vehicle = AddProduct.findByVinAndStatusForGM(van[0],Location.findById(locationId));
+						vehicle = AddCollection.findByVinAndStatusForGM(van[0],Location.findById(locationId));
 					}else{
-						vehicle = AddProduct.findByVinAndStatus(van[0]);
+						vehicle = AddCollection.findByVinAndStatus(van[0]);
 					}
 					
 					if(vehicle !=null){
@@ -16747,14 +16732,14 @@ private static void cancelTestDriveMail(Map map) {
     	
     	/*-------------------edit click 12-05-2016---------------------------------------*/
     	
-    	List<AddProduct> vlist = null;
+    	List<AddCollection> vlist = null;
     	if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
-    		vlist = AddProduct.getProductByDraftStatus();
+    		vlist = AddCollection.getProductByDraftStatus();
 		}else{
-			vlist = AddProduct.findByNewlyArrived();
+			vlist = AddCollection.findByNewlyArrived();
 		}
     	
-    	/*for (AddProduct vehicle : vlist) {
+    	/*for (AddCollection vehicle : vlist) {
     		//if(vehicle.status.equals("Sold")){
     			//if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
     				vins1.add(vehicle.id.toString());
@@ -16790,13 +16775,13 @@ private static void cancelTestDriveMail(Map map) {
 				vins.add(entry.getKey());
 			}
     	}
-    	List<AddProduct> topVisited =null;
-    	List<AddProduct> topVisitedSold =null;
+    	List<AddCollection> topVisited =null;
+    	List<AddCollection> topVisitedSold =null;
     	
 if(vehicles.equals("All")){
-	topVisited = AddProduct.getProductByDraftStatus();
+	topVisited = AddCollection.getProductByDraftStatus();
 }else{
-	topVisited = AddProduct.findByVinsAndTypeVehi(vins,vehicles);
+	topVisited = AddCollection.findByVinsAndTypeVehi(vins,vehicles);
 }
 
 /*if(vehicles.equals("All")){
@@ -16808,7 +16793,7 @@ if(vehicles.equals("All")){
     	
     	List<VehicleAnalyticalVM> topVisitedVms = new ArrayList<>();
     	
-    	for(AddProduct vehicle:topVisited) {
+    	for(AddCollection vehicle:topVisited) {
 			
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
     		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocati(vehicle.getId());
@@ -16852,7 +16837,7 @@ if(vehicles.equals("All")){
     		
     		/*analyticalVM.vehicleStatus=vehicle.getStatus();
     		analyticalVM.price = vehicle.getPrice();*/
-    		AddProduct vehicleImage = AddProduct.getDefaultImg(vehicle.getId());
+    		AddCollection vehicleImage = AddCollection.getDefaultImg(vehicle.getId());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
     			analyticalVM.isImage = true;
@@ -16880,8 +16865,8 @@ if(vehicles.equals("All")){
     	
     	
     	List<VehicleAnalyticalVM> worstVisitedVms = new ArrayList<>();
-    	List<AddProduct> notVisitedVehicle = AddProduct.getAllProducts();
-    	for(AddProduct vehicle:notVisitedVehicle) {
+    	List<AddCollection> notVisitedVehicle = AddCollection.getAllProducts();
+    	for(AddCollection vehicle:notVisitedVehicle) {
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
     		List<PriceAlert> pAlert;
     		if(user.role.equals("General Manager")){
@@ -16909,7 +16894,7 @@ if(vehicles.equals("All")){
 			}*/
     		//analyticalVM.price = vehicle.getPrice();
     		//analyticalVM.stockNumber = vehicle.stock;
-    		AddProduct vehicleImage = AddProduct.getDefaultImg(vehicle.getId());
+    		AddCollection vehicleImage = AddCollection.getDefaultImg(vehicle.getId());
     		//ProductImages vehicleImage = ProductImages.getDefaultImg(vehicle.getId());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
@@ -16938,21 +16923,21 @@ if(vehicles.equals("All")){
     	}  	
     	
     	List<VehicleAnalyticalVM> allVehical = new ArrayList<>();
-    	 List<AddProduct> aVehicles =null;
+    	 List<AddCollection> aVehicles =null;
     	//aVehicles = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
     	 
     	 // aVehicles = Vehicle.findByVins(vins1);
     	 if(vehicles.equals("All")){
-    		 aVehicles = AddProduct.getProductByDraftStatus();
+    		 aVehicles = AddCollection.getProductByDraftStatus();
     		}else{
-    			aVehicles= AddProduct.findByVinsAndTypeVehi(vins1,vehicles);
+    			aVehicles= AddCollection.findByVinsAndTypeVehi(vins1,vehicles);
     		}
     	 //if((vehicle.postedDate.after(start) && vehicle.postedDate.before(end)) || vehicle.postedDate.equals(end)){
     	 
-    	for(AddProduct vehicle:aVehicles) {
+    	for(AddCollection vehicle:aVehicles) {
     		VehicleAnalyticalVM anVm = new VehicleAnalyticalVM();
     		//anVm.count = pagesCount1.get(vehicle.getVin());
-    		AddProduct vehicleImage = AddProduct.getDefaultImg(vehicle.getId());
+    		AddCollection vehicleImage = AddCollection.getDefaultImg(vehicle.getId());
     		//ProductImages vehicleImage = ProductImages.getDefaultImg(vehicle.getId());
     		if(vehicleImage!=null) {
     			anVm.id = vehicleImage.getId();
@@ -18202,10 +18187,10 @@ if(vehicles.equals("All")){
     	int parentFlag = 0;
     	long parentLeadId = 0L;
     	//List<SalesPersonZipCode> zipcode = SalesPersonZipCode.findByZipCode(Long.valueOf(session("USER_LOCATION")), leadVM.custZipCode);
-    	//List<AddProduct> productlist = AddProduct.findByTitle(leadVM.manufacturers);
-    	AddProduct inventoryVM = AddProduct.findById(Long.parseLong(leadVM.manufacturers));
+    	//List<AddCollection> productlist = AddCollection.findByTitle(leadVM.manufacturers);
+    	AddCollection inventoryVM = AddCollection.findById(Long.parseLong(leadVM.manufacturers));
     	RequestMoreInfo info = new RequestMoreInfo();
-    	   // for(AddProduct inventoryVM:productlist){
+    	   // for(AddCollection inventoryVM:productlist){
     	   
 	    		
 	    		info.setIsReassigned(true);
@@ -22267,7 +22252,7 @@ private static void salesPersonPlanMail(Map map) {
     		Long id = Long.parseLong(vin) ;
     		
     		AuthUser user = getLocalUser();
-	    	AddProduct vehicle = AddProduct.findById(id);
+	    	AddCollection vehicle = AddCollection.findById(id);
 	    	if(vehicle != null) {
 		    	vehicle.setTitle(name);
 		    	vehicle.update();
@@ -23309,7 +23294,7 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 			AuthUser userObj = (AuthUser) getLocalUser();
 			//File fdir = new File(rootDir+paths);
 			CustomizationDataValue cValue = CustomizationDataValue.findByCustomeLeadByName(Long.parseLong(leadId),Long.parseLong(leadType),keyValue);
-			//AddProduct product = AddProduct.findById(id);
+			//AddCollection product = AddCollection.findById(id);
 			String path =null;
 			if(cValue != null){
 				path = rootDir+cValue.value;

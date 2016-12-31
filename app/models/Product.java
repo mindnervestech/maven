@@ -26,18 +26,45 @@ public class Product extends Model {
 	public String cadfilePath;	
 	public boolean newFlag;
 	public double amount;
-	public boolean amountFlag;
-	
+	public boolean isAmountFlag;
+	public String publicStatus;
+	public String externalUrlLink;
+	public String imageName;
+	public String imagePath;
 	@ManyToOne
 	public InventorySetting mainCollection;
 	@ManyToOne
-	public AddProduct collection;
+	public AddCollection collection;
 	@ManyToOne
 	public AuthUser user;
 	@ManyToOne
 	public Location locations;
 	
 	
+	public String getImageName() {
+		return imageName;
+	}
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+	public String getImagePath() {
+		return imagePath;
+	}
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+	public String getPublicStatus() {
+		return publicStatus;
+	}
+	public void setPublicStatus(String publicStatus) {
+		this.publicStatus = publicStatus;
+	}
+	public String getExternalUrlLink() {
+		return externalUrlLink;
+	}
+	public void setExternalUrlLink(String externalUrlLink) {
+		this.externalUrlLink = externalUrlLink;
+	}
 	public boolean getNewFlag() {
 		return newFlag;
 	}
@@ -122,10 +149,10 @@ public class Product extends Model {
 	public void setMainCollection(InventorySetting mainCollection) {
 		this.mainCollection = mainCollection;
 	}
-	public AddProduct getCollection() {
+	public AddCollection getCollection() {
 		return collection;
 	}
-	public void setCollection(AddProduct collection) {
+	public void setCollection(AddCollection collection) {
 		this.collection = collection;
 	}
 	public AuthUser getUser() {
@@ -148,12 +175,14 @@ public class Product extends Model {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+
 	public boolean isAmountFlag() {
-		return amountFlag;
+		return isAmountFlag;
 	}
-	public void setAmountFlag(boolean amountFlag) {
-		this.amountFlag = amountFlag;
+	public void setAmountFlag(boolean isAmountFlag) {
+		this.isAmountFlag = isAmountFlag;
 	}
+
 
 
 	public static Finder<Long,Product> find = new Finder<>(Long.class,Product.class);

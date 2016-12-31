@@ -10,8 +10,8 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import models.AddCollection;
-import models.AddProduct;
 import models.AuthUser;
+import models.CollectionImages;
 import models.InventorySetting;
 import models.LeadType;
 import models.Product;
@@ -33,9 +33,12 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import securesocial.core.Identity;
 import viewmodel.AddCollectionVM;
-import viewmodel.AddProductVM;
+import viewmodel.AddCollectionVM;
+import viewmodel.ImageVM;
 import viewmodel.LeadTypeVM;
+import viewmodel.ProductVM;
 import viewmodel.SectionsVM;
 import views.html.home;
 
@@ -80,23 +83,22 @@ public class InventoryController extends Controller {
 		if (session("USER_KEY") == null || session("USER_KEY") == "") {
 			return ok(home.render("", userRegistration));
 		} else {
-			AuthUser userObj = (AuthUser) getLocalUser();
-			List<AddCollection> collectionList = AddCollection
-					.getAllReadyMadeCollection();
+			//AuthUser userObj = (AuthUser) getLocalUser();
+			//List<AddCollection> collectionList = AddCollection.getAllReadyMadeCollection();
 
 			List<AddCollectionVM> collectionVMList = new ArrayList<>();
-			for (AddCollection collection : collectionList) {
+			/*for (AddCollection collection : collectionList) {
 				AddCollectionVM aCollectionVM = new AddCollectionVM();
-				/*aCollectionVM.setId(collection.getId());
+				aCollectionVM.setId(collection.getId());
 				aCollectionVM.setDescription(collection.getDescription());
 				aCollectionVM.setSection(collection.getSection());
 				aCollectionVM.setTitle(collection.getTitle());
 				aCollectionVM.setPath(collection.getPath());
 				aCollectionVM.setWebsite(collection.getWebsite());
-				aCollectionVM.setImage_name(collection.getImageName());*/
+				aCollectionVM.setImage_name(collection.getImageName());
 				collectionVMList.add(aCollectionVM);
 
-			}
+			}*/
 			return ok(Json.toJson(collectionVMList));
 		}
 
@@ -113,7 +115,7 @@ public class InventoryController extends Controller {
 	    			long id = Long.parseLong(obj.get("id").toString());
 	    			//long ord = Long.parseLong(obj.get("collectionOrder").toString());
 	    			
-	    			AddProduct cl = AddProduct.findById(id);
+	    			AddCollection cl = AddCollection.findById(id);
 	    			if(cl !=null){
 	    				cl.setOrderIndex(i);
 	    				cl.update();
@@ -141,36 +143,18 @@ public class InventoryController extends Controller {
 	}
 	
 	   public static Result deleteCollectionById(Long id ){
-		   	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-		   		return ok(home.render("",userRegistration));
-		   	} else {
-		   		System.out.println("in collection Delete");
-		   			AuthUser user = (AuthUser) getLocalUser();
-			    	AddCollection vmcoll = AddCollection.findById(id);
-			    	List<AddProduct> aProduct = AddProduct.findProductsByCollection(vmcoll);
-			    	for(AddProduct ap:aProduct){
-			    		 AddProduct vm = AddProduct.findById(ap.id);
-			    		 if(vm != null){
-			    				String p = vm.filePath;	    		
-			    				List<ProductImages> img = ProductImages.getByProduct(vm);
-			    				for (ProductImages productImages : img) {
-			    					
-			    					File file = new File(rootDir+File.separator+id+"-"+user.id+File.separator+productImages.imageName);
-			    			    	File thumbFile = new File(rootDir+File.separator+id+"-"+user.id+File.separator+"thumbnail_"+productImages.imageName);
-			    			    	file.delete();
-			    			    	thumbFile.delete();
-			    			    	productImages.delete();
-			    				}
-			    				
-			    		 }
-			    		 vm.delete();
-			    	}
-			    	
-			    	//File file = new File(rootDir+File.separator+id+"collection"+File.separator+vmcoll.imageName);
-			    	vmcoll.delete();
-			    	
-			    	return ok();
-		   	}	
+		   if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	AuthUser user = (AuthUser) getLocalUser();
+		    	CollectionImages image = CollectionImages.findById(id);
+		    	File file = new File(rootDir+File.separator+id+"-"+user.id+File.separator+image.imageName);
+		    	File thumbFile = new File(rootDir+File.separator+id+"-"+user.id+File.separator+"thumbnail_"+image.imageName);
+		    	file.delete();
+		    	thumbFile.delete();
+		    	image.delete();
+		    	return ok();
+	    	}
 		   }
 	   
 	   public static Result getAllSale() {
@@ -179,12 +163,12 @@ public class InventoryController extends Controller {
 	    	} else {
 	    		/*AuthUser userObj = (AuthUser) getLocalUser();
 		    	List<AddCollection> collectionList = AddCollection.getAllReadyMade();
-		    	List<AddProductVM> productVMList = new ArrayList<>(); 
+		    	List<AddCollectionVM> productVMList = new ArrayList<>(); 
 		    	for(AddCollection collection : collectionList) {
-		    		List<AddProduct> productList = AddProduct.findProductsByCollectionSale(collection);
+		    		List<AddCollection> productList = AddCollection.findProductsByCollectionSale(collection);
 		    		
-		    		for(AddProduct product : productList) {
-		    			AddProductVM vm = new AddProductVM();
+		    		for(AddCollection product : productList) {
+		    			AddCollectionVM vm = new AddCollectionVM();
 			    		vm.collectionTitle = collection.title;
 		    			vm.title = product.title;
 		    			vm.price = product.price;
@@ -212,9 +196,9 @@ public class InventoryController extends Controller {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
-		    	AddProduct vm = AddProduct.findById(id);
+		    	AddCollection vm = AddCollection.findById(id);
 		    	AuthUser user = (AuthUser) getLocalUser();
-		    	AddProduct add = AddProduct.findById(vm.id);
+		    	AddCollection add = AddCollection.findById(vm.id);
 		    	add.setSale("null");
 	    		add.update();
 				return ok();
@@ -229,10 +213,10 @@ public class InventoryController extends Controller {
 	    	} else {
 	    		
 	    		
-		    	AddProduct vm = AddProduct.findById(id);
+		    	AddCollection vm = AddCollection.findById(id);
 		    	AuthUser user = (AuthUser) getLocalUser();
 		    	
-		    	AddProduct add = AddProduct.findById(vm.id);
+		    	AddCollection add = AddCollection.findById(vm.id);
 		    	add.setSale("sale");
 	    		add.update();
 				return ok();
@@ -247,11 +231,11 @@ public class InventoryController extends Controller {
 	    	} else {
 	    		/*AuthUser userObj = (AuthUser) getLocalUser();
 		    	List<AddCollection> collectionList = AddCollection.getAllReadyMade();
-		    	List<AddProductVM> productVMList = new ArrayList<>(); 
+		    	List<AddCollectionVM> productVMList = new ArrayList<>(); 
 		    	for(AddCollection collection : collectionList) {
-		    		List<AddProduct> productList = AddProduct.findProductsReadyMadeByCollection(collection);
-		    		for(AddProduct product : productList) {
-		    			AddProductVM vm = new AddProductVM();
+		    		List<AddCollection> productList = AddCollection.findProductsReadyMadeByCollection(collection);
+		    		for(AddCollection product : productList) {
+		    			AddCollectionVM vm = new AddCollectionVM();
 			    		vm.collectionTitle = collection.title;
 		    			vm.title = product.title;
 		    			vm.price = product.price;
@@ -274,21 +258,21 @@ public class InventoryController extends Controller {
 	    	return ok();
 	    }
 	   
-	   public static void saveVm(AddProductVM pVm,MultipartFormData bodys,Form<AddProductVM> form) {
+	   public static void saveVm(AddCollectionVM pVm,MultipartFormData bodys,Form<AddCollectionVM> form) {
 	    	 
-	    	 JSONArray jArr1 = null;
+		   JSONObject jArr1 = null;
 			try {
 		
-				jArr1 = new JSONArray(form.data().get("mainCollection"));
+				jArr1 = new JSONObject(form.data().get("mainCollection"));
 				
-				for (int i=0; i < jArr1.length(); i++) {
+				//for (int i=0; i < jArr1.length(); i++) {
 					InventorySetting vm1 = new InventorySetting();
-					JSONObject jsonObj1 = jArr1.getJSONObject(i);
-					vm1.collection = String.valueOf(jsonObj1.get("collection"));
-					vm1.enableInven = Boolean.parseBoolean(String.valueOf(jsonObj1.get("enableInven")));
-					vm1.id = Long.parseLong(String.valueOf(jsonObj1.get("id")));
+					//JSONObject jsonObj1 = jArr1.getJSONObject(i);
+					vm1.collection = String.valueOf(jArr1.get("collection"));
+					vm1.enableInven = Boolean.parseBoolean(String.valueOf(jArr1.get("enableInven")));
+					vm1.id = Long.parseLong(String.valueOf(jArr1.get("id")));
 					pVm.mainCollection = vm1;
-				}
+				//
 				
 				
 			} catch (JSONException e) {
@@ -299,6 +283,10 @@ public class InventoryController extends Controller {
 	         pVm.externalUrlLink = form.data().get("externalUrlLink");
 	         pVm.externalUrlLink = form.data().get("externalUrlLink");
 	         pVm.fileName = form.data().get("fileName");
+	         if(form.data().get("parentId") != null){
+	        	 pVm.parentId = Long.parseLong(form.data().get("parentId"));
+	         }
+	         
 	         pVm.publicStatus = form.data().get("publicStatus");
 	         pVm.title = form.data().get("title");
 	    }
@@ -306,10 +294,10 @@ public class InventoryController extends Controller {
 	   public static Result updateProduct(){
 	    	
 	    	MultipartFormData body = request().body().asMultipartFormData();
-	    	Form<AddProductVM> form = DynamicForm.form(AddProductVM.class).bindFromRequest();
-	    	AddProductVM vm = new AddProductVM();
+	    	Form<AddCollectionVM> form = DynamicForm.form(AddCollectionVM.class).bindFromRequest();
+	    	AddCollectionVM vm = new AddCollectionVM();
 	    	if(body != null){
-	    		AddProductVM vm1 = new AddProductVM();
+	    		AddCollectionVM vm1 = new AddCollectionVM();
 	       		saveVm(vm1,body,form);
 	       		vm = vm1;
 	       	}else{
@@ -323,7 +311,7 @@ public class InventoryController extends Controller {
 	    		List<FilePart> filePart =  body.getFiles();
 	    		if (filePart != null) {
 	    			if(filePart.size() > 0){
-	    				AddProduct add = AddProduct.findById(vm.getId());
+	    				AddCollection add = AddCollection.findById(vm.getId());
 	    				add.setTitle(vm.getTitle());
 	            		add.setDescription(vm.getDescription());
 	            		add.setPublicStatus(vm.getPublicStatus());
@@ -396,7 +384,7 @@ public class InventoryController extends Controller {
 	    				pI.delete();
 	    			}
 	    		}
-		    	AddProduct vm = AddProduct.findById(id);
+		    	AddCollection vm = AddCollection.findById(id);
 	    
 		    	AuthUser user = (AuthUser) getLocalUser();
 		    	if(vm != null){
@@ -419,11 +407,11 @@ public class InventoryController extends Controller {
 	    	} else {
 	    /*		AuthUser userObj = (AuthUser) getLocalUser();
 		    	List<AddCollection> collectionList = AddCollection.getAllReadyMade();
-		    	List<AddProductVM> productVMList = new ArrayList<>(); 
+		    	List<AddCollectionVM> productVMList = new ArrayList<>(); 
 		    	for(AddCollection collection : collectionList) {
-		    		List<AddProduct> productList = AddProduct.findProductsByCollectiongetOnlyReadyMade(collection);
-		    		for(AddProduct product : productList) {
-		    			AddProductVM vm = new AddProductVM();
+		    		List<AddCollection> productList = AddCollection.findProductsByCollectiongetOnlyReadyMade(collection);
+		    		for(AddCollection product : productList) {
+		    			AddCollectionVM vm = new AddCollectionVM();
 			    		vm.collectionTitle = collection.title;
 		    			vm.title = product.title;
 		    			vm.price = product.price;
@@ -477,11 +465,11 @@ public class InventoryController extends Controller {
 	    	} else {
 	    		/*AuthUser userObj = (AuthUser) getLocalUser();
 		    	List<AddCollection> collectionList = AddCollection.getAllProducts();
-		    	List<AddProductVM> productVMList = new ArrayList<>(); 
+		    	List<AddCollectionVM> productVMList = new ArrayList<>(); 
 		    	for(AddCollection collection : collectionList) {
-		    		List<AddProduct> productList = AddProduct.findProductsByCollection(collection);
-		    		for(AddProduct product : productList) {
-		    			AddProductVM vm = new AddProductVM();
+		    		List<AddCollection> productList = AddCollection.findProductsByCollection(collection);
+		    		for(AddCollection product : productList) {
+		    			AddCollectionVM vm = new AddCollectionVM();
 			    		vm.collectionTitle = collection.title;
 		    			vm.title = product.title;
 		    			vm.description = product.description;
@@ -509,7 +497,7 @@ public class InventoryController extends Controller {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 	    		/*AuthUser userObj = (AuthUser) getLocalUser();
-	    		AddProduct product = AddProduct.findById(id);
+	    		AddCollection product = AddCollection.findById(id);
 	    		AddCollection coll = AddCollection.findById(product.collection.id);
 	    		return ok(Json.toJson(coll.section));*/
 	    	}
@@ -548,8 +536,8 @@ public class InventoryController extends Controller {
 	    		AuthUser userObj = (AuthUser) getLocalUser();
 	    		String sec=null;
 	    		File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"product");
-	    		AddProduct product = AddProduct.findById(id);
-	    		AddProductVM vm =new AddProductVM();
+	    		AddCollection product = AddCollection.findById(id);
+	    		AddCollectionVM vm =new AddCollectionVM();
 	    		vm.id = product.id;
 	    		vm.title =product.title;
 	    		vm.description = product.description;
@@ -579,13 +567,13 @@ public class InventoryController extends Controller {
 
 	   public static Result updateProductInfo(){
 	    	
-	    	Form<AddProductVM> form = DynamicForm.form(AddProductVM.class).bindFromRequest();
-	    	AddProductVM vm = form.get();
+	    	Form<AddCollectionVM> form = DynamicForm.form(AddCollectionVM.class).bindFromRequest();
+	    	AddCollectionVM vm = form.get();
 	    	
 	    	AuthUser userObj = (AuthUser) getLocalUser();
 
 	       	    try {
-	       	    	AddProduct add = AddProduct.findById(vm.getId());
+	       	    	AddCollection add = AddCollection.findById(vm.getId());
 	        		add.setTitle(vm.getTitle());
 	        		add.setDescription(vm.getDescription());
 	        		add.setPublicStatus(vm.getPublicStatus());
@@ -607,7 +595,7 @@ public class InventoryController extends Controller {
 			} else {
 				AuthUser userObj = (AuthUser) getLocalUser();
 				File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"product"+File.separator);
-				AddProduct product = AddProduct.findById(id);
+				AddCollection product = AddCollection.findById(id);
 				
 				String path = rootDir+product.filePath;
 						
@@ -624,7 +612,7 @@ public class InventoryController extends Controller {
 			} else {
 				AuthUser userObj = (AuthUser) getLocalUser();
 				File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"product"+File.separator);
-				AddProduct product = AddProduct.findById(id);
+				AddCollection product = AddCollection.findById(id);
 				String path = rootDir+product.cadfilePath;
 						
 				File f = new File(path);
@@ -640,7 +628,7 @@ public class InventoryController extends Controller {
 		   	} else {
 		   		AuthUser userObj = (AuthUser) getLocalUser();
 		   		InventorySetting mainColl = InventorySetting.findById(id);
-			    List<AddProduct> collectionList = AddProduct.getAllCollection(mainColl);
+			    List<AddCollection> collectionList = AddCollection.getAllCollection(mainColl);
 			    return ok(Json.toJson(collectionList));
 		   	}
 		   }
@@ -815,31 +803,26 @@ public class InventoryController extends Controller {
 	   
 	   
 	   public static Result getImagesByCollection(Long id){
-	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		   if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
-		    	/*Identity user = getLocalUser();
+		    	Identity user = getLocalUser();
 		    	AuthUser userObj = (AuthUser)user;
-		    	//AddProduct product = AddProduct.findById(id);
-		    	AddCollection imageList = AddCollection.findById(id);
-		    	if(imageList.section.equalsIgnoreCase("readymade")){
-		    		AddCollectionVM vm = new AddCollectionVM();
-		    		vm.id = imageList.id;
-		    		vm.image_name = imageList.thumbnailImageName;
-		    		vm.path = imageList.thumbnailPath;
-		    		vm.section = imageList.section;
-		    	return ok(Json.toJson(vm));
-		    	}else{
-		    		AddCollectionVM vm = new AddCollectionVM();
-		    		vm.id = imageList.id;
-		    		vm.image_name = imageList.imageName;
-		    		vm.path = imageList.path;
-		    		vm.section = imageList.section;
-		    	return ok(Json.toJson(vm));
-		    	}*/
-	    		return ok();
+		    	AddCollection product = AddCollection.findById(id);
+		    	List<CollectionImages> imageList = CollectionImages.getByCollectionImg(product);
 		    	//reorderImagesForFirstTime(imageList);
-		    	
+		    	List<ImageVM> vmList = new ArrayList<>();
+		    	for(CollectionImages image : imageList) {
+		    		ImageVM vm = new ImageVM();
+		    		vm.id = image.id;
+		    		vm.imgName = image.imageName;
+		    		vm.path = image.path;
+		    		vm.defaultImage = image.defaultImage;
+		    		vm.description = image.description;
+		    		vm.title = image.title;
+		    		vmList.add(vm);
+		    	}
+		    	return ok(Json.toJson(vmList));
 	    	}	
 	    }
 	   
@@ -850,11 +833,11 @@ public class InventoryController extends Controller {
 				/*AuthUser userObj = (AuthUser) getLocalUser();
 				Sections sec = Sections.findById(id);
 		    	List<AddCollection> collectionList = AddCollection.getAllBySection(sec.value);
-		    	List<AddProductVM> productVMList = new ArrayList<>(); 
+		    	List<AddCollectionVM> productVMList = new ArrayList<>(); 
 		    	for(AddCollection collection : collectionList) {
-		    		List<AddProduct> productList = AddProduct.findProductsByCollection(collection);
-		    		for(AddProduct product : productList) {
-		    			AddProductVM vm = new AddProductVM();
+		    		List<AddCollection> productList = AddCollection.findProductsByCollection(collection);
+		    		for(AddCollection product : productList) {
+		    			AddCollectionVM vm = new AddCollectionVM();
 			    		vm.collectionTitle = collection.title;
 		    			vm.title = product.title;
 		    			vm.description = product.description;
@@ -931,7 +914,7 @@ public class InventoryController extends Controller {
 			   if(lType2.maunfacturersIds != null){
 				   String arr[] = lType2.maunfacturersIds.split(",");
 				   for(int i=0;i<arr.length;i++){
-					   AddProduct aProduct = AddProduct.findById(Long.parseLong(arr[i]));
+					   AddCollection aProduct = AddCollection.findById(Long.parseLong(arr[i]));
 					   if(aProduct != null){
 						   if(aProduct.title.equals(productType)){
 							   LeadTypeVM vm = new LeadTypeVM();
@@ -958,7 +941,7 @@ public class InventoryController extends Controller {
 	   
 	   
 	   public static Result getHideProduct(Long id) {
-		   AddProduct aProduct = AddProduct.findById(id);
+		   AddCollection aProduct = AddCollection.findById(id);
 		   if(aProduct != null){
 			   if(aProduct.hideWebsite == 1){
 				   aProduct.setHideWebsite(0);
@@ -967,8 +950,8 @@ public class InventoryController extends Controller {
 			   }
 			   aProduct.update();
 		   }
-		   List<AddProduct> list = AddProduct.getProductByParentId(id);
-		   for (AddProduct ap : list) {
+		   List<AddCollection> list = AddCollection.getProductByParentId(id);
+		   for (AddCollection ap : list) {
 			   if(aProduct.hideWebsite == 1){
 				   ap.setHideWebsite(0);
 			   }else{
@@ -981,11 +964,11 @@ public class InventoryController extends Controller {
 	   
 	   
 	   public static Result getAllProductWise(String status, String date,String leadType) {
-			List<AddProduct> pList = AddProduct.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
-			List<AddProductVM> aList = new ArrayList<AddProductVM>();
+			List<AddCollection> pList = AddCollection.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
+			List<AddCollectionVM> aList = new ArrayList<AddCollectionVM>();
 			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			for(AddProduct aProduct:pList){
-				AddProductVM aVm = new AddProductVM();
+			for(AddCollection aProduct:pList){
+				AddCollectionVM aVm = new AddCollectionVM();
 				aVm.title = aProduct.title;
 				aVm.description = aProduct.description;
 				aVm.fileName = aProduct.fileName;
@@ -1003,18 +986,18 @@ public class InventoryController extends Controller {
 
 	   
 	   public static Result getAllProduct(String status, Long collId, String date) {
-		   List<AddProduct> pList = new ArrayList<>();
+		   List<AddCollection> pList = new ArrayList<>();
 		   if(collId != null){
 			   InventorySetting mainCollection = InventorySetting.findById(collId);
-			   pList = AddProduct.getProductByStatusMainColl(Long.valueOf(session("USER_LOCATION")), status,mainCollection);
+			   pList = AddCollection.getProductByStatusMainColl(Long.valueOf(session("USER_LOCATION")), status,mainCollection);
 		   }else{
-			    pList = AddProduct.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
+			    pList = AddCollection.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
 		   }
 			
-			List<AddProductVM> aList = new ArrayList<AddProductVM>();
+			List<AddCollectionVM> aList = new ArrayList<AddCollectionVM>();
 			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			for(AddProduct aProduct:pList){
-				AddProductVM aVm = new AddProductVM();
+			for(AddCollection aProduct:pList){
+				AddCollectionVM aVm = new AddCollectionVM();
 				aVm.title = aProduct.title;
 				aVm.description = aProduct.description;
 				aVm.fileName = aProduct.fileName;
@@ -1055,17 +1038,18 @@ public class InventoryController extends Controller {
 		}
 
 	   public static Result getAllProductData(String status) {
-			List<AddProduct> pList = AddProduct.getProduct(Long.valueOf(session("USER_LOCATION")));
-			List<AddProductVM> aList = new ArrayList<AddProductVM>();
+			List<AddCollection> pList = AddCollection.getProduct(Long.valueOf(session("USER_LOCATION")));
+			List<AddCollectionVM> aList = new ArrayList<AddCollectionVM>();
 			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			for(AddProduct aProduct:pList){
-				AddProductVM aVm = new AddProductVM();
+			for(AddCollection aProduct:pList){
+				AddCollectionVM aVm = new AddCollectionVM();
 				aVm.title = aProduct.title;
 				aVm.description = aProduct.description;
 				aVm.fileName = aProduct.fileName;
 				aVm.id = aProduct.id;
 				aVm.orderIndex = aProduct.orderIndex;
 				aVm.hideWebsite = aProduct.hideWebsite;
+				aVm.mainCollection = aProduct.mainCollection;
 				if(aProduct.addedDate != null){
 					aVm.addedDate = df.format(aProduct.addedDate);
 				}
@@ -1077,20 +1061,7 @@ public class InventoryController extends Controller {
 				String params = "&date=last-28-days&type=visitors-list&limit=all";
 		    	Long visitorCount = 0l;
 		    	
-       		/*try {
-   				JSONArray jsonArray = new JSONArray(Application.callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
-   				for(int j=0;j<jsonArray.length();j++){
-   	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
-   	    			String arr[] = data.split("/");
-   	    			
-   	    					  visitorCount = visitorCount + 1;
-   	    				 
-   				}	
-   				
-   			} catch (Exception e) {
-   				// TODO Auto-generated catch block
-   				e.printStackTrace();
-   			}*/
+       		
 		    	aVm.pageViewCount = visitorCount;
 				
 				aList.add(aVm);

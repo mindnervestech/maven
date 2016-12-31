@@ -34,7 +34,6 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import models.AddCollection;
-import models.AddProduct;
 import models.AuthUser;
 import models.CustomizationDataValue;
 import models.CustomizationForm;
@@ -52,6 +51,15 @@ import models.ToDo;
 import models.TradeIn;
 import models.UserNotes;
 import models.Vehicle;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -119,7 +127,7 @@ public class CustomersRequestController extends Controller {
 		    	for(RequestMoreInfo info: listData) {
 		    		RequestInfoVM vm = new RequestInfoVM();
 		    		vm.id = info.id;
-		    		AddProduct productInfo = AddProduct.findById(Long.parseLong(info.productId));
+		    		AddCollection productInfo = AddCollection.findById(Long.parseLong(info.productId));
 		    		vm.productId = info.productId;
 		    		if(productInfo != null) {
 		    			vm.title = productInfo.title;
@@ -217,7 +225,7 @@ public class CustomersRequestController extends Controller {
 		    	for(RequestMoreInfo info: listData) {
 		    		RequestInfoVM vm = new RequestInfoVM();
 		    		vm.id = info.id;
-		    		AddProduct productInfo = AddProduct.findById(Long.parseLong(info.productId));
+		    		AddCollection productInfo = AddCollection.findById(Long.parseLong(info.productId));
 		    		vm.productId = info.productId;
 		    		if(productInfo != null) {
 		    			vm.title = productInfo.title;
@@ -311,7 +319,7 @@ public class CustomersRequestController extends Controller {
 		    			
 		    		RequestInfoVM vm = new RequestInfoVM();
 		    		vm.id = info.id;
-		    		AddProduct productInfo = AddProduct.findById(Long.parseLong(info.productId));
+		    		AddCollection productInfo = AddCollection.findById(Long.parseLong(info.productId));
 		    		vm.productId = info.productId;
 		    		if(productInfo != null) {
 		    			vm.title = productInfo.title;
@@ -2037,7 +2045,7 @@ public class CustomersRequestController extends Controller {
 	        		}else{
 	        			 list = RequestMoreInfo.findByContactUsType(Long.valueOf(session("USER_LOCATION")),leadId);
 	        		}
-	        		AddProduct pro = null;
+	        		AddCollection pro = null;
 	        		LeadType lead = null;
 	        		AuthUser auth = null;
 	        		AuthUser user = null;
@@ -2045,7 +2053,7 @@ public class CustomersRequestController extends Controller {
 	        		List<CustomizationDataValue> custdata1 = null;
 	        		for (RequestMoreInfo request : list) {
 	        			if(request.productId != null){
-	        				 pro = AddProduct.findById(Long.parseLong(request.productId));
+	        				 pro = AddCollection.findById(Long.parseLong(request.productId));
 	        			}
 	        			if(request.isContactusType != null){
 	        				lead = LeadType.findById(Long.parseLong(request.isContactusType));

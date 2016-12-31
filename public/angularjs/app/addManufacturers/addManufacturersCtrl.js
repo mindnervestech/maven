@@ -34,7 +34,15 @@ angular.module('newApp')
 	
 	$http.get('/getAllProductData/'+'publish')
 	.success(function(data) {
-		$scope.childManuData = data;
+		$scope.childManuData = [];
+		var mainColl = localStorage.getItem('mainCollection');
+		angular.forEach(data, function(value, key) {
+			if(value.mainCollection != null){
+				if(value.mainCollection.id == JSON.parse($scope.mainCollection).id){
+					$scope.childManuData.push(value);
+				}
+			}
+		});
 		console.log($scope.childManuData);
 	});
 	
@@ -62,7 +70,6 @@ angular.module('newApp')
 		if($scope.mainCollection != null || $scope.mainCollection != undefined){
 			$scope.addProduct.mainCollection = JSON.parse($scope.mainCollection);
 			delete $scope.addProduct.mainCollection.locations.createdDate;
-			//var date = new Date(1324339200000);
 		}
 		console.log($scope.addProduct);
 		//$("#submit").attr("disabled", true);
@@ -72,6 +79,11 @@ angular.module('newApp')
 		 if($scope.addProduct.newFlag != true)
 			 $scope.addProduct.newFlag=false;
 
+		 if($scope.addProduct.hideWebsite == true){
+			 $scope.addProduct.hideWebsite = 1;
+		 }else{
+			 $scope.addProduct.hideWebsite = 0;
+		 }
 		 
 		 console.log("check.."+$scope.addProduct.newFlag);
 		 if(logofile == undefined){
@@ -359,7 +371,7 @@ angular.module('newApp')
 		
 		$scope.deleteImage = function(img) {
 			console.log("chaaaaaaaaaaaaaggggggggg");
-			$http.get('/deleteImage/'+img.id)
+			$http.get('/deleteCollectionById/'+img.id)
 			.success(function(data) {
 				console.log('success');
 				$scope.imageList.splice($scope.imageList.indexOf(img),1);
@@ -383,7 +395,7 @@ angular.module('newApp')
 	   $scope.valuepul = 0;
 	   $scope.init = function() {
 		   $scope.showDefaultMsg = 0;
-			$http.get('/getImagesByProduct/'+$routeParams.id)
+			$http.get('/getImagesByCollection/'+$routeParams.id)
 			.success(function(data) {
 				console.log(data);
 				angular.forEach(data, function(value, key) {
@@ -520,7 +532,19 @@ angular.module('newApp')
 	});
 	$http.get('/getAllProductData/'+'publish')
 	.success(function(data) {
-		$scope.childManuData = data;
+		//$scope.childManuData = data;
+		console.log(localStorage.getItem('mainCollection'));
+		console.log($scope.childManuData);
+		$scope.childManuData = [];
+	//	console.log($scope.mainCollection);
+		var mainColl = localStorage.getItem('mainCollection');
+		angular.forEach(data, function(value, key) {
+			if(value.mainCollection != null){
+				if(value.mainCollection.id == JSON.parse(localStorage.getItem('mainCollection')).id){
+					$scope.childManuData.push(value);
+				}
+			}
+		});
 		console.log($scope.childManuData);
 	});
 			
@@ -542,6 +566,7 @@ angular.module('newApp')
 					$scope.productData.parentId = data.parentId.toString();
 				$scope.$apply();
 			}, 10);
+			console.log($scope.mainCollection);
 	});
 	
 	$scope.status= function(sts){

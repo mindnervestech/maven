@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.AddProduct;
 import models.AuthUser;
 import models.AutoPortal;
 import models.CoverImage;
@@ -58,7 +57,6 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
-import viewmodel.AddProductVM;
 import viewmodel.AutoPortalVM;
 import viewmodel.CreateNewFormVM;
 import viewmodel.CustomerRequestManufacrurerSettingsVM;

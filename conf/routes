@@ -117,6 +117,7 @@ GET		/getProductDataById/:id			controllers.productController.getProductDataById(
 
 POST		/saveImageTitle		         controllers.productController.saveImageTitle()
 GET		/getImagesByProduct/:id		     controllers.productController.getImagesByProduct(id:Long)
+POST    /uploadCollectionPhoto   			 controllers.productController.uploadCollectionPhoto()
 POST    /uploadProductPhoto   			 controllers.productController.uploadProductPhotos()
 #GET		/getImageById/:id			     controllers.productController.getImageDataById(id: Long)
 GET		/getImage/:id/:type			     controllers.productController.getImageById(id:Long,type:String)

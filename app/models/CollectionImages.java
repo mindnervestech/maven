@@ -12,7 +12,7 @@ import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
 @Entity
-public class ProductImages extends Model {
+public class CollectionImages extends Model {
 
 	@Id
 	public Long id;
@@ -24,7 +24,7 @@ public class ProductImages extends Model {
 	public String description;
 	
 	@ManyToOne
-	public AddCollection product;
+	public AddCollection collection;
 	
 	@ManyToOne
 	public AuthUser user;
@@ -79,13 +79,20 @@ public class ProductImages extends Model {
 		this.imageName = imageName;
 	}
 
-
-	public AddCollection getProduct() {
-		return product;
+	public boolean isDefaultImage() {
+		return defaultImage;
 	}
 
-	public void setProduct(AddCollection product) {
-		this.product = product;
+	public void setDefaultImage(boolean defaultImage) {
+		this.defaultImage = defaultImage;
+	}
+
+	public AddCollection getCollection() {
+		return collection;
+	}
+
+	public void setCollection(AddCollection collection) {
+		this.collection = collection;
 	}
 
 	public AuthUser getUser() {
@@ -96,36 +103,35 @@ public class ProductImages extends Model {
 		this.user = user;
 	}
 	
-	public static Finder<Long,ProductImages> find = new Finder<>(Long.class,ProductImages.class);
+	public static Finder<Long,CollectionImages> find = new Finder<>(Long.class,CollectionImages.class);
 	
-	public static ProductImages getByImagePath(String path) {
+	public static CollectionImages getByImagePath(String path) {
 		return find.where().eq("path", path).findUnique();
 	}
 	
-	public static List<ProductImages> getDeleteImagePath(Long productId) {
-		return find.where().eq("product.id", productId).findList();
+	public static List<CollectionImages> getDeleteImagePath(Long productId) {
+		return find.where().eq("collection.id", productId).findList();
 	}
 	
-	public static ProductImages findById(Long id) {
+	public static CollectionImages findById(Long id) {
 		return find.byId(id);
 	}
-	public static ProductImages findDefaultImg(Long id) {
-		return find.where().eq("product.id", id).eq("default_image", 1).findUnique();
+	public static CollectionImages findDefaultImg(Long id) {
+		return find.where().eq("collection.id", id).eq("default_image", 1).findUnique();
 	}
 	
-	public static List<ProductImages> getByProduct(AddCollection product) {
-		return find.where().eq("product", product).findList();
+	public static List<CollectionImages> getByProduct(AddCollection product) {
+		return find.where().eq("collection", product).findList();
 	}
-	public static List<ProductImages> getByProductImg(AddCollection product) {
-		return find.where().eq("product", product).findList();
+	public static List<CollectionImages> getByCollectionImg(AddCollection product) {
+		return find.where().eq("collection", product).findList();
 	}
-	
 	public static int countImage(Long id)
 	{
 		return find.where().eq("product_id", id).findRowCount();
 		
 	}
-	public static ProductImages getDefaultImg(Long pId) {
-		return find.where().eq("product.id", pId).eq("defaultImage", 1).findUnique();
+	public static CollectionImages getDefaultImg(Long pId) {
+		return find.where().eq("collection.id", pId).eq("defaultImage", 1).findUnique();
 	}
 }

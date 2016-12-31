@@ -11,8 +11,9 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import models.AddProduct;
+import models.AddCollection;
 import models.AuthUser;
+import models.CollectionImages;
 import models.InventorySetting;
 import models.Location;
 import models.Product;
@@ -31,7 +32,7 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import securesocial.core.Identity;
-import viewmodel.AddProductVM;
+import viewmodel.AddCollectionVM;
 import viewmodel.ImageVM;
 import viewmodel.ProductVM;
 import views.html.home;
@@ -170,13 +171,13 @@ public class productController extends Controller {
 			 product.newFlag = vm.newFlag;
 			 product.year = vm.year;
 			 product.amount = vm.amount;
-			 product.amountFlag = vm.amountFlag;
+			 product.isAmountFlag = vm.amountFlag;
 			 product.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 			 product.user = userObj;
 			 if(vm.mainCollection != null)
 				 product.mainCollection = InventorySetting.findById(vm.mainCollection);
 			 if(vm.collection != null)
-				 product.collection = AddProduct.findById(vm.collection);
+				 product.collection = AddCollection.findById(vm.collection);
 			 product.save();
 			 
 			 if(body != null){			 
@@ -255,7 +256,7 @@ public class productController extends Controller {
 				 if(vm.mainCollection != null)
 					 product.setMainCollection(InventorySetting.findById(vm.mainCollection));
 				 if(vm.collection != null)
-					 product.setCollection(AddProduct.findById(vm.collection));
+					 product.setCollection(AddCollection.findById(vm.collection));
 				 
 				 product.update();
 				 
@@ -317,10 +318,10 @@ public class productController extends Controller {
 	 public static Result addProduct(){
 			
 			MultipartFormData body = request().body().asMultipartFormData();
-	    	Form<AddProductVM> form = DynamicForm.form(AddProductVM.class).bindFromRequest();
-	    	AddProductVM vm = new AddProductVM();
+	    	Form<AddCollectionVM> form = DynamicForm.form(AddCollectionVM.class).bindFromRequest();
+	    	AddCollectionVM vm = new AddCollectionVM();
 	    	if(body != null){
-	    		AddProductVM vm1 = new AddProductVM();
+	    		AddCollectionVM vm1 = new AddCollectionVM();
 	       		InventoryController.saveVm(vm1,body,form);
 	       		vm = vm1;
 	       	}else{
@@ -343,12 +344,12 @@ public class productController extends Controller {
 			Date curDate = new Date();
 	    	
 	    	AuthUser userObj = (AuthUser) getLocalUser();
-	    	AddProductVM productVM = new AddProductVM();
+	    	AddCollectionVM productVM = new AddCollectionVM();
 	    	if(body != null){
 	    		List<FilePart> filePart =  body.getFiles();
 	    		if (filePart != null) {
 	    			if(filePart.size() > 0){
-	    				AddProduct add = new AddProduct ();
+	    				AddCollection add = new AddCollection ();
 	    				
 	    	    		add.title = vm.title;
 	    	    		add.description =vm.description;
@@ -390,13 +391,13 @@ public class productController extends Controller {
 			       	       	    	
 			       	       	    	if(ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("gif") || ext.equalsIgnoreCase("svg")){
 			       	       	    		FileUtils.moveFile(file, new File(filePath));
-			       		    		   		AddProduct obj = AddProduct.findById(productVM.id);
+			       		    		   		AddCollection obj = AddCollection.findById(productVM.id);
 			       		    		   		obj.setFileName(fileName);
 			       		    		   		obj.setFilePath("/"+add.getId()+"-"+userObj.id+"/"+"Logo"+"/"+fileName);
 			       		    		   		obj.update();
-			       		    		   	try {
-											source = Tinify.fromFile(rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo"+File.separator+fileName);
-											source.toFile(rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo"+File.separator+fileName);
+			       		    		   //	try {
+											//source = Tinify.fromFile(rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo"+File.separator+fileName);
+											//source.toFile(rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo"+File.separator+fileName);
 											
 											/*source = Tinify.fromFile(rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo"+File.separator+fileName);
 											Options options = new Options()
@@ -405,10 +406,10 @@ public class productController extends Controller {
 											    .with("height", 200);
 											Source resized = source.resize(options);
 											resized.toFile(rootDir+File.separator+add.getId()+"-"+userObj.id+File.separator+"Logo"+File.separator+"thumbnail.jpg");*/
-										} catch (IOException e1) {
+										//} catch (IOException e1) {
 											// TODO Auto-generated catch block
-											e1.printStackTrace();
-										}
+											//e1.printStackTrace();
+										//}
 			       		    		   	
 			       		    		   		
 			       	       	    	}
@@ -423,7 +424,7 @@ public class productController extends Controller {
 	    			}
 	            }
 	    	}else{
-		   		AddProduct add = new AddProduct ();
+		   		AddCollection add = new AddCollection ();
 	    		add.title = vm.title;
 	    		add.description =vm.description;
 	    		add.publicStatus = "draft";
@@ -457,7 +458,8 @@ public class productController extends Controller {
 	    	}	
 	    }
 	  
-	 public static Result uploadProductPhotos() {
+	  
+	 public static Result uploadCollectionPhoto() {
 	    	
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
@@ -477,7 +479,7 @@ public class productController extends Controller {
 		    	
 		    	FilePart picture = body.getFile("file");
 		    	  if (picture != null) {
-		    	    AddProduct aProduct = AddProduct.findById(id);
+		    	    AddCollection aProduct = AddCollection.findById(id);
 		    	    aProduct.setPublicStatus("publish");
 		    	    aProduct.update();
 		    	    
@@ -499,15 +501,15 @@ public class productController extends Controller {
 		    	    File _f = new File(filePath);
 					Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 					
-					source = Tinify.fromFile(filePath);
+					/*source = Tinify.fromFile(filePath);
 					source.toFile(filePath);
 					source = Tinify.fromFile(thumbnailPath);
-					source.toFile(thumbnailPath);
+					source.toFile(thumbnailPath);*/
 					
-					ProductImages imageObj = ProductImages.getByImagePath("/"+id+"-"+userObj.id+"/"+fileName);
+					CollectionImages imageObj = CollectionImages.getByImagePath("/"+id+"-"+userObj.id+"/"+fileName);
 					if(imageObj == null) {
-						ProductImages vImage = new ProductImages();
-						vImage.product = AddProduct.findById(id);
+						CollectionImages vImage = new CollectionImages();
+						vImage.collection = AddCollection.findById(id);
 						vImage.imageName = fileName.replaceAll(" ","%20");
 						vImage.path = "/"+id+"-"+userObj.id+"/"+fileName;
 						vImage.path = vImage.path.replaceAll(" ","%20");
@@ -542,8 +544,8 @@ public class productController extends Controller {
 	    	} else {
 		    	Identity user = getLocalUser();
 		    	AuthUser userObj = (AuthUser)user;
-		    	AddProduct product = AddProduct.findById(id);
-		    	List<ProductImages> imageList = ProductImages.getByProduct(product);
+		    	AddCollection product = AddCollection.findById(id);
+		    	List<ProductImages> imageList = ProductImages.getByProductImg(product);
 		    	//reorderImagesForFirstTime(imageList);
 		    	List<ImageVM> vmList = new ArrayList<>();
 		    	for(ProductImages image : imageList) {
@@ -566,7 +568,7 @@ public class productController extends Controller {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	File file = null;
-		    	AddProduct image = AddProduct.findById(id);
+		    	AddCollection image = AddCollection.findById(id);
 		    	if(type.equals("thumbnail")) {
 			    	file = new File(rootDir+image.filePath.replaceAll("%20"," "));
 		    	}
@@ -583,7 +585,7 @@ public class productController extends Controller {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	File file = null;
-		    	ProductImages image = ProductImages.findById(id);
+		    	CollectionImages image = CollectionImages.findById(id);
 		    	if(type.equals("thumbnail")) {
 			    	file = new File(rootDir+image.thumbPath.replaceAll("%20"," "));
 		    	}
