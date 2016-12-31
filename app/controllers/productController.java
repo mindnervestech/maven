@@ -447,6 +447,7 @@ public class productController extends Controller {
 	    		add.description =vm.description;
 	    		add.publicStatus = vm.publicStatus;
 	    		add.parentId = vm.parentId;
+	    		add.hideWebsite = vm.hideWebsite;
 	    		if(vm.parentId == null){
 	    			add.subhideWebsite = vm.subhideWebsite;
 	    		}

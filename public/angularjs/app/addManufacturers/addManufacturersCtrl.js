@@ -568,6 +568,13 @@ angular.module('newApp')
 			}else{
 				data.subhideWebsite = false;
 			}
+			
+			if(data.hideWebsite == 1){
+				data.hideWebsite = true;
+			}else{
+				data.hideWebsite = false;
+			}
+			
 			console.log(data);	
 			$scope.productData = data;
 			setTimeout(function(){
