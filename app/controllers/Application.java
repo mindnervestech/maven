@@ -4826,6 +4826,15 @@ public class Application extends Controller {
     			product.setTitle(vm.title);
     			product.setDescription(vm.description);
     			product.setParentId(vm.parentId);
+    			if(vm.parentId == null){
+    				product.setSubhideWebsite(vm.subhideWebsite);
+	    		}else{
+	    			product.setSubhideWebsite(0);
+	    		}
+	    		/*AddCollection aCollection = AddCollection.findById(vm.parentId);
+	    		if(aCollection != null){
+	    			product.hideWebsite = aCollection.subhideWebsite;
+	    		}else*/
     			product.update();
     			
     		}

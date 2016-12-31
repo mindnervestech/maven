@@ -40,6 +40,12 @@
 		</div>
 		<input class="form-control form-white" type="text" style="width:30%;" ng-model="productData.externalUrlLink">
 	</div>
+	<div class="form-group col-sm-12" ng-if="productData.parentId == null">
+	
+			<input type="checkbox" class="ng-pristine ng-valid" ng-model="productData.subhideWebsite" name="newFlag" id="newflag"/>
+			Hide sub-collections and products from the website.
+	
+		</div> 
 <!--<div class="form-group col-sm-12">
 		<div>
 			<label class="control-label " style="width: 40%;"><font size="3">ADD TO EXISTING MANUFACTURER</font></label>

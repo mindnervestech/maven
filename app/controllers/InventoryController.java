@@ -282,6 +282,14 @@ public class InventoryController extends Controller {
 	         pVm.description = form.data().get("description");
 	         pVm.externalUrlLink = form.data().get("externalUrlLink");
 	         pVm.externalUrlLink = form.data().get("externalUrlLink");
+	         
+	         if(form.data().get("hideWebsite") != null){
+	        	 pVm.hideWebsite = Integer.parseInt(form.data().get("hideWebsite").toString());
+	         }
+	         
+	         if(form.data().get("subhideWebsite") != null){
+	        	 pVm.subhideWebsite = Integer.parseInt(form.data().get("subhideWebsite").toString());
+	         }
 	         pVm.fileName = form.data().get("fileName");
 	         if(form.data().get("parentId") != null){
 	        	 pVm.parentId = Long.parseLong(form.data().get("parentId"));
@@ -544,6 +552,8 @@ public class InventoryController extends Controller {
 	    		vm.parentId = product.parentId;
 	    		vm.externalUrlLink = product.externalUrlLink;
 	    		vm.mainCollection = product.mainCollection;
+	    		vm.hideWebsite = product.hideWebsite;
+	    		vm.subhideWebsite = product.subhideWebsite;
 	    		return ok(Json.toJson(vm));
 	    	}
 	    }

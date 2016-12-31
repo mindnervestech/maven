@@ -24,7 +24,7 @@ public class AddCollectionVM {
 	public Long pageViewCount;
 	public int orderIndex;
 	public int hideWebsite;
-	public boolean subhideWebsite;
+	public int subhideWebsite;
 	public String addedDate;
 	public String externalUrlLink;
 	public String imgPath;
@@ -161,11 +161,12 @@ public class AddCollectionVM {
 		this.imageName = imageName;
 	}
 	
-	public boolean getSubhideWebsite() {
+	
+	public int getSubhideWebsite() {
 		return subhideWebsite;
 	}
-	public void setSubhideWebsite(boolean subhideWebsite) {
-		subhideWebsite = subhideWebsite;
+	public void setSubhideWebsite(int subhideWebsite) {
+		this.subhideWebsite = subhideWebsite;
 	}
 	public Long getId() {
 		return id;

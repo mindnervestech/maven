@@ -34,12 +34,20 @@ public class AddCollection extends Model {
 	public Long parentId;
 	public int orderIndex;
 	public int hideWebsite;
+	public int subhideWebsite;
 	public Date addedDate;
 	public String externalUrlLink;
 	public String status;
 	
 	@ManyToOne
 	public InventorySetting mainCollection;	
+	
+	@ManyToOne
+	public Location locations;
+	
+	@ManyToOne
+	public AuthUser soldUser;
+	
 	
 	public InventorySetting getMainCollection() {
 		return mainCollection;
@@ -66,12 +74,6 @@ public class AddCollection extends Model {
 		this.parentId = parentId;
 	}
 
-	@ManyToOne
-	public Location locations;
-	
-	@ManyToOne
-	public AuthUser soldUser;
-	
 	public double getCost() {
 		return cost;
 	}
@@ -90,6 +92,14 @@ public class AddCollection extends Model {
 	}
 	public void setAddedDate(Date addedDate) {
 		this.addedDate = addedDate;
+	}
+	
+	
+	public int getSubhideWebsite() {
+		return subhideWebsite;
+	}
+	public void setSubhideWebsite(int subhideWebsite) {
+		this.subhideWebsite = subhideWebsite;
 	}
 	public int getHideWebsite() {
 		return hideWebsite;

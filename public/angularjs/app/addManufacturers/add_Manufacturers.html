@@ -46,14 +46,13 @@
 		</div>
 		<input class="form-control form-white" type="text" style="width:30%;" ng-model="addProduct.externalUrlLink">
 	</div>
-	<!--  <div class="form-group col-sm-12">
-	
+	<div class="form-group col-sm-12">
 			<input type="checkbox" class="ng-pristine ng-valid" ng-model="addProduct.hideWebsite" name="newFlag" id="newflag"/>
 			Automatically hide a collection from the website if it doesn't have any products
 	
-		</div>  -->
+		</div> 
 		
-		 <div class="form-group col-sm-12">
+		 <div class="form-group col-sm-12" ng-if="addProduct.parentId == null">
 	
 			<input type="checkbox" class="ng-pristine ng-valid" ng-model="addProduct.subhideWebsite" name="newFlag" id="newflag"/>
 			Hide sub-collections and products from the website.

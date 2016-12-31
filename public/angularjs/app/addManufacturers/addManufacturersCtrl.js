@@ -85,6 +85,12 @@ angular.module('newApp')
 			 $scope.addProduct.hideWebsite = 0;
 		 }
 		 
+		 if($scope.addProduct.subhideWebsite == true){
+			 $scope.addProduct.subhideWebsite = 1;
+		 }else{
+			 $scope.addProduct.subhideWebsite = 0;
+		 }
+		 
 		 console.log("check.."+$scope.addProduct.newFlag);
 		 if(logofile == undefined){
 			console.log($scope.addProduct);
@@ -556,6 +562,12 @@ angular.module('newApp')
 	$http.get('/getProductData/'+$routeParams.id)
 	.success(function(data) {
 			console.log("Update data = ");	
+			
+			if(data.subhideWebsite == 1){
+				data.subhideWebsite = true;
+			}else{
+				data.subhideWebsite = false;
+			}
 			console.log(data);	
 			$scope.productData = data;
 			setTimeout(function(){
@@ -634,6 +646,20 @@ console.log($scope.cId);
 			delete $scope.productData.parentId;
 		if($scope.productData.userData == null)
 			delete $scope.productData.userData;
+		
+		
+		if($scope.productData.hideWebsite == true){
+			 $scope.productData.hideWebsite = 1;
+		 }else{
+			 $scope.productData.hideWebsite = 0;
+		 }
+		 
+		 if($scope.productData.subhideWebsite == true){
+			 $scope.productData.subhideWebsite = 1;
+		 }else{
+			 $scope.productData.subhideWebsite = 0;
+		 }
+		
 		console.log($scope.productData);
 		if(logofile != null){
 			console.log("logofile");

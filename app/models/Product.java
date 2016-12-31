@@ -31,6 +31,7 @@ public class Product extends Model {
 	public String externalUrlLink;
 	public String imageName;
 	public String imagePath;
+	public int hideWebsite;
 	@ManyToOne
 	public InventorySetting mainCollection;
 	@ManyToOne
@@ -182,9 +183,12 @@ public class Product extends Model {
 	public void setAmountFlag(boolean isAmountFlag) {
 		this.isAmountFlag = isAmountFlag;
 	}
-
-
-
+	public int getHideWebsite() {
+		return hideWebsite;
+	}
+	public void setHideWebsite(int hideWebsite) {
+		this.hideWebsite = hideWebsite;
+	}
 	public static Finder<Long,Product> find = new Finder<>(Long.class,Product.class);
 	
 	public static Product findById(Long id) {

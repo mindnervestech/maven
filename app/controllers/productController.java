@@ -359,8 +359,25 @@ public class productController extends Controller {
 	    	    		add.parentId = vm.parentId;
 	    	    		add.externalUrlLink = vm.externalUrlLink;
 	    	    		add.user = userObj;
+	    	    		add.hideWebsite = vm.hideWebsite;
+	    	    		if(vm.parentId == null){
+	    	    			add.subhideWebsite = vm.subhideWebsite;
+	    	    		}
+	    	    		AddCollection aCollection = AddCollection.findById(vm.parentId);
+	    	    		if(aCollection != null){
+	    	    			add.hideWebsite = aCollection.subhideWebsite;
+	    	    		}
 	    	    		add.mainCollection = vm.mainCollection;
 	    	    		add.save();
+	    	    		
+	    	    		
+	    	    		/*List<Product> product = Product.getAllProductById(vm.parentId);
+	    	    		for(Product pt: product){
+	    	    			pt.setHideWebsite(vm.subhideWebsite);
+	    	    			pt.update();
+	    	    		}
+	    	    		
+	    	    		List<AddCollection> aCollections = AddCollection.findAllProduct();*/
 	    	    		
 	    	    		productVM.id = add.id;
 	    				
@@ -428,8 +445,15 @@ public class productController extends Controller {
 		   		AddCollection add = new AddCollection ();
 	    		add.title = vm.title;
 	    		add.description =vm.description;
-	    		add.publicStatus = "draft";
+	    		add.publicStatus = vm.publicStatus;
 	    		add.parentId = vm.parentId;
+	    		if(vm.parentId == null){
+	    			add.subhideWebsite = vm.subhideWebsite;
+	    		}
+	    		AddCollection aCollection = AddCollection.findById(vm.parentId);
+	    		if(aCollection != null){
+	    			add.hideWebsite = aCollection.subhideWebsite;
+	    		}	
 	    		add.addedDate = curDate;
 	    		add.user = userObj;
 	    		add.mainCollection = vm.mainCollection;
