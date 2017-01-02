@@ -726,6 +726,23 @@ public class productController extends Controller {
 	    	}	
 	    }
 	 
+	 public static Result getImageCover(Long id, String type) {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	File file = null;
+		    	ProductImages image = ProductImages.findById(id);
+		    	if(type.equals("thumbnail")) {
+			    	file = new File(rootDir+image.thumbPath.replaceAll("%20"," "));
+		    	}
+		    	
+		    	if(type.equals("full")) {
+		    		file = new File(rootDir+image.path.replaceAll("%20"," "));
+		    	}
+		    	return ok(file);
+	    	}	
+	    }
+	 
 	 public static Result getImageAll(Long id, String type) {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));

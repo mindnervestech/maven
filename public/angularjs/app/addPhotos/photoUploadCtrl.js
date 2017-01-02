@@ -957,10 +957,10 @@ angular.module('newApp')
 
 	$scope.coords = {};
 	if(userRole == "Photographer"){
-	$scope.imgId = "http://www.glider-autos.com/getImage/"+$routeParams.id+"/full?d=" + Math.random();
+	$scope.imgId = "http://www.glider-autos.com/getImageCover/"+$routeParams.id+"/full?d=" + Math.random();
 	}
 	else{
-		$scope.imgId = "/getImage/"+$routeParams.id+"/full?d=" + Math.random();
+		$scope.imgId = "/getImageCover/"+$routeParams.id+"/full?d=" + Math.random();
 	}
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
