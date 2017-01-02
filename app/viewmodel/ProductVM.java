@@ -19,7 +19,7 @@ public class ProductVM {
 	public String filePath;
 	public String cadfileName;
 	public String cadfilePath;	
-	public boolean newFlag;
+	//public boolean newFlag;
 	public Long mainCollection;
 	public Long collection;
 	public int hideWebsite;
@@ -116,12 +116,12 @@ public class ProductVM {
 	public void setCadfilePath(String cadfilePath) {
 		this.cadfilePath = cadfilePath;
 	}
-	public boolean isNewFlag() {
+	/*public boolean isNewFlag() {
 		return newFlag;
 	}
 	public void setNewFlag(boolean newFlag) {
 		this.newFlag = newFlag;
-	}
+	}*/
 	public Long getMainCollection() {
 		return mainCollection;
 	}

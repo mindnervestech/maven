@@ -82,6 +82,8 @@ angular.module('newApp')
 					});
 					if($scope.product.publicStatus != "draft"){
 						$location.path('/productImages/'+data);
+					}else{
+						$location.path('/viewInventory');
 					}
 					$route.reload();
 				}	   			
@@ -105,6 +107,8 @@ angular.module('newApp')
 					});
 						if($scope.product.publicStatus != "draft"){
 						$location.path('/productImages/'+data);
+					}else{
+						$location.path('/viewInventory');
 					}
 					$route.reload();
 				}		   			
@@ -224,8 +228,10 @@ angular.module('newApp')
 					});
 					if($scope.product.publicStatus != "draft"){
 						$location.path('/productImages/'+$scope.product.id);
+					}else{
+						$location.path('/viewInventory');
 					}
-					//$location.path('/viewInventory');
+					//
 				}else{
 					$.pnotify({
 					    title: "Error",
@@ -250,6 +256,8 @@ angular.module('newApp')
 					});
 					if($scope.product.publicStatus != "draft"){
 						$location.path('/productImages/'+$scope.product.id);
+					}else{
+						$location.path('/viewInventory');
 					}
 					//$location.path('/viewInventory');
 				}else{
