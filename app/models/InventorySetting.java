@@ -16,6 +16,9 @@ public class InventorySetting extends Model {
 	public String collection;
 	public Boolean enableInven;
 	public Boolean hideWebsite;
+	public String path;
+	public String thumbPath;
+	public String imageName;
 	@ManyToOne
 	public Location locations;
 
@@ -28,6 +31,24 @@ public class InventorySetting extends Model {
 
 	
 	
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+	public String getThumbPath() {
+		return thumbPath;
+	}
+	public void setThumbPath(String thumbPath) {
+		this.thumbPath = thumbPath;
+	}
+	public String getImageName() {
+		return imageName;
+	}
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
 	public Boolean getHideWebsite() {
 		return hideWebsite;
 	}
@@ -69,4 +90,8 @@ public class InventorySetting extends Model {
 	public static List<InventorySetting> findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findList();
 	}
+	public static InventorySetting getByImagePath(String path) {
+		return find.where().eq("path", path).findUnique();
+	}
+	
 }

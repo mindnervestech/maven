@@ -885,4 +885,182 @@ public class productController extends Controller {
 	    	}	
 	    }
 	
-	}
+	  public static Result getCollectionById(Long id){
+			 InventorySetting product = InventorySetting.findById(id);
+			 return ok(Json.toJson(product));
+		 }
+	  
+	  public static Result updateCollById() {
+			 Form<InventorySetting> form = DynamicForm.form(InventorySetting.class).bindFromRequest();
+			 InventorySetting vm = form.get();
+			 
+			 InventorySetting coll = InventorySetting.findById(vm.id);
+			 if(coll != null){
+				 coll.setCollection(vm.collection);
+				 coll.update();
+			 }
+			 return ok();
+	  }	
+	  
+		 public static Result uploadCollectionImg() {
+		    	
+		    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+			    	MultipartFormData body = request().body().asMultipartFormData();
+			    	String productId = request().getHeader("id");
+			    	Long id = Long.parseLong(productId);
+			    	Identity user = getLocalUser();
+			    	AuthUser userObj = (AuthUser)user;
+			    	String fileName = null;
+
+			    	Tinify.setKey(tinifyKey);
+			    	
+			    	Source source;
+			    	Source source1;
+
+			    	
+			    	FilePart picture = body.getFile("file");
+			    	  if (picture != null) {
+			    	   
+			    	    
+			    	    fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
+			    	    String contentType = picture.getContentType(); 
+			    	    File fdir = new File(rootDir+File.separator+id+"-"+userObj.id);
+			    	    if(!fdir.exists()) {
+			    	    	fdir.mkdir();
+			    	    }
+			    	    String filePath = rootDir+File.separator+id+"-"+userObj.id+File.separator+fileName;
+			    	    String thumbnailPath = rootDir+File.separator+id+"-"+userObj.id+File.separator+"thumbnail_"+fileName;
+			    	    File thumbFile = new File(thumbnailPath);
+			    	    File file = picture.getFile();
+			    	    try {
+			    	    	
+			    	    BufferedImage originalImage = ImageIO.read(file);
+			    	    Thumbnails.of(originalImage).size(150, 150).toFile(thumbFile);
+			    	    File _f = new File(filePath);
+						Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+						
+						
+						InventorySetting imageObj = InventorySetting.getByImagePath("/"+id+"-"+userObj.id+"/"+fileName);
+						if(imageObj == null) {
+							InventorySetting vImage = InventorySetting.findById(id);
+							//InventorySetting vImage = new InventorySetting();
+							vImage.setImageName(fileName.replaceAll(" ","%20"));
+							vImage.setPath("/"+id+"-"+userObj.id+"/"+fileName);
+							vImage.setPath(vImage.path.replaceAll(" ","%20"));
+							vImage.setThumbPath("/"+id+"-"+userObj.id+"/"+"thumbnail_"+fileName);
+							vImage.setThumbPath(vImage.thumbPath.replaceAll(" ","%20"));
+							vImage.update();
+							
+						}
+			    	  }catch (IOException e) {
+				  			e.printStackTrace();
+				  		} 
+			    	  } 
+			    	return ok();
+		    	}	
+		    	
+		    }
+		 
+		 public static Result getCoverImageCollection(Long id, String type) {
+		    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+			    	File file = null;
+			    	InventorySetting image = InventorySetting.findById(id);
+			    	if(type.equals("thumbnail")) {
+				    	file = new File(rootDir+image.thumbPath.replaceAll("%20"," "));
+			    	}
+			    	
+			    	if(type.equals("full")) {
+			    		file = new File(rootDir+image.path.replaceAll("%20"," "));
+			    	}
+			    	return ok(file);
+		    	}	
+		    }
+		 
+		 public static Result getImagesByCollections(Long id) {
+		    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+			    	Identity user = getLocalUser();
+			    	AuthUser userObj = (AuthUser)user;
+			    	InventorySetting product = InventorySetting.findById(id);
+			    	
+			    	List<ImageVM> vmList = new ArrayList<>();
+			    		ImageVM vm = new ImageVM();
+			    		vm.id = product.id;
+			    		vm.imgName = product.imageName;
+			    		vm.path = product.path;
+			    		vmList.add(vm);
+			    	return ok(Json.toJson(vmList));
+		    	}	
+		    }
+		 
+		 public static Result getImageByCollectionId(Long id, Long locationId) throws IOException {
+			  if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+		    		AuthUser user = (AuthUser) getLocalUser();
+		    		InventorySetting image = InventorySetting.findById(id);
+			    	File file = new File(rootDir+image.path);
+			    	
+			    	BufferedImage originalImage = ImageIO.read(file);
+			    	
+			    	ImageVM vm = new ImageVM();
+					vm.id = image.id;
+					vm.imgName = image.imageName;
+					//vm.defaultImage = image.defaultImage;
+					vm.row = originalImage.getHeight();
+					vm.col = originalImage.getWidth();
+					vm.path = image.path;
+					FeaturedImageConfig config = FeaturedImageConfig.findByLocation(locationId);
+		    		if(config != null){
+		    			vm.height = config.cropHeight;
+			    		vm.width = config.cropWidth;
+		    		}
+					
+			    	return ok(Json.toJson(vm));
+		    	}	
+		    }
+		 
+		 public static Result getImageCoverColl(Long id, String type) {
+		    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+			    	File file = null;
+			    	InventorySetting image = InventorySetting.findById(id);
+			    	if(type.equals("thumbnail")) {
+				    	file = new File(rootDir+image.thumbPath.replaceAll("%20"," "));
+			    	}
+			    	
+			    	if(type.equals("full")) {
+			    		file = new File(rootDir+image.path.replaceAll("%20"," "));
+			    	}
+			    	return ok(file);
+		    	}	
+		    }
+		 
+		 public static Result editCollectionImage() throws IOException {
+			  if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+			    	AuthUser user = (AuthUser) getLocalUser();
+			    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+			    	EditImageVM vm = form.get();
+			    	
+			    	InventorySetting image = InventorySetting.findById(vm.imageId);
+			    	File file = new File(rootDir+image.path);
+			    	File thumbFile = new File(rootDir+image.thumbPath);
+			    	
+			    	BufferedImage originalImage = ImageIO.read(file);
+			    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+			    	Thumbnails.of(croppedImage).scale(1.0).toFile(file);
+			    	
+			    	Thumbnails.of(croppedImage).height(155).toFile(thumbFile);
+			    	
+			    	return ok();
+		    	}	
+		    }
+}

@@ -63,7 +63,7 @@ angular.module('newApp')
 		
 		var myDropzone = new Dropzone("#dropzoneFrm",{
 			   parallelUploads: 30,
-			   headers: { "id": $routeParams.id },
+			   headers: { "id": $routeParams.collId },
 			   acceptedFiles:"image/*",
 			   addRemoveLinks:true,
 			   autoProcessQueue:false,
@@ -166,8 +166,12 @@ angular.module('newApp')
 			}
 			
 			$scope.editImage = function(image) {
-				console.log($routeParams.id);
-				$location.path('/cropImage/'+image.id+'/'+$routeParams.id);
+				console.log($routeParams.collId);
+				angular.forEach(image, function(value, key) {
+						$scope.imageId = value.id;
+					});
+				console.log($scope.imageId);
+				$location.path('/collectCropImage/'+$scope.imageId+'/'+$routeParams.collId);
 				
 			}
 			
@@ -176,7 +180,7 @@ angular.module('newApp')
 		   $scope.valuepul = 0;
 		   $scope.init = function() {
 			   $scope.showDefaultMsg = 0;
-				$http.get('/getImagesByProduct/'+$routeParams.id)
+				$http.get('/getImagesByCollections/'+$routeParams.collId)
 				.success(function(data) {
 					console.log(data);
 					angular.forEach(data, function(value, key) {
@@ -196,6 +200,7 @@ angular.module('newApp')
 					}
 					$scope.imageList = data;
 				});
+				$scope.getCollectionById();
 		   };
 		   
 			$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
@@ -211,8 +216,27 @@ angular.module('newApp')
 				}
 			});
 			
-			$scope.editMainCollect = function(){
-				console.log("edit collection");
+			
+			$scope.collData = {};
+			$scope.editMainCollect = function(collection){
+				$scope.collData.collection = collection;
+				$scope.collData.id = $routeParams.collId;
+				console.log($scope.collData);
+				 $http.post('/updateCollById',$scope.collData)
+			   		.success(function(data) {
+			   			$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Collection updated successfully",
+						});
+			   		})
 			}
 			
+			$scope.getCollectionById = function(){
+				$http.get('/getCollectionById/'+$routeParams.collId)
+				.success(function(data) {
+					console.log(data);
+					$scope.collection = data.collection;
+				});
+			}
 	}]);

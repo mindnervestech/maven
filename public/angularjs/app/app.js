@@ -128,7 +128,7 @@ var MakeApp = angular
             controller: 'updateProductCtrl'
         })
         
-        .when('/coverImage/:id', {
+        .when('/coverImage/:collId', {
             templateUrl: 'dealer/config/coverImage.html',
             controller: 'CoverImageCtrl'
         })
@@ -497,6 +497,10 @@ var MakeApp = angular
         })
         .when('/cropImage/:id/:pId', {
             templateUrl: '/dealer/addPhotos/cropImage.html',
+            controller: 'ImageCropCtrl'
+        })
+        .when('/collectCropImage/:id/:collId', {
+            templateUrl: '/dealer/config/collectCropImage.html',
             controller: 'ImageCropCtrl'
         })
         

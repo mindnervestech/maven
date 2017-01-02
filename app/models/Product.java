@@ -198,6 +198,7 @@ public class Product extends Model {
 	public static Product findAll() {
 		return (Product) find.all();
 	}
+	
 	public static List<Product> getAllProductByMainCollection(InventorySetting mainColl,String status) {
 		return find.where().eq("mainCollection", mainColl).eq("publicStatus", status).findList();
 	}

@@ -818,7 +818,9 @@ angular.module('newApp')
 
 	$scope.addCoverImg = function(value) {
 		console.log(value)
-		$location.path('/coverImage/'+value.id);
+		$routeParams.collId = value.id;
+		console.log($routeParams.collId);
+		$location.path('/coverImage/'+$routeParams.collId);
 	}
 	
 	$scope.customerRequest = function() {

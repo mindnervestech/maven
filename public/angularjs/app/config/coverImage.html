@@ -1,17 +1,15 @@
 <h1><b>UPLOAD IMAGES</b></h1>
 <!-- <p><font color="red"><strong>Warning Tip :</strong> You must crop images after uploading to keep the website's image grid consistent.</font></p> -->
 <br><br>
-<div ng-init="init()">
 
-
-<div class="form-group col-sm-12" ng-if="collectionFlag == 1">
-   			<form name= "addCollFrm" ng-submit="editMainCollect()">
+		<div class="form-group col-sm-12" style="margin-top: -35px;">
+   			<form name= "addCollFrm" ng-submit="editMainCollect(collection)">
 		 		<div class="col-sm-12">
 		 			<div class="col-sm-2">
 						<label>Main Collection</label>
 					</div>
 					<div class="col-sm-3">
-						<input type="text" placeholder="Name Your Collection" name="collection" class="form-control form-white" ng-model="collection" required>
+						<input class="form-control form-white" type="text" placeholder="Name Your Collection" name="collection" class="form-control form-white" ng-model="collection" required>
 					</div>
 					<div class="col-sm-2">
 						<button  type="submit" class="btn btn-primary">Save</button>
@@ -20,20 +18,22 @@
 			</form>
 		</div>
 
+<div ng-init="init()">
+
 <div gridster="gridsterOpts">
 				                    	<ul>
 				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" 
 				                    			data-sizex="1" data-sizey="1" ng-repeat="image in imageList"
 				                    		 	on-finish-render="ngRepeatFinished" >
 				                    		 	<div class="imageGroup">
-				                        			<img class="myImage" style="width:100%; height:100%;" src="/getImageProductAll/{{image.id}}/thumbnail?date={{tempDate}}" id="imgId{{image.id}}" />
+				                        			<img class="myImage" style="width:100%; height:100%;" src="/getCoverImageCollection/{{image.id}}/thumbnail?date={{tempDate}}" id="imgId{{image.id}}" />
 				                            		 <div>
-				                            		<a class="remImage1" ng-click="addImageTitle(image,$index)" style="cursor:pointer"><b>Add Caption</b></a>
-				                            		<a class="remImage" ng-click="deleteImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
+				                            		<a class="remImage1" ng-click="addImageTitle(imageList,$index)" style="cursor:pointer"><b>Add Caption</b></a>
+				                            		<a class="remImage" ng-click="deleteImage(imageList)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
 				                            		</div>
 				                            		
-				                            		<a class="remImage2" ng-click="showFullImage(image)" data-toggle="modal" data-target="#modal-image" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
-				                        			<a class="remImage3" ng-click="editImage(image)" style="cursor:pointer;color:#319DB5;"><b>Edit</b></a> 
+				                            		<a class="remImage2" ng-click="showFullImage(imageList)" data-toggle="modal" data-target="#modal-image" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
+				                        			<a class="remImage3" ng-click="editImage(imageList)" style="cursor:pointer;color:#319DB5;"><b>Edit</b></a> 
 				                        		</div>
 				                        	</li>
 				                        </ul>
@@ -46,7 +46,7 @@
 <div>                  
             
 			
-					<form id="dropzoneFrm" action="/uploadProductImg" class="dropzone">
+					<form id="dropzoneFrm" action="/uploadCollectionImg" class="dropzone">
                             <div class="fallback">
                                 <input name="file" type="file" multiple /> 
                             </div>
@@ -55,7 +55,7 @@
 	 <!-- <input class="form-control" type="file" style="width:40%;" name="logoFile" ng-file-select="onLogoFileSelect($files)" required> -->      	
 	</div> 
 		<input type="submit" class="btn btn-primary" ng-click="uploadFiles()" value="Upload Images" style="margin-top:3%;margin-left:35%;">
-		<input type="submit" class="btn btn-primary" ng-click="uploadImagesFiles()" value="Save & Publish" style="margin-top:3%;">
+		<!-- <input type="submit" class="btn btn-primary" ng-click="uploadImagesFiles()" value="Save & Publish" style="margin-top:3%;"> -->
 <!-- <input type="submit" class="btn btn-primary" ng-click="uploadFilesDreft()" value="Save to Drafts" style="margin-top:3%;margin-left:46%;"> -->
 </div>
 
