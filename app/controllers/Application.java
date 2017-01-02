@@ -4125,21 +4125,21 @@ public class Application extends Controller {
 		AddCollection coll= AddCollection.findById(id);
 		List<AddCollection> list = AddCollection.getProductByParentId(id);
 		if(coll != null){
-			if(coll.publicStatus.equals("publish")){
+			if(coll.publicStatus.equals("deleted")){
 				coll.setPublicStatus("draft");
 			}else{
 				coll.setPublicStatus("publish");
 			}
 			coll.update();
 		}
-		for (AddCollection ap : list) {
+		/*for (AddCollection ap : list) {
 			if(coll.publicStatus.equals("publish")){
-				ap.setPublicStatus("publish");
-			}else{
 				ap.setPublicStatus("draft");
+			}else{
+				ap.setPublicStatus("publish");
 			}
 			ap.update();
-		}
+		}*/
 		return ok();
 		
 	}
@@ -4152,7 +4152,7 @@ public class Application extends Controller {
 			if(coll.publicStatus.equals("deleted")){
 				coll.setPublicStatus("draft");
 			}else{
-				coll.setPublicStatus("deleted");
+				coll.setPublicStatus("publish");
 			}
 			coll.update();
 		}

@@ -220,15 +220,14 @@ angular.module('newApp')
 																{ name: 'fileName', displayName: 'Logo', width:'15%',cellEditableCondition: false,enableFiltering: false,
 					    		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.myClickFun(row.entity)" style="line-height: 200%;white-space: nowrap;" title="{{row.entity.fileName}}" data-content="{{row.entity.fileName}}" >{{row.entity.fileName}}</a></div>',
 					    		                                 },
-																{ name: 'addedDate', displayName: 'Date Added',enableColumnMenu: false, width:'15%',
+																{ name: 'addedDate', displayName: 'Date Added',enableColumnMenu: false, width:'12%',
 					    		                                 },
-					    		                                { name: 'type', displayName: 'Type',enableColumnMenu: false, width:'15%',
+					    		                                { name: 'type', displayName: 'Type',enableColumnMenu: false, width:'12%',
 					    		                                },
 																{ name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
 																	cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
 																},
-																{ name: 'pageViewCount', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: true,
-																},
+																
 																
 																/*{ name: 'city_mileage', displayName: 'City MPG',enableFiltering: false, width:'8%',enableColumnMenu: false,cellEditableCondition: true,
 																},
@@ -249,7 +248,7 @@ angular.module('newApp')
 																
 																},*/
 																{ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																	 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProduct(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row,\'draft\')" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
+																	 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProductOrCollection(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row,\'draft\')" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
 																
 																},
     		        		                                
@@ -321,7 +320,7 @@ angular.module('newApp')
 																		
 																		},*/
 																		
-																		/*&nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProductAndColl(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i>*/
+																		/*&nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProductOrCollection(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i>*/
 																		{ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 																			 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i>  &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehiclePer(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
 																		
@@ -456,8 +455,14 @@ angular.module('newApp')
     				 $scope.mainCollectionId ="";
     			 }
     			 
-    			 $scope.editProductAndColl = function(row){
+    			 $scope.editProductOrCollection = function(row){
     				 console.log(row);
+    				 if(row.entity.type == "Product"){
+    	    				$location.path('/update-product/'+row.entity.id);
+    				 }else  if(row.entity.type == "Collection"){
+    					 $scope.flag = "product";
+    					 $location.path('/editProduct/'+row.entity.id+'/'+$scope.flag);
+    				 }
     				 console.log(row.entity.type);
     			 }
     			 
@@ -636,6 +641,8 @@ angular.module('newApp')
     		    			 }
     		    			 
     		    			 $scope.soldTab = function() {
+    		    				 $scope.vehiClesList = [];
+    		    				 $scope.gridOptions2.data = [];
     		    				 $scope.ch = false;
     		    				 $scope.doPublic = 2;
     		    				 $scope.flagForUser = true;
@@ -677,6 +684,8 @@ angular.module('newApp')
     		    				 
     		    			 }
     		    			 $scope.draftTab = function() {
+    		    				 $scope.vehiClesList = [];
+		    			 			$scope.gridOptions1.data = [];
     		    				 $scope.flagForUser = true;
     		    				 $scope.doPublic = 1;
     		    				 apiserviceViewInventory.findLocation().then(function(data){
