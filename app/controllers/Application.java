@@ -88,6 +88,7 @@ import models.PlanScheduleMonthlyLocation;
 import models.PlanScheduleMonthlySalepeople;
 import models.PriceAlert;
 import models.PriceChange;
+import models.Product;
 import models.ProductImages;
 import models.Registration;
 import models.RequestMoreInfo;
@@ -4121,18 +4122,18 @@ public class Application extends Controller {
 	
 	public static Result getGoTodraft(Long id){
 		
-		AddCollection vehicle= AddCollection.findById(id);
+		AddCollection coll= AddCollection.findById(id);
 		List<AddCollection> list = AddCollection.getProductByParentId(id);
-		if(vehicle != null){
-			if(vehicle.publicStatus.equals("publish")){
-				vehicle.setPublicStatus("draft");
+		if(coll != null){
+			if(coll.publicStatus.equals("publish")){
+				coll.setPublicStatus("draft");
 			}else{
-				vehicle.setPublicStatus("publish");
+				coll.setPublicStatus("publish");
 			}
-			vehicle.update();
+			coll.update();
 		}
 		for (AddCollection ap : list) {
-			if(vehicle.publicStatus.equals("publish")){
+			if(coll.publicStatus.equals("publish")){
 				ap.setPublicStatus("publish");
 			}else{
 				ap.setPublicStatus("draft");
@@ -4142,6 +4143,32 @@ public class Application extends Controller {
 		return ok();
 		
 	}
+	
+  public static Result getGoTodraftProduct(Long id){
+		
+		/*AddCollection coll= AddCollection.findById(id);
+		List<Product> list = Product.getProductByParentId(id);
+		if(coll != null){
+			if(coll.publicStatus.equals("publish")){
+				coll.setPublicStatus("draft");
+			}else{
+				coll.setPublicStatus("publish");
+			}
+			coll.update();
+		}
+		for (AddCollection ap : list) {
+			if(coll.publicStatus.equals("publish")){
+				ap.setPublicStatus("publish");
+			}else{
+				ap.setPublicStatus("draft");
+			}
+			ap.update();
+		}*/
+		return ok();
+		
+	}
+	
+	
     
 	public static Result getVehicleHistory(String vin){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
