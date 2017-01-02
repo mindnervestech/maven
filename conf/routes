@@ -125,7 +125,7 @@ GET		/getImageById/:id/:userId			     controllers.productController.getImageData
 GET		/getImage/:id/:type			     controllers.productController.getImageById(id:Long,type:String)
 GET		/getImageAll/:id/:type			     controllers.productController.getImageAll(id:Long,type:String)
 GET	   /getImageProductAll/:id/:type		     controllers.productController.getImageProductAll(id:Long,type:String)
-GET		/getAllProductByCollection/:id		controllers.productController.getAllProductByCollection(id:Long)
+GET		/getAllProductByCollection/:id/:status		controllers.productController.getAllProductByCollection(id:Long,status:String)
 POST	/editImage				    	 controllers.productController.editImage()
 
 GET		/getReadyMadeCollection		     controllers.InventoryController.getReadyMadeCollection()
