@@ -713,13 +713,13 @@ public class productController extends Controller {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	File file = null;
-		    	AddCollection image = AddCollection.findById(id);
+		    	ProductImages image = ProductImages.findById(id);
 		    	if(type.equals("thumbnail")) {
-			    	file = new File(rootDir+image.filePath.replaceAll("%20"," "));
+			    	file = new File(rootDir+image.thumbPath.replaceAll("%20"," "));
 		    	}
 		    	
 		    	if(type.equals("full")) {
-		    		file = new File(rootDir+image.filePath.replaceAll("%20"," "));
+		    		file = new File(rootDir+image.path.replaceAll("%20"," "));
 		    	}
 		    	return ok(file);
 	    	}	
