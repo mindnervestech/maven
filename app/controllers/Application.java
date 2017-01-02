@@ -57,6 +57,7 @@ import models.AuthUser;
 import models.Blog;
 import models.ClickyActionList;
 import models.ClickyVisitorsList;
+import models.CollectionImages;
 import models.Comments;
 import models.ContactHeader;
 import models.ContactOtherField;
@@ -4387,9 +4388,9 @@ public class Application extends Controller {
 	    	    		lis.delete();
 	    	    	}
     			}
-    			List<ProductImages> pImages = ProductImages.getDeleteImagePath(id);
+    			List<CollectionImages> pImages = CollectionImages.getDeleteImagePath(id);
         		if(pImages.size() != 0){
-        			for(ProductImages pI:pImages){
+        			for(CollectionImages pI:pImages){
         				pI.delete();
         			}
         		}
@@ -4413,9 +4414,9 @@ public class Application extends Controller {
 	    	    		lis.delete();
 	    	    	}
     			}
-    			List<ProductImages> pImages = ProductImages.getDeleteImagePath(id);
+    			List<CollectionImages> pImages = CollectionImages.getDeleteImagePath(id);
         		if(pImages.size() != 0){
-        			for(ProductImages pI:pImages){
+        			for(CollectionImages pI:pImages){
         				pI.delete();
         			}
         		}
