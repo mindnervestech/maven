@@ -128,6 +128,11 @@ var MakeApp = angular
             controller: 'updateProductCtrl'
         })
         
+        .when('/coverImage/:id', {
+            templateUrl: 'dealer/config/coverImage.html',
+            controller: 'CoverImageCtrl'
+        })
+        
         .when('/myCalendar', {
             templateUrl: 'dealer/myCalendar/myCalendar.html',
             controller: 'myCalendarCtrl'

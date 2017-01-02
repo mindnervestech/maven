@@ -814,7 +814,11 @@ angular.module('newApp')
 		 
 	$scope.documentationSetting = function() {
 		$location.path('/documentation');
-		
+	}
+
+	$scope.addCoverImg = function(value) {
+		console.log(value)
+		$location.path('/coverImage/'+value.id);
 	}
 	
 	$scope.customerRequest = function() {
