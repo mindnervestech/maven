@@ -19,6 +19,13 @@ angular.module('newApp')
 	
 	$scope.getSubCollectionId = function(id){
 		console.log(id);
+		console.log($scope.mainCollections);
+		
+		angular.forEach($scope.mainCollections, function(value, key) {
+			if(value.id == id){
+				$scope.mainCollection = value;
+			}
+		});
 		$scope.subCollections = "";
 		$http.get('/getAllCollection/'+id).success(function(data) {
 			console.log(data);
@@ -156,6 +163,11 @@ angular.module('newApp')
 		
 	$scope.getSubCollectionId = function(id){
 		console.log(id);
+		angular.forEach($scope.mainCollections, function(value, key) {
+			if(value.id == id){
+				$scope.mainCollection = value;
+			}
+		});
 		$scope.subCollections = "";
 		$http.get('/getAllCollection/'+id).success(function(data) {
 			console.log(data);

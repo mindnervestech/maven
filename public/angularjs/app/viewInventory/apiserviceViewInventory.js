@@ -55,6 +55,17 @@ angular.module('app.apiserviceViewInventory', [])
 		return defer.promise;
 	};
 	
+	this.getGoTodraftProduct=function(id){
+		var defer = $q.defer();
+		
+		$http.get('/getGoTodraftProduct/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
+	
 	this.getAllVehiclesByType=function(sts){
 		var defer = $q.defer();
 		

@@ -4146,17 +4146,17 @@ public class Application extends Controller {
 	
   public static Result getGoTodraftProduct(Long id){
 		
-		/*AddCollection coll= AddCollection.findById(id);
-		List<Product> list = Product.getProductByParentId(id);
+	    Product coll= Product.findById(id);
+		//List<Product> list = Product.getProductByParentId(id);
 		if(coll != null){
-			if(coll.publicStatus.equals("publish")){
+			if(coll.publicStatus.equals("deleted")){
 				coll.setPublicStatus("draft");
 			}else{
-				coll.setPublicStatus("publish");
+				coll.setPublicStatus("deleted");
 			}
 			coll.update();
 		}
-		for (AddCollection ap : list) {
+		/*for (AddCollection ap : list) {
 			if(coll.publicStatus.equals("publish")){
 				ap.setPublicStatus("publish");
 			}else{

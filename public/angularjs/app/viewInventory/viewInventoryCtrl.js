@@ -467,38 +467,64 @@ angular.module('newApp')
     			 
     			 $scope.hideVehicle = function(row){
     				 console.log(row);
-    				 if(row.entity.publicStatus == "publish"){
-    						$scope.hideText = "Product has been hidden from the website and moved to Drafts list";
- 							$scope.hideTitle = "Product moved to drafts"; 
-    				 }else{
-    						$scope.hideText = "Product has been moved to Current Manufacturers list";
- 							$scope.hideTitle = "Product moved to Current Manufacturers";
+    				 if(row.entity.type == "Product"){
+    					 if(row.entity.publicStatus == "publish"){
+	     						$scope.hideText = "Product has been hidden from the website and moved to Drafts list";
+	  							$scope.hideTitle = "Product moved to drafts"; 
+	     				 }else{
+	     						$scope.hideText = "Product has been moved to Current Manufacturers list";
+	  							$scope.hideTitle = "Product moved to Current Manufacturers";
+	     				 }
+	     				 apiserviceViewInventory.getGoTodraftProduct(row.entity.id).then(function(data){
+	  						
+	  							$('#hideVehicle').click();
+	  						if(row.entity.publicStatus == "deleted"){
+	  							$.pnotify({
+	  							    title: "Success",
+	  							    type:'success',
+	  							    text: "Product Added In Draft",
+	  							}); 
+	  							//$scope.newlyArrivedTab();
+	  						   
+	  	    				 }else{
+	  	    					$.pnotify({
+	  							    title: "Success",
+	  							    type:'success',
+	  							    text: "Product Added In Current Manufacturers",
+	  							});
+	  	    				 }
+	  						$scope.soldTab();
+	  					});
+ 				 }else if(row.entity.type == "Collection"){
+	    					 if(row.entity.publicStatus == "publish"){
+	     						$scope.hideText = "Collection has been hidden from the website and moved to Drafts list";
+	  							$scope.hideTitle = "Collection moved to drafts"; 
+	     				 }else{
+	     						$scope.hideText = "Collection has been moved to Current Manufacturers list";
+	  							$scope.hideTitle = "Collection moved to Current Manufacturers";
+	     				 }
+	     				 apiserviceViewInventory.getGoTodraft(row.entity.id).then(function(data){
+	  						
+	  							$('#hideVehicle').click();
+	  						if(row.entity.publicStatus == "publish"){
+	  							$.pnotify({
+	  							    title: "Success",
+	  							    type:'success',
+	  							    text: "Collection Added In Draft",
+	  							}); 
+	  							//$scope.newlyArrivedTab();
+	  						   
+	  	    				 }else{
+	  	    					$.pnotify({
+	  							    title: "Success",
+	  							    type:'success',
+	  							    text: "Collection Added In Current Manufacturers",
+	  							});
+	  	    				 }
+	  						$scope.soldTab();
+	  					});
     				 }
-    				 apiserviceViewInventory.getGoTodraft(row.entity.id).then(function(data){
-    				 
- 						
- 							//$scope.newlyArrivedTab();
- 							$('#hideVehicle').click();
- 							
- 						if(row.entity.publicStatus == "publish"){
- 							$.pnotify({
- 							    title: "Success",
- 							    type:'success',
- 							    text: "Product Added In Draft",
- 							}); 
- 							$scope.newlyArrivedTab();
- 						   
- 	    				 }else{
- 	    					$.pnotify({
- 							    title: "Success",
- 							    type:'success',
- 							    text: "Product Added In Current Manufacturers",
- 							});
- 	    					$scope.draftTab();
- 	    				 }
- 							
- 						
- 					});
+    				
     				 
     			 }
     			 
