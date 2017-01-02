@@ -5,7 +5,8 @@
 </div>		
     <tabset class="nav-tabs2">
             <tab ng-repeat="coll in allCollectionDate">
-                <tab-heading>
+                <tab-heading ng-mouseover="hoverIn(coll)" ng-mouseleave="hoverOut()">
+                   <a ng-if="mainCollectionId == coll.id" ng-click="EditMainCollectioName(coll)"><i class="glyphicon glyphicon-edit"></i></a>
                     <button type="button" class="btn btn-blue" ng-click="getCollectionData(coll)">{{coll.collection}}</button>
                 </tab-heading>
 			    

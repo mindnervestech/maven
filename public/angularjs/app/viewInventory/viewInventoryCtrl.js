@@ -447,9 +447,22 @@ angular.module('newApp')
 					});
     			 } 
     			 
+    			 $scope.hoverIn = function(mainColl){
+    				 console.log(mainColl);
+    				 $scope.mainCollectionId = mainColl.id;
+    			 }
+    			 
+    			 $scope.hoverOut = function(mainColl){
+    				 $scope.mainCollectionId ="";
+    			 }
+    			 
     			 $scope.editProductAndColl = function(row){
     				 console.log(row);
     				 console.log(row.entity.type);
+    			 }
+    			 
+    			 $scope.EditMainCollectioName = function(coll){
+    				 console.log(coll);
     			 }
     			 
     			 $scope.hideVehicle = function(row){
