@@ -14,10 +14,12 @@ import javax.imageio.ImageIO;
 import models.AddCollection;
 import models.AuthUser;
 import models.CollectionImages;
+import models.FeaturedImageConfig;
 import models.InventorySetting;
 import models.Location;
 import models.Product;
 import models.ProductImages;
+import models.VehicleImageConfig;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FileUtils;
@@ -33,6 +35,7 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import securesocial.core.Identity;
 import viewmodel.AddCollectionVM;
+import viewmodel.EditImageVM;
 import viewmodel.ImageVM;
 import viewmodel.ProductVM;
 import views.html.home;
@@ -694,13 +697,13 @@ public class productController extends Controller {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	File file = null;
-		    	AddCollection image = AddCollection.findById(id);
+		    	ProductImages image = ProductImages.findById(id);
 		    	if(type.equals("thumbnail")) {
-			    	file = new File(rootDir+image.filePath.replaceAll("%20"," "));
+			    	file = new File(rootDir+image.thumbPath.replaceAll("%20"," "));
 		    	}
 		    	
 		    	if(type.equals("full")) {
-		    		file = new File(rootDir+image.filePath.replaceAll("%20"," "));
+		    		file = new File(rootDir+image.path.replaceAll("%20"," "));
 		    	}
 		    	return ok(file);
 	    	}	
@@ -795,12 +798,8 @@ public class productController extends Controller {
 	    }
 	 
 	 
-	 /* 
 	  
-	  
-	  
-	  
-	  public static Result getImageDataById(Long id) throws IOException {
+	  public static Result getImageDataById(Long id, Long locationId) throws IOException {
 		  if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
@@ -810,9 +809,9 @@ public class productController extends Controller {
 		    	
 		    	BufferedImage originalImage = ImageIO.read(file);
 		    	//FeaturedImageConfig featuredConfig = FeaturedImageConfig.findByUser(user);
-		    	List<FeaturedImageConfig> featuredCon = FeaturedImageConfig.findByUser();
-		    	FeaturedImageConfig featuredConfig = new FeaturedImageConfig();
-		    	featuredConfig = featuredCon.get(0);
+		    	//List<FeaturedImageConfig> featuredCon = FeaturedImageConfig.findByUser();
+		    	//FeaturedImageConfig featuredConfig = new FeaturedImageConfig();
+		    	//featuredConfig = featuredCon.get(0);
 		    	ImageVM vm = new ImageVM();
 				vm.id = image.id;
 				vm.imgName = image.imageName;
@@ -820,9 +819,12 @@ public class productController extends Controller {
 				vm.row = originalImage.getHeight();
 				vm.col = originalImage.getWidth();
 				vm.path = image.path;
-	    		vm.height = featuredConfig.cropHeight;
-	    		vm.width = featuredConfig.cropWidth;
-				//vm.vin = image.vin;
+				FeaturedImageConfig config = FeaturedImageConfig.findByLocation(locationId);
+	    		if(config != null){
+	    			vm.height = config.cropHeight;
+		    		vm.width = config.cropWidth;
+	    		}
+				
 		    	return ok(Json.toJson(vm));
 	    	}	
 	    }
@@ -847,6 +849,6 @@ public class productController extends Controller {
 		    	
 		    	return ok();
 	    	}	
-	    }*/
+	    }
 	
 	}

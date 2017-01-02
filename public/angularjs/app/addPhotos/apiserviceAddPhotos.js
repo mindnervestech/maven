@@ -237,4 +237,33 @@ angular.module('app.apiserviceAddPhotos', [])
 		});
 		return defer.promise;
 	};
+	
+	this.findLocation=function(){
+		var defer = $q.defer();
+		$http.get('/findLocation').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getImageById=function(id, userLocationId){
+		var defer = $q.defer();
+		$http.get('/getImageById/'+id+'/'+userLocationId).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	this.editImage=function(coords){
+		var defer = $q.defer();
+		$http.post('/editImage',coords).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Saved successfully",
+			});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 })

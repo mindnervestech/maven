@@ -166,7 +166,7 @@ angular.module('newApp')
 			}
 			
 			$scope.editImage = function(image) {
-				//$location.path('/cropImage/'+image.id);
+				console.log($routeParams.id);
 				$location.path('/cropImage/'+image.id+'/'+$routeParams.id);
 				
 			}
