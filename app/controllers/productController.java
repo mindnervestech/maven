@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -132,12 +134,17 @@ public class productController extends Controller {
 			return user;
 		}
 	 
-	 public static Result getAllProductByCollection(Long id){
+	 public static Result getAllProductByCollection(Long id,String status){
 		 InventorySetting mainColl = InventorySetting.findById(id);
-		 List<Product> collectionList = Product.getAllProductByMainCollection(mainColl);
-		 for (Product product : collectionList) {
-			
-		}
+		 //Map<String,Object> map= new HashMap<String,Object>();
+		 List<Product> collectionList = Product.getAllProductByMainCollection(mainColl,"publish");
+		// List<Product> collectionListDeleted = Product.getAllProductByMainCollection(mainColl,"deleted");
+		// List<Product> collectionListDraft = Product.getAllProductByMainCollection(mainColl,"draft");
+		 
+		// map.put("publishList", collectionList);
+		// map.put("deletedList", collectionList);
+		// map.put("draftList", collectionList);
+		
 		 return ok(Json.toJson(collectionList));
 	 }
 	 
@@ -148,8 +155,17 @@ public class productController extends Controller {
 	 
 	 public static Result deleteThisProduct(Long id) {
 		 try {
-			 	Product product = Product.findById(id);
-			 	product.delete();
+			 Product product = Product.findById(id);
+			/* List<ProductImages> pImages = ProductImages.getByProductImg(product);
+			 for(ProductImages pImg:pImages){
+				    File file = new File(rootDir+pImg.path);
+			    	File thumbFile = new File(rootDir+pImg.thumbPath);
+			    	file.delete();
+			    	thumbFile.delete();
+				    pImg.delete();
+			 }*/
+			 	product.setPublicStatus("deleted");
+			 	product.update();
 			 	return ok("success");
 		} catch (Exception e) {
 			return ok("error");
@@ -697,13 +713,13 @@ public class productController extends Controller {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	File file = null;
-		    	ProductImages image = ProductImages.findById(id);
+		    	AddCollection image = AddCollection.findById(id);
 		    	if(type.equals("thumbnail")) {
-			    	file = new File(rootDir+image.thumbPath.replaceAll("%20"," "));
+			    	file = new File(rootDir+image.filePath.replaceAll("%20"," "));
 		    	}
 		    	
 		    	if(type.equals("full")) {
-		    		file = new File(rootDir+image.path.replaceAll("%20"," "));
+		    		file = new File(rootDir+image.filePath.replaceAll("%20"," "));
 		    	}
 		    	return ok(file);
 	    	}	

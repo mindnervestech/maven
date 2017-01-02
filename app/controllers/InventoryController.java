@@ -995,7 +995,8 @@ public class InventoryController extends Controller {
 		}
 
 	   
-	   public static Result getAllProduct(String status, Long collId, String date) {
+	   
+	   public static Result getAllCollectionList(String status, Long collId, String date) {
 		   List<AddCollection> pList = new ArrayList<>();
 		   if(collId != null){
 			   InventorySetting mainCollection = InventorySetting.findById(collId);
@@ -1041,6 +1042,42 @@ public class InventoryController extends Controller {
     				e.printStackTrace();
     			}*/
 		    	aVm.pageViewCount = visitorCount;
+				
+				aList.add(aVm);
+			}
+			return ok(Json.toJson(aList));
+		}
+	   
+	   public static Result getAllProduct(String status, Long collId, String date) {
+		   List<Product> pList = new ArrayList<>();
+		   if(collId != null){
+			   InventorySetting mainCollection = InventorySetting.findById(collId);
+			   pList = Product.getProductByStatusMainColl(Long.valueOf(session("USER_LOCATION")), status,mainCollection);
+		   }else{
+			    pList = Product.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
+		   }
+			
+			List<ProductVM> aList = new ArrayList<ProductVM>();
+			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			for(Product aProduct:pList){
+				ProductVM aVm = new ProductVM();
+				aVm.title = aProduct.primaryTitle;
+				aVm.description = aProduct.description;
+				aVm.fileName = aProduct.fileName;
+				aVm.id = aProduct.id;
+				aVm.hideWebsite = aProduct.hideWebsite;
+				
+				//List<Product> pro =Product.getAllProductById(aProduct.id);
+				//aVm.countProduct = pro.size();
+				aVm.publicStatus = aProduct.publicStatus;
+				List<ProductImages> pImages = ProductImages.getByProduct(aProduct); 
+				aVm.countImages = pImages.size();
+				
+			//	String params = "&date=last-28-days&type=visitors-list&limit=all";
+		    	//Long visitorCount = 0l;
+		    	
+        		
+		    	//aVm.pageViewCount = visitorCount;
 				
 				aList.add(aVm);
 			}

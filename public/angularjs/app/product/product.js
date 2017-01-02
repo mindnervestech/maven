@@ -192,6 +192,10 @@ angular.module('newApp')
 		$location.path('/viewInventory');
 	};
 	
+	$scope.directEditImg = function(){
+		$location.path('/productImages/'+$routeParams.id);
+	}
+	
 	$scope.updateProduct = function(){
 		if($scope.mainCollection != null && $scope.mainCollection != undefined){
 			$scope.product.mainCollection = JSON.parse($scope.mainCollection).id;

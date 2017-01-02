@@ -8,6 +8,7 @@ public class ProductVM {
 
 	public Long id;
 	public String secondaryTitle;
+	public String title;
 	public String primaryTitle;
 	public String description;
 	public String year;
@@ -21,6 +22,8 @@ public class ProductVM {
 	public boolean newFlag;
 	public Long mainCollection;
 	public Long collection;
+	public int hideWebsite;
+	public int countImages;
 	public AuthUser user;
 	public Location locations;
 	public double amount;

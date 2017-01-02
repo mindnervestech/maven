@@ -101,6 +101,17 @@ angular.module('app.apiserviceViewInventory', [])
 		return defer.promise;
 	};
 	
+
+	this.getAllCollectionList=function(userLocationId,status,mainCollId){
+		var defer = $q.defer();
+		var date = new Date().getTime();
+		console.log(date);
+		$http.get('/getAllCollectionList/'+status+'/'+mainCollId+'/'+date).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 	this.getAllSoldVehicles=function(){
 		var defer = $q.defer();
 		
@@ -216,9 +227,11 @@ angular.module('app.apiserviceViewInventory', [])
 		return defer.promise;
 	};
 	
-	this.getAllProductByCollection=function(id){
+	
+	
+	this.getAllProductByCollection=function(id,status){
 		var defer = $q.defer();		
-		$http.get('/getAllProductByCollection/'+id).success(function(data) {
+		$http.get('/getAllProductByCollection/'+id+'/'+status).success(function(data) {
 			defer.resolve(data);
 		});
 		return defer.promise;

@@ -199,10 +199,18 @@ public class Product extends Model {
 		return (Product) find.all();
 	}
 	
-	public static List<Product> getAllProductByMainCollection(InventorySetting mainColl) {
-		return find.where().eq("mainCollection", mainColl).findList();
+	public static List<Product> getAllProductByMainCollection(InventorySetting mainColl,String status) {
+		return find.where().eq("mainCollection", mainColl).eq("publicStatus", status).findList();
 	}
 	public static List<Product> getAllProductById(Long id) {
 		return find.where().eq("collection.id", id).findList();
 	}
+	public static List<Product> getProductByStatus(Long location, String status) {
+		return find.where().eq("publicStatus", status).findList();		
+	}
+	public static List<Product> getProductByStatusMainColl(Long location, String status,InventorySetting coll) {
+		return find.where().eq("mainCollection", coll).eq("publicStatus", status).findList();		
+	}
+	
+	
 }
