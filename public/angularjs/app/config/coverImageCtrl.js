@@ -1,5 +1,5 @@
 angular.module('newApp')
-	.controller('CoverImageCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload', function ($scope,$http,$location,$filter,$routeParams,$upload) {
+	.controller('CoverImageCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$route', function ($scope,$http,$location,$filter,$routeParams,$upload,$route) {
 		
 		$scope.tempDate = new Date().getTime();
 		$scope.gridsterOpts = {
@@ -67,21 +67,56 @@ angular.module('newApp')
 			   acceptedFiles:"image/*",
 			   addRemoveLinks:true,
 			   autoProcessQueue:false,
+			   maxFiles:1,
+			   accept: function(file, done) {
+				   file.rejectDimensions = function() { done("Invalid dimension."); };
+				   file.acceptDimensions = done;
+				  
+				  },
 			   init:function () {
 				   this.on("queuecomplete", function (file) {
-				         
+					  
 				      });
+				   this.on("thumbnail", function(file) {
+					   		console.log(file);
+					   		if (file.width < 1440 || file.height < 920) {
+					   			$('#sliderMsg').modal('show');
+					   			//file.rejectDimensions()
+						     }
+					   		
+						     else {
+						        file.acceptDimensions();
+						      }
+					    });
 				   this.on("complete", function() {
 					   this.removeAllFiles();
 					   $scope.init();
+					   $route.reload();
 				   });
 			   }
 		   });
+		
+		   $scope.pathId = {};
 		   $scope.uploadFiles = function() {
-			   Dropzone.autoDiscover = false;
-			   myDropzone.processQueue();
+			   angular.forEach($scope.imageList, function(value, key) {
+				   $scope.pathId = value.path;
+			   });
+			   if($scope.pathId == null){
+				   Dropzone.autoDiscover = false;
+				   myDropzone.processQueue();
+				   $scope.init();
+			   }
+			   else{
+				   console.log("cover image already exit");
+				   $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Cover image already exit. If you want to add cover image before remove existing image",
+					});
+			   }
 			   //$location.path('/viewInventory');
 		   }
+		   
 		   $scope.uploadFilesDreft = function(){
 			   $scope.object = {};
 			   $scope.object.id = $routeParams.id;
@@ -151,11 +186,15 @@ angular.module('newApp')
 			}
 			
 			$scope.deleteImage = function(img) {
-				console.log("chaaaaaaaaaaaaaggggggggg");
-				$http.get('/deleteProductById/'+img.id)
+				angular.forEach(img, function(value, key) {
+					$scope.imageId = value.id;
+				});
+				$http.get('/deleteCollectionImageById/'+$scope.imageId)
 				.success(function(data) {
 					console.log('success');
 					$scope.imageList.splice($scope.imageList.indexOf(img),1);
+					$scope.imageList = [];
+					 $scope.init();
 				});
 				
 			}
@@ -175,7 +214,8 @@ angular.module('newApp')
 				
 			}
 			
-		   
+			console.log($routeParams.collFlag);
+			$scope.colllectionFlag = $routeParams.collFlag;
 		   $scope.showDefaultMsg = 0;
 		   $scope.valuepul = 0;
 		   $scope.init = function() {
