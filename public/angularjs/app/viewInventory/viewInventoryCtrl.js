@@ -15,6 +15,8 @@ angular.module('newApp')
 		});
 	}
 	
+	
+	
 	$scope.getAllInventory();
 	
 	$scope.getCollectionData = function(obj){
@@ -477,6 +479,7 @@ angular.module('newApp')
     			 
     			 $scope.EditMainCollectioName = function(coll){
     				 console.log(coll);
+    				 $location.path('/coverImage/'+coll.id);
     			 }
     			 
     			 $scope.hideVehicle = function(row){

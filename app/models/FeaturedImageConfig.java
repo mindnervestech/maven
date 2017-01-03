@@ -16,7 +16,7 @@ public class FeaturedImageConfig extends Model {
 	public Long id;
 	public Integer cropWidth;
 	public Integer cropHeight;
-	
+	public String typeCollection;
 	@ManyToOne
 	public AuthUser user;
 
@@ -38,6 +38,14 @@ public class FeaturedImageConfig extends Model {
 
 	public void setCropWidth(Integer cropWidth) {
 		this.cropWidth = cropWidth;
+	}
+
+	public String getTypeCollection() {
+		return typeCollection;
+	}
+
+	public void setTypeCollection(String typeCollection) {
+		this.typeCollection = typeCollection;
 	}
 
 	public Integer getCropHeight() {

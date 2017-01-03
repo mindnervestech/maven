@@ -490,8 +490,8 @@ float: right !important;
 									       	<span class="glyphicon glyphicon-user col-sm-2" style="color: darkturquoise;" title="Total leads"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson | number:0}}</label>
 									       	<span class="glyphicon glyphicon-adjust col-sm-2" ng-if="parLocationData.AngSale != null" style="color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale != null" class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.AngSale | number:0}}%</label>
 									       	<span class="glyphicon glyphicon-adjust col-sm-2" ng-if="parLocationData.AngSale == null" style="color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale == null"class="col-sm-4 control-label" style="text-align: center;">N/A</label>
-									       	<span class="glyphicon glyphicon-usd col-sm-2" ng-if="parLocationData.totalSalePrice != 0" style="color: darkturquoise;" title="Sold Car Price"></span><label ng-if="parLocationData.totalSalePrice != 0" class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.totalSalePrice | number:0}}</label>
-									       	<span class="glyphicon glyphicon-usd col-sm-2" ng-if="parLocationData.totalSalePrice == 0" style="color: darkturquoise;" title="Sold Car Price"></span><label ng-if="parLocationData.totalSalePrice == 0" class="col-sm-4 control-label" style="text-align: center;">N/A</label>
+									       	<span class="glyphicon glyphicon-usd col-sm-2" ng-if="parLocationData.totalSalePrice != 0" style="color: darkturquoise;" title="Sold"></span><label ng-if="parLocationData.totalSalePrice != 0" class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.totalSalePrice | number:0}}</label>
+									       	<span class="glyphicon glyphicon-usd col-sm-2" ng-if="parLocationData.totalSalePrice == 0" style="color: darkturquoise;" title="Sold"></span><label ng-if="parLocationData.totalSalePrice == 0" class="col-sm-4 control-label" style="text-align: center;">N/A</label>
 									       	<span class="glyphicon glyphicon-record col-sm-2" style="color: darkturquoise;" title="Success Rate"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.successRate | number:0}}%</label>
 									       	<span class="fa fa-car col-sm-2" style="color: darkturquoise;" title="Total Car Sold"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.totalsaleCar | number:0}}</label>
 									       	<!-- <span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label> -->
@@ -769,7 +769,7 @@ float: right !important;
 					             <div class="panel">
 								    	    	<div class="col-sm-12"style=" margin-top: 10px;" >
 								    	    	<div class="col-sm-1" style="padding: 0px;">
-								    				<h4><b style="font-size:19px;">MANUFACTURERS</b></h4> 
+								    				<h4><b style="font-size:19px;">COLLECTIONS</b></h4> 
 								    			</div>
 								    			<div class="col-sm-2">
 								     					<!-- 	<h6 class="col-sm-12" style="margin-left: 55px;"><a style="cursor: pointer;font-size:17px;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;font-size: 17px;"ng-if="notchange == 0" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a></h6> -->
@@ -827,7 +827,7 @@ float: right !important;
 								    	    	<!-- <div class="col-sm-1" ng-if="userRole != 'General Manager'"  style="padding: 0px;" >
 												
 												</div> -->
-												<a class="btn btn-blue" href="#addManufacturers" >Add Manufacturers</a>
+												<a class="btn btn-blue" href="#addManufacturers" >Add Collection</a>
 													</div>
 										<div class="row">
 											<div class="col-sm-12" style="height: 360px;">

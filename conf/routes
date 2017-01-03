@@ -146,6 +146,7 @@ GET     /saleProductById/:id             controllers.InventoryController.salePro
 GET		/getAllReadyMade		         controllers.InventoryController.getAllReadyMade()
 POST    /updateProduct                   controllers.InventoryController.updateProduct()
 GET     /deleteProductById/:id           controllers.InventoryController.deleteProductById(id:Long)
+GET     /deleteCollectionImageById/:id           controllers.productController.deleteCollectionImageById(id:Long)
 GET		/getOnlyReadyMade		         controllers.InventoryController.getOnlyReadyMade()
 GET		/getAllAccessories		         controllers.InventoryController.getAllAccessories()
 GET		/getAllProductTypes				 controllers.InventoryController.getAllProductTypes()

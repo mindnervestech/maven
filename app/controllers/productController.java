@@ -969,12 +969,14 @@ public class productController extends Controller {
 		    	} else {
 			    	File file = null;
 			    	InventorySetting image = InventorySetting.findById(id);
-			    	if(type.equals("thumbnail")) {
-				    	file = new File(rootDir+image.thumbPath.replaceAll("%20"," "));
-			    	}
-			    	
-			    	if(type.equals("full")) {
-			    		file = new File(rootDir+image.path.replaceAll("%20"," "));
+			    	if(image.path != null){
+			    		if(type.equals("thumbnail")) {
+					    	file = new File(rootDir+image.thumbPath.replaceAll("%20"," "));
+				    	}
+				    	
+				    	if(type.equals("full")) {
+				    		file = new File(rootDir+image.path.replaceAll("%20"," "));
+				    	}
 			    	}
 			    	return ok(file);
 		    	}	
@@ -1017,8 +1019,10 @@ public class productController extends Controller {
 					vm.path = image.path;
 					FeaturedImageConfig config = FeaturedImageConfig.findByLocation(locationId);
 		    		if(config != null){
-		    			vm.height = config.cropHeight;
-			    		vm.width = config.cropWidth;
+		    			if(config.typeCollection.equals("Main Collection")){
+		    				vm.height = config.cropHeight;
+				    		vm.width = config.cropWidth;
+		    			}
 		    		}
 					
 			    	return ok(Json.toJson(vm));
@@ -1060,6 +1064,20 @@ public class productController extends Controller {
 			    	
 			    	Thumbnails.of(croppedImage).height(155).toFile(thumbFile);
 			    	
+			    	return ok();
+		    	}	
+		    }
+		 
+		 public static Result deleteCollectionImageById(Long id ){
+		    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+		    		
+		    		InventorySetting pImages = InventorySetting.findById(id);
+		    		pImages.setImageName(null);
+		    		pImages.setPath(null);
+			    	pImages.setThumbPath(null);
+			    	pImages.update();
 			    	return ok();
 		    	}	
 		    }
