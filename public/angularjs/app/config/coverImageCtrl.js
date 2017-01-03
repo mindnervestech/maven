@@ -197,7 +197,8 @@ angular.module('newApp')
 				
 			}
 			
-		   
+			console.log($routeParams.collFlag);
+			$scope.colllectionFlag = $routeParams.collFlag;
 		   $scope.showDefaultMsg = 0;
 		   $scope.valuepul = 0;
 		   $scope.init = function() {

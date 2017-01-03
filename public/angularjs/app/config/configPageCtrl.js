@@ -815,12 +815,13 @@ angular.module('newApp')
 	$scope.documentationSetting = function() {
 		$location.path('/documentation');
 	}
-
+	
 	$scope.addCoverImg = function(value) {
 		console.log(value)
+		$routeParams.collFlag = 1;
 		$routeParams.collId = value.id;
 		console.log($routeParams.collId);
-		$location.path('/coverImage/'+$routeParams.collId);
+		$location.path('/coverImage/'+$routeParams.collId+'/'+$routeParams.collFlag);
 	}
 	
 	$scope.customerRequest = function() {

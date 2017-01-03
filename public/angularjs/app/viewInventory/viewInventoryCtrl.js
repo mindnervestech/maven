@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('viewInventoryCtrl', ['$scope','$http','$location','$filter','$upload','apiserviceViewInventory', function ($scope,$http,$location,$filter,$upload,apiserviceViewInventory) {
+.controller('viewInventoryCtrl', ['$scope','$http','$location','$filter','$upload','apiserviceViewInventory','$routeParams', function ($scope,$http,$location,$filter,$upload,apiserviceViewInventory,$routeParams) {
 	
 	
 	$scope.addObj = "collection";
@@ -479,7 +479,8 @@ angular.module('newApp')
     			 
     			 $scope.EditMainCollectioName = function(coll){
     				 console.log(coll);
-    				 $location.path('/coverImage/'+coll.id);
+    				 $routeParams.collFlag = 0;
+    				 $location.path('/coverImage/'+coll.id+'/'+$routeParams.collFlag);
     			 }
     			 
     			 $scope.hideVehicle = function(row){
