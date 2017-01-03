@@ -248,7 +248,7 @@ angular.module('newApp')
 																
 																},*/
 																{ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																	 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProductOrCollection(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row,\'draft\')" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
+																	 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProductOrCollection(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteProductAndCollection(row,\'draft\')" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
 																
 																},
     		        		                                
@@ -322,7 +322,7 @@ angular.module('newApp')
 																		
 																		/*&nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProductOrCollection(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i>*/
 																		{ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																			 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i>  &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehiclePer(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
+																			 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i>  &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteProductAndCollectionPerMa(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
 																		
 																		},
     		    		        		                                
@@ -409,6 +409,15 @@ angular.module('newApp')
     				 $location.path('/update-product/'+row.id);    				 
     			 };
     			 
+    			 $scope.deleteProductAndCollection = function(row){
+    				 console.log(row);
+    				 if(row.entity.type == "Product"){
+    					 $scope.deleteProduct(row.entity);
+    				 }else if(row.entity.type == "Collection"){
+    					 $scope.deleteVehicle(row,'current');
+    				 }
+    			 }
+    			 
     			 $scope.deleteProduct = function(row){
     				 console.log(row);
     				 $scope.deleteObj = row;
@@ -427,7 +436,7 @@ angular.module('newApp')
   							});
     						 $scope.deleteError = true;
     					 }else{
-    						 $scope.productTab("publish");
+    						 $scope.draftTab();
         					 $('#productDeletePop').modal('hide');
     						 $.pnotify({
   							    title: "Success",
@@ -783,10 +792,17 @@ angular.module('newApp')
 	   $scope.ty = type;
    }
    
-   $scope.deleteVehiclePer = function(row){
+   $scope.deleteProductAndCollectionPerMa  = function(row){
 	   console.log("kk");
-	   $('#modal-basic1').modal('show');
-	   $scope.rowDataVal = row;
+	   if(row.entity.type == "Collection"){
+		   $('#modal-basic1').modal('show');
+		   $scope.rowDataVal = row;  
+	   }else if(row.entity.type == "Product"){
+		   $('#modal-basic1').modal('show');
+		   $scope.rowDataVal = row;
+	   }
+		   
+	   
    }
    
    $scope.showSessionData = function(row){
@@ -795,12 +811,8 @@ angular.module('newApp')
    
    $scope.deleteVehicleRow = function() {
 	   apiserviceViewInventory.deleteVehicleById($scope.rowDataVal.entity.id).then(function(data){
-		   //$scope.soldTab();
-		   if($scope.ty == "current"){
-			   $scope.newlyArrivedTab();
-		   }else{
-			   $scope.draftTab();
-		   }
+		   $scope.soldTab();
+		   //$scope.draftTab();
 			   
 		});
    }
@@ -817,6 +829,21 @@ $scope.deleteVehicleRowPer = function() {
 		   $scope.soldTab();
 		});
    }
+
+$scope.deleteProductRowPer = function() {
+	   apiserviceViewInventory.deleteProductRowPer($scope.rowDataVal.entity.id).then(function(data){
+		   if(data == "Error"){
+			   $.pnotify({
+				    title: "Error",
+				    type:'success',
+				    text: "Can't Delete parent collection",
+				});
+		   }
+		   $scope.soldTab();
+		});
+}
+
+
    
    $scope.soldContact = {};
    

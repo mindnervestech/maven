@@ -168,6 +168,15 @@ angular.module('app.apiserviceViewInventory', [])
 		return defer.promise;
 	};
 	
+	this.deleteProductRowPer=function(id){
+		var defer = $q.defer();
+		
+		$http.get('/deleteProductRowPer/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 	
 	
 	this.addPublicCar=function(id){

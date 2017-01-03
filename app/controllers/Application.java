@@ -4403,6 +4403,40 @@ public class Application extends Controller {
     	}	
     }
 	
+	 public static Result deleteProductRowPer(Long id ){
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+	    		try{
+	    			/*List<CustomerRequestManufacturerSettings> listcust = CustomerRequestManufacturerSettings.getcustManufact(id);
+	    			if(listcust.size() != 0){
+		    			for (CustomerRequestManufacturerSettings lis : listcust) {
+		    	    		lis.delete();
+		    	    	}
+	    			}*/
+	    			List<ProductImages> pImages = ProductImages.getDeleteImagePath(id);
+	        		if(pImages.size() != 0){
+	        			for(ProductImages pI:pImages){
+	        				pI.delete();
+	        			}
+	        		}
+	    	    	Product vm = Product.findById(id);
+	    	    	AuthUser user = (AuthUser) getLocalUser();
+	    	    	if(vm != null){
+	    	    		
+	    	    		vm.delete();
+	    	    		File file = new File(rootDir+File.separator+vm.id+"-"+user.id);
+	    	    		file.delete();
+	    	    	}
+	    	    	return ok();
+	    		}catch(Exception e){
+	    			return ok("error");
+	    		}
+	    		
+	    	}	
+	    }
+	
+	
 	 public static Result deleteVehicleByIdPer(Long id ){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
