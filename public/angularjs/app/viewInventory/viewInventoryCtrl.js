@@ -817,7 +817,8 @@ angular.module('newApp')
    
    $scope.deleteVehicleRow = function() {
 	   apiserviceViewInventory.deleteVehicleById($scope.rowDataVal.entity.id).then(function(data){
-		   $scope.soldTab();
+		   //$scope.soldTab();
+		   $scope.newlyArrivedTab();
 		   //$scope.draftTab();
 			   
 		});

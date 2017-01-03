@@ -26,6 +26,7 @@ public class AddCollection extends Model {
 	public String designer;
 	public String sale;
 	public String filePath;
+	public String fileType;
 	public String newFlag;
 	public String primaryTitle;
 	public String cadfileName;
@@ -199,6 +200,13 @@ public class AddCollection extends Model {
 	}
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public String getFileType() {
+		return fileType;
+	}
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
 	}
 
 	@ManyToOne

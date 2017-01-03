@@ -1,8 +1,10 @@
 package controllers;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -379,6 +381,7 @@ public class productController extends Controller {
 	    	    		add.parentId = vm.parentId;
 	    	    		add.externalUrlLink = vm.externalUrlLink;
 	    	    		add.user = userObj;
+	    	    		//add.fileType = vm.fileType;
 	    	    		add.hideWebsite = vm.hideWebsite;
 	    	    		if(vm.parentId == null){
 	    	    			add.subhideWebsite = vm.subhideWebsite;
@@ -436,10 +439,11 @@ public class productController extends Controller {
 			       	       	    File file = pdfFile.getFile();
 			       	       	    try {
 			       	       	    	
-			       	       	    	if(ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("gif") || ext.equalsIgnoreCase("svg")){
+			       	       	    	if(ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("gif")){
 			       	       	    		FileUtils.moveFile(file, new File(filePath));
 			       		    		   		AddCollection obj = AddCollection.findById(productVM.id);
 			       		    		   		obj.setFileName(fileName);
+			       		    		   	    obj.setFileType(ext.toString());
 			       		    		   		obj.setFilePath("/"+add.getId()+"-"+userObj.id+"/"+"Logo"+"/"+fileName);
 			       		    		   		obj.update();
 			       		    		   //	try {
@@ -459,8 +463,33 @@ public class productController extends Controller {
 										//}
 			       		    		   	
 			       		    		   		
-			       	       	    	}
-			       	       	    		
+			       	       	    	}else if(ext.equalsIgnoreCase("svg")){
+				       	       	    	FileUtils.moveFile(file, new File(filePath));
+				       	       	    	/*Scanner content = new Scanner(new File(filePath));
+				       	       	    		
+				       	       	    	}*/
+				       	       	    	BufferedReader br = new BufferedReader(new FileReader(filePath));
+						       	       	  try {
+						       	           StringBuilder sb = new StringBuilder();
+						       	           String line = br.readLine();
+		
+						       	           while (line != null) {
+						       	               sb.append(line);
+						       	               sb.append(System.lineSeparator());
+						       	               line = br.readLine();
+						       	           }
+						       	           String everything = sb.toString();
+						       	        System.out.println(everything);
+						       	        
+						       	        AddCollection obj = AddCollection.findById(productVM.id);
+		       		    		   		obj.setFileName(fileName);
+		       		    		   		obj.setFileType(ext.toString());
+		       		    		   		obj.setFilePath(everything);
+		       		    		   		obj.update();
+						       	       } finally {
+						       	           br.close();
+						       	       }
+			       	       	    	}	
 			       	       	    		
 			       	       	  } catch (FileNotFoundException e) {
 			       	     			e.printStackTrace();
@@ -477,6 +506,8 @@ public class productController extends Controller {
 	    		add.publicStatus = vm.publicStatus;
 	    		add.parentId = vm.parentId;
 	    		add.hideWebsite = vm.hideWebsite;
+	    		//add.fileType = vm.fileType;
+
 	    		if(vm.parentId == null){
 	    			add.subhideWebsite = vm.subhideWebsite;
 	    		}

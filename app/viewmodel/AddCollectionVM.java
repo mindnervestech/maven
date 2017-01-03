@@ -15,6 +15,7 @@ public class AddCollectionVM {
 	public String sale;
 	public int countImages;
 	public String filePath;
+	public String fileType;
 	public String newFlag;
 	public String primaryTitle;
 	public String cadfileName;

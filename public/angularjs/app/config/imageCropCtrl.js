@@ -66,7 +66,6 @@ angular.module('newApp')
 				        onChange: showCoords,
 				        setSelect:   [ 0, 0, data.width, data.height ],
 				        minSize:[data.width,data.height],
-				        maxSize:[data.width,data.height],
 				        allowSelect: false,
 				        trueSize: [data.col,data.row],
 				        aspectRatio: data.width/data.height

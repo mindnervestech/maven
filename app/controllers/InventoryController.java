@@ -1,7 +1,9 @@
 package controllers;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -296,6 +298,7 @@ public class InventoryController extends Controller {
 	         }
 	         
 	         pVm.publicStatus = form.data().get("publicStatus");
+	         //pVm.fileType = form.data().get("publicStatus");
 	         pVm.title = form.data().get("title");
 	    }
 	   
@@ -354,9 +357,10 @@ public class InventoryController extends Controller {
 	    		      		
 	    		       	    File file = picture.getFile();
 	    		       	 try {
-	    		       		 if(ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("svg") || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("gif")){
+	    		       		 if(ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpeg") || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("gif")){
 			       	       	    	FileUtils.moveFile(file, new File(filePath));
 			       	       	    	add.setFileName(fileName);
+			       	       	        add.setFileType(ext.toString());
 	     		    		   		add.setFilePath("/"+add.getId()+"-"+userObj.id+"/"+"Logo"+"/"+fileName);
 	     		    		   		add.update();
 	     		    		   		
@@ -368,7 +372,30 @@ public class InventoryController extends Controller {
 	    							// TODO Auto-generated catch block
 	    							e1.printStackTrace();
 	    						}
-		       	       	    	}
+		       	       	    }else if(ext.equalsIgnoreCase("svg")){
+			       	       	    	FileUtils.moveFile(file, new File(filePath));
+			       	       	    	
+			       	       	    	BufferedReader br = new BufferedReader(new FileReader(filePath));
+					       	       	  try {
+					       	           StringBuilder sb = new StringBuilder();
+					       	           String line = br.readLine();
+	
+					       	           while (line != null) {
+					       	               sb.append(line);
+					       	               sb.append(System.lineSeparator());
+					       	               line = br.readLine();
+					       	           }
+					       	           String everything = sb.toString();
+					       	        System.out.println(everything);
+	       		    		   		
+			       		    		   	add.setFileName(fileName);
+		     		    		   		add.setFilePath(everything);
+		     		    		   		add.setFileType(ext.toString());
+		     		    		   		add.update();
+					       	       } finally {
+					       	           br.close();
+					       	       }
+		       	       	    }
 	    					} catch (Exception e) {
 	    						e.printStackTrace();
 	    					}
