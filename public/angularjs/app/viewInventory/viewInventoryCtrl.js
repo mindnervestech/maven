@@ -794,13 +794,15 @@ angular.module('newApp')
    
    $scope.deleteProductAndCollectionPerMa  = function(row){
 	   console.log("kk");
-	   if(row.entity.type == "Collection"){
-		   $('#modal-basic1').modal('show');
-		   $scope.rowDataVal = row;  
+	   $('#modal-basic1').modal('show');
+	   $scope.rowDataVal = row;  
+	  /* if(row.entity.type == "Collection"){
+		   
+		   
 	   }else if(row.entity.type == "Product"){
 		   $('#modal-basic1').modal('show');
 		   $scope.rowDataVal = row;
-	   }
+	   }*/
 		   
 	   
    }

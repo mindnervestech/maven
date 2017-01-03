@@ -178,8 +178,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteVehicleRowPer()" ng-if="rowDataVal.type == 'Collection'">Yes</button>
-                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteProductRowPer()" ng-if="rowDataVal.type == 'Product'">Yes</button>
+                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteVehicleRowPer()" ng-if="rowDataVal.entity.type == 'Collection'">Yes</button>
+                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteProductRowPer()" ng-if="rowDataVal.entity.type == 'Product'">Yes</button>
                 </div>
             </div>
         </div>
