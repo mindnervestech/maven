@@ -67,10 +67,27 @@ angular.module('newApp')
 			   acceptedFiles:"image/*",
 			   addRemoveLinks:true,
 			   autoProcessQueue:false,
+			   maxFiles:1,
+			   accept: function(file, done) {
+				   file.rejectDimensions = function() { done("Invalid dimension."); };
+				   file.acceptDimensions = done;
+				  
+				  },
 			   init:function () {
 				   this.on("queuecomplete", function (file) {
 					  
 				      });
+				   this.on("thumbnail", function(file) {
+					   		console.log(file);
+					   		if (file.width < 1440 || file.height < 920) {
+					   			$('#sliderMsg').modal('show');
+					   			//file.rejectDimensions()
+						     }
+					   		
+						     else {
+						        file.acceptDimensions();
+						      }
+					    });
 				   this.on("complete", function() {
 					   this.removeAllFiles();
 					   $scope.init();
