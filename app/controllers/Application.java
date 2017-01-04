@@ -16867,7 +16867,10 @@ private static void cancelTestDriveMail(Map map) {
     			anVm.id = vehicleImage.getId();
     			anVm.isImage = true;
     			anVm.vin = vehicleImage.getId().toString();
-    			anVm.defaultImagePath = proImg.thumbPath;
+    			if(proImg != null){
+    				anVm.defaultImagePath = proImg.thumbPath;
+    			}
+    			//anVm.defaultImagePath = proImg.thumbPath;
     			anVm.name = vehicleImage.getPrimaryTitle();
     		}
     		else {
