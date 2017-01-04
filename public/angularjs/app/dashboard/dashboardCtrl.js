@@ -6850,13 +6850,19 @@ angular.module('newApp')
     		    	    		 $scope.proceedToNext();
     		    	    		  $scope.reasonToCancel = "";
     		    				});
-    		    	    	if($scope.actionSelectedLead.length != undefined){
+    		    	    	if($scope.actionSelectedLead.length != undefined || $scope.actionSelectedLead.length == $scope.leadDetId.length){
     		    	    		console.log("defined");
     		    	    		if($scope.actionSelectedLead.length == $scope.scheduLeadId.length){
     		    	    	  		console.log("reload page");
     		    	    			$('#scheduleCancelBtn').click();
     		  						$route.reload();
     		    	    	  	}
+    		    	    		else{
+    		    	    			if($scope.actionSelectedLead.length == $scope.leadDetId.length){
+    		    	    				$('#scheduleCancelBtn').click();
+        		  						$route.reload();
+    		    	    			}
+    		    	    		}
     		    	    	}  	
     		    	    	else{
     		    	    		console.log("Undefined");
@@ -7464,7 +7470,7 @@ angular.module('newApp')
 							}
 						}
 				   		apiserviceDashborad.getPerformanceOfUser($scope.topPerformers, $scope.worstPerformers, $scope.weekPerformance, $scope.monthPerformance, $scope.yearPerformance, $scope.allTimePerformance, $scope.salesPersonUser, $scope.locationValue, startD, endD).then(function(data){
-						
+				   			console.log(data);
 				 			$scope.userPerformanceList = data;
 				 		});
 					});

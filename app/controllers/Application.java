@@ -15044,7 +15044,7 @@ private static void cancelTestDriveMail(Map map) {
     public static Result getPerformanceOfUser(String top,String worst,String week,String month,String year,String allTime,Integer id,Long locationValue,String startD,String endD) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
-    	} else {
+    	}else{
     		Date date = new Date();
     		Calendar cal = Calendar.getInstance();
     		cal.setTime(date);
@@ -15057,85 +15057,46 @@ private static void cancelTestDriveMail(Map map) {
 			Date start = null;
 			Date end = null;
 			
-			try {
+			try{
 				startDate=df1.parse(startD);
 				endDate=df1.parse(endD);
 				start=startDate;
 				end=endDate;
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
+			}catch (ParseException e1){
 				e1.printStackTrace();
 			}
 			
-    		/*if(week.equals("true")) {
-    			cal.add(Calendar.DATE, -7);
-    			start1 = df.format(cal.getTime());
-    			end1 = df.format(date);
-    			try {
-					start = df.parse(start1);
-					end = df.parse(end1);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-			if(month.equals("true")) {
-				cal.add(Calendar.DATE, -30);
-				start1 = df.format(cal.getTime());
-    			end1 = df.format(date);
-    			try {
-					start = df.parse(start1);
-					end = df.parse(end1);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			*/
-			if(year.equals("true")) {
+			if(year.equals("true")){
 				cal.add(Calendar.DATE, -365);
 				start1 = df.format(cal.getTime());
     			end1 = df.format(date);
     			try {
 					start = df.parse(start1);
 					end = df.parse(end1);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
+				}catch (ParseException e){
 					e.printStackTrace();
 				}
 			}
 			
-			if(allTime.equals("true")) {
+			if(allTime.equals("true")){
 				cal.add(Calendar.DATE, -1000);
 				start1 = df.format(cal.getTime());
     			end1 = df.format(date);
     			try {
 					start = df.parse(start1);
 					end = df.parse(end1);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
+				}catch (ParseException e){
 					e.printStackTrace();
 				}
 			}
 			
 			int requestLeadCount = 0;
-	    	int scheduleLeadCount = 0;
-	    	int tradeInLeadCount = 0;
-	    	
 	    	int requestLeadCount1 = 0;
-	    	int scheduleLeadCount1 = 0;
-	    	int tradeInLeadCount1 = 0;
 	    	
 	    	List<RequestMoreInfo> rInfo = null;
-	    	List<ScheduleTest> sList = null;
-	    	List<TradeIn> tradeIns = null;
 	    	List<RequestMoreInfo> rInfoAll = null;
-	    	List<ScheduleTest> sListAll = null;
-	    	List<TradeIn> tradeInsAll = null;
 			
 			List<UserVM> userList = new ArrayList<>();
-			
 			List<AuthUser> salesUsersList;
 			if(locationValue == 0){
 				salesUsersList = AuthUser.getAllSalesUser();
@@ -15147,117 +15108,64 @@ private static void cancelTestDriveMail(Map map) {
 			int index=0;
 			    				
 			for(AuthUser sales: salesUsersList) {
-				
 				requestLeadCount = 0;
-		    	scheduleLeadCount = 0;
-		    	tradeInLeadCount = 0;
-		    	
 		    	requestLeadCount1 = 0;
-		    	scheduleLeadCount1 = 0;
-		    	tradeInLeadCount1 = 0;
 		    	
 		    	rInfo = null;
-		    	sList = null;
-		    	tradeIns = null;
 		    	rInfoAll = null;
-		    	sListAll = null;
-		    	tradeInsAll = null;
 		    	Integer total = 0;
 				UserVM vm = new UserVM();
 				SimpleDateFormat dform = new SimpleDateFormat("MMMM");
 
 				String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
 				        "August", "September", "October", "November", "December" };
-		    	
 		     	String crMonth = monthName[cal.get(Calendar.MONTH)];
-		     	
 				PlanScheduleMonthlySalepeople  pMonthlySalepeople = null;
 				pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(sales, crMonth);
 				vm.planFlag = 0; 
+				
 				if(pMonthlySalepeople != null){
 					total = Integer.parseInt(pMonthlySalepeople.totalBrought);
 		    	}else{
-		    		
 						vm.planFlag = 1; 
 		    	}
-			
 				vm.fullName = sales.firstName+" "+sales.lastName;
 				vm.userStatus = sales.account;
 				vm.id = sales.id;
-				if(sales.imageUrl != null) {
+				if(sales.imageUrl != null){
 					if(sales.imageName !=null){
 						vm.imageUrl = "http://glider-autos.com/MavenImg/images"+sales.imageUrl;
 					}else{
 						vm.imageUrl = sales.imageUrl;
 					}
-					
-				} else {
+				}else{
 					vm.imageUrl = "/profile-pic.jpg";
 				}
 				
 				rInfo = RequestMoreInfo.findAllSeenSch(sales);
-	    		sList = ScheduleTest.findAllAssigned(sales);
-	    		tradeIns = TradeIn.findAllSeenSch(sales);
-	    		
 	    		rInfoAll = RequestMoreInfo.findAllByNotOpenLead(sales);
-	    		sListAll = ScheduleTest.findAllByNotOpenLead(sales);
-	    		tradeInsAll = TradeIn.findAllByNotOpenLead(sales);
 	    	
 	    	
 	    	for(RequestMoreInfo rMoreInfo:rInfo){
-	    		//if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end) || rMoreInfo.requestDate.equals(start)){
 	    			requestLeadCount++;
-	    		//}
-	    	}
-	    	
-	    	
-	    	for(ScheduleTest sTest:sList){
-	    	//	if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
-	    			scheduleLeadCount++;
-	    	//	}
 	    	}
 
-	    	for(TradeIn tIn:tradeIns){
-	    		//if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end) || tIn.tradeDate.equals(start) ){
-	    				tradeInLeadCount++;
-	    		//}
-	    	}
-	    	
 	    	for(RequestMoreInfo rMoreInfo:rInfoAll){
 	    		if(start != null && end !=null){
-	    		if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end)||  rMoreInfo.requestDate.equals(start)){
-	    			requestLeadCount1++;
-	    		}
-	    		}
-	    	}
-	    	
-	    	
-	    	for(ScheduleTest sTest:sListAll){
-	    		if(start != null && end !=null){
-	    		if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
-	    			scheduleLeadCount1++;
-	    		}
-	    		}
-	    	}
-
-	    	for(TradeIn tIn:tradeInsAll){
-	    		if(start != null && end !=null){
-	    		if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end) || tIn.tradeDate.equals(start)){
-					tradeInLeadCount1++;
-	    		}
+	    			if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end)||  rMoreInfo.requestDate.equals(start)){
+	    				requestLeadCount1++;
+	    			}
 	    		}
 	    	}
 				
-	    	int countLeads1 = requestLeadCount1 + scheduleLeadCount1 + tradeInLeadCount1;
-	    	int countLeads = requestLeadCount + scheduleLeadCount + tradeInLeadCount;
+	    	int countLeads1 = requestLeadCount1;
+	    	int countLeads = requestLeadCount;
 	    	int saleCarCount = 0;
-	    	Long pricecount = 0l;
+	    	double pricecount = 0;
 	    	int per = 0;
 	    	List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(sales);
-    		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(sales);
-    		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(sales);
-    		List<Vehicle> salesVehicleList = Vehicle.findBySoldUserAndSold(sales);
-    		for (Vehicle vehicle : salesVehicleList) {
+    		List<AddCollection> salesVehicleList = AddCollection.findBySoldUserAndSold(sales);
+    		for (AddCollection vehicle : salesVehicleList) {
     			if(vehicle != null){
     				if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end) || vehicle.soldDate.equals(start)){
             			saleCarCount++;
@@ -15277,20 +15185,17 @@ private static void cancelTestDriveMail(Map map) {
 				vm.per = per;
 			}
 			
-			
     		vm.successRate = (int) sucessCount;
-    		vm.salesAmount = pricecount;
+    		vm.salesAmount = (long)pricecount;
     		vm.currentLeads = Long.parseLong(String.valueOf(countLeads));
 			vm.saleCar = Long.parseLong(String.valueOf(saleCarCount));
 			vm.email = sales.communicationemail;
 				tempuserList[index] = vm;
 				index++;
-								
 			}
 			
     		if(top.equals("true")) {
     			if(id == 0) {
-    				
     				for(int i=0;i<tempuserList.length-1;i++) {
     					for(int j=i+1;j<tempuserList.length;j++) {
     						if(tempuserList[i].successRate <= tempuserList[j].successRate) {
@@ -15305,10 +15210,7 @@ private static void cancelTestDriveMail(Map map) {
     					
     						userList.add(tempuserList[i]);
     				}
-    				
     			  }	
-    			
-    		
     		}
     		
     		if(worst.equals("true")) {
@@ -15329,124 +15231,6 @@ private static void cancelTestDriveMail(Map map) {
     				}
     			}
     		}	
-    		
-    		/*if(worst.equals("true")) {
-    			if(id == 0) {
-    				List<AuthUser> salesUsersList = AuthUser.getAllSalesUser();
-    				UserVM[] tempuserList = new UserVM[salesUsersList.size()];
-    				int index = 0;
-    				for(AuthUser sales: salesUsersList) {
-    					SqlRow rowData = ScheduleTest.getTopPerformers(start, end, sales.id);
-        				UserVM vm = new UserVM();
-        				vm.fullName = sales.firstName+" "+sales.lastName;
-        				if(sales.imageUrl != null) {
-        					if(sales.imageName !=null){
-        						vm.imageUrl = "http://glider-autos.com/glivrImg/images"+sales.imageUrl;
-        					}else{
-        						vm.imageUrl = sales.imageUrl;
-        					}
-        				} else {
-        					vm.imageUrl = "/profile-pic.jpg";
-        				}
-        				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
-        					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
-        				} else {
-        					vm.successRate = 0;
-        				}
-        				Integer leads = 0;
-        				String count = "";
-        				if(rowData.getString("leads") != null) {
-        					count = rowData.getString("leads");
-        					leads = Integer.parseInt(count);
-        					if(rowData.getString("requestleads") != null) {
-        						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
-        					}
-        					if(rowData.getString("tradeInleads") != null) {
-        						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
-        					}
-        					vm.currentLeads = leads.toString();
-        				} else {
-        					vm.currentLeads = "";
-        				}
-        				if(rowData.getString("amount") != null) {
-        					vm.salesAmount = rowData.getString("amount");
-        				} else {
-        					vm.salesAmount = "0";
-        				}
-        				tempuserList[index] = vm;
-        				index++;
-    				}
-    				
-    				for(int i=0;i<tempuserList.length-1;i++) {
-    					for(int j=i+1;j<tempuserList.length;j++) {
-    						if(tempuserList[i].successRate >= tempuserList[j].successRate) {
-    							UserVM temp = tempuserList[i];
-    							tempuserList[i] = tempuserList[j];
-    							tempuserList[j] = temp;
-    						}
-    					}
-    				}
-    				
-    				for(int i=0;i<tempuserList.length;i++) {
-    					userList.add(tempuserList[i]);
-    				}
-    				
-    				if(tempuserList.length >=1){
-    					userList.add(tempuserList[0]);
-    				}	
-    				if(tempuserList.length >=2){
-    					userList.add(tempuserList[1]);
-    				}
-    				if(tempuserList.length >=3){
-    					userList.add(tempuserList[2]);
-    				}	
-    				
-    			}
-    			
-    			if(id != 0) {
-    				AuthUser salesUser = AuthUser.findById(id);
-    				SqlRow rowData = ScheduleTest.getTopPerformers(start, end, id);
-    				UserVM vm = new UserVM();
-    				vm.fullName = salesUser.firstName+" "+salesUser.lastName;
-    				if(salesUser.imageUrl != null) {
-    					if(salesUser.imageName !=null){
-    						vm.imageUrl = "http://glider-autos.com/glivrImg/images"+salesUser.imageUrl;
-    					}else{
-    						vm.imageUrl = salesUser.imageUrl;
-    					}
-    				} else {
-    					vm.imageUrl = "/profile-pic.jpg";
-    				}
-    				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
-    					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
-    				} else {
-    					vm.successRate = 0;
-    				}
-    				Integer leads = 0;
-    				String count = "";
-    				if(rowData.getString("leads") != null) {
-    					count = rowData.getString("leads");
-    					leads = Integer.parseInt(count);
-    					if(rowData.getString("requestleads") != null) {
-    						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
-    					}
-    					if(rowData.getString("tradeInleads") != null) {
-    						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
-    					}
-    					vm.currentLeads = leads.toString();
-    				} else {
-    					vm.currentLeads = "";
-    				}
-    				if(rowData.getString("amount") != null) {
-    					vm.salesAmount = rowData.getString("amount");
-    				} else {
-    					vm.salesAmount = "0";
-    				}
-    				userList.add(vm);
-    			}
-    		}*/
-    		
-    		
     		return ok(Json.toJson(userList));
     	}
     }
@@ -21320,20 +21104,20 @@ private static void salesPersonPlanMail(Map map) {
 		
 		Map<Long, String> mapdate = new HashMap<Long, String>();
 		Long pricevalue = 0L;
-		List<Vehicle> vehicle = null;
-		List<Vehicle> vehicaleNew = null;
+		List<AddCollection> vehicle = null;
+		List<AddCollection> vehicaleNew = null;
 		
 		Map<Long, Long> treeMap = null;
 		
 		if(user.role.equals("General Manager")){
-			vehicle = Vehicle.findBySold();
-			vehicaleNew = Vehicle.findByNewlyArrived();
+			vehicle = AddCollection.findBySold();
+			vehicaleNew = AddCollection.findByNewlyArrived();
 		}else if(user.role.equals("Manager")){
-			vehicle = Vehicle.findByLocationAndSold(user.location.id);
-			vehicaleNew = Vehicle.findByNewArrAndLocation(user.location.id);
+			vehicle = AddCollection.findByLocationAndSold(user.location.id);
+			vehicaleNew = AddCollection.findByNewArrAndLocation(user.location.id);
 		}else if(user.role.equals("Sales Person")){
-			vehicle = Vehicle.findBySoldUserAndSold(user);
-			vehicaleNew = Vehicle.findByUserAndNew(user);
+			vehicle = AddCollection.findBySoldUserAndSold(user);
+			vehicaleNew = AddCollection.findByUserAndNew(user);
 		}		
 		
 		Date startDate = null;
@@ -21348,9 +21132,9 @@ private static void salesPersonPlanMail(Map map) {
 		}
 		
 		int valueCount = 1;
-			for(Vehicle vhVehicle:vehicle){
-				if(vhVehicle.price != null){
-					pricevalue = vhVehicle.price.longValue();
+			for(AddCollection vhVehicle:vehicle){
+				if(vhVehicle.price != 0){
+					pricevalue = (long)vhVehicle.price;
 				}else{
 					pricevalue = 0L;
 				}

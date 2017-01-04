@@ -373,4 +373,13 @@ public class AddCollection extends Model {
 	public static List<AddCollection> findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findList();
 	}
+	public static List<AddCollection> findBySold() {
+		return find.where().eq("status", "Sold").findList();
+	}
+	public static List<AddCollection> findByNewArrAndLocation(Long location) {
+		return find.where().eq("locations.id", location).eq("publicStatus", "public").eq("status", "Newly Arrived").findList();
+	}
+	public static List<AddCollection> findByUserAndNew(AuthUser user) {
+		return find.where().eq("user", user).eq("status", "Newly Arrived").findList();
+	}
 }
