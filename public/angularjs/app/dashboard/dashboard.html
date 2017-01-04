@@ -5815,7 +5815,7 @@ float: right !important;
 								            <div class="modal-content" style="width: 800px;">
 								                <div class="modal-header">
 								                    <button type="button" class="close" id="scheduleCancelBtn" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-								                    <h4 class="modal-title">CANCEL LEAD</h4>
+								                    <h4 class="modal-title">Cancel Appointment</h4>
 								                </div>
 								                <form ng-submit="cancelSureLead(reasonToCancel)">
 								                <div class="modal-body">
@@ -5827,8 +5827,7 @@ float: right !important;
 								                		<input class="form-control form-white" ng-model="reasonToCancel" type="text" required>
 								                	</div>
 								                	<label ng-if="reasonFlag == 1" style="color:red;">Reason field should be mandatory</label>
-								                	<label ng-if="notiCanFlag == 1" style="color:black;">{{rowData.name}} has an appointment scheduled on {{rowData.bestDay}} at {{rowData.bestTime}}. Canceling the lead will
-															also remove an appointment. Do you want to proceed?</label>
+								                	<label ng-if="notiCanFlag == 1" style="color:black;">{{rowData.name}} has an appointment scheduled on {{rowData.bestDay}} at {{rowData.bestTime}}. Are you sure you want to cancel this appointment.</label>
 								                </div>
 								                <div class="col-md-12" ng-if="cancelFlag == 1">
 								                 	<input style="margin-left: 15px;margin-top: 25px;" type="checkbox" name="selectAll"  ng-click="cancelAllLeadSchedule(selectAll)"
