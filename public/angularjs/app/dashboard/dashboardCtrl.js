@@ -443,6 +443,15 @@ angular.module('newApp')
 		
 		});
 	};
+	
+	$scope.setProductName = function(name,vin){
+		$scope.nameLbl = 'true';
+		$scope.nameTxt = 'false';
+		apiserviceDashborad.setProductName(vin, name).then(function(data){
+		
+		});
+	};
+	
 	$scope.showBackGmButton = 0;
 	apiserviceDashborad.getUserRole().then(function(data){
 		
@@ -4415,8 +4424,8 @@ angular.module('newApp')
 		    				
 		    				if($scope.currentSelectedType==0) 
 		    					$scope.currentData = response.topVisited;
-		    				else if($scope.currentSelectedType==1)
-		    					$scope.currentData = response.worstVisited;
+		    				/*else if($scope.currentSelectedType==1)
+		    					$scope.currentData = response.worstVisited;*/
 		    				else if($scope.currentSelectedType==2)
 		    					$scope.currentData = response.allVehical;
 		    			});
@@ -4424,7 +4433,7 @@ angular.module('newApp')
 		    				});
 	    			}else{
 	    				apiserviceDashborad.getVisitedData($scope.userKey, type, filterBy, search, searchBy, vehicles, startD, endD).then(function(response){
-	    				
+	    				console.log(response);
 	    				$scope.weekData = response;
 	    				
 	    				if(response.topVisited.length == 0){
@@ -4436,14 +4445,26 @@ angular.module('newApp')
 	    				
 	    				if($scope.currentSelectedType==0) 
 	    					$scope.currentData = response.topVisited;
-	    				else if($scope.currentSelectedType==1)
-	    					$scope.currentData = response.worstVisited;
+	    				/*else if($scope.currentSelectedType==1)
+	    					$scope.currentData = response.worstVisited;*/
 	    				else if($scope.currentSelectedType==2)
 	    					$scope.currentData = response.allVehical;
 	    			});
 	    					
 	    			}
 	    		};
+	    		$scope.product = "COLLECTIONS";
+	    		$scope.changeValueCollAndPro = function(product){
+	    			console.log(product);
+	    			if(product == "LISTING"){
+	    				$scope.currentSelectedType = 2;
+	    				$scope.topVisitedDataDatewise();
+	    			}else{
+	    				$scope.currentSelectedType = 0;
+	    				$scope.topVisitedDataDatewise();
+	    			}
+	    			
+	    		}
 	    		
 	    		$scope.selectedObj = function (selectObj) {
 	    			console.log($("#ex1s_value").val());

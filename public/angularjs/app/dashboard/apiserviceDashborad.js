@@ -1615,4 +1615,14 @@ this.setScheduleStatusCancel = function(closeleadObj){
 			});
 		return defer.promise;
 	};
+	
+	this.setProductName = function(vin, name){
+		var defer = $q.defer();
+		$http.get('/setProductName/'+vin+"/"+name).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
 })

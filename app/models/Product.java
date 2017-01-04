@@ -211,6 +211,13 @@ public class Product extends Model {
 	public static List<Product> getProductByStatusMainColl(Long location, String status,InventorySetting coll) {
 		return find.where().eq("mainCollection", coll).eq("publicStatus", status).findList();		
 	}
-	
-	
+	public static List<Product> getProductByDraftStatus() {
+		return find.where().eq("publicStatus", "publish").findList();		
+	}
+	public static List<Product> findByVinsAndTypeVehi(List<String> vins,String typeVehi) {
+		return find.where().eq("publicStatus","public").eq("typeofVehicle",typeVehi).findList();
+	}
+	public static Product getDefaultImg(Long id2) {
+		return find.where().eq("id", id2).findUnique();
+	}
 }

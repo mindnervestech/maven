@@ -111,6 +111,8 @@ POST    /saveProduct                     controllers.productController.addProduc
 POST	/saveNewProduct					 controllers.productController.saveNewProduct()
 POST	/updateNewProduct				 controllers.productController.updateNewProduct()
 GET     /removeDefaultProduct/:newId	 controllers.productController.removeDefaultProduct(newId:Long)
+GET     /removeDefaultImageProd/:newId	 controllers.productController.removeDefaultImageProd(newId:Long)
+
 GET		/deleteImage/:id		         controllers.productController.deleteImage(id:Long)
 GET     /deleteThisProduct/:id           controllers.productController.deleteThisProduct(id:Long)
 GET		/getProductDataById/:id			controllers.productController.getProductDataById(id:Long)
@@ -126,6 +128,7 @@ POST    /uploadCollectionImg   			 controllers.productController.uploadCollectio
 GET		/getImageById/:id/:userId			     controllers.productController.getImageDataById(id: Long, userId:Long)
 GET		/getImageByCollectionId/:id/:userId			     controllers.productController.getImageByCollectionId(id: Long, userId:Long)
 
+GET		/getImageProductData/:id/:type			     controllers.productController.getImageProductData(id:Long,type:String)
 GET		/getImage/:id/:type			     controllers.productController.getImageById(id:Long,type:String)
 GET		/getImageCover/:id/:type			     controllers.productController.getImageCover(id:Long,type:String)
 GET		/getImageCoverColl/:id/:type			     controllers.productController.getImageCoverColl(id:Long,type:String)
@@ -667,6 +670,7 @@ GET    /getScheduleTime/:productId/:comDate 			controllers.Application.getSchedu
 GET		/getDataFromCrm			controllers.Application.getDataFromCrm()
 GET		/getUserPermission			controllers.Application.getUserPermission()
 GET    /updateVehiclePrice/:vin/:price 			controllers.Application.updateVehiclePrice(vin:String,price:String)
+GET    /setProductName/:vin/:name 			controllers.Application.setProductName(vin:String,name:String)
 GET    /updateVehicleName/:vin/:name 			controllers.Application.updateVehicleName(vin:String,name:String)
 GET		/updateUserComment/:id/:comment			controllers.Application.updateUserComment(id:Integer,comment:String)
 GET 	/removeAllContactsData					controllers.CrmController.removeAllContactsData()

@@ -16660,8 +16660,6 @@ private static void cancelTestDriveMail(Map map) {
  
  public static void topListings(String type,String filterBy,String search,String searchBy,Long locationId,AuthUser user,Map result,String vehicles,String gmInManag,String startDate,String endDate){
     	
-    	
-    	
     	Date date = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -16674,46 +16672,17 @@ private static void cancelTestDriveMail(Map map) {
 		Date startDat=null;
 		Date enddat=null;
 		
-		
 		if(type.equals("datewise")) {
-		try {
-			startDat=df2.parse(startDate);
-			enddat=df2.parse(endDate);
-			start=startDat;
-			end=enddat;
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		}
-		
-		/*if(type.equals("week")) {
-			cal.add(Calendar.DATE, -7);
-			start1 = df.format(cal.getTime());
-			end1 = df.format(date);
 			try {
-				start = df.parse(start1);
-				end = df.parse(end1);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				startDat=df2.parse(startDate);
+				enddat=df2.parse(endDate);
+				start=startDat;
+				end=enddat;
+			}catch (ParseException e1) {
+				e1.printStackTrace();
 			}
 		}
-		
-		if(type.equals("month")) {
-			cal.add(Calendar.DATE, -30);
-			start1 = df.format(cal.getTime());
-			end1 = df.format(date);
-			try {
-				start = df.parse(start1);
-				end = df.parse(end1);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		else*/ if(type.equals("allTime")) {
+		if(type.equals("allTime")) {
 			cal.add(Calendar.DATE, -1000);
 			start1 = df.format(cal.getTime());
 			end1 = df.format(date);
@@ -16721,34 +16690,19 @@ private static void cancelTestDriveMail(Map map) {
 				start = df.parse(start1);
 				end = df.parse(end1);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
     	
-    	
     	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
-    	
     	String params = null;
     	String checkDate = null;
     	Date thedate = null;
-    	/*String params1 = "&type=visitors-list&date=last-30-days&limit=all";
-    	if(type.equals("week")){
-    		params = "&type=visitors-list&date=last-7-days&limit=all";
-    	}else if(type.equals("month")){*/
-    		//params = "&type=visitors-list&date=last-30-days&limit=all";
-    	//}else  if(type.equals("allTime")){
-    		///params = "&type=visitors-list&date="+start1+","+end1+"&limit=all";
-    	//}
+    	
     	
     	List<ClickyVisitorsList> cList = ClickyVisitorsList.getfindAll();
     	
     	/*-------------------edit click 12-05-2016---------------------------------------*/	
-    		//String resultStr = callClickAPI(params);
-    	    	
-    //	JsonNode jsonNode = Json.parse(resultStr).get(0).get("dates").get(0).get("items");
-    	
-    		/*-------------------edit click 12-05-2016---------------------------------------*/	
     		
     	List<String> vins = new ArrayList<String>();
     	List<String> vins1 = new ArrayList<String>();
@@ -16776,16 +16730,7 @@ private static void cancelTestDriveMail(Map map) {
 					}
 					
 					if(vehicle !=null){
-						/*String arr[] = item.get("time_pretty").toString().split(" ");
-						String arrNew[] = arr[3].split(",");
-						checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];*/
-						//try {
-							//thedate = df1.parse(checkDate);
-							thedate = item.DateClick;
-						/*} catch (ParseException e) {
-							e.printStackTrace();
-						}*/
-						
+						thedate = item.DateClick;
 						if (vehicle.addedDate.before(thedate) || vehicle.addedDate.equals(thedate)) {
 							if(pagesCount1.get(vehicle.id) !=null){
 								int j = pagesCount1.get(vehicle.id);
@@ -16800,7 +16745,6 @@ private static void cancelTestDriveMail(Map map) {
 				
 			}
     	}
-    	
     	/*-------------------edit click 12-05-2016---------------------------------------*/
     	
     	List<AddCollection> vlist = null;
@@ -16810,37 +16754,10 @@ private static void cancelTestDriveMail(Map map) {
 			vlist = AddCollection.findByNewlyArrived();
 		}
     	
-    	/*for (AddCollection vehicle : vlist) {
-    		//if(vehicle.status.equals("Sold")){
-    			//if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
-    				vins1.add(vehicle.id.toString());
-    			//}
-    		}else{
-    			//if((vehicle.postedDate.after(start) && vehicle.postedDate.before(end)) || vehicle.postedDate.equals(end)){
-    				vins1.add(vehicle.vin);
-    			//}	
-    		}
-    		
-		}*/
     	if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
 			List<RequestMoreInfo> rMoreInfo = RequestMoreInfo.findAllSeenSch(user);
-			List<ScheduleTest> sTests = ScheduleTest.findAllAssigned(user);
-			List<TradeIn> tIns = TradeIn.findAllSeenSch(user);
-			
 			for(RequestMoreInfo rInfo :rMoreInfo){
-				//if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
 					vinUnik.put(rInfo.vin, 1);
-				//}
-			}
-			for(ScheduleTest sTest: sTests){
-				//if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
-					vinUnik.put(sTest.vin, 1);
-				//}	
-			}
-			for(TradeIn tradeIn: tIns){
-				//if((tradeIn.tradeDate.after(start) && tradeIn.tradeDate.before(end)) || tradeIn.tradeDate.equals(end) || tradeIn.tradeDate.equals(start)){
-					vinUnik.put(tradeIn.vin, 1);
-				//}
 			}
 			for (Map.Entry<String, Integer> entry : vinUnik.entrySet()) {
 				vins.add(entry.getKey());
@@ -16849,65 +16766,32 @@ private static void cancelTestDriveMail(Map map) {
     	List<AddCollection> topVisited =null;
     	List<AddCollection> topVisitedSold =null;
     	
-if(vehicles.equals("All")){
-	topVisited = AddCollection.getProductByDraftStatus();
-}else{
-	topVisited = AddCollection.findByVinsAndTypeVehi(vins,vehicles);
-}
-
-/*if(vehicles.equals("All")){
-	topVisitedSold = Vehicle.findByVinsforSoldUser(user);
-}else{
-	topVisitedSold = Vehicle.findByVinsAndTypeVehiforSoldUser(user,vehicles);
-}*/
-
-    	
+    	if(vehicles.equals("All")){
+    		topVisited = AddCollection.getProductByDraftStatus();
+    	}else{
+    		topVisited = AddCollection.findByVinsAndTypeVehi(vins,vehicles);
+    	}
+	
     	List<VehicleAnalyticalVM> topVisitedVms = new ArrayList<>();
-    	
     	for(AddCollection vehicle:topVisited) {
 			
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
     		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocati(vehicle.getId());
-    		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocati(vehicle.getId());
-    		List<TradeIn> tIns = TradeIn.findByVinAndLocati(vehicle.getId());
     		int req = 0;
-    		int sche = 0;
-    		int trad = 0;
     		for(RequestMoreInfo rInfo :rInfos){
 				if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
 					req++;
 				}
 			}
-			for(ScheduleTest sTest: sList){
-				if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
-					sche++;
-				}	
-			}
-			for(TradeIn tradeIn: tIns){
-				if((tradeIn.tradeDate.after(start) && tradeIn.tradeDate.before(end)) || tradeIn.tradeDate.equals(end) || tradeIn.tradeDate.equals(start)){
-					trad++;
-				}
-			}
-    		
-    		analyticalVM.leadsCount = req + sche + trad;
+    		analyticalVM.leadsCount = req;
     		
     		if(pagesCount.get(vehicle.getId()) == null){
     			analyticalVM.count = 0;
     		}else{
     			analyticalVM.count = pagesCount.get(vehicle.getId());
     		}
-    		//analyticalVM.stockNumber = vehicle.stock;
     		analyticalVM.followerCount = 0;
-    		/*List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), locationId);
-    		for (PriceAlert priceAlert : pAlert) {
-				PriceAlert alt = PriceAlert.findById(priceAlert.id);
-				if (vehicle.postedDate.before(alt.currDate) || vehicle.postedDate.equals(alt.currDate)) {
-					analyticalVM.followerCount++;
-	    		}
-			}*/
     		
-    		/*analyticalVM.vehicleStatus=vehicle.getStatus();
-    		analyticalVM.price = vehicle.getPrice();*/
     		AddCollection vehicleImage = AddCollection.getDefaultImg(vehicle.getId());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
@@ -16921,52 +16805,31 @@ if(vehicles.equals("All")){
     		analyticalVM.name=vehicle.getTitle();
     		if(!searchBy.equals("0") && !search.equals("0")){
 	    		if(searchBy.equals("Model")){
-    				//if(vehicle.model.toUpperCase().startsWith(search.toUpperCase())){
     					topVisitedVms.add(analyticalVM);
-    				//}
     			}else if(searchBy.equals("Make")){
-    				//if(vehicle.make.toUpperCase().startsWith(search.toUpperCase())){
     					topVisitedVms.add(analyticalVM);
-    				//}
     			}
     		}else{
     			topVisitedVms.add(analyticalVM);
     		}
 	}
-    	
-    	
-    	List<VehicleAnalyticalVM> worstVisitedVms = new ArrayList<>();
+    	/*List<VehicleAnalyticalVM> worstVisitedVms = new ArrayList<>();
     	List<AddCollection> notVisitedVehicle = AddCollection.getAllProducts();
     	for(AddCollection vehicle:notVisitedVehicle) {
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
     		List<PriceAlert> pAlert;
     		if(user.role.equals("General Manager")){
     			List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinStat(vehicle.getId().toString());
-        		List<ScheduleTest> sList = ScheduleTest.findByVinStat(vehicle.getId().toString());
-        		List<TradeIn> tIns = TradeIn.findByVinStat(vehicle.getId().toString());
-        		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
-        		//pAlert = PriceAlert.getByVin(vehicle.getVin());
+        		analyticalVM.leadsCount = rInfos.size();
     		}else{
     			List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocati(vehicle.getId());
-        		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocati(vehicle.getId());
-        		List<TradeIn> tIns = TradeIn.findByVinAndLocati(vehicle.getId());
-        		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
-        		//pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), locationId);
+        		analyticalVM.leadsCount = rInfos.size();
     		}
-    		
     		
     		analyticalVM.count = 0;
     		analyticalVM.followerCount = 0;
-    		/*for (PriceAlert priceAlert : pAlert) {
-				PriceAlert alt = PriceAlert.findById(priceAlert.id);
-				if (vehicle.addedDate.before(alt.currDate) || vehicle.addedDate.equals(alt.currDate)) {
-					analyticalVM.followerCount++;
-	    		}
-			}*/
-    		//analyticalVM.price = vehicle.getPrice();
-    		//analyticalVM.stockNumber = vehicle.stock;
+    		
     		AddCollection vehicleImage = AddCollection.getDefaultImg(vehicle.getId());
-    		//ProductImages vehicleImage = ProductImages.getDefaultImg(vehicle.getId());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
     			analyticalVM.isImage = true;
@@ -16975,63 +16838,47 @@ if(vehicles.equals("All")){
     			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
     		}
     		analyticalVM.vin = vehicle.getId().toString();
-    		//analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
     		analyticalVM.name=vehicle.getTitle();
     		
     		if(!searchBy.equals("0") && !search.equals("0")){
     			if(searchBy.equals("Model")){
-    				//if(vehicle.model.toUpperCase().startsWith(search.toUpperCase())){
     					worstVisitedVms.add(analyticalVM);
-    				//}
     			}else if(searchBy.equals("Make")){
-    				//if(vehicle.make.toUpperCase().startsWith(search.toUpperCase())){
     					worstVisitedVms.add(analyticalVM);
-    				//}
     			}
     		}else{
     			worstVisitedVms.add(analyticalVM);
     		}
     	}  	
-    	
-    	List<VehicleAnalyticalVM> allVehical = new ArrayList<>();
-    	 List<AddCollection> aVehicles =null;
-    	//aVehicles = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
-    	 
-    	 // aVehicles = Vehicle.findByVins(vins1);
+*/    	
+    	 List<VehicleAnalyticalVM> allVehical = new ArrayList<>();
+    	 List<Product> aVehicles =null;
     	 if(vehicles.equals("All")){
-    		 aVehicles = AddCollection.getProductByDraftStatus();
+    		 aVehicles = Product.getProductByDraftStatus();
     		}else{
-    			aVehicles= AddCollection.findByVinsAndTypeVehi(vins1,vehicles);
+    			aVehicles= Product.findByVinsAndTypeVehi(vins1,vehicles);
     		}
-    	 //if((vehicle.postedDate.after(start) && vehicle.postedDate.before(end)) || vehicle.postedDate.equals(end)){
     	 
-    	for(AddCollection vehicle:aVehicles) {
+    	for(Product vehicle:aVehicles) {
     		VehicleAnalyticalVM anVm = new VehicleAnalyticalVM();
-    		//anVm.count = pagesCount1.get(vehicle.getVin());
-    		AddCollection vehicleImage = AddCollection.getDefaultImg(vehicle.getId());
-    		//ProductImages vehicleImage = ProductImages.getDefaultImg(vehicle.getId());
+    		Product vehicleImage = Product.getDefaultImg(vehicle.getId());
+    		ProductImages proImg = ProductImages.getDefaultImg(vehicle.getId());
     		if(vehicleImage!=null) {
     			anVm.id = vehicleImage.getId();
     			anVm.isImage = true;
+    			anVm.vin = vehicleImage.getId().toString();
+    			anVm.defaultImagePath = proImg.thumbPath;
+    			anVm.name = vehicleImage.getPrimaryTitle();
     		}
     		else {
     			anVm.defaultImagePath = "/assets/images/no-image.jpg";
     		}
-    		
     		List<RequestMoreInfo> rInfos;
-    		List<ScheduleTest> sList;
-    		List<TradeIn> tIns;
     		List<PriceAlert> pAlert;
     		if(user.role.equals("General Manager")){
     			rInfos = RequestMoreInfo.findByVinStat(vehicle.getId().toString());
-        		sList = ScheduleTest.findByVinStat(vehicle.getId().toString());
-        		tIns = TradeIn.findByVinStat(vehicle.getId().toString());
-        		//pAlert = PriceAlert.getByVin(vehicle.getVin());
     		}else{
     			rInfos = RequestMoreInfo.findByVinAndLocati(vehicle.getId());
-        		sList = ScheduleTest.findByVinAndLocati(vehicle.getId());
-        		tIns = TradeIn.findByVinAndLocati(vehicle.getId());
-        		//pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), locationId);
     		}
     		int requCount = 0;
     		int schedCount = 0;
@@ -17042,54 +16889,19 @@ if(vehicles.equals("All")){
     			}
     		}
     		
-    		for(ScheduleTest sInfo : sList){
-    			if((sInfo.scheduleDate.after(start) && sInfo.scheduleDate.before(end)) || sInfo.scheduleDate.equals(end) || sInfo.scheduleDate.equals(start)){
-    				schedCount++;
-    			}
-    		}
-    		
-    		for(TradeIn tInfo : tIns){
-    			if((tInfo.tradeDate.after(start) && tInfo.tradeDate.before(end)) || tInfo.tradeDate.equals(end) || tInfo.tradeDate.equals(start)){
-    				tradeCount++;
-    			}
-    		}
-    		
-    		
     		anVm.leadsCount = requCount + schedCount + tradeCount;
-    		
-    		/*Location loc = Location.findById(vehicle.locations.id);
-    		anVm.location= loc.name;
-    		//anVm.vehicleStatus=vehicle.getStatus();
-    		//anVm.vin = vehicle.getVin();
-    		//anVm.price = vehicle.getPrice();
-    		//anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
-    		anVm.name=vehicle.getTitle();*/
     		
     		if(pagesCount1.get(vehicle.getId()) !=null){
     			anVm.count =  pagesCount1.get(vehicle.getId());
     		}else{
     			anVm.count = 0;
     		}
-    		
     		anVm.followerCount = 0;
-    		//anVm.stockNumber = vehicle.stock;
-    		/*for (PriceAlert priceAlert : pAlert) {
-				PriceAlert alt = PriceAlert.findById(priceAlert.id);
-				if((alt.currDate.after(start) && alt.currDate.before(end)) || alt.currDate.equals(end) || alt.currDate.equals(start)){
-					if (vehicle.postedDate.before(alt.currDate) || vehicle.postedDate.equals(alt.currDate)) {
-						anVm.followerCount++;
-		    		}
-				}
-			}*/
     		if(!searchBy.equals("0") && !search.equals("0")){
     			if(searchBy.equals("Model")){
-    				//if(vehicle.model.toUpperCase().startsWith(search.toUpperCase())){
     					allVehical.add(anVm);
-    				//}
     			}else if(searchBy.equals("Make")){
-    				//if(vehicle.make.toUpperCase().startsWith(search.toUpperCase())){
     					allVehical.add(anVm);
-    				//}
     			}
     		}else{
     			allVehical.add(anVm);
@@ -17097,48 +16909,44 @@ if(vehicles.equals("All")){
     	}
     	
     	if(filterBy.equals("countLow")){
-    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorCountHigh());
+    		//java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorCountHigh());
     		java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorCountHigh());
         	java.util.Collections.sort(allVehical,new VehicleVMComparatorCountHigh());
     	}else if(filterBy.equals("countHigh")){
-    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorCountLow());
+    		//java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorCountLow());
         	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorCountLow());
         	java.util.Collections.sort(allVehical,new VehicleVMComparatorCountLow());
     	}
     	
     	if(filterBy.equals("priceHigh")){
-    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorPriceHigh());
+    		//java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorPriceHigh());
         	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorPriceHigh());
         	java.util.Collections.sort(allVehical,new VehicleVMComparatorPriceHigh());
     	}else if(filterBy.equals("priceLow")){
-    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorPriceLow());
+    		//java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorPriceLow());
         	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorPriceLow());
         	java.util.Collections.sort(allVehical,new VehicleVMComparatorPriceLow());
     	}
     	if(filterBy.equals("followerHigh")){
-    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorFollowerHigh());
+    		//java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorFollowerHigh());
         	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorFollowerHigh());
         	java.util.Collections.sort(allVehical,new VehicleVMComparatorFollowerHigh());
     	}else if(filterBy.equals("followerLow")){
-    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorFollowerLow());
+    		//java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorFollowerLow());
         	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorFollowerLow());
         	java.util.Collections.sort(allVehical,new VehicleVMComparatorFollowerLow());
     	}
     	
     	if(filterBy.equals("leadsHigh")){
-    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorLeadsHigh());
+    		//java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorLeadsHigh());
         	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorLeadsHigh());
         	java.util.Collections.sort(allVehical,new VehicleVMComparatorLeadsHigh());
     	}else if(filterBy.equals("leadsLow")){
-    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorLeadsLow());
+    		//java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorLeadsLow());
         	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorLeadsLow());
         	java.util.Collections.sort(allVehical,new VehicleVMComparatorLeadsLow());
     	}
-    	
-    	
-    	
-    	
-    	result.put("worstVisited", worstVisitedVms);
+    	//result.put("worstVisited", worstVisitedVms);
     	result.put("topVisited", topVisitedVms);
     	result.put("allVehical", allVehical);
     }
@@ -22332,6 +22140,22 @@ private static void salesPersonPlanMail(Map map) {
     	}	
     }
 	
+    public static Result setProductName(String vin , String name){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		Long id = Long.parseLong(vin) ;
+    		
+    		AuthUser user = getLocalUser();
+	    	Product pro = Product.findById(id);
+	    	if(pro != null) {
+		    	pro.setPrimaryTitle(name);
+		    	pro.update();
+	    	}
+	    	return ok();
+    	}	
+    }
+    
 	public static Result updateUserComment(Integer id , String comment){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));

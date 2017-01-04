@@ -129,4 +129,7 @@ public class ProductImages extends Model {
 	public static ProductImages getDefaultImg(Long pId) {
 		return find.where().eq("product.id", pId).eq("defaultImage", 1).findUnique();
 	}
+	public static ProductImages getDefaultImgData(Long id2) {
+		return find.where().eq("id", id2).findUnique();
+	}
 }

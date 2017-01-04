@@ -104,7 +104,7 @@ angular.module('newApp')
 				
 				for(var i=0;i<$scope.imageList.length;i++) {
 					if($scope.imageList[i].id == image.id) {
-						$http.get('/removeDefaultProduct/'+image.id)
+						$http.get('/removeDefaultImageProd/'+image.id)
 						.success(function(data) {
 						});
 						//$('#'+image.id).removeAttr("style","");
