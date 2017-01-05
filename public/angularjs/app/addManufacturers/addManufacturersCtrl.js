@@ -258,7 +258,7 @@ angular.module('newApp')
 		    maxSizeY: null, // maximum row height of an item
 		   */
 			    draggable: {
-				       enabled: false, // whether dragging items is supported
+				       enabled: true, // whether dragging items is supported
 				       handle: '.my-class', // optional selector for resize handle
 				       start: function(event, $element, widget) { }, // optional callback fired when drag is started,
 				       drag: function(event, $element, widget) { }, // optional callback fired when item is moved,
@@ -272,15 +272,28 @@ angular.module('newApp')
 				    		   delete $scope.imageList[i].width;
 				    		   delete $scope.imageList[i].height;
 				    		   delete $scope.imageList[i].link;
+				    		   delete $scope.imageList[i].findNewId;
+				    		   delete $scope.imageList[i].findNewId;
+				    		   delete $scope.imageList[i].findNewId;
+				    		   
 				    	   }
-				    	 /*  $http.post('/savePosition',$scope.imageList)
+				    	  
+				    	   $scope.newObjArray = [];
+				    	   angular.forEach($scope.imageList, function(value, key) {
+				    		   $scope.newObj = {};
+				    		   $scope.newObj.id = value.id;
+				    		   $scope.newObj.srNumber = value.col;
+				    		   $scope.newObjArray.push($scope.newObj);
+				    	   });
+				    	   console.log($scope.newObjArray);
+				    	   $http.post('/savePosition',$scope.newObjArray)
 					   		.success(function(data) {
 					   			$.pnotify({
 								    title: "Success",
 								    type:'success',
 								    text: "Position saved successfully",
 								});
-					   		});*/
+					   		});
 				    	   
 				       } // optional callback fired when item is finished dragging
 				    }

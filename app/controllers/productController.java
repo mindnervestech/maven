@@ -613,7 +613,19 @@ public class productController extends Controller {
 						vImage.path = vImage.path.replaceAll(" ","%20");
 						vImage.thumbPath = "/"+id+"-"+userObj.id+"/"+"thumbnail_"+fileName;
 						vImage.thumbPath = vImage.thumbPath.replaceAll(" ","%20");
+						List<CollectionImages> lengthOfList = CollectionImages.getByCollectionImg(AddCollection.findById(id));
+						if(lengthOfList.size() == 0){
+							vImage.srNumber = 0;
+						}else if(lengthOfList.size() == 1){
+							vImage.srNumber = 1;
+						}else if(lengthOfList.size() == 2){
+							vImage.srNumber = 2;
+						}else{
+							vImage.srNumber = 0;
+						}
 						vImage.user = userObj;
+						
+						
 						vImage.save();
 						
 						/*try {

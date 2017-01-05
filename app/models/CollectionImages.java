@@ -21,6 +21,7 @@ public class CollectionImages extends Model {
 	public String imageName;
 	public boolean defaultImage;
 	public String title;
+	public int srNumber;
 	public String description;
 	
 	@ManyToOne
@@ -45,6 +46,14 @@ public class CollectionImages extends Model {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getSrNumber() {
+		return srNumber;
+	}
+
+	public void setSrNumber(int srNumber) {
+		this.srNumber = srNumber;
 	}
 
 	public Long getId() {

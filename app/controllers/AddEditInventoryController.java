@@ -27,6 +27,7 @@ import javax.mail.internet.MimeMultipart;
 
 import models.AddCollection;
 import models.AuthUser;
+import models.CollectionImages;
 import models.CustomizationInventory;
 import models.EmailDetails;
 import models.FeaturedImageConfig;
@@ -550,9 +551,9 @@ public class AddEditInventoryController extends Controller {
 		    	JsonNode nodes = ctx().request().body().asJson();
 		    	ObjectMapper mapper = new ObjectMapper();
 		    	try {
-		    		List<InventoryImage> images = mapper.readValue(nodes.toString(), new TypeReference<List<InventoryImage>>() {});
+		    		List<CollectionImages> images = mapper.readValue(nodes.toString(), new TypeReference<List<CollectionImages>>() {});
 					
-			    	for(InventoryImage image : images) {
+			    	for(CollectionImages image : images) {
 			    		image.update();
 			    	}
 				} catch (JsonParseException e) {
