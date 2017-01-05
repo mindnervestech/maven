@@ -826,6 +826,7 @@ angular.module('newApp')
 	
 	$scope.addMainCoverPage = function(){
 		$location.path('/addAdditionalColl');
+		$location.path('/coverImage/'+0+'/'+0);
 	}
 	
 	$scope.customerRequest = function() {

@@ -303,9 +303,15 @@ angular.module('newApp')
 		   }
 	   });
 	   $scope.uploadFiles = function() {
-		   Dropzone.autoDiscover = false;
-		   myDropzone.processQueue();
-		   //$location.path('/viewInventory');
+		   console.log($scope.imageList);
+		   console.log($scope.imageList.length);
+		   if($scope.imageList.length < 3){
+			   Dropzone.autoDiscover = false;
+			   myDropzone.processQueue();
+		   }else{
+			   $('#msgModal').modal('show');
+		   }
+		
 	   }
 	   $scope.uploadFilesDreft = function(){
 		   $scope.object = {};
@@ -413,10 +419,10 @@ angular.module('newApp')
 				if($scope.valuepul == 0){
 					$scope.showDefaultMsg = 1;
 				}
-				if($scope.showDefaultMsg == 0 ){
+				/*if($scope.showDefaultMsg == 0 ){
 					 $('#msgModal').modal();
-				}
-				if(data.length < 2 ){
+				}*/
+				if(data.length != 3 ){
 					 $('#msgModal').modal();
 				}
 				$scope.imageList = data;

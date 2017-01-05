@@ -98,22 +98,34 @@ angular.module('newApp')
 		
 		   $scope.pathId = {};
 		   $scope.uploadFiles = function() {
-			   angular.forEach($scope.imageList, function(value, key) {
-				   $scope.pathId = value.path;
-			   });
-			   if($scope.pathId == null){
-				   Dropzone.autoDiscover = false;
-				   myDropzone.processQueue();
-				   $scope.init();
-			   }
-			   else{
-				   console.log("cover image already exit");
+			   
+			   if($routeParams.collId != 0){
+				   console.log($scope.imageList);
+				   angular.forEach($scope.imageList, function(value, key) {
+					   $scope.pathId = value.path;
+				   });
+				   
+				   if($scope.pathId == null){
+					   Dropzone.autoDiscover = false;
+					   myDropzone.processQueue();
+					   $scope.init();
+					   //$location.path('/inventoryManagement')
+				   }else{
+					   console.log("cover image already exit");
+					   $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Cover image already exit. If you want to add cover image before remove existing image",
+						});
+				   }
+			   }else{
 				   $.pnotify({
 					    title: "Success",
 					    type:'success',
-					    text: "Cover image already exit. If you want to add cover image before remove existing image",
+					    text: "First Save Main Collection Title",
 					});
 			   }
+			  
 			   //$location.path('/viewInventory');
 		   }
 		   
@@ -264,11 +276,17 @@ angular.module('newApp')
 				console.log($scope.collData);
 				 $http.post('/updateCollById',$scope.collData)
 			   		.success(function(data) {
+			   			console.log(data);
 			   			$.pnotify({
 						    title: "Success",
 						    type:'success',
 						    text: "Collection updated successfully",
 						});
+			   			if($routeParams.collId == 0){
+			   				$location.path('/coverImage/'+data.id+'/'+0);
+			   				
+			   			}
+			   			
 			   		})
 			}
 			
