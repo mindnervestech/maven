@@ -945,8 +945,23 @@ public class productController extends Controller {
 			 if(coll != null){
 				 coll.setCollection(vm.collection);
 				 coll.update();
+				 return ok(Json.toJson(coll));
+			 }else{
+				 Boolean flag = false; 
+				 InventorySetting cSetting = new InventorySetting();
+				 List<InventorySetting> iSetting = InventorySetting.getAllCollection();
+				 for(InventorySetting iv:iSetting){
+					 flag = iv.enableInven;
+					 break;
+				 }
+				 cSetting.setEnableInven(flag);
+				 cSetting.setCollection(vm.collection);
+				 cSetting.setHideWebsite(false);
+				 cSetting.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+				 cSetting.save();
+				 return ok(Json.toJson(cSetting));
 			 }
-			 return ok();
+			 
 	  }	
 	  
 		 public static Result uploadCollectionImg() {
