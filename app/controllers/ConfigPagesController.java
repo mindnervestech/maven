@@ -2001,4 +2001,19 @@ public class ConfigPagesController extends Controller{
 				result.put("collollection", collollection);
 		    	//result.put("allVehical", allVehical);
 			}
+		    
+		    public static Result saveCollections() {
+				Form<InventorySettingVM> form = DynamicForm.form(InventorySettingVM.class).bindFromRequest();
+				InventorySettingVM vm=form.get();
+				
+				InventorySetting lead = new InventorySetting();
+				    	 
+		    	   lead.collection = vm.collection;
+		    	   lead.enableInven = vm.enableInven;
+		    	   lead.hideWebsite = vm.hideWebsite;
+		    	   lead.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    	   lead.save();
+		   		
+		    	   return ok();
+		    }
 }
