@@ -12721,6 +12721,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			/*product.setSale("sale");*/
 	    			product.setSoldDate(date);
 	    			product.setSoldUser(user);
+	    			product.setStatus("Sold");
 	    			product.setPrice(Integer.parseInt(vm.price));
 	    			product.update();
 	    		}

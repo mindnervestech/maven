@@ -279,4 +279,20 @@ angular.module('newApp')
 					$scope.collection = data.collection;
 				});
 			}
+			
+			$scope.collec = {};
+			$scope.saveMainCollect = function(coll){
+				console.log(coll);
+				$scope.collec.enableInven = true;
+				$scope.collec.hideWebsite = false;
+				$scope.collec.collection = coll;
+				$http.post('/saveCollections',$scope.collec)
+			   		.success(function(data) {
+			   			$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Collection saved successfully",
+						});
+			   		})
+			}
 	}]);

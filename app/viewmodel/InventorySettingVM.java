@@ -10,4 +10,5 @@ public class InventorySettingVM {
 	public List<InventorySettingVM> addMainCollFields;
 	public List<UserVM> userData;
 	public boolean hideWebsite;
+	public String status;
 }

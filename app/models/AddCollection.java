@@ -382,4 +382,7 @@ public class AddCollection extends Model {
 	public static List<AddCollection> findByUserAndNew(AuthUser user) {
 		return find.where().eq("user", user).eq("status", "Newly Arrived").findList();
 	}
+	public static List<AddCollection> getAllProductByIdColl(Long id) {
+		return find.where().eq("mainCollection.id", id).findList();
+	}
 }

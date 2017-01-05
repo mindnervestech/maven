@@ -220,4 +220,7 @@ public class Product extends Model {
 	public static Product getDefaultImg(Long id2) {
 		return find.where().eq("id", id2).findUnique();
 	}
+	public static List<Product> getAllProductByIdMain(Long id) {
+		return find.where().eq("mainCollection.id", id).findList();
+	}
 }

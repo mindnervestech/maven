@@ -875,4 +875,12 @@ angular.module('app.apiserviceConfigPage', [])
 		});
 		return defer.promise;
 	};
+	
+	this.mainCollIdByData=function(id){
+		var defer = $q.defer();
+		$http.get('/mainCollIdByData/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 })

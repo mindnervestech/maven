@@ -132,6 +132,11 @@ var MakeApp = angular
             templateUrl: 'dealer/config/coverImage.html',
             controller: 'CoverImageCtrl'
         })
+        .when('/addAdditionalColl', {
+            templateUrl: 'dealer/config/addAdditionalColl.html',
+            controller: 'CoverImageCtrl'
+        })
+        
         
         .when('/myCalendar', {
             templateUrl: 'dealer/myCalendar/myCalendar.html',

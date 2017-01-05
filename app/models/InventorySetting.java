@@ -19,6 +19,7 @@ public class InventorySetting extends Model {
 	public String path;
 	public String thumbPath;
 	public String imageName;
+	public String status;
 	@ManyToOne
 	public Location locations;
 
@@ -31,6 +32,12 @@ public class InventorySetting extends Model {
 
 	
 	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public String getPath() {
 		return path;
 	}
@@ -88,7 +95,7 @@ public class InventorySetting extends Model {
 		return find.all();
 	}
 	public static List<InventorySetting> findByLocation(Long location) {
-		return find.where().eq("locations.id", location).findList();
+		return find.where().eq("locations.id", location).eq("status", null).findList();
 	}
 	public static InventorySetting getByImagePath(String path) {
 		return find.where().eq("path", path).findUnique();

@@ -34,7 +34,7 @@
 						<input type="text"placeholder="Name Your Collection" name="abc{{value.id}}" class="form-control form-white"ng-model="value.collection" required>
 					</div>
 					<div class="col-sm-2">
-						<h4 ng-click="addCoverImg(value)"><b><a>Add Cover image</a></b></h4>
+						<h4 ng-click="addCoverImg(value)"><b><a>Edit Cover image</a></b></h4>
 					</div>
 					<div class="col-sm-6">
 						<i class="fa fa-close" title="delete" ng-click="deleteMainColl(value)" style="cursor: pointer;"></i>
@@ -42,8 +42,9 @@
 				</div>
 				<div class="col-sm-12">
 					<span class="col-sm-2 col-sm-offset-2" ng-if="addCollFrm.$invalid" style="color:orange">plaese enter collection name</span>
-				</div>				
-				<h4 style="margin-top: 10px;" ng-click="addMainColllection()"><b><a>Add an additional main collection</a></b></h4>
+				</div>	
+				<!-- ng-click="addMainColllection()" -->			
+				<h4 style="margin-top: 10px;" ng-click="addMainCoverPage()"><b><a>Add an additional main collection</a></b></h4>
 				<button  type="submit" ng-disabled="addCollFrm.$invalid" ng-if="collectionFlag == 1" class="btn btn-primary">Save</button>
 			</form>
 		</div>
@@ -72,12 +73,39 @@
             		<div class="modal-header">
             		</div>
             		<form ng-submit="deletMainCollection()">
-            			<div class="modal-body">
-            				<h4 class="modal-title">Are you sure you want to delete main collection ?</h4>
+            			<div class="modal-body" ng-if="collDataList.length == 0">
+            				<h4 class="modal-title">Are you sure. You want to delete this Main Collection ? </h4>
+            			
             			</div>
+            		
+            			<div class="modal-body" ng-if="collDataList.length != 0">
+            				<h4 class="modal-title">This main collection currently has live collections or products, proceeding will
+								erase all of the data. Consider moving all of the items to other collections.</h4>
+            			<div class="col-sm-6">
+            			<table style="width:60%;border:none;">
+								<tr style="height: 30px;">
+									<td style="width:10%;border:none;"><u>Collection</u></td>
+								</tr>
+								<tr ng-repeat="item in collDataList">
+									<td style="border:none;">*{{item.title}}</td>
+								</tr>
+							</table>
+            			</div>
+            			</div>
+            			
+            			<!-- <div class="col-sm-6">
+            			<table style="width:60%">
+								<tr style="height: 30px;">
+									<td style="text-align: center;width:10%">Product</td>
+								</tr>
+								<tr ng-repeat="pro in productDataList">
+									<td>{{pro.primaryTitle}}</td>
+								</tr>
+							</table>
+            			</div> -->
             			<div class="modal-footer">
-            				<button type="submit" class="btn btn-primary btn-embossed">Yes</button>
-                			<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+            				<button type="submit" class="btn btn-primary btn-embossed">Proceed</button>
+                			<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
             			</div>
             		</form>
         		</div>

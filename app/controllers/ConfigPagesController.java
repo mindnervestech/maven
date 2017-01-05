@@ -1,6 +1,8 @@
 package controllers;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
+import models.AddCollection;
+import models.AddProduct;
 import models.AuthUser;
 import models.AutoPortal;
 import models.CoverImage;
@@ -36,6 +42,7 @@ import models.OutcomeMenu;
 import models.Permission;
 import models.PhotographerHoursOfOperation;
 import models.PremiumLeads;
+import models.Product;
 import models.RequestMoreInfo;
 import models.SalesPersonZipCode;
 import models.Site;
@@ -73,6 +80,7 @@ import viewmodel.UserVM;
 import viewmodel.WebAnalyticsVM;
 import viewmodel.ZipCodeVM;
 import viewmodel.domainVM;
+import views.html.home;
 
 public class ConfigPagesController extends Controller{
 	
@@ -1895,12 +1903,14 @@ public class ConfigPagesController extends Controller{
 	    				InventorySetting inventory = new InventorySetting();
 		    			inventory.collection = inven.collection;
 		    			inventory.enableInven = true;
+		    			inventory.hideWebsite = false;
 		    			inventory.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    			inventory.save();
 	    			}else{
 	    				InventorySetting inventory = InventorySetting.findById(inven.id);
 		    			inventory.setCollection(inven.collection);
 		    			inventory.setEnableInven(inven.enableInven);
+						inventory.setHideWebsite(false);
 		    			inventory.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 		    			inventory.update();
 	    			}	    			
@@ -1924,20 +1934,33 @@ public class ConfigPagesController extends Controller{
 	    		return ok();
 	    	}
 		    
-		   public static Result deleteMainCollectionType(){
+		  /* public static Result deleteMainCollectionType(){
 				List<InventorySetting> custList = InventorySetting.getAllCollection();
 				for(InventorySetting delList:custList){
-					delList.delete();
+					delList.setStatus("DELETE");
+					delList.update();
 				}
 				return ok();
-			}
+			}*/
 		   
 		   public static Result deleteOneMainCollection(){
 		    	Form<InventorySettingVM> form = DynamicForm.form(InventorySettingVM.class).bindFromRequest();
-	    		InventorySettingVM vm = form.get();	    		
+	    		InventorySettingVM vm = form.get();	  
+	    		List<Product> pro = Product.getAllProductByIdMain(vm.id);
+	    		for(Product product: pro){
+	    			product.setPublicStatus("deleted");
+	    			product.update();
+	    		}
+	    		List<AddCollection> collection = AddCollection.getAllProductByIdColl(vm.id);
+	    		for(AddCollection coll: collection){
+	    			coll.setPublicStatus("deleted");
+	    			coll.update();
+	    		}
+
 	    		try {
 					InventorySetting inv = InventorySetting.findById(vm.id);
-					inv.delete();
+					inv.setStatus("deleted");
+					inv.update();
 					return ok();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1961,5 +1984,21 @@ public class ConfigPagesController extends Controller{
 				List<InventorySetting> lead = InventorySetting.findByLocation(Long.valueOf(session("USER_LOCATION")));
 				return ok(Json.toJson(lead)); 
 				
+			}
+		    
+		    public static Result mainCollIdByData(Long id) throws IOException {
+		    	Map result = new HashMap(3);
+		    	//List<Product> pro = Product.getAllProductByIdMain(id);
+				getAddCollAndProduct(id ,result);
+				return ok(Json.toJson(result));
+			}
+		    
+		    public static void getAddCollAndProduct(Long id, Map result) throws IOException {
+				List<Product> product = Product.getAllProductByIdMain(id);
+				List<AddCollection> collollection = AddCollection.getAllProductByIdColl(id);
+				
+				result.put("product", product);
+				result.put("collollection", collollection);
+		    	//result.put("allVehical", allVehical);
 			}
 }

@@ -824,6 +824,10 @@ angular.module('newApp')
 		$location.path('/coverImage/'+$routeParams.collId+'/'+$routeParams.collFlag);
 	}
 	
+	$scope.addMainCoverPage = function(){
+		$location.path('/addAdditionalColl');
+	}
+	
 	$scope.customerRequest = function() {
 		$location.path('/customerRequest');
 	}
@@ -2179,7 +2183,23 @@ angular.module('newApp')
 		});
 	}
 	
+	$scope.collDataList = [];
+	$scope.productDataList = [];
+	$scope.mainCollIdByData = function(){
+		console.log($scope.objData.id);
+		apiserviceConfigPage.mainCollIdByData($scope.objData.id).then(function(data){
+			console.log(data);
+			$scope.collDataList = data.collollection;
+			$scope.productDataList = data.product;
+			console.log($scope.collDataList);
+			console.log($scope.productDataList);
+		});
+	}
+	
 	$scope.deleteMainColl = function(obj){
+		console.log(obj);
+		$scope.objData = obj;
+		$scope.mainCollIdByData(); 
 		angular.forEach($scope.addMainCollFields, function(value, index){
 			if(obj == value){
 				if(value.id == null){
