@@ -821,12 +821,12 @@ angular.module('newApp')
 		$routeParams.collFlag = 1;
 		$routeParams.collId = value.id;
 		console.log($routeParams.collId);
-		$location.path('/coverImage/'+$routeParams.collId+'/'+$routeParams.collFlag);
+		$location.path('/coverImage/'+$routeParams.collId+'/'+$routeParams.collFlag+"/setting");
 	}
 	
 	$scope.addMainCoverPage = function(){
 		$location.path('/addAdditionalColl');
-		$location.path('/coverImage/'+0+'/'+0);
+		$location.path('/coverImage/'+0+'/'+0+"/setting");
 	}
 	
 	$scope.customerRequest = function() {

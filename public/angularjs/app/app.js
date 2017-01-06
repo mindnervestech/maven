@@ -128,7 +128,7 @@ var MakeApp = angular
             controller: 'updateProductCtrl'
         })
         
-        .when('/coverImage/:collId/:collFlag', {
+        .when('/coverImage/:collId/:collFlag/:entry', {
             templateUrl: 'dealer/config/coverImage.html',
             controller: 'CoverImageCtrl'
         })

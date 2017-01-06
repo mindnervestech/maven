@@ -15,7 +15,9 @@ angular.module('newApp')
 		});
 	}
 	
-	
+	$scope.addMainCollection = function(){
+		$location.path('/coverImage/'+0+"/"+0+"/menu");
+	}
 	
 	$scope.getAllInventory();
 	
@@ -480,7 +482,7 @@ angular.module('newApp')
     			 $scope.EditMainCollectioName = function(coll){
     				 console.log(coll);
     				 $routeParams.collFlag = 0;
-    				 $location.path('/coverImage/'+coll.id+'/'+$routeParams.collFlag);
+    				 $location.path('/coverImage/'+coll.id+'/'+$routeParams.collFlag+"/menu");
     			 }
     			 
     			 $scope.hideVehicle = function(row){
@@ -592,6 +594,7 @@ angular.module('newApp')
     				
     				
     		    			 $scope.newlyArrivedTab = function() {
+    		    				 $scope.addObj = "collection";
     		    				 $scope.flagForUser = true;
     		    				 $scope.gridOptions.data = [];
     		    				 $scope.doPublic = 0;
@@ -644,6 +647,7 @@ angular.module('newApp')
     		    			 }
     		    			 
     		    			 $scope.productTab = function(status) {
+    		    				 $scope.addObj = "product";
     		    				 $scope.ch = false;
     		    				 $scope.doPublic = 4;
     		    				 $scope.flagForUser = true;

@@ -62,7 +62,7 @@ angular.module('newApp')
 			};
 		
 		var myDropzone = new Dropzone("#dropzoneFrm",{
-			   parallelUploads: 30,
+			   parallelUploads: 1,
 			   headers: { "id": $routeParams.collId },
 			   acceptedFiles:"image/*",
 			   addRemoveLinks:true,
@@ -75,13 +75,17 @@ angular.module('newApp')
 				  },
 			   init:function () {
 				   this.on("queuecomplete", function (file) {
-					  
+					     
+					   $scope.init();
+				          $scope.$apply();
+				      
 				      });
 				   this.on("thumbnail", function(file) {
 					   		console.log(file);
 					   		if (file.width < 1440 || file.height < 920) {
+					   			
 					   			$('#sliderMsg').modal('show');
-					   			//file.rejectDimensions()
+					   			file.rejectDimensions();
 						     }
 					   		
 						     else {
@@ -90,8 +94,8 @@ angular.module('newApp')
 					    });
 				   this.on("complete", function() {
 					   this.removeAllFiles();
-					   $scope.init();
-					   $route.reload();
+					   //$scope.init();
+					   //$route.reload();
 				   });
 			   }
 		   });
@@ -109,6 +113,11 @@ angular.module('newApp')
 					   Dropzone.autoDiscover = false;
 					   myDropzone.processQueue();
 					   $scope.init();
+					   if($routeParams.entry == "menu"){
+						   $location.path('/viewInventory');
+					   }else if($routeParams.entry == "setting"){
+						   $location.path('/inventoryManagement');
+					   }
 					   //$location.path('/inventoryManagement')
 				   }else{
 					   console.log("cover image already exit");
@@ -283,7 +292,7 @@ angular.module('newApp')
 						    text: "Collection updated successfully",
 						});
 			   			if($routeParams.collId == 0){
-			   				$location.path('/coverImage/'+data.id+'/'+0);
+			   				$location.path('/coverImage/'+data.id+'/'+0+"/"+$routeParams.entry);
 			   				
 			   			}
 			   			
