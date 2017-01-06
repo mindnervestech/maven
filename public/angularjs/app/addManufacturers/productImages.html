@@ -2,8 +2,8 @@
 <!-- <p><font color="red"><strong>Warning Tip :</strong> You must crop images after uploading to keep the website's image grid consistent.</font></p> -->
 <br><br>
 <div ng-init="init()">
-
-<div gridster="gridsterOpts">
+ <div class="col-sm-12">
+<div gridster="gridsterOpts" class="col-sm-7">
 				                    	<ul>
 				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" 
 				                    			data-sizex="1" data-sizey="1" ng-repeat="image in imageList"
@@ -21,6 +21,7 @@
 				                        	</li>
 				                        </ul>
 				                        </div>
+				                   </div>     
 
  <div class="form-group col-sm-12">
 <div>

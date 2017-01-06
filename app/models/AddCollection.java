@@ -323,7 +323,9 @@ public class AddCollection extends Model {
 	public static List<AddCollection> getProduct(Long location) {
 		return find.where().ne("publicStatus", "deleted").orderBy("order_index").findList();		
 	}
-	
+	public static List<AddCollection> getProductParent(Long location) {
+		return find.where().ne("publicStatus", "deleted").eq("parent_id", null).orderBy("order_index").findList();		
+	}
 	public static AddCollection findByProductIdOne(String productname,Location location) {
 		return find.where().eq("title", productname).ne("sale", "sale").findUnique();
 	}

@@ -857,6 +857,8 @@ public class InventoryController extends Controller {
 		    		vm.defaultImage = image.defaultImage;
 		    		vm.description = image.description;
 		    		vm.title = image.title;
+		    		vm.col = image.srNumber;
+		    		vm.row = 1;
 		    		vmList.add(vm);
 		    	}
 		    	return ok(Json.toJson(vmList));
@@ -1112,7 +1114,8 @@ public class InventoryController extends Controller {
 		}
 
 	   public static Result getAllProductData(String status) {
-			List<AddCollection> pList = AddCollection.getProduct(Long.valueOf(session("USER_LOCATION")));
+			//List<AddCollection> pList = AddCollection.getProduct(Long.valueOf(session("USER_LOCATION")));
+		   List<AddCollection> pList = AddCollection.getProductParent(Long.valueOf(session("USER_LOCATION")));
 			List<AddCollectionVM> aList = new ArrayList<AddCollectionVM>();
 			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 			for(AddCollection aProduct:pList){
