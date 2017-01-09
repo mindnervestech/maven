@@ -21,6 +21,7 @@ var MakeApp = angular
     'ui.grid',
     'ui.grid.edit',
     'ui.grid.pagination',
+    'ui.grid.expandable',
     'angularFileUpload',
     'ngAutocomplete',
     'angucomplete',

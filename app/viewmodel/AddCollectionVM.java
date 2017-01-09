@@ -33,6 +33,16 @@ public class AddCollectionVM {
 	public List<UserVM> userData;
 	public int countProduct;
 	public InventorySetting mainCollection;	
+	public String year;
+	public String designer;
+	public double price;
+	public double cost;
+	public String path;
+	public Long id;
+	public String imageName;
+	public String collectionTitle;
+	public List<AddCollectionVM> subCollection;
+	
 	
 	public InventorySetting getMainCollection() {
 		return mainCollection;
@@ -85,8 +95,6 @@ public class AddCollectionVM {
 	public void setDesigner(String designer) {
 		this.designer = designer;
 	}
-	public String year;
-	public String designer;
 	
 	public String getNewFlag() {
 		return newFlag;
@@ -119,8 +127,7 @@ public class AddCollectionVM {
 	public void setSale(String sale) {
 		this.sale = sale;
 	}
-	public double price;
-	public double cost;
+	
 	public double getCost() {
 		return cost;
 	}
@@ -133,10 +140,7 @@ public class AddCollectionVM {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	public String path;
-	public Long id;
-	public String imageName;
-	public String collectionTitle;
+	
 	public String getTitle() {
 		return title;
 	}

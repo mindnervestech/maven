@@ -1029,13 +1029,15 @@ public class InventoryController extends Controller {
 		   List<AddCollection> pList = new ArrayList<>();
 		   if(collId != null){
 			   InventorySetting mainCollection = InventorySetting.findById(collId);
-			   pList = AddCollection.getProductByStatusMainColl(Long.valueOf(session("USER_LOCATION")), status,mainCollection);
+			   //pList = AddCollection.getProductByStatusMainColl(Long.valueOf(session("USER_LOCATION")), status,mainCollection);
+			   pList = AddCollection.getProductByStatusMainCollData(Long.valueOf(session("USER_LOCATION")), status,mainCollection);
 		   }else{
-			    pList = AddCollection.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
+			    //pList = AddCollection.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
+			    pList = AddCollection.getProductByStatusMain(Long.valueOf(session("USER_LOCATION")), status);
 		   }
-			
 			List<AddCollectionVM> aList = new ArrayList<AddCollectionVM>();
 			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			
 			for(AddCollection aProduct:pList){
 				AddCollectionVM aVm = new AddCollectionVM();
 				aVm.title = aProduct.title;
@@ -1055,27 +1057,33 @@ public class InventoryController extends Controller {
 				
 				String params = "&date=last-28-days&type=visitors-list&limit=all";
 		    	Long visitorCount = 0l;
-		    	
-        		/*try {
-    				JSONArray jsonArray = new JSONArray(Application.callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
-    				for(int j=0;j<jsonArray.length();j++){
-    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
-    	    			String arr[] = data.split("/");
-    	    			
-    	    					  visitorCount = visitorCount + 1;
-    	    				 
-    				}	
-    				
-    			} catch (Exception e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			}*/
 		    	aVm.pageViewCount = visitorCount;
-				
+		    	List<AddCollectionVM> aCollectionVMs = new ArrayList<AddCollectionVM>();
+		    	List<AddCollection> aCollection =  AddCollection.getProductByParentIdStuts(aVm.id,status);
+		    	for(AddCollection aColl:aCollection){
+		    		AddCollectionVM aVmSub = new AddCollectionVM();
+		    		aVmSub.title = aColl.title;
+		    		aVmSub.description = aColl.description;
+		    		aVmSub.fileName = aColl.fileName;
+		    		aVmSub.id = aColl.id;
+		    		aVmSub.orderIndex = aColl.orderIndex;
+		    		aVmSub.hideWebsite = aColl.hideWebsite;
+					if(aColl.addedDate != null){
+						aVmSub.addedDate = df.format(aColl.addedDate);
+					}
+					List<Product> products =Product.getAllProductById(aColl.id);
+					aVmSub.countProduct = products.size();
+					aVmSub.publicStatus = aColl.publicStatus;
+					List<CollectionImages> collImages = CollectionImages.getByProduct(aColl); 
+					aVmSub.countImages = collImages.size();
+					aCollectionVMs.add(aVmSub);
+		    	}
+		    	aVm.subCollection = aCollectionVMs;
 				aList.add(aVm);
 			}
 			return ok(Json.toJson(aList));
 		}
+	   
 	   
 	   public static Result getAllProduct(String status, Long collId, String date) {
 		   List<Product> pList = new ArrayList<>();

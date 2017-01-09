@@ -45,7 +45,7 @@
         <button ng-sec="Only View Inventory" type="button" id="comparisonSale" class="btn btn-blue" ng-click="addManufacturers()">+ ADD</button>
      </div>  
     <div  ng-if="doPublic == 0">
-     	<div id="grid1" ui-grid="gridOptions" class="grid"  style="height:500px;" ui-grid-edit ui-grid-pagination></div>
+     	<div id="grid1" ui-grid="gridOptions" class="grid"  style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-expandable></div>
 	</div>         
 	<div ng-if="doPublic == 1">
 		<div id="grid1" ui-grid="gridOptions1" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-draggable-rows></div>
@@ -447,6 +447,7 @@
 </div>      
 <style>
 .green {color: red;background-color:yellow !important;}
+
 </style>    
 <script>
 	/*$(document).ready(function(){

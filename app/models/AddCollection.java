@@ -314,12 +314,24 @@ public class AddCollection extends Model {
 	public static List<AddCollection> getProductByParentId(Long id) {
 		return find.where().eq("parentId", id).findList();		
 	}
+	public static List<AddCollection> getProductByParentIdStuts(Long id,String status) {
+		return find.where().eq("publicStatus", status).eq("parentId", id).findList();		
+	}
+	
 	public static List<AddCollection> getProductByStatus(Long location, String status) {
 		return find.where().eq("publicStatus", status).orderBy("order_index").findList();		
 	}
+	public static List<AddCollection> getProductByStatusMain(Long location, String status) {
+		return find.where().eq("publicStatus", status).eq("parent_id", null).orderBy("order_index").findList();		
+	}
+	
 	public static List<AddCollection> getProductByStatusMainColl(Long location, String status,InventorySetting coll) {
 		return find.where().eq("mainCollection", coll).eq("publicStatus", status).orderBy("order_index").findList();		
 	}
+	public static List<AddCollection> getProductByStatusMainCollData(Long location, String status,InventorySetting coll) {
+		return find.where().eq("mainCollection", coll).eq("publicStatus", status).eq("parent_id", null).orderBy("order_index").findList();		
+	}
+	
 	public static List<AddCollection> getProduct(Long location) {
 		return find.where().ne("publicStatus", "deleted").orderBy("order_index").findList();		
 	}

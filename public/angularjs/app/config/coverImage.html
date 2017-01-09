@@ -2,17 +2,17 @@
 <!-- <p><font color="red"><strong>Warning Tip :</strong> You must crop images after uploading to keep the website's image grid consistent.</font></p> -->
 <br><br>
 		<div ng-if="colllectionFlag != 1" class="form-group col-sm-12" style="margin-top: -35px;">
-   			<form name= "addCollFrm" ng-submit="editMainCollect(collection)">
+   			<form name= "addCollFrm">
 		 		<div class="col-sm-12">
 		 			<div class="col-sm-1">
 						<label>Title</label>
 					</div>
 					<div class="col-sm-3">
-						<input class="form-control form-white" type="text" placeholder="Name Your Collection" name="collection" class="form-control form-white" ng-model="collection" required>
+						<input class="form-control form-white" type="text" ng-blur="editMainCollect(collection)" placeholder="Name Your Collection" name="collection" class="form-control form-white" ng-model="collection" required>
 					</div>
-					<div class="col-sm-2">
+					<!-- <div class="col-sm-2">
 						<button  type="submit" class="btn btn-primary">Save</button>
-					</div>
+					</div> -->
 				</div>
 			</form>
 		</div>
