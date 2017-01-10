@@ -16579,12 +16579,23 @@ private static void cancelTestDriveMail(Map map) {
     		
     		AddCollection vehicleImage = AddCollection.getDefaultImg(vehicle.getId());
     		if(vehicleImage!=null) {
-    			analyticalVM.id = vehicleImage.getId();
-    			analyticalVM.isImage = true;
+    			if(vehicle.fileType != null){
+    				if(vehicle.fileType.equals("svg")){
+        				analyticalVM.defaultImagePath = vehicleImage.filePath;
+        			}else{
+        				analyticalVM.id = vehicleImage.getId();
+            			analyticalVM.isImage = true;
+        			}
+    			}else{
+    				analyticalVM.id = vehicleImage.getId();
+        			analyticalVM.isImage = true;
+    			}
+    			
     		}
     		else {
     			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
     		}
+    		analyticalVM.fileType = vehicle.fileType;
     		analyticalVM.id = vehicle.id;
     		analyticalVM.vin = vehicle.getId().toString();
     		analyticalVM.name=vehicle.getTitle();
@@ -16804,6 +16815,7 @@ private static void cancelTestDriveMail(Map map) {
     	public Long id;
     	public String vin;
     	public String stockNumber;
+    	public String fileType;
     	public Integer price;
     	public Integer followerCount;
     	public Integer leadsCount;

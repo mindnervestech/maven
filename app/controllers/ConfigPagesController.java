@@ -487,7 +487,7 @@ public class ConfigPagesController extends Controller{
 			 List<RequestMoreInfo> reInfo = RequestMoreInfo.findAllOtherLeadIdUser(leadId.toString(),user);
 			 boolean isDeleted = true;
 			 for (RequestMoreInfo rInfo : reInfo) {				
-				 if(!"CANCEL".equalsIgnoreCase(rInfo.getStatus()) && !"Sold".equalsIgnoreCase(rInfo.getStatus())){
+				 if(!"CANCEL".equalsIgnoreCase(rInfo.getStatus()) && !"Sold".equalsIgnoreCase(rInfo.getStatus()) && !"COMPLETE".equalsIgnoreCase(rInfo.getStatus())){
 					 isDeleted = false;
 					 break;
 				 }

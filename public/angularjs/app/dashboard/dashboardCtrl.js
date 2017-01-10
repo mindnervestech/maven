@@ -4421,13 +4421,16 @@ angular.module('newApp')
 		    				}
 		    				
 		    				
-		    				
 		    				if($scope.currentSelectedType==0) 
 		    					$scope.currentData = response.topVisited;
-		    				/*else if($scope.currentSelectedType==1)
-		    					$scope.currentData = response.worstVisited;*/
 		    				else if($scope.currentSelectedType==2)
 		    					$scope.currentData = response.allVehical;
+		    				
+		    				 angular.forEach($scope.currentData, function(obj, index){
+			    					if(obj.fileType == "svg"){
+			    						obj.defaultImagePath = $sce.trustAsHtml(obj.defaultImagePath);
+			    					 }
+			    				});
 		    			});
 		    					
 		    				});
@@ -4445,10 +4448,14 @@ angular.module('newApp')
 	    				
 	    				if($scope.currentSelectedType==0) 
 	    					$scope.currentData = response.topVisited;
-	    				/*else if($scope.currentSelectedType==1)
-	    					$scope.currentData = response.worstVisited;*/
 	    				else if($scope.currentSelectedType==2)
 	    					$scope.currentData = response.allVehical;
+	    				
+	    				 angular.forEach($scope.currentData, function(obj, index){
+		    					if(obj.fileType == "svg"){
+		    						obj.defaultImagePath = $sce.trustAsHtml(obj.defaultImagePath);
+		    					 }
+		    				});
 	    			});
 	    					
 	    			}
@@ -6947,7 +6954,7 @@ angular.module('newApp')
     		    	    		 
     		    	    		 $scope.schedulmultidatepicker();
     		    	    		 $scope.proceedToNext();
-    		    	    		 
+    		    	    		 $scope.getAllSalesPersonRecord($scope.salesPerson);
     		    	    		  $scope.reasonToCancel = "";
     		    				});
     		    	    	  	if($scope.actionSelectedLead.length == $scope.scheduLeadId.length){
