@@ -860,19 +860,7 @@ public class CustomersRequestController extends Controller {
 	    			String pref=info.preferredContact;
 	    			scheduleTestReleaseMail(vin,loc,confirmDate,confirmTime,pref,leadType,pdffilePath);
 				}
-				if(leadType.equals("Trade In")) {
-					TradeIn tradeIn = TradeIn.findById(id);
-					tradeIn.setPremiumFlag(0);
-					tradeIn.update();
-					String pdffilePath=tradeIn.pdfPath;
-					String vin=tradeIn.vin;
-	    			Location loc=tradeIn.locations;
-	    			String confirmDate=tradeIn.bestDay;
-	    			String confirmTime=tradeIn.bestTime;
-	    			String pref=tradeIn.preferredContact;
-	    			scheduleTestReleaseMail(vin,loc,confirmDate,confirmTime,pref,leadType,pdffilePath);
 				
-				}
 	    		return ok();
 	    	}
 	    }

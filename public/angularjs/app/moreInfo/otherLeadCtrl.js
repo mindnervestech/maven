@@ -129,10 +129,11 @@ angular.module('newApp')
 				$scope.josnData1 = [];
 				console.log("******************");
 				console.log($scope.gridOptions);
-			angular.forEach(angular.fromJson($scope.gridOptions.data[0].customizDataValue.jsonData),function(value,key){
-				$scope.josnData1.push(value);
-			});
-			
+				if($scope.gridOptions.data.length > 0){
+					angular.forEach(angular.fromJson($scope.gridOptions.data[0].customizDataValue.jsonData),function(value,key){
+						$scope.josnData1.push(value);
+					});
+				}
 			
 			console.log($scope.josnData1);
 			console.log($scope.gridOptions.data);
@@ -237,15 +238,15 @@ angular.module('newApp')
 	  apiserviceMoreInfo.requestInfoMarkRead(flag, id).then(function(data){
 	  
 			//$scope.gridOptions.data = data;
-			apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data){
+			apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data1){
 			
-				console.log(data);
-			$scope.gridOptions.data = data;
-			$scope.requsetMoreList = data;
-			if(data.length > 0){
-				$scope.userRole = data[0].userRole;
+				console.log(data1);
+			$scope.gridOptions.data = data1;
+			$scope.requsetMoreList = data1;
+			if(data1.length > 0){
+				$scope.userRole = data1[0].userRole;
 				if($scope.userRole == "Sales Person"){
-					$scope.premiumFlagForSale = data[0].premiumFlagForSale
+					$scope.premiumFlagForSale = data1[0].premiumFlagForSale
 				}
 			}
 		});
