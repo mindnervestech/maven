@@ -131,7 +131,7 @@ angular.module('newApp')
 				   $.pnotify({
 					    title: "Success",
 					    type:'success',
-					    text: "First Save Main Collection Title",
+					    text: "Main collection must have a title",
 					});
 			   }
 			  
@@ -283,7 +283,8 @@ angular.module('newApp')
 				$scope.collData.collection = collection;
 				$scope.collData.id = $routeParams.collId;
 				console.log($scope.collData);
-				 $http.post('/updateCollById',$scope.collData)
+				if(collection != undefined){
+					 $http.post('/updateCollById',$scope.collData)
 			   		.success(function(data) {
 			   			console.log(data);
 			   			$.pnotify({
@@ -295,8 +296,15 @@ angular.module('newApp')
 			   				$location.path('/coverImage/'+data.id+'/'+0+"/"+$routeParams.entry);
 			   				
 			   			}
-			   			
 			   		})
+				}else{
+					$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Main collection must have a title",
+					});
+				}
+				
 			}
 			
 			$scope.getCollectionById = function(){

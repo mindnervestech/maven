@@ -2,66 +2,18 @@
 	<h1><b>Update PRODUCT</b></h1>
 	<br><br>
 	<form ng-submit="updateProduct()" name="addProFrm">
-		<div class="form-group col-sm-12">
+		<!-- <div class="form-group col-sm-12">
 			<div>
 				<label class="control-label" style="width: 21%;"><font size="3">SECONDARY TITLE * </font></label>
 			</div>
 			<input class="form-control form-white" name="secondaryTitle" type="text" style="border-color:orange;width:50%;" ng-model="product.secondaryTitle"  required>
-		</div>
+		</div> -->
 	
 		<div class="form-group col-sm-12" >
 			<div>
 				<label class="control-label" style="width: 21%;"><font size="3">PRIMARY TITLE * </font></label>
 			</div>
 			<input class="form-control form-white" name="primaryTitle" type="text" style="border-color:orange;width:50%;" ng-model="product.primaryTitle"  required>
-		</div>
-	
-		<div class="form-group col-sm-12" >
-			<div>
-				<label class="control-label" style="width: 21%;"><font size="3">YEAR </font></label>
-			</div>
-			<input class="form-control form-white" name="year" type="number" style="width:50%;" ng-model="product.year" >
-		</div>
-	
-		<div class="form-group col-sm-12">
-			<div>
-				<label class="control-label" style="width: 21%;"><font size="3">DESIGNER </font></label>
-			</div>
-			<input class="form-control form-white" name="designer" type="text" style="width:50%;" ng-model="product.designer" >
-		</div>
-	
-		<div class="form-group col-sm-12">
-			<div>
-				<label class=" control-label" style="width: 30%;"><font size="3">PRODUCT'S  DESCRIPTION </font></label>
-			</div>
-			<textarea rows="5" style="width:50%;" name="description" ng-model="product.description" class="form-control form-white"></textarea>
-		</div>
-		<div class="form-group col-sm-12">
-			<div>
-				<label class="control-label" style="width: 21%;"><font size="3">PRODUCT PRICE * </font></label>
-			</div>
-			<input class="form-control form-white" name="price" type="number" style="border-color:orange;width:50%;" ng-model="product.price"  required>
-		</div>
-	
-		<div class="form-group col-sm-12">
-			<div>
-				<label class="control-label" style="width: 21%;"><font size="3">PRODUCT COST * </font></label>
-			</div>
-			<input class="form-control form-white" name="cost" type="number" style="border-color:orange;width:50%;" ng-model="product.cost"  required>
-		</div>
-		
-		<div class="form-group col-sm-12">
-			<div>
-				<label class="control-label" style="width: 21%;"><font size="3">AMOUNT * </font></label>
-			</div>
-			<input class="form-control form-white" name="amount" type="number" style="border-color:orange;width:50%;" ng-model="product.amount" ng-disabled="product.isAmountFlag"  required>
-		</div>
-		
-		<div class="form-group col-sm-12">
-	
-			<input type="checkbox" class="ng-pristine ng-valid" ng-model="product.isAmountFlag" name="newFlag" id="newflag"/>
-			Do not calculate the amount
-	
 		</div>
 		
 		<div class="form-group col-sm-12">
@@ -86,6 +38,54 @@
 			</div>
 		</div>
 	
+		<div class="form-group col-sm-12" >
+			<div>
+				<label class="control-label" style="width: 21%;"><font size="3">YEAR </font></label>
+			</div>
+			<input class="form-control form-white" name="year" type="number" style="width:50%;" ng-model="product.year" >
+		</div>
+	
+		<div class="form-group col-sm-12">
+			<div>
+				<label class="control-label" style="width: 21%;"><font size="3">DESIGNER </font></label>
+			</div>
+			<input class="form-control form-white" name="designer" type="text" style="width:50%;" ng-model="product.designer" >
+		</div>
+		
+		<div class="form-group col-sm-12">
+			<div>
+				<label class="control-label" style="width: 21%;"><font size="3">AMOUNT * </font></label>
+			</div>
+			<input class="form-control form-white" name="amount" type="number" style="border-color:orange;width:50%;" ng-model="product.amount" ng-disabled="product.isAmountFlag"  required>
+		</div>
+	
+		<div class="form-group col-sm-12">
+			<div>
+				<label class=" control-label" style="width: 30%;"><font size="3">PRODUCT'S  DESCRIPTION </font></label>
+			</div>
+			<textarea rows="5" style="width:50%;" name="description" ng-model="product.description" class="form-control form-white"></textarea>
+		</div>
+		<div class="form-group col-sm-12">
+			<div>
+				<label class="control-label" style="width: 21%;"><font size="3">PRODUCT PRICE * </font></label>
+			</div>
+			<input class="form-control form-white" name="price" type="number" style="border-color:orange;width:50%;" ng-model="product.price"  required>
+		</div>
+	
+		<div class="form-group col-sm-12">
+			<div>
+				<label class="control-label" style="width: 21%;"><font size="3">PRODUCT COST * </font></label>
+			</div>
+			<input class="form-control form-white" name="cost" type="number" style="border-color:orange;width:50%;" ng-model="product.cost"  required>
+		</div>
+		
+		<div class="form-group col-sm-12">
+	
+			<input type="checkbox" class="ng-pristine ng-valid" ng-model="product.isAmountFlag" name="newFlag" id="newflag"/>
+			Do not calculate the amount
+	
+		</div>
+		
 		<div class="form-group col-sm-12">
 			<div>
 				<label class="control-label " style="width: 40%;"><font size="3">ADD SPECIFICATION FILE </font></label>
