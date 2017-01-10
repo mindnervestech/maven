@@ -129,7 +129,7 @@ angular.module('newApp')
 				   }
 			   }else{
 				   $.pnotify({
-					    title: "Success",
+					    title: "Error",
 					    type:'success',
 					    text: "Main collection must have a title",
 					});

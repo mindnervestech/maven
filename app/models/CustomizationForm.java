@@ -24,6 +24,7 @@ public class CustomizationForm extends Model {
 	public String searchSubTitle;
 	public String leadTypeTitle;
 	public String outcome;
+	public String deleted;
 	
 	@ManyToOne
 	public CustomerPdf sendPdf;
@@ -66,7 +67,15 @@ public class CustomizationForm extends Model {
 	public void setJsonData(String jsonData) {
 		this.jsonData = jsonData;
 	}
-	
+
+
+	public String getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(String deleted) {
+		this.deleted = deleted;
+	}
 
 	public CustomerPdf getSendPdf() {
 		return sendPdf;
