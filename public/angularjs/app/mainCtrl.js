@@ -1,6 +1,6 @@
 ﻿angular.module('newApp').controller('mainCtrl',
-    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$interval','$filter','$rootScope',
-        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$interval,$filter,$rootScope) {
+    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$interval','$filter','$rootScope','$route',
+        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$interval,$filter,$rootScope,$route) {
     	var ele = document.getElementById('loadingmanual');	
     	$(ele).hide();
             $(document).ready(function () {
@@ -130,6 +130,7 @@
        					});
        					$('#btnAssig').click();
        					$scope.indexInitFunction();
+       					$route.reload();
        				});
        	        	
        	        }
@@ -203,6 +204,7 @@
             	$scope.leadData={};
                 $http.get('/getLeadInfo').success(function(data,status, headers, config){
                 	$scope.leadData=data;
+                	console.log($scope.leadData);
                 	$scope.notifLength=0;
                 	angular.forEach(data, function(value, key) {
                 		if(value.richNotification == 0){
@@ -236,9 +238,6 @@
    		 }
             
             $scope.setAsRead = function (item) {
-                console.log("IIIIDDDD");
-                
-                console.log(item);
                 var flag=true;
                 if(item.typeOfLead =="Request More"){
                 	 $http.get('/requestInfoMarkRead/'+flag+'/'+item.id)
@@ -246,9 +245,10 @@
              			$.pnotify({
 						    title: "Success",
 						    type:'success',
-						    text: "Claimed Successfully",
+						    text: "Lead has been claimed successfully",
 						});
              			 $scope.indexInitFunction(); 
+             			$route.reload();
              		console.log(data);
              	});
                 	
@@ -261,33 +261,21 @@
             			$.pnotify({
 						    title: "Success",
 						    type:'success',
-						    text: "Claimed Successfully",
+						    text: "Lead has been claimed successfully",
 						});
             			 $scope.indexInitFunction(); 
             			console.log(data);
             		});
                 }
                 
-               else if(item.typeOfLead =="Trade In"){
-            	   
-            	   $http.get('/tradeInMarkRead/'+flag+'/'+item.id)
-       			.success(function(data) {
-       				$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Claimed Successfully",
-					});
-       			 $scope.indexInitFunction(); 
-       				console.log(data);
-       	       	});
-                }
+              
                else if(item.typeOfLead =="Premium"){
             	   $http.get('/changeAssignedUser/'+item.id+'/'+userKey+'/'+item.type)
 					.success(function(data) {
 						$.pnotify({
 						    title: "Success",
 						    type:'success',
-						    text: "Claimed Successfully",
+						    text: "Lead has been claimed successfully",
 						});
 						 $scope.indexInitFunction(); 
 					});
@@ -301,7 +289,7 @@
             			$.pnotify({
 						    title: "Success",
 						    type:'success',
-						    text: "Claimed Successfully",
+						    text: "Lead has been claimed successfully",
 						});
             			 $scope.indexInitFunction(); 
             		console.log(data);

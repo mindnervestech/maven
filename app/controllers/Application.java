@@ -3421,84 +3421,7 @@ public class Application extends Controller {
 	    		
 	    	}*/
 	    	
-/*	    	for(TradeIn sc: trList){
-	    		RequestInfoVM vm1=new RequestInfoVM();
-	    		vm1.name=sc.firstName+" "+sc.lastName;
-	    		vm1.typeOfLead="Trade In";
-	    		vm1.typeOfLead = "Trade In";
-	    		vm1.id=sc.id;
-	    		vm1.leadType="Trade In";
-	    		//vm1.notifFlag=sc.notifFlag;
-	    		String imagePath=null;
-	    		if(sc.vin != null){
-	    			AddCollection image=AddCollection.getDefaultImg(sc.id);
-	    			if(image != null){
-	    				imagePath=image.filePath;
-	    			}
-	    		}
-	    		vm1.imageUrl=imageUrlPath+imagePath;
-    	        Date dt1=null;
-    	        Date dt2=null;
-    	        try {
-    	        	dt1 =currD;
-    	        	String dat1=df1.format(sc.tradeTime);
-    	            dt2=df2.parse(dat1);
-    	            //dt2 = sc.tradeTime;
-    	        } catch (Exception e) {
-    	            e.printStackTrace();
-    	        }
 
-    	        // Get msec from each, and subtract.
-    	        long diff = dt1.getTime() - dt2.getTime();
-    	        vm1.timeDiff=diff;
-    	        long diffSeconds = diff / 1000 % 60;
-    	        long diffMinutes = diff / (60 * 1000) % 60;
-    	        long diffHours = diff / (60 * 60 * 1000)% 24;
-    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
-    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
-    	        String diffDay=null;
-    	        String diffHr=null;
-    	        if(diffInDays != 0){
-    	        if(diffInDays <10){
-    	        	diffDay=""+diffInDays;
-    	        }
-    	        else{
-    	        	diffDay=""+diffInDays;
-    	        }
-    	        if(diffHours <10){
-    	        	diffHr=""+diffHours;
-    	        }
-    	        else{
-    	        	diffHr=""+diffHours;
-    	        }
-    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
-    	        vm1.diffDays=diffDay+" + days";
-    	        }
-    	        else if(diffInDays == 0 && diffHours == 0){
-    	        	if(diffMinutes == 1){
-    	        		vm1.diffDays=diffMinutes+" minute ago";
-            	        vm1.timeUnit=diffMinutes+" minute ago";
-    	        	}else{
-    	        	vm1.diffDays=diffMinutes+" minutes ago";
-        	        vm1.timeUnit=diffMinutes+" minutes ago";
-    	        	}
-        	     
-        	        }
-    	        else{
-    	        	
-    	        	 if(diffHours <10){
-    	    	        	diffHr="0"+diffHours;
-    	    	        }
-    	    	        else{
-    	    	        	diffHr=""+diffHours;
-    	    	        }
-    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
-    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
-    	        }
-	    		list.add(vm1);		
-	    		
-	    	}*/
-	    	
 	    	for(RequestMoreInfo sc: rList){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
@@ -3510,11 +3433,14 @@ public class Application extends Controller {
 	    		String imagePath=null;
 	    		String typeoflead=null;
 	    		if(sc.productId != null || sc.isContactusType == null){
-	    			Long pId = Long.parseLong(sc.productId);
-	    			AddCollection image=AddCollection.getDefaultImg(pId);
-	    			if(image != null){
-	    				imagePath=image.filePath;
+	    			if(sc.productId != null){
+	    				Long pId = Long.parseLong(sc.productId);
+		    			AddCollection image=AddCollection.getDefaultImg(pId);
+		    			if(image != null){
+		    				imagePath=image.filePath;
+		    			}
 	    			}
+	    			
 	    			typeoflead="Request More";
 	    			vm1.typeOfLead="Request More Info";
 	    		}
@@ -3675,87 +3601,7 @@ public class Application extends Controller {
 	    		
 	    	}
 */	    	
-	    	/*for(TradeIn sc: tradeIns){
-	    		RequestInfoVM vm1=new RequestInfoVM();
-	    		vm1.name=sc.firstName+" "+sc.lastName;
-	    		vm1.typeOfLead="Premium";
-	    		vm1.leadTypeForNotif="Premium Lead";
-	    		vm1.leadType="Trade In";
-	    		vm1.id=sc.id;
-	    		//vm1.notifFlag=sc.notifFlag;
-	    		String imagePath=null;
-	    		if(sc.vin != null){
-	    			AddCollection image=AddCollection.getDefaultImg(sc.id);
-	    			if(image != null){
-	    				imagePath=image.filePath;
-	    			}
-	    		}
-	    		vm1.imageUrl=imageUrlPath+imagePath;
-    	        Date dt1=null;
-    	        Date dt2=null;
-    	        try {
-    	        	dt1 =currD;
-    	            //dt2 = sc.tradeTime;
-    	            String dat1=df1.format(sc.tradeTime);
-    	            dt2=df2.parse(dat1);
-    	        } catch (Exception e) {
-    	            e.printStackTrace();
-    	        }
-
-    	        // Get msec from each, and subtract.
-    	        long diff = dt1.getTime() - dt2.getTime();
-    	        vm1.timeDiff=diff;
-    	        long diffSeconds = diff / 1000 % 60;
-    	        long diffMinutes = diff / (60 * 1000) % 60;
-    	        long diffHours = diff / (60 * 60 * 1000)% 24;
-    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
-    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
-    	        String diffDay=null;
-    	        String diffHr=null;
-    	        if(diffInDays != 0){
-    	        if(diffInDays <10){
-    	        	diffDay=""+diffInDays;
-    	        }
-    	        else{
-    	        	diffDay=""+diffInDays;
-    	        }
-    	        if(diffHours <10){
-    	        	diffHr=""+diffHours;
-    	        }
-    	        else{
-    	        	diffHr=""+diffHours;
-    	        }
-    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
-    	        vm1.diffDays=diffDay+" + days";
-    	        }
-    	        else if(diffInDays == 0 && diffHours == 0){
-    	        	if(diffMinutes == 1){
-    	        		vm1.diffDays=diffMinutes+" minute ago";
-            	        vm1.timeUnit=diffMinutes+" minute ago";
-    	        	}else{
-    	        	vm1.diffDays=diffMinutes+" minutes ago";
-        	        vm1.timeUnit=diffMinutes+" minutes ago";
-    	        	}
-        	     
-        	        }
-    	        else{
-    	        	
-    	        	 if(diffHours <10){
-    	    	        	diffHr=""+diffHours;
-    	    	        }
-    	    	        else{
-    	    	        	diffHr=""+diffHours;
-    	    	        }
-    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
-    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
-    	        }
-	    		
-	    		
-	    		
-	    		list.add(vm1);		
-	    		
-	    	}
-*/	    	for(RequestMoreInfo sc: reInfos){
+	    	for(RequestMoreInfo sc: reInfos){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
 	    		vm1.typeOfLead="Request More";
