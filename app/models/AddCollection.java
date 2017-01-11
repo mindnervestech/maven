@@ -363,8 +363,8 @@ public class AddCollection extends Model {
 	public static List<AddCollection> findByVId(List<String> vins) {
 		return find.where().in("vin", vins).findList();
 	}
-	public static List<AddCollection> findByVinsAndTypeVehi(List<String> vins,String typeVehi) {
-		return find.where().in("vin", vins).eq("status", "Newly Arrived").eq("publicStatus","public").eq("typeofVehicle",typeVehi).findList();
+	public static List<AddCollection> findByMainCollAndType(List<String> vins,InventorySetting typeColl) {
+		return find.where().eq("publicStatus","publish").eq("mainCollection",typeColl).findList();
 	}
 	public static List<AddCollection> findByNotInVins(List<String> vins) {
 		return find.where().not(Expr.in("vin", vins)).findList();

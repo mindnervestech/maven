@@ -768,7 +768,7 @@ float: right !important;
 							        							        	    		
 					             <div class="panel">
 								    	    	<div class="col-sm-12"style=" margin-top: 10px;" >
-								    	    	<div class="col-sm-2" style="padding: 0px;">
+								    	    	<div class="col-sm-2" style="padding: 0px;width:11%;">
 								    				<h4><b style="font-size:19px;">{{toplistTitle}}<a class="glyphicon glyphicon-triangle-bottom" ng-click="changeValueCollAndPro()"></a></b></h4>
 								    			</div>
 								    			<!-- <div class="col-sm-1">
@@ -778,23 +778,21 @@ float: right !important;
 					                                </select>
 								     						<h6 class="col-sm-12" style="margin-left: 55px;"><a style="cursor: pointer;font-size:17px;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;font-size: 17px;"ng-if="notchange == 0" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a></h6>
 								     			</div> -->
-								     			<div class="col-sm-1" style="padding: 0px;width: 11%;margin-left: 25px">
+								     			<div class="col-sm-1" style="padding: 0px;width: 9%;margin-left: 25px">
 								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
 								     						<!-- <h6 class="col-sm-1"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6> -->
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-user" style="color: darkturquoise;font-size: 18px;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
 								     			</div>		
-								    	    	<!-- <div class="col-sm-2" style="padding:0px;width: 5%" >
-								    	    														
+								    	    	 <div class="col-sm-2" style="padding:0px;width: 13%" >
 														<div class="col-sm-12">
-															<select class="form-control form-white"  ng-model="vehicles" ng-change="vehicleData(vehicles,startDateForListing,endDateForListing)"  required>
-																<option value="All">All Vehicles</option>
-																<option value="New" >New</option>
-																<option value="Used">Used</option>																
+															<select class="form-control form-white"  ng-model="mainCollection" ng-change="vehicleData(mainCollection,startDateForListing,endDateForListing)"  required>
+																<option value="All">All Main Collections</option>
+																<option ng-repeat="mainColl in getAllCollection" value="{{mainColl.id}}" >{{mainColl.collection}}</option>
 															</select>
 														</div>
 															
-												</div> -->
+												</div> 
 												<div class="col-sm-2" style="padding: 0px;"> 
 								     						<h6 class="col-sm-12">
 								     								<span class="col-sm-12" style="padding: 0px;">

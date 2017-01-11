@@ -842,11 +842,11 @@ angular.module('newApp')
 		$location.path('/form');
 		
 	}
-	$scope.webSite = function() {
+	/*$scope.webSite = function() {
 		console.log("wesite");
 		$location.path('/webSite');
 		
-	}
+	}*/
 	
 	$scope.autoPortal = function() {
 		$location.path('/autoPortal');

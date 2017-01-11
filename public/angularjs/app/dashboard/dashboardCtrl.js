@@ -26,10 +26,10 @@ angular.module('newApp')
    	apiserviceDashborad.getDealerProfile().then(function(data){
    		$scope.userProfile = data.dealer;
 	});
-	
+   	
 	$scope.txt = false;
 	$scope.userKey = userKey;
-	$scope.vehicles = "All";
+	$scope.mainCollection = "All";
 	$scope.userRole;
 	$scope.locationValue = null;
 	$scope.priceLbl = 'true';
@@ -4394,9 +4394,9 @@ angular.module('newApp')
 	    			$scope.getVisitedData('allTime','countHigh','0','0','All',startD,endD);
 	    		};
 	    		
-	    		$scope.vehicleData=function(vehicles,startDate,endDate){
-	    			$scope.all=vehicles; 
-	    			$scope.getVisitedData('datewise','countHigh','0','0',vehicles,startDate,endDate); 			
+	    		$scope.vehicleData=function(mainCollection,startDate,endDate){
+	    			$scope.all=mainCollection; 
+	    			$scope.getVisitedData('datewise','countHigh','0','0',mainCollection,startDate,endDate); 			
 	    		};
 	    		
 	    		$scope.topVisitedDataDatewise = function(){
@@ -4406,10 +4406,10 @@ angular.module('newApp')
 	    		}
 	    		
 	    		$scope.notchange = 0;
-	    		$scope.getVisitedData = function(type,filterBy,search,searchBy,vehicles,startD,endD) {
+	    		$scope.getVisitedData = function(type,filterBy,search,searchBy,mainCollection,startD,endD) {
 	    			if(locationId != 0){
 	    				apiserviceDashborad.gmLocationManager(locationId).then(function(data){
-	    					apiserviceDashborad.getVisitedData(data.id, type, filterBy, search, searchBy, vehicles, startD, endD).then(function(response){
+	    					apiserviceDashborad.getVisitedData(data.id, type, filterBy, search, searchBy, mainCollection, startD, endD).then(function(response){
 		    						
 		    				$scope.weekData = response;
 		    				
@@ -4435,7 +4435,7 @@ angular.module('newApp')
 		    					
 		    				});
 	    			}else{
-	    				apiserviceDashborad.getVisitedData($scope.userKey, type, filterBy, search, searchBy, vehicles, startD, endD).then(function(response){
+	    				apiserviceDashborad.getVisitedData($scope.userKey, type, filterBy, search, searchBy, mainCollection, startD, endD).then(function(response){
 	    				console.log(response);
 	    				$scope.weekData = response;
 	    				
@@ -6959,7 +6959,7 @@ angular.module('newApp')
     		    	    		 $.pnotify({
     		    					    title: "Success",
     		    					    type:'success',
-    		    					    text: $scope.closeleadObj.actionSelectedLead.length+ "of deleted leads have been deleted",
+    		    					    text: $scope.closeleadObj.actionSelectedLead.length+ " of deleted leads have been deleted",
     		    					});
     		    	    		 
     		    	    		 $scope.schedulmultidatepicker();

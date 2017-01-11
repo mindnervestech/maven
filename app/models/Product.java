@@ -214,8 +214,8 @@ public class Product extends Model {
 	public static List<Product> getProductByDraftStatus() {
 		return find.where().eq("publicStatus", "publish").findList();		
 	}
-	public static List<Product> findByVinsAndTypeVehi(List<String> vins,String typeVehi) {
-		return find.where().eq("publicStatus","public").eq("typeofVehicle",typeVehi).findList();
+	public static List<Product> findByMainCollAndType(List<String> vins,InventorySetting mainColl) {
+		return find.where().eq("publicStatus","publish").eq("mainCollection",mainColl).findList();
 	}
 	public static Product getDefaultImg(Long id2) {
 		return find.where().eq("id", id2).findUnique();

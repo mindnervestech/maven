@@ -16274,7 +16274,7 @@ private static void cancelTestDriveMail(Map map) {
     	return ok(Json.toJson(result));
     }*/
     
-    public static Result getVisitedData(Integer userKey,String type,String filterBy,String search,String searchBy,String vehicles,String startDate,String endDate) {
+    public static Result getVisitedData(Integer userKey,String type,String filterBy,String search,String searchBy,String mainColl,String startDate,String endDate) {
     	
     	Map result = new HashMap(3);
     	AuthUser user = AuthUser.findById(userKey);
@@ -16285,12 +16285,12 @@ private static void cancelTestDriveMail(Map map) {
     		locationId = user.location.id;
     	}
     	
-    	topListings(type,filterBy,search,searchBy,locationId,user,result,vehicles,"0",startDate,endDate);
+    	topListings(type,filterBy,search,searchBy,locationId,user,result,mainColl,"0",startDate,endDate);
     	return ok(Json.toJson(result));
     }
     
  
- public static void topListings(String type,String filterBy,String search,String searchBy,Long locationId,AuthUser user,Map result,String vehicles,String gmInManag,String startDate,String endDate){
+ public static void topListings(String type,String filterBy,String search,String searchBy,Long locationId,AuthUser user,Map result,String mainColl,String gmInManag,String startDate,String endDate){
     	
     	Date date = new Date();
 		Calendar cal = Calendar.getInstance();
@@ -16398,10 +16398,10 @@ private static void cancelTestDriveMail(Map map) {
     	List<AddCollection> topVisited =null;
     	List<AddCollection> topVisitedSold =null;
     	
-    	if(vehicles.equals("All")){
+    	if(mainColl.equals("All")){
     		topVisited = AddCollection.getProductByDraftStatus();
     	}else{
-    		topVisited = AddCollection.findByVinsAndTypeVehi(vins,vehicles);
+    		topVisited = AddCollection.findByMainCollAndType(vins,InventorySetting.findById(Long.parseLong(mainColl)));
     	}
 	
     	List<VehicleAnalyticalVM> topVisitedVms = new ArrayList<>();
@@ -16506,10 +16506,10 @@ private static void cancelTestDriveMail(Map map) {
 */    	
     	 List<VehicleAnalyticalVM> allVehical = new ArrayList<>();
     	 List<Product> aVehicles =null;
-    	 if(vehicles.equals("All")){
+    	 if(mainColl.equals("All")){
     		 aVehicles = Product.getProductByDraftStatus();
     		}else{
-    			aVehicles= Product.findByVinsAndTypeVehi(vins1,vehicles);
+    			aVehicles= Product.findByMainCollAndType(vins1,InventorySetting.findById(Long.parseLong(mainColl)));
     		}
     	 
     	for(Product vehicle:aVehicles) {
