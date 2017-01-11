@@ -68,6 +68,14 @@ angular.module('app.apiserviceCustomizationForm', [])
 		});
 		return defer.promise;
 	};
+	this.deleteLeadType = function(leadId){
+		var defer = $q.defer();
+		
+		$http.get('/deleteLeadType/'+leadId).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	}
 	
 	this.getLeadTypeDataById=function(leadId){
 		var defer = $q.defer();

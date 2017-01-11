@@ -12,7 +12,15 @@
             });
             
             var array = [];
-           
+            $scope.notShowBack = '0';
+           arr = [];
+			arr = $location.absUrl().split('/');
+           console.log(arr);
+           if(arr[4] == "otherForm" && arr[5] == "save"){
+        	   $scope.notShowBack = '1';
+           }else{
+        	   $scope.notShowBack = '0';
+           }
             $scope.userRole=userRole;
             $http.get('/getUserInfo').success(function(data,status, headers, config){
             	

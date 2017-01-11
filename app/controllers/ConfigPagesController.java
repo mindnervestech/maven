@@ -498,8 +498,11 @@ public class ConfigPagesController extends Controller{
 				 type.update();
 				 
 				 CustomizationForm cForm = CustomizationForm.findByLeadType(type.leadName);
-				 cForm.setDeleted("1");
-				 cForm.update();
+				 if(cForm != null){
+					 cForm.setDeleted("1");
+					 cForm.update();
+				 }
+				
 				 /*NewFormWebsite nWebsite = NewFormWebsite.findByName(type.leadName);
 				 if(nWebsite != null){
 					 nWebsite.delete();

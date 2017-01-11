@@ -422,8 +422,15 @@ angular.module('newApp')
 				$scope.internalPdfId = id;
 			}
 		  
+		  $scope.cancelLead = function(){
+			  console.log("hjjjiuiiiiiiiiiii");
+			  apiserviceCustomizationForm.deleteLeadType(localStorage.getItem('leadId')).then(function(data){
+				  $location.path('/leadtype');
+			  });
+		  }
+		  
 		  $scope.deletePdfInternal = function() {
-			  apiserviceCustomizationForm.deleteInternalPdf($scope.internalPdfId).then(function(data){
+			 apiserviceCustomizationForm.deleteInternalPdf($scope.internalPdfId).then(function(data){
         	  console.log("$scope.internalPdfId"+$scope.internalPdfId);
         	  $scope.internalPdfList ={};
 			});

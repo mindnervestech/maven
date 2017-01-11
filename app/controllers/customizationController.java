@@ -127,6 +127,14 @@ public class customizationController extends Controller {
 		}
 		return ok(Json.toJson(cForm));
 	}
+	public static Result deleteLeadType(String leadId) {
+		LeadType lType = LeadType.findById(Long.parseLong(leadId));
+		if(lType == null){
+			lType.delete();
+		}
+		return ok();
+	}
+	
 	
 	public static Result getFormBuilderData() {
 		

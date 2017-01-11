@@ -92,7 +92,7 @@
                 <div  ng-if="initComponent.length <= 0" fb-builder="default" ng-model="initComponent"></div>
                
             </div>
-             <div class="panel panel-default" style="height: 93px;">
+             <!-- <div class="panel panel-default" style="height: 93px;">
                 	 <div class="col-md-2" style="margin-left: 40px;">
                 	 	<label>Outcome</label>
                 	 </div>
@@ -105,7 +105,7 @@
                     	
                     </div>
                     <label ng-if="showOutcomeMsg == 1" style="color:red;margin-left:60px">Please select outcome</label>
-              </div>  
+              </div>   -->
         </div>
 
         <div class="col-md-6">
@@ -120,8 +120,12 @@
         
     </div>
 	</div>
-	<div class="form-group col-sm-12" style="text-align: right;" ng-if="showSaveButton == 'Edit'">
+	<!-- <div class="form-group col-sm-12" style="text-align: right;" ng-if="showSaveButton == 'Edit'">
 		<button type="button" class="btn btn-primary" ng-click="saveCreateLeadForm()">Save</button>
+	</div> -->
+	<div class="form-group col-sm-12" style="text-align: right;" ng-if="showSaveButton == 'Edit'">
+		<button type="button" class="btn btn-primary" ng-click="saveCreateLeadFormOnly()">Save</button>
+		<button ng-if="loactionVal == 'Lead'" type="button" class="btn btn-primary" ng-click="saveCreateLeadFormAddOuctcome()">Edit Outcomes</button>
 	</div>
 </div>	
 
@@ -174,4 +178,130 @@
 								            </div>
 								        </div>
 								    </div>
-								    
+								    <div class="modal fade" id="completedPopup" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog" style="margin-left: 281px;margin-top: 85px;">
+								            <div class="modal-content" style="height: 651px;width: 840px;overflow: auto;">
+								                <div class="modal-header">
+								                </div>
+								                <h2 style="margin-left: 9px;"><b>OUTCOME SETTINGS</b></h2>
+								                <form ng-submit="callToAction()" style="margin-left: 12px;">
+								                <div class="modal-body">
+								                <br>
+								                <h4 class="modal-title" style="margin-bottom: 20px;">SYSTEM OUTCOMES</h4>
+								                <div class="col-md-12">
+								                	<div class="col-sm-12">
+								                    
+								                    <div class="col-sm-12">
+														 		<label ng-repeat="rolePer in outcomemenu" class="col-sm-6" style="padding:0px;">
+											 						 <input type="checkbox" name="permissions" id="myCheckbox{{rolePer.id}}" ng-click="actionClicked($event,rolePer,rolePer.isSelected)"
+											 						   	ng-model="rolePer.isSelected">					
+							   					 						{{rolePer.menuName}}</label>
+							   					 				<label>
+        											</div>
+        											
+        											<div class="form-group col-sm-12" style="margin-top: 15px" ng-repeat="find in actions" ng-if="find == 2">
+														<label class="col-sm-3 control-label" style="text-align: right">Upload PDF File *</label>
+														<div class="col-sm-5">
+																<input type="file" name="logoFile" ng-file-select="onCustomerFileSelect($files)" accept="application/msword,application/pdf"/>
+														</div>
+													</div>
+        											<div class="col-sm-8"  style="margin-top: 20px;margin-left: 25px;" ng-repeat="find in actions" ng-if="find == 2">
+												<table  style="border: 1px solid; width:80%" ng-if="customerPdfList.length > 0">
+									    		<tr style="border: 1px solid;">
+									    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Select</td>
+									    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">PDF Name</td>
+									    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
+									    		  </tr>
+									    			<tr ng-repeat="item in customerPdfList" style="border: 1px solid;">
+									    				<td style="text-align: center;"> <input type="radio" name="sendPdf" ng-Checked="item.customerPdfId == sendpdfIds" ng-click="sendpdfId(item)"></td>
+									    				<td style="padding: 5px;border: 1px solid;" >{{item.customerPdfName}}</td>
+									    				<td style="border: 1px solid;text-align: center;" ng-click="deletePdf(item.customerPdfId)"><a class="glyphicon glyphicon-trash"></a></td>
+									    			</tr>
+									    		</table>
+											</div>
+											<div ng-repeat="find in actions" ng-if="find == 2">
+												<input type="checkbox" name="saveInDoc" ng-model="saveDoc" ng-click="checkSaveDoc(saveDoc)">Save to Documents
+											</div>
+        										</div>
+								                </div>
+								                <br>
+								                <hr>
+								                <br>
+								                <h4 class="modal-title" ng-if="callToActonP == '1'" style="margin-bottom: 20px;">"CALL TO ACTION" PROPERTIES </h4>
+								                <div class="col-md-12 form-group" ng-if="callToActonP == '1'">
+								                <div class="col-sm-12">
+								                    <div class="col-sm-2">
+								                    			<label >Title</label>
+								                    </div>
+								                    <div class="col-sm-6">
+																<input style="width: 235px;padding: 4px; type="text" name="title" ng-model="callAction.actionTitle" placeholder="TITLE " required>
+        											</div>
+        										</div>
+        										<div class="col-sm-12" style="margin-top: 10px;">
+        											<div class="col-sm-2">
+        												<label>Outcomes</label>
+        											</div>
+        											<div class="col-sm-10">	
+        												
+							   					 						<label ng-repeat="rolePer in callActionsList" class="col-sm-6" style="padding:0px;">
+											 						 <input type="checkbox" name="permissions" ng-click="checkClicked($event,rolePer,rolePer.isSelected)"
+											 						   	ng-model="rolePer.isSelected">					
+							   					 						{{rolePer.name}}</label>
+							   					 				<label>			
+							   					 				
+													</div>
+													<div class="form-group col-sm-12" style="margin-top: 15px" ng-repeat="find in callactions" ng-if="find == 'Client downloads PDF file'">
+														<label class="col-sm-4 control-label" style="text-align:left;margin-left: -15px;">Upload PDF File *</label>
+														<div class="col-sm-5">
+																<input style="margin-left: -30px;" type="file" name="logoFile" ng-file-select="onFileSelect($files)" ng-model="callAction.actionClientPdf" accept="application/msword,application/pdf"/>
+														</div>
+													</div>
+								
+													<div class="col-sm-8" style="margin-top: 20px;margin-left: 25px;" ng-repeat="find in callactions" ng-if="find == 'Client downloads PDF file'">
+													
+													  <table  style="border: 1px solid; width:80%" ng-if="customerPdfList.length > 0">
+											    		<tr style="border: 1px solid;">
+											    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">PDF Name</td>
+											    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
+											    		  </tr>
+											    			<tr ng-repeat="item in customerPdfList" style="border: 1px solid;">
+											    				<td style="padding: 5px;border: 1px solid;" >{{item.customerPdfName}}</td>
+											    				<td style="border: 1px solid;text-align: center;" ng-click="deletePdf(item.customerPdfId)"><a class="glyphicon glyphicon-trash"></a></td>
+											    			</tr>
+											    		</table>
+											    		
+																<!-- <table  style="border: 1px solid; width:80%" ng-if="internalPdfList > 0">
+													    		<tr style="border: 1px solid;">
+													    			<td style="padding: 5px;font-size: 20px;text-align: center; border: 1px solid;">PDF Name</td>
+													    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
+													    		  </tr>
+													    			<tr ng-repeat="item in internalPdfList" style="border: 1px solid;">
+													    				<td style="padding: 5px;border: 1px solid;" ng-model="callAction.actionClientPdf">{{item.internalPdfName}}</td>
+													    				<td style="border: 1px solid;text-align: center;" ng-click="deleteInternalPdf(item.internalPdfId)"><a class="glyphicon glyphicon-trash"></a></td>
+													    			</tr>
+													    		</table> -->
+															</div>
+															<div ng-repeat="find in callactions" ng-if="find == 'Client downloads PDF file'">
+															<input type="checkbox" name="saveInDoc" ng-model="saveDoc" ng-click="checkSaveDocCall(saveDoc)">Save to Documents
+														</div>
+														</div>	
+														 </div>
+														 <div class="col-sm-12 form-group" ng-if="callToActonP == '1'" >
+										                    <div class="col-sm-3">
+										                    			<label>Confirmation Message</label>
+										                    </div>
+										                    <div class="col-sm-9">
+																		<input class="col-md-10 form-control" type="text" name="title" ng-model="callAction.confirmationMsg" placeholder="Message " required>
+		        											</div>
+        												</div>
+														 																                
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed" ng-if="actions.length > 0">Save</button>
+								                    <button type="button" class="btn btn-primary btn-embossed" data-toggle="modal" data-target="#SaveConfirmPopup" ng-if="actions.length <= 0">Save</button>
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div>
