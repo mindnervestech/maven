@@ -15,7 +15,9 @@ angular.module('newApp')
 			$scope.subCollections = data;
 		});
 	};
-	
+	$scope.setClose = function(){
+		   $location.path('/viewInventory');
+	   }
 	
 	$scope.getSubCollectionId = function(id){
 		console.log(id);
@@ -151,7 +153,9 @@ angular.module('newApp')
 		console.log(data);
 		$scope.mainCollections = data;
 	});
-	
+	$scope.setClose = function(){
+		   $location.path('/viewInventory');
+	   }
 	$scope.getSubCollection = function(obj){
 		console.log(obj);
 		$scope.subCollections = "";

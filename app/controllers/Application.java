@@ -75,6 +75,7 @@ import models.HoursOfOperation;
 import models.InternalPdf;
 import models.Inventory;
 import models.InventoryImage;
+import models.InventorySetting;
 import models.LeadType;
 import models.LeadsDateWise;
 import models.Location;
@@ -16405,55 +16406,65 @@ private static void cancelTestDriveMail(Map map) {
 	
     	List<VehicleAnalyticalVM> topVisitedVms = new ArrayList<>();
     	for(AddCollection vehicle:topVisited) {
-			
-    		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
-    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocati(vehicle.getId());
-    		int req = 0;
-    		for(RequestMoreInfo rInfo :rInfos){
-				if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
-					req++;
-				}
-			}
-    		analyticalVM.leadsCount = req;
-    		
-    		if(pagesCount.get(vehicle.getId()) == null){
-    			analyticalVM.count = 0;
-    		}else{
-    			analyticalVM.count = pagesCount.get(vehicle.getId());
+    		InventorySetting iSetting = null;
+    		if(vehicle.mainCollection != null){
+    			iSetting = InventorySetting.getByMainCollection(vehicle.mainCollection.id);
     		}
-    		analyticalVM.followerCount = 0;
-    		
-    		AddCollection vehicleImage = AddCollection.getDefaultImg(vehicle.getId());
-    		if(vehicleImage!=null) {
-    			if(vehicle.fileType != null){
-    				if(vehicle.fileType.equals("svg")){
-        				analyticalVM.defaultImagePath = vehicleImage.filePath;
-        			}else{
-        				analyticalVM.id = vehicleImage.getId();
-            			analyticalVM.isImage = true;
+    		if(iSetting != null){
+    			if(!iSetting.equals("deleted")){
+        			VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
+            		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocati(vehicle.getId());
+            		int req = 0;
+            		for(RequestMoreInfo rInfo :rInfos){
+        				if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
+        					req++;
+        				}
         			}
-    			}else{
-    				analyticalVM.id = vehicleImage.getId();
-        			analyticalVM.isImage = true;
-    			}
-    			
+            		analyticalVM.leadsCount = req;
+            		
+            		if(pagesCount.get(vehicle.getId()) == null){
+            			analyticalVM.count = 0;
+            		}else{
+            			analyticalVM.count = pagesCount.get(vehicle.getId());
+            		}
+            		analyticalVM.followerCount = 0;
+            		
+            		AddCollection vehicleImage = AddCollection.getDefaultImg(vehicle.getId());
+            		if(vehicleImage!=null) {
+            			if(vehicle.fileType != null){
+            				if(vehicle.fileType.equals("svg")){
+                				analyticalVM.defaultImagePath = vehicleImage.filePath;
+                			}else{
+                				analyticalVM.id = vehicleImage.getId();
+                    			analyticalVM.isImage = true;
+                			}
+            			}else{
+            				analyticalVM.id = vehicleImage.getId();
+                			analyticalVM.isImage = true;
+            			}
+            			
+            		}
+            		else {
+            			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
+            		}
+            		analyticalVM.fileType = vehicle.fileType;
+            		analyticalVM.id = vehicle.id;
+            		analyticalVM.vin = vehicle.getId().toString();
+            		analyticalVM.name=vehicle.getTitle();
+            		if(!searchBy.equals("0") && !search.equals("0")){
+        	    		if(searchBy.equals("Model")){
+            					topVisitedVms.add(analyticalVM);
+            			}else if(searchBy.equals("Make")){
+            					topVisitedVms.add(analyticalVM);
+            			}
+            		}else{
+            			topVisitedVms.add(analyticalVM);
+            		}
+        		}
     		}
-    		else {
-    			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
-    		}
-    		analyticalVM.fileType = vehicle.fileType;
-    		analyticalVM.id = vehicle.id;
-    		analyticalVM.vin = vehicle.getId().toString();
-    		analyticalVM.name=vehicle.getTitle();
-    		if(!searchBy.equals("0") && !search.equals("0")){
-	    		if(searchBy.equals("Model")){
-    					topVisitedVms.add(analyticalVM);
-    			}else if(searchBy.equals("Make")){
-    					topVisitedVms.add(analyticalVM);
-    			}
-    		}else{
-    			topVisitedVms.add(analyticalVM);
-    		}
+    		
+			
+    		
 	}
     	/*List<VehicleAnalyticalVM> worstVisitedVms = new ArrayList<>();
     	List<AddCollection> notVisitedVehicle = AddCollection.getAllProducts();

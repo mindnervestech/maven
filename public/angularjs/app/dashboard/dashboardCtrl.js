@@ -4460,16 +4460,26 @@ angular.module('newApp')
 	    					
 	    			}
 	    		};
+	    		$scope.toplistTitle = "COLLECTION";
 	    		$scope.product = "COLLECTIONS";
 	    		$scope.changeValueCollAndPro = function(product){
 	    			console.log(product);
-	    			if(product == "LISTING"){
+	    			if($scope.toplistTitle == "COLLECTION"){
+	    				$scope.toplistTitle = "LISTINGS";
+	    				$scope.currentSelectedType = 2;
+	    				$scope.topVisitedDataDatewise();
+	    			}else if($scope.toplistTitle == "LISTINGS"){
+	    				$scope.toplistTitle = "COLLECTION";
+	    				$scope.currentSelectedType = 0;
+	    				$scope.topVisitedDataDatewise();
+	    			}
+	    			/*if(product == "LISTING"){
 	    				$scope.currentSelectedType = 2;
 	    				$scope.topVisitedDataDatewise();
 	    			}else{
 	    				$scope.currentSelectedType = 0;
 	    				$scope.topVisitedDataDatewise();
-	    			}
+	    			}*/
 	    			
 	    		}
 	    		
@@ -6949,7 +6959,7 @@ angular.module('newApp')
     		    	    		 $.pnotify({
     		    					    title: "Success",
     		    					    type:'success',
-    		    					    text: "Successfully canclled "+" "+$scope.closeleadObj.actionSelectedLead.length+ " leads",
+    		    					    text: $scope.closeleadObj.actionSelectedLead.length+ "of deleted leads have been deleted",
     		    					});
     		    	    		 
     		    	    		 $scope.schedulmultidatepicker();

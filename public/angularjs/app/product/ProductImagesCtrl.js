@@ -82,6 +82,8 @@ angular.module('newApp')
 			   myDropzone.processQueue();
 			   //$location.path('/viewInventory');
 		   }
+		   
+		   
 		   $scope.uploadFilesDreft = function(){
 			   $scope.object = {};
 			   $scope.object.id = $routeParams.id;

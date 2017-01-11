@@ -100,5 +100,8 @@ public class InventorySetting extends Model {
 	public static InventorySetting getByImagePath(String path) {
 		return find.where().eq("path", path).findUnique();
 	}
+	public static InventorySetting getByMainCollection(Long id) {
+		return find.where().eq("id", id).eq("status", null).findUnique();
+	}
 	
 }

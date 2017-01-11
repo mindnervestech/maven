@@ -769,15 +769,15 @@ float: right !important;
 					             <div class="panel">
 								    	    	<div class="col-sm-12"style=" margin-top: 10px;" >
 								    	    	<div class="col-sm-2" style="padding: 0px;">
-								    				<h4><b style="font-size:19px;">COLLECTIONS</b></h4>
+								    				<h4><b style="font-size:19px;">{{toplistTitle}}<a class="glyphicon glyphicon-triangle-bottom" ng-click="changeValueCollAndPro()"></a></b></h4>
 								    			</div>
-								    			<div class="col-sm-1">
+								    			<!-- <div class="col-sm-1">
 								     				<select class="" id="userType" ng-change="changeValueCollAndPro(product)" ng-model="product" style="margin-left:-25px;height: 20px;width: 110px;margin-top: 10px;">
 					                                    <option  value="COLLECTIONS">COLLECTIONS</option>
 					                                    <option  value="LISTING">LISTING</option>
 					                                </select>
-								     					<!-- 	<h6 class="col-sm-12" style="margin-left: 55px;"><a style="cursor: pointer;font-size:17px;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;font-size: 17px;"ng-if="notchange == 0" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a></h6> -->
-								     			</div>
+								     						<h6 class="col-sm-12" style="margin-left: 55px;"><a style="cursor: pointer;font-size:17px;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;font-size: 17px;"ng-if="notchange == 0" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a></h6>
+								     			</div> -->
 								     			<div class="col-sm-1" style="padding: 0px;width: 11%;margin-left: 25px">
 								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
 								     						<!-- <h6 class="col-sm-1"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
@@ -795,7 +795,7 @@ float: right !important;
 														</div>
 															
 												</div> -->
-												<div class="col-sm-2" style="padding: 0px;" > 
+												<div class="col-sm-2" style="padding: 0px;"> 
 								     						<h6 class="col-sm-12">
 								     								<span class="col-sm-12" style="padding: 0px;">
 								     									<span style="font-size: 16px;"> Search By : </span><a style="cursor:pointer;font-size: 18px;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Name</a> <!-- &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')"></a> -->
@@ -831,11 +831,17 @@ float: right !important;
 								    	    	<!-- <div class="col-sm-1" ng-if="userRole != 'General Manager'"  style="padding: 0px;" >
 												
 												</div> -->
-												<a class="btn btn-blue" href="#addManufacturers" >Add Collection</a>
+												<a class="btn btn-blue" href="#addManufacturers" ng-if="toplistTitle == 'COLLECTION' && currentData.length > 0">Add Collection</a>
+												<a class="btn btn-blue" href="#product" ng-if="toplistTitle == 'LISTINGS' && currentData.length > 0">Add Product</a>
 													</div>
 										<div class="row">
 											<div class="col-sm-12" style="height: 360px;">
-												
+												<div ng-if="currentData.length <= 0">
+												<div class="col-md-4" style="margin-top: 128px;"></div>
+						       					 <div class="col-md-4" style="margin-top: 128px;"><a class="btn btn-blue" ng-if="toplistTitle == 'LISTINGS'">Add Product</a></div>
+						       					 <div class="col-md-4" style="margin-top: 128px;"><a class="btn btn-blue" href="#addManufacturers" ng-if="toplistTitle == 'COLLECTION'">Add Collection</a></div>
+												<div class="col-md-4" style="margin-top: 128px;"></div>
+												</div>		
 						       					 <div style="width: 100%;display: flex;overflow-x: auto;height: 361px;">
 						       					 	  <div ng-repeat="item in currentData | orderBy: listingFilter " class="col-sm-2">
 									               
@@ -903,7 +909,7 @@ float: right !important;
 													<div class="col-sm-2" style="padding-left: 0px;">
 													<i class="glyphicon glyphicon-stats" ng-click="showSessionAnalytics(item.id,item.vin,'Newly Arrived')"  title="sessions"></i>
 													</div>
-													<div ng-if="currentSelectedType == 0">
+													<div>
 													<div class="col-sm-2" style="padding-left: 0px;"  ng-if="userRole != 'General Manager'">
 														<a class="btn " ng-click="openCreateNewLeadPopup()" style="color: darkturquoise;border: darkturquoise; border-style: solid;">+ Lead </a> 
 														<!-- "openCreateNewLeads(item.stockNumber)" -->													

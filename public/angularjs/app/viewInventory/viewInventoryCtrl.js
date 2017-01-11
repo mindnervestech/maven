@@ -405,17 +405,20 @@ angular.module('newApp')
     			 $scope.gridOptions4.enableHorizontalScrollbar = 0;
     			 $scope.gridOptions4.enableVerticalScrollbar = 2;
     			 $scope.gridOptions4.columnDefs = [
-														{ name: 'secondaryTitle', displayName: 'Secondary Title', width:'15%',cellEditableCondition: false,enableFiltering: true,
-															 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.secondaryTitle}}">{{row.entity.secondaryTitle}}</a></div>',
-														},
 														{ name: 'primaryTitle', displayName: 'Primary Title', width:'15%',cellEditableCondition: false,enableFiltering: true,
 															 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.primaryTitle}}">{{row.entity.primaryTitle}}</a></div>',
 														},
+														{ name: 'collectionTitle', displayName: 'Collection', width:'15%',cellEditableCondition: false,
+   		    		                                	 cellTemplate: '<div> <a style="line-height: 200%;" title="" data-content="{{row.entity.collectionTitle}}">{{row.entity.collectionTitle}}</a></div>',
+   		    		                                    },
 														{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
 															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.description}}" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
 														},
 														{ name: 'designer', displayName: 'Designer',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
 															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.designer}}" data-content="{{row.entity.designer}}" >{{row.entity.designer}}</label> </div>',
+														},
+														{ name: 'amount', displayName: 'Amount',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.amount}}" data-content="{{row.entity.amount}}" >{{row.entity.amount}}</label> </div>',
 														},
 														{ name: 'price', displayName: 'Price',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
 															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.price}}" data-content="{{row.entity.price}}" >{{row.entity.price}}</label> </div>',
@@ -701,6 +704,9 @@ angular.module('newApp')
     		    				 apiserviceViewInventory.getAllProductByCollection($scope.mainCollId,status).then(function(data){
     		    					 console.log(data);
     		    			 		 $scope.gridOptions4.data = data;
+    		    			 		angular.forEach($scope.gridOptions4.data, function(row,key) {
+    		    			 			row.collectionTitle = row.collection.title;
+	    			 				});
     		    			 	});
     		    			 }
     		    			 
