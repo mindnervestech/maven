@@ -659,13 +659,7 @@ angular.module('newApp')
     		    					 apiserviceViewInventory.getAllCollectionList($scope.userLocationId,"publish",$scope.mainCollId).then(function(data){
     		    					
     		    						 console.log(data);
-    		    						 /*$scope.colors = [
-    		    						                  {name:'black', id:'dark'},
-    		    						                  {name:'white', id:'light'},
-    		    						                  {name:'red', id:'dark'},
-    		    						                  {name:'blue', id:'dark'},
-    		    						                  {name:'yellow', id:'light'}
-    		    						                ];*/
+    		    						
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].price = "$ "+data[i].price;
      		    			 				/*if(data[i].subCollection.length > 0){

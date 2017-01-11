@@ -16693,6 +16693,43 @@ private static void cancelTestDriveMail(Map map) {
     	return ok(Json.toJson(map));
     }
     
+    
+    public static Result getAllParentAndChildCollection() {
+			   List<AddCollection> pList = AddCollection.getProductByStatusMain(Long.valueOf(session("USER_LOCATION")),"publish");
+			List<AddCollectionVM> aList = new ArrayList<AddCollectionVM>();
+			
+			for(AddCollection aProduct:pList){
+				if(aProduct.mainCollection != null){
+					InventorySetting iSetting = InventorySetting.findById(aProduct.mainCollection.id);
+					if(iSetting != null){
+						if(iSetting.status == null){
+							AddCollectionVM aVm = new AddCollectionVM();
+							aVm.title = aProduct.title;
+							aVm.description = aProduct.description;
+							aVm.fileName = aProduct.fileName;
+							aVm.id = aProduct.id;
+							aVm.publicStatus = aProduct.publicStatus;
+											
+					    	List<AddCollectionVM> aCollectionVMs = new ArrayList<AddCollectionVM>();
+					    	List<AddCollection> aCollection =  AddCollection.getProductByParentIdStuts(aVm.id,"publish");
+					    	for(AddCollection aColl:aCollection){
+					    		AddCollectionVM aVmSub = new AddCollectionVM();
+					    		aVmSub.title = aColl.title;
+					    		aVmSub.description = aColl.description;
+					    		aVmSub.fileName = aColl.fileName;
+					    		aVmSub.id = aColl.id;
+								aVmSub.publicStatus = aColl.publicStatus;
+								aCollectionVMs.add(aVmSub);
+					    	}
+					    	aVm.subCollection = aCollectionVMs;
+							aList.add(aVm);
+						}
+					}
+				}
+			}
+			return ok(Json.toJson(aList));
+    }
+    
     public static Result getModels(String make) {
     	Set<String> models = new HashSet<String>();
     	List<Vehicle> vehicles = Vehicle.getVehiclesByMake(make, Location.findById(Long.valueOf(session("USER_LOCATION"))));

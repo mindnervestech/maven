@@ -21,6 +21,16 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
+	this.getAllParentAndChildCollection = function(){
+		var defer = $q.defer();
+		$http.get('/getAllParentAndChildCollection').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	
 	this.getDealerProfile = function(){
 		var defer = $q.defer();
 		$http.get('/getDealerProfile').success(function(data) {

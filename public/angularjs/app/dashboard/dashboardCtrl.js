@@ -3215,6 +3215,11 @@ angular.module('newApp')
    				console.log($scope.getAllCollection);
    		     });
 			
+			apiserviceDashborad.getAllParentAndChildCollection().then(function(data){
+   				//$scope.getAllCollection = data;
+   				$scope.parentCollection = data;
+   		     });
+			
 			$scope.planMsg = function(){
 				apiserviceDashborad.getPlanMsg().then(function(data){
 				
@@ -5089,10 +5094,22 @@ angular.module('newApp')
 	    			$scope.search = search;
 	    			
 	    		}
-	    		
+	    		$scope.childCollection = "0";
 	    		$scope.findMake = function(value,searchBy){
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
+		 			  console.log($scope.parentCollection);
+		 			  console.log(value);
+		 			 angular.forEach($scope.parentCollection, function(obj, key) {
+		    				if(obj.id == value){
+		    					if(obj.subCollection.length == 0){
+		    						$scope.childCollection = "0";
+		    					}else{
+		    						$scope.childCollection = obj.subCollection;
+		    					}
+		    					
+		    				}
+		    			});
 	    			if(value.length > 2){
 	    				$scope.searchBy = searchBy;
 	    				$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All',startD,endD);
