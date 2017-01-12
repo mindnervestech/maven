@@ -514,7 +514,7 @@ float: right !important;
 									</div>
 									<div class="row">
 									 	<!-- <label class="col-sm-2 control-label" style="margin-left: 20px;">MY GOAL:</label> -->
-									 	<label class="col-sm-6 control-label" style="font-size: 20px;">{{showLeads}}</label>
+									 	<!-- <label class="col-sm-6 control-label" style="font-size: 20px;">{{showLeads}}</label>-->
 									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads != null">Edit</label></a>
 									 	<!-- <a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads == null">ADD GOAL</label></a> -->
 									 </div> 
@@ -780,8 +780,8 @@ float: right !important;
 								     			</div> -->
 								     			<div class="col-sm-1" style="padding: 0px;width: 9%;margin-left: 25px">
 								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
-								     						<!-- <h6 class="col-sm-1"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
-								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6> -->
+								     						<h6 class="col-sm-1" ng-if="toplistTitle!='COLLECTION'"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
+								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-user" style="color: darkturquoise;font-size: 18px;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
 								     			</div>		
 								    	    	 <div class="col-sm-2" style="padding:0px;width: 13%" >
@@ -801,7 +801,7 @@ float: right !important;
 										    								<option value="">Parent Collection</option>
 							                  							   <option ng-repeat="item in parentCollection" value="{{item.id}}">{{item.title}}</option>
 							              							  	</select>
-								     									<select style="width: 33%;padding: 0px;" ng-disabled="childCollection == '0'" class="form-control form-white" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model',makeSaerch)">
+								     									<select style="width: 33%;padding: 0px;" ng-hide="childCollection == '0'" class="form-control form-white" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model',makeSaerch)">
 									    										<option ng-selected="true" value="">Child Collection</option>
 						                  							  		 <option ng-repeat="item in childCollection" value="{{item.id}}">{{item.title}}</option>
 						              							  		</select>
@@ -897,12 +897,12 @@ float: right !important;
 													<div>
 														<span class="col-sm-4 glyphicon glyphicon-eye-open" title="Views" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8" style="font-size: 15px;margin-bottom: 7px;padding: 0px">{{item.count | number:0}}</span>
 													</div>
-													<!-- <div>
+													<div>
 														<span class="col-sm-4 glyphicon glyphicon-heart" title="Follower" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;padding: 0px">{{item.followerCount | number:0}}</span>
-													</div> -->
-													<!-- <div>
-														<span class="col-sm-4 glyphicon glyphicon glyphicon-thumbs-up" title="Amount" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.count}}</span>
-													</div> -->
+													</div>
+													<div ng-if="toplistTitle!='COLLECTION'">
+														<span class="col-sm-4 glyphicon glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;"></span><span class="col-sm-8" style="font-size: 15px;margin-bottom: 7px;padding: 0px">{{item.price}}</span>
+													</div>
 													<div>
 														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Leads" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;padding: 0px">{{item.leadsCount | number:0}}</span>
 													</div>

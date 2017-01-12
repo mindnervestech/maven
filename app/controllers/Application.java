@@ -16518,6 +16518,7 @@ private static void cancelTestDriveMail(Map map) {
     		ProductImages proImg = ProductImages.getDefaultImg(vehicle.getId());
     		if(vehicleImage!=null) {
     			anVm.id = vehicleImage.getId();
+    			anVm.price = (int) vehicleImage.getPrice();
     			anVm.isImage = true;
     			anVm.vin = vehicleImage.getId().toString();
     			if(proImg != null){
@@ -16679,6 +16680,7 @@ private static void cancelTestDriveMail(Map map) {
     	public Integer flag = 0;
     	public boolean isImage = false;
     	public String defaultImagePath;
+    	public Double proPrice;
     }
     
     public static Result getMakes() {

@@ -5096,6 +5096,7 @@ angular.module('newApp')
 	    		}
 	    		$scope.childCollection = "0";
 	    		$scope.findMake = function(value,searchBy){
+	    			$scope.childCollection = "0";
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
 		 			  console.log($scope.parentCollection);
@@ -6973,11 +6974,21 @@ angular.module('newApp')
     					if($scope.closeleadObj.reasonToCancel != ""){
     						$scope.reasonFlag = 0;
     						apiserviceDashborad.setScheduleStatusClose($scope.closeleadObj).then(function(data){
-    		    	    		 $.pnotify({
+    							
+    							if($scope.closeleadObj.actionSelectedLead.length == 1){
+    								$.pnotify({
     		    					    title: "Success",
     		    					    type:'success',
-    		    					    text: $scope.closeleadObj.actionSelectedLead.length+ " of deleted leads have been deleted",
+    		    					    text: $scope.closeleadObj.actionSelectedLead.length+ " lead has been deleted",
     		    					});
+    							}else{
+    								$.pnotify({
+    		    					    title: "Success",
+    		    					    type:'success',
+    		    					    text: $scope.closeleadObj.actionSelectedLead.length+ " leads have been deleted",
+    		    					});
+    							}
+    		    	    		 
     		    	    		 
     		    	    		 $scope.schedulmultidatepicker();
     		    	    		 $scope.proceedToNext();
