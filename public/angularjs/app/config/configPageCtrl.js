@@ -1578,9 +1578,9 @@ angular.module('newApp')
 	$scope.addPremiumPrice = function(price){
 		$scope.saleDeails.priceStart = price.priceStart;
 		$scope.saleDeails.priceEnd = price.priceEnd;
-		if($scope.saleDeails.priceStart >= $scope.saleDeails.priceEnd){
+		if($scope.saleDeails.priceStart <= $scope.saleDeails.priceEnd){
 			$scope.msgShwoFlag = 1;
-			price.priceEnd = null;
+			price.priceStart = null;
 		}else{
 			$scope.msgShwoFlag = 0;
 			angular.forEach($scope.salesPersonList, function(obj, index){
@@ -1604,7 +1604,7 @@ angular.module('newApp')
 	
 		$scope.addPremiumPriceByList = function(obj){
 			console.log(obj);
-			if(obj.priceStart < obj.priceEnd){
+			if(obj.priceStart > obj.priceEnd){
 				console.log("success");
 				apiserviceConfigPage.savePriceFromTo(obj).then(function(data){
 					$.pnotify({
@@ -1619,7 +1619,7 @@ angular.module('newApp')
 				$.pnotify({
 		    		title: "Error",
 		    		type:'success',
-		    		text: "Price Range From should be less then to To ",
+		    		text: "Price Range From field should be greater then to To field",
 				});
 			}
 	} 
