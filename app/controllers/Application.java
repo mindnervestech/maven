@@ -7246,92 +7246,206 @@ public class Application extends Controller {
         			
         			fileWriter.append(String.valueOf(request.id));
             		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.name));
-            		fileWriter.append(COMMA_DELIMITER);
-        			/*fileWriter.append(String.valueOf(request.preferredContact));
-            		fileWriter.append(COMMA_DELIMITER);*/
-        			fileWriter.append(String.valueOf(request.email));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.phone));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.requestDate));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.requestTime));
-            		fileWriter.append(COMMA_DELIMITER);
-        			/*fileWriter.append(String.valueOf(request.vin));
-            		fileWriter.append(COMMA_DELIMITER);*/
+            		if(request.name != null){
+            			fileWriter.append(String.valueOf(request.name));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(" "));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(request.email != null){
+            			fileWriter.append(String.valueOf(request.email));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+        			if(request.phone != null){
+        				fileWriter.append(String.valueOf(request.phone));
+	            		fileWriter.append(COMMA_DELIMITER);
+        			}
+        			else{
+        				fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+        			}
+        			if(request.requestDate != null){
+        				fileWriter.append(String.valueOf(request.requestDate));
+	            		fileWriter.append(COMMA_DELIMITER);
+        			}
+        			else{
+        				fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+        			}
+        			if(request.requestTime != null){
+        				fileWriter.append(String.valueOf(request.requestTime));
+	            		fileWriter.append(COMMA_DELIMITER);
+        			}
+        			else{
+        				fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+        			}
         			fileWriter.append(String.valueOf(request.isRead));
-            		fileWriter.append(COMMA_DELIMITER);
+	            	fileWriter.append(COMMA_DELIMITER);
         			fileWriter.append(String.valueOf(request.richNotification));
             		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.status));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.reason));
-            		fileWriter.append(COMMA_DELIMITER);
-        			/*fileWriter.append(String.valueOf(request.bestDay));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.bestTime));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.scheduleDate));
-            		fileWriter.append(COMMA_DELIMITER);*/
-        			fileWriter.append(String.valueOf(request.isScheduled));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.confirmDate));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.confirmTime));
-            		fileWriter.append(COMMA_DELIMITER);
-        			/*fileWriter.append(String.valueOf(request.leadStatus));
-            		fileWriter.append(COMMA_DELIMITER);*/
-        			fileWriter.append(String.valueOf(request.isReassigned));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.contactedFrom));
-            		fileWriter.append(COMMA_DELIMITER);
-        			/*fileWriter.append(String.valueOf(request.hearedFrom));
-            		fileWriter.append(COMMA_DELIMITER);*/
-        			fileWriter.append(String.valueOf(request.custZipCode));
-            		fileWriter.append(COMMA_DELIMITER);
+            		if(request.status != null){
+            			fileWriter.append(String.valueOf(request.status));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(request.reason != null){
+            			fileWriter.append(String.valueOf(request.reason));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(request.isScheduled != null){
+            			fileWriter.append(String.valueOf(request.isScheduled));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(request.confirmDate != null){
+            			fileWriter.append(String.valueOf(request.confirmDate));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(request.confirmTime != null){
+            			fileWriter.append(String.valueOf(request.confirmTime));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(request.isReassigned != null){
+            			fileWriter.append(String.valueOf(request.isReassigned));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(request.contactedFrom != null){
+            			fileWriter.append(String.valueOf(request.contactedFrom));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(request.custZipCode != null){
+            			fileWriter.append(String.valueOf(request.custZipCode));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
         			fileWriter.append(String.valueOf(request.scheduleEmail));
             		fileWriter.append(COMMA_DELIMITER);
-        			/*fileWriter.append(String.valueOf(request.enthicity));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.testDriveCompletedComment));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.testDriveCompletedDuration));
-            		fileWriter.append(COMMA_DELIMITER);*/
-        			fileWriter.append(String.valueOf(request.statusDate));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.statusTime));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.premiumFlag));
-            		fileWriter.append(COMMA_DELIMITER);
-        			/*fileWriter.append(String.valueOf(request.parentId));
-            		fileWriter.append(COMMA_DELIMITER);*/
+            		if(request.statusDate != null){
+            			fileWriter.append(String.valueOf(request.statusDate));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(request.statusTime != null){
+            			fileWriter.append(String.valueOf(request.statusTime));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(request.premiumFlag != null){
+            			fileWriter.append(String.valueOf(request.premiumFlag));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
         			fileWriter.append(String.valueOf(request.onlineOrOfflineLeads));
             		fileWriter.append(COMMA_DELIMITER);
-        			/*fileWriter.append(String.valueOf(request.testDriveStatus));
-            		fileWriter.append(COMMA_DELIMITER);*/
-        			fileWriter.append(String.valueOf(lead.leadName));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.message));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(pro.title));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.section));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(request.pdfPath));
-            		fileWriter.append(COMMA_DELIMITER);
+            		if(lead.leadName != null){
+            			fileWriter.append(String.valueOf(lead.leadName));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(request.message != null){
+            			fileWriter.append(String.valueOf(request.message));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(pro.title != null){
+            			fileWriter.append(String.valueOf(pro.title));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(request.section != null){
+            			fileWriter.append(String.valueOf(request.section));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(request.pdfPath != null){
+            			fileWriter.append(String.valueOf(request.pdfPath));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+            		}
         			fileWriter.append(String.valueOf(request.notifFlag));
         			fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(auth.firstName));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(user.firstName));
-            		fileWriter.append(COMMA_DELIMITER);
-        			fileWriter.append(String.valueOf(location.name));
-        			fileWriter.append(NEW_LINE_SEPARATOR);
-        			/*for(CustomizationDataValue custvalue : cust){
-        				fileWriter.append(String.valueOf(custvalue.value));
-        				fileWriter.append(COMMA_DELIMITER);
-        			}*/
+        			if(auth.firstName != null){
+        				fileWriter.append(String.valueOf(auth.firstName));
+	            		fileWriter.append(COMMA_DELIMITER);
+        			}
+        			else{
+        				fileWriter.append(String.valueOf(""));
+	            		fileWriter.append(COMMA_DELIMITER);
+        			}
+            		if(request.user != null){
+            			fileWriter.append(String.valueOf(user.firstName));
+            			fileWriter.append(COMMA_DELIMITER);
+            		}else{
+            			fileWriter.append(String.valueOf(""));
+            			fileWriter.append(COMMA_DELIMITER);
+            		}
+            		if(location.name != null){
+            			fileWriter.append(String.valueOf(location.name));
+            			fileWriter.append(NEW_LINE_SEPARATOR);
+            		}
+            		else{
+            			fileWriter.append(String.valueOf(""));
+            			fileWriter.append(NEW_LINE_SEPARATOR);
+            		}
         			
 				}
         		System.out.println("CSV file was created successfully !!!");
@@ -7410,88 +7524,206 @@ public class Application extends Controller {
 	        			
 	        			fileWriter.append(String.valueOf(request.id));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.name));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.preferredContact));
-	            		fileWriter.append(COMMA_DELIMITER);*/
-	        			fileWriter.append(String.valueOf(request.email));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.phone));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.requestDate));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.requestTime));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.vin));
-	            		fileWriter.append(COMMA_DELIMITER);*/
+	            		if(request.name != null){
+	            			fileWriter.append(String.valueOf(request.name));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(" "));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.email != null){
+	            			fileWriter.append(String.valueOf(request.email));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	        			if(request.phone != null){
+	        				fileWriter.append(String.valueOf(request.phone));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	        			else{
+	        				fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	        			if(request.requestDate != null){
+	        				fileWriter.append(String.valueOf(request.requestDate));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	        			else{
+	        				fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	        			if(request.requestTime != null){
+	        				fileWriter.append(String.valueOf(request.requestTime));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	        			else{
+	        				fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
 	        			fileWriter.append(String.valueOf(request.isRead));
-	            		fileWriter.append(COMMA_DELIMITER);
+		            	fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.richNotification));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.status));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.reason));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.bestDay));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.bestTime));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.scheduleDate));
-	            		fileWriter.append(COMMA_DELIMITER);*/
-	        			fileWriter.append(String.valueOf(request.isScheduled));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.confirmDate));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.confirmTime));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.leadStatus));
-	            		fileWriter.append(COMMA_DELIMITER);*/
-	        			fileWriter.append(String.valueOf(request.isReassigned));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.contactedFrom));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.hearedFrom));
-	            		fileWriter.append(COMMA_DELIMITER);*/
-	        			fileWriter.append(String.valueOf(request.custZipCode));
-	            		fileWriter.append(COMMA_DELIMITER);
+	            		if(request.status != null){
+	            			fileWriter.append(String.valueOf(request.status));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.reason != null){
+	            			fileWriter.append(String.valueOf(request.reason));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.isScheduled != null){
+	            			fileWriter.append(String.valueOf(request.isScheduled));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.confirmDate != null){
+	            			fileWriter.append(String.valueOf(request.confirmDate));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.confirmTime != null){
+	            			fileWriter.append(String.valueOf(request.confirmTime));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.isReassigned != null){
+	            			fileWriter.append(String.valueOf(request.isReassigned));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.contactedFrom != null){
+	            			fileWriter.append(String.valueOf(request.contactedFrom));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.custZipCode != null){
+	            			fileWriter.append(String.valueOf(request.custZipCode));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
 	        			fileWriter.append(String.valueOf(request.scheduleEmail));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.enthicity));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.testDriveCompletedComment));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.testDriveCompletedDuration));
-	            		fileWriter.append(COMMA_DELIMITER);*/
-	        			fileWriter.append(String.valueOf(request.statusDate));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.statusTime));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.premiumFlag));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.parentId));
-	            		fileWriter.append(COMMA_DELIMITER);*/
+	            		if(request.statusDate != null){
+	            			fileWriter.append(String.valueOf(request.statusDate));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.statusTime != null){
+	            			fileWriter.append(String.valueOf(request.statusTime));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.premiumFlag != null){
+	            			fileWriter.append(String.valueOf(request.premiumFlag));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
 	        			fileWriter.append(String.valueOf(request.onlineOrOfflineLeads));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.testDriveStatus));
-	            		fileWriter.append(COMMA_DELIMITER);*/
-	        			fileWriter.append(String.valueOf(lead.leadName));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.message));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(pro.title));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.section));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.pdfPath));
-	            		fileWriter.append(COMMA_DELIMITER);
+	            		if(lead.leadName != null){
+	            			fileWriter.append(String.valueOf(lead.leadName));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.message != null){
+	            			fileWriter.append(String.valueOf(request.message));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(pro.title != null){
+	            			fileWriter.append(String.valueOf(pro.title));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.section != null){
+	            			fileWriter.append(String.valueOf(request.section));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.pdfPath != null){
+	            			fileWriter.append(String.valueOf(request.pdfPath));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
 	        			fileWriter.append(String.valueOf(request.notifFlag));
 	        			fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(auth.firstName));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(user.firstName));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(location.name));
-	        			fileWriter.append(NEW_LINE_SEPARATOR);
+	        			if(auth.firstName != null){
+	        				fileWriter.append(String.valueOf(auth.firstName));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	        			else{
+	        				fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	            		if(request.user != null){
+	            			fileWriter.append(String.valueOf(user.firstName));
+	            			fileWriter.append(COMMA_DELIMITER);
+	            		}else{
+	            			fileWriter.append(String.valueOf(""));
+	            			fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(location.name != null){
+	            			fileWriter.append(String.valueOf(location.name));
+	            			fileWriter.append(NEW_LINE_SEPARATOR);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+	            			fileWriter.append(NEW_LINE_SEPARATOR);
+	            		}
 	        			
 					}
 	        		System.out.println("CSV file was created successfully !!!");
@@ -7570,88 +7802,207 @@ public class Application extends Controller {
 	        			
 	        			fileWriter.append(String.valueOf(request.id));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.name));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.preferredContact));
-	            		fileWriter.append(COMMA_DELIMITER);*/
-	        			fileWriter.append(String.valueOf(request.email));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.phone));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.requestDate));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.requestTime));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.vin));
-	            		fileWriter.append(COMMA_DELIMITER);*/
+	            		if(request.name != null){
+	            			fileWriter.append(String.valueOf(request.name));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(" "));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.email != null){
+	            			fileWriter.append(String.valueOf(request.email));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	        			if(request.phone != null){
+	        				fileWriter.append(String.valueOf(request.phone));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	        			else{
+	        				fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	        			if(request.requestDate != null){
+	        				fileWriter.append(String.valueOf(request.requestDate));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	        			else{
+	        				fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	        			if(request.requestTime != null){
+	        				fileWriter.append(String.valueOf(request.requestTime));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	        			else{
+	        				fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
 	        			fileWriter.append(String.valueOf(request.isRead));
-	            		fileWriter.append(COMMA_DELIMITER);
+		            	fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.richNotification));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.status));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.reason));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.bestDay));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.bestTime));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.scheduleDate));
-	            		fileWriter.append(COMMA_DELIMITER);*/
-	        			fileWriter.append(String.valueOf(request.isScheduled));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.confirmDate));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.confirmTime));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.leadStatus));
-	            		fileWriter.append(COMMA_DELIMITER);*/
-	        			fileWriter.append(String.valueOf(request.isReassigned));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.contactedFrom));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.hearedFrom));
-	            		fileWriter.append(COMMA_DELIMITER);*/
-	        			fileWriter.append(String.valueOf(request.custZipCode));
-	            		fileWriter.append(COMMA_DELIMITER);
+	            		if(request.status != null){
+	            			fileWriter.append(String.valueOf(request.status));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.reason != null){
+	            			fileWriter.append(String.valueOf(request.reason));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.isScheduled != null){
+	            			fileWriter.append(String.valueOf(request.isScheduled));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.confirmDate != null){
+	            			fileWriter.append(String.valueOf(request.confirmDate));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.confirmTime != null){
+	            			fileWriter.append(String.valueOf(request.confirmTime));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.isReassigned != null){
+	            			fileWriter.append(String.valueOf(request.isReassigned));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.contactedFrom != null){
+	            			fileWriter.append(String.valueOf(request.contactedFrom));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.custZipCode != null){
+	            			fileWriter.append(String.valueOf(request.custZipCode));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
 	        			fileWriter.append(String.valueOf(request.scheduleEmail));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.enthicity));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.testDriveCompletedComment));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.testDriveCompletedDuration));
-	            		fileWriter.append(COMMA_DELIMITER);*/
-	        			fileWriter.append(String.valueOf(request.statusDate));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.statusTime));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.premiumFlag));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.parentId));
-	            		fileWriter.append(COMMA_DELIMITER);*/
+	            		if(request.statusDate != null){
+	            			fileWriter.append(String.valueOf(request.statusDate));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.statusTime != null){
+	            			fileWriter.append(String.valueOf(request.statusTime));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.premiumFlag != null){
+	            			fileWriter.append(String.valueOf(request.premiumFlag));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
 	        			fileWriter.append(String.valueOf(request.onlineOrOfflineLeads));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			/*fileWriter.append(String.valueOf(request.testDriveStatus));
-	            		fileWriter.append(COMMA_DELIMITER);*/
-	        			fileWriter.append(String.valueOf(lead.leadName));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.message));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(pro.title));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.section));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.pdfPath));
-	            		fileWriter.append(COMMA_DELIMITER);
+	            		if(lead.leadName != null){
+	            			fileWriter.append(String.valueOf(lead.leadName));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.message != null){
+	            			fileWriter.append(String.valueOf(request.message));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(pro.title != null){
+	            			fileWriter.append(String.valueOf(pro.title));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.section != null){
+	            			fileWriter.append(String.valueOf(request.section));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(request.pdfPath != null){
+	            			fileWriter.append(String.valueOf(request.pdfPath));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	            		}
 	        			fileWriter.append(String.valueOf(request.notifFlag));
 	        			fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(auth.firstName));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(user.firstName));
-	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(location.name));
-	        			fileWriter.append(NEW_LINE_SEPARATOR);
+	        			if(auth.firstName != null){
+	        				fileWriter.append(String.valueOf(auth.firstName));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	        			else{
+	        				fileWriter.append(String.valueOf(""));
+		            		fileWriter.append(COMMA_DELIMITER);
+	        			}
+	            		if(request.user != null){
+	            			fileWriter.append(String.valueOf(user.firstName));
+	            			fileWriter.append(COMMA_DELIMITER);
+	            		}else{
+	            			fileWriter.append(String.valueOf(""));
+	            			fileWriter.append(COMMA_DELIMITER);
+	            		}
+	            		if(location.name != null){
+	            			fileWriter.append(String.valueOf(location.name));
+	            			fileWriter.append(NEW_LINE_SEPARATOR);
+	            		}
+	            		else{
+	            			fileWriter.append(String.valueOf(""));
+	            			fileWriter.append(NEW_LINE_SEPARATOR);
+	            		}
+	        			
 	        			
 					}
 	        		System.out.println("CSV file was created successfully !!!");
