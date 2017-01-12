@@ -2019,9 +2019,9 @@ public class CustomersRequestController extends Controller {
 	    			}
 	    		}
 	    		
-	    		String FILE_HEADER = "Id,Name,PreferredContact,Email,Phone,RequestDate,RequestTime,Vin,IsRead,RichNotification,Status,Reason,BestDay,BestTime,ScheduleDate,IsScheduled,ConfirmDate,ConfirmTime,LeadStatus,IsReassigned,ContactedFrom,HearedFrom,CustZipCode,ScheduleEmail,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,StatusDate,StatusTime,PremiumFlag,ParentId,OnlineOrOfflineLeads,TestDriveStatus,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag,AssignedTo,User,Locations"+leadName;
+	    		String FILE_HEADER = "Id,Name,Email,Phone,RequestDate,RequestTime,IsRead,RichNotification,Status,Reason,IsScheduled,ConfirmDate,ConfirmTime,IsReassigned,ContactedFrom,CustZipCode,ScheduleEmail,StatusDate,StatusTime,PremiumFlag,OnlineOrOfflineLeads,IsContactusType,Message,ProductId,Section,PdfPath,NotifFlag,AssignedTo,User,Locations"+leadName;
+	    		//PreferredContact ,Vin,BestDay,BestTime,ScheduleDate,LeadStatus,HearedFrom,Enthicity,TestDriveCompletedComment,TestDriveCompletedDuration,ParentId,TestDriveStatus,
 	    		try {
-
 	    			fileWriter = new FileWriter(filePath);
 	        		fileWriter.append(FILE_HEADER.toString());
 	        		fileWriter.append(NEW_LINE_SEPARATOR);
@@ -2060,8 +2060,8 @@ public class CustomersRequestController extends Controller {
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.name));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.preferredContact));
-	            		fileWriter.append(COMMA_DELIMITER);
+	        			/*fileWriter.append(String.valueOf(request.preferredContact));
+	            		fileWriter.append(COMMA_DELIMITER);*/
 	        			fileWriter.append(String.valueOf(request.email));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.phone));
@@ -2070,8 +2070,8 @@ public class CustomersRequestController extends Controller {
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.requestTime));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.vin));
-	            		fileWriter.append(COMMA_DELIMITER);
+	        			/*fileWriter.append(String.valueOf(request.vin));
+	            		fileWriter.append(COMMA_DELIMITER);*/
 	        			fileWriter.append(String.valueOf(request.isRead));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.richNotification));
@@ -2080,48 +2080,48 @@ public class CustomersRequestController extends Controller {
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.reason));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.bestDay));
+	        			/*fileWriter.append(String.valueOf(request.bestDay));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.bestTime));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.scheduleDate));
-	            		fileWriter.append(COMMA_DELIMITER);
+	            		fileWriter.append(COMMA_DELIMITER);*/
 	        			fileWriter.append(String.valueOf(request.isScheduled));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.confirmDate));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.confirmTime));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.leadStatus));
-	            		fileWriter.append(COMMA_DELIMITER);
+	        			/*fileWriter.append(String.valueOf(request.leadStatus));
+	            		fileWriter.append(COMMA_DELIMITER);*/
 	        			fileWriter.append(String.valueOf(request.isReassigned));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.contactedFrom));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.hearedFrom));
-	            		fileWriter.append(COMMA_DELIMITER);
+	        			/*fileWriter.append(String.valueOf(request.hearedFrom));
+	            		fileWriter.append(COMMA_DELIMITER);*/
 	        			fileWriter.append(String.valueOf(request.custZipCode));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.scheduleEmail));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.enthicity));
+	        			/*fileWriter.append(String.valueOf(request.enthicity));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.testDriveCompletedComment));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.testDriveCompletedDuration));
-	            		fileWriter.append(COMMA_DELIMITER);
+	            		fileWriter.append(COMMA_DELIMITER);*/
 	        			fileWriter.append(String.valueOf(request.statusDate));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.statusTime));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.premiumFlag));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.parentId));
-	            		fileWriter.append(COMMA_DELIMITER);
+	        			/*fileWriter.append(String.valueOf(request.parentId));
+	            		fileWriter.append(COMMA_DELIMITER);*/
 	        			fileWriter.append(String.valueOf(request.onlineOrOfflineLeads));
 	            		fileWriter.append(COMMA_DELIMITER);
-	        			fileWriter.append(String.valueOf(request.testDriveStatus));
-	            		fileWriter.append(COMMA_DELIMITER);
+	        			/*fileWriter.append(String.valueOf(request.testDriveStatus));
+	            		fileWriter.append(COMMA_DELIMITER);*/
 	        			fileWriter.append(String.valueOf(lead.leadName));
 	            		fileWriter.append(COMMA_DELIMITER);
 	        			fileWriter.append(String.valueOf(request.message));
