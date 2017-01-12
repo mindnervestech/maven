@@ -54,48 +54,70 @@
               </div>
 								                    			
 		</div>
-		<div ng-show="showDefault == 'true'">
-		 <h4>Website's Default fields</h4>
-		   <div class="col-md-12 form-group">
-								                    			  <div class="col-md-6">
-								                    				<div class="col-md-2">
-								                    					<label>Name</label>
-								                    				</div>
-								                    				<div class="col-md-6">
-								                    					<input type="text" ng-model="lead.custNumber" class="form-control" required/>
-								                    				</div>
-								                    				</div>
-								                    			</div>
-								                    			<div class="col-md-12 form-group">
-								                    			<div class="col-md-6">
-								                    				<div class="col-md-2">
-								                    					<label>Phone Number</label>
-								                    				</div>
-								                    				<div class="col-md-6">
-								                    					<input type="text" ng-model="lead.custNumber" class="form-control" required/>
-								                    				</div>
-								                    			 </div>
-								                    		  </div>	
-								                    		   <div class="col-md-12 form-group">
-								                    			<div class="col-md-6">
-								                    				<div class="col-md-2">
-								                    					<label>Email</label>
-								                    				</div>
-								                    				<div class="col-md-6">
-								                    					<input type="text" ng-model="lead.custEmail" class="form-control" required/>
-								                    				</div>
-								                    			</div>
-								                    		</div>	
-								                    		 <div class="col-md-12 form-group">
-								                    			<div class="col-md-6">
-								                    				<div class="col-md-2">
-								                    					<label>Zip Code</label>
-								                    				</div>
-								                    				<div class="col-md-6">
-								                    					<input type="text" ng-model="lead.custZipCode" class="form-control" required/>
-								                    				</div>
-								                    			</div>
-								                    		</div></div>
+			<div ng-show="showDefault == 'true'">
+				<h4>Website's Default fields</h4>
+				<div class="col-md-12 form-group">
+					<div class="col-md-6">
+						<div class="col-md-2">
+							<label>Name</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" ng-model="lead.custNumber" class="form-control" required/>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12 form-group">
+					<div class="col-md-6">
+						<div class="col-md-2">
+							<label>Email</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" ng-model="lead.email" class="form-control" required/>
+						</div>
+						<div class="col-sm-4">
+							<select class="from-control" style="height: 35px;width:100px;background-color: #ECEDEE;">
+								<option  value="">Work</option>
+								<option  value="Phone">Home</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12 form-group">
+					<div class="col-md-6">
+						<div class="col-md-2">
+							<label>Phone</label>
+						</div>
+						<div class="col-md-6">
+							<input type="text" ng-model="lead.custNumber" class="form-control" required/>
+						</div>
+						<div class="col-sm-4">
+							<select class="from-control" style="height: 35px;width:100px;background-color: #ECEDEE;">
+								<option  value="">Work</option>
+								<option  value="Phone">Home</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group col-sm-12">
+		            <div class="col-sm-6">
+						<label class="col-sm-2 control-label">Zip Code</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control">
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group col-sm-12">
+		            <div class="col-sm-6">
+						<label class="col-sm-2 control-label">Message</label>
+						<div class="col-sm-6">
+							<textarea rows="8" cols="10" class="form-control"></textarea>
+						</div>
+					</div>
+				</div>
+								                    				
+			</div>
 	
 	</div>
 	<div class="form-group col-sm-12">

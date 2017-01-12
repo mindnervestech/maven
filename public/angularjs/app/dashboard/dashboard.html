@@ -798,11 +798,11 @@ float: right !important;
 								     								<span class="col-sm-12" style="padding: 0px;">
 								     									<span style="font-size: 16px;"> Filter By : </span>
 								     									<select style="width: 33%;padding: 0px;" class="form-control form-white" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')">
-										    								<option value="">Parent Collection</option>
+										    								<option value="">All</option>
 							                  							   <option ng-repeat="item in parentCollection" value="{{item.id}}">{{item.title}}</option>
 							              							  	</select>
 								     									<select style="width: 33%;padding: 0px;" ng-hide="childCollection == '0'" class="form-control form-white" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model',makeSaerch)">
-									    										<option ng-selected="true" value="">Child Collection</option>
+									    										<option ng-selected="true" value="">All</option>
 						                  							  		 <option ng-repeat="item in childCollection" value="{{item.id}}">{{item.title}}</option>
 						              							  		</select>
 								     								</span>
