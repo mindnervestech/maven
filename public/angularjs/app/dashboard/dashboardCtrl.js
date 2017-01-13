@@ -1728,15 +1728,15 @@ angular.module('newApp')
      	     			 		 		    useExternalFiltering: true,
      	     			 		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
      	     			 		 		 };
-     	     			 		 		 $scope.gridOptions4.enableHorizontalScrollbar = 0;
+     	     			 		 		 $scope.gridOptions4.enableHorizontalScrollbar = 2;
      	     			 		 		 $scope.gridOptions4.enableVerticalScrollbar = 2;
      	     			 		 		 $scope.gridOptions4.columnDefs = [
-     	     			 		 		                                 { name: 'title', displayName: 'title',  width:'14%',cellEditableCondition: false,
+     	     			 		 		                                 /*{ name: 'title', displayName: 'title',  width:'14%',cellEditableCondition: false,
      	     			 		 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.title}}">{{row.entity.title}}</a> ',
      	     			 		 		                                 },
      	     			 		 		                                 { name: 'designer', displayName: 'designer', width:'10%',cellEditableCondition: false,
      	     			 		 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.designer}}">{{row.entity.designer}}</a> ',
-     	     			 		 		                                 },
+     	     			 		 		                                 },*/
      	     			 		 /*		                                 { name: 'make', displayName: 'Make', width:'8%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },*/
@@ -1750,21 +1750,28 @@ angular.module('newApp')
      	     			 		 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}" title="{{row.entity.email}}">{{row.entity.email}}</a> ',
      	     			 		 		                                	
      	     			 		 		                                 },
-     	     			 		 		                                 
+     	     			 		 		                             { name: 'custZipCode', displayName: 'ZipCode', width:'9%', cellEditableCondition: false, 
+      	     			 				                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.custZipCode}}">{{row.entity.custZipCode}}</a> ',
+      	     			 				                                 },
      	     			 		 		                                { name: 'salesRep', displayName: 'Sales Rep', width:'8%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      	     			 		    		                                 
      	     			 		 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.salesRep}}">{{row.entity.salesRep}}</a> ',
      	     			 				                                 },
-     	     			 				                              { name: 'leadType', displayName: 'Lead', width:'9%', cellEditableCondition: false, 
+     	     			 				                              /*{ name: 'leadType', displayName: 'Lead', width:'9%', cellEditableCondition: false, 
      	     			 				                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.leadType}}">{{row.entity.leadType}}</a> ',
-     	     			 				                                 },
-     	     			 				                              { name: 'status', displayName: 'Reason', width:'6%', cellEditableCondition: false, 
+     	     			 				                                 },*/
+     	     			 				                              { name: 'status', displayName: 'Status', width:'6%', cellEditableCondition: false, 
      	     			 				                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.status}}">{{row.entity.status}}</a> ',  
      	     			 				                                 },
-     	     			 				                              { name: 'statusDate', displayName: 'Date added', width:'6%', cellEditableCondition: false,
-     	     			 				                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.statusDate}}">{{row.entity.statusDate}}</a> ',  
+     	     			 				                              { name: 'reason', displayName: 'Reason', width:'6%', cellEditableCondition: false, 
+      	     			 				                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.reason}}">{{row.entity.reason}}</a> ',  
+      	     			 				                                 },
+     	     			 				                              { name: 'requestDate', displayName: 'Date added', width:'6%', cellEditableCondition: false,
+     	     			 				                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.requestDate}}">{{row.entity.requestDate}}</a> ',  
   	     			 				                                 },
-     	     			 				                              
+  	     			 				                             { name: 'statusDate', displayName: 'Date Cancelled', width:'6%', cellEditableCondition: false,
+  	     			 				                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.statusDate}}">{{row.entity.statusDate}}</a> ',  
+	     			 				                                 },
      	     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'24%',cellEditableCondition: false,
      	     	      			 		                                	cellTemplate:'<button type="button" ng-if="false" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button><button type="button" ng-click="grid.appScope.deleteForeverLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">DELETE</button><button type="button" ng-if="false" ng-click="grid.appScope.restoreLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">RESTORE</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button>',
      	     	      			 		                                	 
@@ -1779,34 +1786,11 @@ angular.module('newApp')
      	     			 	    	 		    useExternalFiltering: true,
      	     			 	    	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
      	     			 	    	 		 };
-     	     			 	    	 		 $scope.gridOptions6.enableHorizontalScrollbar = 0;
+     	     			 	    	 		 $scope.gridOptions6.enableHorizontalScrollbar = 2;
      	     			 	    	 		 $scope.gridOptions6.enableVerticalScrollbar = 2;
      	     			 	    	 		 
      	     			 	    	 		 $scope.gridOptions6.columnDefs = [
-     	     			 	    	 		                                 { name: 'vin', displayName: 'Vin', width:'12%',cellEditableCondition: false,
-     	     			 	    	 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.vin}}">{{row.entity.vin}}</a> ',
-     	     			 	    	 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     	     			 	    	 		                                       if (row.entity.isRead === false) {
-     	     			 	    	 		                                         return 'red';
-     	     			 	    	 		                                       }
-     	     			 	    	 		                                	} ,
-     	     			 	    	 		                                 },
-     	     			 	    	 		                                 { name: 'model', displayName: 'Model', width:'10%',cellEditableCondition: false,
-     	     			 	    	 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.model}}">{{row.entity.model}}</a> ',
-     	     			 	    	 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     	     			 	    	  		                                       if (row.entity.isRead === false) {
-     	     			 	    	  		                                         return 'red';
-     	     			 	    	  		                                     }
-     	     			 	    	 		                                	} ,
-     	     			 	    	 		                                 },
-     	     			 	    	 		                                 { name: 'make', displayName: 'Make', width:'10%',cellEditableCondition: false,
-     	     			 	    	 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.make}}">{{row.entity.make}}</a> ',
-     	     			 	    	 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     	     			 	    	  		                                       if (row.entity.isRead === false) {
-     	     			 	    	  		                                         return 'red';
-     	     			 	    	  		                                     }
-     	     			 	    	 		                                	} ,
-     	     			 	    	 		                                 },
+     	     			 	    	 		                                 
      	     			 	    	 		                                 { name: 'name', displayName: 'Name', width:'12%',cellEditableCondition: false,
      	     			 	    	 		                                	cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.name}}">{{row.entity.name}}</a> ',
      	     			 	    	 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -1823,6 +1807,14 @@ angular.module('newApp')
      	     			 	    	  		                                     }
      	     			 	    	 		                                	} ,
      	     			 	    	 		                                 },
+     	     			 	    	 		                                 { name: 'zipcode', displayName: 'ZipCode', width:'15%',cellEditableCondition: false,
+      	     			 	    	 		                                	cellTemplate:'<a title="{{row.entity.custZipCode}}">{{row.entity.custZipCode}}</a> ',
+      	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+      	     			 	    	  		                                       if (row.entity.isRead === false) {
+      	     			 	    	  		                                         return 'red';
+      	     			 	    	  		                                     }
+      	     			 	    	 		                                	} ,
+      	     			 	    	 		                                 },
      	     			 	    	 		                                 { name: 'email', displayName: 'Email', width:'15%',cellEditableCondition: false,
      	     			 	    	 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}" title="{{row.entity.email}}">{{row.entity.email}}</a> ',
      	     			 	    	 		                                	/*cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -1839,24 +1831,39 @@ angular.module('newApp')
       	     			 	    	  		                                     }
       	     			 	    	 		                                	} ,*/
       	     			 	    	 		                                 },
-      	     			 	    	 		                            { name: 'statusDate', displayName: 'Date added', width:'10%',cellEditableCondition: false,
-      	     			 	    	 		                                cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.statusDate}}">{{row.entity.statusDate}}</a> ',
+      	     			 	    	 		                            { name: 'requestDate', displayName: 'Date added', width:'10%',cellEditableCondition: false,
+      	     			 	    	 		                                cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.requestDate}}">{{row.entity.requestDate}}</a> ',
       	     			 	    	 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
        	     			 	    	  		                                       if (row.entity.isRead === false) {
        	     			 	    	  		                                         return 'red';
        	     			 	    	  		                                     }
        	     			 	    	 		                                	} ,
        	     			 	    	 		                                 },
-      	     			 	    	 		                            
-     	     			 	    	 		                             
-     	     			 	    	 		                                { name: 'btnSold', displayName: '',enableFiltering: false, width:'12%',cellEditableCondition: false,
-     	     			 				 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">ASSIGN</button>',
-     	     			 				 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     	     			 				   		                                       if (row.entity.isRead === false) {
-     	     			 				   		                                         return 'red';
-     	     			 				   		                                     }
-     	     			 				  		                                	} ,
-     	     			 				 		                                 },
+       	     			 	    	 		                           { name: 'statusDate', displayName: 'Date Closed', width:'10%',cellEditableCondition: false,
+           	     			 	    	 		                                cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.statusDate}}">{{row.entity.statusDate}}</a> ',
+           	     			 	    	 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+            	     			 	    	  		                                       if (row.entity.isRead === false) {
+            	     			 	    	  		                                         return 'red';
+            	     			 	    	  		                                     }
+            	     			 	    	 		                                	} ,
+            	     			 	    	 		                                 },
+            	     			 	    	 		                              { name: 'salesRep', displayName: 'salesRep', width:'10%',cellEditableCondition: false,
+                    	     			 	    	 		                                cellTemplate:'<a style="color: #5b5b5b;" title="{{row.entity.salesRep}}">{{row.entity.salesRep}}</a> ',
+                    	     			 	    	 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                     	     			 	    	  		                                       if (row.entity.isRead === false) {
+                     	     			 	    	  		                                         return 'red';
+                     	     			 	    	  		                                     }
+                     	     			 	    	 		                                	} ,
+                     	     			 	    	 		                                 },
+                     	     			 	    	 		                             { name: 'btnSold', displayName: '',enableFiltering: false, width:'12%',cellEditableCondition: false,
+                  	     			 				 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">ASSIGN</button>',
+                  	     			 				 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                  	     			 				   		                                       if (row.entity.isRead === false) {
+                  	     			 				   		                                         return 'red';
+                  	     			 				   		                                     }
+                  	     			 				  		                                	} ,
+                  	     			 				 		                                 },          
+                     	     			 	    	 		                           
      	     			 	    	     		                                 ]; 
      	     			 	    	 		 
      	     			 	    	 		 
@@ -5053,6 +5060,57 @@ angular.module('newApp')
         $scope.getAllLostAndComLeads = function(){
         	apiserviceDashborad.getAllLostAndCompLeads().then(function(data){
         		$scope.gridOptions6.data = data;
+        		$scope.gridMapObect = [];
+        		angular.forEach(data,function(value,key){
+						angular.forEach(value.customDataAll,function(value1,key1){
+							angular.forEach($scope.josnData,function(value2,key2){
+	       						if(value1.key == value2.key){
+	       							$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
+    							}
+	       					});
+							
+							
+						});
+				});
+        		angular.forEach(data,function(value,key){
+					angular.forEach($scope.gridMapObect,function(value1,key1){
+						var name = value1.key;
+						name = name.replace(" ","");
+						value[name] = null;
+						angular.forEach(value.customDataAll,function(value2,key2){
+							if(value1.key == value2.key){
+								value[name] = value2.value;
+							}
+						});
+					});
+				});
+        		//$scope.flagVal = 0;
+        		angular.forEach($scope.gridMapObect,function(value,key){
+					var name = value.key;
+					//$scope.flagVal = 1;
+					name = name.replace(" ","");
+					$scope.gridOptions6.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
+		              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+		                        return 'red';
+		                    }
+		              	} ,
+		               });
+				});
+        		/*if($scope.flagVal == 1){
+        			$scope.gridOptions6.columnDefs.push({ name: 'btnSolsdd', displayName: '',enableFiltering: false, width:'10%',cellEditableCondition: false,         <button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate != null" class="btn btn-sm btn-primary" style="margin-left:0px;">RESCHEDULE</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate == null" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button>                                                                     
+        				cellTemplate:'<button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">ASSIGN</button>',   
+                        	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                        	 if (row.entity.isRead === false) {
+                                    return 'red';
+                                }
+                          	},
+                          });
+        		}*/
+        		console.log($scope.gridMapObect);
+        		console.log($scope.gridOptions6.data);
+        		
+        		
 			});
         }
         
@@ -5518,6 +5576,45 @@ angular.module('newApp')
 		    		    				        	        	apiserviceDashborad.getAllCanceledLeads(id).then(function(data){
 		    		    				           	        	
 		    		    				           					$scope.gridOptions4.data = data;
+		    		    				           					
+		    		    				           					$scope.gridMapObect = [];
+		    		    				           	        		angular.forEach(data,function(value,key){
+		    		    				           							angular.forEach(value.customDataAll,function(value1,key1){
+		    		    				           								angular.forEach($scope.josnData,function(value2,key2){
+		    		    				           		       						if(value1.key == value2.key){
+		    		    				           		       							$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
+		    		    				           	    							}
+		    		    				           		       					});
+		    		    				           								
+		    		    				           								
+		    		    				           							});
+		    		    				           					});
+		    		    				           	        		angular.forEach(data,function(value,key){
+		    		    				           						angular.forEach($scope.gridMapObect,function(value1,key1){
+		    		    				           							var name = value1.key;
+		    		    				           							name = name.replace(" ","");
+		    		    				           							value[name] = null;
+		    		    				           							angular.forEach(value.customDataAll,function(value2,key2){
+		    		    				           								if(value1.key == value2.key){
+		    		    				           									value[name] = value2.value;
+		    		    				           								}
+		    		    				           							});
+		    		    				           						});
+		    		    				           					});
+		    		    				           	        		
+		    		    				           	        		angular.forEach($scope.gridMapObect,function(value,key){
+		    		    				           						var name = value.key;
+		    		    				           						name = name.replace(" ","");
+		    		    				           						$scope.gridOptions4.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
+		    		    				           			              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		    		    				           			              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+		    		    				           			                        return 'red';
+		    		    				           			                    }
+		    		    				           			              	} ,
+		    		    				           			               });
+		    		    				           					});
+		    		    				           	        		
+		    		    				           					console.log($scope.gridOptions4.data);
 		    		    				           					$scope.canceledLead = data;
 		    		    				           				});
 		    		    				        	        	apiserviceDashborad.getAllSalesPersonLostAndComp(id).then(function(data){

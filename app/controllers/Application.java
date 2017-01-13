@@ -7101,9 +7101,18 @@ public class Application extends Controller {
 	        		vm.setFlagSameUser = user.id;
 	        	}
     		}
+    		AuthUser auth = null;
     		vm.name = info.name;
     		vm.phone = info.phone;
     		vm.email = info.email;
+    		vm.custZipCode = info.custZipCode;
+    		if(info.assignedTo != null){
+			 	 auth = AuthUser.findById(info.assignedTo.id);
+			}
+    		vm.salesRep = auth.firstName;
+    		if(info.requestDate != null){
+    			vm.requestDate = df.format(info.requestDate);
+    		}
     		if(info.bestDay != null){
     			/*String chaArr[] = info.bestDay.split("-");
     			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
@@ -7169,7 +7178,15 @@ public class Application extends Controller {
     			vm.isRead = true;
     		}
     		vm.option = 1;
-    		
+    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));
+    		if(lType != null){
+    			
+    				//if(vm.showOnWeb == 1 && vm.callToAction == true){
+	    				Application.findCustomeData(info.id,vm,lType.id);
+	    			//}
+    			
+    			
+    		}
     		findRequestParentChildAndBro(infoVMList, info, df, vm);
     		//infoVMList.add(vm);
     	}
@@ -16410,7 +16427,12 @@ private static void cancelTestDriveMail(Map map) {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.status = info.reason;
+	    		vm.status = info.status;
+	    		vm.reason = info.reason;
+	    		vm.custZipCode = info.custZipCode;
+	    		if(info.requestDate != null){
+	    			vm.requestDate = df.format(info.requestDate);
+	    		}
 	    		if(info.statusDate != null){
 	    			vm.statusDate = df.format(info.statusDate);
 	    		}
@@ -16574,7 +16596,12 @@ private static void cancelTestDriveMail(Map map) {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.status = info.reason;
+	    		vm.status = info.status;
+	    		vm.reason = info.reason;
+	    		vm.custZipCode = info.custZipCode;
+	    		if(info.requestDate != null){
+	    			vm.requestDate = df.format(info.requestDate);
+	    		}
 	    		if(info.statusDate != null){
 	    			vm.statusDate = df.format(info.statusDate);
 	    		}
@@ -16600,6 +16627,11 @@ private static void cancelTestDriveMail(Map map) {
 	    			}
 	    			list.add(obj);
 	    		}
+	    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));
+	    		if(lType != null){
+		    				Application.findCustomeData(info.id,vm,lType.id);
+	    		}
+	    		
 	    		vm.note = list;
 	    		vm.noteFlag = nFlag;
 	    		vm.typeOfLead = "Request More Info";
