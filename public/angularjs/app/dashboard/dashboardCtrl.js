@@ -4408,6 +4408,7 @@ angular.module('newApp')
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			var endD = $('#cnfendDateValueForListing').val();
 		    		$scope.getVisitedData('datewise','countHigh','0','0','All',startD,endD);
+					$scope.search = {};
 	    		}
 	    		
 	    		$scope.notchange = 0;
@@ -4478,6 +4479,15 @@ angular.module('newApp')
 	    				$scope.currentSelectedType = 0;
 	    				$scope.topVisitedDataDatewise();
 	    			}
+					if($scope.toplistTitle == 'COLLECTION'){
+						$scope.search.parentId = value;
+						delete $scope.search.collectionId;
+					}else if($scope.toplistTitle == 'LISTINGS'){
+						delete $scope.search.parentId;
+						$scope.search.collectionId = value;
+					}else{
+						$scope.search = {};
+					}
 	    			/*if(product == "LISTING"){
 	    				$scope.currentSelectedType = 2;
 	    				$scope.topVisitedDataDatewise();
@@ -5095,7 +5105,20 @@ angular.module('newApp')
 	    			
 	    		}
 	    		$scope.childCollection = "0";
+				$scope.search = {};
 	    		$scope.findMake = function(value,searchBy){
+					if($scope.toplistTitle == 'COLLECTION'){
+						$scope.search.parentId = value;
+						delete $scope.search.collectionId;
+					}else if($scope.toplistTitle == 'LISTINGS'){
+						delete $scope.search.parentId;
+						$scope.search.collectionId = value;
+					}else{
+						$scope.search = {};
+					}
+					console.log(value,searchBy);
+					console.log($scope.search);
+					console.log($scope.toplistTitle);
 	    			$scope.childCollection = "0";
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
@@ -5113,21 +5136,31 @@ angular.module('newApp')
 		    			});
 	    			if(value.length > 2){
 	    				$scope.searchBy = searchBy;
-	    				$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All',startD,endD);
+	    				//$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All',startD,endD);
 	    			}
 					if(value.length == 0){
-	    				$scope.getVisitedData('week','countHigh','0','0','All',startD,endD);
+	    				//$scope.getVisitedData('week','countHigh','0','0','All',startD,endD);
 	    			}
 	    		}
 	    		$scope.findModel = function(value,searchBy){
+					console.log(value,searchBy);
+					if($scope.toplistTitle == 'COLLECTION'){
+						delete $scope.search.collectionId;
+						$scope.search.parentId = value;
+					}else if($scope.toplistTitle == 'LISTINGS'){
+						delete $scope.search.parentId;
+						$scope.search.collectionId = value;
+					}else{
+						$scope.search = {};
+					}
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
 	    			if(value.length > 1){
 	    				$scope.searchBy = searchBy;
-		    			$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All',startD,endD);
+		    			//$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All',startD,endD);
 	    			}
 					if(value.length == 0){
-	    				$scope.getVisitedData('week','countHigh','0','0','All',startD,endD);
+	    				//$scope.getVisitedData('week','countHigh','0','0','All',startD,endD);
 	    			}
 	    		}
 	    		

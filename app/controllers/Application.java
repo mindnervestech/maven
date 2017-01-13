@@ -16449,6 +16449,7 @@ private static void cancelTestDriveMail(Map map) {
             		}
             		analyticalVM.fileType = vehicle.fileType;
             		analyticalVM.id = vehicle.id;
+            		analyticalVM.parentId = vehicle.parentId;
             		analyticalVM.vin = vehicle.getId().toString();
             		analyticalVM.name=vehicle.getTitle();
             		if(!searchBy.equals("0") && !search.equals("0")){
@@ -16520,6 +16521,10 @@ private static void cancelTestDriveMail(Map map) {
     			anVm.id = vehicleImage.getId();
     			anVm.price = (int) vehicleImage.getPrice();
     			anVm.isImage = true;
+    			if(vehicleImage.getCollection() != null)
+    				anVm.collectionId = vehicleImage.getCollection().getId();
+    			if(vehicleImage.getMainCollection() != null)
+    				anVm.mainCollectionId = vehicleImage.getMainCollection().getId();
     			anVm.vin = vehicleImage.getId().toString();
     			if(proImg != null){
     				anVm.defaultImagePath = proImg.thumbPath;
@@ -16681,6 +16686,9 @@ private static void cancelTestDriveMail(Map map) {
     	public boolean isImage = false;
     	public String defaultImagePath;
     	public Double proPrice;
+    	public Long parentId;
+    	public Long collectionId;
+    	public Long mainCollectionId;
     }
     
     public static Result getMakes() {

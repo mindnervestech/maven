@@ -801,7 +801,7 @@ float: right !important;
 										    								<option value="">All</option>
 							                  							   <option ng-repeat="item in parentCollection" value="{{item.id}}">{{item.title}}</option>
 							              							  	</select>
-								     									<select style="width: 33%;padding: 0px;" ng-hide="childCollection == '0'" class="form-control form-white" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model',makeSaerch)">
+								     									<select style="width: 33%;padding: 0px;" ng-if="toplistTitle!='COLLECTION'" ng-hide="childCollection == '0'" class="form-control form-white" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model',makeSaerch)">
 									    										<option ng-selected="true" value="">All</option>
 						                  							  		 <option ng-repeat="item in childCollection" value="{{item.id}}">{{item.title}}</option>
 						              							  		</select>
@@ -849,14 +849,14 @@ float: right !important;
 													</div>
 										<div class="row">
 											<div class="col-sm-12" style="height: 360px;">
-												<div ng-if="currentData.length <= 0">
-												<div class="col-md-4" style="margin-top: 128px;"></div>
-						       					 <div class="col-md-4" style="margin-top: 128px;"><a class="btn btn-blue" ng-if="toplistTitle == 'LISTINGS'">Add Product</a></div>
-						       					 <div class="col-md-4" style="margin-top: 128px;"><a class="btn btn-blue" href="#addManufacturers" ng-if="toplistTitle == 'COLLECTION'">Add Collection</a></div>
-												<div class="col-md-4" style="margin-top: 128px;"></div>
+												<div ng-if="currentData.length <= 0" class="col-md-12">
+													<div style="margin-top: 128px;text-align:center;">
+														<a class="btn btn-blue" ng-if="toplistTitle == 'LISTINGS'">Add Product</a>
+														<a class="btn btn-blue" href="#addManufacturers" ng-if="toplistTitle == 'COLLECTION'">Add Collection</a>
+													</div>
 												</div>		
 						       					 <div style="width: 100%;display: flex;overflow-x: auto;height: 361px;">
-						       					 	  <div ng-repeat="item in currentData | orderBy: listingFilter " class="col-sm-2">
+						       					 	  <div ng-repeat="item in currentData | filter:search | orderBy: listingFilter " class="col-sm-2">
 									               
 													<div class="col-sm-12" ng-if="item.fileType != 'svg'">
 														<div ng-if="currentSelectedType == 0">
