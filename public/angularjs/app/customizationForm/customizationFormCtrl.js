@@ -164,9 +164,9 @@ angular.module('newApp')
 				  $scope.setKeyValues();
 				  $scope.oneField = 0;
 				  if($builder.forms['default'].length <= 0){
-					  $scope.oneField = 1;
-					  $('#oneFieldAdd').modal('show');
-					  $window.scrollTo(0, 0);
+					  $scope.oneField = 0;
+					  //$('#oneFieldAdd').modal('show');
+					  //$window.scrollTo(0, 0);
 				  }else{
 					  $scope.oneField = 0;
 				  }
@@ -228,9 +228,9 @@ angular.module('newApp')
 			  $scope.oneField = 0;
 			  console.log($builder.forms['default']);
 			  if($builder.forms['default'].length <= 0){
-				  $scope.oneField = 1;
-				  $('#oneFieldAdd').modal('show');
-				  $window.scrollTo(0, 0);
+				  $scope.oneField = 0;
+				  //$('#oneFieldAdd').modal('show');
+				  //$window.scrollTo(0, 0);
 			  }else{
 				  $scope.oneField = 0;
 			  }
@@ -481,40 +481,46 @@ angular.module('newApp')
 		  }
 		  $scope.callActionId ={};
 		 $scope.callToAction = function(){
-			 
-			 console.log($scope.leadId);
-			 $scope.callAction.id = $scope.leadId;
-			 console.log($scope.callAction);
-			 $scope.callAction.sendpdfIds = $scope.sendpdfIds;
-			 
-			 $scope.callAction.actionOutcomes = $scope.callactions.toString(); 
-			 $scope.callAction.outcome = $scope.actions.toString(); 
-			 if(logofile == undefined){
-				 apiserviceCustomizationForm.saveLeadFormPopup($scope.callAction).then(function(data){
-					 $scope.saveCreateLeadFormOnly();
-					 $location.path('/configuration');
-				 });
-			 }else if(logofile != undefined){
-				 $upload.upload({
-		            url : '/saveLeadFormPopup',
-		            method: 'POST',
-		            file:logofile,
-		            data:$scope.callAction
-		         }).success(function(data) {
-		        	 $scope.saveCreateLeadFormOnly();
-		   			console.log(data);
-		   			$location.path('/configuration');
-		   			$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Your Progress has been Saved",
-					});		   			
-		   		 });
+			 console.log($scope.callactions);
+			 console.log($scope.callactions.toString());
+			$scope.selectout = '0';
+			 if($scope.callactions.toString() != ""){
+				 $scope.selectout = '0';
+				 console.log($scope.leadId);
+				 $scope.callAction.id = $scope.leadId;
+				 console.log($scope.callAction);
+				 $scope.callAction.sendpdfIds = $scope.sendpdfIds;
 				 
-				}
-			 
-			 $("#completedPopup").modal('hide');
-			
+				 $scope.callAction.actionOutcomes = $scope.callactions.toString(); 
+				 $scope.callAction.outcome = $scope.actions.toString(); 
+				 if(logofile == undefined){
+					 apiserviceCustomizationForm.saveLeadFormPopup($scope.callAction).then(function(data){
+						 $scope.saveCreateLeadFormOnly();
+						 $location.path('/configuration');
+					 });
+				 }else if(logofile != undefined){
+					 $upload.upload({
+			            url : '/saveLeadFormPopup',
+			            method: 'POST',
+			            file:logofile,
+			            data:$scope.callAction
+			         }).success(function(data) {
+			        	 $scope.saveCreateLeadFormOnly();
+			   			console.log(data);
+			   			$location.path('/configuration');
+			   			$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Your Progress has been Saved",
+						});		   			
+			   		 });
+					 
+					}
+				 
+				 $("#completedPopup").modal('hide');
+			 }else{
+				 $scope.selectout = '1';
+			 }
 			 
 		 }
 		  

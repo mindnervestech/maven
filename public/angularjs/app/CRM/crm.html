@@ -328,7 +328,7 @@
 									<td ng-show="gr.group.name.toUpperCase() === 'UNDEFINED'">
 									</td>
 									<td ng-hide="gr.group.name.toUpperCase() === 'UNDEFINED'">
-										<i  class="fa fa-trash fa-2x" aria-hidden="true" title="Delete" style="cursor: pointer;" data-toggle="modal" data-target="#deleteGroupPop" ng-click="deleteGroupBy(gr.group)"></i>
+										<i  class="fa fa-trash fa-2x" ng-show="gr.group.name != 'Forms submissions'" aria-hidden="true" title="Delete" style="cursor: pointer;" data-toggle="modal" data-target="#deleteGroupPop" ng-click="deleteGroupBy(gr.group)"></i>
 										<i  class="fa fa-pencil-square-o fa-2x" title="Edit" style="cursor: pointer;" aria-hidden="true" ng-click="viewGroup(gr)"></i>
 									</td>
 								</tr>

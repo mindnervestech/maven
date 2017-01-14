@@ -259,7 +259,6 @@ public class ConfigPagesController extends Controller{
 		    		
 		    	}
 		    	
-		    	
 		    	VehicleImageConfig conf=VehicleImageConfig.findByLocation(Long.valueOf(session("USER_LOCATION")));
 		    	if(conf != null){
 		    		
@@ -269,8 +268,6 @@ public class ConfigPagesController extends Controller{
 			    	map.put("vehicleImageConfig", vm2);
 		    		
 		    	}
-		    	
-		    	
 		    	
 		    	List<NewsletterDate> objList = NewsletterDate.findAll();
 		    	SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
