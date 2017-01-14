@@ -854,12 +854,13 @@ float: right !important;
 										<div class="row">
 											<div class="col-sm-12" style="height: 360px;">
 											
-											   <div style="margin-top: 128px;text-align:center;" ng-if="childCollection == 0 && toplistTitle == 'COLLECTIONS' && makeSaerch != null">
+											   <div style="margin-top: 128px;text-align:center;" ng-if="childCollection == 0 && toplistTitle == 'COLLECTIONS' && mainCollection != 'All' && makeSaerch != null">
 														<label>No sub-collections found</label>
+												</div>
+												<div style="margin-top: 128px;text-align:center;" ng-if="printProductMsg == '0' && toplistTitle == 'LISTINGS'">
+														<label>No products in this collection</label>
 												</div>	
-												<!-- <div style="margin-top: 128px;text-align:center;" ng-if="childCollection == 0 && toplistTitle == 'LISTINGS' && makeSaerch != null">
-														<label>No sub-collections found12</label>
-												</div> -->		
+													
 												<div ng-if="currentData.length <= 0" class="col-md-12">
 													<div style="margin-top: 128px;text-align:center;">
 														<a class="btn btn-blue" href="#product" ng-if="toplistTitle == 'LISTINGS'">Add Product</a>

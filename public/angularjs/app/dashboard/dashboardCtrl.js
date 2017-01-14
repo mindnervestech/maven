@@ -5150,17 +5150,26 @@ angular.module('newApp')
 	    				//$scope.getVisitedData('week','countHigh','0','0','All',startD,endD);
 	    			}
 	    		}
+	    		$scope.printProductMsg = "1";
 	    		$scope.findModel = function(value,searchBy){
 					console.log(value,searchBy);
+					$scope.printProductMsg = "0";
 					if($scope.toplistTitle == 'COLLECTIONS'){
 						delete $scope.search.collectionId;
 						$scope.search.parentId = value;
 					}else if($scope.toplistTitle == 'LISTINGS'){
 						delete $scope.search.parentId;
+						angular.forEach($scope.currentData, function(obj, key) {
+							if(obj.collectionId == value){
+								$scope.printProductMsg = "1";
+							}
+						});
 						$scope.search.collectionId = value;
 					}else{
 						$scope.search = {};
 					}
+					
+					console.log($scope.printProductMsg);
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
 	    			if(value.length > 1){
