@@ -185,7 +185,7 @@
 								            </div>
 								        </div>
 								    </div>
-								    <div class="modal fade" id="completedPopup" tabindex="-1" role="dialog" aria-hidden="true">
+								   <div class="modal fade" id="completedPopup" tabindex="-1" role="dialog" aria-hidden="true">
 								        <div class="modal-dialog" style="margin-left: 281px;margin-top: 85px;">
 								            <div class="modal-content" style="height: 651px;width: 840px;overflow: auto;">
 								                <div class="modal-header">
@@ -257,6 +257,7 @@
 							   					 				<label>			
 							   					 				
 													</div>
+													<span style="color:red;" ng-show="selectout == '1'">select at least one outcome</span>
 													<div class="form-group col-sm-12" style="margin-top: 15px" ng-repeat="find in callactions" ng-if="find == 'Client downloads PDF file'">
 														<label class="col-sm-4 control-label" style="text-align:left;margin-left: -15px;">Upload PDF File *</label>
 														<div class="col-sm-5">
@@ -268,10 +269,12 @@
 													
 													  <table  style="border: 1px solid; width:80%" ng-if="customerPdfList.length > 0">
 											    		<tr style="border: 1px solid;">
+											    		    <td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Select</td>
 											    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">PDF Name</td>
 											    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
 											    		  </tr>
 											    			<tr ng-repeat="item in customerPdfList" style="border: 1px solid;">
+											    				<td style="text-align: center;"> <input type="radio" name="dowPdf" ng-Checked="item.customerPdfId == dowPdfFile" ng-click="sendpdfFile(item)"></td>
 											    				<td style="padding: 5px;border: 1px solid;" >{{item.customerPdfName}}</td>
 											    				<td style="border: 1px solid;text-align: center;" ng-click="deletePdf(item.customerPdfId)"><a class="glyphicon glyphicon-trash"></a></td>
 											    			</tr>
@@ -312,3 +315,4 @@
 								            </div>
 								        </div>
 								    </div>
+								    
