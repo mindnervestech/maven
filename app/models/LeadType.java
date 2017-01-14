@@ -25,6 +25,7 @@ public class LeadType extends Model {
 	public String maunfacturersIds;
 	public String confirmationMsg;
 	public Boolean deleted;
+	public Long dowpdfIds;
 	
 	public Boolean getDeleted() {
 		return deleted;
@@ -76,6 +77,14 @@ public class LeadType extends Model {
 
 	public void setCallToAction(Boolean callToAction) {
 		this.callToAction = callToAction;
+	}
+
+	public Long getDowpdfIds() {
+		return dowpdfIds;
+	}
+
+	public void setDowpdfIds(Long dowpdfIds) {
+		this.dowpdfIds = dowpdfIds;
 	}
 
 	public Long getId() {

@@ -479,6 +479,11 @@ angular.module('newApp')
 			  console.log(item);
 			  $scope.sendpdfIds = item.customerPdfId;
 		  }
+		  
+		  $scope.sendpdfFile = function(item){
+			  console.log(item);
+			  $scope.dowpdfIds = item.customerPdfId;
+		  }
 		  $scope.callActionId ={};
 		 $scope.callToAction = function(){
 			 console.log($scope.callactions);
@@ -490,6 +495,7 @@ angular.module('newApp')
 				 $scope.callAction.id = $scope.leadId;
 				 console.log($scope.callAction);
 				 $scope.callAction.sendpdfIds = $scope.sendpdfIds;
+				 $scope.callAction.dowpdfIds = $scope.dowpdfIds;
 				 
 				 $scope.callAction.actionOutcomes = $scope.callactions.toString(); 
 				 $scope.callAction.outcome = $scope.actions.toString(); 
