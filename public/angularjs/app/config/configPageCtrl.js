@@ -1399,8 +1399,11 @@ angular.module('newApp')
 		
 	
 	});
+	$scope.selectCheckFlag = 0;
 	$scope.addFlag = 0;
 	$scope.clickOneCity = function(values, sale){
+		$scope.saleId = sale;
+		console.log($scope.saleId.id);
 		var arr = [];
 		var arr = values.split('-');
 		console.log(values);
@@ -1622,7 +1625,9 @@ angular.module('newApp')
 		    		text: "Price Range From field should be less then to To field",
 				});
 			}
-	} 
+	}
+		
+	$scope.zipCodeFlag = 0;	
 	$scope.address = {};
 	$scope.addAdditionalFields = [];
 	$scope.showCityAddPop = function(salesDet){
@@ -1635,6 +1640,7 @@ angular.module('newApp')
 			city:'',
 			state:'',
 			zipCodeDetailData:''});
+		$scope.zipCodeFlag = 0;
 		//}
 		/*else{
 			console.log(salesDet.zipCode);
@@ -1665,8 +1671,11 @@ angular.module('newApp')
 	
 	
 	$scope.zopCodeData =[];
+	$scope.codeData =[];
 	$scope.storeZipCode = function(value){
 		console.log(value);
+		$scope.codeData.push(value);
+		
 		console.log($scope.allFronAndSalesList);
 		if(value.length > 1){
 				$scope.zopCodeData.push(value);
@@ -1726,6 +1735,7 @@ angular.module('newApp')
 				    type:'success',
 				    text: "Zip Code Fatched successfully",
 				});
+				$scope.zipCodeFlag = 1;
 			}
 			$scope.zipCodeDetailData = [];
 			angular.forEach(data.zip_codes, function(obj, index){
@@ -1756,7 +1766,7 @@ angular.module('newApp')
 				});
 		});
 	}
-	
+	$scope.selectFlag = 0;
 	$scope.selectAll = function(){
 		angular.forEach($scope.addAdditionalFields, function(obj, index){
 			angular.forEach($scope.zipCodeDetailData, function(obj1, index1){
@@ -1769,6 +1779,43 @@ angular.module('newApp')
 		});
 		console.log($scope.zipCodeDetailData);
 		$scope.storeZipCode($scope.zipCodeDetailData);
+		$scope.selectFlag = 1;
+	}
+	
+	$scope.unSelectAll = function(){
+		console.log($scope.allFronAndSalesList);
+		console.log($scope.addAdditionalFields);
+		console.log($scope.zipCodeDetailData);
+		angular.forEach($scope.addAdditionalFields, function(obj, index){
+			angular.forEach($scope.zipCodeDetailData, function(obj1, index1){
+				if(obj.state == obj1.state){
+					angular.forEach(obj.zipCodeDetailData, function(obj2, index2){
+						obj2.isSelected = false;
+					});
+				}
+			});
+		});
+		console.log($scope.zipCodeDetailData);
+		angular.forEach($scope.allFronAndSalesList, function(obj, index){
+			angular.forEach($scope.zipCodeDetailData, function(obj1, index1){
+				console.log("len",obj.zipCode.length);
+				angular.forEach(obj.zipCode, function(obj2, index2){					
+					if(obj.id == $scope.saleId.id){
+						if(obj2.zipcode == obj1.zipcode){
+							console.log("index",index2);
+							obj.zipCode.splice(index2, 1);
+							angular.forEach(obj.zipCode, function(obj3, index3){
+								if(obj3.zipcode == obj1.zipcode){
+									obj.zipCode.splice(index3, 1);
+								}
+								
+							});
+						}
+					}
+				});
+			});
+		});
+		$scope.selectFlag = 0;
 	}
 	
 	$scope.SaveZipCodeData = function(){
@@ -1791,12 +1838,25 @@ angular.module('newApp')
 			city:'',
 			state:'',
 			zipCodeDetailData:''});
+		$scope.zipCodeFlag = 0;
 		
 	}
+	
+	$scope.hideAdditionalCity = function(value, addAdditionalFields){
+		console.log(value);
+		console.log(addAdditionalFields);
+		angular.forEach(addAdditionalFields, function(obj, index){
+			if(value == index){
+				obj.indexValue = "1";
+			}
+		});
+	}
+	
 	$scope.clickedUser = function(users, userSelect){
 			$scope.showFlag = 1;
 		console.log(users);
 		console.log(userSelect);
 		console.log($scope.salesPersonList);
 	}
+	
 }]);	

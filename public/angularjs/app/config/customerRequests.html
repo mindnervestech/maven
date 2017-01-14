@@ -288,8 +288,14 @@ requests that don't match any of the entered price range criteria</strong></h4>
                     		<h4 class="modal-title"><strong>Address</strong></h4>
                 		</div>
 						<div class="modal-body" style="width: 660px;">
-							<form ng-submit="SaveZipCode()">
+							<form>
 							<div class="form-group" ng-repeat="add in addAdditionalFields">
+								
+								<div ng-hide="add.indexValue == '1'">
+								<div class="col-md-12" style = "margin-top: 15px;" ng-if="addFlag == 0">
+									<h4><b><a ng-if="$index != 0" ng-click="hideAdditionalCity($index,addAdditionalFields)">Hide additional city</a></b></h4>
+									<!-- <button type="button" class="btn btn-primary" ng-if="zipCodeDetailData.length != 0" ng-click="addAdditionalCity()" >Add additional city</button> -->								
+								</div>
 								<div class="col-md-1">
 									<label>Cities</label>
 								</div>
@@ -310,19 +316,21 @@ requests that don't match any of the entered price range criteria</strong></h4>
 								<div class="col-md-2">
 									<button type="button" class="btn btn-primary" ng-click="getZipCode(add)">Show ZipCodes</button>
 								</div>
-								<div class="col-md-1" style="margin-left: 52px;">
-									<button type="button" class="btn btn-primary" ng-click="selectAll()">Select All</button>
+								<div class="col-md-1" style="margin-left: 52px;" ng-if="zipCodeFlag == 1">
+									<button ng-if="selectFlag == 0" type="button" class="btn btn-primary" ng-click="selectAll()">Select All</button>
+									<button ng-if="selectFlag == 1" type="button" class="btn btn-primary" ng-click="unSelectAll()"> Unselect All</button>
 								</div>
-								<div class="col-md-2" style="margin-top: 10px;" ng-repeat="value in add.zipCodeDetailData">
+								<div class="col-md-2" style="margin-top: 10px;margin-left: 10px;" ng-repeat="value in add.zipCodeDetailData">
 									<input type="checkbox" name="zipcode" ng-model="value.isSelected" ng-click="storeZipCode(value)" ng-checked="value.isSelected == 1">{{value.zipcode}}
 								</div>
-								<div class="col-md-12" style = "margin-top: 15px;" ng-if="addFlag == 0">
-									<h4><b><a ng-if="zipCodeDetailData.length != 0" ng-click="addAdditionalCity()">Add additional city</a></b></h4>
-									<!-- <button type="button" class="btn btn-primary" ng-if="zipCodeDetailData.length != 0" ng-click="addAdditionalCity()" >Add additional city</button> -->								
 								</div>
 							</div>
+							<div class="col-md-12" style = "margin-top: 15px;" ng-if="addFlag == 0">
+									<h4><b><a ng-click="addAdditionalCity()">Add additional city</a></b></h4>
+									<!-- <button type="button" class="btn btn-primary" ng-if="zipCodeDetailData.length != 0" ng-click="addAdditionalCity()" >Add additional city</button> -->								
+								</div>
 							<div class="col-md-12">
-								<input type="submit" class="btn btn-primary btn-embossed" value="Add">
+								<button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal">Add</button>
 								<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
 							</div>
 							</form>
