@@ -16452,12 +16452,13 @@ private static void cancelTestDriveMail(Map map) {
             		analyticalVM.parentId = vehicle.parentId;
             		analyticalVM.vin = vehicle.getId().toString();
             		analyticalVM.name=vehicle.getTitle();
-            		if(!searchBy.equals("0") && !search.equals("0")){
-        	    		if(searchBy.equals("Model")){
-            					topVisitedVms.add(analyticalVM);
-            			}else if(searchBy.equals("Make")){
-            					topVisitedVms.add(analyticalVM);
+            		if(!search.equals("0")){
+            			if(vehicle.parentId != null){
+            				if(vehicle.parentId == Long.parseLong(search)){
+                				topVisitedVms.add(analyticalVM);
+                			}
             			}
+            			
             		}else{
             			topVisitedVms.add(analyticalVM);
             		}
@@ -16719,7 +16720,7 @@ private static void cancelTestDriveMail(Map map) {
 							aVm.fileName = aProduct.fileName;
 							aVm.id = aProduct.id;
 							aVm.publicStatus = aProduct.publicStatus;
-											
+							aVm.mainCollection = iSetting;				
 					    	List<AddCollectionVM> aCollectionVMs = new ArrayList<AddCollectionVM>();
 					    	List<AddCollection> aCollection =  AddCollection.getProductByParentIdStuts(aVm.id,"publish");
 					    	for(AddCollection aColl:aCollection){

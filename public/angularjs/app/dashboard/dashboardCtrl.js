@@ -4400,6 +4400,7 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.vehicleData=function(mainCollection,startDate,endDate){
+	    			console.log($scope.parentCollection);
 	    			$scope.all=mainCollection; 
 	    			$scope.getVisitedData('datewise','countHigh','0','0',mainCollection,startDate,endDate); 			
 	    		};
@@ -4466,20 +4467,20 @@ angular.module('newApp')
 	    					
 	    			}
 	    		};
-	    		$scope.toplistTitle = "COLLECTION";
+	    		$scope.toplistTitle = "COLLECTIONS";
 	    		$scope.product = "COLLECTIONS";
 	    		$scope.changeValueCollAndPro = function(product){
 	    			console.log(product);
-	    			if($scope.toplistTitle == "COLLECTION"){
+	    			if($scope.toplistTitle == "COLLECTIONS"){
 	    				$scope.toplistTitle = "LISTINGS";
 	    				$scope.currentSelectedType = 2;
 	    				$scope.topVisitedDataDatewise();
 	    			}else if($scope.toplistTitle == "LISTINGS"){
-	    				$scope.toplistTitle = "COLLECTION";
+	    				$scope.toplistTitle = "COLLECTIONS";
 	    				$scope.currentSelectedType = 0;
 	    				$scope.topVisitedDataDatewise();
 	    			}
-					if($scope.toplistTitle == 'COLLECTION'){
+					if($scope.toplistTitle == 'COLLECTIONS'){
 						$scope.search.parentId = value;
 						delete $scope.search.collectionId;
 					}else if($scope.toplistTitle == 'LISTINGS'){
@@ -5107,7 +5108,7 @@ angular.module('newApp')
 	    		$scope.childCollection = "0";
 				$scope.search = {};
 	    		$scope.findMake = function(value,searchBy){
-					if($scope.toplistTitle == 'COLLECTION'){
+					if($scope.toplistTitle == 'COLLECTIONS'){
 						$scope.search.parentId = value;
 						delete $scope.search.collectionId;
 					}else if($scope.toplistTitle == 'LISTINGS'){
@@ -5144,7 +5145,7 @@ angular.module('newApp')
 	    		}
 	    		$scope.findModel = function(value,searchBy){
 					console.log(value,searchBy);
-					if($scope.toplistTitle == 'COLLECTION'){
+					if($scope.toplistTitle == 'COLLECTIONS'){
 						delete $scope.search.collectionId;
 						$scope.search.parentId = value;
 					}else if($scope.toplistTitle == 'LISTINGS'){
