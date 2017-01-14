@@ -5164,34 +5164,66 @@ angular.module('newApp')
 						});
 					});
 				});
-        		//$scope.flagVal = 0;
-        		angular.forEach($scope.gridMapObect,function(value,key){
-					var name = value.key;
-					//$scope.flagVal = 1;
-					name = name.replace(" ","");
-					$scope.gridOptions6.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
-		              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-		              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
-		                        return 'red';
-		                    }
-		              	} ,
-		               });
-				});
-        		/*if($scope.flagVal == 1){
-        			$scope.gridOptions6.columnDefs.push({ name: 'btnSolsdd', displayName: '',enableFiltering: false, width:'10%',cellEditableCondition: false,         <button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate != null" class="btn btn-sm btn-primary" style="margin-left:0px;">RESCHEDULE</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate == null" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button>                                                                     
-        				cellTemplate:'<button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">ASSIGN</button>',   
-                        	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-                        	 if (row.entity.isRead === false) {
-                                    return 'red';
-                                }
-                          	},
-                          });
-        		}*/
-        		console.log($scope.gridMapObect);
-        		console.log($scope.gridOptions6.data);
         		
+        		/*$scope.gridOptions6.columnDefs.push({ name: 'buttons', displayName: 'N',enableFiltering: false, width:'12%',cellEditableCondition: false,
+                	cellTemplate:'<button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">ASSIGN</button>',
+                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                       if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+                         return 'red';
+                     }
+                	},
+                 });*/
         		
+        			$scope.gricMapDetail($scope.gridMapObect).then(function(respones){
+        				if(respones == "ok"){
+        					var uniqueStandards = UniqueArraybyId($scope.gridOptions6.columnDefs ,"name");
+        					console.log(uniqueStandards);
+        					$scope.gridOptions6.columnDefs = uniqueStandards; 
+        						$scope.gridOptions6.columnDefs.push({ name: 'buttons', displayName: '',enableFiltering: false, width:'12%',cellEditableCondition: false,
+        							cellTemplate:'<button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">ASSIGN</button>',
+        							cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+        								if(row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+        									return 'red';
+        								}
+        							},
+        						});
+        				}
+        			});
 			});
+        }
+        
+        function UniqueArraybyId(collection, keyname) {
+            var output = [], 
+                keys = [];
+
+            angular.forEach(collection, function(item) {
+                var key = item[keyname];
+                if(keys.indexOf(key) === -1) {
+                    keys.push(key);
+                    output.push(item);
+                }
+            });
+            return output;
+        };
+        
+        $scope.gricMapDetail = function(gridMapObect){
+        	var defer = $q.defer();
+        	$scope.flagValFlag = 0;
+    		angular.forEach(gridMapObect,function(value,key){
+				var name = value.key;
+				$scope.flagValFlag = 1;
+				name = name.replace(" ","");
+				$scope.gridOptions6.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
+	              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
+	                        return 'red';
+	                    }
+	              	} ,
+	              });
+				
+			});
+    		defer.resolve("ok");
+    		return defer.promise;
         }
         
         $scope.getAllCanceledLeads = function() {
