@@ -4350,6 +4350,13 @@ public class Application extends Controller {
 			}
 	    	AddCollection vm = AddCollection.findById(id);
 	    	vm.setPublicStatus("deleted");
+	    	if(vm.parentId != null){
+	    		List<Product> product = Product.getAllProductById(id);
+	    		for(Product p:product){
+	    			p.setPublicStatus("deleted");
+	    			p.update();
+	    		}
+	    	}
 	    	vm.update();
 	    	return ok();
     	}	
