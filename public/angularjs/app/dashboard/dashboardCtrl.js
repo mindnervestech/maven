@@ -4402,6 +4402,13 @@ angular.module('newApp')
 	    		$scope.vehicleData=function(mainCollection,startDate,endDate){
 	    			console.log($scope.parentCollection);
 	    			$scope.all=mainCollection; 
+	    			/*if(mainCollection == "All"){
+	    				$scope.findMake("",'Make')
+	    				$scope.makeSaerch = "";
+	    				$scope.modelSaerch = "";
+	    				childCollection
+	    				parentCollection
+	    			}*/
 	    			$scope.getVisitedData('datewise','countHigh','0','0',mainCollection,startDate,endDate); 			
 	    		};
 	    		

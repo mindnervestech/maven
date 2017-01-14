@@ -780,7 +780,7 @@ float: right !important;
 								     			</div> -->
 								     			<div class="col-sm-1" style="padding: 0px;width: 9%;margin-left: 25px">
 								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
-								     						<h6 class="col-sm-1" ng-if="toplistTitle!='COLLECTION'"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
+								     						<h6 class="col-sm-1" ng-if="toplistTitle!='COLLECTIONS'"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-user" style="color: darkturquoise;font-size: 18px;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
 								     			</div>		
@@ -792,7 +792,8 @@ float: right !important;
 										    								<option value="">All</option>
 							                  							   <option ng-repeat="item in parentCollection" ng-show="all == item.mainCollection.id" value="{{item.id}}">{{item.title}}</option>
 							              							  	</select>
-								     									<select style="width: 33%;padding: 0px;" ng-if="toplistTitle!='COLLECTION'" ng-hide="childCollection == '0'" class="form-control form-white" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model',makeSaerch)">
+							              							  	
+								     									<select style="width: 33%;padding: 0px;" ng-if="toplistTitle!='COLLECTIONS'" ng-hide="childCollection == '0'" class="form-control form-white" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model',makeSaerch)">
 									    										<option ng-selected="true" value="">All</option>
 						                  							  		 <option ng-repeat="item in childCollection" value="{{item.id}}">{{item.title}}</option>
 						              							  		</select>
@@ -845,15 +846,24 @@ float: right !important;
 								    	    	<!-- <div class="col-sm-1" ng-if="userRole != 'General Manager'"  style="padding: 0px;" >
 												
 												</div> -->
-												<a class="btn btn-blue" href="#addManufacturers" ng-if="toplistTitle == 'COLLECTION' && currentData.length > 0">Add Collection</a>
+												
+												
+												<a class="btn btn-blue" href="#addManufacturers" ng-if="toplistTitle == 'COLLECTIONS' && currentData.length > 0">Add Collection</a>
 												<a class="btn btn-blue" href="#product" ng-if="toplistTitle == 'LISTINGS' && currentData.length > 0">Add Product</a>
 													</div>
 										<div class="row">
 											<div class="col-sm-12" style="height: 360px;">
+											
+											   <div style="margin-top: 128px;text-align:center;" ng-if="childCollection == 0 && toplistTitle == 'COLLECTIONS' && makeSaerch != null">
+														<label>No sub-collections found</label>
+												</div>	
+												<!-- <div style="margin-top: 128px;text-align:center;" ng-if="childCollection == 0 && toplistTitle == 'LISTINGS' && makeSaerch != null">
+														<label>No sub-collections found12</label>
+												</div> -->		
 												<div ng-if="currentData.length <= 0" class="col-md-12">
 													<div style="margin-top: 128px;text-align:center;">
-														<a class="btn btn-blue" ng-if="toplistTitle == 'LISTINGS'">Add Product</a>
-														<a class="btn btn-blue" href="#addManufacturers" ng-if="toplistTitle == 'COLLECTION'">Add Collection</a>
+														<a class="btn btn-blue" href="#product" ng-if="toplistTitle == 'LISTINGS'">Add Product</a>
+														<a class="btn btn-blue" href="#addManufacturers" ng-if="toplistTitle == 'COLLECTIONS'">Add Collection</a>
 													</div>
 												</div>		
 						       					 <div style="width: 100%;display: flex;overflow-x: auto;height: 361px;">
@@ -901,7 +911,7 @@ float: right !important;
 													<div>
 														<span class="col-sm-4 glyphicon glyphicon-heart" title="Follower" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;padding: 0px">{{item.followerCount | number:0}}</span>
 													</div>
-													<div ng-if="toplistTitle!='COLLECTION'">
+													<div ng-if="toplistTitle!='COLLECTIONS'">
 														<span class="col-sm-4 glyphicon glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;"></span><span class="col-sm-8" style="font-size: 15px;margin-bottom: 7px;padding: 0px">{{item.price}}</span>
 													</div>
 													<div>
