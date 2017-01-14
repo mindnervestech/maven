@@ -4401,7 +4401,8 @@ angular.module('newApp')
 	    		
 	    		$scope.vehicleData=function(mainCollection,startDate,endDate){
 	    			console.log($scope.parentCollection);
-	    			$scope.all=mainCollection; 
+	    			$scope.all=mainCollection;
+	    			$scope.printProductMsg = "1";
 	    			/*if(mainCollection == "All"){
 	    				$scope.findMake("",'Make')
 	    				$scope.makeSaerch = "";
@@ -4483,6 +4484,7 @@ angular.module('newApp')
 	    				$scope.currentSelectedType = 2;
 	    				$scope.topVisitedDataDatewise();
 	    			}else if($scope.toplistTitle == "LISTINGS"){
+	    				$scope.printProductMsg = "1";
 	    				$scope.toplistTitle = "COLLECTIONS";
 	    				$scope.currentSelectedType = 0;
 	    				$scope.topVisitedDataDatewise();
