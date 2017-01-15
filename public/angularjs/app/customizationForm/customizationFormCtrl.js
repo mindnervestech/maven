@@ -15,6 +15,7 @@ angular.module('newApp')
 	  	$scope.formType = $routeParams.formType;
 	  	localStorage.setItem('formType',$routeParams.formType);
 	  	console.log($routeParams.formType);
+	  	$scope.loactionVal = localStorage.getItem('popupType');
 	  	
 	  	$scope.showDefault = localStorage.getItem('callToAction');
 	  if($routeParams.formType == "Request Appointment"){
