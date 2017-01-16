@@ -127,16 +127,16 @@ angular.module('newApp')
     		                                 { name: 'select', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
          		                                 cellTemplate:'<input type="checkbox" ng-checked="row.entity.hideWebsite" name="vehicle" ng-click="grid.options.expandableRowScope.hideProduct(row)" autocomplete="off">', 
      		                                 }, 
-    		                                 { name: 'title', displayName: 'Title', width:'15%',cellEditableCondition: false,
+    		                                 { name: 'title', displayName: 'Title', width:'20%',cellEditableCondition: false,
     		                                	 cellTemplate: '<div> <a style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
     		                                 },
-    		                                 { name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: false,
+    		                                 { name: 'description', displayName: 'Description',enableColumnMenu: false, width:'25%',cellEditableCondition: false,
     		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.description}}" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
     		                                 },
-    		                                 { name: 'fileName', displayName: 'Logo', width:'15%',cellEditableCondition: false,
+    		                                 { name: 'fileName', displayName: 'Logo', width:'25%',cellEditableCondition: false,
     		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.myClickFun(row.entity)" style="line-height: 200%;white-space: nowrap;" title="{{row.entity.fileName}}" data-content="{{row.entity.fileName}}" >{{row.entity.fileName}}</a></div>',
     		                                 },
-    		                                 { name: 'addedDate', displayName: 'Date Added',enableColumnMenu: false, width:'15%',
+    		                                 { name: 'addedDate', displayName: 'Date Added',enableColumnMenu: false, width:'25%',
     		                                 }
         		                                
         		                                 ];  
@@ -320,30 +320,21 @@ angular.module('newApp')
     			 $scope.gridOptions4.enableHorizontalScrollbar = 0;
     			 $scope.gridOptions4.enableVerticalScrollbar = 2;
     			 $scope.gridOptions4.columnDefs = [
-														{ name: 'primaryTitle', displayName: 'Primary Title', width:'15%',cellEditableCondition: false,enableFiltering: true,
+														{ name: 'select', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+														     cellTemplate:'<input type="checkbox" ng-checked="row.entity.hideWebsite" name="vehicle" ng-click="grid.options.expandableRowScope.hideProduct(row)" autocomplete="off">', 
+														 }, 
+														{ name: 'primaryTitle', displayName: 'Primary Title', width:'30%',cellEditableCondition: false,enableFiltering: true,
 															 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.primaryTitle}}">{{row.entity.primaryTitle}}</a></div>',
 														},
-														{ name: 'collectionTitle', displayName: 'Collection', width:'15%',cellEditableCondition: false,
+														{ name: 'collectionTitle', displayName: 'Collection', width:'30%',cellEditableCondition: false,
    		    		                                	 cellTemplate: '<div> <a style="line-height: 200%;" title="" data-content="{{row.entity.collectionTitle}}">{{row.entity.collectionTitle}}</a></div>',
    		    		                                    },
-														{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+														{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'30%',cellEditableCondition: true,
 															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.description}}" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
 														},
-														{ name: 'designer', displayName: 'Designer',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.designer}}" data-content="{{row.entity.designer}}" >{{row.entity.designer}}</label> </div>',
-														},
-														{ name: 'amount', displayName: 'Amount',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.amount}}" data-content="{{row.entity.amount}}" >{{row.entity.amount}}</label> </div>',
-														},
-														{ name: 'price', displayName: 'Price',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.price}}" data-content="{{row.entity.price}}" >{{row.entity.price}}</label> </div>',
-														},
-														{ name: 'cost', displayName: 'Cost',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.cost}}" data-content="{{row.entity.cost}}" >{{row.entity.cost}}</label> </div>',
-														},
-														{ name: 'edit', displayName: 'Action', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-															 cellTemplate:'<i class="glyphicon glyphicon-picture"  ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit"  ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit" ng-click="grid.appScope.updateProduct(row.entity)"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.deleteProduct(row.entity)"></i>&nbsp;', 
-														},
+														
+														
+														
     			                                   ];
     			 
     			 
@@ -368,13 +359,7 @@ angular.module('newApp')
     					 $scope.deleteVehicle(row,'current');
     				 }
     			 }
-    			 
-    			 $scope.deleteProduct = function(row){
-    				 console.log(row);
-    				 $scope.deleteObj = row;
-    				 $('#productDeletePop').modal('show');
-    			 };
-    			 
+    			
     			 $scope.deleteError = false;
     			 $scope.deleteThisProduct = function(){
     				 console.log($scope.deleteObj);
