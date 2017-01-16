@@ -4403,13 +4403,15 @@ angular.module('newApp')
 	    			console.log($scope.parentCollection);
 	    			$scope.all=mainCollection;
 	    			$scope.printProductMsg = "1";
-	    			/*if(mainCollection == "All"){
-	    				$scope.findMake("",'Make')
+	    			$scope.makeSaerch = "";
+	    			//if(mainCollection == "All"){
+	    				$scope.search = {};
+	    				/*$scope.findMake("",'Make')
 	    				$scope.makeSaerch = "";
 	    				$scope.modelSaerch = "";
 	    				childCollection
-	    				parentCollection
-	    			}*/
+	    				parentCollection*/
+	    			//}
 	    			$scope.getVisitedData('datewise','countHigh','0','0',mainCollection,startDate,endDate); 			
 	    		};
 	    		

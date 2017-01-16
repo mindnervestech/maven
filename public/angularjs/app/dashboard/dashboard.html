@@ -778,38 +778,38 @@ float: right !important;
 					                                </select>
 								     						<h6 class="col-sm-12" style="margin-left: 55px;"><a style="cursor: pointer;font-size:17px;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;font-size: 17px;"ng-if="notchange == 0" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a></h6>
 								     			</div> -->
-								     			<div class="col-sm-1" style="padding: 0px;width: 9%;margin-left: 25px">
+								     			<div class="col-sm-1" style="padding: 0px;width: 9%;margin-left: 20px">
 								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
 								     						<h6 class="col-sm-1" ng-if="toplistTitle!='COLLECTIONS'"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-user" style="color: darkturquoise;font-size: 18px;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
 								     			</div>		
-								     			<div class="col-sm-2" style="padding: 0px;" ng-show="all != 'All'"> 
-								     						<h6 class="col-sm-12" style="padding: 0px;">
-								     								<span class="col-sm-12" style="padding: 0px;">
-								     									<span style="font-size: 16px;"> Filter By : </span>
-								     									<select style="width: 33%;padding: 0px;" class="form-control form-white" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')">
-										    								<option value="">All</option>
-							                  							   <option ng-repeat="item in parentCollection" ng-show="all == item.mainCollection.id" value="{{item.id}}">{{item.title}}</option>
-							              							  	</select>
-							              							  	
-								     									<select style="width: 33%;padding: 0px;" ng-if="toplistTitle!='COLLECTIONS'" ng-hide="childCollection == '0'" class="form-control form-white" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model',makeSaerch)">
-									    										<option ng-selected="true" value="">All</option>
-						                  							  		 <option ng-repeat="item in childCollection" value="{{item.id}}">{{item.title}}</option>
-						              							  		</select>
-								     								</span>
-								     						</h6>
-								     			</div>
-								    	    	 <div class="col-sm-2" style="padding:0px;width: 13%" >
-														<div class="col-sm-12">
-															<select class="form-control form-white"  ng-model="mainCollection" ng-change="vehicleData(mainCollection,startDateForListing,endDateForListing)"  required>
+								     			
+								    	    	 <div class="col-sm-2" style="padding-left: 0px;width: 18%;margin-top: 9px;" >
+														<div class="col-sm-12" style="padding: 0px;">
+														 <span style="font-size: 16px;padding: 0px;width: 38%;" class="col-sm-1"> Filter By : </span>
+															<select class="form-control form-white col-sm-11"  style="padding: 0px;width: 58%;" ng-model="mainCollection" ng-change="vehicleData(mainCollection,startDateForListing,endDateForListing);makeSaerch = ''"  required>
 																<option value="All">All Main Collections</option>
 																<option ng-repeat="mainColl in getAllCollection" value="{{mainColl.id}}" >{{mainColl.collection}}</option>
 															</select>
 														</div>
 															
 												</div> 
-												
+												<div class="col-sm-2" style="padding: 0px;width: 14%;" ng-show="all != 'All'"> 
+								     						<h6 class="col-sm-12" style="padding: 0px;">
+								     								<span class="col-sm-12" style="padding: 0px;">
+								     									<select style="width: 48%;padding: 0px;" class="form-control form-white" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')">
+										    								<option value="">All</option>
+							                  							   <option ng-repeat="item in parentCollection" ng-show="all == item.mainCollection.id" value="{{item.id}}">{{item.title}}</option>
+							              							  	</select>
+							              							  	
+								     									<select style="width: 48%;padding: 0px;" ng-if="toplistTitle!='COLLECTIONS'" ng-hide="childCollection == '0'" class="form-control form-white" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model',makeSaerch)">
+									    										<option ng-selected="true" value="">All</option>
+						                  							  		 <option ng-repeat="item in childCollection" value="{{item.id}}">{{item.title}}</option>
+						              							  		</select>
+								     								</span>
+								     						</h6>
+								     			</div>
 												<!-- <div class="col-sm-2" style="padding: 0px;"> 
 								     						<h6 class="col-sm-12">
 								     								<span class="col-sm-12" style="padding: 0px;">
@@ -853,8 +853,7 @@ float: right !important;
 													</div>
 										<div class="row">
 											<div class="col-sm-12" style="height: 360px;">
-											
-											   <div style="margin-top: 128px;text-align:center;" ng-if="childCollection == 0 && toplistTitle == 'COLLECTIONS' && mainCollection != 'All' && makeSaerch != null">
+											   <div style="margin-top: 128px;text-align:center;" ng-if="childCollection == 0 && toplistTitle == 'COLLECTIONS' && mainCollection != 'All' && makeSaerch != null && makeSaerch != ''">
 														<label style="font-size: 20px;">No sub-collections found</label>
 												</div>
 												<div style="margin-top: 128px;text-align:center;" ng-if="printProductMsg == '0' && toplistTitle == 'LISTINGS'">
@@ -869,7 +868,6 @@ float: right !important;
 												</div>		
 						       					 <div style="width: 100%;display: flex;overflow-x: auto;height: 361px;">
 						       					 	  <div ng-repeat="item in currentData | filter:search | orderBy: listingFilter " class="col-sm-2">
-									               
 													<div class="col-sm-12" ng-if="item.fileType != 'svg'">
 														<div ng-if="currentSelectedType == 0">
 								    						<img style="width: 120px;margin-left: 20px;height: 85px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+item.id+'/thumbnail':item.defaultImagePath}}">
