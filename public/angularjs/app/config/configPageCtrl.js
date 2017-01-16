@@ -434,7 +434,8 @@ angular.module('newApp')
 			 
 			 console.log(row.entity.checkValue)
 			if(row.entity.checkValue == false){
-				$('#editPopupcheck').click();
+				$location.path('/viewSelectCollection');
+				//$('#editPopupcheck').click();
 				 $scope.editleadtype.id = row.entity.id;
 				 $scope.editleadtype.profile = row.entity.profile;
 				 console.log($scope.editleadtype.profile);

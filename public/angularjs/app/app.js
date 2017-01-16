@@ -31,6 +31,7 @@ var MakeApp = angular
     'builder.components',
     'starter.apiservice',
     'app.apiserviceUser',
+    'app.apiserviceSelectCollection',
     'app.apiserviceAddEditInventory',
     'app.apiserviceBlog',
     'app.apiserviceProfile',
@@ -574,6 +575,11 @@ var MakeApp = angular
 .when('/viewInventory', {
             templateUrl: '/dealer/viewInventory/viewInventory.html',
             controller: 'viewInventoryCtrl'
+        })
+        
+        .when('/viewSelectCollection', {
+            templateUrl: '/dealer/selectCollection/selectCollection.html',
+            controller: 'selectCollectionCtrl'
         })
         
         .when('/viewRegistration', {
