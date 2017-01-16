@@ -286,17 +286,8 @@ public class CustomersRequestController extends Controller {
 		    			if(lType.actionOutcomes != null){
 		    				String arr[] = lType.actionOutcomes.split(",");
 		    				for(int i=0;i<arr.length;i++){
-		    					if(arr[i].equals("Client downloads PDF file")){
-		    						if(lType.dowpdfIds != null){
-		    							CustomerPdf cPdf = CustomerPdf.findPdfById(lType.dowpdfIds);
-			    						vm.viewPdfId = cPdf.id;
-		    						}else{
-		    							List<CustomerPdf> cPdf = CustomerPdf.getAllPdfData();
-		    							for(CustomerPdf p:cPdf){
-		    								vm.viewPdfId = p.id;
-		    								break;
-		    							}
-		    						}
+		    					if(arr[i].equals("Generate PDF from the form")){
+		    						vm.viewPdfId = 1L;
 		    						
 		    					}
 		    				}
