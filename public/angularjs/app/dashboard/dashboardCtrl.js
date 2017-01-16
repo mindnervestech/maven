@@ -4452,6 +4452,14 @@ angular.module('newApp')
 		    					
 		    				});
 	    			}else{
+	    				console.log("888888888888888888888880000000000000000---");
+	    				console.log($scope.toplistTitle);
+	    				if($scope.toplistTitle == "COLLECTIONS"){
+	    					$scope.currentSelectedType = 0;
+	    				}else if($scope.toplistTitle == "LISTINGS"){
+	    					$scope.currentSelectedType = 2;
+	    				}
+	    				console.log($scope.currentSelectedType);
 	    				apiserviceDashborad.getVisitedData($scope.userKey, type, filterBy, search, searchBy, mainCollection, startD, endD).then(function(response){
 	    				console.log(response);
 	    				$scope.weekData = response;
