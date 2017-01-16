@@ -104,6 +104,7 @@ public class RequestInfoVM {
 	public String fileName;
 	public int notifFlag;
 	public int showOnWeb;
+	public Long viewPdfId;
 	public boolean callToAction;
 	public boolean isCompleteFlag;
 	public CustomizationForm customizDataValue; 

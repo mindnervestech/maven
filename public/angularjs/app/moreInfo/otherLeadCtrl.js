@@ -90,6 +90,13 @@ angular.module('newApp')
    		                                     }
   		                                	} ,
   		                                 },
+  		                               { name: 'message', displayName: 'Message',enableFiltering: false, width:'8%',cellEditableCondition: false,
+   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    		                                       if (row.entity.isRead === false) {
+    		                                         return 'red';
+    		                                     }
+   		                                	} ,
+   		                                 },
  		                                 
      		                                 ];
   
@@ -135,13 +142,9 @@ angular.module('newApp')
 					});
 				}
 			
-			console.log($scope.josnData1);
-			console.log($scope.gridOptions.data);
 				angular.forEach($scope.gridOptions.data,function(value,key){
 						angular.forEach(value.customData,function(value1,key1){
 							angular.forEach($scope.josnData1,function(value2,key2){
-								console.log(value1.key);
-								console.log(value2.key);
 								if(value1.key == value2.key){
 									for(var i=0;i<$scope.gridMapObect.length;i++){
 										if($scope.gridMapObect[i].key != value2.key){
@@ -155,6 +158,7 @@ angular.module('newApp')
 							});
 						});
 				});
+				$scope.viewPdfFlag = 0;
 				angular.forEach($scope.gridOptions.data,function(value,key){
 					angular.forEach($scope.gridMapObect,function(value1,key1){
 						var name = value1.key;
@@ -166,6 +170,9 @@ angular.module('newApp')
 							}
 						});
 					});
+					if(value.viewPdfId == 0){
+						$scope.viewPdfFlag = 1;
+					}
 				});	
 				
 				$scope.gridMapObectView = [];
@@ -186,6 +193,18 @@ angular.module('newApp')
 					 }
 					 
 				});
+				
+				if($scope.viewPdfFlag == 0){
+					$scope.gridOptions.columnDefs.push({ name: 'viewPdf', displayName: 'View',enableFiltering: false, width:'5%',cellEditableCondition: false,
+	                  	cellTemplate:'<a href="/showPdf/{{row.entity.id}}">View</a>',
+	                        	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	                                if (row.entity.isRead === false) {
+	                                  return 'red';
+	                              }
+	                        	} ,
+	                     });
+				}
+				
 				console.log( $scope.gridMapObectView);
 				console.log($scope.gridMapObect);
 				console.log("------------------------------------------------");
@@ -216,7 +235,7 @@ angular.module('newApp')
 	  
 	  $scope.getAllRequestInfo = function() {
 		  apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data){
-		  
+		  console.log(data);
 			//$scope.gridOptions.data = data;
 				$scope.editgirdData(data);
 			$scope.requsetMoreList = data;
@@ -226,7 +245,7 @@ angular.module('newApp')
 	  
 	  var promo =  $interval(function(){
 		  apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data){
-			  
+			  console.log(data);
 				//$scope.gridOptions.data = data;
 					$scope.editgirdData(data);
 				$scope.requsetMoreList = data;

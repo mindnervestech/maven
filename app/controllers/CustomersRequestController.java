@@ -35,6 +35,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import models.AddCollection;
 import models.AuthUser;
+import models.CustomerPdf;
 import models.CustomizationDataValue;
 import models.CustomizationForm;
 import models.EmailDetails;
@@ -251,6 +252,7 @@ public class CustomersRequestController extends Controller {
 		    		vm.requestDate = df.format(info.requestDate);
 		    		vm.userRole = user.role;
 		    		vm.premiumFlagForSale = user.premiumFlag;
+		    		vm.message = info.message;
 		    		if(info.assignedTo == null) {
 		    			vm.status = "Unclaimed";
 		    		} else {
@@ -280,6 +282,16 @@ public class CustomersRequestController extends Controller {
 		    			CustomizationForm cDataValue = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")),lType.leadName);
 		    			if(cDataValue != null){
 		    				vm.customizDataValue = cDataValue;
+		    			}
+		    			vm.viewPdfId = 0L;
+		    			if(lType.actionOutcomes != null){
+		    				String arr[] = lType.actionOutcomes.split(",");
+		    				for(int i=0;i<arr.length;i++){
+		    					if(arr[i].equals("Generate PDF from the form")){
+		    						vm.viewPdfId = 1L;
+		    						
+		    					}
+		    				}
 		    			}
 		    		}
 		    		
