@@ -35,6 +35,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import models.AddCollection;
 import models.AuthUser;
+import models.CustomerPdf;
 import models.CustomizationDataValue;
 import models.CustomizationForm;
 import models.EmailDetails;
@@ -280,6 +281,25 @@ public class CustomersRequestController extends Controller {
 		    			CustomizationForm cDataValue = CustomizationForm.findByLocationsAndType(Long.valueOf(session("USER_LOCATION")),lType.leadName);
 		    			if(cDataValue != null){
 		    				vm.customizDataValue = cDataValue;
+		    			}
+		    			vm.viewPdfId = 0L;
+		    			if(lType.actionOutcomes != null){
+		    				String arr[] = lType.actionOutcomes.split(",");
+		    				for(int i=0;i<arr.length;i++){
+		    					if(arr[i].equals("Client downloads PDF file")){
+		    						if(lType.dowpdfIds != null){
+		    							CustomerPdf cPdf = CustomerPdf.findPdfById(lType.dowpdfIds);
+			    						vm.viewPdfId = cPdf.id;
+		    						}else{
+		    							List<CustomerPdf> cPdf = CustomerPdf.getAllPdfData();
+		    							for(CustomerPdf p:cPdf){
+		    								vm.viewPdfId = p.id;
+		    								break;
+		    							}
+		    						}
+		    						
+		    					}
+		    				}
 		    			}
 		    		}
 		    		

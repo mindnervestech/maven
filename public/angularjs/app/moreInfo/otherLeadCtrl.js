@@ -90,6 +90,14 @@ angular.module('newApp')
    		                                     }
   		                                	} ,
   		                                 },
+  		                               { name: 'viewPdf', displayName: 'View',enableFiltering: false, width:'5%',cellEditableCondition: false,
+  		                                	cellTemplate:'<a href="/showPdf/{{row.entity.viewPdfId}}">View</a>',
+ 	   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+ 	    		                                       if (row.entity.isRead === false) {
+ 	    		                                         return 'red';
+ 	    		                                     }
+ 	   		                                	} ,
+ 	   		                             },
  		                                 
      		                                 ];
   

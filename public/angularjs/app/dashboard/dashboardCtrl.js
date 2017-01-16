@@ -5163,10 +5163,21 @@ angular.module('newApp')
 						$scope.search.parentId = value;
 					}else if($scope.toplistTitle == 'LISTINGS'){
 						delete $scope.search.parentId;
+						if(value == ""){
+							$scope.printProductMsg = "1";
+							console.log($scope.childCollection);
+						}
 						angular.forEach($scope.currentData, function(obj, key) {
 							if(obj.collectionId == value){
 								$scope.printProductMsg = "1";
 							}
+							/*if(value == ""){
+								angular.forEach($scope.childCollection, function(obj, key) {
+									if(obj.collectionId == obj.id){
+										$scope.printProductMsg = "1";
+									}
+								});
+							}*/
 						});
 						$scope.search.collectionId = value;
 					}else{
