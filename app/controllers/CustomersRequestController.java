@@ -252,6 +252,7 @@ public class CustomersRequestController extends Controller {
 		    		vm.requestDate = df.format(info.requestDate);
 		    		vm.userRole = user.role;
 		    		vm.premiumFlagForSale = user.premiumFlag;
+		    		vm.message = info.message;
 		    		if(info.assignedTo == null) {
 		    			vm.status = "Unclaimed";
 		    		} else {

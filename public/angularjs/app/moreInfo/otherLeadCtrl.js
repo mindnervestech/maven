@@ -90,6 +90,13 @@ angular.module('newApp')
    		                                     }
   		                                	} ,
   		                                 },
+  		                               { name: 'message', displayName: 'Message',enableFiltering: false, width:'8%',cellEditableCondition: false,
+   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    		                                       if (row.entity.isRead === false) {
+    		                                         return 'red';
+    		                                     }
+   		                                	} ,
+   		                                 },
  		                                 
      		                                 ];
   
