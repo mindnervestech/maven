@@ -108,5 +108,6 @@ public class RequestInfoVM {
 	public boolean callToAction;
 	public boolean isCompleteFlag;
 	public CustomizationForm customizDataValue; 
+	public int onlineOfflineLeads;
 	
 }

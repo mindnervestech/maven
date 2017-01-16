@@ -9670,11 +9670,16 @@ public class Application extends Controller {
    
     
     public static Result showPdf(Long id) {
-    	CustomerPdf pdfFile = CustomerPdf.findPdfById(id);
-    	File file = new File(rootDir+"/" + 16L +"/"+ "OnlineLead"+"/"+ id + "/" + "onlineLead.pdf");
-    	response().setContentType("application/pdf");
-    	response().setHeader("Content-Disposition", "inline; filename=tradeIn.pdf");
-		return ok(file);
+    	try{
+    		CustomerPdf pdfFile = CustomerPdf.findPdfById(id);
+        	File file = new File(rootDir+"/" + 16L +"/"+ "OnlineLead"+"/"+ id + "/" + "onlineLead.pdf");
+        	response().setContentType("application/pdf");
+        	response().setHeader("Content-Disposition", "inline; filename=tradeIn.pdf");
+    		return ok(file);
+    	}catch(Exception e){
+    		return ok("File Not Found");
+    	}
+    	
     }
     
    

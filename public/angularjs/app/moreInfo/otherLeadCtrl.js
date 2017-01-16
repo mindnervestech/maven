@@ -134,8 +134,6 @@ angular.module('newApp')
 				var findFlag = 0;
 				
 				$scope.josnData1 = [];
-				console.log("******************");
-				console.log($scope.gridOptions);
 				if($scope.gridOptions.data.length > 0){
 					angular.forEach(angular.fromJson($scope.gridOptions.data[0].customizDataValue.jsonData),function(value,key){
 						$scope.josnData1.push(value);
@@ -196,7 +194,7 @@ angular.module('newApp')
 				
 				if($scope.viewPdfFlag == 0){
 					$scope.gridOptions.columnDefs.push({ name: 'viewPdf', displayName: 'View',enableFiltering: false, width:'5%',cellEditableCondition: false,
-	                  	cellTemplate:'<a href="/showPdf/{{row.entity.id}}">View</a>',
+	                  	cellTemplate:'<a href="/showPdf/{{row.entity.id}}" target="_blank">View</a>',
 	                        	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	                                if (row.entity.isRead === false) {
 	                                  return 'red';

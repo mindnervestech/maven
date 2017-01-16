@@ -348,24 +348,34 @@ public class CustomersRequestController extends Controller {
 		        			vm.imgId = "/assets/images/no-image.jpg";
 		        		}
 		    		}
+		    		vm.message = info.message;
 		    		vm.name = info.name;
 		    		vm.phone = info.phone;
 		    		vm.email = info.email;
 		    		vm.bestDay = info.bestDay;
 		    		vm.bestTime = info.bestTime;
 		    		vm.custZipCode = info.custZipCode;
-		    		//vm.enthicity = info.enthicity;
+		    		vm.onlineOfflineLeads = info.onlineOrOfflineLeads;
 		    		vm.isContactusType = info.isContactusType;
 		    		
 		    		vm.requestDate = df.format(info.requestDate);
 		    		vm.productId = info.productId;
-		    		
+		    		vm.viewPdfId = 0L;
 		    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));
 		    		if(lType != null){
 		    			vm.showOnWeb = lType.shows;
 		    			vm.callToAction = lType.callToAction;
 		    			vm.typeOfLead = lType.leadName;
 		    			vm.leadId = lType.id;
+		    			if(info.onlineOrOfflineLeads == 1){
+		    				String arr[] = lType.actionOutcomes.split(",");
+		    				for(int i=0;i<arr.length;i++){
+		    					if(arr[i].equals("Generate PDF from the form")){
+		    						vm.viewPdfId = 1L;
+		    					}
+		    				}
+			    			
+			    		}
 		    		}
 		    			
 		    		List<UserNotes> notesList = UserNotes.findRequestMore(info);

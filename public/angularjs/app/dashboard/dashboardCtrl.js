@@ -10396,6 +10396,23 @@ angular.module('newApp')
 		                            	} ,
 		                            });
 						
+						
+						$scope.gridOptions13.columnDefs.push({ name: 'message', displayName: 'Message', width:'14%',cellEditableCondition: false,
+		                   	cellTemplate:'<a ng-if="row.entity.onlineOfflineLeads == 1">{{row.entity.message}}</a><a ng-if="row.entity.onlineOfflineLeads == 0">_</a>',
+		                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		                          if (row.entity.noteFlag != 1) {
+		                            return 'red';
+		                          }
+		                   	} ,
+		                    });
+						$scope.gridOptions13.columnDefs.push({ name: 'view', displayName: 'view', width:'14%',cellEditableCondition: false,
+		                   	cellTemplate:'<a href="/showPdf/{{row.entity.id}}" target="_blank" ng-if="row.entity.onlineOfflineLeads == 1">View</a><a ng-if="row.entity.onlineOfflineLeads == 0">_</a>',
+		                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		                          if (row.entity.noteFlag != 1) {
+		                            return 'red';
+		                          }
+		                   	} ,
+		                    });
 						console.log($scope.gridMapObect);
 						angular.forEach($scope.gridMapObect,function(value,key){
 							$scope.name = value.key;
