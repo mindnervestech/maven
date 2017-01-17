@@ -174,7 +174,7 @@ angular.module('newApp')
 		                                 { name: 'leadName', displayName: 'Leads Types', width:'50%',cellEditableCondition: false
 		                                 },
 		                                 {name:'org', displayName:'Show on Website', width:'15%',
-		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Trade-In Appraisal\' || row.entity.leadName == \'Request More Info\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row)">  </div>',
+		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Trade-In Appraisal\' || row.entity.leadName == \'Request More Info\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row,checkValue)">  </div>',
 		                                 },
 		                                 { name: 'edit', displayName: ' ', width:'20%',
     		                                 cellTemplate:'<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Schedule Test Drive\' && row.entity.leadName != \'Trade-In Appraisal\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test Drive\' && row.entity.leadName != \'Trade-In Appraisal\'" ng-click="grid.appScope.DeleteUserPopup(row)"  title="Delete"></i>', 
@@ -430,17 +430,18 @@ angular.module('newApp')
 			 });
 		 }
 		 
-		 $scope.selectCheck = function(row){
-			 
+		 $scope.selectCheck = function(row, checkValue){
 			 console.log(row.entity.checkValue)
 			if(row.entity.checkValue == false){
-				$location.path('/viewSelectCollection');
+				///'+"Edit"+"/"+row.entity.lead_name
 				//$('#editPopupcheck').click();
 				 $scope.editleadtype.id = row.entity.id;
 				 $scope.editleadtype.profile = row.entity.profile;
 				 console.log($scope.editleadtype.profile);
 				 $scope.selectCheckbox(row);
 			//	 $scope.leadTypeAll();
+				$location.path('/viewSelectCollection/'+row.entity.id);
+				
 			}else{
 				$scope.editleadtype = {};
 				$scope.editleadtype.id = row.entity.id;

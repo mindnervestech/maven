@@ -30,6 +30,21 @@ angular.module('app.apiserviceSelectCollection', [])
 		return defer.promise;
 	};
 	
+	this.Updatecheckbox=function(editleadtype){
+		var defer = $q.defer();
+		
+		$http.post('/Updatecheckbox',editleadtype).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Update successfully",
+			});
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
 	this.deleteThisProduct=function(id){
 		var defer = $q.defer();		
 		$http.get('/deleteThisProduct/'+id).success(function(data) {

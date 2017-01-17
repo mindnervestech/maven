@@ -2,6 +2,7 @@ angular.module('newApp')
 .controller('selectCollectionCtrl', ['$scope','$http','$location','$filter','$upload','apiserviceSelectCollection','$routeParams', function ($scope,$http,$location,$filter,$upload,apiserviceSelectCollection,$routeParams) {
 	
 	console.log("Hello this is ***** this is selectCollectionCtrl  ");
+	console.log($routeParams.leadId);
 	$scope.addObj = "collection";
 	$scope.getAllInventory = function(){
 		apiserviceSelectCollection.getAllInventoryData().then(function(data){
@@ -16,10 +17,10 @@ angular.module('newApp')
 	}
 	
 	
-	
 	$scope.getAllInventory();
 	
 	$scope.getCollectionData = function(obj){
+				
 		$scope.mainCollId = obj.id;
 		delete obj.$$hashKey;
 		localStorage.setItem('mainCollection', JSON.stringify(obj));
@@ -34,18 +35,6 @@ angular.module('newApp')
 		}			
 	};
 	
-	
-	$scope.hideWebsite = false;
-	$scope.updateHideData = function(hideWebsite){
-		$scope.rowData = {};
-		$scope.rowData.hideWebsite = hideWebsite;
-		$scope.rowData.id = $scope.mainCollId;
-		console.log($scope.rowData);
-		console.log($scope.mainCollId);
-		$http.post('/updateHideData',$scope.rowData).success(function(data) {
-			 console.log(data);
-		});
-	}
 	
 	$scope.tempDate = new Date().getTime();
 	$scope.type = "All";
@@ -103,17 +92,12 @@ angular.module('newApp')
     		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
     		 expandableRowTemplate: '/dealer/viewInventory/expandableRowTemplate.html',
     		 expandableRowScope: {
-	    			 editProduct: function(item){ 
-	    				 $scope.editProduct(item);
-	    			 },
-				     deleteVehicle:function(item,type){
-						 console.log(item);
-						 $scope.deleteVehicle(item,type);
-						 console.log("kkkkkkkkkkkkk");
-					 },
-					 hideProduct:function(item){
-						 $scope.hideProduct(item);
-					 },
+	  				  
+					 manuClicked:function(item,value){
+						 console.log("xxxcccc");
+						 console.log(value);
+						 $scope.manuClicked(item,value);
+					 }
     			 
     		    },
      		 paginationPageSize: 150,
@@ -125,7 +109,7 @@ angular.module('newApp')
     		 $scope.gridOptions.enableVerticalScrollbar = 2;
     		 $scope.gridOptions.columnDefs = [
     		                                 { name: 'select', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-         		                                 cellTemplate:'<input type="checkbox" ng-checked="row.entity.hideWebsite" name="vehicle" ng-click="grid.options.expandableRowScope.hideProduct(row)" autocomplete="off">', 
+         		                                 cellTemplate:'<input type="checkbox" ng-checked="row.entity.hideWebsite" name="vehicle" ng-model="selected" ng-change="grid.options.expandableRowScope.manuClicked(row,selected)" autocomplete="off">', 
      		                                 }, 
     		                                 { name: 'title', displayName: 'Title', width:'20%',cellEditableCondition: false,
     		                                	 cellTemplate: '<div> <a style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
@@ -186,115 +170,6 @@ angular.module('newApp')
     			 
     			 };
     			 console.log($scope.vehiClesList);
-    			 $scope.gridOptions1 = {
-    		    		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
-    		    		 paginationPageSize: 150,
-    			 		    enableFiltering: true,
-    			 		    useExternalFiltering: true,
-    		    		    rowTemplate: '<div grid="grid" class="ui-grid-draggable-row" draggable="true"><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader, \'custom\': true }" ui-grid-cell></div></div>'
-    		    		 };
-    		    		 $scope.gridOptions1.enableHorizontalScrollbar = 0;
-    		    		 $scope.gridOptions1.enableVerticalScrollbar = 2;
-    		    		 $scope.gridOptions1.columnDefs = [
-																{ name: 'title', displayName: 'Title', width:'15%',cellEditableCondition: false,enableFiltering: true,
-																	 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
-																},
-																{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
-																	 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.description}}" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
-																},
-																{ name: 'fileName', displayName: 'Logo', width:'15%',cellEditableCondition: false,enableFiltering: false,
-					    		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.myClickFun(row.entity)" style="line-height: 200%;white-space: nowrap;" title="{{row.entity.fileName}}" data-content="{{row.entity.fileName}}" >{{row.entity.fileName}}</a></div>',
-					    		                                 },
-																{ name: 'addedDate', displayName: 'Date Added',enableColumnMenu: false, width:'12%',
-					    		                                 },
-					    		                                { name: 'type', displayName: 'Type',enableColumnMenu: false, width:'12%',
-					    		                                },
-																{ name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
-																	cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
-																},
-															
-																{ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																	 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProductOrCollection(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteProductAndCollection(row,\'draft\')" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
-																
-																},
-    		        		                                
-    		        		                                 ];  
-    		     
-    		    		 $scope.gridOptions1.onRegisterApi = function(gridApi){
-    		    			 $scope.gridApi = gridApi;
-    		    			 gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-    		    			 $scope.rowData = rowEntity;
-    		    			 $scope.$apply();
-    		    				 var str = $scope.rowData.price.split(" ");
-    		    				 $scope.rowData.price = str[1];
-    		    				 console.log("hhhhhhhhhhhhhhhhhhhhh");
-    		    				 console.log($scope.rowData);
-		    				 	 apiserviceSelectCollection.updateProduct($scope.rowData).then(function(data){
-		    				 		$scope.rowData.price = "$ "+$scope.rowData.price;
-    		    				 });
-    		    			 });
-    		    			 
-    		    			 $scope.gridApi.core.on.filterChanged( $scope, function() {
-    		    		          var grid = this.grid;
-    		    		          $scope.gridOptions1.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term,'last4Vin':grid.columns[1].filters[0].term,'stock':grid.columns[2].filters[0].term},undefined);
-    		    		        });
-    		    			 
-    		    			 };	 
-    			 
-    		    			 $scope.gridOptions2 = {
-    		    		    		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
-    		    		    		 paginationPageSize: 150,
-    		    			 		    enableFiltering: true,
-    		    			 		    useExternalFiltering: true,
-    		    		    		    rowTemplate: '<div grid="grid" class="ui-grid-draggable-row" draggable="true"><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader, \'custom\': true }" ui-grid-cell></div></div>',
-    		    		    		 };
-    		    		    		 $scope.gridOptions2.enableHorizontalScrollbar = 0;
-    		    		    		 $scope.gridOptions2.enableVerticalScrollbar = 2;
-    		    		    		 $scope.gridOptions2.columnDefs = [
-																		{ name: 'title', displayName: 'Title', width:'15%',cellEditableCondition: false,enableFiltering: true,
-																			 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
-																		},
-																		{ name: 'description', displayName: 'Description',enableColumnMenu: false, width:'18%',cellEditableCondition: true,
-																			 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.description}}" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
-																		},
-																		{ name: 'fileName', displayName: 'Logo', width:'17%',cellEditableCondition: false,enableFiltering: false,
-							    		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.myClickFun(row.entity)" style="line-height: 200%;white-space: nowrap;" title="{{row.entity.fileName}}" data-content="{{row.entity.fileName}}" >{{row.entity.fileName}}</a></div>',
-							    		                                 },
-																		{ name: 'type', displayName: 'Type',enableColumnMenu: false, width:'15%',
-							    		                                 },
-																		{ name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'15%',cellEditableCondition: false,
-																			cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
-																		},
-																		{ name: 'pageViewCount', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'10%',cellEditableCondition: true,
-																		},
-																	
-																		
-																		{ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																			 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i>  &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.hideVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteProductAndCollectionPerMa(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
-																		
-																		},
-    		    		        		                                
-    		    		        		                                 ];  
-    		    		     
-    		    		    		 $scope.gridOptions2.onRegisterApi = function(gridApi){
-    		    		    			 $scope.gridApi = gridApi;
-    		    		    			 gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-    		    		    			 $scope.rowData = rowEntity;
-    		    		    			 $scope.$apply();
-    		    		    				 var str = $scope.rowData.price.split(" ");
-    		    		    				 $scope.rowData.price = str[1];
-    		    		    				 apiserviceSelectCollection.updateProduct($scope.rowData).then(function(data){
-    		 		    				 		$scope.rowData.price = "$ "+$scope.rowData.price;
-    		     		    				 });
-    		    		    			 });
-    		    		    			 
-    		    		    			 $scope.gridApi.core.on.filterChanged( $scope, function() {
-    		    		    		          var grid = this.grid;
-    		    		    		          $scope.gridOptions2.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term,'last4Vin':grid.columns[1].filters[0].term,'stock':grid.columns[2].filters[0].term},undefined);
-    		    		    		        });
-    		    		    			 
-    		    		    			 };
-
     			 
     			 $scope.updateVehicleBody = function(row){
     				 $scope.rowData = row.entity;
@@ -321,7 +196,7 @@ angular.module('newApp')
     			 $scope.gridOptions4.enableVerticalScrollbar = 2;
     			 $scope.gridOptions4.columnDefs = [
 														{ name: 'select', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-														     cellTemplate:'<input type="checkbox" ng-checked="row.entity.hideWebsite" name="vehicle" ng-click="grid.options.expandableRowScope.hideProduct(row)" autocomplete="off">', 
+															cellTemplate:'<input type="checkbox" ng-checked="row.entity.hideWebsite" name="vehicle" ng-model="selected" ng-change="grid.appScope.manuClicked(row,selected)" autocomplete="off">', 
 														 }, 
 														{ name: 'primaryTitle', displayName: 'Primary Title', width:'30%',cellEditableCondition: false,enableFiltering: true,
 															 cellTemplate: '<div> <a ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.primaryTitle}}">{{row.entity.primaryTitle}}</a></div>',
@@ -337,15 +212,7 @@ angular.module('newApp')
 														
     			                                   ];
     			 
-    			 
-    			 $scope.historyVehicle = function(row){
-    				 apiserviceSelectCollection.getVehicleHistory(row.entity.vin).then(function(data){
-    				 
-    						$scope.vehicleHistory = data;
-    						$('#vehicleHistory').click();
-    					});
-    			 };
-    			 
+    		
     			 $scope.updateProduct = function(row){
     				 console.log(row);
     				 $location.path('/update-product/'+row.id);    				 
@@ -360,28 +227,7 @@ angular.module('newApp')
     				 }
     			 }
     			
-    			 $scope.deleteError = false;
-    			 $scope.deleteThisProduct = function(){
-    				 console.log($scope.deleteObj);
-    				 apiserviceSelectCollection.deleteThisProduct($scope.deleteObj.id).then(function(data){    					 
-    					 if(data == 'error'){
-    						 $.pnotify({
-  							    title: "Error",
-  							    type:'error',
-  							    text: "Can't delete this product",
-  							});
-    						 $scope.deleteError = true;
-    					 }else{
-        					 $('#productDeletePop').modal('hide');
-    						 $.pnotify({
-  							    title: "Success",
-  							    type:'success',
-  							    text: "Product delete successfully",
-  							});
-    						 $scope.deleteError = false;
-    					 }    					 
- 					});    				 
-    			 };
+    			 
     			 
     			 $scope.hideProduct = function(row){
     				 console.log(row);
@@ -408,78 +254,6 @@ angular.module('newApp')
     			 }
     			 
     			
-    			 
-    			 $scope.hideVehicle = function(row){
-    				 console.log(row);
-    				 if(row.entity.type == "Product"){
-    					 if(row.entity.publicStatus == "publish"){
-	     						$scope.hideText = "Product has been hidden from the website and moved to Drafts list";
-	  							$scope.hideTitle = "Product moved to drafts"; 
-	     				 }else{
-	     						$scope.hideText = "Product has been moved to Current Manufacturers list";
-	  							$scope.hideTitle = "Product moved to Current Manufacturers";
-	     				 }
-	     				 apiserviceSelectCollection.getGoTodraftProduct(row.entity.id).then(function(data){
-	  						
-	  							$('#hideVehicle').click();
-	  						if(row.entity.publicStatus == "deleted"){
-	  							$.pnotify({
-	  							    title: "Success",
-	  							    type:'success',
-	  							    text: "Product Added In Draft",
-	  							}); 
-	  							//$scope.newlyArrivedTab();
-	  						   
-	  	    				 }else{
-	  	    					$.pnotify({
-	  							    title: "Success",
-	  							    type:'success',
-	  							    text: "Product Added In Current Manufacturers",
-	  							});
-	  	    				 }
-	  					});
- 				 }else if(row.entity.type == "Collection"){
-	    					 if(row.entity.publicStatus == "publish"){
-	     						$scope.hideText = "Collection has been hidden from the website and moved to Drafts list";
-	  							$scope.hideTitle = "Collection moved to drafts"; 
-	     				 }else{
-	     						$scope.hideText = "Collection has been moved to Current Manufacturers list";
-	  							$scope.hideTitle = "Collection moved to Current Manufacturers";
-	     				 }
-	     				 apiserviceSelectCollection.getGoTodraft(row.entity.id).then(function(data){
-	  						
-	  							$('#hideVehicle').click();
-	  						if(row.entity.publicStatus == "publish"){
-	  							$.pnotify({
-	  							    title: "Success",
-	  							    type:'success',
-	  							    text: "Collection Added In Draft",
-	  							}); 
-	  							//$scope.newlyArrivedTab();
-	  						   
-	  	    				 }else{
-	  	    					$.pnotify({
-	  							    title: "Success",
-	  							    type:'success',
-	  							    text: "Collection Added In Current Manufacturers",
-	  							});
-	  	    				 }
-	  					});
-    				 }
-    				
-    				 
-    			 }
-    			 
-    			 $scope.mouse = function(row) {
-    					$('#thumb_image').attr("src", "/getImage/"+row.entity.imgId+"/thumbnail?date="+$scope.tempDate );
-    					$('#thumb_image').show();
-    					$('#imagePopup').modal();
-    				};
-    				$scope.mouseout = function(row) {
-    					console.log("Hiiiiiiiiiiii");
-    					//$('#imgClose').click();
-    				};
-    				
     				$scope.vehicleData = function(sts){
     					if($scope.vType == 'new'){
     						 $scope.doPublic = 0;
@@ -495,27 +269,13 @@ angular.module('newApp')
 		    			 			$scope.gridOptions.columnDefs[10].displayName='Views';
 		    			 		});
     					}
-    					if($scope.vType == 'sold'){
-    						 $scope.doPublic = 2;
-    						 apiserviceSelectCollection.getAllSoldVehiclesByType(sts).then(function(data){
-   						 
-		    			 			for(var i=0;i<data.length;i++) {
-		    			 				data[i].price = "$ "+data[i].price;
-		    			 			}
-		    			 			$scope.vType = "sold";
-		    			 			$scope.vehiClesList = data;
-		    			 			$scope.gridOptions2.data = data;
-		    			 			$scope.gridOptions.columnDefs[9].displayName='Next Test Drive';
-		    			 			$scope.gridOptions.columnDefs[10].displayName='Views';
-		    			 		});
-   					}
+    				
     				};
-    				$scope.getImages = function(row) {
-    					$location.path('/editVehicle/'+row.entity.id+"/"+true+"/"+row.entity.vin);
-    				};
+    				
     				
     				
     		    			 $scope.newlyArrivedTab = function() {
+    		    				 
     		    				 $scope.addObj = "collection";
     		    				 $scope.flagForUser = true;
     		    				 $scope.gridOptions.data = [];
@@ -525,24 +285,7 @@ angular.module('newApp')
     		    				 
 		    							console.log(data);
 		    							$scope.userLocationId = data;
-    		    				 if($scope.userType == "Photographer"){
-    		    					 apiserviceSelectCollection.getAllVehiclesImage($scope.userLocationId).then(function(data){
     		    				
-    		    			 			console.log(data);
-    		    			 			
-    		    			 			for(var i=0;i<data.length;i++) {
-    		    			 				
-    		    			 				data[i].userRole=$scope.userRole;
-    		    			 				
-    		    							}
-    		    			 			
-    		    			 			$scope.vType = "new";
-    		    			 			$scope.vehiClesList = data;
-    		    			 			$scope.gridOptions.data = data;
-    		    			 			console.log($scope.gridOptions.data);
-    		    			 		});
-    		    				 }
-    		    				 else{
     		    					 apiserviceSelectCollection.getAllCollectionList($scope.userLocationId,"publish",$scope.mainCollId).then(function(data){
     		    					
     		    						 console.log(data);
@@ -562,10 +305,24 @@ angular.module('newApp')
      		    			 			$scope.vType = "new";
      		    			 			$scope.vehiClesList = data;
      		    			 			$scope.gridOptions.data = data;
+     		    			 			 console.log($scope.selectmanu);
+         		    					angular.forEach($scope.selectmanu, function(obj, index){
+         		    						angular.forEach($scope.gridOptions.data, function(obj1, index1){
+         		    							if(obj == obj1.id){
+         		    								obj1.hideWebsite = true;
+         		    							}
+         		    							 angular.forEach(obj1.subCollection, function(obj2, index2){
+         		    								 if(obj == obj2.id){
+         		    									 obj2.hideWebsite = true;
+         		    								 }
+         		    							 });
+         		    						});
+         		    					});
+     		    			 			
+     		    			 			
      		    			 			console.log($scope.gridOptions.data);
      		    			 		});
     		    					 
-    		    				 }
     		    				 });
     		    			 }
     		    			 
@@ -579,7 +336,16 @@ angular.module('newApp')
     		    			 		 $scope.gridOptions4.data = data;
     		    			 		angular.forEach($scope.gridOptions4.data, function(row,key) {
     		    			 			row.collectionTitle = row.collection.title;
+    		    			 			row.hideWebsite = false;
 	    			 				});
+    		    			 		
+    		    			 		angular.forEach($scope.selectmanu, function(obj, index){
+     		    						angular.forEach($scope.gridOptions4.data, function(obj1, index1){
+     		    							if(obj == obj1.id){
+     		    								obj1.hideWebsite = true;
+     		    							}
+     		    						});
+     		    					});
     		    			 	});
     		    			 }
     		    			 
@@ -587,29 +353,21 @@ angular.module('newApp')
     		    			
     		    			 $scope.desGrid = function(){
     		    				 $scope.array = [
-    		    		    		                                 { name: 'title', displayName: 'Title', width:'15%',cellEditableCondition: false,
+					    		    				                 { name: 'select', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+					    		    				                	 cellTemplate:'<input type="checkbox" ng-checked="row.entity.hideWebsite" name="vehicle" ng-model="selected" ng-change="grid.appScope.manuClicked(row,selected)" autocomplete="off">', 
+					         		                                 }, 
+    		    		    		                                 { name: 'title', displayName: 'Title', width:'25%',cellEditableCondition: false,
     		    		    		                                	 cellTemplate: '<div> <a style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
     		    		    		                                 },
-    		    		    		                                 { name: 'description', displayName: 'Description',enableColumnMenu: false, width:'15%',cellEditableCondition: false,
+    		    		    		                                 { name: 'description', displayName: 'Description',enableColumnMenu: false, width:'25%',cellEditableCondition: false,
     		    		    		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.description}}" data-content="{{row.entity.description}}" >{{row.entity.description}}</label> </div>',
     		    		    		                                 },
-    		    		    		                                 { name: 'fileName', displayName: 'Logo', width:'15%',cellEditableCondition: false,
-    		    		    		                                	 cellTemplate: '<div> <a ng-click="grid.api.expandable.myClickFun(row.entity)" style="line-height: 200%;white-space: nowrap;" title="{{row.entity.fileName}}" data-content="{{row.entity.fileName}}" >{{row.entity.fileName}}</a></div>',
+    		    		    		                                 { name: 'fileName', displayName: 'Logo', width:'25%',cellEditableCondition: false,
+    		    		    		                                	 cellTemplate: '<div> <a style="line-height: 200%;white-space: nowrap;" title="{{row.entity.fileName}}" data-content="{{row.entity.fileName}}" >{{row.entity.fileName}}</a></div>',
     		    		    		                                 },
     		    		    		                                 { name: 'addedDate', displayName: 'Date Added',enableColumnMenu: false, width:'15%',
     		    		    		                                 },
-    		    		    		                                 { name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'9%',cellEditableCondition: false,
-    		    		    		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
-    		    		    		                                 },
-    		    		    		                                 { name: 'pageViewCount', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'8%',cellEditableCondition: false,
-    		    		    		                                 },
-    		    		    		                                 { name: 'countProduct', displayName: 'Product Count',enableColumnMenu: false,enableFiltering: false, width:'8%',cellEditableCondition: false,
-    		    		    		                                 },
-    		    		    		                                 
-    		    		    		                                 { name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    		    		        		                                 cellTemplate:'<input type="checkbox" ng-checked="row.entity.hideWebsite" name="vehicle" ng-click="grid.appScope.hideProduct(row)" autocomplete="off">', 
-    		    		    		                                 }
-    		    		    		                                 
+    		    		    		                                    		    		    		                                 
     		    		        		                                
     		    		        		                                 ];
     		    				 
@@ -619,15 +377,12 @@ angular.module('newApp')
     		    		
     		    	
     		    			 
-    	$scope.editVehicle = function(row) {
-    		$location.path('/editVehicleNew/'+row.entity.id+"/"+false+"/"+row.entity.vin);
-    	}	 
+    	
     	
    $scope.vehiClesList = [];
   
    $scope.addMainCollFields = [];
    $scope.viewVehiclesInit = function() {
-	   console.log("?>?>?>?>?");
 	   $scope.newlyArrivedTab();
 	   setTimeout(function(){ $scope.newlyArrivedTab(); }, 1000);
 	   
@@ -638,51 +393,6 @@ angular.module('newApp')
 	   });
 			
    }
-   
-  
-   $scope.deleteProductAndCollectionPerMa  = function(row){
-	   console.log("kk");
-	   $('#modal-basic1').modal('show');
-	   $scope.rowDataVal = row;  
-	 
-		   
-	   
-   }
-  
-   $scope.deleteVehicleRow = function() {
-	   apiserviceSelectCollection.deleteVehicleById($scope.rowDataVal.entity.id).then(function(data){
-		   $scope.newlyArrivedTab();
-			   
-		});
-   }
-   
-$scope.deleteVehicleRowPer = function() {
-	   apiserviceSelectCollection.deleteVehicleByIdPer($scope.rowDataVal.entity.id).then(function(data){
-		   if(data == "Error"){
-			   $.pnotify({
-				    title: "Error",
-				    type:'success',
-				    text: "Can't Delete parent collection",
-				});
-		   }
-		   $scope.soldTab();
-		});
-   }
-
-$scope.deleteProductRowPer = function() {
-	   apiserviceSelectCollection.deleteProductRowPer($scope.rowDataVal.entity.id).then(function(data){
-		   if(data == "Error"){
-			   $.pnotify({
-				    title: "Error",
-				    type:'success',
-				    text: "Can't Delete parent collection",
-				});
-		   }
-		   $scope.soldTab();
-		});
-}
-
-
    
    $scope.soldContact = {};
    
@@ -695,56 +405,7 @@ $scope.deleteProductRowPer = function() {
 			   
 	   });
    }
-   $scope.updateVehicleStatus = function(row){
-	   $scope.statusVal = "";
-	   console.log("llllllllllllll");
-	   if(row.entity.status == 'Newly Arrived') {
-		   $('#btnStatusSchedule').click();
-		   $scope.soldContact.statusVal = "Sold";
-	   }
-	   if(row.entity.status == 'Sold') {
-		   
-		    $('#AddbtnInventory').modal();
-		  
-		  }
-	 
-	   $scope.soldContact.make = row.entity.make;
-	   $scope.soldContact.mileage = row.entity.mileage;
-	   $scope.soldContact.model = row.entity.model;
-	   $scope.soldContact.year = row.entity.year;
-	   $scope.soldContact.vin = row.entity.vin;
-	   $scope.soldContact.id = row.entity.id;
-	   var str = row.entity.price.split(" ");
-	   $scope.soldContact.price = str[1];
-   }
-   
-	$scope.saveVehicalStatus = function() {
-		apiserviceSelectCollection.setVehicleStatus($scope.soldContact).then(function(data){
-		
-			$('#vehicalStatusModal').modal('hide');
-			if($scope.soldContact.statusVal == 'Newly Arrived') {
-				 $scope.viewVehiclesInit();
-				 $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Vehicle status marked Newly Arrived",
-					});
-				 $scope.soldTab();
-			} 
-			if($scope.soldContact.statusVal == 'Sold') {
-				$scope.soldTab();
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Vehicle status marked sold",
-				});
-				
-				$scope.newlyArrivedTab();
-			}
-			
-	});
-}
-   
+ 
    $scope.editingData = [];
    
    for (var i = 0; i <  $scope.vehiClesList.length; i++) {
@@ -788,10 +449,6 @@ $scope.deleteProductRowPer = function() {
 	   
 		});
    }
-   
-  
-   
-   
    
    /*------------------------------------Add coll------------------------*/
    
@@ -837,31 +494,22 @@ $scope.deleteProductRowPer = function() {
 		                                    ];
 	}
 	
-	$scope.addManufacturers = function(){
+	$scope.addCollectionAndProduct = function(){
 		console.log(" In addManufacutures function ");
-		
+		$scope.editleadtype.id = $routeParams.leadId;
+		$scope.editleadtype.maunfacturersIds = $scope.selectmanu.toString();
+		 console.log("out of funtion");
+		 console.log($scope.editleadtype);
+		 if($scope.editleadtype.profile == "All Collections" || $scope.editleadtype.profile == "All Products"){
+			 $scope.editleadtype.maunfacturersIds = null;
+		 }
+		 apiserviceSelectCollection.Updatecheckbox($scope.editleadtype).then(function(data){
+		 
+			 console.log(data);
+			 console.log("in of funtion");
+    	});
 	}
-	
-	
-	$scope.collections = {};
-	$scope.saveCollectionData = function(){
-		console.log("in collection");
-		$scope.collections.title = $scope.collections.title;
-		if($scope.collections.id == undefined){
-			$scope.collections.id = 0;
-		}
-		console.log($scope.collections);
-		apiserviceSelectCollection.addNewCollection($scope.collections).then(function(data){
-		
-				$scope.form = data;
-			 console.log("::::::success")
-				
-			 $("#collectionpopups").modal('hide');
-			 $('#editcollectionpopup').modal('hide');
-			 $scope.allCollectionData();
-			});
-	}
-	
+
 	
 	$scope.editCollection = function(row){
 		console.log(row.entity);
@@ -869,28 +517,85 @@ $scope.deleteProductRowPer = function() {
 		$('#editcollectionpopup').modal('show');
 	}
 	
-	
-	$scope.removeCollection = function(row){
-		console.log(row.entity);
-		$scope.collections = row.entity.id;
-		console.log($scope.collections);
-		$('#deletepopup').modal('show');
-	}
-	
-	
-	$scope.deleteCollection = function(){
-		 console.log("in deletend functio");
-		 console.log($scope.collections);
-		 apiserviceSelectCollection.deleteCollectionData($scope.collections).then(function(data){
+	$scope.selectmanu = [];
+	  $scope.manuClicked = function(rolePer,value){
+			console.log(rolePer.entity);
+			console.log(value);
+			console.log($scope.editleadtype.profile);
+			console.log($scope.gridOptions.data);
+			if(value == true){//ng-checked="row.entity.hideWebsite"
+				$scope.selectmanu.push(rolePer.entity.id);
+					if($scope.editleadtype.profile == "Select products Manually"){
+						angular.forEach($scope.gridOptions4.data, function(obj, index){
+							if(rolePer.entity.id == obj.id){
+								obj.hideWebsite = true;
+							}
+						});
+					}else if($scope.editleadtype.profile == "Select Collections Manually"){
+						angular.forEach($scope.gridOptions.data, function(obj, index){
+							if(rolePer.entity.id == obj.id){
+								obj.hideWebsite = true;
+								 angular.forEach(obj.subCollection, function(obj1, index1){
+									 obj1.hideWebsite = true;
+									 $scope.selectmanu.push(obj1.id);
+								 });
+							}
+						});
+					}
+				
+			}else{
+				console.log("sssss");
+				$scope.deleteItems(rolePer.entity);
+					if($scope.editleadtype.profile == "Select products Manually"){
+						angular.forEach($scope.gridOptions4.data, function(obj, index){
+							if(rolePer.entity.id == obj.id){
+								obj.hideWebsite = false;
+							}
+							 
+						});
+					}else if($scope.editleadtype.profile == "Select Collections Manually"){
+						angular.forEach($scope.gridOptions.data, function(obj, index){
+							if(rolePer.entity.id == obj.id){
+								obj.hideWebsite = false;
+								 angular.forEach(obj.subCollection, function(obj1, index1){
+									 obj1.hideWebsite = false;
+									 $scope.deleteItems(obj1);
+								 });
+							}
+							 
+						});
+					}
+				
+			}
+			console.log($scope.selectmanu);
+		}
+		$scope.deleteItems = function(rolePer){
+			angular.forEach($scope.selectmanu, function(obj, index){
+				 if ((rolePer.id == obj)) {
+					 $scope.selectmanu.splice(index, 1);
+			       	return;
+			    };
+			  });
+		}
 		
-				 console.log("out deletend functio");
-				 $scope.allCollectionData();
-				 
-				 
+		
+		$scope.selectProfile = function(selectP){
+			$scope.selectmanu = [];
+			  if(selectP == "All Collections"){
+				  angular.forEach($scope.manufacturerslist, function(obj, index){
+					  $scope.selectmanu.push(obj.id);
+				 });
+			  }else if(selectP == "All Products"){
+				  
+			  }else if(selectP == "Select Collections Manually"){
+				  $scope.newlyArrivedTab();
+			  }else if(selectP == "Select products Manually"){
+				  $scope.productTab();
+			  }
+			  console.log($scope.selectmanu);
+			  
+		}
 
-			});
-	 }
-	
 	
 }]).filter('myProgressType', function() {
 	  return function (input) {

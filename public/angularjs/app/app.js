@@ -577,7 +577,7 @@ var MakeApp = angular
             controller: 'viewInventoryCtrl'
         })
         
-        .when('/viewSelectCollection', {
+        .when('/viewSelectCollection/:leadId', {
             templateUrl: '/dealer/selectCollection/selectCollection.html',
             controller: 'selectCollectionCtrl'
         })
