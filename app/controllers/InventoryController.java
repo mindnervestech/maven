@@ -18,6 +18,7 @@ import models.InventorySetting;
 import models.LeadType;
 import models.Product;
 import models.ProductImages;
+import models.RequestMoreInfo;
 import models.Sections;
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -930,9 +931,10 @@ public class InventoryController extends Controller {
 	   
 	   public static Result getSelectedLeadType() {
 		   List<LeadType> lType = LeadType.findByLocationsAndSelected(Long.valueOf(session("USER_LOCATION")));
-		  /* List<LeadTypeVM> lVmList = new ArrayList<LeadTypeVM>(); 
+		   List<LeadTypeVM> lVmList = new ArrayList<LeadTypeVM>(); 
 		   for(LeadType lType2 : lType){
 							   LeadTypeVM vm = new LeadTypeVM();
+							   vm.id = lType2.id;
 							   vm.leadName = lType2.leadName;
 							   vm.profile = lType2.profile;
 							   vm.callToAction = lType2.callToAction;
@@ -940,10 +942,15 @@ public class InventoryController extends Controller {
 							   vm.actionTitle = lType2.actionTitle;
 							   vm.maunfacturersIds = lType2.maunfacturersIds;
 							   vm.actionClientPdf = lType2.actionClientPdf;
+							   vm.confirmationMsg = lType2.confirmationMsg;
+							   vm.dowpdfIds = lType2.dowpdfIds;
+							  
+							   List<RequestMoreInfo> rInfo = RequestMoreInfo.findAllOtherLeadIdAndStatus(vm.id.toString());		   
+							   vm.hideTab = String.valueOf(rInfo.size());
 							   lVmList.add(vm);
-			   }*/
+			   }
 			   
-		   return ok(Json.toJson(lType));
+		   return ok(Json.toJson(lVmList));
 	   }
 	   
 	   public static Result getSelectedLeadTypeWise(String productType) {

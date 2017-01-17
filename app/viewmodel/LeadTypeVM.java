@@ -1,6 +1,5 @@
 package viewmodel;
 
-import java.util.List;
 
 public class LeadTypeVM {
 
@@ -18,6 +17,7 @@ public class LeadTypeVM {
 	public String systemOutcome;
 	public Long sendpdfIds;  
 	public Long dowpdfIds;
+	public String hideTab;
 
 	
 }

@@ -12,6 +12,10 @@ angular.module('newApp')
 		angular.forEach(response, function(value, key) {
 			if(value.callToAction){
 				$scope.leadList.push(value); 
+			}else{
+				if(value.hideTab != "0"){
+					$scope.leadList.push(value); 
+				}
 			}
 			if(value.id == $scope.leadId){
 				$scope.leadName = value.leadName;

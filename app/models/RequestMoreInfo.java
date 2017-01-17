@@ -361,6 +361,10 @@ public void setMessage(String message) {
 		return find.where().eq("assignedTo", user).eq("isContactusType", leadId).findList();
 	}
 	
+	public static List<RequestMoreInfo> findAllOtherLeadIdAndStatus(String leadId) {
+		return find.where().eq("status", null).eq("isContactusType", leadId).findList();
+	}
+	
 	public static List<RequestMoreInfo> findAllContactData() {
 		return find.where().ne("isContactusType", null).findList();
 	}

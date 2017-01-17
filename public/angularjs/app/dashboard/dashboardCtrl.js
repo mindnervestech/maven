@@ -4545,10 +4545,17 @@ angular.module('newApp')
 	    			 $scope.userFieldsCopy = null;
 	    		$scope.openCreateNewLeadPopup = function() {
 	    			 $scope.showFomeD("createLead");
-	    		
+	    			 $scope.leadList = [];
 	    			apiserviceDashborad.getSelectedLeadType().then(function(response){
-	    			
-	    				$scope.leadList = response; 
+	    				angular.forEach(response, function(value, key) {
+	    					if(value.callToAction){
+		    					$scope.leadList.push(value); 
+		    				}else{
+		    					if(value.hideTab != "0"){
+		    						$scope.leadList.push(value); 
+		    					}
+		    				}
+	    				});
 	    			
 	    			});	
 	    			
@@ -10246,7 +10253,13 @@ angular.module('newApp')
 		   $scope.leadList = [];
 		   apiserviceDashborad.getSelectedLeadType().then(function(response){
 				angular.forEach(response, function(value, key) {
-						$scope.leadList.push(value); 
+					if(value.callToAction){
+    					$scope.leadList.push(value); 
+    				}else{
+    					if(value.hideTab != "0"){
+    						$scope.leadList.push(value); 
+    					}
+    				}
 				});
 			
 			});
