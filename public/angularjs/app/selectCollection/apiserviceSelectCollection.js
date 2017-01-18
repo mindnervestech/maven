@@ -30,6 +30,16 @@ angular.module('app.apiserviceSelectCollection', [])
 		return defer.promise;
 	};
 	
+	this.addnewrUser=function(leadcreate){
+		var defer = $q.defer();
+		
+		$http.post('/addnewrUser',leadcreate).success(function(data) {
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
 	this.Updatecheckbox=function(editleadtype){
 		var defer = $q.defer();
 		

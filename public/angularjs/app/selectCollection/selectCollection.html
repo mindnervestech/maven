@@ -1,9 +1,9 @@
 <div ng-init = viewVehiclesInit();>
     
-    
+    <h1><b>Where to Show</b></h1>
      <div class="col-md-12 form-group" style="margin-top: 50px;">
-						<div class="col-md-2">
-							<label>Where to Show</label>
+						<div class="col-md-1">
+							
 						</div>
 						<div class="col-md-4">
 							<select  class="form-control"  id="form_type" ng-model="editleadtype.profile"  ng-change="selectProfile(editleadtype.profile)" required>
@@ -22,8 +22,8 @@
 </div>	
 <div ng-if="editleadtype.profile == 'Select Collections Manually' || editleadtype.profile == 'Select products Manually'">
     <tabset class="nav-tabs2">
-            <tab ng-repeat="coll in allCollectionDate">
-                <tab-heading  ng-mouseleave="hoverOut()">
+            <tab ng-repeat="coll in allCollectionDate" ng-if="coll.hideWebsite == false">
+                <tab-heading>
                     <button type="button" class="btn btn-blue" ng-click="getCollectionData(coll)">{{coll.collection}}</button>
                 </tab-heading>
 			    

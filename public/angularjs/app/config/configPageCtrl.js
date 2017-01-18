@@ -205,6 +205,10 @@ angular.module('newApp')
 			intValue = 1;
 		}
 		apiserviceConfigPage.getCheckButton($scope.entityId, intValue).then(function(data){
+			if(intValue == 1){
+				$location.path('/viewSelectCollection/edit/'+$scope.entityId);
+			}
+			
 			$scope.leadTypeAll();
 		})
 	}
@@ -429,7 +433,20 @@ angular.module('newApp')
 					 $scope.leadTypeAll();
 			 });
 		 }
-		 
+		 	$scope.flagForTitle = 0;
+		 $scope.callActionGo = function(value,leadName){
+			 console.log(leadName);
+			 if(leadName != undefined && leadName != null && leadName != ""){
+				 if(value == true){
+					$location.path('/viewSelectCollection/save/'+leadName);
+				 }
+				 $scope.flagForTitle = 0;
+			 }else{
+				 $scope.flagForTitle = 1;
+				 $scope.leadcreate.callToAction = false;
+			 }
+			 
+		 }
 		 $scope.selectCheck = function(row, checkValue){
 			 console.log(row.entity.checkValue)
 			if(row.entity.checkValue == false){
@@ -440,7 +457,7 @@ angular.module('newApp')
 				 console.log($scope.editleadtype.profile);
 				 $scope.selectCheckbox(row);
 			//	 $scope.leadTypeAll();
-				$location.path('/viewSelectCollection/'+row.entity.id);
+				$location.path('/viewSelectCollection/show/'+row.entity.id);
 				
 			}else{
 				$scope.editleadtype = {};

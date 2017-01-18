@@ -1157,7 +1157,7 @@ public class ConfigPagesController extends Controller{
 		    	   }
 		    	  // lead.setLocations(vm.id);
 		    	  lead.update();
-		    	  return ok();
+		    	  return ok(Json.toJson(lead));
 			}	
 		 
 		 public static Result saveLeadFormPopup() {

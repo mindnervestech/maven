@@ -1,8 +1,12 @@
 angular.module('newApp')
-.controller('selectCollectionCtrl', ['$scope','$http','$location','$filter','$upload','apiserviceSelectCollection','$routeParams', function ($scope,$http,$location,$filter,$upload,apiserviceSelectCollection,$routeParams) {
+.controller('selectCollectionCtrl', ['$scope','$http','$location','$filter','$upload','apiserviceSelectCollection','$routeParams','$q','$window', function ($scope,$http,$location,$filter,$upload,apiserviceSelectCollection,$routeParams,$q,$window) {
 	
 	console.log("Hello this is ***** this is selectCollectionCtrl  ");
 	console.log($routeParams.leadId);
+	console.log($routeParams.type);
+	//show
+	//save
+	//edit
 	$scope.addObj = "collection";
 	$scope.getAllInventory = function(){
 		apiserviceSelectCollection.getAllInventoryData().then(function(data){
@@ -13,14 +17,22 @@ angular.module('newApp')
 				$scope.mainCollId = data[0].id;
 				$scope.hideWebsite = data[0].hideWebsite;
 			}
+			var flag =0;
+			angular.forEach($scope.allCollectionDate, function(obj, index){
+				if(flag == 0){
+					if(obj.hideWebsite == false){
+						flag = 1;
+						$scope.getCollectionData(obj);
+					}
+				}
+			});
 		});
 	}
-	
 	
 	$scope.getAllInventory();
 	
 	$scope.getCollectionData = function(obj){
-				
+		
 		$scope.mainCollId = obj.id;
 		delete obj.$$hashKey;
 		localStorage.setItem('mainCollection', JSON.stringify(obj));
@@ -494,22 +506,53 @@ angular.module('newApp')
 		                                    ];
 	}
 	
+	$scope.leadcreateData = {};
 	$scope.addCollectionAndProduct = function(){
-		console.log(" In addManufacutures function ");
-		$scope.editleadtype.id = $routeParams.leadId;
-		$scope.editleadtype.maunfacturersIds = $scope.selectmanu.toString();
-		 console.log("out of funtion");
-		 console.log($scope.editleadtype);
-		 if($scope.editleadtype.profile == "All Collections" || $scope.editleadtype.profile == "All Products"){
-			 $scope.editleadtype.maunfacturersIds = null;
-		 }
-		 apiserviceSelectCollection.Updatecheckbox($scope.editleadtype).then(function(data){
-		 
-			 console.log(data);
-			 console.log("in of funtion");
-    	});
+		
+		if($routeParams.type == "save"){
+				localStorage.setItem('popupType','Lead');
+				$scope.leadcreateData.leadName = $routeParams.leadId;
+				$scope.leadcreateData.callToAction = true;
+				localStorage.setItem('callToAction',true);
+				console.log($scope.leadcreateData);
+				apiserviceSelectCollection.addnewrUser($scope.leadcreateData).then(function(data){
+					localStorage.setItem('popupType','Lead');
+					localStorage.setItem('leadId', data.id);
+					$scope.saveCollectionAndProd(data.id).then(function(respones){
+						$window.location.reload();
+						localStorage.setItem('typeOfForm', $routeParams.leadId);
+						$location.path('/otherForm/'+"save"+"/"+$routeParams.leadId);
+					});
+				});
+		}else if($routeParams.type == "show"){
+			$scope.saveCollectionAndProd($routeParams.leadId).then(function(respones){
+				$location.path('/leadtype');
+			});
+			 
+		}else if($routeParams.type == "edit"){
+			$scope.saveCollectionAndProd($routeParams.leadId).then(function(respones){
+				$location.path('/leadtype');
+			});
+		}
+		
 	}
-
+		$scope.saveCollectionAndProd = function(id){
+			var defer = $q.defer();
+			$scope.editleadtype.id = id;
+			$scope.editleadtype.maunfacturersIds = $scope.selectmanu.toString();
+			 console.log("out of funtion");
+			 console.log($scope.editleadtype);
+			 if($scope.editleadtype.profile == "All Collections" || $scope.editleadtype.profile == "All Products"){
+				 $scope.editleadtype.maunfacturersIds = null;
+			 }
+			 apiserviceSelectCollection.Updatecheckbox($scope.editleadtype).then(function(data){
+				 console.log(data);
+				 console.log("in of funtion");
+	    	});
+			defer.resolve("ok");
+    		return defer.promise;
+		}
+	
 	
 	$scope.editCollection = function(row){
 		console.log(row.entity);
