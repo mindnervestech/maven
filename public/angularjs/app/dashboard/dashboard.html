@@ -490,13 +490,13 @@ float: right !important;
 									       	<span class="glyphicon glyphicon-user col-sm-2" style="color: darkturquoise;" title="Total leads"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson | number:0}}</label>
 									       	<span class="glyphicon glyphicon-adjust col-sm-2" ng-if="parLocationData.AngSale != null" style="color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale != null" class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.AngSale | number:0}}%</label>
 									       	<span class="glyphicon glyphicon-adjust col-sm-2" ng-if="parLocationData.AngSale == null" style="color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale == null"class="col-sm-4 control-label" style="text-align: center;">N/A</label>
-									       	<span class="glyphicon glyphicon-usd col-sm-2" ng-if="parLocationData.totalSalePrice != 0" style="color: darkturquoise;" title="Sold"></span><label ng-if="parLocationData.totalSalePrice != 0" class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.totalSalePrice | number:0}}</label>
-									       	<span class="glyphicon glyphicon-usd col-sm-2" ng-if="parLocationData.totalSalePrice == 0" style="color: darkturquoise;" title="Sold"></span><label ng-if="parLocationData.totalSalePrice == 0" class="col-sm-4 control-label" style="text-align: center;">N/A</label>
+									       	<span class="glyphicon glyphicon-usd col-sm-2" ng-if="parLocationData.totalSalePrice != 0 && InventoryFlag == true" style="color: darkturquoise;" title="Sold"></span><label ng-if="parLocationData.totalSalePrice != 0 && InventoryFlag == true" class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.totalSalePrice | number:0}}</label>
+									       	<span class="glyphicon glyphicon-usd col-sm-2" ng-if="parLocationData.totalSalePrice == 0 && InventoryFlag == true" style="color: darkturquoise;" title="Sold"></span><label ng-if="parLocationData.totalSalePrice == 0 && InventoryFlag == true" class="col-sm-4 control-label" style="text-align: center;">N/A</label>
 									       	<span class="glyphicon glyphicon-record col-sm-2" style="color: darkturquoise;" title="Success Rate"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.successRate | number:0}}%</label>
 									       	<span class="fa fa-car col-sm-2" style="color: darkturquoise;" title="Total Car Sold"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.totalsaleCar | number:0}}</label>
 									       	<!-- <span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label> -->
-									       	<span class="glyphicon glyphicon-shopping-cart col-sm-2" ng-if="parLocationData.angSalePrice != 0" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" ng-if="parLocationData.angSalePrice != 0" style="text-align: center;">${{parLocationData.angSalePrice | number:0}}</label>
-									       	<span class="glyphicon glyphicon-shopping-cart col-sm-2" ng-if="parLocationData.angSalePrice == 0" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" ng-if="parLocationData.angSalePrice == 0" style="text-align: center;">N/A</label>
+									       	<span class="glyphicon glyphicon-shopping-cart col-sm-2" ng-if="parLocationData.angSalePrice != 0 && InventoryFlag == true" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" ng-if="parLocationData.angSalePrice != 0 && InventoryFlag == true" style="text-align: center;">${{parLocationData.angSalePrice | number:0}}</label>
+									       	<span class="glyphicon glyphicon-shopping-cart col-sm-2" ng-if="parLocationData.angSalePrice == 0 && InventoryFlag == true" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" ng-if="parLocationData.angSalePrice == 0 && InventoryFlag == true" style="text-align: center;">N/A</label>
 										</div>
 										
 										<div class="col-sm-4">
@@ -759,7 +759,7 @@ float: right !important;
       </div>
 	
 	<div class="col-sm-12" ng-if="userRole == 'General Manager' ||userRole == 'Sales Person' ||userRole == 'Manager'"style="padding-left: 0px;padding-right: 0px">
-     	<div ng-sec="Quick Inventory Statistics" class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+     	<div ng-sec="Quick Inventory Statistics" ng-if="InventoryFlag == true" class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 					
 							
 							<div class="row">
@@ -973,7 +973,7 @@ float: right !important;
 									      <div class="col-sm-2">
 									               		<span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;font-size: 18px;margin-right: 10px;" ng-click="successRateFilter(successRate)">  </span>
 									    				<span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;font-size: 18px;margin-right: 10px;" ng-click="currentLeadsFilter(currentLeads)">  </span>
-									    				<span class="glyphicon glyphicon-usd" title="Total Amount Sold" style="color: darkturquoise;font-size: 18px;margin-right: 10px;" ng-click="amountSoldFilter(amountSold)">  </span>
+									    				<span class="glyphicon glyphicon-usd" ng-if="InventoryFlag == true" title="Total Amount Sold" style="color: darkturquoise;font-size: 18px;margin-right: 10px;" ng-click="amountSoldFilter(amountSold)">  </span>
 									    				<span class="glyphicon glyphicon-lamp" title="Number of Products Sold" style="color: darkturquoise;font-size: 18px;margin-right: 10px;" ng-click="soldCarFilter(soldCar)">  </span>
 									    		</div>  
 									    		
@@ -1036,7 +1036,7 @@ float: right !important;
 											
 										</div>
 										 
-										<div style="width: 180px;">
+										<div style="width: 180px;" ng-if="InventoryFlag == true">
 											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-usd" title="Total Amount Sold" style="color: darkturquoise;font-size: 16px;"></span></label>
 											<label style="font-size: 15px;width: 70px;"><b>${{item.salesAmount | number:0}}</b></label>
 											
@@ -5131,7 +5131,7 @@ float: right !important;
 </div>
 <div class="row">
 	
-	<!-- <div class="col-sm-12 portlets" style="height: 240px;">
+	 <div class="col-sm-12 portlets" ng-if="InventoryFlag == true" style="height: 240px;">
         <div class="panel m-t-0">
             <div class="panel-header panel-controls">
                <i class="icon-basket" style="font-size: 18px;"></i> <strong style="font-size: 18px;">Sales</strong><strong style="font-size: 18px;"> Volume Stats</strong> 
@@ -5159,7 +5159,7 @@ float: right !important;
             </div>
             
         </div>
-    </div> -->
+    </div> 
 	
 	
     <div class="col-md-4 col-sm-6 portlets" style="display: none;">

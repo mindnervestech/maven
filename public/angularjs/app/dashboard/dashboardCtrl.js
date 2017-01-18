@@ -25,6 +25,8 @@ angular.module('newApp')
 	});
    	apiserviceDashborad.getDealerProfile().then(function(data){
    		$scope.userProfile = data.dealer;
+   		$scope.InventoryFlag = data.InventoryFlag;
+   	
 	});
    	
 	$scope.txt = false;

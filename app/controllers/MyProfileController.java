@@ -32,6 +32,7 @@ import models.AuthUser;
 import models.EmailDetails;
 import models.HoursOfOperation;
 import models.InternalPdf;
+import models.InventorySetting;
 import models.Location;
 import models.MyProfile;
 import models.Permission;
@@ -741,6 +742,13 @@ public class MyProfileController extends Controller{
 			Map<String,Object> map = new HashMap<>();
 			AuthUser user = getLocalUser();
 			MyProfile mProfile = MyProfile.findByUser(user);
+			List<InventorySetting> mList = InventorySetting.getAllCollection();
+			Boolean flagInventory = true;
+			for(InventorySetting iSetting:mList){
+				flagInventory = iSetting.getEnableInven();
+				break;
+			}
+			map.put("InventoryFlag", flagInventory);
 			map.put("user", user);
 			map.put("dealer", mProfile);
 			return ok(Json.toJson(map));
