@@ -742,7 +742,7 @@ public class MyProfileController extends Controller{
 			Map<String,Object> map = new HashMap<>();
 			AuthUser user = getLocalUser();
 			MyProfile mProfile = MyProfile.findByUser(user);
-			List<InventorySetting> mList = InventorySetting.getAllCollection();
+			List<InventorySetting> mList = InventorySetting.findByLocation(Long.valueOf(session("USER_LOCATION")));
 			Boolean flagInventory = true;
 			for(InventorySetting iSetting:mList){
 				flagInventory = iSetting.getEnableInven();
