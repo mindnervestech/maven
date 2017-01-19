@@ -7,6 +7,29 @@ angular.module('newApp')
 	//show
 	//save
 	//edit
+	//editValue
+	if($routeParams.type == "editValue"){
+		$scope.editleadtype = {};
+		$scope.selectmanu = [];
+		apiserviceSelectCollection.getLeadTypeDataById($routeParams.leadId).then(function(data){
+			console.log("lead typeeeeeeeeeeee");
+			console.log(data);
+			$scope.editleadtype.profile = data.profile;
+			if(data.profile == "Select Collections Manually" || data.profile == "Select products Manually"){
+				var arr = [];
+				arr = data.maunfacturersIds.split(',');
+				for(var i=0;i<arr.length;i++){
+					$scope.selectmanu.push(arr[i]);
+				}
+				  if(data.profile == "Select Collections Manually"){
+					  $scope.newlyArrivedTab();
+				  }else if(data.profile == "Select products Manually"){
+					  $scope.productTab();
+				  }
+			}
+			
+		});
+	}
 	$scope.addObj = "collection";
 	$scope.getAllInventory = function(){
 		apiserviceSelectCollection.getAllInventoryData().then(function(data){
@@ -64,7 +87,7 @@ angular.module('newApp')
 	 var logofile = null;
 	 var names = [];
 	 var files =[];
-	 $scope.onLogoFileSelect = function($files) {
+	 /*$scope.onLogoFileSelect = function($files) {
 		logofile = $files;
 		console.log("File Upload");
 		console.log(logofile);
@@ -99,7 +122,7 @@ angular.module('newApp')
 		   		});
 		
 		}
-	}
+	}*/
      $scope.gridOptions = {
     		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
     		 expandableRowTemplate: '/dealer/viewInventory/expandableRowTemplate.html',
@@ -307,7 +330,6 @@ angular.module('newApp')
      		    			 				
      		    			 			}
      		    			 			
-     		    			 			
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].userRole=$scope.userRole;
      		    			 				if(data[i].hideWebsite == 1){
@@ -330,8 +352,6 @@ angular.module('newApp')
          		    							 });
          		    						});
          		    					});
-     		    			 			
-     		    			 			
      		    			 			console.log($scope.gridOptions.data);
      		    			 		});
     		    					 
@@ -395,14 +415,16 @@ angular.module('newApp')
   
    $scope.addMainCollFields = [];
    $scope.viewVehiclesInit = function() {
-	   $scope.newlyArrivedTab();
-	   setTimeout(function(){ $scope.newlyArrivedTab(); }, 1000);
-	   
-	   apiserviceSelectCollection.getAllInventoryData().then(function(data){
-			console.log(data);
-			$scope.addMainCollFields = data;
-			console.log($scope.addMainCollFields);
-	   });
+	   if($routeParams.type != "editValue"){
+		   $scope.newlyArrivedTab();
+		   setTimeout(function(){ $scope.newlyArrivedTab(); }, 1000);
+		   
+		   apiserviceSelectCollection.getAllInventoryData().then(function(data){
+				console.log(data);
+				$scope.addMainCollFields = data;
+				console.log($scope.addMainCollFields);
+		   });
+	   }
 			
    }
    
@@ -524,7 +546,7 @@ angular.module('newApp')
 						$location.path('/otherForm/'+"save"+"/"+$routeParams.leadId);
 					});
 				});
-		}else if($routeParams.type == "show"){
+		}else if($routeParams.type == "show" || $routeParams.type == "editValue" ){
 			$scope.saveCollectionAndProd($routeParams.leadId).then(function(respones){
 				$location.path('/leadtype');
 			});

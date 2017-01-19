@@ -30,6 +30,15 @@ angular.module('app.apiserviceSelectCollection', [])
 		return defer.promise;
 	};
 	
+	this.getLeadTypeDataById=function(leadId){
+		var defer = $q.defer();
+		
+		$http.get('/getLeadTypeDataById/'+leadId).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 	this.addnewrUser=function(leadcreate){
 		var defer = $q.defer();
 		
