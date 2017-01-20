@@ -9812,6 +9812,7 @@ public class Application extends Controller {
 		leadVM.custZipCode = form.data().get("custZipCode");
 		leadVM.prefferedContact = form.data().get("prefferedContact");
 		leadVM.leadType =form.data().get("leadType");
+		leadVM.productList = form.data().get("productList");
 		leadVM.manufacturers =form.data().get("manufacturers");
 		
          
@@ -17817,6 +17818,7 @@ private static void cancelTestDriveMail(Map map) {
 				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		info.setIsScheduled(false);
 	    		info.setIsRead(1);
+	    		info.setProductList(leadVM.productList);
 	    		info.setHearedFrom(leadVM.hearedFrom);
 	    		info.setContactedFrom(leadVM.contactedFrom);
 	    		info.setPremiumFlag(0);

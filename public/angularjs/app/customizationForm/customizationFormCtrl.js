@@ -312,6 +312,7 @@ angular.module('newApp')
 			  console.log(leadId);
 			  apiserviceCustomizationForm.getLeadTypeDataById(leadId).then(function(data){
 				  console.log(data);
+				  console.log("oooo");
 				  $scope.sendpdfIds = data.sendpdfIds;
 				  if(data.confirmationMsg == null){
 					  data.confirmationMsg = "Thank you for your interest!";
@@ -344,7 +345,7 @@ angular.module('newApp')
 					  }
 				  }
 				  
-				  
+				  $scope.dowPdfFile = data.dowpdfIds;
 				  $scope.callAction = data;
 				  $scope.callAction.actionTitle = data.leadName;
 				  console.log($scope.callAction);

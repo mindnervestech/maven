@@ -2212,6 +2212,12 @@ angular.module('newApp')
    	  		console.log(entity);
    	  	    $scope.userFieldsList = null;
    	  		$("#ex1_value").val(entity.name);
+   	  		$scope.editDataObj = {};
+   	  		$scope.editDataObj.productId = entity.productId;
+   	  		$scope.editDataObj.productList = entity.productList;
+   	  		$scope.editDataObj.manufacturersId = entity.customMapData.Cd_manufacturers;
+   	  		$scope.$emit("editLeadType", $scope.editDataObj);
+   	  		
    	  		apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
    	  			
 				 $scope.josnData1 = angular.fromJson(response.jsonData);
@@ -4685,12 +4691,15 @@ angular.module('newApp')
 	    		}*/
 	    		
 	    		$scope.multiSelectBindWithCustomData = function(){
+	    			console.log("Hiiii printttttt");
+	    			console.log($rootScope.productArrayList);
 	    			console.log($rootScope.rObj);
 	    			if($rootScope.rObj != undefined){
 	    				$.each($rootScope.rObj, function(attr, value) {
 		    				$scope.customData[attr] = value;
 		    			});
 	    			}
+	    			$scope.customData["productList"] = $rootScope.productArrayList.toString();
 	    			if($rootScope.subColl != undefined){
 		    				$scope.customData["subCollection"] = $rootScope.subColl;
 	    			}
@@ -4744,7 +4753,7 @@ angular.module('newApp')
 	    					console.log($scope.josnData);
 	    					console.log($scope.customData);
 	    					var oneProduct = 0;
-	    					
+	    					$scope.lead.productList = $scope.customData.productList;
 	    					
 	    					$.each($scope.customData, function(attr, value) {
 	    						angular.forEach($scope.josnData, function(value1, key) {

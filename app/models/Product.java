@@ -169,7 +169,6 @@ public class Product extends Model {
 		this.locations = locations;
 	}
 	
-	
 	public double getAmount() {
 		return amount;
 	}
@@ -204,6 +203,10 @@ public class Product extends Model {
 	}
 	public static List<Product> getAllProductById(Long id) {
 		return find.where().eq("collection.id", id).findList();
+	}
+	
+	public static List<Product> getAllProductByIdAndStatus(Long id) {
+		return find.where().ne("mainCollection", null).eq("publicStatus","publish").eq("collection.id", id).findList();
 	}
 	public static List<Product> getProductByStatus(Long location, String status) {
 		return find.where().eq("publicStatus", status).findList();		

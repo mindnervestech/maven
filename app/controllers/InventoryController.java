@@ -953,6 +953,12 @@ public class InventoryController extends Controller {
 		   return ok(Json.toJson(lVmList));
 	   }
 	   
+	   public static Result getProductType(Long subCollId) {
+		   List<Product> product = Product.getAllProductByIdAndStatus(subCollId);
+		
+		   return ok(Json.toJson(product));
+	   }
+	   
 	   public static Result getSelectedLeadTypeWise(String productType) {
 		   List<LeadType> lType = LeadType.findByLocationsAndSelected(Long.valueOf(session("USER_LOCATION")));
 		   List<LeadTypeVM> lVmList = new ArrayList<LeadTypeVM>(); 

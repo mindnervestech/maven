@@ -51,6 +51,7 @@ public class LeadVM {
 	public String paint;
 	public String enthicity;
 	public String productId;
+	public String productList;
 	public List<InventoryVM> stockWiseData = new ArrayList<InventoryVM>();
 	public List<KeyValueDataVM> customData  = new ArrayList<KeyValueDataVM>();
 }

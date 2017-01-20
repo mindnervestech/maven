@@ -333,6 +333,7 @@ public class CustomersRequestController extends Controller {
 		    		vm.id = info.id;
 		    		AddCollection productInfo = AddCollection.findById(Long.parseLong(info.productId));
 		    		vm.productId = info.productId;
+		    		vm.productList = info.productList;
 		    		if(productInfo != null) {
 		    			vm.title = productInfo.title;
 		    			vm.price = (int) productInfo.price;

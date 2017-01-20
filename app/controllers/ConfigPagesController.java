@@ -1122,6 +1122,7 @@ public class ConfigPagesController extends Controller{
 					vm.actionClientPdf = leadData.actionClientPdf;
 					vm.maunfacturersIds = leadData.maunfacturersIds;
 					vm.confirmationMsg = leadData.confirmationMsg;
+					vm.dowpdfIds =leadData.dowpdfIds;
 					CustomizationForm cForm = CustomizationForm.findByLeadType(leadData.leadName);
 					if(cForm != null){
 						vm.systemOutcome = cForm.outcome;

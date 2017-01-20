@@ -175,6 +175,7 @@ GET		/getAllSectionTypes/:id		     controllers.InventoryController.getAllSection
 GET		/getSectionCollectionData/:id    controllers.InventoryController.getSectionCollectionData(id:Long)
 GET     /getSelectedLeadType		     controllers.InventoryController.getSelectedLeadType()
 GET     /getSelectedLeadTypeWise/:productType     controllers.InventoryController.getSelectedLeadTypeWise(productType:String)
+GET     /getProductType/:subCollId     controllers.InventoryController.getProductType(subCollId:Long)
 GET     /getAllOtherLeadInfo/:leadId	 controllers.CustomersRequestController.getAllOtherLeadInfo(leadId:String)
 GET     /getAllOtherLeadInfoRequ/:leadId	 controllers.CustomersRequestController.getAllOtherLeadInfoRequ(leadId:String)
 GET     /getAllSalesPersonOtherLead/:id  controllers.CustomersRequestController.getAllSalesPersonOtherLead(id:Integer)

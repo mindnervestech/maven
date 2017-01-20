@@ -83,6 +83,7 @@ public class RequestInfoVM {
 	public String title;
 	public String isContactusType; 
 	public String productId;
+	public String productList;
 	public String collectionName;
 	public String description;
 	public String cost;

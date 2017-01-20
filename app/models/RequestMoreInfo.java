@@ -57,6 +57,7 @@ public class RequestMoreInfo extends Model {
 	public String isContactusType;
 	public String message;
 	public String productId;
+	public String productList;
 	public String section;
 	public String pdfPath;
 	public Boolean isCompleteFlag = false;
@@ -305,6 +306,13 @@ public void setMessage(String message) {
 	public void setTestDriveCompletedDuration(String testDriveCompletedDuration) {
 		this.testDriveCompletedDuration = testDriveCompletedDuration;
 	}
+	public String getProductList() {
+		return productList;
+	}
+	public void setProductList(String productList) {
+		this.productList = productList;
+	}
+
 
 	public static Finder<Long,RequestMoreInfo> find = new Finder<>(Long.class,RequestMoreInfo.class);
 	

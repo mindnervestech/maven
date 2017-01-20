@@ -920,6 +920,12 @@
                 })
             });
             
+            $scope.$on("editLeadType", function(event,data){
+            	$rootScope.editDataObj = data;
+	    		console.log("oooooo---");
+	    		console.log($rootScope.editDataObj);
+	    		//$scope.$emit("editLeadType1", data);
+	    	});
             
             $scope.$on('$viewContentLoaded', function () {
                 pluginsService.init();
@@ -2048,7 +2054,68 @@ angular.module('newApp').controller('customizationCtrl',
 				$scope.leadList = data; 
 				
 			});
-
+	    	if($rootScope.editDataObj != undefined){
+	    		if($rootScope.editDataObj.manufacturersId != undefined && $rootScope.editDataObj.manufacturersId != null){
+		    		$http.get('/getAllCollection/'+$rootScope.editDataObj.manufacturersId).success(function(data) {
+		    			
+		    			console.log(data);
+		    			$scope.subCollectionlist = data;
+		    			if($rootScope.editDataObj.productId != undefined && $rootScope.editDataObj.productId != null){
+		    	    		console.log($rootScope.editDataObj.productList);
+		    	    		$scope.subCollection = $rootScope.editDataObj.productId;
+		    	    		$http.get('/getProductType/'+$rootScope.editDataObj.productId).success(function(data) {
+		    	    			console.log(data);
+		    	    			$scope.productLists = data;
+		    	    			if($scope.productLists.length > 0){
+		    	    				$scope.showProduct = "1";
+		    	    				if($rootScope.editDataObj.productList != undefined && $rootScope.editDataObj.productList != null){
+		    	    		    		arr = [];
+		    	    					arr =$rootScope.editDataObj.productList.split(',');
+		    	    					for(var i=0;i<arr.length;i++){
+		    	    						angular.forEach($scope.productLists, function(obj, index){
+		    	    							if(arr[i] == obj.id.toString()){
+		    		    							obj.isSelected = true;
+		    		    							$rootScope.productArrayList.push(obj.id);
+		    		    						}
+		    	    						});
+		    	    						
+		    	    					}
+		    	    		    	}
+		    	    			}else{
+		    	    				$scope.showProduct = "0";
+		    	    			}
+		    	    			console.log($scope.productLists);
+		        			});
+		    	    	}
+		    		});
+		    	}
+	    	}
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	$rootScope.productArrayList = [];
+	    	$scope.multipleProductSelectFunction = function(item,options,check){
+	    		console.log(item);
+	    		console.log(options);
+	    		console.log(check);
+	    		if(check == true){
+	    			$rootScope.productArrayList.push(item.id);
+	    		}else{
+	    			$scope.deleteItems(item);
+	    		}
+	    		console.log($rootScope.productArrayList);
+	    	}
+	    	
+	    	$scope.deleteItems = function(rolePer){
+				angular.forEach($rootScope.productArrayList, function(obj, index){
+					 if ((rolePer.id == obj)) {
+						 $rootScope.productArrayList.splice(index, 1);
+				       	return;
+				    };
+				  });
+			}
 	    	
 	    	$rootScope.firstTime = 0;
 	    	$scope.multipleselectFunction = function(item,options,check){
@@ -2098,7 +2165,6 @@ angular.module('newApp').controller('customizationCtrl',
 	    		   
 	    		  console.log($rootScope.rObj); 
 	    	}
-	    	
 	    	$scope.selectEmailType = function(emailType){
 	    		console.log(emailType);
 	    		$rootScope.selectEmailType = emailType;
@@ -2136,24 +2202,31 @@ angular.module('newApp').controller('customizationCtrl',
 	    	$scope.selecProductType = function(productType){
 	    		
 	    		$http.get('/getAllCollection/'+productType).success(function(data) {
-	    			console.log("oooooo---");
+	    			
 	    			console.log(data);
 	    			$scope.subCollectionlist = data;
 			
 	    		});
 	    		
 	    		console.log(productType);
-	    		/*$http.get('/getSelectedLeadTypeWise/'+productType).success(function(data) {
-	    			console.log(data);
-	    			console.log($scope.leadList);
-	    			$scope.leadList = data; 
-			
-	    		});*/
+	    		
 	    	}
 	    	
+	    	$scope.shiwProduct = "0";
 	    	$scope.selectSubCollectionType = function(subColl){
 	    		console.log(subColl);
 	    		$rootScope.subColl = subColl;
+		    		$http.get('/getProductType/'+subColl).success(function(data) {
+		    			console.log(data);
+		    			$scope.productLists = data;
+		    			if($scope.productLists.length > 0){
+		    				$scope.showProduct = "1";
+		    			}else{
+		    				$scope.showProduct = "0";
+		    			}
+		    			
+			
+	    			});
 	    	}
 	    	
 	    	
