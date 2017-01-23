@@ -21106,11 +21106,11 @@ private static void salesPersonPlanMail(Map map) {
 				
 				if((dateFomat.after(startDate) && dateFomat.before(endDate)) || dateFomat.equals(endDate) || dateFomat.equals(startDate))
 				{
-				Long objectDate = mapdate.get(dateFomat.getTime() + (1000 * 60 * 60 * 24));
+				Long objectDate = mapdate.get(dateFomat.getTime()/* + (1000 * 60 * 60 * 24)*/);
 				if (objectDate == null) {
-					mapdate.put(dateFomat.getTime()+ (1000 * 60 * 60 * 24), pricevalue);
+					mapdate.put(dateFomat.getTime()/*+ (1000 * 60 * 60 * 24)*/, pricevalue);
 				}else{
-					mapdate.put(dateFomat.getTime()+ (1000 * 60 * 60 * 24), objectDate + pricevalue);
+					mapdate.put(dateFomat.getTime()/*+ (1000 * 60 * 60 * 24)*/, objectDate + pricevalue);
 				}
 				
 				}
