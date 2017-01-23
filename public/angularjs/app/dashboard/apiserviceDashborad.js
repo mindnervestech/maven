@@ -167,9 +167,9 @@ angular.module('app.apiserviceDashborad', [])
 	
 	this.getUserLocationByDateInfo = function(id,startD,endD,locOrPer){
 		var defer = $q.defer();
-		/*$http.get('/getUserLocationByDateInfo/'+id+"/"+startD+'/'+endD+'/'+locOrPer).success(function(data) {
+		$http.get('/getUserLocationByDateInfo/'+id+"/"+startD+'/'+endD+'/'+locOrPer).success(function(data) {
 			defer.resolve(data);
-		});*/
+		});
 		
 		return defer.promise;
 	};
