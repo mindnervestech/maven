@@ -10346,16 +10346,16 @@ angular.module('newApp')
 		   												$scope.gridMapObect.push({values: value3.value , key: value3.key, label: "End Date", component: value2.component});
 			   										}
 		   										});
-	   										}else if(value2.component == "productType"){
-	   											angular.forEach($scope.getAllCollection,function(obj,val){
-	  												 if(obj.id.toString() == value1.value){
-	  													value1.value = obj.collection;
-	  													//$scope.gridMapObect.push({values:  "abcd" , key: value1.key+"_subCollection",label:"SubCollection"});
-	  													$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
-	  												 }
-	  											});
+	   										}/*else if(value2.component == "productType"){
+	   												angular.forEach($scope.getAllCollection,function(obj,val){
+		  												 if(obj.id.toString() == value1.value){
+		  													value1.value = obj.collection;
+		  													$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
+		  												 }
+		  											});
+	   										
 	  											
-	  										}else{
+	  										}*/else if(value2.component != "productType"){
 	   											$scope.gridMapObect.push({values: value1.value , key: value1.key, label: value2.label, component: value2.component});
 	   										}
 		   										
@@ -10450,6 +10450,14 @@ angular.module('newApp')
 						
 						$scope.gridOptions13.columnDefs.push({ name: 'message', displayName: 'Message', width:'14%',cellEditableCondition: false,
 		                   	cellTemplate:'<a ng-if="row.entity.onlineOfflineLeads == 1">{{row.entity.message}}</a><a ng-if="row.entity.onlineOfflineLeads == 0">_</a>',
+		                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		                          if (row.entity.noteFlag != 1) {
+		                            return 'red';
+		                          }
+		                   	} ,
+		                    });
+						$scope.gridOptions13.columnDefs.push({ name: 'collectionName', displayName: 'Collection', width:'14%',cellEditableCondition: false,
+		                   	cellTemplate:'<a>{{row.entity.collectionName}}</a>',
 		                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                          if (row.entity.noteFlag != 1) {
 		                            return 'red';

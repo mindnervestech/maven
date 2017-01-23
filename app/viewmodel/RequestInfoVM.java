@@ -86,6 +86,7 @@ public class RequestInfoVM {
 	public String productList;
 	public String collectionName;
 	public String description;
+	public String saveLeadTypeAs;
 	public String cost;
 	public List<KeyValueDataVM> customData;
 	public List<KeyValueDataVM> customDataAll;

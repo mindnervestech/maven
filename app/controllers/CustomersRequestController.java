@@ -41,9 +41,11 @@ import models.CustomizationForm;
 import models.EmailDetails;
 import models.Inventory;
 import models.InventoryImage;
+import models.InventorySetting;
 import models.LeadType;
 import models.Location;
 import models.MyProfile;
+import models.Product;
 import models.ProductImages;
 import models.RequestMoreInfo;
 import models.ScheduleTest;
@@ -358,10 +360,41 @@ public class CustomersRequestController extends Controller {
 		    		vm.custZipCode = info.custZipCode;
 		    		vm.onlineOfflineLeads = info.onlineOrOfflineLeads;
 		    		vm.isContactusType = info.isContactusType;
-		    		
+		    		vm.saveLeadTypeAs = info.saveLeadTypeAs;
 		    		vm.requestDate = df.format(info.requestDate);
 		    		vm.productId = info.productId;
 		    		vm.viewPdfId = 0L;
+		    		if(info.productList != null && !info.productList.equals("")){
+		    			String arrList[] = info.productList.split(",");
+		    			String collNames = null;
+		    			for(int i=0;i<arrList.length;i++){
+		    				Product product = Product.findById(Long.parseLong(arrList[i]));
+		    				if(product != null){
+		    					if(i == 0){
+		    						collNames = product.primaryTitle +" ,";
+		    					}else{
+		    						collNames = collNames + product.primaryTitle +",";
+		    					}
+		    					
+		    				}
+		    			}
+		    			vm.collectionName = collNames;
+		    		}else if(info.saveLeadTypeAs == null){
+		    			AddCollection aCollection = AddCollection.findById(Long.parseLong(info.productId));
+		    			if(aCollection != null){
+		    				vm.collectionName = aCollection.title;
+		    			}
+		    		}else if(info.saveLeadTypeAs.equals("SubCollection")){
+		    			AddCollection aCollection = AddCollection.findById(Long.parseLong(info.productId));
+		    			if(aCollection != null){
+		    				vm.collectionName = aCollection.title;
+		    			}
+		    		}else if(info.saveLeadTypeAs.equals("MainCollection")){
+		    			InventorySetting iSetting = InventorySetting.findById(Long.parseLong(info.productId));
+		    			if(iSetting != null){
+		    				vm.collectionName = iSetting.collection;
+		    			}
+		    		}
 		    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));
 		    		if(lType != null){
 		    			vm.showOnWeb = lType.shows;

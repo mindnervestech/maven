@@ -221,8 +221,8 @@ angular.module('newApp')
                          columnDefs: $scope.desGrid()
                      };
                        
-		 			        //  data: data[i].subCollection,
-                       row.entity.subGridOptions.data =  row.entity.subCollection;   
+                       row.entity.subGridOptions.data =  row.entity.subCollection;
+                       
                      }
                  });
     			 //expandableRowScope: { editProduct: function(){alert('hi');} }
