@@ -4699,7 +4699,10 @@ angular.module('newApp')
 		    				$scope.customData[attr] = value;
 		    			});
 	    			}
-	    			$scope.customData["productList"] = $rootScope.productArrayList.toString();
+	    			if($rootScope.productArrayList != undefined){
+	    				$scope.customData["productList"] = $rootScope.productArrayList.toString();
+	    			}
+	    			
 	    			if($rootScope.subColl != undefined){
 		    				$scope.customData["subCollection"] = $rootScope.subColl;
 	    			}
