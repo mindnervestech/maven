@@ -5787,6 +5787,8 @@ angular.module('newApp')
 			for(var i=0;i<data.length;i++){
 				data[i].checkBoxSelect = false;
 			}
+			$scope.gridOptions2.data = [];
+			$scope.gridMapObect = [];
 			$scope.gridOptions2.data = data;
 			$scope.setWether($scope.gridOptions2.data);
 			console.log($scope.gridOptions2.data);
@@ -6987,6 +6989,7 @@ angular.module('newApp')
     		    					    type:'success',
     		    					    text: "Successfully schedule canclled "+" "+$scope.closeleadObj.actionSelectedLead.length+ " leads",
     		    					});
+    		    	    		 $scope.schedultestDrive();
     		    	    		 $scope.schedulmultidatepicker();
     		    	    		 $scope.proceedToNext();
     		    	    		  $scope.reasonToCancel = "";
@@ -6996,12 +6999,15 @@ angular.module('newApp')
     		    	    		if($scope.actionSelectedLead.length == $scope.scheduLeadId.length){
     		    	    	  		console.log("reload page");
     		    	    			$('#scheduleCancelBtn').click();
-    		  						$route.reload();
+    		  						//$route.reload();
     		    	    	  	}
     		    	    		else{
     		    	    			if($scope.actionSelectedLead.length == $scope.leadDetId.length){
     		    	    				$('#scheduleCancelBtn').click();
-        		  						$route.reload();
+    		    	    				/* $scope.getScheduleData($scope.salesPerson).then(function(success){
+    				    	    			 
+    				    	    		 });*/
+        		  						//$route.reload();
     		    	    			}
     		    	    		}
     		    	    	}  	
@@ -7010,7 +7016,10 @@ angular.module('newApp')
     		    	    		if($scope.cancelLeadId.length == undefined){
     		    	    			console.log("reload page");
     		    	    			$('#scheduleCancelBtn').click();
-    		  						$route.reload();
+    		    	    			 /*$scope.getScheduleData($scope.salesPerson).then(function(success){
+    			    	    			 
+    			    	    		 });*/
+    		  						//$route.reload();
     		    	    	  	}
     		    	    	}
     					}else{
