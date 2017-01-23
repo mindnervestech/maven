@@ -2060,6 +2060,11 @@ angular.module('newApp').controller('customizationCtrl',
 		    			
 		    			console.log(data);
 		    			$scope.subCollectionlist = data;
+		    			if($scope.subCollectionlist.length > 0){
+		    				$scope.showSubCollection = "1";
+		    			}else{
+		    				$scope.showSubCollection = "0"
+		    			}
 		    			if($rootScope.editDataObj.productId != undefined && $rootScope.editDataObj.productId != null){
 		    	    		console.log($rootScope.editDataObj.productList);
 		    	    		$scope.subCollection = $rootScope.editDataObj.productId;
@@ -2205,6 +2210,12 @@ angular.module('newApp').controller('customizationCtrl',
 	    			
 	    			console.log(data);
 	    			$scope.subCollectionlist = data;
+	    			
+		    			if($scope.subCollectionlist.length > 0){
+		    				$scope.showSubCollection = "1";
+		    			}else{
+		    				$scope.showSubCollection = "0"
+		    			}
 			
 	    		});
 	    		
