@@ -12498,6 +12498,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			product.setSoldDate(date);
 	    			product.setSoldUser(user);
 	    			product.setStatus("Sold");
+	    			product.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 	    			product.setPrice(Integer.parseInt(vm.price));
 	    			product.update();
 	    		}
@@ -21063,19 +21064,19 @@ private static void salesPersonPlanMail(Map map) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Map<Long, Long> mapdate = new HashMap<Long, Long>();
 		Long pricevalue = 0L;
-		List<Vehicle> vehicle = null;
+		List<AddCollection> vehicle = null;
 		Map<Long, Long> treeMap = null;
 		
 		if(user.role.equals("General Manager")){
-			vehicle = Vehicle.findBySold();
+			vehicle = AddCollection.findBySold();
 		}else if(user.role.equals("Manager")){
-			vehicle = Vehicle.findByLocationAndSold(user.location.id);
+			vehicle = AddCollection.findByLocationAndSold(user.location.id);
 		}else if(user.role.equals("Sales Person")){
-			vehicle = Vehicle.findBySoldUserAndSold(user);
+			vehicle = AddCollection.findBySoldUserAndSold(user);
 		}
-			for(Vehicle vhVehicle:vehicle){
-				if(vhVehicle.price != null){
-					pricevalue = vhVehicle.price.longValue();
+			for(AddCollection vhVehicle:vehicle){
+				if(vhVehicle.price != 0){
+					pricevalue = (long)vhVehicle.price;
 				}else{
 					pricevalue = 0L;
 				}
