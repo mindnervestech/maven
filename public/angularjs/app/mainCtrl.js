@@ -2063,7 +2063,7 @@ angular.module('newApp').controller('customizationCtrl',
 		    			if($scope.subCollectionlist.length > 0){
 		    				$scope.showSubCollection = "1";
 		    			}else{
-		    				$scope.showSubCollection = "0"
+		    				$scope.showSubCollection = "0";
 		    			}
 		    			if($rootScope.editDataObj.productId != undefined && $rootScope.editDataObj.productId != null){
 		    	    		console.log($rootScope.editDataObj.productList);

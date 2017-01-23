@@ -4755,8 +4755,13 @@ angular.module('newApp')
 	    					console.log($scope.lead.leadType);
 	    					console.log($scope.josnData);
 	    					console.log($scope.customData);
+	    					console.log($rootScope.subColl);
+	    					console.log($scope.customData.productList);
 	    					var oneProduct = 0;
-	    					$scope.lead.productList = $scope.customData.productList;
+	    					if($scope.customData.productList != ""){
+	    						$scope.lead.productList = $scope.customData.productList;
+	    					}
+	    					
 	    					
 	    					$.each($scope.customData, function(attr, value) {
 	    						angular.forEach($scope.josnData, function(value1, key) {
@@ -4766,7 +4771,14 @@ angular.module('newApp')
 	    								}
 	    								if(value1.component == "productType"){
 	    									if(oneProduct == 0){
-	    										$scope.lead.manufacturers = $rootScope.subColl;
+	    										if($rootScope.subColl != undefined){
+	    											$scope.lead.manufacturers = $rootScope.subColl;
+	    											$scope.lead.saveLeadTypeAs = "SubCollection";
+	    										}else{
+	    											$scope.lead.manufacturers = $scope.customData.Cd_manufacturers;
+	    											$scope.lead.saveLeadTypeAs = "MainCollection";
+	    										}
+	    										
 	    										oneProduct++;
 	    									}
 	    								}

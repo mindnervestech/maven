@@ -25,6 +25,7 @@ public class LeadVM {
 	public List<String> options;
 	public String year;
 	public String custZipCode;
+	public String saveLeadTypeAs;
 	//public String exteriorColour;
 	//public String kilometres;
 	//public String engine;

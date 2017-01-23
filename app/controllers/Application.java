@@ -9814,6 +9814,7 @@ public class Application extends Controller {
 		leadVM.leadType =form.data().get("leadType");
 		leadVM.productList = form.data().get("productList");
 		leadVM.manufacturers =form.data().get("manufacturers");
+		leadVM.saveLeadTypeAs = form.data().get("saveLeadTypeAs");
 		
          
     }
@@ -17783,9 +17784,17 @@ private static void cancelTestDriveMail(Map map) {
     	Date date = new Date();
     	int parentFlag = 0;
     	long parentLeadId = 0L;
+    	String productId = null;
     	//List<SalesPersonZipCode> zipcode = SalesPersonZipCode.findByZipCode(Long.valueOf(session("USER_LOCATION")), leadVM.custZipCode);
     	//List<AddCollection> productlist = AddCollection.findByTitle(leadVM.manufacturers);
-    	AddCollection inventoryVM = AddCollection.findById(Long.parseLong(leadVM.manufacturers));
+    	if(leadVM.saveLeadTypeAs.equals("SubCollection")){
+    		AddCollection inventoryVM = AddCollection.findById(Long.parseLong(leadVM.manufacturers));
+    		productId = inventoryVM.id.toString();
+    	}else if(leadVM.saveLeadTypeAs.equals("MainCollection")){
+    		InventorySetting inventoryVM = InventorySetting.findById(Long.parseLong(leadVM.manufacturers));
+    		productId = inventoryVM.id.toString();
+    	}
+    	
     	RequestMoreInfo info = new RequestMoreInfo();
     	   // for(AddCollection inventoryVM:productlist){
     	   
@@ -17794,6 +17803,7 @@ private static void cancelTestDriveMail(Map map) {
 	    		info.setLeadStatus(null);
 	    		info.setEmail(leadVM.custEmail);
 	    		info.setName(leadVM.custName);
+	    		info.setSaveLeadTypeAs(leadVM.saveLeadTypeAs);
 	    		info.setPhone(leadVM.custNumber);
 	    		info.setCustZipCode(leadVM.custZipCode);
 	    		info.setEnthicity(leadVM.enthicity);
@@ -17813,7 +17823,7 @@ private static void cancelTestDriveMail(Map map) {
 	    		}*/
 	    		info.setAssignedTo(user);
 	    		 //product = Inventory.findById(inventoryVM.id);
-	    		info.setProductId(inventoryVM.id.toString());
+	    		info.setProductId(productId);
 	    		info.setUser(user);
 				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		info.setIsScheduled(false);

@@ -60,6 +60,7 @@ public class RequestMoreInfo extends Model {
 	public String productList;
 	public String section;
 	public String pdfPath;
+	public String saveLeadTypeAs;
 	public Boolean isCompleteFlag = false;
 	
 	public int notifFlag;
@@ -104,6 +105,12 @@ public void setMessage(String message) {
 		this.testDriveStatus = testDriveStatus;
 	}
 	
+	public String getSaveLeadTypeAs() {
+		return saveLeadTypeAs;
+	}
+	public void setSaveLeadTypeAs(String saveLeadTypeAs) {
+		this.saveLeadTypeAs = saveLeadTypeAs;
+	}
 	public String getPdfPath() {
 		return pdfPath;
 	}
