@@ -192,7 +192,7 @@ angular.module('newApp')
     				$scope.flag = "product";
     				$location.path('/editProduct/'+row.entity.id+'/'+$scope.flag);
     			}
-    		
+    		 
     		 $scope.gridOptions.onRegisterApi = function(gridApi){
     			 $scope.rowData = {};
     			 $scope.gridApi = gridApi;
@@ -207,9 +207,13 @@ angular.module('newApp')
     				 	apiserviceViewInventory.updateProduct($scope.rowData).then(function(data){
     				 });
     			 });
+    			
     			 gridApi.expandable.on.rowExpandedStateChanged($scope, function (row) {
+    				 console.log(row.entity.subCollection.length * 20);
+    				//row.expandableRowHeight = row.entity.subCollection.length * 20;
                      console.log("entity   :::: ",row);
                      console.log(row.entity);
+                    
                      if (row.isExpanded) {
                          row.entity.subGridOptions = {
                          enableSorting: false,
@@ -218,7 +222,7 @@ angular.module('newApp')
                      };
                        
 		 			        //  data: data[i].subCollection,
-                       row.entity.subGridOptions.data = row.entity.subCollection;   
+                       row.entity.subGridOptions.data =  row.entity.subCollection;   
                      }
                  });
     			 //expandableRowScope: { editProduct: function(){alert('hi');} }

@@ -10298,6 +10298,7 @@ angular.module('newApp')
 	        	$scope.gridMapObect = [];
 	        	
 	        	var leadInfo = "";
+	        	$scope.viewpdfFlag = "0";
 	        	angular.forEach($scope.otherLead,function(value,key){
 	        		
 	        		if(parseInt(value.isContactusType)== leads){
@@ -10319,6 +10320,9 @@ angular.module('newApp')
 		   	        	
 		   				var findFlag = 0;
 		   				angular.forEach($scope.AllOtherLeadSeenList,function(value,key){
+		   					if(value.viewPdfId == 1){
+			        			$scope.viewpdfFlag = "1";
+			        		}
 		   					if(findFlag == 0){
 		   						angular.forEach(value.customData,function(value1,key1){
 		   							angular.forEach($scope.josnData1,function(value2,key2){
@@ -10440,14 +10444,18 @@ angular.module('newApp')
 		                          }
 		                   	} ,
 		                    });
-						$scope.gridOptions13.columnDefs.push({ name: 'view', displayName: 'view', width:'14%',cellEditableCondition: false,
-		                   	cellTemplate:'<a href="/showPdf/{{row.entity.id}}" target="_blank" ng-if="row.entity.onlineOfflineLeads == 1">View</a><a ng-if="row.entity.onlineOfflineLeads == 0">_</a>',
-		                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-		                          if (row.entity.noteFlag != 1) {
-		                            return 'red';
-		                          }
-		                   	} ,
-		                    });
+						if($scope.viewpdfFlag == "1"){
+							$scope.gridOptions13.columnDefs.push({ name: 'view', displayName: 'view', width:'14%',cellEditableCondition: false,
+			                   	cellTemplate:'<a href="/showPdf/{{row.entity.id}}" target="_blank" ng-if="row.entity.onlineOfflineLeads == 1">View</a><a ng-if="row.entity.onlineOfflineLeads == 0">_</a>',
+			                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+			                          if (row.entity.noteFlag != 1) {
+			                            return 'red';
+			                          }
+			                   	} ,
+			                    });
+						}
+						
+						
 						console.log($scope.gridMapObect);
 						angular.forEach($scope.gridMapObect,function(value,key){
 							$scope.name = value.key;
