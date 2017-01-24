@@ -4779,7 +4779,10 @@ angular.module('newApp')
 	    								}
 	    								if(value1.component == "productType"){
 	    									if(oneProduct == 0){
-	    										if($rootScope.subColl != undefined){
+	    										if($scope.customData.productList != ""){
+	    											$scope.lead.saveLeadTypeAs = "Product";
+	    											$scope.lead.manufacturers = $rootScope.subColl;
+	    										}else if($rootScope.subColl != undefined){
 	    											$scope.lead.manufacturers = $rootScope.subColl;
 	    											$scope.lead.saveLeadTypeAs = "SubCollection";
 	    										}else{

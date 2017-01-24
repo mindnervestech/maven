@@ -364,22 +364,7 @@ public class CustomersRequestController extends Controller {
 		    		vm.requestDate = df.format(info.requestDate);
 		    		vm.productId = info.productId;
 		    		vm.viewPdfId = 0L;
-		    		if(info.productList != null && !info.productList.equals("")){
-		    			String arrList[] = info.productList.split(",");
-		    			String collNames = null;
-		    			for(int i=0;i<arrList.length;i++){
-		    				Product product = Product.findById(Long.parseLong(arrList[i]));
-		    				if(product != null){
-		    					if(i == 0){
-		    						collNames = product.primaryTitle +" ,";
-		    					}else{
-		    						collNames = collNames + product.primaryTitle +",";
-		    					}
-		    					
-		    				}
-		    			}
-		    			vm.collectionName = collNames;
-		    		}else if(info.saveLeadTypeAs == null){
+		    		if(info.saveLeadTypeAs == null){
 		    			AddCollection aCollection = AddCollection.findById(Long.parseLong(info.productId));
 		    			if(aCollection != null){
 		    				vm.collectionName = aCollection.title;
@@ -393,6 +378,23 @@ public class CustomersRequestController extends Controller {
 		    			InventorySetting iSetting = InventorySetting.findById(Long.parseLong(info.productId));
 		    			if(iSetting != null){
 		    				vm.collectionName = iSetting.collection;
+		    			}
+		    		}else if(info.saveLeadTypeAs.equals("Product")){
+		    			if(info.productList != null){
+		    				String arrList[] = info.productList.split(",");
+			    			String collNames = null;
+			    			for(int i=0;i<arrList.length;i++){
+			    				Product product = Product.findById(Long.parseLong(arrList[i]));
+			    				if(product != null){
+			    					if(i == 0){
+			    						collNames = product.primaryTitle +" ,";
+			    					}else{
+			    						collNames = collNames + product.primaryTitle +",";
+			    					}
+			    					
+			    				}
+			    			}
+			    			vm.collectionName = collNames;
 		    			}
 		    		}
 		    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));

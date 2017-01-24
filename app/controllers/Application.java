@@ -17703,7 +17703,7 @@ private static void cancelTestDriveMail(Map map) {
     	String productId = null;
     	//List<SalesPersonZipCode> zipcode = SalesPersonZipCode.findByZipCode(Long.valueOf(session("USER_LOCATION")), leadVM.custZipCode);
     	//List<AddCollection> productlist = AddCollection.findByTitle(leadVM.manufacturers);
-    	if(leadVM.saveLeadTypeAs.equals("SubCollection")){
+    	if(leadVM.saveLeadTypeAs.equals("SubCollection")  || leadVM.saveLeadTypeAs.equals("Product")){
     		AddCollection inventoryVM = AddCollection.findById(Long.parseLong(leadVM.manufacturers));
     		productId = inventoryVM.id.toString();
     	}else if(leadVM.saveLeadTypeAs.equals("MainCollection")){
