@@ -1023,7 +1023,7 @@ angular.module('newApp')
     		  volumeStatEndDateId = $('#volumeStatEndDateId').val();
     	  }
     	  apiserviceDashborad.getSoldVehicleDetails(volumeStatStartDateId, volumeStatEndDateId).then(function(data){
-    	console.log(data);
+    	
    		$scope.locationDataList = data;	
        if(data.length == 0){
     	   $scope.msgShow = 1;
@@ -1033,6 +1033,7 @@ angular.module('newApp')
    		
          var items = Array($scope.locationDataList);
          var randomData = $scope.locationDataList;
+        
          $('#bar-chartVehicle').highcharts('StockChart', {
              chart: {
                  alignTicks: false,
@@ -1129,7 +1130,7 @@ angular.module('newApp')
     	  				$scope.msgShow = 0;
     	  			}
     	  		});
-    	  		console.log(data);
+    	  		
     	  		/*if(data.length == 0){
     	     	   $scope.msgShow = 1;
     	        }else{

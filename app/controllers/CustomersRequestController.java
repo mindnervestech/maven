@@ -392,9 +392,18 @@ public class CustomersRequestController extends Controller {
 			    				pVm.primaryTitle = product.primaryTitle;
 			    				if(product != null){
 			    					if(i == 0){
-			    						collNames = product.primaryTitle +" ,";
+			    						if(i == arrList.length - 1){
+				    						collNames = product.primaryTitle;
+				    					}else {
+				    						collNames = product.primaryTitle +" ,";
+				    					}
 			    					}else{
-			    						collNames = collNames + product.primaryTitle +",";
+			    						if(i == arrList.length - 1){
+				    						collNames = collNames + product.primaryTitle;
+				    					}else {
+				    						collNames = collNames + product.primaryTitle +",";
+				    					}
+			    						
 			    					}
 			    				}
 			    				pList.add(pVm);
