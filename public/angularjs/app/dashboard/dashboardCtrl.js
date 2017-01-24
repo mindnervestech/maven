@@ -6327,7 +6327,7 @@ angular.module('newApp')
 				    		    		      											$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
 				    		    		      										}
 				    		    		    		       							
-				    		    				        							findFlag = 1;
+				    		    				        							//findFlag = 1;
 			    		    				        							}
 				    		    		    		       					});
 		    		    				        							
