@@ -1023,7 +1023,7 @@ angular.module('newApp')
     		  volumeStatEndDateId = $('#volumeStatEndDateId').val();
     	  }
     	  apiserviceDashborad.getSoldVehicleDetails(volumeStatStartDateId, volumeStatEndDateId).then(function(data){
-    	console.log(data);
+    	
    		$scope.locationDataList = data;	
        if(data.length == 0){
     	   $scope.msgShow = 1;
@@ -1130,7 +1130,7 @@ angular.module('newApp')
     	  				$scope.msgShow = 0;
     	  			}
     	  		});
-    	  		console.log(data);
+    	  		
     	  		/*if(data.length == 0){
     	     	   $scope.msgShow = 1;
     	        }else{
@@ -7222,29 +7222,45 @@ angular.module('newApp')
     		$('#btnCompleteRequest').click();
     	}
     	
+    	
     	$scope.saveRequestStatus = function() {
-    		$('#soldBtn').attr("disabled", true);
-    		console.log($scope.soldContact);
-    		 apiserviceDashborad.setRequestStatusComplete($scope.soldContact).then(function(data){
+    		$scope.flagSavePrice = "0";
     		
-				$route.reload();
-				if(data=='contact error'){
-					$.pnotify({
-					    title: "Error",
-					    type:'success',
-					    text: "Contact email already exist",
-					});
+    		console.log($scope.soldContact);
+    		if($scope.soldContact.saveLeadTypeAs == "Product"){
+    			angular.forEach($scope.soldContact.collectionIds, function(obj, index){
+    					if(obj.price == null || obj.price == undefined || obj.price == "" || obj.price == 0){
+    						$scope.flagSavePrice = "1";
+    					}
+    			});
+    		}else{
+    			if($scope.soldContact.price == null || $scope.soldContact.price == undefined || $scope.soldContact.price == "" || $scope.soldContact.price == 0){
+					$scope.flagSavePrice = "1";
 				}
-				$('#requestCompleteStatusModal').modal('hide');
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Status changed successfully",
-				});
-				$('#soldBtn').attr("disabled", false);
-				$scope.getAllLeadIn();
-				$scope.showVehicalBarChart();
-			});
+    		}
+    		if($scope.flagSavePrice == "0"){
+    			$('#soldBtn').attr("disabled", true);
+    			 apiserviceDashborad.setRequestStatusComplete($scope.soldContact).then(function(data){
+    					$route.reload();
+    					if(data=='contact error'){
+    						$.pnotify({
+    						    title: "Error",
+    						    type:'success',
+    						    text: "Contact email already exist",
+    						});
+    					}
+    					$('#requestCompleteStatusModal').modal('hide');
+    					$.pnotify({
+    					    title: "Success",
+    					    type:'success',
+    					    text: "Status changed successfully",
+    					});
+    					$('#soldBtn').attr("disabled", false);
+    					$scope.getAllLeadIn();
+    					$scope.showVehicalBarChart();
+    				});
+    		}
+    	
     	};		
     	
     	$scope.cancelLead = function(leads,index){

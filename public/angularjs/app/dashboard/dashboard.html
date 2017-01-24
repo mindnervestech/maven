@@ -6004,10 +6004,11 @@ float: right !important;
 															<input type="text" class="form-control form-white" ng-model="soldContact.name" required>
 														</div>
 													</div>
+													
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Email</label>
 														<div class="col-sm-7">
-															<input type="email" class="form-control form-white" ng-model="soldContact.email" required>
+															<input type="email" class="form-control form-white" ng-model="soldContact.email"  required>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
@@ -6133,6 +6134,11 @@ float: right !important;
 															<input type="text" class="form-control form-white" ng-model="otherProduct.price" required>
 														</div>
 													</div>
+													<div class="form-group col-sm-12">
+														<div class="col-sm-4 control-label"></div>
+														<label class="col-sm-7" style="color:red;" ng-if="flagSavePrice == '1'">Final Price is required</label>
+													</div>
+													
 													
 								                </div>
 								                <div class="modal-footer">
@@ -9647,6 +9653,7 @@ float: right !important;
 .nav-tabs > li > a::before {
 	height: 0px;
 }
+
 
 .setBorderClass{
     border-style: solid;
