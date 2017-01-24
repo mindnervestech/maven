@@ -12522,6 +12522,9 @@ private static void cancelTestDriveMail(Map map) {
 	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
 	    		uNotes.save();
+	    		if(vm.saveLeadTypeAs == null){
+	    			vm.saveLeadTypeAs = "SubCollection";
+	    		}
 	    		if(vm.saveLeadTypeAs.equals("Product")){
 	    			for(ProductVM pVm:vm.collectionIds){
 	    				SoldInventory sold = new SoldInventory();
