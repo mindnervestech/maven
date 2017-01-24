@@ -1992,6 +1992,14 @@ angular.module('newApp')
 																					             }
 																					       	} ,
 																					       },
+																					     { name: 'collectionName', displayName: 'Collection', width:'14%',cellEditableCondition: false,
+									    		    						                   	cellTemplate:'<a>{{row.entity.collectionName}}</a>',
+									    		    						                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+									    		    						                          if (row.entity.noteFlag != 1) {
+									    		    						                            return 'red';
+									    		    						                          }
+									    		    						                   	} ,
+									    		    						               },
      	     		     			 		 		                                 
      	     		     			 		 		                            /*{ name: 'typeOfLead', displayName: 'type', width:'8%',cellEditableCondition: false,
       	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.typeOfLead}}</a> ',
@@ -6303,7 +6311,7 @@ angular.module('newApp')
 				    		    		    	   												$scope.gridMapObect.push({values: value3.value , key: value3.key, label: "End Date", component: value2.component});
 				    		    		    		   										}
 				    		    		    	   										});
-				    		    		       										}else if(value2.component == "productType"){
+				    		    		       										}/*else if(value2.component == "productType"){
 				    		    		       											angular.forEach($scope.getAllCollection,function(obj,val){
 				    		    		      												 if(obj.id.toString() == value1.value){
 				    		    		      													value1.value = obj.collection;
@@ -6312,7 +6320,7 @@ angular.module('newApp')
 				    		    		      												 }
 				    		    		      											});
 				    		    		      											
-				    		    		      										}else{
+				    		    		      										}*/else if(value2.component != "productType"){
 				    		    		      											$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
 				    		    		      										}
 				    		    		    		       							
@@ -6336,7 +6344,7 @@ angular.module('newApp')
 		    		    				        						});
 		    		    				        					});
 		    		    				        				});
-		    		    				        				
+		    		    											
 		    		    				        				$scope.flag = 0;
 		    		    				        				angular.forEach($scope.gridMapObect,function(value,key){
 		    		    				        					var name = value.key;
