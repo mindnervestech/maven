@@ -101,6 +101,8 @@ public class SoldInventory extends Model {
 		return find.where().eq("locations.id", location).findList();
 	}
 	public static List<SoldInventory> findBySoldUserAndSold(AuthUser user) {
-		return find.where().eq("soldUser", user).findList();
+		return find.where().eq("user", user).findList();
 	}
+	
+	
 }

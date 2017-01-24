@@ -10953,15 +10953,15 @@ private static void cancelTestDriveMail(Map map) {
 		Integer pricecount = 0;
 		int saleCarCount = 0;
 		if(users.role.equals("Manager") && locOrPer.equals("location")){
-			List<AddCollection> pList = AddCollection.findByLocationAndSold(location.id);
+			List<SoldInventory> pList = SoldInventory.findBySold();
        	
-			for(AddCollection proList:pList){
+			for(SoldInventory proList:pList){
 				if((proList.soldDate.after(startD) && proList.soldDate.before(endD)) || proList.soldDate.equals(endD) || proList.soldDate.equals(startD)){
 					saleCarCount++;
-           			pricecount = (int) (pricecount + proList.price);
+           			pricecount = (int) (pricecount + Integer.parseInt(proList.price));
            		}
 				if(monthCal.equals(onlyMonth.format(proList.soldDate))){
-					monthPriceCount = (int) (monthPriceCount + proList.price);
+					monthPriceCount = (int) (monthPriceCount + Integer.parseInt(proList.price));
 				}
 			}
 			if(countLeads1 != 0 ){
@@ -10976,14 +10976,14 @@ private static void cancelTestDriveMail(Map map) {
 			List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(users);
 			List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(users);
    		
-			List<AddCollection> pList = AddCollection.findBySoldUserAndSold(users);
-			for (AddCollection product : pList) {
+			List<SoldInventory> pList = SoldInventory.findBySoldUserAndSold(users);
+			for (SoldInventory product : pList) {
 				if((product.soldDate.after(startD) && product.soldDate.before(endD)) || product.soldDate.equals(endD) || product.soldDate.equals(startD)) {
 					saleCarCount++;
-					pricecount = (int) (pricecount + product.price);
+					pricecount = (int) (pricecount + Integer.parseInt(product.price));
 				}
 				if(monthCal.equals(onlyMonth.format(product.soldDate))){
-					monthPriceCount = (int) (monthPriceCount + product.price);
+					monthPriceCount = (int) (monthPriceCount + Integer.parseInt(product.price));
 				}
 			}
 			if(countLeads1 != 0){
@@ -14968,12 +14968,12 @@ private static void cancelTestDriveMail(Map map) {
 	    	double pricecount = 0;
 	    	int per = 0;
 	    	List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(sales);
-    		List<AddCollection> salesVehicleList = AddCollection.findBySoldUserAndSold(sales);
-    		for (AddCollection vehicle : salesVehicleList) {
-    			if(vehicle != null){
-    				if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end) || vehicle.soldDate.equals(start)){
+	    	List<SoldInventory> salesCollectionList = SoldInventory.findBySoldUserAndSold(sales);
+    		for (SoldInventory collInventory : salesCollectionList) {
+    			if(collInventory != null){
+    				if((collInventory.soldDate.after(start) && collInventory.soldDate.before(end)) || collInventory.soldDate.equals(end) || collInventory.soldDate.equals(start)){
             			saleCarCount++;
-            			pricecount = pricecount + vehicle.price;
+            			pricecount = pricecount + Double.parseDouble(collInventory.price);
     				}
     			}
 			}
