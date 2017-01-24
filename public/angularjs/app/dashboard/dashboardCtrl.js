@@ -1023,7 +1023,7 @@ angular.module('newApp')
     		  volumeStatEndDateId = $('#volumeStatEndDateId').val();
     	  }
     	  apiserviceDashborad.getSoldVehicleDetails(volumeStatStartDateId, volumeStatEndDateId).then(function(data){
-    	
+    	console.log(data);
    		$scope.locationDataList = data;	
        if(data.length == 0){
     	   $scope.msgShow = 1;
@@ -1130,7 +1130,7 @@ angular.module('newApp')
     	  				$scope.msgShow = 0;
     	  			}
     	  		});
-    	  		
+    	  		console.log(data);
     	  		/*if(data.length == 0){
     	     	   $scope.msgShow = 1;
     	        }else{
