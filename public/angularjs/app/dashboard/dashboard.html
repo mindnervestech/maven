@@ -6112,14 +6112,24 @@ float: right !important;
 															<input type="text" class="form-control form-white" ng-model="soldContact.year" required>
 														</div>
 													</div>
-													
 													<div class="form-group col-sm-12">
+													<div class="form-group col-sm-3"></div>
+														<label class="form-group col-sm-9">{{soldContact.saveLeadTypeAs}} : {{soldContact.collectionName}}</label>
+													</div>
+													
+													<div class="form-group col-sm-12" ng-if="soldContact.saveLeadTypeAs != 'Product'">
 														<label class="col-sm-4 control-label" style="text-align: right;">Final Price</label>
 														<div class="col-sm-7">
 															<input type="text" class="form-control form-white" ng-model="soldContact.price" required>
 														</div>
 													</div>
 													
+													<div class="form-group col-sm-12" ng-if="soldContact.saveLeadTypeAs == 'Product'" ng-repeat="otherProduct in soldContact.collectionIds">
+													<label class="col-sm-4 control-label" style="text-align: right;">{{otherProduct.primaryTitle}} Final Price</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="otherProduct.price" required>
+														</div>
+													</div>
 													
 													<!-- <div ng-repeat="otherLeads in soldContact.parentChildLead">
 								                			<div class="col-md-12">

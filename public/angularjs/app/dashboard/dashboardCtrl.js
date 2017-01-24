@@ -6757,6 +6757,10 @@ angular.module('newApp')
     		$scope.soldContact.custZipCode = entity.custZipCode;
     		$scope.soldContact.typeOfLead = entity.typeOfLead;
     		$scope.soldContact.parentChildLead = entity.parentChildLead;
+    		$scope.soldContact.saveLeadTypeAs = entity.saveLeadTypeAs;
+    		$scope.soldContact.collectionName = entity.collectionName;
+    		$scope.soldContact.collectionIds = entity.collectionIds;
+    		
     		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
     			$scope.soldContact.howContactedUs = entity.howContactedUs;
     		} else {

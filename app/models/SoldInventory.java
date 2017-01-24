@@ -18,6 +18,8 @@ public class SoldInventory extends Model {
 	
 	public Date soldDate;
 	public String price;
+	public String saveLeadTypeAs;
+	public String collectionId;
 	
 	
 	@ManyToOne
@@ -37,6 +39,18 @@ public class SoldInventory extends Model {
 		this.id = id;
 	}
 	
+	public String getSaveLeadTypeAs() {
+		return saveLeadTypeAs;
+	}
+	public void setSaveLeadTypeAs(String saveLeadTypeAs) {
+		this.saveLeadTypeAs = saveLeadTypeAs;
+	}
+	public String getCollectionId() {
+		return collectionId;
+	}
+	public void setCollectionId(String collectionId) {
+		this.collectionId = collectionId;
+	}
 	public Date getSoldDate() {
 		return soldDate;
 	}

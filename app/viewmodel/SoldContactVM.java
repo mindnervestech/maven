@@ -20,6 +20,9 @@ public class SoldContactVM {
 	public Long productId;
 	public String year;
 	public String mileage;
+	public List<ProductVM> collectionIds;
+	public String collectionName;
+	public String saveLeadTypeAs;
 	public String price;
 	public String typeOfLead;
 	public String leadId;

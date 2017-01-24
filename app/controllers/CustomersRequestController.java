@@ -73,6 +73,7 @@ import viewmodel.CreateFormVM;
 import viewmodel.CreateNewFormVM;
 import viewmodel.KeyValueDataVM;
 import viewmodel.NoteVM;
+import viewmodel.ProductVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.SpecificationVM;
 import views.html.home;
@@ -383,18 +384,23 @@ public class CustomersRequestController extends Controller {
 		    			if(info.productList != null){
 		    				String arrList[] = info.productList.split(",");
 			    			String collNames = null;
+			    			ArrayList<ProductVM> pList = new ArrayList<ProductVM>();
 			    			for(int i=0;i<arrList.length;i++){
+			    				ProductVM pVm = new ProductVM();
 			    				Product product = Product.findById(Long.parseLong(arrList[i]));
+			    				pVm.id = product.id;
+			    				pVm.primaryTitle = product.primaryTitle;
 			    				if(product != null){
 			    					if(i == 0){
 			    						collNames = product.primaryTitle +" ,";
 			    					}else{
 			    						collNames = collNames + product.primaryTitle +",";
 			    					}
-			    					
 			    				}
+			    				pList.add(pVm);
 			    			}
 			    			vm.collectionName = collNames;
+			    			vm.collectionIds = pList;
 		    			}
 		    		}
 		    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));

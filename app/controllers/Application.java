@@ -169,6 +169,7 @@ import viewmodel.PinVM;
 import viewmodel.PlanScheduleVM;
 import viewmodel.PriceChangeVM;
 import viewmodel.PriceFormatDate;
+import viewmodel.ProductVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.SalepeopleMonthPlanVM;
 import viewmodel.ScheduleTestVM;
@@ -12513,7 +12514,7 @@ private static void cancelTestDriveMail(Map map) {
 	    		
 	    		
 	    		UserNotes uNotes = new UserNotes();
-	    		uNotes.setNote("Vehicle Sold");
+	    		uNotes.setNote("furniture Sold");
 	    		uNotes.setAction("Other");
 	    		uNotes.createdDate = currDate;
 	    		uNotes.createdTime = currDate;
@@ -12521,14 +12522,30 @@ private static void cancelTestDriveMail(Map map) {
 	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
 	    		uNotes.save();
+	    		if(vm.saveLeadTypeAs.equals("Product")){
+	    			for(ProductVM pVm:vm.collectionIds){
+	    				SoldInventory sold = new SoldInventory();
+			    		sold.requestMoreInfo = RequestMoreInfo.findById(info.id);
+			    		sold.collectionId = pVm.id.toString();
+			    		sold.saveLeadTypeAs = vm.saveLeadTypeAs;
+			    		sold.soldDate = currDate;
+			    		sold.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			    		sold.price = String.valueOf(pVm.price);
+			    		sold.user = user;
+			    		sold.save();
+	    			}
+	    		}else{
+	    			SoldInventory sold = new SoldInventory();
+		    		sold.requestMoreInfo = RequestMoreInfo.findById(info.id);
+		    		sold.soldDate = currDate;
+		    		sold.collectionId = info.productId;
+		    		sold.saveLeadTypeAs = vm.saveLeadTypeAs;
+		    		sold.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    		sold.price = vm.price;
+		    		sold.user = user;
+		    		sold.save();
+	    		}
 	    		
-	    		SoldInventory sold = new SoldInventory();
-	    		sold.requestMoreInfo = RequestMoreInfo.findById(info.id);
-	    		sold.soldDate = currDate;
-	    		sold.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	    		sold.price = vm.price;
-	    		sold.user = user;
-	    		sold.save();
     	 
     	 SoldContact contact = new SoldContact();
  		contact.name = vm.name;
