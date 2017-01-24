@@ -20652,8 +20652,9 @@ private static void salesPersonPlanMail(Map map) {
 	public static void setFinancialVehicle(AuthUser user,Map<String, Object> sAndValues,String startD,String endD){
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM");
-		List<Vehicle> vehicle = null;
+		List<SoldInventory> vehicle = null;
 		Map<String, Long> mapMake = new HashMap<String, Long>();
+		Map<String, Long> mapForData = new HashMap<String, Long>();
 		Map<Long, Long> mapAlldate = new HashMap<Long, Long>();
 		List<sendDataVM> data = new ArrayList<>();
 		List<Object> dates = new ArrayList<>();
@@ -20672,49 +20673,76 @@ private static void salesPersonPlanMail(Map map) {
 		}
 		
 		if(user.role.equals("General Manager")){
-			vehicle = Vehicle.findBySold();
+			vehicle = SoldInventory.findBySold();
 		}else if(user.role.equals("Manager")){
-			vehicle = Vehicle.findByLocationAndSold(user.location.id);
+			vehicle = SoldInventory.findByLocationAndSold(user.location.id);
 		}else if(user.role.equals("Sales Person")){
-			vehicle = Vehicle.findBySoldUserAndSold(user);
+			vehicle = SoldInventory.findBySoldUserAndSold(user);
 		}
 		
 		Long countvehical = 1L;
 		
-		for(Vehicle vhVehicle:vehicle){
-			if(vhVehicle.getMake() != null){
+		for(SoldInventory vhVehicle:vehicle){
+			if(vhVehicle.requestMoreInfo != null){
 				
-				Long objectMake = mapMake.get(vhVehicle.getMake());
-				if (objectMake == null) {
-					mapMake.put(vhVehicle.getMake(), countvehical);
-				}else{
-					mapMake.put(vhVehicle.getMake(), countvehical + 1L);
+				String prodname = vhVehicle.collectionId;
+				Long prodId = Long.parseLong(prodname);
+				if(vhVehicle.getSaveLeadTypeAs().equals("SubCollection")){
+					AddCollection collName = AddCollection.findById(prodId);
+					Long objectMake = mapMake.get(collName.title);
+					if (objectMake == null) {
+						mapMake.put(collName.title, countvehical);
+						mapForData.put(collName.title+"_"+collName.id+"_"+vhVehicle.getSaveLeadTypeAs(), countvehical);
+					}else{
+						mapMake.put(collName.title, countvehical + 1L);
+						mapForData.put(collName.title+"_"+collName.id+"_"+vhVehicle.getSaveLeadTypeAs(), countvehical + 1L);
+					}
+				}else if(vhVehicle.getSaveLeadTypeAs().equals("MainCollection")){
+					InventorySetting collName = InventorySetting.findById(prodId);
+					Long objectMake = mapMake.get(collName.collection);
+					if (objectMake == null) {
+						mapMake.put(collName.collection, countvehical);
+						mapForData.put(collName.collection+"_"+collName.id+"_"+vhVehicle.getSaveLeadTypeAs(), countvehical);
+					}else{
+						mapMake.put(collName.collection, countvehical + 1L);
+						mapForData.put(collName.collection+"_"+collName.id+"_"+vhVehicle.getSaveLeadTypeAs(), countvehical + 1L);
+					}
+				}else if(vhVehicle.getSaveLeadTypeAs().equals("Product")){
+					Product collName = Product.findById(prodId);
+					Long objectMake = mapMake.get(collName.primaryTitle);
+					if (objectMake == null) {
+						mapMake.put(collName.primaryTitle, countvehical);
+						mapForData.put(collName.primaryTitle+"_"+collName.id+"_"+vhVehicle.getSaveLeadTypeAs(), countvehical);
+					}else{
+						mapMake.put(collName.primaryTitle, countvehical + 1L);
+						mapForData.put(collName.primaryTitle+"_"+collName.id+"_"+vhVehicle.getSaveLeadTypeAs(), countvehical + 1L);
+					}
 				}
+				
 			}
 		}
 		
-		for (Entry<String, Long> entry : mapMake.entrySet()) {
+		for (Entry<String, Long> entry : mapForData.entrySet()) {
 			Map<Long, Long> mapdate = new HashMap<Long, Long>();
 			Map<Long, Long> treeMap = null;
 			List<Long> lonnn = new ArrayList<>();
 			sendDataVM sValue = new sendDataVM();
-			List<Vehicle> veList  = null;
+			List<SoldInventory> veList  = null;
 			if(user.role.equals("General Manager")){
-				veList = Vehicle.findBySold();
+				veList = SoldInventory.findBySold();
 			}else if(user.role.equals("Manager")){
-				veList = Vehicle.findByMakeAndSoldLocation(entry.getKey(), user.location.id);
+				String[] collId = entry.getKey().split("_");
+				veList = SoldInventory.findByMakeAndSoldLocation(collId[1], user.location.id);
 			}else if(user.role.equals("Sales Person")){
-				veList = Vehicle.findByMakeAndSold(entry.getKey(), user);
+				String[] collId = entry.getKey().split("_");
+				veList = SoldInventory.findByMakeAndSold(collId[1], user);
 			}
-			 
-			sValue.name = entry.getKey();
+			String[] collData = entry.getKey().split("_");
+			sValue.name = collData[0];
 			if(veList != null){
-					
-				for(Vehicle vhVehicle:veList){
-					
+				for(SoldInventory vhVehicle:veList){
 					if((vhVehicle.getSoldDate().after(startDate) && vhVehicle.getSoldDate().before(endDate)) || vhVehicle.getSoldDate().equals(endDate) || vhVehicle.getSoldDate().equals(startDate))
 					{
-					
 						Long countCar = 1L;
 						Long objectDate = mapdate.get(vhVehicle.getSoldDate().getTime() + (1000 * 60 * 60 * 24));
 						if (objectDate == null) {
@@ -20743,9 +20771,6 @@ private static void salesPersonPlanMail(Map map) {
 					d1 = DateUtils.addHours(d1, 24);
 				}
 				
-				/*for (Entry<Long, Long> entryValue : mapdate.entrySet()) {
-					lonnn.add(entryValue.getValue());
-				  }*/
 				sValue.data = lonnn;
 			}
 			data.add(sValue);
@@ -20763,53 +20788,6 @@ private static void salesPersonPlanMail(Map map) {
 			d1 = DateUtils.addHours(d1, 24);
 		}
 		
-		
-		
-		/*for(sendDateAndValue sAndValue:sAndValues){
-			for(List<Long> longs:sAndValue.data){
-				int i = 0;
-				for(Long long1:longs){
-					if(i == 0){
-						for (Entry<Long, Long> entryValue : mapAlldate.entrySet()) {
-							if(!entryValue.getValue().equals(0L)){
-								if(!long1.equals(entryValue.getKey())){
-									mapAlldate.put(entryValue.getKey(), 1L);
-								}else{
-									mapAlldate.put(entryValue.getKey(), 0L);
-								}
-							}
-							
-						  }
-						i++;
-					}
-					
-				}
-				
-			}
-			for (Entry<Long, Long> entryValue : mapAlldate.entrySet()) {
-				if(entryValue.getValue().equals(1L)){
-					List<Long> value = new ArrayList<>();
-					value.add(entryValue.getKey());
-					value.add(0L);//entryValue.getKey(),0L};
-					sAndValue.data.add(value);
-					
-				}else{
-					mapAlldate.put(entryValue.getKey(), 1L);
-				}
-			  }
-			
-		}*/
-		
-		/*for(sendDateAndValue sValue:sAndValues){
-		
-			Collections.sort(sValue.data, new Comparator<List<Long>>(){
-				 @Override
-		            public int compare(List<Long> o1, List<Long> o2) {
-		                return o1.get(0).compareTo(o2.get(0));
-		            }
-				
-			});
-		}*/
 	}
 	
 	/*public static void setFinancialVehicle(AuthUser user,List<sendDateAndValue> sAndValues,String startD,String endD){
@@ -21090,19 +21068,19 @@ private static void salesPersonPlanMail(Map map) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Map<Long, Long> mapdate = new HashMap<Long, Long>();
 		Long pricevalue = 0L;
-		List<AddCollection> vehicle = null;
+		List<SoldInventory> vehicle = null;
 		Map<Long, Long> treeMap = null;
 		
 		if(user.role.equals("General Manager")){
-			vehicle = AddCollection.findBySold();
+			vehicle = SoldInventory.findBySold();
 		}else if(user.role.equals("Manager")){
-			vehicle = AddCollection.findByLocationAndSold(user.location.id);
+			vehicle = SoldInventory.findByLocationAndSold(user.location.id);
 		}else if(user.role.equals("Sales Person")){
-			vehicle = AddCollection.findBySoldUserAndSold(user);
+			vehicle = SoldInventory.findBySoldUserAndSold(user);
 		}
-			for(AddCollection vhVehicle:vehicle){
-				if(vhVehicle.price != 0){
-					pricevalue = (long)vhVehicle.price;
+			for(SoldInventory vhVehicle:vehicle){
+				if(vhVehicle.price != null){
+					pricevalue = Long.parseLong(vhVehicle.price);
 				}else{
 					pricevalue = 0L;
 				}

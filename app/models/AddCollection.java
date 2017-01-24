@@ -399,4 +399,10 @@ public class AddCollection extends Model {
 	public static List<AddCollection> getAllProductByIdColl(Long id) {
 		return find.where().eq("mainCollection.id", id).findList();
 	}
+	public static List<AddCollection> findByMakeAndSoldLocation(String title, Long location) {
+		return find.where().eq("locations.id", location).eq("title", title).eq("status", "Sold").findList();
+	}
+	public static List<AddCollection> findByMakeAndSold(String title, AuthUser user) {
+		return find.where().eq("soldUser", user).eq("title", title).eq("status", "Sold").findList();
+	}
 }
