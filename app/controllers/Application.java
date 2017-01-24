@@ -103,6 +103,7 @@ import models.SiteInventory;
 import models.SiteLogo;
 import models.SliderImage;
 import models.SoldContact;
+import models.SoldInventory;
 import models.ToDo;
 import models.TradeIn;
 import models.UserNotes;
@@ -12521,8 +12522,13 @@ private static void cancelTestDriveMail(Map map) {
 	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
 	    		uNotes.save();
 	    		
-	    		//otherParentChildLeadsStatus(vm,user,currDate);
-	    		//lostLeadsFunction(info.productId, currDate);
+	    		SoldInventory sold = new SoldInventory();
+	    		sold.requestMoreInfo = RequestMoreInfo.findById(info.id);
+	    		sold.soldDate = currDate;
+	    		sold.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		sold.price = vm.price;
+	    		sold.user = user;
+	    		sold.save();
     	 
     	 SoldContact contact = new SoldContact();
  		contact.name = vm.name;
