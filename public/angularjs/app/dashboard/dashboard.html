@@ -6114,7 +6114,8 @@ float: right !important;
 													</div>
 													<div class="form-group col-sm-12">
 													<div class="form-group col-sm-3"></div>
-														<label class="form-group col-sm-9">{{soldContact.saveLeadTypeAs}} : {{soldContact.collectionName}}</label>
+														<label class="form-group col-sm-9" ng-if="soldContact.saveLeadTypeAs != null">{{soldContact.saveLeadTypeAs}} : {{soldContact.collectionName}}</label>
+														<label class="form-group col-sm-9" ng-if="soldContact.saveLeadTypeAs == null">SubCollection : {{soldContact.collectionName}}</label>
 													</div>
 													
 													<div class="form-group col-sm-12" ng-if="soldContact.saveLeadTypeAs != 'Product'">
