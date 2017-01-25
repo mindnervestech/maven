@@ -1136,9 +1136,11 @@
         var flag = 0;
         
         	
-        	
         	if(localStorage.getItem('popupType') == "Lead"){
         		if(scope.component.name == "leadTypeSelector"){
+        			flag = 1;
+           	    }
+        		if(scope.component.name == "productType"){
         			flag = 1;
            	    }
         	}

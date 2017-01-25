@@ -267,7 +267,7 @@ angular.module('newApp')
 			
 		}
 		else if(row.entity.name == "Create New Lead"){
-			localStorage.setItem('popupType','Lead');
+			localStorage.setItem('popupType','Form');
 			$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create New Lead');
 			
 		}
