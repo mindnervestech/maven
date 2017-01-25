@@ -75,14 +75,11 @@ angular.module('newApp')
 		//$scope.stockRp = {};
 		
 	$scope.selectedNames = function(obj){
-		console.log(obj);
 	}
 	$scope.focusNameOut = function(item){
-		console.log(item);
 	}
 	
 	$scope.formlySubmit = function(){
-		console.log($scope.user);
 	}
 	
 	
@@ -183,7 +180,6 @@ angular.module('newApp')
 			
 			
 			$scope.getFormDesign($scope.selectedLead).then(function(response){
-				console.log(response);
 				 $scope.userFields1 = $scope.addFormField($scope.userList);
 					
 				 angular.forEach($scope.userFields1, function(obj, index){
@@ -231,9 +227,6 @@ angular.module('newApp')
 			additional = false;
 			$scope.additional = false;
 		}
-		console.log(additional);
-		console.log($scope.userFields2);
-		
 		if(additional == false){
 			angular.forEach($scope.userFields2, function(obj, index){
 				angular.forEach($scope.userFields, function(obj1, index1){
@@ -246,7 +239,6 @@ angular.module('newApp')
 		
 		if(additional == undefined){
 			angular.forEach($scope.userFields2, function(obj, index){
-				console.log(obj);
 				$scope.userFields.push(obj);
 				 
 			});	
@@ -254,7 +246,6 @@ angular.module('newApp')
 		
 		if(additional == true){
 			angular.forEach($scope.userFields2, function(obj, index){
-				console.log(obj);
 				$scope.userFields.push(obj);
 			});	
 			
@@ -1023,7 +1014,6 @@ angular.module('newApp')
     		  volumeStatEndDateId = $('#volumeStatEndDateId').val();
     	  }
     	  apiserviceDashborad.getSoldVehicleDetails(volumeStatStartDateId, volumeStatEndDateId).then(function(data){
-    	
    		$scope.locationDataList = data;	
        if(data.length == 0){
     	   $scope.msgShow = 1;
@@ -1130,12 +1120,6 @@ angular.module('newApp')
     	  				$scope.msgShow = 0;
     	  			}
     	  		});
-    	  		
-    	  		/*if(data.length == 0){
-    	     	   $scope.msgShow = 1;
-    	        }else{
-    	     	   $scope.msgShow = 0;
-    	        }*/
     	  		 createChart(data);
   			});
     	  
@@ -2042,17 +2026,6 @@ angular.module('newApp')
        	  			$scope.deleteActionSelected($scope.actionSelectedLead);
      				
      			}
-     			/*if($scope.selectAll == undefined || $scope.selectAll == false){
-     				console.log($scope.getAllListLeadDate);
-     				angular.forEach($scope.getAllListLeadDate, function(obj, index){
-     					$scope.actionSelectedLead.push(obj.id);
-           	  			$scope.actionSelectedLeadObj = obj;
-     	   			 });
-     				
-       	  		}else{
-       	  			$scope.deleteActionSelected($scope.actionSelectedLead);
-       	  		}
-     			console.log($scope.actionSelectedLead);*/
      		}
      		
      		$scope.deleteActionSelected = function(objList){
@@ -2098,17 +2071,12 @@ angular.module('newApp')
    	  	$scope.actionSelectedLead = [];
    	  	$scope.actionSelectedLeadObj = "";
    	  	$scope.doAction = function(row,checkBoxSelect){
-   	  		console.log(checkBoxSelect);
-   	  		console.log(row.entity);
    	  		if(checkBoxSelect == undefined || checkBoxSelect == false){
    	  			$scope.actionSelectedLead.push(row.entity.id);
    	  		$scope.actionSelectedLeadObj = row.entity;
    	  		}else{
    	  			$scope.deleteActionSelectedLead(row.entity);
    	  		}
-   	  		 
-   	  			
-   	  		console.log($scope.actionSelectedLead);
    	  	}
    	  	$scope.deleteActionSelectedLead = function(row){
    			angular.forEach($scope.actionSelectedLead, function(obj, index){
@@ -2214,10 +2182,7 @@ angular.module('newApp')
    	  	  $scope.editVinData = function(entity){
    	  		$scope.showFomeD("editLead");
    	  		$("#editLeads").modal("show");
-   	  	   // $scope.selectLeadDashbord(entity.typeOfLead);
-   	  		console.log(entity.customMapData);
    	  		$scope.customData = entity.customMapData;
-   	  		console.log(entity);
    	  	    $scope.userFieldsList = null;
    	  		$("#ex1_value").val(entity.name);
    	  		$scope.editDataObj = {};
@@ -2237,15 +2202,10 @@ angular.module('newApp')
 	   						}
 	   						//var arr = [];
    							//var arr = attr.split('_');
-   							//console.log($scope.customData);
 	   						/*if(value1.component == "emailSelect"){
-	   							console.log("0000000111");
-	   							console.log($scope.customData.arr[0]+"_emailType");
 	   							$scope.emailType = $scope.customData.arr[0]+"emailType";
 	   						}
 	   						if(value1.component == "phoneSelect"){
-	   							console.log("0000000");
-	   							console.log($scope.customData.arr[0]+"_phoneT");
 	   							$scope.phoneType = $scope.customData.arr[0]+"phoneType";
 	   						}*/
 	   						
@@ -2257,7 +2217,6 @@ angular.module('newApp')
 				 $scope.userFields = $scope.addFormField($scope.userFieldsList);
 				 $scope.userFieldsCopy = angular.copy($scope.userFields);
 				 $scope.getselectLeadDashbord(entity.typeOfLead).then(function(response1){
-					 console.log(angular.fromJson(response1.jsonData));
 					 angular.forEach(angular.fromJson(response1.jsonData), function(obj, index){
 						  if(obj.component == "multipleselect"){
 							  $.each($scope.customData, function(attr, value) {
@@ -2273,21 +2232,17 @@ angular.module('newApp')
 						  }
 					 });
 				 });
-				 console.log($scope.customData);
 	   	  		/*  apiserviceDashborad.getCustomizationform(entity.typeOfLead).then(function(response1){
 						$scope.josnDataList = angular.fromJson(response1.jsonData);
 						angular.forEach($scope.josnDataList, function(obj, index){
 							var arr = [];
    							var arr = obj.key.split('_');
-   							console.log(obj.key);
    							
 							if(obj.component == "emailSelect"){
 								 $.each($scope.customData, function(attr, value) {
 									 if(attr == arr[0]+"_emailType"){
 										 $scope.emailType = value;
 										 $("#formly_1_emailSelect_nd_email11_6").val(value);
-										 console.log($scope.emailType);
-										 console.log("0000000111");
 									 }
 								 });
 	   						}
@@ -2306,13 +2261,9 @@ angular.module('newApp')
 								var arr = [];
 	   							var arr = obj.key.split('_');
 								if(obj.component == "emailSelect"){
-		   							console.log("0000000111");
-		   							console.log($scope.customData.arr[0]+"_emailType");
 		   							$scope.emailType = $scope.customData.arr[0]+"emailType";
 		   						}
 		   						if(obj.component == "phoneSelect"){
-		   							console.log("0000000");
-		   							console.log($scope.customData.arr[0]+"_phoneT");
 		   							$scope.phoneType = $scope.customData.arr[0]+"phoneType";
 		   						}
 								$scope.userFieldsList.push(obj);
@@ -2410,7 +2361,6 @@ angular.module('newApp')
 				obj.formName = "Create New Lead";
 			});
 			$scope.josnData1 = null;
-			console.log($scope.editLeads.leadType);
 			apiserviceDashborad.getCustomizationform($scope.editLeads.leadType).then(function(response1){
 				$scope.josnData1 = angular.fromJson(response1.jsonData);
 				angular.forEach($scope.josnData1, function(obj, index){
@@ -2419,7 +2369,6 @@ angular.module('newApp')
 					
    				});
 				var oneProduct = 0;
-				console.log($scope.josnData);
 				$.each($scope.customData, function(attr, value) {
 				angular.forEach($scope.josnData, function(value1, key) {
 					if(value1.key == attr){
@@ -2505,8 +2454,6 @@ angular.module('newApp')
 				});
 				
 				
-				console.log("-----------------");
-				console.log($scope.customList);
 				$scope.editLeads.customData = $scope.customList;
 	   	  		$scope.editLeads.stockWiseData = $scope.stockWiseData;
 	   	  	var files = [];
@@ -2524,7 +2471,6 @@ angular.module('newApp')
 		            file:files,
 		            data:$scope.editLeads
 		         }).success(function(data) {
-		   			console.log('success');
 		   			
 		   		 });
 				}else{
@@ -2600,8 +2546,6 @@ angular.module('newApp')
     		   
     		   $scope.saveContact = function() {
     			   $scope.customList =[];
-    			   console.log($("#autocomplete").val());
-    			   console.log($scope.specification);
     			   $scope.multiSelectBindWithCustomData();
     	   		   $scope.customList =[];
     	   		   $scope.customData.time_range = $("#bestTimes").val();
@@ -2635,8 +2579,6 @@ angular.module('newApp')
     	    					$scope.josnData.push(obj);
     	    				});
     	    			}
-    	    			console.log($scope.josnData);
-    	    			console.log($scope.customData);
     	    			var oneProduct = 0;
     	    			$.each($scope.customData, function(attr, value) {
     	    				angular.forEach($scope.josnData, function(value1, key) {
@@ -2656,13 +2598,8 @@ angular.module('newApp')
     	    			$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
     	    				$scope.customList = response;
     	    			});
-    	    			console.log($("#bestTimes").val());
-    	    			console.log($scope.customData);
-    	    			console.log($scope.customList);
     	    			$scope.contactsDetails.customData = $scope.customList;
-    	    				console.log($scope.contactsDetails);
     	    				apiserviceDashborad.saveContactsData($scope.contactsDetails).then(function(data){
-    	    						console.log(data);
     	    						if(data == "") {
     	    							$('#createcontactsModal').modal('hide');
     	    						}else {
@@ -3228,7 +3165,6 @@ angular.module('newApp')
 			 
 			apiserviceDashborad.getAllInventoryData().then(function(data){
    				$scope.getAllCollection = data;
-   				console.log($scope.getAllCollection);
    		     });
 			
 			apiserviceDashborad.getAllParentAndChildCollection().then(function(data){
@@ -4416,7 +4352,6 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.vehicleData=function(mainCollection,startDate,endDate){
-	    			console.log($scope.parentCollection);
 	    			$scope.all=mainCollection;
 	    			$scope.printProductMsg = "1";
 	    			$scope.makeSaerch = "";
@@ -4468,16 +4403,12 @@ angular.module('newApp')
 		    					
 		    				});
 	    			}else{
-	    				console.log("888888888888888888888880000000000000000---");
-	    				console.log($scope.toplistTitle);
 	    				if($scope.toplistTitle == "COLLECTIONS"){
 	    					$scope.currentSelectedType = 0;
 	    				}else if($scope.toplistTitle == "LISTINGS"){
 	    					$scope.currentSelectedType = 2;
 	    				}
-	    				console.log($scope.currentSelectedType);
 	    				apiserviceDashborad.getVisitedData($scope.userKey, type, filterBy, search, searchBy, mainCollection, startD, endD).then(function(response){
-	    				console.log(response);
 	    				$scope.weekData = response;
 	    				
 	    				if(response.topVisited.length == 0){
@@ -4504,7 +4435,6 @@ angular.module('newApp')
 	    		$scope.toplistTitle = "COLLECTIONS";
 	    		$scope.product = "COLLECTIONS";
 	    		$scope.changeValueCollAndPro = function(product){
-	    			console.log(product);
 	    			if($scope.toplistTitle == "COLLECTIONS"){
 	    				$scope.toplistTitle = "LISTINGS";
 	    				$scope.currentSelectedType = 2;
@@ -4535,7 +4465,6 @@ angular.module('newApp')
 	    		}
 	    		
 	    		$scope.selectedObj = function (selectObj) {
-	    			console.log($("#ex1s_value").val());
 	    			if(selectObj != undefined){
 	    				if(selectObj.originalObject != undefined){
 		    				$scope.item = selectObj.originalObject;
@@ -4695,13 +4624,9 @@ angular.module('newApp')
 	    		};
 	    		
 	    		/*$scope.selectedObjs = function(select){
-	    			console.log(select);
 	    		}*/
 	    		
 	    		$scope.multiSelectBindWithCustomData = function(){
-	    			console.log("Hiiii printttttt");
-	    			console.log($rootScope.productArrayList);
-	    			console.log($rootScope.rObj);
 	    			if($rootScope.rObj != undefined){
 	    				$.each($rootScope.rObj, function(attr, value) {
 		    				$scope.customData[attr] = value;
@@ -4733,11 +4658,7 @@ angular.module('newApp')
 	    				delete $scope.customData.autocompleteText;
 	    			}
 	    			$scope.josnData = 0;
-	    			console.log($scope.customData);
-	    			
 	    			apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
-	    				
-	    			
 	    				$scope.lead.manufacturers = "";
 	    				$scope.josnData = angular.fromJson(response.jsonData);
 	    				angular.forEach($scope.josnData, function(obj, index){
@@ -4759,12 +4680,6 @@ angular.module('newApp')
 		    						
 		   	    				});
 	    					}
-	    					console.log("()()()(0");
-	    					console.log($scope.lead.leadType);
-	    					console.log($scope.josnData);
-	    					console.log($scope.customData);
-	    					console.log($rootScope.subColl);
-	    					console.log($scope.customData.productList);
 	    					var oneProduct = 0;
 	    					if($scope.customData.productList != ""){
 	    						$scope.lead.productList = $scope.customData.productList;
@@ -4800,16 +4715,8 @@ angular.module('newApp')
 	    					$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
 	    						$scope.customList = response;
 	    					});
-	    					
-	    					
-	    				console.log($("#bestTimes").val());
-    	    			console.log($scope.customData);
-    	    			console.log($scope.customList);
-    	    			 
     	    			
     	    			$scope.lead.customData = $scope.customList;
-    	    			console.log($scope.lead);
-    	    			console.log($("#autocomplete").val());
     	    			if($scope.lead.custName == ''){
     	    				$scope.lead.custName = $('#ex1s_value').val();
     	    			}
@@ -4880,7 +4787,6 @@ angular.module('newApp')
 							if(fileFlag == 0){
 								if(value1.component == "fileuploaders"){
 									if($rootScope.fileCustom != undefined){
-					    				console.log($rootScope.fileCustom[0].name);
 					    				 $scope.fileFlag = 1;
 										$scope.customList.push({
 		    								fieldId:value1.fieldId,
@@ -4938,7 +4844,6 @@ angular.module('newApp')
 											}
 											/*var date = new Date();
 											var currentDate1 = dateFilter(date.getMilliseconds(), clockFormat);
-											//console.log(currentDate1);
 											var startDate =$filter('date')(value, 'dd-MM-yyyy');
 							 				var endDate = $filter('date')(value3, 'dd-MM-yyyy');
 											if(startDate >= endDate){
@@ -5040,14 +4945,12 @@ angular.module('newApp')
 	    		            file:files,
 	    		            data:$scope.lead
 	    		         }).success(function(data) {
-	    		   			console.log('success');
 	    		   			//$scope.getOtherLeadInfo($scope.salesPerson);
 	    		   			//$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    		   			$scope.getAllLeadIn();
 	    		   			$route.reload();
 	    		   		 });
 	    				}else{
-	    					console.log($scope.lead);
 	    					apiserviceDashborad.createLead($scope.lead).then(function(data){
 	    						$scope.getAllLeadIn();
 	    	    				$scope.topVisitedDataDatewise();
@@ -5180,14 +5083,9 @@ angular.module('newApp')
 					}else{
 						$scope.search = {};
 					}
-					console.log(value,searchBy);
-					console.log($scope.search);
-					console.log($scope.toplistTitle);
 	    			$scope.childCollection = "0";
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
-		 			  console.log($scope.parentCollection);
-		 			  console.log(value);
 		 			 angular.forEach($scope.parentCollection, function(obj, key) {
 		    				if(obj.id == value){
 		    					if(obj.subCollection.length == 0){
@@ -5208,7 +5106,6 @@ angular.module('newApp')
 	    		}
 	    		$scope.printProductMsg = "1";
 	    		$scope.findModel = function(value,searchBy){
-					console.log(value,searchBy);
 					$scope.printProductMsg = "0";
 					if($scope.toplistTitle == 'COLLECTIONS'){
 						delete $scope.search.collectionId;
@@ -5217,7 +5114,6 @@ angular.module('newApp')
 						delete $scope.search.parentId;
 						if(value == ""){
 							$scope.printProductMsg = "1";
-							console.log($scope.childCollection);
 						}
 						angular.forEach($scope.currentData, function(obj, key) {
 							if(obj.collectionId == value){
@@ -5236,7 +5132,6 @@ angular.module('newApp')
 						$scope.search = {};
 					}
 					
-					console.log($scope.printProductMsg);
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
 	    			if(value.length > 1){
@@ -5687,7 +5582,6 @@ angular.module('newApp')
         			$scope.gricMapDetail($scope.gridMapObect).then(function(respones){
         				if(respones == "ok"){
         					var uniqueStandards = UniqueArraybyId($scope.gridOptions6.columnDefs ,"name");
-        					console.log(uniqueStandards);
         					$scope.gridOptions6.columnDefs = uniqueStandards; 
         						$scope.gridOptions6.columnDefs.push({ name: 'buttons', displayName: '',enableFiltering: false, width:'12%',cellEditableCondition: false,
         							cellTemplate:'<button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">ASSIGN</button>',
@@ -5761,7 +5655,6 @@ angular.module('newApp')
         }
         
         $scope.changeAssignedUser = function() {
-        	console.log($scope.actionSelectedLead);
         	apiserviceDashborad.changeAssignedUser($scope.actionSelectedLead.toString(), $scope.changedUser, $scope.leadType).then(function(data){
         		$('#closeChangeUser').click();
 				//$scope.getAllCanceledLeads();
@@ -5793,8 +5686,6 @@ angular.module('newApp')
 		$scope.getScheduleData = function(id){
 			var deferred = $q.defer();
 			apiserviceDashborad.getAllSalesPersonScheduleTestAssigned(id).then(function(data){
-			console.log(data);
-			console.log("=-=-=-=-============================================-000");
 			for(var i=0;i<data.length;i++){
 				data[i].checkBoxSelect = false;
 			}
@@ -5802,7 +5693,6 @@ angular.module('newApp')
 			$scope.gridMapObect = [];
 			$scope.gridOptions2.data = data;
 			$scope.setWether($scope.gridOptions2.data);
-			console.log($scope.gridOptions2.data);
 			$scope.gridOptions2.data.sort(function(a, b) {
 			    a = new Date(a.bestDay);
 			    b = new Date(b.bestDay);
@@ -5817,7 +5707,6 @@ angular.module('newApp')
 			
 			$scope.gridMapObect = [];
 			var findFlag = 0;
-			console.log($scope.josnData);
 			apiserviceDashborad.getCustomizationform('My Leads - Schedule an appointment').then(function(response){
 					$scope.josnData1 = angular.fromJson(response.jsonData);
 					angular.forEach($scope.josnData,function(value,key){
@@ -5868,7 +5757,6 @@ angular.module('newApp')
 							});
 						});
 					});	
-									console.log($scope.gridMapObect);
 									var uniqueStandards = UniqueArraybyId($scope.gridMapObect ,"key");
 									$scope.gridMapObect = uniqueStandards;
 					angular.forEach($scope.gridMapObect,function(value,key){
@@ -5989,11 +5877,6 @@ angular.module('newApp')
                     }
               	} ,
               });
-									            
-			
-			
-			
-			console.log($scope.gridOptions5.data);
 			
 			$scope.AllRequestInfoSeenList = data;
 			if($scope.userType == "Sales Person"){
@@ -6014,13 +5897,10 @@ angular.module('newApp')
 		
 		$scope.completeAppoint = [];
 		$scope.doCheckBoxAction = function(row,value){
-			console.log(value);
-			console.log(row.entity);
 			if(value == true){
 				$scope.completeAppoint.push(row.entity.id);
 				 $scope.showFomeD("appointment"); 
 				 $scope.getFormDesign("Appointment Completed").then(function(response){
-		    			console.log(response);
 		    			$scope.userFields = $scope.addFormField($scope.userList);
 		    		});
 				 $("#appointmentCompleted").modal("show");
@@ -6044,9 +5924,6 @@ angular.module('newApp')
 		$scope.saveAppointmentCompleted = function(){
 			   $scope.appointObject = {};
 			    $scope.multiSelectBindWithCustomData();
-	    		console.log($scope.customData);
-	    		console.log($scope.completeAppoint.toString());
-	    				
 	    				$scope.josnData1 = null;
 	    				apiserviceDashborad.getCustomizationform('Appointment Completed').then(function(response){
 	    					$scope.josnData1 = angular.fromJson(response.jsonData);
@@ -6059,26 +5936,13 @@ angular.module('newApp')
 	        						$scope.josnData1.push(obj);
 	       	    				});
 	    					}
-	    					console.log("()()()(0");
-	    					console.log($scope.josnData);
-	    					console.log($scope.customData);
 	    					var oneProduct = 0;
-	    					
-	    					
 	    					$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
 	    						$scope.customList = response;
 	    					});
 	    					
-	    					
-	    				console.log($("#bestTimes").val());
-	        			console.log($scope.customData);
-	        			console.log($scope.customList);
-	        			
-	        			console.log($scope.leadDetId);
-	        			
 	        			 $scope.appointObject.leadIds = $scope.completeAppoint;
 	        			 $scope.appointObject.customData = $scope.customList;
-	    	    		console.log($scope.appointObject);
 	    						apiserviceDashborad.setApplointmentComp($scope.appointObject).then(function(data){
 	    		    	    		 $.pnotify({
 	    		    					    title: "Success",
@@ -6106,8 +5970,6 @@ angular.module('newApp')
 			apiserviceDashborad.getAllSalesPersonOtherLead(id).then(function(data){
 				
 				$scope.otherLead = data;
-				console.log("^&^&^&^&&^&^&&^&^&");
-				console.log($scope.otherLead);
 				//$scope.gridOptions13.data = data;
 				//$scope.AllOtherLeadSeenList = data;
 				/*if($scope.userType == "Sales Person"){
@@ -6127,7 +5989,6 @@ angular.module('newApp')
 	        		$scope.getAllListLeadDate.push(value);
 	        		
 	        	});*/
-				//console.log($scope.getAllListLeadDate);
 				deferred.resolve("success");
 			
 		   });
@@ -6327,7 +6188,7 @@ angular.module('newApp')
 				    		    		      											$scope.gridMapObect.push({values: value1.value , key: value1.key,label:value2.label});
 				    		    		      										}
 				    		    		    		       							
-				    		    				        							//findFlag = 1;
+				    		    				        							findFlag = 1;
 			    		    				        							}
 				    		    		    		       					});
 		    		    				        							
@@ -6383,7 +6244,6 @@ angular.module('newApp')
 		    		    				        			   						$scope.josnData1.push(value);
 		    		    				        			   					});
 		    		    				        			   					
-		    		    				        	        		console.log(data);
 		    		    				        	        		
 		    		    				        	        		for(var i=0;i<data.length;i++){
 			    		    		    		       					data[i].checkBoxSelect = false;
@@ -6457,7 +6317,6 @@ angular.module('newApp')
 		    		    				           			               });
 		    		    				           					});
 		    		    				           	        		
-		    		    				           					console.log($scope.gridOptions4.data);
 		    		    				           					$scope.canceledLead = data;
 		    		    				           				});
 		    		    				        	        		
@@ -6501,7 +6360,6 @@ angular.module('newApp')
 		
 		$scope.ducumentNames = [];
 		$scope.sendPdfEmail= function (pdf){
-			console.log($scope.actionSelectedLead);
 			$scope.pdf.pdfIds = [];
 			$scope.pdf.pdfIds = $scope.pdfDoc;
 			$scope.pdf.email=$scope.actionSelectedLead.toString();
@@ -6546,7 +6404,6 @@ angular.module('newApp')
 		
 		$scope.pdf={};
 		$scope.actionOnPdf= function (entity,option){
-			console.log(entity);
 		/*	apiserviceDashborad.getCustomerPdfForVehicle(entity.vin).then(function(data){
 			
 					$scope.vehiclePdfList=data;
@@ -6592,13 +6449,10 @@ angular.module('newApp')
 		}
 		
 		$scope.reschedule = function(entity){
-			console.log("reschedule");
-			console.log(entity);
 			$scope.scheduleTestDriveForUser(entity,2);
 		}
 		
 		$scope.rescheduleTestDrive = function(entity){
-			console.log(entity);
 			$scope.RescheduleTestDriveForUser(entity,2);
 		}
 		
@@ -6622,7 +6476,6 @@ angular.module('newApp')
 			   });
 			   $scope.showFomeD("Schedule lead");
 			   $scope.getFormDesign("My Leads - Schedule an appointment").then(function(response){
-				   console.log(response);
 	    			$scope.userFields = $scope.addFormField($scope.userList);
 			   });
 			   
@@ -6738,15 +6591,11 @@ angular.module('newApp')
 			});
 			//$scope.customePdfmodel=model;
 			//$scope.customePdfId=item.customerPdfId;
-			console.log($scope.customPdfIdNew);
-			//console.log($scope.customePdfmodel);
-			
 		}
 		*/
 		
 		
     	$scope.soldScheduleStatus = function(entity) {
-    		console.log(entity);
     		$scope.scheduleStatusVal = entity;
     		$scope.soldContact = {};
     		$scope.soldContact.infoId = entity.id;
@@ -6781,7 +6630,6 @@ angular.module('newApp')
     	
     	$scope.allCanFlag = 0;
     	$scope.cancelAllLead = function(value){
-    		console.log(value);
     		if(value == undefined || value == false){
     			$scope.allCanFlag = 1;
     			$scope.leadDetId = $scope.actionSelectedLead;
@@ -6792,7 +6640,6 @@ angular.module('newApp')
     	}
     	
     	$scope.cancelAllLeadSchedule = function(value){
-    		console.log(value);
     		if(value == undefined || value == false){
     			$scope.allCanFlag = 1;
     			$scope.leadDetId = $scope.actionSelectedLead;
@@ -6820,7 +6667,6 @@ angular.module('newApp')
 			    				// $scope.closeleadObj = obj1;
 			    				 $scope.scheduLeadId.push(obj1);
 			    				 $scope.leadDetId.push(obj1.id);
-			    				 console.log($scope.leadDetId);
 			    				 $scope.rowData.name = obj1.name;
 			    				 $scope.rowData.bestDay = obj1.bestDay;
 			    				 $scope.rowData.bestTime = obj1.bestTime;
@@ -6836,7 +6682,6 @@ angular.module('newApp')
 			   });
 			   
 		   });
-    		console.log($scope.leadDetId);
     		if($scope.actionSelectedLead.length > 1){
     			$scope.cancelFlag = 1;
     			
@@ -6845,19 +6690,15 @@ angular.module('newApp')
     		}
     		$scope.showFomeD("Canceling lead");
     		$scope.getFormDesign("My Leads - Canceling lead").then(function(response){
-    			console.log(response);
     			$scope.userFields = $scope.addFormField($scope.userList);
     		});
     		$scope.reasonToCancel = "";
     		$('#btnCancelSchedule').click();
     	}
     	$scope.cancelFromCalend = function(schedule){
-    		console.log(schedule);
     		$scope.cancelLeadId = [];
     		$scope.cancelLeadId = schedule.id;
     		$scope.actionSelectedLead = $scope.cancelLeadId; 
-    		console.log($scope.actionSelectedLead);
-    		console.log($scope.getAllListLeadDate);
     		$scope.cancelScheduleLeads();
     	}
     	
@@ -6871,7 +6712,6 @@ angular.module('newApp')
 		  	  				$scope.leadDetId = [];
 			    				 $scope.scheduLeadId.push(obj1);
 			    				 $scope.leadDetId.push(obj1.id);
-			    				 console.log($scope.leadDetId);
 			    				 $scope.rowData.name = obj1.name;
 			    				 $scope.rowData.bestDay = obj1.bestDay;
 			    				 $scope.rowData.bestTime = obj1.bestTime;
@@ -6892,7 +6732,6 @@ angular.module('newApp')
     		}
     		$scope.showFomeD("Canceling lead");
     		$scope.getFormDesign("My Leads - Canceling lead").then(function(response){
-    			console.log(response);
     			$scope.userFields = $scope.addFormField($scope.userList);
     		});
     		$scope.reasonToCancel = "";
@@ -6920,10 +6759,6 @@ angular.module('newApp')
     	$scope.scheduLeadId = [];
     	$scope.flagCancel = 0;
     	$scope.proceedToNext = function(){
-    		console.log($scope.actionSelectedLead);
-		  	console.log($scope.getAllListLeadDate);
-		  	console.log($scope.scheduLeadId);
-		  	
 		  		var countIndex = 0;
 		  	  	var flag=0;
 		  	  	angular.forEach($scope.actionSelectedLead, function(obj, index){
@@ -6958,12 +6793,10 @@ angular.module('newApp')
 			   });
 			   
 		  	  });
-		  	  console.log($scope.leadDetId);
     	}
     	
     	$scope.cancelSureLead = function(reasonToCancel){
     		$('#scheduleCancelModalLead').modal("toggle");
-    		console.log(reasonToCancel);
     			$scope.saveScheduleCancel(reasonToCancel);
     	}
     	
@@ -6991,10 +6824,8 @@ angular.module('newApp')
         			}else{
         				$scope.closeleadObj.actionSelectedLead = $scope.actionSelectedLead;
         			}
-        			console.log($scope.closeleadObj.actionSelectedLead);
     	    		$scope.closeleadObj.reasonToCancel = reasonToCancel;
     	    		$scope.closeleadObj.customData = $scope.customList;
-    	    		console.log($scope.closeleadObj);
     	    		$scope.reasonFlag = 0;
     					if($scope.closeleadObj.reasonToCancel != ""){
     						$scope.reasonFlag = 0;
@@ -7010,9 +6841,7 @@ angular.module('newApp')
     		    	    		  $scope.reasonToCancel = "";
     		    				});
     		    	    	if($scope.actionSelectedLead.length != undefined || $scope.actionSelectedLead.length == $scope.leadDetId.length){
-    		    	    		console.log("defined");
     		    	    		if($scope.actionSelectedLead.length == $scope.scheduLeadId.length){
-    		    	    	  		console.log("reload page");
     		    	    			$('#scheduleCancelBtn').click();
     		  						//$route.reload();
     		    	    	  	}
@@ -7027,9 +6856,7 @@ angular.module('newApp')
     		    	    		}
     		    	    	}  	
     		    	    	else{
-    		    	    		console.log("Undefined");
     		    	    		if($scope.cancelLeadId.length == undefined){
-    		    	    			console.log("reload page");
     		    	    			$('#scheduleCancelBtn').click();
     		    	    			 /*$scope.getScheduleData($scope.salesPerson).then(function(success){
     			    	    			 
@@ -7045,7 +6872,6 @@ angular.module('newApp')
     	
     	$scope.cancelSure = function(reasonToCancel){
     		$('#scheduleCancelModal').modal("toggle");
-    		console.log(reasonToCancel);
     			$scope.saveScheduleClose(reasonToCancel);
     		
     	}
@@ -7058,9 +6884,6 @@ angular.module('newApp')
     	$scope.saveScheduleClose = function(reasonToCancel) {
     		$scope.multiSelectBindWithCustomData();
     		$scope.closeleadObj = {};
-    		console.log($scope.customData);
-    		console.log($scope.actionSelectedLead);
-    		console.log($scope.actionSelectedLead.toString());
     				
     				$scope.josnData = null;
     				apiserviceDashborad.getCustomizationform('My Leads - Canceling lead').then(function(response){
@@ -7074,32 +6897,20 @@ angular.module('newApp')
         						$scope.josnData.push(obj);
        	    				});
     					}
-    					console.log("()()()(0");
-    					console.log($scope.josnData);
-    					console.log($scope.customData);
     					var oneProduct = 0;
-    					
     					
     					$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
     						$scope.customList = response;
     					});
     					
     					
-    				console.log($("#bestTimes").val());
-        			console.log($scope.customData);
-        			console.log($scope.customList);
-        			
-        			console.log($scope.leadDetId);
         			if($scope.leadDetId.length != 0){
         				$scope.closeleadObj.actionSelectedLead = $scope.leadDetId;
         			}else{
         				$scope.closeleadObj.actionSelectedLead = $scope.actionSelectedLead;
         			}
-        			console.log(reasonToCancel);
-        			console.log($scope.closeleadObj.actionSelectedLead);
     	    		$scope.closeleadObj.reasonToCancel = reasonToCancel;
     	    		$scope.closeleadObj.customData = $scope.customList;
-    	    		console.log($scope.closeleadObj);
     	    		$scope.reasonFlag = 0;
     					if($scope.closeleadObj.reasonToCancel != ""){
     						$scope.reasonFlag = 0;
@@ -7221,7 +7032,6 @@ angular.module('newApp')
     		$scope.soldContact.title = entity.title;
     		$('#btnCompleteRequest').click();
     	}
-    	
     	
     	$scope.saveRequestStatus = function() {
     		$scope.flagSavePrice = "0";
@@ -7661,7 +7471,6 @@ angular.module('newApp')
 							}
 						}
 				   		apiserviceDashborad.getPerformanceOfUser($scope.topPerformers, $scope.worstPerformers, $scope.weekPerformance, $scope.monthPerformance, $scope.yearPerformance, $scope.allTimePerformance, $scope.salesPersonUser, $scope.locationValue, startD, endD).then(function(data){
-				   			console.log(data);
 				 			$scope.userPerformanceList = data;
 				 		});
 					});
@@ -7669,13 +7478,11 @@ angular.module('newApp')
 		   
 		   
 		   $scope.addNoteToRequestUser = function(entity) {
-			   console.log(entity);
 			   $scope.userNoteId = entity.id;
 			   $scope.action = "";
 			   $scope.typeOfNote = entity.typeOfLead;
 			   
 			   $scope.getFormDesign("My Leads - History Log").then(function(response){
-	    			console.log(response);
 	    			$scope.userFields = $scope.addFormField($scope.userList);
 	    		});
 			   $scope.userNoteList = entity.note;
@@ -7723,8 +7530,6 @@ angular.module('newApp')
 			   $scope.josnData = null;
 				apiserviceDashborad.getCustomizationform('My Leads - History Log').then(function(response){
 					$scope.josnData = angular.fromJson(response.jsonData);
-					console.log("-------------------------------------------");
-					console.log($scope.josnData);
 					angular.forEach($scope.josnData, function(obj, index){
 						if(obj.component == "action"){
 							actionkey = obj.key;
@@ -7739,20 +7544,10 @@ angular.module('newApp')
   	    				});
 					}
 					
-					
-					console.log($scope.josnData);
-					console.log($scope.customData);
 					var oneProduct = 0;
-					
-					
 					$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
 						$scope.customList = response;
 					});
-					
-					
-				 console.log($("#bestTimes").val());
-   			     console.log($scope.customData);
-   			     console.log($scope.customList);
    			  
    			  $scope.list = [];
    			  angular.forEach($scope.customList, function(obj, index){
@@ -7766,8 +7561,6 @@ angular.module('newApp')
 	    		$scope.notOnject.customData = $scope.list;
 	    		$scope.notOnject.userNote = $scope.userNote;
 		
-	    			console.log($scope.notOnject);
-					
 	    			  apiserviceDashborad.saveNoteOfUser($scope.notOnject).then(function(data){
 	 		 			 $scope.getAllSalesPersonRecord($scope.salesPerson);
 	 					$('#noteClose').click();
@@ -7789,9 +7582,6 @@ angular.module('newApp')
 		   $scope.scheduLeadId = [];
 		   $scope.scheduleTestDriveForUser = function(entity,option) {
 			   
-			   console.log(entity);
-			   console.log($scope.getAllListLeadDate);
-			   console.log($scope.actionSelectedLead);
 			   angular.forEach($scope.actionSelectedLead, function(obj, index){
 				   angular.forEach($scope.getAllListLeadDate, function(obj1, index1){
 					    if(obj == obj1.id){
@@ -7806,7 +7596,6 @@ angular.module('newApp')
 			   });
 			   $scope.showFomeD("Schedule lead");
 			   $scope.getFormDesign("My Leads - Schedule an appointment").then(function(response){
-				   console.log(response);
 	    			$scope.userFields = $scope.addFormField($scope.userList);
 			   });
 			   
@@ -7840,7 +7629,6 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.saveandgoNext = function(){
-			   console.log($('#testDriveDate').val());
 			   $scope.testDriveData.bestDay = $('#testDriveDate').val();
 			   $scope.testDriveData.bestTime = $('#bestTime').val();
 			   $scope.saveTestDrive("notclose");
@@ -7850,7 +7638,6 @@ angular.module('newApp')
 		   }
 		   $scope.getAllMeetingData = function(){
 			   apiserviceDashborad.getAllMeetingData().then(function(data){
-				   console.log(data);
 				   $scope.meetingData = data;
 		 		});
 		  }
@@ -7858,7 +7645,6 @@ angular.module('newApp')
 		   
 		   $scope.notificationFlag = 0;
 		   $scope.saveTestDrive = function(popupstatus) {
-			   console.log($scope.actionSelectedLead);
 			   //$scope.testDriveData
 			   //customData
 			   var aaa = $('#testDriveNature').val();
@@ -7878,31 +7664,17 @@ angular.module('newApp')
 							  $scope.josnData.push(obj);
 		    			  });
 					  }
-					  console.log("()()()(0");
-					  console.log($scope.josnData);
-					  console.log($scope.customData);
 					  var oneProduct = 0;
-					
-					
 					  $scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
 						  $scope.customList = response;
 					  });
-					  console.log($scope.customData);
-					  console.log($scope.customList);
 					  $scope.testDriveData.customData = $scope.customList;
-					  console.log($scope.testDriveData);
-					  console.log($scope.testDriveData.bestDay);
-					  console.log($scope.timeList);
 					  $scope.bestTime = [];
 					  $scope.bestTime = $scope.testDriveData.bestTime.split(' ');
 					  $scope.bestTime1 = ($scope.bestTime[0]+':'+$scope.bestTime[1]);
-					  console.log($scope.bestTime1);
 					  $scope.notiFlag = 0;
 					  angular.forEach($scope.timeList, function(obj, index){
-						 console.log(obj);
-						 console.log($scope.testDriveData.bestTime);
 						  if(obj == $scope.bestTime1){
-							  console.log("time is same");
 							  $scope.notiFlag = 1;
 						  }
 	    			  });
@@ -7946,10 +7718,7 @@ angular.module('newApp')
 									$scope.testDriveData.bestTime = $('#bestTime').val("");
 									$scope.timeList = [];
 								  	  if(popupstatus == "notclose"){
-								  	  console.log($scope.actionSelectedLead);
-								  	  console.log($scope.scheduLeadId);
 								  	  	if($scope.scheduLeadId.length == $scope.actionSelectedLead.length){
-								  	  		console.log("popup close");
 								  	  		$('#scheduleTestDriveModal').modal('hide');
 								  	  		
 								  	  	}
@@ -8149,9 +7918,6 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.changeDateWeather = function(sDate,type){
-				  console.log(sDate);
-				  console.log(type);
-				  console.log(new Date(sDate));
 				   apiserviceDashborad.getScheduleTime($scope.testDriveData.productId, sDate).then(function(data){
 					   $scope.timeList = [];
 					   $.each(data, function(i, el){
@@ -10334,7 +10100,6 @@ angular.module('newApp')
 		   $scope.otherLeadId = function(leads){
 			   $scope.actionSelectedLead = [];
 			   $scope.nameOfLead = leads;
-			   console.log($scope.nameOfLead); 
 		  		$scope.gridOptions13.data = {};
 			   $scope.gridOptions13.columnDefs = [];
 			   $scope.AllOtherLeadSeenList = [];
@@ -10358,9 +10123,6 @@ angular.module('newApp')
 	    				leadInfo = value.typeOfLead;
 	        		}
 	        	});
-	        	console.log($scope.otherLead);
-	        	console.log("-------------------------------");
-	        	console.log(leadInfo);
 	        	
 	        	$scope.josnData1 = angular.copy($scope.josnData);
 	        	apiserviceDashborad.getCustomizationform(leadInfo).then(function(response){
@@ -10409,7 +10171,6 @@ angular.module('newApp')
 		   				});
 		   				
 		   				$scope.gridMapObect = UniqueArraybyId($scope.gridMapObect ,"key");
-    					//console.log(uniqueStandards);
     					//$scope.gridOptions6.columnDefs = uniqueStandards; 
 		   		        
 						angular.forEach($scope.AllOtherLeadSeenList,function(value,key){
@@ -10516,7 +10277,6 @@ angular.module('newApp')
 						}
 						
 						
-						console.log($scope.gridMapObect);
 						angular.forEach($scope.gridMapObect,function(value,key){
 							$scope.name = value.key;
 							
@@ -10602,8 +10362,6 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.showdownloadFile = function(filepath,keyValue){
-			   console.log(filepath);
-			   console.log(keyValue);
 			   if(filepath != null){
 				   $scope.arr = [];
 				   $scope.arr = filepath.split('\\');
@@ -10616,9 +10374,6 @@ angular.module('newApp')
 					$scope.fileName = $scope.arr[leng - 1];
 					//value.values = $scope.fileName;
 					$scope.url = $scope.arr[leng - 2]+"/"+$scope.arr[leng - 3]+"/"+keyValue;
-					console.log("--------------------url----------------");
-					console.log($scope.arr[leng - 2]+"______"+$scope.arr[leng - 3]);
-					console.log($scope.url);
 				   
 				   $.fileDownload('/downloadMoreFile/'+$scope.url,
 							{	   	
@@ -10631,9 +10386,6 @@ angular.module('newApp')
 										});
 									}).fail(function(e, response)
 									{
-										console.log('fail');
-										console.log(response);
-										console.log(e);
 									});
 			   }
 			   
@@ -10669,7 +10421,6 @@ angular.module('newApp')
 		   
 		   
 		   $scope.exportCsvPopCanceled = function(){
-			   console.log("Check");
 	   			$('#exportModalCanceled').modal('show');
 	   		};
 	   		
@@ -10700,9 +10451,7 @@ angular.module('newApp')
 	   			//$scope.googleMapLocation = 'http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q='+values+'&amp;z=15&amp;output=embed';
 	   			//$scope.googleMapLocation = "http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q="+values+"&amp;z=15&amp;output=embed";
 	   			$scope.googleMapLocation = $sce.trustAsHtml(data);
-	   			console.log($scope.googleMapLocation);
 	   			$('#googleMap').modal('show');
-	   			console.log(values);
 	   		}
 	   		
 	   	
@@ -10723,22 +10472,16 @@ angular.module('newApp')
 										});
 									}).fail(function(e, response)
 									{
-										console.log('fail');
-										console.log(response);
-										console.log(e);
 									});
 	   			});
 	   		}		
 	   		
 		   $scope.exportCsvPop = function(){
-			   console.log($scope.nameOfLead);
 			   $('#exportModal').modal('show');
 	   		};
 	        
 	   		$scope.exportCsvFile = function(){
-	   			console.log($scope.nameOfLead);
 	   			if($scope.nameOfLead != undefined || $scope.nameOfLead == 0){
-	   				console.log($scope.nameOfLead);
 	   				apiserviceDashborad.exportOtherLeadsData($scope.nameOfLead).then(function(data){
 	   				$.fileDownload('/downloadRequestMoreFile',
 							{	   	
@@ -10751,9 +10494,6 @@ angular.module('newApp')
 										});
 									}).fail(function(e, response)
 									{
-										console.log('fail');
-										console.log(response);
-										console.log(e);
 									});
 	   			});
 	   			}
@@ -10770,9 +10510,6 @@ angular.module('newApp')
 											});
 										}).fail(function(e, response)
 										{
-											console.log('fail');
-											console.log(response);
-											console.log(e);
 										});
 		   			});
 	   			}
@@ -10795,9 +10532,6 @@ angular.module('newApp')
 										});
 									}).fail(function(e, response)
 									{
-										console.log('fail');
-										console.log(response);
-										console.log(e);
 									});
 	   			});
 	   		}	
