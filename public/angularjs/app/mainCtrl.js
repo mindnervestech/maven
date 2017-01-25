@@ -15,7 +15,6 @@
             $scope.notShowBack = '0';
            arr = [];
 			arr = $location.absUrl().split('/');
-           console.log(arr);
            if(arr[4] == "otherForm" && arr[5] == "save"){
         	   $scope.notShowBack = '1';
            }else{
@@ -61,14 +60,11 @@
                 }else{
                 	$scope.setFalg = 1;
                 	$scope.locationName=data.locationName;
-                	console.log("::locationname");
-                	console.log($scope.locationName);
                 }
                
             })
             
             $http.get('/getAllInventoryData').success(function(data) {
-            	console.log(data);
 		    	angular.forEach(data, function(obj, index){
 		    		$scope.enableInven = obj.enableInven;
 		    			if($scope.enableInven == true){
@@ -82,7 +78,6 @@
             
             $http.get('/getAllPermissionData')
             .success(function(data){
-			console.log(data);
 			angular.forEach(data, function(value, key) {
 				 if(value.name == "Leads"){
         			$scope.perName = "/configuration";
@@ -106,7 +101,6 @@
         			$scope.perName = "/webAnalytics";
         		}
         	});
-			console.log($scope.perName);
 			$scope.permissionValue = data;
 			
 		    });
@@ -114,13 +108,11 @@
             
             $http.get('/getSalesUserValue')
             .success(function(data){
-			console.log(data);
 			$scope.salesPersonPerf = data;
 			
 		    });
             
             $scope.assignCanceledLead = function(item) {
-        		console.log(item.typeOfLead);
               	$scope.leadlId = item.id;
               	$scope.leadType = item.typeOfLead;
               	$scope.changedUser = "";
@@ -144,7 +136,6 @@
        	        }
             
             $scope.releaseLeads = function(entity){
-            	console.log(entity.leadType);
    			$http.get('/releaseLeads/'+entity.id+'/'+entity.leadType)
    				.success(function(data) {
    					$.pnotify({
@@ -158,7 +149,6 @@
    		 }
             
             $scope.setNewFlag = function() {
-            	console.log("inside.....in")
                 $scope.flagForPop=0;
               }
             
@@ -169,7 +159,6 @@
             }
             
             $scope.setNewFlagNew = function() {
-            	console.log("inside.....in")
                 $scope.flagForPopNew=0;
               }
             
@@ -197,12 +186,10 @@
 	          	}
 	          	if(notification != undefined){
 	          		notification.onclick = function(event) {
-		            	console.log("on Click");
 		            	window.location.href = "#otherLeads/"+obj.isContactusType;
 		            	$http.get('/requestInfoRichNotification/'+obj.id).success(function(data) {});
 		            };
 		            notification.onclose = function(event) {
-		            	console.log("on close....");
 		            	$http.get('/requestInfoRichNotification/'+obj.id).success(function(data) {});
 		            };
 	          	}	          	
@@ -212,7 +199,6 @@
             	$scope.leadData={};
                 $http.get('/getLeadInfo').success(function(data,status, headers, config){
                 	$scope.leadData=data;
-                	console.log($scope.leadData);
                 	$scope.notifLength=0;
                 	angular.forEach(data, function(value, key) {
                 		if(value.richNotification == 0){
@@ -232,7 +218,6 @@
             }
             
             $scope.releaseFromNotif = function(entity){
-            	console.log(entity);
    			$http.get('/releaseFromNotif/'+entity.id+'/'+entity.leadType)
    				.success(function(data) {
    					$.pnotify({
@@ -257,7 +242,6 @@
 						});
              			 $scope.indexInitFunction(); 
              			$route.reload();
-             		console.log(data);
              	});
                 	
                 }
@@ -272,7 +256,6 @@
 						    text: "Lead has been claimed successfully",
 						});
             			 $scope.indexInitFunction(); 
-            			console.log(data);
             		});
                 }
                 
@@ -291,7 +274,6 @@
                	
                }
                else if(item.typeOfLead == null){
-            	   console.log("item.typeOfLead");
                	 $http.get('/requestInfoMarkRead/'+flag+'/'+item.id)
             		.success(function(data) {
             			$.pnotify({
@@ -300,7 +282,6 @@
 						    text: "Lead has been claimed successfully",
 						});
             			 $scope.indexInitFunction(); 
-            		console.log(data);
             	});
                	
                }
@@ -312,10 +293,8 @@
             $scope.notificationArray = [];
             $scope.notifictionCount = 0;
             $scope.indexInitFunction = function(){
-            	console.log("testing");
             	 $scope.notificationArray = [];
             	$http.get('/getNotificationData').success(function(data,status, headers, config){
-            		console.log("In the function");
             		$scope.notifictionCount = 0;
                 	angular.forEach(data.commentLike, function(value, key) {
                 		$scope.notificationArray.push({
@@ -330,7 +309,6 @@
                 	
                 	angular.forEach(data.planScheduleMonthly, function(value, key) {
                 		var month=value.month;
-                		console.log(value.diffDays);
     					if(month !=null){
     						month = month.toLowerCase();
     						month=month.substring(0,1).toUpperCase()+month.substring(1);
@@ -445,7 +423,6 @@
                 	$scope.decline(data.declineMeeting);
                 	$scope.invitationMsg(data.invitationData);
                 	$scope.likeMsg(data.commentLike);
-                	console.log(data.planScheduleMonthly);
                 	$scope.planMsg(data.planScheduleMonthly);
                 	$scope.acceptMsg(data.acceptedMeeting);
                 	$scope.deleteMeeting(data.deleteMeeting);
@@ -469,7 +446,6 @@
             $scope.dismissFunction = function(infoNotifiction){
             	angular.forEach($scope.notificationArray, function(value, key) {
             		if(infoNotifiction.findBy == value.findBy){
-            			console.log(value);
             			$http.get('/changeNotifFlag/'+value.id+"/"+value.findBy)
     		    		.success(function(data){
     		    			
@@ -489,7 +465,6 @@
             $rootScope.comingSoonFlag=0;
             $scope.showDetailsFunction = function(infoNotifiction){
             	$scope.arrayAdd = [];
-            	console.log(infoNotifiction);
             	if(infoNotifiction.findBy == "month plan"){
             		$scope.planForsalePersonForMonth(infoNotifiction.value.month);
             	}
@@ -673,7 +648,6 @@
             
         	$scope.acceptMsg = function(data){
 
-                console.log(data);		
    				var notifContent;
    				angular.forEach(data, function(value, key) {
    					if(value.acceptMeeting == 2 || $scope.acceptInvitationFlag==1){
@@ -922,8 +896,6 @@
             
             $scope.$on("editLeadType", function(event,data){
             	$rootScope.editDataObj = data;
-	    		console.log("oooooo---");
-	    		console.log($rootScope.editDataObj);
 	    		//$scope.$emit("editLeadType1", data);
 	    	});
             
@@ -951,9 +923,7 @@
 
             
             $scope.addFormField = function(editInput){
-            	console.log("");
             		
-            		console.log(editInput);
                     $scope.fields = [];
                    // var subSectons = Object.keys($scope.form);  
                    // for(var i = 0; i < subSectons.length; i++) {
@@ -1042,29 +1012,13 @@
                           	 formFields.push(getJsonBForMultipleselect(form));
                           }
                           if(form.component === "singleSelect"){
-                        	console.log("insisdeee");
                           	 formFields.push(getJsonBForSingleSelect(form));
                         	//formFields.push(getJsonBForRadio(form));
                           }
                       });
-                      /* form_details.name = subSectons[i];
-                       form_details.isRepeatable  = true;
-                       form_details.isChild  = false;
-                       form_details.fields = formFields;
-                       if( formFields.length != 0) {
-                       $scope.fields.push(form_details);
-
-                       }*/
-                    // }
                        
-                       console.log("&**^^^^^^^^^^^^^^^^^^^^6");
-                       console.log(formFields);
                        $scope.userFields = formFields;
-                       console.log($scope.userFields);
                        return formFields;
-                    //fields = angular.copy($scope.fields);
-                    //model = $scope.model;
-                    //options = $scope.options;
                   }; 	
             	
               	function getPropertiesForEditable(editable){
@@ -1285,7 +1239,6 @@
                 }else{
                   key = jsonObject.key;
                 }
-                console.log(jsonObject, "logic");
                 var properties = getPropertiesForEditable(jsonObject.editable);
                 var convertedObject = {
                   "type": "textarea",
@@ -1299,7 +1252,6 @@
                  // controller: 'formState.textCtrl',
                   "expressionProperties" : properties,
                   "hideExpression" : function($viewValue, $modelValue, scope) {
-                     console.log("-?>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", jsonObject);
                        
                      return isHideComponent(jsonObject);
                   }
@@ -1312,7 +1264,6 @@
                       return false;
                   }      
                   var logic_component = JSON.parse(jsonObject.logic.component);
-                  console.log(logic_component,"==");
                   switch (logic_component.component) {
                       case 'textInput':
                         return isHide(jsonObject,  logic_component);
@@ -1344,10 +1295,8 @@
                         modelValue  = form.key;
                        
                       }
-                      console.log(subSectons[i], "<>", form.id, "<>", logic_component.id,"<>", form.component, "<>", logic_component.component);
                       });
                   }
-                  console.log(modelValue,"modelValue", model);
                   angular.forEach($scope.form, function(form){
                     
                   });
@@ -2002,19 +1951,15 @@
                   if($stateParams.templateId === ''){
                     service.saveJsonObject(object).then(
                       function(response){
-                        console.log('response',response);
                       },
                       function(error){
-                        console.log('error',error);
                       }
                     );
                   }else{
                     service.updateJsonObject(object,$stateParams.templateId).then(
                       function(response){
-                        console.log('response',response);
                       },
                       function(error){
-                        console.log('error',error);
                       }
                     );
                   }
@@ -2058,7 +2003,6 @@ angular.module('newApp').controller('customizationCtrl',
 	    		if($rootScope.editDataObj.manufacturersId != undefined && $rootScope.editDataObj.manufacturersId != null){
 		    		$http.get('/getAllCollection/'+$rootScope.editDataObj.manufacturersId).success(function(data) {
 		    			
-		    			console.log(data);
 		    			$scope.subCollectionlist = data;
 		    			if($scope.subCollectionlist.length > 0){
 		    				$scope.showSubCollection = "1";
@@ -2066,10 +2010,8 @@ angular.module('newApp').controller('customizationCtrl',
 		    				$scope.showSubCollection = "0";
 		    			}
 		    			if($rootScope.editDataObj.productId != undefined && $rootScope.editDataObj.productId != null){
-		    	    		console.log($rootScope.editDataObj.productList);
 		    	    		$scope.subCollection = $rootScope.editDataObj.productId;
 		    	    		$http.get('/getProductType/'+$rootScope.editDataObj.productId).success(function(data) {
-		    	    			console.log(data);
 		    	    			$scope.productLists = data;
 		    	    			if($scope.productLists.length > 0){
 		    	    				$scope.showProduct = "1";
@@ -2089,7 +2031,6 @@ angular.module('newApp').controller('customizationCtrl',
 		    	    			}else{
 		    	    				$scope.showProduct = "0";
 		    	    			}
-		    	    			console.log($scope.productLists);
 		        			});
 		    	    	}
 		    		});
@@ -2102,15 +2043,11 @@ angular.module('newApp').controller('customizationCtrl',
 	    	
 	    	$rootScope.productArrayList = [];
 	    	$scope.multipleProductSelectFunction = function(item,options,check){
-	    		console.log(item);
-	    		console.log(options);
-	    		console.log(check);
 	    		if(check == true){
 	    			$rootScope.productArrayList.push(item.id);
 	    		}else{
 	    			$scope.deleteItems(item);
 	    		}
-	    		console.log($rootScope.productArrayList);
 	    	}
 	    	
 	    	$scope.deleteItems = function(rolePer){
@@ -2124,14 +2061,7 @@ angular.module('newApp').controller('customizationCtrl',
 	    	
 	    	$rootScope.firstTime = 0;
 	    	$scope.multipleselectFunction = function(item,options,check){
-	    		//$rootScope.rObj = {};
-	    		console.log(item);	
-	    		console.log(options);
-	    		console.log(check);
 	    		
-	    		/*$scope.rObj['name'] = item.id;
-	    		$scope.rObj['value'] = "34";
-	    		*/
 	    		var arr = [];
 	    		if($rootScope.firstTime == 0){
 	    			$rootScope.rObj = {};
@@ -2168,15 +2098,12 @@ angular.module('newApp').controller('customizationCtrl',
 	    			}
 	    		}
 	    		   
-	    		  console.log($rootScope.rObj); 
 	    	}
 	    	$scope.selectEmailType = function(emailType){
-	    		console.log(emailType);
 	    		$rootScope.selectEmailType = emailType;
 	    	}
 	    	
 	    	$scope.selectPhoneType = function(phoneType){
-	    		console.log(phoneType);
 	    		$rootScope.selectPhoneType = phoneType;
 	    	}
 	    	
@@ -2189,10 +2116,7 @@ angular.module('newApp').controller('customizationCtrl',
 			});*/
 	    	
 	    	$http.get('/getAllInventoryData').success(function(data) {
-	    		
 	    		$scope.manufacturerslist = data; 
-	    		console.log($scope.manufacturerslist);
-	    		
 			});
 	    	
 	    	$http.get('/getAllGroupList').success(function(data) {
@@ -2207,10 +2131,7 @@ angular.module('newApp').controller('customizationCtrl',
 	    	$scope.selecProductType = function(productType){
 	    		
 	    		$http.get('/getAllCollection/'+productType).success(function(data) {
-	    			
-	    			console.log(data);
 	    			$scope.subCollectionlist = data;
-	    			
 		    			if($scope.subCollectionlist.length > 0){
 		    				$scope.showSubCollection = "1";
 		    			}else{
@@ -2218,17 +2139,12 @@ angular.module('newApp').controller('customizationCtrl',
 		    			}
 			
 	    		});
-	    		
-	    		console.log(productType);
-	    		
 	    	}
 	    	
 	    	$scope.shiwProduct = "0";
 	    	$scope.selectSubCollectionType = function(subColl){
-	    		console.log(subColl);
 	    		$rootScope.subColl = subColl;
 		    		$http.get('/getProductType/'+subColl).success(function(data) {
-		    			console.log(data);
 		    			$scope.productLists = data;
 		    			if($scope.productLists.length > 0){
 		    				$scope.showProduct = "1";
@@ -2317,16 +2233,10 @@ angular.module('newApp').controller('customizationCtrl',
 		    		}
 		    		
 		    		$scope.onLogoFileSelect = function($files){
-		    			console.log($files);
 		    			$rootScope.fileCustom = $files; 
-		    			
 		    		}		
 		    		$scope.showtimepick = function(){
 		    			$('#bestTimes').timepicker();
 		    		}
-		    		/*$scope.selectedObjs = function(select){
-		    			console.log(select);
-		    		}*/
-		    		
 		    		 
 }]);
