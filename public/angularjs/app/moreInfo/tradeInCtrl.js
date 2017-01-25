@@ -9,7 +9,6 @@ angular.module('newApp')
 				$scope.leadList.push(value); 
 			}
 		});
-		console.log($scope.leadList);
 	
 	});
 	
@@ -122,7 +121,6 @@ angular.module('newApp')
     		/*console.log(row.entity.id);
     		 $http.get('/getTradeInDataById/'+row.entity.id)
     	 		.success(function(data) {
-    	 			console.log(data);
     	 			$scope.tradeInData = data;
     	 		});
     		$('#popupBtn').click();*/
@@ -158,7 +156,6 @@ angular.module('newApp')
  				angular.forEach($scope.gridMapObect,function(value,key){
  					var name = value.key;
  					name = name.replace(" ","");
- 					console.log(name);
  					$scope.gridOptions.columnDefs.push({ name: name, displayName: name, width:'10%',cellEditableCondition: false,
  		              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
  		              		if (row.entity.isRead === false) {
@@ -177,7 +174,6 @@ angular.module('newApp')
                   	} ,
                    });
  				
- 				console.log($scope.gridOptions.data);
  		  }
     	
  		 apiserviceMoreInfo.getAllTradeIn().then(function(data){ 
@@ -187,7 +183,6 @@ angular.module('newApp')
 			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
 			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			$scope.tradeInList = data;
-			console.log(data);
 			if(data.length > 0){
 				$scope.userRole = data[0].userRole;
 				if($scope.userRole == "Sales Person"){
@@ -202,8 +197,6 @@ angular.module('newApp')
 			//$scope.gridOptions.data = data;
 				$scope.editgirdData(data);
 			$scope.tradeInList = data;
-			console.log(data);
-			console.log(data[0]);
 			if(data.length > 0){
 				$scope.userRole = data[0].userRole;
 				if($scope.userRole == "Sales Person"){

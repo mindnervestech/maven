@@ -125,14 +125,12 @@ angular.module('newApp')
 						$('#'+$scope.imageList[i].id).css("border","0px solid");
 						$scope.imageList[i].defaultImage = false;
 						image.defaultImage = false;
-						console.log($scope.imageList[i]);
 					}
 				}
 				
 				/*if(i == $scope.imageList.length) {
 					$http.get('/setDefaultImage/'+image.id)
 					.success(function(data) {
-						console.log('success');
 					});
 					
 				}*/
@@ -144,19 +142,15 @@ angular.module('newApp')
 			}
 			
 			$scope.saveImageTitle = function(imageObj){
-				console.log(imageObj);
 				$http.post('/saveImageTitle',imageObj)
 				.success(function(data) {
-					console.log('success');
 					$scope.manufactureImage = {};
 				});
 			}
 			
 			$scope.deleteImage = function(img) {
-				console.log("chaaaaaaaaaaaaaggggggggg");
 				$http.get('/deleteProductById/'+img.id)
 				.success(function(data) {
-					console.log('success');
 					$scope.imageList.splice($scope.imageList.indexOf(img),1);
 				});
 				
@@ -168,9 +162,7 @@ angular.module('newApp')
 			}
 			
 			$scope.editImage = function(image) {
-				console.log($routeParams.id);
 				$location.path('/cropImage/'+image.id+'/'+$routeParams.id);
-				
 			}
 			
 		   
@@ -180,7 +172,6 @@ angular.module('newApp')
 			   $scope.showDefaultMsg = 0;
 				$http.get('/getImagesByProduct/'+$routeParams.id)
 				.success(function(data) {
-					console.log(data);
 					angular.forEach(data, function(value, key) {
 						$scope.valuepul = $scope.valuepul + 1;
 						if(value.defaultImage == true){
@@ -201,7 +192,6 @@ angular.module('newApp')
 		   };
 		   
 			$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
-				console.log($scope.imageList);
 				for(var i=0;i<$scope.imageList.length;i++) {
 					if($scope.imageList[i].defaultImage == true) {
 						$('#'+$scope.imageList[i].id).css("border","3px solid");

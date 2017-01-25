@@ -8,7 +8,6 @@ angular.module('newApp')
 				$scope.leadList.push(value); 
 			}
 		});
-		console.log($scope.leadList);
 	
 	});
 	
@@ -45,7 +44,6 @@ angular.module('newApp')
   		};
   		apiserviceMoreInfo.getAllRequestInfo().then(function(data){ 
 	  
-			console.log(data);
 			$scope.editgirdData(data);
 			
 			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
@@ -89,7 +87,6 @@ angular.module('newApp')
 			angular.forEach($scope.gridMapObect,function(value,key){
 				var name = value.key;
 				name = name.replace(" ","");
-				console.log(name);
 				$scope.gridOptions.columnDefs.push({ name: name, displayName: name, width:'10%',cellEditableCondition: false,
 	              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	              		if (row.entity.isRead === false) {
@@ -159,8 +156,6 @@ angular.module('newApp')
 	  
 			apiserviceMoreInfo.getAllRequestInfo().then(function(data){
 			
-				console.log(data);
-			//$scope.gridOptions.data = data;
 				$scope.editgirdData(data);
 			$scope.requsetMoreList = data;
 			if(data.length > 0){
@@ -192,7 +187,6 @@ angular.module('newApp')
 		$location.path('/contactUsInfo');
 	}
 	$scope.otherLeads = function(leads) {
-		console.log(leads.id);
 		$location.path('/otherLeads/'+leads.id);
 	}
 	

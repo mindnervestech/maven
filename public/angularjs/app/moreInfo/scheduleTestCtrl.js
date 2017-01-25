@@ -8,7 +8,6 @@ angular.module('newApp')
 				$scope.leadList.push(value); 
 			}
 		});
-		console.log($scope.leadList);
 	
 	});
 	
@@ -134,7 +133,6 @@ angular.module('newApp')
 			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
 			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			$scope.scheduleList = data;
-			console.log(data);
 			if(data.length > 0){
 				$scope.userRole = data[0].userRole;
 				if($scope.userRole == "Sales Person"){
@@ -173,7 +171,6 @@ angular.module('newApp')
 			angular.forEach($scope.gridMapObect,function(value,key){
 				var name = value.key;
 				name = name.replace(" ","");
-				console.log(name);
 				$scope.gridOptions.columnDefs.push({ name: name, displayName: name, width:'10%',cellEditableCondition: false,
 	              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	              		if (row.entity.isRead === false) {
@@ -192,7 +189,6 @@ angular.module('newApp')
               	} ,
                });
 			
-			console.log($scope.gridOptions.data);
 	  }
 	  
 	  $scope.getAllScheduleTestData = function() {
@@ -251,7 +247,6 @@ angular.module('newApp')
 	  $scope.scheduleTestData.confirmTime = $("#timepicker1").val();
 	  apiserviceMoreInfo.saveConfirmData($scope.scheduleTestData).then(function(data){
 	  
- 			console.log('success');
  			$('#modalClose').click();
  		});
   }

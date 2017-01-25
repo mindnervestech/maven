@@ -1,14 +1,11 @@
 angular.module('newApp')
 .controller('otherLeadCtrl', ['$scope','$http','$location','$filter','$interval','$routeParams','apiserviceMoreInfo', function ($scope,$http,$location,$filter,$interval,$routeParams,apiserviceMoreInfo) {
 	
-	console.log("&&");
-	console.log($routeParams.leadId);
 	$scope.leadId = $routeParams.leadId;
 	
 	$scope.leadList = [];
 	apiserviceMoreInfo.getSelectedLeadType().then(function(response){
 	
-		console.log(response);
 		angular.forEach(response, function(value, key) {
 			if(value.callToAction){
 				$scope.leadList.push(value); 
@@ -22,8 +19,6 @@ angular.module('newApp')
 				$scope.leadId = value.id;
 			}
 		});
-		console.log($scope.leadList);
-		console.log($scope.leadId);
 	});
 	
   $scope.gridOptions = {
@@ -114,11 +109,6 @@ angular.module('newApp')
 	   		
   		};
   		apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data){
-	  
-				console.log(data);
-				
-				
-			//$scope.gridOptions.data = data;
 				$scope.editgirdData(data);
 			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
 			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
@@ -207,13 +197,9 @@ angular.module('newApp')
 	                     });
 				}
 				
-				console.log( $scope.gridMapObectView);
-				console.log($scope.gridMapObect);
-				console.log("------------------------------------------------");
 				angular.forEach($scope.gridMapObectView,function(value,key){
 					var name = value.key;
 					name = name.replace(" ","");
-					console.log(name);
 					$scope.gridOptions.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
 		              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		              		if (row.entity.isRead === false) {
@@ -231,14 +217,10 @@ angular.module('newApp')
                         }
                   	} ,
                    });
-				
-				console.log($scope.gridOptions.data);
 		  }
 	  
 	  $scope.getAllRequestInfo = function() {
 		  apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data){
-		  console.log(data);
-			//$scope.gridOptions.data = data;
 				$scope.editgirdData(data);
 			$scope.requsetMoreList = data;
 		});
@@ -247,8 +229,6 @@ angular.module('newApp')
 	  
 	  var promo =  $interval(function(){
 		  apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data){
-			  console.log(data);
-				//$scope.gridOptions.data = data;
 					$scope.editgirdData(data);
 				$scope.requsetMoreList = data;
 			});
@@ -261,7 +241,6 @@ angular.module('newApp')
 			//$scope.gridOptions.data = data;
 			apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data1){
 			
-				console.log(data1);
 			$scope.gridOptions.data = data1;
 			$scope.requsetMoreList = data1;
 			if(data1.length > 0){
@@ -293,7 +272,6 @@ angular.module('newApp')
 		$location.path('/contactUsInfo');
 	}
 	$scope.otherLeads = function(leads) {
-		console.log(leads.id);
 		$location.path('/otherLeads/'+leads.id);
 	}
 	$scope.requestMore = function() {
@@ -301,12 +279,10 @@ angular.module('newApp')
 	} 
   
 	$scope.exportCsvPop = function(){
-		console.log("check");
 		$('#exportModal').modal('show');
 	};
 	
 	$scope.exportCsvOtherLead = function(){
-		console.log($scope.leadId);
 		apiserviceMoreInfo.exportOtherLeadsData($scope.leadId).then(function(data){
 				$.fileDownload('/downloadRequestMoreFile',
 					{	   	
@@ -319,9 +295,6 @@ angular.module('newApp')
 								});
 							}).fail(function(e, response)
 							{
-								console.log('fail');
-								console.log(response);
-								console.log(e);
 							});
 			});
 		}

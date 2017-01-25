@@ -3,14 +3,12 @@ angular.module('newApp')
 	
 	$scope.leadList = [];
 	apiserviceMoreInfo.getSelectedLeadType().then(function(response){
-		console.log(response);
 		
 		angular.forEach(response, function(value, key) {
 			if(value.id > 3){
 				$scope.leadList.push(value); 
 			}
 		});
-		console.log($scope.leadList);
 	
 	});
 	
@@ -91,7 +89,6 @@ angular.module('newApp')
   		};
   		apiserviceMoreInfo.getAllContactInfo().then(function(data){
 	  
-			console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
 			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
@@ -109,7 +106,6 @@ angular.module('newApp')
 	  
 	  $scope.showMessage = function(entity) {
 	  
-		  console.log(entity);
 		 $scope.contactMessage=entity.message;
 		  $('#btncontactMessageModal').click();
 	  }
@@ -139,7 +135,6 @@ angular.module('newApp')
 			//$scope.gridOptions.data = data;
 			apiserviceMoreInfo.getAllContactInfo().then(function(data){
 			
-				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.requsetMoreList = data;
 			if(data.length > 0){

@@ -3,13 +3,11 @@ angular.module('newApp')
 	$scope.leadList = [];
 	apiserviceMoreInfo.getSelectedLeadType().then(function(response){
 	
-		console.log(response);
 		angular.forEach(response, function(value, key) {
 			if(value.id > 3){
 				$scope.leadList.push(value); 
 			}
 		});
-		console.log($scope.leadList);
 	
 	});
 	
@@ -120,12 +118,7 @@ angular.module('newApp')
  		 
 //		setting claim
 		$scope.setAsRead = function(flag,row) {  
-			console.log(flag);
-			console.log(row);
 			if(flag){
-				
-				console.log(userKey);
-				console.log(row.leadType);
 				apiserviceMoreInfo.changeAssignedUser(row.id, userKey, row.leadType).then(function(data){
 		        		$scope.getAllPremiumData();
 					});
@@ -134,20 +127,14 @@ angular.module('newApp')
 		  }
 		apiserviceMoreInfo.getSalesUserValue().then(function(data){
 		
-			console.log(data);
 			$scope.salesPersonPerf = data;
 			
 		});
 		
 		
 		 $scope.changeAssignedUser = function() {
-			 console.log($scope.leadlId);
-			 console.log($scope.leadType);
-			 console.log($scope.changedUser);
 			 apiserviceMoreInfo.changeAssignedUser($scope.leadlId, $scope.changedUser, $scope.leadType).then(function(data){
-	        	
 					$('#assignUserModal').modal('hide');
-					
 					 $scope.getAllPremiumData();
 				});
 	        	
@@ -155,19 +142,14 @@ angular.module('newApp')
 		 $scope.leadId = null;
 		 $scope.leadType = null;
 		 $scope.deleteLead = function(entity){
-			 console.log(entity);
 			 $scope.leadId = entity.id;
 			 $scope.leadType = entity.leadType;
 			 $('#deleteBtn').click();
 		 };
 		 
 		 $scope.deletePremiumLead = function(){
-			 console.log($scope.leadId);
-			 console.log($scope.leadType);
 			 apiserviceMoreInfo.deletePremiumLead($scope.leadId, $scope.leadType).then(function(data){
-			 
 				 apiserviceMoreInfo.getAllPremiumIn().then(function(data){
-					
 					$scope.gridOptions.data = data;
 					$scope.tradeInList = data;
 					if(data.length > 0){
@@ -214,7 +196,6 @@ angular.module('newApp')
 	 
 	  
 	  $scope.assignCanceledLead = function(entity) {
-		console.log(entity);
       	$scope.leadlId = entity.id;
       	$scope.leadType = entity.leadType;
       	$scope.changedUser = "";
