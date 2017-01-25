@@ -6116,8 +6116,14 @@ float: right !important;
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;" ng-if="soldContact.saveLeadTypeAs != null">{{soldContact.saveLeadTypeAs}}</label>
 														<label class="col-sm-4 control-label" style="text-align: right;" ng-if="soldContact.saveLeadTypeAs == null">SubCollection</label>
-														<div class="col-sm-7">
+														<div class="col-sm-7" ng-if="soldContact.saveLeadTypeAs != 'Product'">
 															<label>{{soldContact.collectionName}}</label>
+														</div>
+														<div class="col-sm-7" ng-if="soldContact.saveLeadTypeAs != null">
+															<div class="col-sm-6"  ng-repeat="otherProduct in soldContact.collectionIds">
+																<input type="checkbox" name="product" ng-model="otherProduct.isSelected" ng-change="getProductType(otherProduct)">
+																<label>{{otherProduct.primaryTitle}}</label>
+															</div>
 														</div>
 													</div>
 													
@@ -6129,10 +6135,12 @@ float: right !important;
 													</div>
 													
 													<div class="form-group col-sm-12" ng-if="soldContact.saveLeadTypeAs == 'Product'" ng-repeat="otherProduct in soldContact.collectionIds">
+													<div ng-if="otherProduct.isSelected == true")>
 													<label class="col-sm-4 control-label" style="text-align: right;">{{otherProduct.primaryTitle}} Final Price</label>
 														<div class="col-sm-7">
 															<input type="text" class="form-control form-white" ng-model="otherProduct.price" required>
 														</div>
+													</div>	
 													</div>
 													<div class="form-group col-sm-12">
 														<div class="col-sm-4 control-label"></div>

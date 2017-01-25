@@ -7032,16 +7032,17 @@ angular.module('newApp')
     		$scope.soldContact.title = entity.title;
     		$('#btnCompleteRequest').click();
     	}
-    	
+
     	$scope.saveRequestStatus = function() {
     		$scope.flagSavePrice = "0";
     		
-    		console.log($scope.soldContact);
     		if($scope.soldContact.saveLeadTypeAs == "Product"){
     			angular.forEach($scope.soldContact.collectionIds, function(obj, index){
+    				if(obj.isSelected == true){
     					if(obj.price == null || obj.price == undefined || obj.price == "" || obj.price == 0){
     						$scope.flagSavePrice = "1";
     					}
+    				}
     			});
     		}else{
     			if($scope.soldContact.price == null || $scope.soldContact.price == undefined || $scope.soldContact.price == "" || $scope.soldContact.price == 0){
@@ -7050,7 +7051,7 @@ angular.module('newApp')
     		}
     		if($scope.flagSavePrice == "0"){
     			$('#soldBtn').attr("disabled", true);
-    			 apiserviceDashborad.setRequestStatusComplete($scope.soldContact).then(function(data){
+    			apiserviceDashborad.setRequestStatusComplete($scope.soldContact).then(function(data){
     					$route.reload();
     					if(data=='contact error'){
     						$.pnotify({
@@ -10535,5 +10536,10 @@ angular.module('newApp')
 									});
 	   			});
 	   		}	
-		   
-  }]);
+	   		
+	   		$scope.getProductType = function(productType){
+	   			console.log(productType);
+	   			
+	   		}
+	   		
+}]);

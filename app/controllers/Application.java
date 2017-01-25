@@ -12527,15 +12527,18 @@ private static void cancelTestDriveMail(Map map) {
 	    		}
 	    		if(vm.saveLeadTypeAs.equals("Product")){
 	    			for(ProductVM pVm:vm.collectionIds){
-	    				SoldInventory sold = new SoldInventory();
-			    		sold.requestMoreInfo = RequestMoreInfo.findById(info.id);
-			    		sold.collectionId = pVm.id.toString();
-			    		sold.saveLeadTypeAs = vm.saveLeadTypeAs;
-			    		sold.soldDate = currDate;
-			    		sold.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-			    		sold.price = String.valueOf(pVm.price);
-			    		sold.user = user;
-			    		sold.save();
+	    				if(pVm.price != 0){
+	    					SoldInventory sold = new SoldInventory();
+				    		sold.requestMoreInfo = RequestMoreInfo.findById(info.id);
+				    		sold.collectionId = pVm.id.toString();
+				    		sold.saveLeadTypeAs = vm.saveLeadTypeAs;
+				    		sold.soldDate = currDate;
+				    		sold.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+				    		sold.price = String.valueOf(pVm.price);
+				    		sold.user = user;
+				    		sold.save();
+	    				}
+	    				
 	    			}
 	    		}else{
 	    			SoldInventory sold = new SoldInventory();
