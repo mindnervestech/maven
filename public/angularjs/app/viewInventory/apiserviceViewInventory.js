@@ -105,7 +105,6 @@ angular.module('app.apiserviceViewInventory', [])
 	this.getAllProduct=function(userLocationId,status,mainCollId){
 		var defer = $q.defer();
 		var date = new Date().getTime();
-		console.log(date);
 		$http.get('/getAllProduct/'+status+'/'+mainCollId+'/'+date).success(function(data) {
 			defer.resolve(data);
 		});
@@ -116,7 +115,6 @@ angular.module('app.apiserviceViewInventory', [])
 	this.getAllCollectionList=function(userLocationId,status,mainCollId){
 		var defer = $q.defer();
 		var date = new Date().getTime();
-		console.log(date);
 		$http.get('/getAllCollectionList/'+status+'/'+mainCollId+'/'+date).success(function(data) {
 			defer.resolve(data);
 		});

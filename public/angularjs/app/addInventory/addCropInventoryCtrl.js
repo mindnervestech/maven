@@ -3,8 +3,6 @@ angular.module('newApp')
 
 
 	
-	console.log($routeParams.pId);
-	
 	$scope.coords = {};
 	if(userRole == "Photographer"){
 		$scope.imgId = "http://www.glider-autos.com:9889/getImageInv/"+$routeParams.id+"/full?d=" + Math.random();
@@ -17,7 +15,6 @@ angular.module('newApp')
 		if(userRole == "Photographer"){
 			apiserviceAddCropInventory.findLocation().then(function(data){
 			 
-					console.log(data);
 					$scope.userLocationId = data;
 					apiserviceAddCropInventory.getInventoryImageById($routeParams.id).then(function(data){
 			
@@ -50,7 +47,6 @@ angular.module('newApp')
 		}else{
 			apiserviceAddCropInventory.findLocation().then(function(data){
 				
-				console.log(data);
 				$scope.userLocationId = data;
 				apiserviceAddCropInventory.getInventoryImageById($routeParams.id).then(function(data){
 			
@@ -85,7 +81,6 @@ angular.module('newApp')
 	}
 		 function showCoords(c)
 		    {
-			 	console.log(c);
 			    var rx = 200 / c.w;
 				var ry = 200*(imageH/imageW) / c.h;
 				
@@ -110,9 +105,7 @@ angular.module('newApp')
 		    };
 		 
 		$scope.saveImage = function() {
-			console.log($routeParams.id);
 			$scope.coords.imageId = $routeParams.id;
-			console.log($scope.coords);
 			
 	if(userRole == "Photographer"){
 		apiserviceAddCropInventory.editInventoryImage($scope.coords).then(function(data){

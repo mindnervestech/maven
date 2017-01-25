@@ -14,7 +14,6 @@ angular.module('newApp')
             file:logofile,
             data:$scope.addProduct
         }).success(function(data, status, headers, config) {
-            console.log('success');
             $.pnotify({
 			    title: "Success",
 			    type:'success',

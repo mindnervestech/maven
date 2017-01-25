@@ -5,7 +5,6 @@ angular.module('newApp')
 	$scope.addObj = "collection";
 	$scope.getAllInventory = function(){
 		apiserviceViewInventory.getAllInventoryData().then(function(data){
-			console.log(data);
 			$scope.allCollectionDate = data;
 			if(data.length >0){
 				localStorage.setItem('mainCollection', JSON.stringify(data[0]));
@@ -26,7 +25,6 @@ angular.module('newApp')
 		$scope.mainCollId = obj.id;
 		delete obj.$$hashKey;
 		localStorage.setItem('mainCollection', JSON.stringify(obj));
-		console.log($scope.doPublic,obj);
 		$scope.hideWebsite = obj.hideWebsite;
 		if($scope.doPublic == 0){
 			$scope.newlyArrivedTab();
@@ -47,10 +45,7 @@ angular.module('newApp')
 		$scope.rowData = {};
 		$scope.rowData.hideWebsite = hideWebsite;
 		$scope.rowData.id = $scope.mainCollId;
-		console.log($scope.rowData);
-		console.log($scope.mainCollId);
 		$http.post('/updateHideData',$scope.rowData).success(function(data) {
-			 console.log(data);
 		});
 	}
 	
@@ -60,20 +55,15 @@ angular.module('newApp')
 	$scope.doPublic = 0;
 	$scope.myClickFun = function(obj){
 		$scope.productData = obj;
-		console.log("???????????????????");
-		console.log(obj);
 		document.getElementById("uploadId").click();
 		$scope.productData.publicStatus = "publish";
 		$scope.productData.collectionId = 0;
-		console.log($scope.productData);
 	 };
 	 var logofile = null;
 	 var names = [];
 	 var files =[];
 	 $scope.onLogoFileSelect = function($files) {
 		logofile = $files;
-		console.log("File Upload");
-		console.log(logofile);
 		$scope.productData.fileName = logofile[0].name;
 		files[0] = $files[0];
 		names[0]= "logoFile";
@@ -83,9 +73,6 @@ angular.module('newApp')
 		delete $scope.productData.parentId;
 		
 		if(logofile != null){
-			console.log("logofile");
-			console.log($scope.productData);
-			console.log(logofile);
 				$upload.upload({
 		            url : '/updateProduct',
 		            method: 'POST',
@@ -116,9 +103,7 @@ angular.module('newApp')
 	    				 $scope.editProduct(item);
 	    			 },
 				     deleteVehicle:function(item,type){
-						 console.log(item);
 						 $scope.deleteVehicle(item,type);
-						 console.log("kkkkkkkkkkkkk");
 					 },
 					 hideProduct:function(item){
 						 $scope.hideProduct(item);
@@ -178,14 +163,12 @@ angular.module('newApp')
     		 
     		 
     		 $scope.editPhoto = function(row){
-    			 console.log(row);
     			 $location.path('/editVehicle/'+row.entity.id+"/"+true+"/"+row.entity.vin);
     			 
     		 }
     		 
     		 $scope.gotoImgTag = function(row){
     			 $location.path('/manufacturersImages/'+row.entity.id);
-    			 console.log("ssssssssssss");
     		 }
     		 
     		 $scope.editProduct = function(row) {
@@ -203,17 +186,11 @@ angular.module('newApp')
 	    			 $scope.rowData.publicStatus = rowEntity.publicStatus;
 	    			 $scope.$apply();
 	    			 
-    				 console.log($scope.rowData);
     				 	apiserviceViewInventory.updateProduct($scope.rowData).then(function(data){
     				 });
     			 });
     			
     			 gridApi.expandable.on.rowExpandedStateChanged($scope, function (row) {
-    				 console.log(row.entity.subCollection.length * 20);
-    				//row.expandableRowHeight = row.entity.subCollection.length * 20;
-                     console.log("entity   :::: ",row);
-                     console.log(row.entity);
-                    
                      if (row.isExpanded) {
                          row.entity.subGridOptions = {
                          enableSorting: false,
@@ -227,7 +204,6 @@ angular.module('newApp')
                  });
     			 //expandableRowScope: { editProduct: function(){alert('hi');} }
     			/* gridApi.draggableRows.on.rowDropped($scope, function (info, dropTarget) {
-    		   	        console.log("Dropped", info);
     		   	    });*/
     			 
     			 $scope.gridApi.core.on.filterChanged( $scope, function() {
@@ -237,7 +213,6 @@ angular.module('newApp')
     			 
     			 };
     			 //$scope.gridOptions.data = $filter('filter')($scope.vehiClesList,{'title':grid.columns[0].filters[0].term,'description':grid.columns[1].filters[0].term,'fileName':grid.columns[2].filters[0].term,'addedDate':grid.columns[3].filters[0].term,'countImages':grid.columns[4].filters[0].term,'pageViewCount':grid.columns[5].filters[0].term,},undefined);
-    			 console.log($scope.vehiClesList);
     			 $scope.gridOptions1 = {
     		    		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
     		    		 paginationPageSize: 150,
@@ -298,8 +273,6 @@ angular.module('newApp')
     		    			 $scope.$apply();
     		    				 var str = $scope.rowData.price.split(" ");
     		    				 $scope.rowData.price = str[1];
-    		    				 console.log("hhhhhhhhhhhhhhhhhhhhh");
-    		    				 console.log($scope.rowData);
 		    				 	 apiserviceViewInventory.updateProduct($scope.rowData).then(function(data){
 		    				 		$scope.rowData.price = "$ "+$scope.rowData.price;
     		    				 });
@@ -445,12 +418,10 @@ angular.module('newApp')
     			 };
     			 
     			 $scope.updateProduct = function(row){
-    				 console.log(row);
     				 $location.path('/update-product/'+row.id);    				 
     			 };
     			 
     			 $scope.deleteProductAndCollection = function(row){
-    				 console.log(row);
     				 if(row.entity.type == "Product"){
     					 $scope.deleteProduct(row.entity);
     				 }else if(row.entity.type == "Collection"){
@@ -459,14 +430,12 @@ angular.module('newApp')
     			 }
     			 
     			 $scope.deleteProduct = function(row){
-    				 console.log(row);
     				 $scope.deleteObj = row;
     				 $('#productDeletePop').modal('show');
     			 };
     			 
     			 $scope.deleteError = false;
     			 $scope.deleteThisProduct = function(){
-    				 console.log($scope.deleteObj);
     				 apiserviceViewInventory.deleteThisProduct($scope.deleteObj.id).then(function(data){    					 
     					 if(data == 'error'){
     						 $.pnotify({
@@ -489,14 +458,12 @@ angular.module('newApp')
     			 };
     			 
     			 $scope.hideProduct = function(row){
-    				 console.log(row);
     				 apiserviceViewInventory.getHideProduct(row.entity.id).then(function(data){
 						
 					});
     			 } 
     			 
     			 $scope.hoverIn = function(mainColl){
-    				 console.log(mainColl);
     				 $scope.mainCollectionId = mainColl.id;
     			 }
     			 
@@ -505,24 +472,20 @@ angular.module('newApp')
     			 }
     			 
     			 $scope.editProductOrCollection = function(row){
-    				 console.log(row);
     				 if(row.entity.type == "Product"){
     	    				$location.path('/update-product/'+row.entity.id);
     				 }else  if(row.entity.type == "Collection"){
     					 $scope.flag = "product";
     					 $location.path('/editProduct/'+row.entity.id+'/'+$scope.flag);
     				 }
-    				 console.log(row.entity.type);
     			 }
     			 
     			 $scope.EditMainCollectioName = function(coll){
-    				 console.log(coll);
     				 $routeParams.collFlag = 0;
     				 $location.path('/coverImage/'+coll.id+'/'+$routeParams.collFlag+"/menu");
     			 }
     			 
     			 $scope.hideVehicle = function(row){
-    				 console.log(row);
     				 if(row.entity.type == "Product"){
     					 if(row.entity.publicStatus == "publish"){
 	     						$scope.hideText = "Product has been hidden from the website and moved to Drafts list";
@@ -590,8 +553,6 @@ angular.module('newApp')
     					$('#imagePopup').modal();
     				};
     				$scope.mouseout = function(row) {
-    					console.log("Hiiiiiiiiiiii");
-    					//$('#imgClose').click();
     				};
     				
     				$scope.vehicleData = function(sts){
@@ -634,36 +595,24 @@ angular.module('newApp')
     		    				 $scope.flagForUser = true;
     		    				 $scope.gridOptions.data = [];
     		    				 $scope.doPublic = 0;
-    		    				 console.log($scope.userType);
     		    				 apiserviceViewInventory.findLocation().then(function(data){
     		    				 
-		    							console.log(data);
 		    							$scope.userLocationId = data;
     		    				 if($scope.userType == "Photographer"){
     		    					 apiserviceViewInventory.getAllVehiclesImage($scope.userLocationId).then(function(data){
     		    				
-    		    			 			console.log(data);
-    		    			 			/*for(var i=0;i<data.length;i++) {
-    		    			 				data[i].price = "$ "+data[i].price;
-    		    			 			}*/
     		    			 			for(var i=0;i<data.length;i++) {
-    		    			 				
     		    			 				data[i].userRole=$scope.userRole;
-    		    			 				
     		    							}
     		    			 			
     		    			 			$scope.vType = "new";
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions.data = data;
-    		    			 			console.log($scope.gridOptions.data);
-    		    			 			//$scope.gridOptions.columnDefs[10].displayName='Views';
     		    			 		});
     		    				 }
     		    				 else{
     		    					 apiserviceViewInventory.getAllCollectionList($scope.userLocationId,"publish",$scope.mainCollId).then(function(data){
     		    					
-    		    						 console.log(data);
-    		    						
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].price = "$ "+data[i].price;
      		    			 				/*if(data[i].subCollection.length > 0){
@@ -686,8 +635,6 @@ angular.module('newApp')
      		    			 			$scope.vType = "new";
      		    			 			$scope.vehiClesList = data;
      		    			 			$scope.gridOptions.data = data;
-     		    			 			console.log($scope.gridOptions.data);
-     		    			 			//$scope.gridOptions.columnDefs[10].displayName='Views';
      		    			 		});
     		    					 
     		    				 }
@@ -700,7 +647,6 @@ angular.module('newApp')
     		    				 $scope.doPublic = 4;
     		    				 $scope.flagForUser = true;
     		    				 apiserviceViewInventory.getAllProductByCollection($scope.mainCollId,status).then(function(data){
-    		    					 console.log(data);
     		    			 		 $scope.gridOptions4.data = data;
     		    			 		angular.forEach($scope.gridOptions4.data, function(row,key) {
     		    			 			row.collectionTitle = row.collection.title;
@@ -794,17 +740,13 @@ angular.module('newApp')
     		    				 $scope.doPublic = 1;
     		    				 apiserviceViewInventory.findLocation().then(function(data){
     		    					 
-		    							console.log(data);
 		    							$scope.userLocationId = data;
     		    				 if($scope.userType == "Photographer"){
-    		    					 console.log($scope.userLocationId);
     		    					 apiserviceViewInventory.getAllCollectionList($scope.userLocationId,"draft",$scope.mainCollId).then(function(data){
-    		    					 
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
     		    			 			}
     		    			 			for(var i=0;i<data.length;i++) {
-    		    			 				
     		    			 				data[i].userRole=$scope.userRole;
     		    			 				if(data[i].hideWebsite == 1){
      		    			 					data[i].hideWebsite = true;
@@ -813,9 +755,6 @@ angular.module('newApp')
     		    			 			$scope.doPublic = 1;
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions1.data = data;
-    		    			 			console.log($scope.gridOptions1.data);
-    		    			 			//$scope.gridOptions.columnDefs[9].displayName='Views';
-    		    			 			
     		    			 			
     		    			 		});
     		    				 }
@@ -851,10 +790,7 @@ angular.module('newApp')
     		    			 					$scope.vehiClesList.push(row);
     		    			 				});
     		    			 				$scope.gridOptions1.data = $scope.vehiClesList;
-    		    			 				console.log($scope.gridOptions1.data);
-        		    			 			//$scope.gridOptions.columnDefs[9].displayName='History';
         		    			 		});
-     		    			 		//	$scope.gridOptions.columnDefs[9].displayName='Views';
      		    			 		});
     		    					 
     		    				 }
@@ -869,14 +805,11 @@ angular.module('newApp')
   
    $scope.addMainCollFields = [];
    $scope.viewVehiclesInit = function() {
-	   console.log("?>?>?>?>?");
 	   $scope.newlyArrivedTab();
 	   setTimeout(function(){ $scope.newlyArrivedTab(); }, 1000);
 	   
 	   apiserviceViewInventory.getAllInventoryData().then(function(data){
-			console.log(data);
 			$scope.addMainCollFields = data;
-			console.log($scope.addMainCollFields);
 	   });
 			
    }
@@ -888,7 +821,6 @@ angular.module('newApp')
    }
    
    $scope.deleteProductAndCollectionPerMa  = function(row){
-	   console.log("kk");
 	   $('#modal-basic1').modal('show');
 	   $scope.rowDataVal = row;  
 	  /* if(row.entity.type == "Collection"){
@@ -957,7 +889,6 @@ $scope.deleteProductRowPer = function() {
    }
    $scope.updateVehicleStatus = function(row){
 	   $scope.statusVal = "";
-	   console.log("llllllllllllll");
 	   if(row.entity.status == 'Newly Arrived') {
 		   $('#btnStatusSchedule').click();
 		   $scope.soldContact.statusVal = "Sold";
@@ -1096,12 +1027,9 @@ $scope.deleteProductRowPer = function() {
 		 $scope.doPublic = 3;
 		 apiserviceViewInventory.getAllCollectionList().then(function(data){
 		
-			console.log(data);
 			$scope.leadtypeObjList = data;
 			$scope.gridOptions3.data = data;
 			
-			console.log("gghgfhghghg");
-			console.log($scope.gridOptions3.data);
 		});
 		
 		
@@ -1131,17 +1059,13 @@ $scope.deleteProductRowPer = function() {
 	
 	$scope.collections = {};
 	$scope.saveCollectionData = function(){
-		console.log("in collection");
 		$scope.collections.title = $scope.collections.title;
 		if($scope.collections.id == undefined){
 			$scope.collections.id = 0;
 		}
-		console.log($scope.collections);
 		apiserviceViewInventory.addNewCollection($scope.collections).then(function(data){
 		
 				$scope.form = data;
-			 console.log("::::::success")
-				
 			 $("#collectionpopups").modal('hide');
 			 $('#editcollectionpopup').modal('hide');
 			 $scope.allCollectionData();
@@ -1150,30 +1074,20 @@ $scope.deleteProductRowPer = function() {
 	
 	
 	$scope.editCollection = function(row){
-		console.log(row.entity);
 		$scope.collections = row.entity;
 		$('#editcollectionpopup').modal('show');
 	}
 	
 	
 	$scope.removeCollection = function(row){
-		console.log(row.entity);
 		$scope.collections = row.entity.id;
-		console.log($scope.collections);
 		$('#deletepopup').modal('show');
 	}
 	
 	
 	$scope.deleteCollection = function(){
-		 console.log("in deletend functio");
-		 console.log($scope.collections);
 		 apiserviceViewInventory.deleteCollectionData($scope.collections).then(function(data){
-		
-				 console.log("out deletend functio");
 				 $scope.allCollectionData();
-				 
-				 
-
 			});
 	 }
 	
@@ -1333,10 +1247,7 @@ $scope.deleteProductRowPer = function() {
 
 		                    $scope.$apply(function() {
 		                        move.apply(data, [uiGridDraggableRowsCommon.fromIndex, uiGridDraggableRowsCommon.toIndex]);
-		                        //console.log(data);
 		                    });
-		                    console.log(data);	
-		                    	console.log("............................");
 		                    	$.ajax({
 			                    		type: "POST",
 			                            url: '/saveCollectionOrder',
@@ -1417,8 +1328,6 @@ $scope.deleteProductRowPer = function() {
     			
     		 
     		 $scope.editPhoto = function(row){
-    			 console.log(row);
-    			 console.log(row.entity.portalName);
     			 if(row.entity.portalName == "MavenFurniture"){
     				 $location.path('/editInventory/'+row.entity.id+"/"+true+"/"+row.entity.productId);
     			 }else  if(row.entity.portalName == "Autodealer"){
@@ -1538,11 +1447,9 @@ $scope.deleteProductRowPer = function() {
     		    				 $scope.gridOptions.data = [];
     		    				 apiserviceViewInventory.findLocation().then(function(data){		    				
     		    				
-		    							console.log(data);
 		    							$scope.userLocationId = data;
 		    							apiserviceViewInventory.getAllInventory($scope.userLocationId).then(function(data){
 		    	    		    				 
-		    	    		    			 			console.log(data);
 		    	    		    			 			for(var i=0;i<data.length;i++) {
 		    	    		    			 				data[i].userRole = $scope.userRole;
 		    	    		    			 				data[i].portalName = "MavenFurniture";
@@ -1550,7 +1457,6 @@ $scope.deleteProductRowPer = function() {
 		    	    		    			 			
 		    	    		    			 			$scope.vehiClesList = data;
 		    	    		    			 			$scope.gridOptions.data = data;
-		    	    		    			 			console.log($scope.gridOptions.data);
 		    	    		    			 		});
 		    	    		    				 
 		    								 
@@ -1581,7 +1487,6 @@ $scope.deleteProductRowPer = function() {
    $scope.vehiClesList = [];
   
    $scope.viewInit = function() {
-	   console.log("**********************88888888********************8");
 				   $scope.newlyArrivedTab();
 	   
    }

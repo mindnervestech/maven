@@ -8,28 +8,23 @@ angular.module('newApp')
 	$scope.sect = {};
 	$scope.status= function(sts){
 		$scope.collection = sts;
-		console.log($scope.collection);
 	}
 	
 	$scope.chengeSection = function(){
 		$scope.sectColl= "tr";
-		console.log($scope.sect.id);
 		$http.get('/getAllProduct/'+$scope.sect.id)
 		.success(function(data) {
 			$scope.sectionCollection = data;
-			console.log($scope.sectionCollection);
 		});
 	}
 	
 	$scope.setStatusvalue = function(value){
 		$scope.statusValue = value;
-		console.log($scope.statusValue);
 	}
 	var date = new Date();
 	$http.get('/getAllProduct/'+'publish'+'/'+date)
 	.success(function(data) {
 		$scope.childManu = data;
-		console.log($scope.childManu);
 	});
 	
 	$http.get('/getAllProductData/'+'publish')
@@ -43,18 +38,15 @@ angular.module('newApp')
 				}
 			}
 		});
-		console.log($scope.childManuData);
 	});
 	
 		
 	$http.get('/getAllInventoryData').success(function(data) {
-		console.log(data);
 		$scope.mainCollections = data;
 		var mainColl = localStorage.getItem('mainCollection');
 		if(mainColl != undefined){
 			$scope.mainCollection = mainColl;
 		}
-		console.log(JSON.parse($scope.mainCollection));
 		$scope.mainCollectionData = JSON.parse($scope.mainCollection).collection
 		//setTimeout(function(){$scope.$apply();},100);
 	});
@@ -71,11 +63,9 @@ angular.module('newApp')
 			$scope.addProduct.mainCollection = JSON.parse($scope.mainCollection);
 			delete $scope.addProduct.mainCollection.locations.createdDate;
 		}
-		console.log($scope.addProduct);
 		//$("#submit").attr("disabled", true);
 		$scope.addProduct.publicStatus = $scope.statusValue;
 		 $scope.addProduct.id = $('#sectionId').val();
-		 console.log($('#sectionId').val());
 		 if($scope.addProduct.newFlag != true)
 			 $scope.addProduct.newFlag=false;
 
@@ -91,9 +81,7 @@ angular.module('newApp')
 			 $scope.addProduct.subhideWebsite = 0;
 		 }
 		 
-		 console.log("check.."+$scope.addProduct.newFlag);
 		 if(logofile == undefined){
-			console.log($scope.addProduct);
 			$http.post('/saveProduct',$scope.addProduct)
 	   		.success(function(data) {
 	   			$.pnotify({
@@ -114,21 +102,17 @@ angular.module('newApp')
 			if($scope.addProduct.userData == null)
 				delete $scope.addProduct.userData;
 			$scope.addProduct.id = 0;
-		console.log("logofile");
 		 $upload.upload({
             url : '/saveProduct',
             method: 'POST',
             file:logofile,
             data:$scope.addProduct
          }).success(function(data) {
-   			console.log(data);
    			$.pnotify({
 			    title: "Success",
 			    type:'success',
 			    text: "Your Progress has been Saved",
 			});
-   			console.log('success');
-   			console.log($location);
    			$("#submit").attr("disabled", false);
    			
    			if($scope.statusValue != "draft"){
@@ -142,7 +126,6 @@ angular.module('newApp')
 		}else if(logofile == undefined){
 			if($scope.addProduct.userData == null)
 				delete $scope.addProduct.userData;
-			console.log("cadfile");
 			 $upload.upload({
 	            url : '/saveProduct',
 	            method: 'POST',
@@ -154,9 +137,6 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Update successfully",
 					});
-	   			console.log(data);
-	   			console.log('success');
-	   			console.log($location);
 	   			$("#submit").attr("disabled", false);
 	   			if($scope.statusValue != "draft"){
 	   				$location.path('/manufacturersImages/'+data.id);
@@ -170,10 +150,6 @@ angular.module('newApp')
 			}else if(logofile != undefined){
 				
 				
-				console.log(names);
-				console.log(files.length);
-				console.log(files);
-				console.log("bothfile");
 				 $upload.upload({
 		            url : '/saveProduct',
 		            method: 'POST',
@@ -192,9 +168,6 @@ angular.module('newApp')
 						    type:'success',
 						    text: "Update successfully",
 						});
-		   			console.log(data);
-		   			console.log('success');
-		   			console.log($location);
 		   			$("#submit").attr("disabled", false);
 		   			if($scope.statusValue != "draft"){
 		   				$location.path('/manufacturersImages/'+data.id);
@@ -285,7 +258,6 @@ angular.module('newApp')
 				    		   $scope.newObj.srNumber = value.col;
 				    		   $scope.newObjArray.push($scope.newObj);
 				    	   });
-				    	   console.log($scope.newObjArray);
 				    	   $http.post('/savePosition',$scope.newObjArray)
 					   		.success(function(data) {
 					   			$.pnotify({
@@ -316,8 +288,6 @@ angular.module('newApp')
 		   }
 	   });
 	   $scope.uploadFiles = function() {
-		   console.log($scope.imageList);
-		   console.log($scope.imageList.length);
 		   if($scope.imageList.length < 3){
 			   Dropzone.autoDiscover = false;
 			   myDropzone.processQueue();
@@ -367,14 +337,12 @@ angular.module('newApp')
 					$('#'+$scope.imageList[i].id).css("border","0px solid");
 					$scope.imageList[i].defaultImage = false;
 					image.defaultImage = false;
-					console.log($scope.imageList[i]);
 				}
 			}
 			
 			/*if(i == $scope.imageList.length) {
 				$http.get('/setDefaultImage/'+image.id)
 				.success(function(data) {
-					console.log('success');
 				});
 				
 			}*/
@@ -386,19 +354,15 @@ angular.module('newApp')
 		}
 		
 		$scope.saveImageTitle = function(imageObj){
-			console.log(imageObj);
 			$http.post('/saveImageCollectionTitle',imageObj)
 			.success(function(data) {
-				console.log('success');
 				$scope.manufactureImage = {};
 			});
 		}
 		
 		$scope.deleteImage = function(img) {
-			console.log("chaaaaaaaaaaaaaggggggggg");
 			$http.get('/deleteCollectionById/'+img.id)
 			.success(function(data) {
-				console.log('success');
 				$scope.imageList.splice($scope.imageList.indexOf(img),1);
 			});
 			
@@ -422,7 +386,6 @@ angular.module('newApp')
 		   $scope.showDefaultMsg = 0;
 			$http.get('/getImagesByCollection/'+$routeParams.id)
 			.success(function(data) {
-				console.log(data);
 				angular.forEach(data, function(value, key) {
 					$scope.valuepul = $scope.valuepul + 1;
 					if(value.defaultImage == true){
@@ -443,7 +406,6 @@ angular.module('newApp')
 	   };
 	   
 		$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
-			console.log($scope.imageList);
 			for(var i=0;i<$scope.imageList.length;i++) {
 				if($scope.imageList[i].defaultImage == true) {
 					$('#'+$scope.imageList[i].id).css("border","3px solid");
@@ -461,8 +423,6 @@ angular.module('newApp')
 .controller('ImageCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 
 
-	
-	console.log($routeParams.pId);
 	
 	$scope.coords = {};
 	$scope.imgId = "/getImage/"+$routeParams.id+"/full?d=" + Math.random();
@@ -499,7 +459,6 @@ angular.module('newApp')
 	}
 		 function showCoords(c)
 		    {
-			 	console.log(c);
 			    var rx = 200 / c.w;
 				var ry = 200*(imageH/imageW) / c.h;
 				
@@ -524,20 +483,15 @@ angular.module('newApp')
 		    };
 		 
 		$scope.saveImage = function() {
-			console.log($routeParams.id);
 			$scope.coords.imageId = $routeParams.id;
-			console.log($scope.coords);
 			
 			$http.post('/editImage',$scope.coords)
 			.success(function(data) {
-				console.log('success');
 				$.pnotify({
 				    title: "Success",
 				    type:'success',
 				    text: "Saved successfully",
 				});
-				console.log($routeParams.pId);
-				console.log($routeParams.id);
 				$location.path('/addProductImages/'+$routeParams.pId);
 			});
 		}        
@@ -553,15 +507,11 @@ angular.module('newApp')
 	$http.get('/getAllProduct/'+'publish'+'/'+date)
 	.success(function(data) {
 		$scope.childManu = data;
-		console.log($scope.childManu);
 	});
 	$http.get('/getAllProductData/'+'publish')
 	.success(function(data) {
 		//$scope.childManuData = data;
-		console.log(localStorage.getItem('mainCollection'));
-		console.log($scope.childManuData);
 		$scope.childManuData = [];
-	//	console.log($scope.mainCollection);
 		var mainColl = localStorage.getItem('mainCollection');
 		angular.forEach(data, function(value, key) {
 			if(value.mainCollection != null){
@@ -570,17 +520,14 @@ angular.module('newApp')
 				}
 			}
 		});
-		console.log($scope.childManuData);
 	});
 			
 	$http.get('/getAllInventoryData').success(function(data) {
-		console.log(data);
 		$scope.mainCollections = data;
 	});
 	
 	$http.get('/getProductData/'+$routeParams.id)
 	.success(function(data) {
-			console.log("Update data = ");	
 			
 			if(data.subhideWebsite == 1){
 				data.subhideWebsite = true;
@@ -594,7 +541,6 @@ angular.module('newApp')
 				data.hideWebsite = false;
 			}
 			
-			console.log(data);	
 			$scope.productData = data;
 			setTimeout(function(){
 				if(data.mainCollection != null){
@@ -604,20 +550,16 @@ angular.module('newApp')
 					$scope.productData.parentId = data.parentId.toString();
 				$scope.$apply();
 			}, 10);
-			console.log($scope.mainCollection);
 	});
 	
 	$scope.status= function(sts){
 		$scope.collection = sts;
 	}
-	console.log($routeParams.id);
 
 	$http.get('/getList').success(function(data) {
-		console.log(data);
 		$scope.CollectionList = data;
 	});
 	
-console.log($scope.cId);
 	$scope.collectionList = function(){
 		$http.get('/getColl')
 		.success(function(data) {
@@ -625,7 +567,6 @@ console.log($scope.cId);
 				/*angular.forEach($scope.readyCollection, function(value, index){
 				
 					if(value.collectionId == $scope.cId){
-						console.log('aaaaaa');
 						$scope.collection = 'readyMade';
 					}
 						
@@ -635,7 +576,6 @@ console.log($scope.cId);
 				/*angular.forEach($scope.proCollection, function(value, index){
 					
 					if(value.collectionId == $scope.cId){
-						console.log('bbbbbbbbb');
 						$scope.collection = "product";
 					}
 						
@@ -648,7 +588,6 @@ console.log($scope.cId);
 
 	$scope.setStatusvalue = function(value){
 		$scope.statusValue = value;
-		console.log($scope.statusValue);
 	}
 	
 	var logofile = null;
@@ -656,7 +595,6 @@ console.log($scope.cId);
 	var names = [];
 	var files =[];
 	$scope.updateProduct = function(){
-		console.log("In update Product function");
 		if($scope.mainCollection != null || $scope.mainCollection != undefined){
 			$scope.productData.mainCollection = JSON.parse($scope.mainCollection);
 			delete $scope.productData.mainCollection.locations.createdDate;
@@ -664,9 +602,6 @@ console.log($scope.cId);
 		$scope.productData.id = $routeParams.id;
 		$scope.productData.publicStatus = $scope.statusValue;
 		$scope.productData.collectionId = 0;
-		console.log($scope.productData);
-		console.log(logofile);
-		console.log(cadfile);
 		delete $scope.productData.pageViewCount;
 		if($scope.productData.parentId == null)
 			delete $scope.productData.parentId;
@@ -686,9 +621,7 @@ console.log($scope.cId);
 			 $scope.productData.subhideWebsite = 0;
 		 }
 		
-		console.log($scope.productData);
 		if(logofile != null){
-			console.log("logofile");
 				$upload.upload({
 		            url : '/updateProduct',
 		            method: 'POST',
@@ -704,11 +637,6 @@ console.log($scope.cId);
 		   		});	
 		
 		}else if(logofile != undefined){
-		console.log("both");
-		console.log(names);
-		console.log(files.length);
-		console.log(files);
-		console.log("bothfile");
 		 $upload.upload({
 			 url : '/updateProduct',
 	         method: 'POST',
@@ -726,7 +654,6 @@ console.log($scope.cId);
 		}
 		else{
 		$scope.productData.id = $routeParams.id;
-		console.log($scope.productData);
 		$http.post('/updateProductInfo',$scope.productData)
    		.success(function(data) {
    			$.pnotify({
@@ -741,7 +668,6 @@ console.log($scope.cId);
 	
 	$scope.download = function(){
 		$scope.productData.id = $routeParams.id;
-		console.log("File path = "+$scope.productData.filePath);
 		$.fileDownload('/downloadFile',
 				{	  
 				  httpMethod : "POST",
@@ -750,15 +676,12 @@ console.log($scope.cId);
 				  }
 				}).done(function(e, response)
 				{
-					console.log("Success");
 				}).fail(function(e, response)
 				{
-					console.log("Fail");
 				});
 	}
 	$scope.downloadCad = function(){
 		$scope.productData.id = $routeParams.id;
-		console.log("File path = "+$scope.productData.cadfilePath);
 		$.fileDownload('/cadFileDownload',
 				{	  
 				  httpMethod : "POST",
@@ -767,10 +690,8 @@ console.log($scope.cId);
 				  }
 				}).done(function(e, response)
 				{
-					console.log("Success");
 				}).fail(function(e, response)
 				{
-					console.log("Fail");
 				});
 	}
 	
@@ -781,8 +702,6 @@ console.log($scope.cId);
 		
 		$scope.onLogoFileSelect = function($files) {
 			logofile = $files;
-			console.log("File Upload");
-			console.log(logofile);
 			$scope.productData.fileName = logofile[0].name;
 			files[0] = $files[0];
 			names[0]= "logoFile";
@@ -790,12 +709,10 @@ console.log($scope.cId);
 		
 		$scope.deleteVehicle = function(row){
 			$('#modal-basic').modal('show');
-			console.log(row);
 			   $scope.rowDataVal = row;
 		   }
 		   
 		   $scope.deleteVehiclePer = function(row){
-			   console.log(row);
 			   $('#modal-basic1').modal('show');
 			   $scope.rowDataVal = row;
 		   }
@@ -827,8 +744,6 @@ console.log($scope.cId);
 		
 		$scope.onCadFileSelect = function($files) {
 			cadfile = $files;
-			console.log("File Upload");
-			console.log(cadfile);
 			$scope.productData.cadfileName = cadfile[0].name;
 			files[1] = $files[0];
 			names[1] = "cadFile";

@@ -5,13 +5,11 @@ angular.module('newApp')
 	apiserviceAddEditInventory.getCustomizationform('Inventory').then(function(success){
 		$scope.editInput = success;
 		 $scope.userFields = $scope.addFormField(angular.fromJson(success.jsonData));
-		 console.log($scope.userFields);
 		 $scope.user = {};
 	});
 	
 	apiserviceAddEditInventory.getColl().then(function(success){
 		$scope.collectionList = success[0];
-		 console.log($scope.collectionList);
 	});
 	
 	
@@ -46,8 +44,6 @@ angular.module('newApp')
    $scope.addPhoto = function() {
 	    $scope.customList =[];
 		
-		console.log($("#autocomplete").val());
-		   console.log($scope.specification);
 		   $scope.customData.custName = $('#exCustoms_value').val();
 			if($scope.customData.custName == undefined){
 				delete $scope.customData.custName;
@@ -61,15 +57,10 @@ angular.module('newApp')
 				delete $scope.customData.time_range;
 			}
 			
-			console.log($scope.customData);
-			console.log($scope.userFields);
-		
 		$.each($scope.customData, function(attr, value) {
 			angular.forEach($scope.userFields, function(value1, key) {
 				if(value1.key == attr){
 					if(angular.isObject(value) == true){
-						console.log(value);
-						console.log(angular.toJson(value));
 						$scope.customList.push({
 			   	  			key:attr,
 			   	  			value:angular.toJson(value),
@@ -93,7 +84,6 @@ angular.module('newApp')
 		
 		 
 		
-		console.log($scope.customList);
 		$scope.specification.customData = $scope.customList;
    }
    
@@ -123,14 +113,12 @@ angular.module('newApp')
 	apiserviceAddEditInventory.getCustomizationform('Inventory').then(function(success){
 		$scope.editInput = success;
 		 $scope.userFields = $scope.addFormField(angular.fromJson(success.jsonData));
-		 console.log($scope.userFields);
 		 $scope.user = {};
 	});
 	
 	apiserviceAddEditInventory.getColl().then(function(success){
 		$scope.collectionList = success[0];
 		$scope.getImages();
-		 console.log($scope.collectionList);
 	});
 	
 	
@@ -144,7 +132,6 @@ angular.module('newApp')
 			$scope.userLocationId = data;
 			$scope.photoUrl.locationId=$scope.userLocationId;
 			$scope.photoUrl.vin=$scope.vinForUrl;
-			console.log($scope.userLocationId);
 			//$scope.photoUrl=$scope.userLocationId+"/"+$scope.vinForUrl;
 			 if(userRole == "Photographer"){
 				 var element1 = angular.element("<form  role='form' id='dropzoneFrm' action='http://www.glider-autos.com:9889/uploadPhotos'  method='POST' class='dropzone'> <div> <input type='text'style='display: none;'name='productId' value='"+$scope.productId+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
@@ -162,11 +149,9 @@ angular.module('newApp')
 		});
 		
 		apiserviceAddEditInventory.getInventoryById($routeParams.id).then(function(data){
-			console.log(data);
 			
 			 $scope.specification = data;
 			 $scope.customData = data.customMapData;
-			 console.log($scope.customData);
 			 $scope.specification.collection=data.collection;
 			 if($scope.customData.time_range != undefined){
 				 $("#bestTimes").val($scope.customData.time_range);
@@ -179,14 +164,11 @@ angular.module('newApp')
 			 $.each($scope.customData, function(attr, value) {
 				 var res = value.split("[");
 					 if(res[1] != undefined){
-						 console.log(JSON.parse(value));
 						 $scope.customData[attr] = JSON.parse(value);
 				   	  			
 					 }
 							
 				 });
-			 
-			 console.log($scope.customData);
 			 
 		});
 				
@@ -328,17 +310,10 @@ angular.module('newApp')
 	
 	$scope.getImages = function() {
 		apiserviceAddEditInventory.getImagesByProductId($routeParams.productId,userRole).then(function(data){
-			console.log("dddd");
-			console.log(data);
 			$scope.imageList = data;
 		});
 		
 	}
-	
-	
-	
-	 
-	
 	   var pdfFile;
 		/*$scope.onPdfFileSelect = function($files) {
 			pdfFile = $files;
@@ -363,8 +338,6 @@ angular.module('newApp')
 	   
 	$scope.updateInventory = function() {
 		$scope.customList = [];
-		console.log($("#autocomplete").val());
-		   console.log($scope.specification);
 		   $scope.customData.custName = $('#exCustoms_value').val();
 			if($scope.customData.custName == undefined){
 				delete $scope.customData.custName;
@@ -378,15 +351,10 @@ angular.module('newApp')
 				delete $scope.customData.time_range;
 			}
 			
-			console.log($scope.customData);
-			console.log($scope.userFields);
-		
 		$.each($scope.customData, function(attr, value) {
 			angular.forEach($scope.userFields, function(value1, key) {
 				if(value1.key == attr){
 					if(angular.isObject(value) == true){
-						console.log(value);
-						console.log(angular.toJson(value));
 						$scope.customList.push({
 			   	  			key:attr,
 			   	  			value:angular.toJson(value),
@@ -407,26 +375,15 @@ angular.module('newApp')
 			});
 		   });
 		
-		 
-		
-		console.log($scope.customList);
 		$scope.specification.customData = $scope.customList;
-		
-		   
 				if(pdfFile != undefined){
-					
 					apiserviceAddEditInventory.updateInventoryById($scope.specification).then(function(data){
-							
 							apiserviceAddEditInventory.updateVehicleByIdPdf($scope.specification.id,pdffile).then(function(success1){
-								
 							});
-						 			
 			 		});
-					
 			 	 }else{
 			 		apiserviceAddEditInventory.updateInventoryById($scope.specification).then(function(data){
 						$scope.isUpdated = true;
-						
 					});
 			 	 }
 		  
