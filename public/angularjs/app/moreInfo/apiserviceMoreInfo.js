@@ -23,6 +23,14 @@ angular.module('app.apiserviceMoreInfo', [])
 		return defer.promise;
 	};
 	
+	this.getSalesUserOnly = function(locationValue){
+		var defer = $q.defer();
+		$http.get('/getSalesUserOnly/'+locationValue).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 	this.requestInfoMarkRead=function(flag, id){
 		var defer = $q.defer();
 		
@@ -57,6 +65,7 @@ angular.module('app.apiserviceMoreInfo', [])
 
 		return defer.promise;
 	};
+	
 	
 	this.getSalesUserValue=function(){
 		var defer = $q.defer();

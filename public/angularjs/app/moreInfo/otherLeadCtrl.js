@@ -2,8 +2,10 @@ angular.module('newApp')
 .controller('otherLeadCtrl', ['$scope','$http','$location','$filter','$interval','$routeParams','apiserviceMoreInfo', function ($scope,$http,$location,$filter,$interval,$routeParams,apiserviceMoreInfo) {
 	
 	$scope.leadId = $routeParams.leadId;
-	
+	$scope.checked = [];
 	$scope.leadList = [];
+	$scope.actionSelectedLead = [];
+	console.log(userKey);
 	apiserviceMoreInfo.getSelectedLeadType().then(function(response){
 	
 		angular.forEach(response, function(value, key) {
@@ -28,9 +30,14 @@ angular.module('newApp')
  		    useExternalFiltering: true,
  		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
  		 };
+  //cellTemplate:'<input type="checkbox" ng-change="grid.appScope.selectUser(row)" ng-model="row.entity.isSelect" ng-show="row.entity.disabled" > <input type="checkbox" ng-change="grid.appScope.selectUserPop(row)" ng-model="row.entity.isSelect" ng-if="row.entity.disabled == false">',
  		 $scope.gridOptions.enableHorizontalScrollbar = 2;
  		 $scope.gridOptions.enableVerticalScrollbar = 2;
  		 $scope.gridOptions.columnDefs = [
+										{ name: 'isSelect', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+											headerCellTemplate:	'<label style="margin-top: 5px; margin-left: 8px;">Select</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 5px; margin-left: 8px;" type=\"checkbox\"  ng-model=\"checker.checked\"  ng-change="grid.appScope.selectAllCheck(checker.checked)" autocomplete="off">',
+											cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doAction(row,row.entity.checkBoxSelect)" autocomplete="off">',
+										},  
 										{ name: 'title', displayName: 'Title', width:'12%',cellEditableCondition: false,
 										 	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 										        if (row.entity.isRead === false) {
@@ -209,14 +216,14 @@ angular.module('newApp')
 		               });
 				});
 				
-				$scope.gridOptions.columnDefs.push({ name: 'isRead', displayName: 'Claim',enableFiltering: false, width:'7%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+				/*$scope.gridOptions.columnDefs.push({ name: 'isRead', displayName: 'Claim',enableFiltering: false, width:'7%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
                 	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" title="Claim this lead" style="margin-left:18%;"></div>', 
                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
                           if (row.entity.isRead === false) {
                             return 'red';
                         }
                   	} ,
-                   });
+                   });*/
 		  }
 	  
 	  $scope.getAllRequestInfo = function() {
@@ -235,10 +242,9 @@ angular.module('newApp')
 	  },60000);
 	  
 	  $scope.premiumFlagForSale = 0;
-  $scope.setAsRead = function(flag,id) {
+  /*$scope.setAsRead = function(flag,id) {
 	  apiserviceMoreInfo.requestInfoMarkRead(flag, id).then(function(data){
 	  
-			//$scope.gridOptions.data = data;
 			apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data1){
 			
 			$scope.gridOptions.data = data1;
@@ -252,10 +258,90 @@ angular.module('newApp')
 		});
 			$scope.$emit('getCountEvent', '123');
 	});
-	  
 	  $scope.getAllRequestInfo();
+  }*/
+  
+  $scope.setAsRead = function() {
+	 	  console.log($scope.leadType);
+	  apiserviceMoreInfo.changeAssignedUser($scope.actionSelectedLead.toString(), userKey, $scope.leadType).then(function(data){
+   		$("#assignUserModal").modal("hide");
+   		$scope.getAllRequestInfo();
+	});
   }
   
+  $scope.actionSelectedLead = [];
+	  	$scope.actionSelectedLeadObj = "";
+	  	$scope.doAction = function(row,checkBoxSelect){
+	  		if(checkBoxSelect == undefined || checkBoxSelect == false){
+	  			$scope.actionSelectedLead.push(row.entity.id);
+	  		$scope.actionSelectedLeadObj = row.entity;
+	  		}else{
+	  			$scope.deleteActionSelectedLead(row.entity);
+	  		}
+	  		console.log($scope.actionSelectedLead);
+	  	}
+	  	$scope.deleteActionSelectedLead = function(row){
+			angular.forEach($scope.actionSelectedLead, function(obj, index){
+				 if ((row.id == obj)) {
+					 $scope.actionSelectedLead.splice(index, 1);
+			       	return;
+			    };
+			  });
+	  	}
+	
+		$scope.actionSelectedLead = [];
+ 		$scope.actionSelectedLeadObj = "";
+ 		$scope.selectAllCheck = function(checked){
+ 			if(checked){
+ 				for(var i=0;i<$scope.gridOptions.data.length;i++){
+ 					$scope.gridOptions.data[i].checkBoxSelect = true;
+ 				}//checked = checked
+ 				angular.forEach($scope.gridOptions.data, function(obj, index){
+ 					$scope.actionSelectedLead.push(obj.id);
+       	  			$scope.actionSelectedLeadObj = obj;
+ 	   			 });
+ 			}else{
+ 				for(var i=0;i<$scope.gridOptions.data.length;i++){
+ 					$scope.gridOptions.data[i].checkBoxSelect = false;
+ 				}
+   	  			$scope.deleteActionSelected($scope.actionSelectedLead);
+ 				
+ 			}
+ 			console.log($scope.actionSelectedLead);
+ 		}
+ 		
+ 		$scope.deleteActionSelected = function(objList){
+   				 if ((objList == $scope.actionSelectedLead)) {
+   					 $scope.actionSelectedLead = [];
+   			       	return;
+   			    };
+   	  	}	
+ 		
+ 		
+ 		$scope.assignCanceledLead = function() {
+        	$scope.changedUser = "";
+        	$scope.getSalesDataValue(16);
+ 			$("#assignUserModal").modal("show");
+        }	
+	  	
+ 		
+ 		$scope.getSalesDataValue = function(locationValue){
+ 			apiserviceMoreInfo.getSalesUserOnly(locationValue).then(function(data){
+    			$scope.salesPersonPerf = data;
+    			console.log(data);
+    			angular.forEach($scope.salesPersonPerf, function(value, key) {
+    				value.isSelected = false;
+    			});
+    		});
+ 		}
+ 		
+ 		 $scope.changeAssignedUser = function() {
+ 			apiserviceMoreInfo.changeAssignedUser($scope.actionSelectedLead.toString(), $scope.changedUser, $scope.leadType).then(function(data){
+         		$("#assignUserModal").modal("hide");
+         		$scope.getAllRequestInfo();
+ 			});
+         	
+         }
 	$scope.testDrive = function() {
 		$location.path('/scheduleTest');
 	}  
