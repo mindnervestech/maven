@@ -10853,11 +10853,14 @@ private static void cancelTestDriveMail(Map map) {
 		lDataVM.flagForBestSaleIcon = 0;
 		if(product1 != null){
 			for(AddCollection product:product1){
-				if((product != null && product.soldDate.after(startD) && product.soldDate.before(endD)) || product.soldDate.equals(startD) || product.soldDate.equals(endD)) {
-					flag1=1;
-					lDataVM.flagForBestSaleIcon=flag1;
-					break;
+				if(product != null){
+					if((product.soldDate.after(startD) && product.soldDate.before(endD)) || product.soldDate.equals(startD) || product.soldDate.equals(endD)) {
+						flag1=1;
+						lDataVM.flagForBestSaleIcon=flag1;
+						break;
+					}
 				}
+				
 			}
 	 	}
 	
