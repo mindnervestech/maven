@@ -75,7 +75,7 @@ angular.module('newApp')
  		                                	} ,
  		                                 },
  		                                { name: 'price', displayName: 'Price',enableFiltering: false, width:'5%',cellEditableCondition: false,
- 		                                	cellTemplate:'<div>{{row.entity.price | number:0}}</div>',
+ 		                                	cellTemplate:'<div ng-if="row.entity.price != 0">{{row.entity.price}}</div><div ng-if="row.entity.price == 0">N/A</div>',
 	   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	    		                                       if (row.entity.isRead === false) {
 	    		                                         return 'red';
