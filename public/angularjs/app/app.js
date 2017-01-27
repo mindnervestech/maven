@@ -48,6 +48,7 @@ var MakeApp = angular
     'app.apiserviceAddCropInventory',
     'app.apiserviceAddPhotos',
     'app.apiserviceAnalytics',
+    'ui.grid.selection',
    // 'textAngular',
     'nvd3',
     'formly',
@@ -689,6 +690,13 @@ var MakeApp = angular
         }
     }
  })
+ 
+ 	.directive('myCustomModal', function() {
+  		  return {
+  		    template: '<label>{{colFilter.term}}</label><button ng-click="showAgeModal()">^</button>',
+  		    controller: 'crmCtrl'
+  		  };
+  		})
  .directive('ngSec',function(){
     return {
     	link: function(scope, element, attrs, ngModelCtrl) {

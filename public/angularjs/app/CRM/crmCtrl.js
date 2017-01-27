@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('crmCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','apiserviceCrm','$q','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,apiserviceCrm,$q,$rootScope) {
+.controller('crmCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','apiserviceCrm','$q','$rootScope','$compile', function ($scope,$http,$location,$filter,$routeParams,$upload,apiserviceCrm,$q,$rootScope,$compile) {
 	if(!$scope.$$phase) {
 		$scope.$apply();
 	}
@@ -25,7 +25,8 @@ angular.module('newApp')
    		                                 },
    		                                 { name: 'lastName', displayName: 'Last Name', width:'11%',cellEditableCondition: false,
    		                                 },
-   		                                 { name: 'companyName', displayName: 'Company Name', width:'12%',cellEditableCondition: false,
+   		                                 { name: 'companyName', displayName: 'Company Name', width:'12%',cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+   		                                	 filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><div my-custom-modal></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilter(text)" ng-model="text"></div>'
    		                                 },
    		                                 { name: 'email', displayName: 'Email', width:'10%',cellEditableCondition: false,
    		                                 },
@@ -46,12 +47,106 @@ angular.module('newApp')
 	   		
    		};
    		 
+   		$scope.searchFilter = function(text){
+   			console.log(text);
+   			if(text == ''){
+   				$scope.gridOptions.data = $scope.contactsList;
+   			}else{
+   			compData = [];
+   			$scope.contactsList.forEach( function addDates( row, index ){
+   				//console.log(row.companyName.match(text));
+   				if(row.companyName){
+   					if(row.companyName.includes(text)){
+   						compData.push(row);
+   					}
+   				}
+   			});
+   			$scope.gridOptions.data = compData;
+   			}
+   		}
+   		
+   		$scope.searchFilterByAssigned = function(text){
+   			console.log(text);
+   			if(text == ''){
+   				$scope.gridOptions.data = $scope.contactsList;
+   			}else{
+   			compData = [];
+   			$scope.contactsList.forEach( function addDates( row, index ){
+   				if(row.assignedToName){
+   					if(row.assignedToName.includes(text)){
+   						compData.push(row);
+   					}
+   				}
+   			});
+   			$scope.gridOptions.data = compData;
+   			}
+   		}
+   		
+   		$scope.showAgeModal = function() {
+   		    $scope.listOfAges = [];
+   		    
+   		    $scope.col.grid.appScope.gridOptions.data.forEach( function ( row ) {
+   		      if ( $scope.listOfAges.indexOf( row.companyName ) === -1 ) {
+   		        $scope.listOfAges.push( row.companyName );
+   		      }
+   		    });
+   		    $scope.listOfAges.sort();
+   		    
+   		    $scope.gridOptions = { 
+   		      data: [],
+   		      enableColumnMenus: false,
+   		      onRegisterApi: function( gridApi) {
+   		        $scope.gridApi = gridApi;
+   		        
+   		        if ( $scope.colFilter && $scope.colFilter.listTerm ){
+   		          $timeout(function() {
+   		            $scope.colFilter.listTerm.forEach( function( companyName ) {
+   		              var entities = $scope.gridOptions.data.filter( function( row ) {
+   		                return row.companyName === companyName;
+   		              });
+   		              
+   		              if( entities.length > 0 ) {
+   		                $scope.gridApi.selection.selectRow(entities[0]);
+   		              }
+   		            });
+   		          });
+   		        }
+   		      } 
+   		    };
+   		    
+   		    $scope.listOfAges.forEach(function( companyName ) {
+   		      $scope.gridOptions.data.push({companyName: companyName});
+   		    });
+   		    
+   		    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Company Name</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="close()">Filter</button></div></div></div></div>';
+   		    $elm = angular.element(html);
+   		    angular.element(document.body).prepend($elm);
+   		 
+   		    $compile($elm)($scope);
+   		    
+   		  }
+   		
+   		$scope.close = function() {
+   		    var ages = $scope.gridApi.selection.getSelectedRows();
+   		    $scope.colFilter.listTerm = [];
+   		    
+   		    ages.forEach( function( companyName ) {
+   		      $scope.colFilter.listTerm.push( companyName.companyName );
+   		    });
+   		    
+   		    $scope.colFilter.term = $scope.colFilter.listTerm.join(', ');
+   		    $scope.colFilter.condition = new RegExp($scope.colFilter.listTerm.join('|'));
+   		    
+   		    if ($elm) {
+   		      $elm.remove();
+   		    }
+   		  };
+   		  
    		$scope.deleteAllContactPop = function(){
    			$('#removeModal').click();
    		};
    		$scope.removeAllContactsData = function(){
    			apiserviceCrm.removeAllContactsData().then(function(data){
-   				console.log("success.");
    				$scope.getContactsData();
    			});
    		};
@@ -62,7 +157,6 @@ angular.module('newApp')
    		
    		apiserviceCrm.getAllInventoryData().then(function(data){
    				$scope.getAllCollection = data;
-   				console.log($scope.getAllCollection);
    		});
    		
    		
@@ -84,16 +178,11 @@ angular.module('newApp')
 								}).fail(function(e, response)
 								{
 									// failure
-									console.log('fail');
-									console.log(response);
-									console.log(e);
 								});
    			});
    		}
    		
    		apiserviceCrm.getAllContactsData().then(function(data){
-   			console.log(data);
-				//$scope.gridOptions.data = data;
    			$scope.editgirdData(data);
 				$scope.contactsList = data;
 				
@@ -102,7 +191,6 @@ angular.module('newApp')
    		//group start
    		$scope.getAllGroupList = function(){
    			apiserviceCrm.getAllGroupList().then(function(data){
-   	   			console.log(data);
    				$scope.groupList = data;				
    	   		});
    		};
@@ -160,7 +248,6 @@ angular.module('newApp')
    			$scope.deleteGr = group;
    		};
    		$scope.deleteGroupList = function(){
-   			console.log($scope.deleteGr);
    			apiserviceCrm.deleteGroup($scope.deleteGr.id).then(function(data){
 				$scope.group = {};
 				$scope.getAllGroupList();
@@ -240,7 +327,6 @@ angular.module('newApp')
 					
 					
 					$scope.gridMapObect = UniqueArraybyId($scope.gridMapObect ,"key");
-					console.log($scope.gridMapObect);
 					angular.forEach($scope.gridMapObect,function(value,key){
 						var name = value.key;
 						$scope.flagValFlag = 1;
@@ -270,7 +356,6 @@ angular.module('newApp')
 	  $scope.showQuickList = "0";
   	$scope.addGroupPopUp = function(){
   		apiserviceCrm.getAllMailchimpEnable().then(function(data){
-  			console.log(data);
   			if(data.synchronizeContact == true){
   				$scope.showQuickList = "1";
   				apiserviceCrm.getAllMailchimpList().then(function(data){
@@ -311,10 +396,10 @@ angular.module('newApp')
 			if($scope.userRole != "General Manager"){
 			}
 		});
+  	 
    		$scope.getLocationData = function(locatnId){
    			$scope.allLoc = false;
    			$scope.locId = locatnId;
-   			console.log($scope.locId);
    			if(locatnId !=null){
    				apiserviceCrm.getAllContactsByLocation(locatnId).then(function(data){
    					$scope.gridOptions.data = data;
@@ -337,7 +422,6 @@ angular.module('newApp')
    				/*$scope.contactsList = data;
    				
    				$scope.customData = data.customMapData;
-   			 console.log($scope.customData);
    			 $scope.contactsList.collection=data.collection;
    			 if($scope.customData.time_range != undefined){
    				 $("#bestTimes").val($scope.customData.time_range);
@@ -352,15 +436,9 @@ angular.module('newApp')
    			 $.each($scope.customData, function(attr, value) {
    				 var res = value.split("[");
    					 if(res[1] != undefined){
-   						 console.log(JSON.parse(value));
    						 $scope.customData[attr] = JSON.parse(value);
-   				   	  			
    					 }
-   							
    				 });
-   			 
-   			 console.log($scope.customData);
-   				
    			 });*/
    		  });
    		}
@@ -396,7 +474,6 @@ angular.module('newApp')
 		   });
 		   
 		   $scope.customData = row.entity.customMapData;
-			 console.log($scope.customData);
 			 $scope.contactsList.collection=row.entity.collection;
 			 if($scope.customData.time_range != undefined){
 				 $("#bestTimes").val($scope.customData.time_range);
@@ -410,22 +487,15 @@ angular.module('newApp')
 			 
 			 $.each($scope.customData, function(attr, value) {
 				 value = JSON.stringify(value);
-	   				console.log(value);
-				 console.log(value);
-				 
 				 var res = value.split("[");
 					 if(res[1] != undefined){
-						 console.log(JSON.parse(value));
 						 $scope.customData[attr] = JSON.parse(value);
-				   	  			
 					 }
-							
 				 });
 			 
 		   $('#contactsModal').modal();
 		   
 		   $scope.customData = row.entity.customMapData;
-			 console.log($scope.customData);
 			 $scope.contactsList.collection=row.entity.collection;
 			 if($scope.customData.time_range != undefined){
 				 $("#bestTimes").val($scope.customData.time_range);
@@ -439,16 +509,10 @@ angular.module('newApp')
 			 
 			 $.each($scope.customData, function(attr, value) {
 				 value = JSON.stringify(value);
-	   				console.log(value);
-				 console.log(value);
-				 
 				 var res = value.split("[");
 					 if(res[1] != undefined){
-						 console.log(JSON.parse(value));
 						 $scope.customData[attr] = JSON.parse(value);
-				   	  			
 					 }
-							
 				 });
 			 
 		   $('#contactsModal').modal();
@@ -457,8 +521,6 @@ angular.module('newApp')
 	   $scope.updateContacts = function() {
 		   $scope.customList =[];
 			
-			console.log($("#autocomplete").val());
-			   console.log($scope.specification);
 			   $scope.multiSelectBindWithCustomData();
   			$scope.customList =[];
   			$scope.customData.time_range = $("#bestTimes").val();
@@ -474,12 +536,7 @@ angular.module('newApp')
   				delete $scope.customData.autocompleteText;
   			}
 				
-				console.log($scope.customData);
-				console.log($scope.userFields);
-			
 				apiserviceCrm.getCustomizationform('Create New Lead').then(function(response){
-   				
-	    			
    				$scope.josnData = angular.fromJson(response.jsonData);
    				angular.forEach($scope.josnData, function(obj, index){
    					obj.formName = "Create New Lead";
@@ -500,12 +557,7 @@ angular.module('newApp')
 	    						
 	   	    				});
    					}
-   					console.log("()()()(0");
-   					console.log($scope.josnData);
-   					console.log($scope.customData);
    					var oneProduct = 0;
-   					
-   					
    					$.each($scope.customData, function(attr, value) {
    						angular.forEach($scope.josnData, function(value1, key) {
    							if(value1.key == attr){
@@ -526,15 +578,8 @@ angular.module('newApp')
    						$scope.customList = response;
    					});
    					
-   					
-   				console.log($("#bestTimes").val());
-	    			console.log($scope.customData);
-	    			console.log($scope.customList);
-	    			 
-	    			
 	    			$scope.contactsDetails.customData = $scope.customList;
    					
-	    			console.log($scope.customList);
 	    			$scope.contactsDetails.customData = $scope.customList;
 	    			 apiserviceCrm.updateContactsData($scope.contactsDetails).then(function(data){
 	    				 $('#contactsModal').modal('hide');
@@ -600,11 +645,9 @@ angular.module('newApp')
 				
 		   });
 		  /* apiserviceCrm.getCustomizationform('New Contact').then(function(response){
-				console.log(response);
 				 $scope.editInput = response;
 				 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
 				 $scope.josnData = angular.fromJson(response.jsonData);
-				 console.log($scope.userFields);
 				 $scope.user = {};
 				});*/
 		   $('#createcontactsModal').modal();
@@ -613,8 +656,6 @@ angular.module('newApp')
 	   $scope.saveContact = function() {
 		   $scope.customList =[];
 			
-			console.log($("#autocomplete").val());
-			   console.log($scope.specification);
 			   $scope.multiSelectBindWithCustomData();
    			$scope.customList =[];
    			$scope.customData.time_range = $("#bestTimes").val();
@@ -629,12 +670,7 @@ angular.module('newApp')
    			if($scope.customData.autocompleteText == undefined){
    				delete $scope.customData.autocompleteText;
    			}
-				
-				console.log($scope.customData);
-				console.log($scope.userFields);
-			
 				apiserviceCrm.getCustomizationform('Create New Lead').then(function(response){
-    				
 	    			
     				$scope.josnData = angular.fromJson(response.jsonData);
     				angular.forEach($scope.josnData, function(obj, index){
@@ -656,12 +692,7 @@ angular.module('newApp')
 	    						
 	   	    				});
     					}
-    					console.log("()()()(0");
-    					console.log($scope.josnData);
-    					console.log($scope.customData);
     					var oneProduct = 0;
-    					
-    					
     					$.each($scope.customData, function(attr, value) {
     						angular.forEach($scope.josnData, function(value1, key) {
     							if(value1.key == attr){
@@ -682,15 +713,8 @@ angular.module('newApp')
     						$scope.customList = response;
     					});
     					
-    					
-    				console.log($("#bestTimes").val());
-	    			console.log($scope.customData);
-	    			console.log($scope.customList);
-	    			 
-	    			
 	    			$scope.contactsDetails.customData = $scope.customList;
     					
-	    			console.log($scope.customList);
 	    			apiserviceCrm.saveContactsData($scope.contactsDetails).then(function(data){
 	    				 if(data == "" || data != "Email already exists") {
 	    					 $scope.contactMsg="";
@@ -702,15 +726,11 @@ angular.module('newApp')
 	    				 
 	    				});
       	  		});
-			
 			});
-			
-			
 	   }
 	   
 	   
 	   $scope.multiSelectBindWithCustomData = function(){
-			console.log($rootScope.rObj);
 			if($rootScope.rObj != undefined){
 				$.each($rootScope.rObj, function(attr, value) {
    				$scope.customData[attr] = value;
@@ -774,7 +794,6 @@ angular.module('newApp')
 					if(fileFlag == 0){
 						if(value1.component == "fileuploaders"){
 							if($rootScope.fileCustom != undefined){
-			    				console.log($rootScope.fileCustom[0].name);
 			    				 $scope.fileFlag = 1;
 								$scope.customList.push({
    								fieldId:value1.fieldId,
@@ -825,9 +844,6 @@ angular.module('newApp')
 							$.each(customeDataList, function(attr1, value3) {
 								if(value1.key+"_endDate" == attr1){
 								
-									console.log(new Date(value));
-									console.log(new Date(value3));
-									console.log(new Date(value3) >= new Date(value));
 									if(new Date(value) >= new Date(value3)){
 										$scope.dateFlag = 1;
 									}else{
@@ -887,10 +903,8 @@ angular.module('newApp')
 		}
 	   
 	   $scope.deleteGroup = function(groupId){
-		   console.log(groupId);
 		   apiserviceCrm.deleteGroup(groupId).then(function(data){
 			   apiserviceCrm.getgroupInfo().then(function(data){
-					console.log(data);
 					$scope.allGroup = data;
 				 });
 			});
@@ -947,7 +961,6 @@ angular.module('newApp')
 				});
 			}
 		 $scope.viewUpdate = function(list){
-				console.log(list);
 				$scope.newList = list;
 				$scope.updateList = true;
 			};
@@ -967,5 +980,4 @@ angular.module('newApp')
 					});
 				}
 			}
-	   
 }]);
