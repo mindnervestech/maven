@@ -21,10 +21,10 @@ angular.module('newApp')
    		                                 },
    		                                 { name: 'type', displayName: 'Type',enableFiltering: false, width:'10%',
    		                                 },
-   		                                 { name: 'firstName', displayName: 'First Name', width:'11%',cellEditableCondition: false,
+   		                                 { name: 'firstName', displayName: 'Name', width:'11%',cellEditableCondition: false,
    		                                 },
-   		                                 { name: 'lastName', displayName: 'Last Name', width:'11%',cellEditableCondition: false,
-   		                                 },
+   		                                /* { name: 'lastName', displayName: 'Last Name', width:'11%',cellEditableCondition: false,
+   		                                 },*/
    		                                 { name: 'companyName', displayName: 'Company Name', width:'12%',cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
    		                                	 filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><div my-custom-modal></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilter(text)" ng-model="text"></div>'
    		                                 },
