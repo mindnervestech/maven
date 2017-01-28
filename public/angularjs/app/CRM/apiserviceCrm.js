@@ -303,6 +303,49 @@ angular.module('app.apiserviceCrm', [])
 		return defer.promise;
 	};
 	
+	this.getSalesUserOnly = function(locationValue){
+		var defer = $q.defer();
+		$http.get('/getSalesUserOnly/'+locationValue).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 	
+	this.changeContactAssignedUser=function(id, userKey){
+		var defer = $q.defer();
+		
+		$http.get('/changeContactAssignedUser/'+id+'/'+userKey).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Assign user Successfully",
+			});
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
 	
+	this.getGroupOfData = function(){
+		var defer = $q.defer();
+		$http.get('/getGroupOfData').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.saveChangeGroupData=function(id, userKey){
+		var defer = $q.defer();
+		
+		$http.get('/saveChangeGroupData/'+id+'/'+userKey).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Group Added Successfully",
+			});
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
 })

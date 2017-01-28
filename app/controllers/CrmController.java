@@ -16,6 +16,8 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 
+import com.gargoylesoftware.htmlunit.javascript.host.Console;
+
 import controllers.MailchipControllers.MailIntegrationServices;
 
 import models.AuthUser;
@@ -28,6 +30,7 @@ import models.MailchimpList;
 import models.MailchimpSchedular;
 import models.Permission;
 import models.PhotographerHoursOfOperation;
+import models.RequestMoreInfo;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -995,18 +998,19 @@ public class CrmController extends Controller {
 	    	}  		
 		}
 
-		public static Result deleteContactsById(Long id ){
+		public static Result deleteContactsById(String id ){
 			if(session("USER_KEY") == null || session("USER_KEY") == "") {
 			   	return ok(home.render("",userRegistration));
 			   	} else {
 				   	String msg;
-				   	Contacts contact = Contacts.findById(id);
-				   	if(contact !=null){
-					   	contact.delete();
-					   	msg = "success";
-					   	return ok(msg);
-				   	}
-				   	msg = "error";
+				   	String arr[] = id.split(",");
+		    		for(int i=0;i<arr.length;i++){
+		    			 Contacts contact = Contacts.findById(Long.parseLong(arr[i]));
+		    			 if(contact !=null){
+		    				 contact.delete();
+						 }
+		    		}
+		    		msg = "success";
 				   	return ok(msg);
 			   	}
 			}
@@ -1080,4 +1084,52 @@ public class CrmController extends Controller {
 		   	}
 		   return ok("");
 	   }
+	  
+	  public static Result changeContactAssignedUser(String arrayString,Integer user) {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+	    		AuthUser userObj = AuthUser.findById(user);
+	    	
+	    		String arr[] = arrayString.split(",");
+	    		for(int i=0;i<arr.length;i++){
+	    			 Contacts info = Contacts.findById(Long.parseLong(arr[i]));
+	    			 	info.setAssignedTo(String.valueOf(user));
+					    info.update();
+	    		}
+	    		return ok();
+	    	}
+	    }
+	  
+	  public static Result getGroupOfData(){
+	 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+	    		List<GroupTable> groupList = GroupTable.findAllGroup();
+	    		List<GroupVM> grList= new ArrayList<>();
+	    		for (GroupTable gr : groupList) {
+	    			GroupVM vm = new GroupVM();
+		    		vm.name = gr.name;
+		    		vm.id = gr.id;
+	    			grList.add(vm);
+				}
+	    		return ok(Json.toJson(grList));
+	    	}
+	 	}
+	  
+	  public static Result saveChangeGroupData(String arrayString,Integer user) {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+	    		Long groupId = user.longValue();
+	    		GroupTable group = GroupTable.findById(groupId);
+	    		String arr[] = arrayString.split(",");
+	    		for(int i=0;i<arr.length;i++){
+	    			 Contacts info = Contacts.findById(Long.parseLong(arr[i]));
+	    			 	info.setGroups(group);
+					    info.update();
+	    		}
+	    		return ok();
+	    	}
+	    }
 }

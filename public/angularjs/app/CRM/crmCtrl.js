@@ -1,7 +1,7 @@
 angular.module('newApp')
-.controller('crmCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','apiserviceCrm','$q','$rootScope','$compile', function ($scope,$http,$location,$filter,$routeParams,$upload,apiserviceCrm,$q,$rootScope,$compile) {
+.controller('crmCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','apiserviceCrm','$q','$rootScope','$compile','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,apiserviceCrm,$q,$rootScope,$compile,$timeout) {
 	if(!$scope.$$phase) {
-		$scope.$apply();
+		//$scope.$apply();
 	}
 	
 	
@@ -17,6 +17,10 @@ angular.module('newApp')
    		 $scope.gridOptions.enableVerticalScrollbar = 2;
    		
    		 $scope.gridOptions.columnDefs = [
+										{ name: 'isSelect', displayName: 'Select', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+											headerCellTemplate:	'<label style="margin-top: 5px; margin-left: 8px;">Select</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 5px; margin-left: 8px;" type=\"checkbox\"  ng-model=\"checker.checked\"  ng-change="grid.appScope.selectAllCheck(checker.checked)" autocomplete="off">',
+											cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doAction(row,row.entity.checkBoxSelect)" autocomplete="off">',
+										}, 
    		                                 { name: 'contactId', displayName: '#', width:'4%',cellEditableCondition: false,
    		                                 },
    		                                 { name: 'type', displayName: 'Type',enableFiltering: false, width:'10%',
@@ -30,9 +34,10 @@ angular.module('newApp')
    		                                 },
    		                                 { name: 'email', displayName: 'Email', width:'10%',cellEditableCondition: false,
    		                                 },
-   		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'10%',
+   		                                 { name: 'phone', displayName: 'Phone',cellEditableCondition: false, width:'10%',
    		                                 },
-   		                                 { name: 'assignedToName', displayName: 'Assigned To',enableFiltering: false, width:'12%',cellEditableCondition: false,
+   		                                 { name: 'assignedToName', displayName: 'Assigned To',enableSorting: false, width:'12%',cellEditableCondition: false, enableColumnMenu: false,
+   		                                	filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter1 in col.filters"><div my-custom-modal1></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByAssigned(text)" ng-model="text"></div>'
    		                                 },
        		                                
        		                                 ];  
@@ -42,7 +47,7 @@ angular.module('newApp')
 			 
 	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
 		          var grid = this.grid;
-		        	  $scope.gridOptions.data = $filter('filter')($scope.contactsList,{'contactId':grid.columns[0].filters[0].term,'firstName':grid.columns[2].filters[0].term,'lastName':grid.columns[3].filters[0].term,'companyName':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term},undefined);
+		        	  $scope.gridOptions.data = $filter('filter')($scope.contactsList,{'contactId':grid.columns[0].filters[0].term,'firstName':grid.columns[2].filters[0].term,'lastName':grid.columns[3].filters[0].term,'companyName':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'phone':grid.columns[6].filters[0].term,'assignedToName':grid.columns[7].filters[0].term},undefined);
 		        });
 	   		
    		};
@@ -393,6 +398,7 @@ angular.module('newApp')
   	    
   	    apiserviceCrm.getUserRole().then(function(data){
 			$scope.userRole = data.role;
+			$scope.locationId = data.location.id;
 			if($scope.userRole != "General Manager"){
 			}
 		});
@@ -916,7 +922,8 @@ angular.module('newApp')
 	    }
 		   
 		 $scope.deleteContactRow = function() {
-			apiserviceCrm.deleteContactsById($scope.rowDataVal.entity.contactId).then(function(data){
+			 console.log( $scope.rowDataVal);
+			apiserviceCrm.deleteContactsById($scope.rowDataVal).then(function(data){
 			 if(data=='success'){
 				 $.pnotify({
 				    title: "Success",
@@ -925,6 +932,7 @@ angular.module('newApp')
 				 });
 	
 				 $scope.getContactsData();
+				 $scope.actionSelectedLead = [];
 			 }else{
 				 $.pnotify({
 				    title: "Error",
@@ -979,5 +987,160 @@ angular.module('newApp')
 						$scope.getAllMailchimpList();
 					});
 				}
+			}
+			
+		/*--------------------------------Custome Search Filter --------------------------------*/	
+			
+			$scope.showAssignedModal = function() {
+	   		    $scope.listOfAges1 = [];
+	   		    $scope.col.grid.appScope.gridOptions.data.forEach( function ( row ) {
+	   		    	if($scope.listOfAges1.indexOf( row.assignedToName ) === -1 ) {
+	   		        	$scope.listOfAges1.push( row.assignedToName );
+	   		        	console.log(row.assignedToName);
+	   		      	}
+	   		    });
+	   		    $scope.listOfAges1.sort();
+	   		    $scope.gridOptions1 = { 
+	   		    	data: [],
+	   		    	enableColumnMenus: false,
+	   		    	onRegisterApi: function( gridApi) {
+	   		        $scope.gridApi1 = gridApi;
+	   		        if($scope.colFilter1 && $scope.colFilter1.listTerm ){
+	   		        	$timeout(function() {
+	   		        		$scope.colFilter1.listTerm.forEach( function( assignedToName ) {
+	   		        			var entities = $scope.gridOptions1.data.filter( function( row ) {
+	   		        				return row.assignedToName === assignedToName;
+	   		        			}); 
+	   		              
+	   		        			if(entities.length > 0 ) {
+	   		        				$scope.gridApi1.selection.selectRow(entities[0]);
+	   		        				console.log(entities[0]);
+	   		        			}
+	   		        		});
+	   		        	});
+	   		        }
+	   		      } 
+	   		    };
+	   		    $scope.listOfAges1.forEach(function( assignedToName ) {
+	   		    	$scope.gridOptions1.data.push({assignedToName: assignedToName});
+	   		    });
+	   		    console.log( $scope.gridOptions1.data);
+	   		    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Assigned To</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions1" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="checkAssigned()">Filter</button></div></div></div></div>';
+	   		    $elm = angular.element(html);
+	   		    angular.element(document.body).prepend($elm);
+	   		    $compile($elm)($scope);
+			}
+			
+			$scope.checkAssigned = function() {
+				var ages = $scope.gridApi1.selection.getSelectedRows();
+	   		    $scope.colFilter1.listTerm = [];
+	   		    ages.forEach( function( assignedToName ) {
+	   		    	$scope.colFilter1.listTerm.push( assignedToName.assignedToName );
+	   		    });
+	   		    $scope.colFilter1.term = $scope.colFilter1.listTerm.join(', ');
+	   		    $scope.colFilter1.condition = new RegExp($scope.colFilter1.listTerm.join('|'));
+	   		    if ($elm) {
+	   		    	$elm.remove();
+	   		    }
+	   		};
+	   		
+	   		$scope.actionSelectedLead = [];
+	 		$scope.actionSelectedLeadObj = "";
+	 		$scope.selectAllCheck = function(checked){
+	 			if(checked){
+	 				for(var i=0;i<$scope.gridOptions.data.length;i++){
+	 					$scope.gridOptions.data[i].checkBoxSelect = true;
+	 				}//checked = checked
+	 				angular.forEach($scope.gridOptions.data, function(obj, index){
+	 					$scope.actionSelectedLead.push(obj.contactId);
+	       	  			$scope.actionSelectedLeadObj = obj;
+	 	   			 });
+	 			}else{
+	 				for(var i=0;i<$scope.gridOptions.data.length;i++){
+	 					$scope.gridOptions.data[i].checkBoxSelect = false;
+	 				}
+	   	  			$scope.deleteActionSelected($scope.actionSelectedLead);
+	 			}
+	 			console.log($scope.actionSelectedLead);
+	 		}
+	 		
+	 		$scope.deleteActionSelected = function(objList){
+	 			if ((objList == $scope.actionSelectedLead)) {
+	 				$scope.actionSelectedLead = [];
+  			       	return;
+  			    };
+	 		}	
+	 		
+	 		$scope.actionSelectedLead = [];
+	 	  	$scope.actionSelectedLeadObj = "";
+	 	  	$scope.doAction = function(row,checkBoxSelect){
+	 	  		console.log(row.entity);
+	 	  		$scope.contactById = row;
+	 	  		if(checkBoxSelect == undefined || checkBoxSelect == false){
+	 	  			$scope.actionSelectedLead.push(row.entity.contactId);
+	 	  			$scope.actionSelectedLeadObj = row.entity;
+	 	  		}else{
+	 	  			$scope.deleteActionSelectedLead(row.entity);
+	 	  		}
+	 	  		console.log($scope.actionSelectedLead);
+	 	  	}
+	 	  	
+	 	  	$scope.deleteActionSelectedLead = function(row){
+	 	  		angular.forEach($scope.actionSelectedLead, function(obj, index){
+	 	  			if ((row.contactId == obj)) {
+	 	  				$scope.actionSelectedLead.splice(index, 1);
+	 			       	return;
+	 			    };
+	 			 });
+	 	  	}
+	 	  	
+	 	  	$scope.assignCanceledLead = function() {
+	        	$scope.changedUser = "";
+	        	$scope.getSalesDataValue($scope.locationId);
+	 			$("#assignUserModal").modal("show");
+	        }
+	 	  	
+	 	  	$scope.getSalesDataValue = function(locationValue){
+	 	  		apiserviceCrm.getSalesUserOnly(locationValue).then(function(data){
+	    			$scope.salesPersonPerf = data;
+	    			console.log(data);
+	    			angular.forEach($scope.salesPersonPerf, function(value, key) {
+	    				value.isSelected = false;
+	    			});
+	    		});
+	 		}
+	 		
+	 		 $scope.changeAssignedUser = function() {
+	 			apiserviceCrm.changeContactAssignedUser($scope.actionSelectedLead.toString(), $scope.changedUser).then(function(data){
+	         		$("#assignUserModal").modal("hide");
+	         		$scope.getContactsData();
+	         		$scope.actionSelectedLead = [];
+	 			});
+			}
+	 		 
+	 		
+	 		$scope.addToGroupPopUP = function() {
+	        	$scope.changedUser = "";
+	        	$scope.getGroupOfData();
+	 			$("#addGroupUserModal").modal("show");
+	        }
+	 		
+	 		$scope.getGroupOfData = function(){
+	 	  		apiserviceCrm.getGroupOfData().then(function(data){
+	    			$scope.groupData = data;
+	    			console.log(data);
+	    			angular.forEach($scope.groupData, function(value, key) {
+	    				value.isSelected = false;
+	    			});
+	    		});
+	 		}
+	 		
+	 		$scope.changeGroupData = function() {
+	 			console.log($scope.changegroup);
+	 			apiserviceCrm.saveChangeGroupData($scope.actionSelectedLead.toString(), $scope.changegroup).then(function(data){
+	         		$("#addGroupUserModal").modal("hide");
+	         		$scope.getContactsData();
+	         		$scope.actionSelectedLead = [];
+	 			});
 			}
 }]);

@@ -692,11 +692,19 @@ var MakeApp = angular
  })
  
  	.directive('myCustomModal', function() {
-  		  return {
-  		    template: '<label>{{colFilter.term}}</label><button ng-click="showAgeModal()">^</button>',
+ 		return {
+ 			template: '<label>{{colFilter.term}}</label><button ng-click="showAgeModal()">^</button>',
   		    controller: 'crmCtrl'
-  		  };
-  		})
+  		 };
+  	})
+  		
+  	.directive('myCustomModal1', function() {
+  		return {
+  			template: '<label>{{colFilter.term}}</label><button ng-click="showAssignedModal()">^</button>',
+  		    controller: 'crmCtrl'
+  		};
+  	})
+  		
  .directive('ngSec',function(){
     return {
     	link: function(scope, element, attrs, ngModelCtrl) {
