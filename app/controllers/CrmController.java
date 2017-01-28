@@ -1246,6 +1246,22 @@ public class CrmController extends Controller {
 	    			 Contacts info = Contacts.findById(Long.parseLong(arr[i]));
 	    			 	info.setGroups(group);
 					    info.update();
+					 CustomizationCrm custCRM = CustomizationCrm.findByCRMId(Long.parseLong(arr[i]));
+					 if(custCRM != null){
+						 custCRM.setValue(group.name);
+						 custCRM.update();
+						 
+					 }else{
+						 CustomizationCrm cValue = new CustomizationCrm();
+						 cValue.keyValue = "Nt_crm_group";
+						 cValue.value = group.name;
+						 cValue.crmId = Long.parseLong(arr[i]);
+						 cValue.formName = "New Contact";
+						 cValue.displayGrid = "true";
+						 cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+						 cValue.fieldId = 14800902841L;
+						 cValue.save();
+					 }
 	    		}
 	    		return ok();
 	    	}
