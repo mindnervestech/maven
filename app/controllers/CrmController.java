@@ -43,6 +43,7 @@ import viewmodel.ContactsVM;
 import viewmodel.GroupVM;
 import viewmodel.HoursOperation;
 import viewmodel.KeyValueDataVM;
+import viewmodel.OldNewContactVM;
 import viewmodel.PortalNameVM;
 import viewmodel.UserVM;
 import views.html.home;
@@ -361,13 +362,116 @@ public class CrmController extends Controller {
 		 
 		 return ok();
 	 }
+	 
+	 public static Result importContacts(){
+		 Form<OldNewContactVM> form = DynamicForm.form(OldNewContactVM.class).bindFromRequest();
+		 OldNewContactVM vm = form.get();
+		 for(ContactsVM cVm:vm.newContact){
+			 Contacts contacts = Contacts.findByEmail(cVm.email);
+			 if(contacts == null){
+				 saveContact(cVm);
+			 }else{
+				 updateContact(contacts,cVm);
+			 }
+		 }
+		 
+		 for(ContactsVM cVm:vm.oldContact){
+			 Contacts contacts = Contacts.findByEmail(cVm.email);
+			 if(contacts == null){
+				 saveContact(cVm);
+			 }else{
+				 updateContact(contacts,cVm);
+			 }
+		 }
+		 
+		 return ok();
+	 }
+	 
+	 
 	
-	 public static Result uploadContactsFile() throws Exception {
+	 private static void saveContact(ContactsVM vm) {
+		 	Contacts contacts = new Contacts();
+		    contacts.setFirstName(vm.firstName);
+		    contacts.setCompanyName(vm.companyName);
+		    contacts.setEmail(vm.email);
+		    contacts.setPhone(vm.phone);
+		    contacts.setWebsite(vm.website);
+		    contacts.setAllAddresses(vm.allAddresses);
+		   	contacts.setTitle(vm.title);
+		   /*	if(vm.assignedTo == null){
+		   		contacts.setAssignedTo(userObj.id.toString());
+		   	}else{
+		   		contacts.setAssignedTo(vm.assignedTo);
+		   	}*/
+		    contacts.setCampaignSource(vm.campaignSource);
+		    contacts.setPriority(vm.priority);
+		    GroupTable gr = null;
+		    if(vm.groups != null)
+		    	gr = GroupTable.findByName(vm.groups.name);
+		    contacts.setGroups(gr);
+		    contacts.setWorkEmail(vm.workEmail);
+		    contacts.setWorkEmail1(vm.workEmail1);
+		    contacts.setWorkPhone(vm.workPhone);
+		    contacts.setWorkPhone1(vm.workPhone1);
+		    contacts.setEmail1(vm.email1);
+		    contacts.setPhone1(vm.phone1);
+		    //contacts.userId = userObj;
+		    //contacts.setUser(userObj.id);
+		    //contacts.setLocations(userObj.location);
+		    contacts.setType("Offline");
+		    contacts.setEnthicity(vm.enthicity);
+		    contacts.setCustZipCode(vm.zip);
+		    contacts.setLastName(vm.lastName);
+		    contacts.newsLetter = 0;
+		    contacts.save();
+		
+	}
+	 
+	 private static void updateContact(Contacts contacts ,ContactsVM vm) {
+		    contacts.setFirstName(vm.firstName);
+		    contacts.setCompanyName(vm.companyName);
+		    contacts.setEmail(vm.email);
+		    contacts.setPhone(vm.phone);
+		    contacts.setWebsite(vm.website);
+		    contacts.setAllAddresses(vm.allAddresses);
+		   	contacts.setTitle(vm.title);
+		   /*	if(vm.assignedTo == null){
+		   		contacts.setAssignedTo(userObj.id.toString());
+		   	}else{
+		   		contacts.setAssignedTo(vm.assignedTo);
+		   	}*/
+		    contacts.setCampaignSource(vm.campaignSource);
+		    contacts.setPriority(vm.priority);
+		    GroupTable gr = null;
+		    if(vm.groups != null)
+		    	gr = GroupTable.findByName(vm.groups.name);
+		    contacts.setGroups(gr);
+		    contacts.setWorkEmail(vm.workEmail);
+		    contacts.setWorkEmail1(vm.workEmail1);
+		    contacts.setWorkPhone(vm.workPhone);
+		    contacts.setWorkPhone1(vm.workPhone1);
+		    contacts.setEmail1(vm.email1);
+		    contacts.setPhone1(vm.phone1);
+		    //contacts.userId = userObj;
+		    //contacts.setUser(userObj.id);
+		    //contacts.setLocations(userObj.location);
+		    contacts.setType("Offline");
+		    contacts.setEnthicity(vm.enthicity);
+		    contacts.setCustZipCode(vm.zip);
+		    contacts.setLastName(vm.lastName);
+		    
+		    contacts.update();
+		
+	}
+
+	public static Result uploadContactsFile() throws Exception {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	MultipartFormData body = request().body().asMultipartFormData();
-		    	
+		    	List<ContactsVM> cListNew = new ArrayList<>();
+		    	List<ContactsVM> cListOld = new ArrayList<>();
+		    	Map<String,Object> map = new HashMap<String,Object>();
 		    	AuthUser userObj = (AuthUser) getLocalUser();
 		    	
 		    	FilePart fileData = body.getFile("file0");
@@ -379,17 +483,20 @@ public class CrmController extends Controller {
 		    	    List<String[]> allRows = reader.readAll();
 		    	       
 		    	     for(String[] row : allRows){
-		    	    	
+		    	    	 ContactsVM contact = new ContactsVM();
+		    	    	 int flag = 0;
 			    	    	 Contacts contactObj = null;
 			    	    	 if(row.length >= 9) {
 				    	    	 if( row[8] != null && !row[8].isEmpty()) {
 				    	    		 if(!row[8].trim().equals("")) {
 				    	    			 contactObj = Contacts.findByEmail(row[8]);
 				    	    		 }
-				    	    	 }
+				    	    	 }else{
+			    	    			 flag = 1;
+			    	    		 }
 			    	    	 }
 			    	    	 if(contactObj == null) {
-				    	    	 Contacts contact = new Contacts();
+				    	    	
 				    	    	 if(row.length >= 2) {
 				    	    		 contact.type = row[1];
 				    	    	 }
@@ -466,7 +573,7 @@ public class CrmController extends Controller {
 				    	    		 contact.lastEditedDate = row[25];
 				    	    	 }
 				    	    	 if(row.length >= 27) {
-				    	    		 contact.assignedTo = row[26];
+				    	    		// contact.assignedTo = row[26];
 				    	    	 }
 				    	    	 if(row.length >= 28) {
 				    	    		 contact.campaignSource = row[27];
@@ -486,130 +593,141 @@ public class CrmController extends Controller {
 				    	    	 if(row.length >= 32) {
 				    	    		 contact.notes = row[31];
 				    	    	 }
-				    	    	 contact.newsLetter = 0;
-				    	    	 contact.save();
 				    	    	 
-				    	    	 MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L); //Long.valueOf(session("USER_LOCATION"))
+				    	    	// cList.add(contact);
+				    	    	 //contact.newsLetter = 0;
+				    	    	 //contact.save();
+				    	    	 
+				    	    	/* MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L); //Long.valueOf(session("USER_LOCATION"))
 				     			if(mSchedular != null){
 				     				if(mSchedular.schedularTime.equals("Immediately")){
 				     					MailIntegrationServices objMail = new MailIntegrationServices();
 				     	    			//obj.getLists(Long.valueOf(session("USER_LOCATION")));
 				     	    			objMail.addUser(contact.firstName, contact.lastName, contact.email);
 				     				}
-				     			}
-				    	    	 
+				     			}*/
+				    	    	 if(flag == 0){
+				    	    		 cListNew.add(contact);
+				    	    	 }
 			    	    	 } else {
 			    	    		 if(row.length >= 2) {
-			    	    			 contactObj.setType(row[1]);
+			    	    			 contact.setType(row[1]);
 			    	    		 }
 			    	    		 if(row.length >= 3) {
-			    	    			 contactObj.setSalutation(row[2]);
+			    	    			 contact.setSalutation(row[2]);
 			    	    		 }
 			    	    		 if(row.length >= 4) {
-			    	    			 contactObj.setFirstName(row[3]);
+			    	    			 contact.setFirstName(row[3]);
 			    	    		 }
 			    	    		 if(row.length >= 5) {
-			    	    			 contactObj.setMiddleName(row[4]);
+			    	    			 contact.setMiddleName(row[4]);
 			    	    		 }
 			    	    		 if(row.length >= 6) {
-			    	    			 contactObj.setLastName(row[5]);
+			    	    			 contact.setLastName(row[5]);
 			    	    		 }
 			    	    		 if(row.length >= 7) {
-			    	    			 contactObj.setSuffix(row[6]);
+			    	    			 contact.setSuffix(row[6]);
 			    	    		 }
 			    	    		 if(row.length >= 8) {
-			    	    			 contactObj.setCompanyName(row[7]);
+			    	    			 contact.setCompanyName(row[7]);
 			    	    		 }
 			    	    		 if(row.length >= 9) {
-			    	    			 contactObj.setEmail(row[8]);
+			    	    			 contact.setEmail(row[8]);
 			    	    		 }
 			    	    		 if(row.length >= 10) {
-			    	    			 contactObj.setPhone(row[9]);
+			    	    			 contact.setPhone(row[9]);
 			    	    		 }
 			    	    		 if(row.length >= 11) {
-			    	    			 contactObj.setStreet(row[10]);
+			    	    			 contact.setStreet(row[10]);
 			    	    		 }
 			    	    		 if(row.length >= 12) {
-			    	    			 contactObj.setCity(row[11]);
+			    	    			 contact.setCity(row[11]);
 			    	    		 }
 			    	    		 if(row.length >= 13) {
-			    	    			 contactObj.setState(row[12]);
+			    	    			 contact.setState(row[12]);
 			    	    		 }
 			    	    		 if(row.length >= 14) {
-			    	    			 contactObj.setZip(row[13]);
+			    	    			 contact.setZip(row[13]);
 			    	    		 }
 			    	    		 if(row.length >= 15) {
-			    	    			 contactObj.setCountry(row[14]);
+			    	    			 contact.setCountry(row[14]);
 			    	    		 }
 			    	    		 if(row.length >= 16) {
-			    	    			 contactObj.setAllEmail(row[15]);
+			    	    			 contact.setAllEmail(row[15]);
 			    	    		 }
 			    	    		 if(row.length >= 17) {
-			    	    			 contactObj.setAllPhone(row[16]);
+			    	    			 contact.setAllPhone(row[16]);
 			    	    		 }
 			    	    		 if(row.length >= 18) {
-			    	    			 contactObj.setWebsite(row[17]);
+			    	    			 contact.setWebsite(row[17]);
 			    	    		 }
 			    	    		 if(row.length >= 19) {
-			    	    			 contactObj.setAllAddresses(row[18]);
+			    	    			 contact.setAllAddresses(row[18]);
 			    	    		 }
 			    	    		 if(row.length >= 20) {
-			    	    			 contactObj.setTitle(row[19]);
+			    	    			 contact.setTitle(row[19]);
 			    	    		 }
 			    	    		 if(row.length >= 21) {
-			    	    			 contactObj.setBirthday(row[20]);
+			    	    			 contact.setBirthday(row[20]);
 			    	    		 }
 			    	    		 if(row.length >= 22) {
-			    	    			 contactObj.setBackgroundInfo(row[21]);
+			    	    			 contact.setBackgroundInfo(row[21]);
 			    	    		 }
 			    	    		 if(row.length >= 23) {
-			    	    			 contactObj.setIndustry(row[22]);
+			    	    			 contact.setIndustry(row[22]);
 			    	    		 }
 			    	    		 if(row.length >= 24) {
-			    	    			 contactObj.setNumberOfEmployees(row[23]);
+			    	    			 contact.setNumberOfEmployees(row[23]);
 			    	    		 }
 			    	    		 if(row.length >= 25) {
-			    	    			 contactObj.setCreationDate(row[24]);
+			    	    			 contact.setCreationDate(row[24]);
 			    	    		 }
 			    	    		 if(row.length >= 26) {
-			    	    			 contactObj.setLastEditedDate(row[25]);
+			    	    			 contact.setLastEditedDate(row[25]);
 			    	    		 }
 			    	    		 if(row.length >= 27) {
-			    	    			 contactObj.setAssignedTo(row[26]);
+			    	    			// contactObj.setAssignedTo(row[26]);
 			    	    		 }
 			    	    		 if(row.length >= 28) {
-			    	    			 contactObj.setCampaignSource(row[27]);
+			    	    			 contact.setCampaignSource(row[27]);
 			    	    		 }
 			    	    		 if(row.length >= 29) {
-			    	    			 contactObj.setPriority(row[28]);
+			    	    			 contact.setPriority(row[28]);
 			    	    		 }
 			    	    		 if(row.length >= 30) {
 			    	    			 GroupTable gr = null;
 			    	    			 if(row[29] != null)
 			    	    				 gr = GroupTable.findByName(row[29]);
-			    	    			 contactObj.setGroups(gr);
+			    	    			 contact.setGroups(gr);
 			    	    		 }
 			    	    		 if(row.length >= 31) {
-			    	    			 contactObj.setRelationships(row[30]);
+			    	    			 contact.setRelationships(row[30]);
 			    	    		 }
 			    	    		 if(row.length >= 32) {
-			    	    			 contactObj.setNotes(row[31]);
+			    	    			 contact.setNotes(row[31]);
 			    	    		 }
-				    	    	 contactObj.update();
+			    	    		 if(flag == 0){
+				    	    		 cListOld.add(contact);
+				    	    	 }
+			    	    		// cList.add(contact);
+				    	    	 //contactObj.update();
 				    	    	 
-				    	    	 MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L); //Long.valueOf(session("USER_LOCATION"))
+				    	    	/* MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L); //Long.valueOf(session("USER_LOCATION"))
 					     			if(mSchedular != null){
 					     				if(mSchedular.schedularTime.equals("Immediately")){
 					     					MailIntegrationServices objMail = new MailIntegrationServices();
 					     	    			//obj.getLists(Long.valueOf(session("USER_LOCATION")));
 					     	    			objMail.addUser(contactObj.firstName, contactObj.lastName, contactObj.email);
 					     				}
-					     			}
+					     			}*/
 			    	    	 }
-		    	    	 
+			    	    	 
+			    	    	 
 		    	     }
 		    	  } 
-		    	return ok();
+		    	  map.put("newContact", cListNew);
+		    	  map.put("oldContact", cListOld);
+		    	  return ok(Json.toJson(map));
 	    	}	
 	    }
 	 

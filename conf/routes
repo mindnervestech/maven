@@ -541,6 +541,7 @@ GET     /getMailDaysUserStats/:value/:lasttime/:mailType		controllers.ClickyAnal
 GET     /getAllMailDaysUserStats/:lasttime/:mailType		controllers.ClickyAnalyticsController.getAllMailDaysUserStats(lasttime:String,mailType:String)
 GET    /getAllVehicleSession/:lasttime			controllers.ClickyAnalyticsController.getAllVehicleSession(lasttime:String)
 POST	/uploadContactsFile				controllers.CrmController.uploadContactsFile()
+POST    /importContacts 				controllers.CrmController.importContacts()
 GET		/getAllContactsData				controllers.CrmController.getAllContactsData()
 GET		/getAllMeetingData				controllers.Application.getAllMeetingData()
 GET		/getAllGroupList				controllers.CrmController.getAllGroupList()

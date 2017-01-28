@@ -14,10 +14,13 @@
     		<div ng-if="userRole != 'General Manager'">
 	    		<form class="row" style="margin-left:20%;" ng-submit="saveContactsFile()">
 	    		<a ng-sec="Manage Groups" class="btn btn-primary"  ng-click="addGroupPopUp()">Groups</a>
-					<input type="file" name="contactsFile" accept=".csv" ng-file-select="onCsvFileSelect($files)" style="float:left;" required><button type="submit" class="btn btn-primary">Import Contacts</button>
+					<!-- <input type="file" name="contactsFile"  id="fileUpd" accept=".csv" ng-file-select="onCsvFileSelect($files)" style="float:left;" required><button type="submit" class="btn btn-primary">Import Contacts</button> -->
+					<input type="file" accept=".csv" ng-file-select="onCsvFileSelect($files)" id="imgupload" style="display:none;">
+<a href="#" class="btn btn-primary" onclick="$('#imgupload').trigger('click'); return false;">Import Contacts</a>
 					<label ng-show="showProgress" style="float:left;">Progress : {{progress}}</label>
 					<a class="btn btn-primary"  ng-click="exportCsvPop()">Export CSV</a>
 					<a class="btn btn-primary" ng-click="createContact()">Create Contact</a>
+					
 					<!-- <a class="btn btn-primary"  ng-click="deleteAllContactPop()">Remove All</a> -->
 					<!-- <a class="btn btn-primary" ng-click="callListMailChim()" style="padding-left: 2px;;padding-top: 3px;"><img src="/assets/images/mailChi.jpg" style="width: 30px;">Import from Mailchimp</a> -->
 				</form>
@@ -414,64 +417,28 @@
                 </div>
             </div>
         </div>
+    </div>    
+   <div class="modal fade" id="NewOldContact" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" style="width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Show Import contacts</strong></h4>
+                </div>
+                <div class="modal-body">
+                	<a class="btn btn-primary" ng-click="showContactType('new')">New Contact</a>
+                	<a class="btn btn-primary" ng-click="showContactType('old')">Old Contact</a>
+                   <div ui-grid="gridOptions1" style="height:500px;" ui-grid-edit ui-grid-pagination>
+					</div>
+					<a class="btn btn-primary" ng-click="ImportAllValue()">Import All</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                    <!-- <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="removeAllContactsData()">Yes</button> -->
+                </div>
+            </div>
+        </div>
     </div>      
-   
-    							<div class="modal fade" id="assignUserModal" tabindex="-1" role="dialog" aria-hidden="true">
-								        <div class="modal-dialog">
-								            <div class="modal-content">
-								                <div class="modal-header">
-								                    <button type="button" class="close" data-dismiss="modal" id="closeChangeUser" aria-hidden="true"><i class="icons-office-52"></i></button>
-								                    <h4 class="modal-title">Assign Sales Representative</h4>
-								                </div>
-								                <form ng-submit="changeAssignedUser()">
-								                <div class="modal-body">
-								                    <div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">User</label>
-														<div class="col-sm-6">
-															<select  class="form-control form-white" ng-model="changedUser" required>
-														    	<option value="">Select user</option>
-											                     <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.fullName}}</option>
-											                </select>
-														</div>
-													</div>
-								                </div>
-								                <div class="modal-footer">
-								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
-								                    <button type="submit" class="btn btn-primary btn-embossed">Yes</button>
-								                </div>
-								                </form>
-								            </div>
-								        </div>
-								    </div>
-								    
-								    
-								    <div class="modal fade" id="addGroupUserModal" tabindex="-1" role="dialog" aria-hidden="true">
-								        <div class="modal-dialog">
-								            <div class="modal-content">
-								                <div class="modal-header">
-								                    <button type="button" class="close" data-dismiss="modal" id="closeChangeGroup" aria-hidden="true"><i class="icons-office-52"></i></button>
-								                    <h4 class="modal-title">Assign Group</h4>
-								                </div>
-								                <form ng-submit="changeGroupData()">
-								                <div class="modal-body">
-								                    <div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">Groups</label>
-														<div class="col-sm-6">
-															<select  class="form-control form-white" ng-model="changegroup" required>
-														    	<option value="">Select Group</option>
-											                     <option ng-repeat="item in groupData" value="{{item.id}}">{{item.name}}</option>
-											                </select>
-														</div>
-													</div>
-								                </div>
-								                <div class="modal-footer">
-								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
-								                    <button type="submit" class="btn btn-primary btn-embossed">Yes</button>
-								                </div>
-								                </form>
-								            </div>
-								        </div>
-								    </div>
    
 <style>
 	.modal-dialog{

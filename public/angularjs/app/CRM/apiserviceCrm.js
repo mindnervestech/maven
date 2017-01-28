@@ -82,6 +82,22 @@ angular.module('app.apiserviceCrm', [])
 		return defer.promise;
 	};
 	
+	this.importContacts=function(oldNewContact){
+		var defer = $q.defer();
+		$http.post('/importContacts',oldNewContact).success(function(data) {
+			
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Import successfully",
+				});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
+	
 	this.updateGroup=function(group){
 		var defer = $q.defer();
 		$http.post('/updateGroup',group).success(function(data) {
