@@ -673,6 +673,7 @@ angular.module('newApp')
 	    			$scope.contactsDetails.customData = $scope.customList;
 	    			 apiserviceCrm.updateContactsData($scope.contactsDetails).then(function(data){
 	    				 $('#contactsModal').modal('hide');
+	    				 $scope.getContactsData();
 	    			 });
      	  		});
 			
