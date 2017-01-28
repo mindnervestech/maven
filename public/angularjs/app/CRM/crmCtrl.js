@@ -17,8 +17,8 @@ angular.module('newApp')
     		 $scope.gridOptions1.enableVerticalScrollbar = 2;
     		 $scope.gridOptions1.columnDefs = [
 												 { name: 'isSelect', displayName: '#', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-													headerCellTemplate:	'<label style="margin-top: 5px; margin-left: 8px;">#</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 5px; margin-left: 8px;" type=\"checkbox\"  ng-model=\"checked\"  ng-change="grid.appScope.selectAllCheck(checked)" autocomplete="off">',
-													cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doAction(row,row.entity.checkBoxSelect)" autocomplete="off">',
+													headerCellTemplate:	'<label style="margin-top: 5px; margin-left: 8px;">#</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 5px; margin-left: 8px;" type=\"checkbox\"  ng-model=\"checked\"  ng-change="grid.appScope.selectAllCheckOldNew(checked)" autocomplete="off">',
+													cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doActionOldNew(row,row.entity.checkBoxSelect)" autocomplete="off">',
 												 }, 
     	   		                                 { name: 'type', displayName: 'Type',enableFiltering: false, width:'14%',
     	   		                                 },
@@ -179,6 +179,34 @@ angular.module('newApp')
    		    $compile($elm)($scope);
    		    
    		  }
+   		
+		$scope.selectedCrm = [];
+ 		$scope.selectedCrmObj = "";
+ 		$scope.selectAllCheckOldNew = function(checked){
+ 			if(checked){
+ 				for(var i=0;i<$scope.gridOptions1.data.length;i++){
+ 					$scope.gridOptions1.data[i].checkBoxSelect = true;
+ 				}//checked = checked
+ 				angular.forEach($scope.gridOptions1.data, function(obj, index){
+ 					$scope.selectedCrm.push(obj.email);
+       	  			$scope.selectedCrmObj = obj;
+ 	   			 });
+ 			}else{
+ 				for(var i=0;i<$scope.gridOptions1.data.length;i++){
+ 					$scope.gridOptions1.data[i].checkBoxSelect = false;
+ 				}
+   	  			$scope.deleteCrmSelected($scope.selectedCrm);
+ 				
+ 			}
+ 			console.log($scope.selectedCrm);
+ 		}
+ 		
+ 		$scope.deleteCrmSelected = function(objList){
+   				 if ((objList == $scope.selectedCrm)) {
+   					 $scope.selectedCrm = [];
+   			       	return;
+   			    };
+   	  	}	
    		
    		$scope.close = function() {
    		    var ages = $scope.gridApi.selection.getSelectedRows();
@@ -501,12 +529,19 @@ angular.module('newApp')
    		var logofile;
 		$scope.onCsvFileSelect = function($files) {
 			logofile = $files;
+			$scope.saveContactsFile();
 		}
 	   $scope.progress;
 	   $scope.showProgress = false;
+	   $scope.oldNewContact = {};
 	   $scope.saveContactsFile = function() {
 		   apiserviceCrm.uploadContactsFile(logofile).then(function(data){
-			   $scope.getContactsData();
+			  console.log(data);
+			  $scope.oldNewContact = data;
+			  $scope.gridOptions1.data = data.newContact;
+			  console.log($scope.gridOptions1.data);
+			  $('#NewOldContact').modal('show');
+			   // $scope.getContactsData();
 		   });
 	   }
 	   
@@ -1192,4 +1227,26 @@ angular.module('newApp')
 	         		$scope.actionSelectedLead = [];
 	 			});
 			}
+	 		
+	 		$scope.showContactType = function(type){
+	   			console.log("ssssss");
+	   			$scope.checked = false;
+	   			$scope.selectedCrm = [];
+	   			for(var i=0;i<$scope.gridOptions1.data.length;i++){
+ 					$scope.gridOptions1.data[i].checkBoxSelect = false;
+ 				}
+	   			if(type == "new"){
+	   				$scope.gridOptions1.data = $scope.oldNewContact.newContact;
+	   			}else if(type == "old"){
+	   				$scope.gridOptions1.data = $scope.oldNewContact.oldContact;
+	   			}
+	   		}
+	   		
+	 $scope.ImportAllValue = function(){
+		 console.log($scope.oldNewContact);
+		 apiserviceCrm.importContacts($scope.oldNewContact).then(function(data){
+			  $('#NewOldContact').modal('hide');
+			  $scope.getContactsData();
+		   });
+	 }  		
 }]);
