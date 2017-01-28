@@ -1,10 +1,14 @@
 angular.module('newApp')
-.controller('otherLeadCtrl', ['$scope','$http','$location','$filter','$interval','$routeParams','apiserviceMoreInfo', function ($scope,$http,$location,$filter,$interval,$routeParams,apiserviceMoreInfo) {
+.controller('otherLeadCtrl', ['$scope','$http','$location','$filter','$interval','$routeParams','apiserviceMoreInfo','$q','$rootScope', function ($scope,$http,$location,$filter,$interval,$routeParams,apiserviceMoreInfo,$q,$rootScope) {
 	
 	$scope.leadId = $routeParams.leadId;
-	$scope.checked = [];
+	$scope.userList = [];
 	$scope.leadList = [];
+	$scope.cancelFlag = 0;
 	$scope.actionSelectedLead = [];
+	$scope.scheduLeadId = [];
+	$scope.customData = {};
+	$scope.userFields = [];
 	console.log(userKey);
 	apiserviceMoreInfo.getSelectedLeadType().then(function(response){
 	
@@ -342,6 +346,472 @@ angular.module('newApp')
  			});
          	
          }
+ 		 
+ 		 
+ 		$scope.cancelScheduleStatus = function() {
+    		var flag = 0;
+    		angular.forEach($scope.actionSelectedLead, function(obj, index){
+		  	  	angular.forEach($scope.gridOptions.data, function(obj1, index1){
+		  	  		if(flag == 0){
+		  	  			if(obj == obj1.id){
+		  	  				flag = 1;
+		  	  				$scope.leadDetId = [];
+			    				 $scope.closeleadObj = obj1;
+			    				 $scope.scheduLeadId.push(obj1);
+			    				 $scope.leadDetId.push(obj1.id);
+			    				 $scope.closeFlg = 0;
+			    				/* $scope.rowData.name = obj1.name;
+			    				 $scope.rowData.bestDay = obj1.bestDay;
+			    				 $scope.rowData.bestTime = obj1.bestTime;
+			    				 if($scope.rowData.bestDay != null && $scope.rowData.bestTime != null){
+			    	        			$scope.notiCanFlag = 1;
+			    				 }
+			    				 else{
+			    					 $scope.notiCanFlag = 0;
+			    				 }*/
+		  	  			}
+		  	  		}
+		  	  		
+			   });
+			   
+		   });
+    		if($scope.actionSelectedLead.length > 1){
+    			$scope.cancelFlag = 1;
+    			
+    		}else{
+    			$scope.cancelFlag = 2;
+    		}
+    		$scope.showFomeD("Canceling lead");
+    		$scope.getFormDesign("My Leads - Canceling lead").then(function(response){
+    			console.log($scope.userList);
+    			$scope.userFields = $scope.addFormField($scope.userList);
+    		});
+    		console.log($scope.userFields);
+    		$scope.reasonToCancel = "";
+    		$("#scheduleCancelModal").modal("show");
+    	}
+ 		
+ 		  $scope.showFomeD = function(type){
+   	  		  if(type == "createLead"){
+   	  			 $scope.addAddress = true;
+    			 $scope.editAddress = false;
+    			 $scope.historyAddressBar = false;
+    			 $scope.cancellingAddress = false;
+    			 $scope.scheduleAddress = false;
+    			 $scope.appointmentFlag = false;
+    			 $scope.createContactFlag = false;
+   	  		  }else if(type == "Canceling lead"){
+   	  		     $scope.addAddress = false;
+				 $scope.editAddress = false;
+				 $scope.historyAddressBar = false;
+				 $scope.cancellingAddress = true;
+				 $scope.scheduleAddress = false;
+				 $scope.appointmentFlag = false;
+				 $scope.createContactFlag = false;
+   	  		  }else if(type == "Create Contact"){
+   	  			 $scope.addAddress = false;
+   				 $scope.editAddress = false;
+   				 $scope.historyAddressBar = false;
+   				 $scope.cancellingAddress = false;
+   				 $scope.scheduleAddress = false;
+   				 $scope.appointmentFlag = false;
+   				 $scope.createContactFlag = true;
+      	  		  }
+   	  		
+   	  	  }  
+ 		
+ 		$scope.getFormDesign = function(formType){
+			var deferred = $q.defer();
+			
+			apiserviceMoreInfo.getCustomizationform(formType).then(function(response){
+    			console.log(angular.fromJson(response.jsonData));
+				$scope.userList = [];
+				angular.forEach(angular.fromJson(response.jsonData), function(obj, index){
+					$scope.userList.push(obj);
+					if(obj.component == "daterange"){
+						obj.label = "Start Date";
+						var objlist = angular.copy(obj);
+						objlist.key = objlist.key+"_endDate";
+						objlist.label = "End Date";
+						$scope.userList.push(objlist);
+					}
+				});
+				 $scope.editInput = response;
+				 console.log($scope.userList);
+				 deferred.resolve(response);
+		   });
+			
+			return deferred.promise;
+		}
+ 		 
+ 		$scope.allCanFlag = 0;
+    	$scope.cancelAllLead = function(value){
+    		if(value == undefined || value == false){
+    			$scope.allCanFlag = 1;
+    			$scope.leadDetId = $scope.actionSelectedLead;
+    		}else{
+    			$scope.allCanFlag = 0;
+    			$scope.leadDetId = [];
+    		}
+    	}
+    	$scope.cancelAllLeadSchedule = function(value){
+    		if(value == undefined || value == false){
+    			$scope.allCanFlag = 1;
+    			$scope.leadDetId = $scope.actionSelectedLead;
+    		}else{
+    			$scope.allCanFlag = 0;
+    			$scope.leadDetId = [];
+    		}
+    	}
+    	
+    	$scope.cancelSure = function(reasonToCancel){
+    		$("#scheduleCancelModal").modal("hide");
+    			$scope.saveScheduleClose(reasonToCancel);
+    		
+    	}
+ 		 
+    	$scope.saveScheduleClose = function(reasonToCancel) {
+    		$scope.multiSelectBindWithCustomData();
+    		$scope.closeleadObj = {};
+    		$scope.closeFlg++;
+    				$scope.josnData = null;
+    				apiserviceMoreInfo.getCustomizationform('My Leads - Canceling lead').then(function(response){
+    					$scope.josnData = angular.fromJson(response.jsonData);
+    					angular.forEach($scope.josnData, function(obj, index){
+    						obj.formName = "My Leads - Canceling lead";
+    	    			});
+    					if(response.additionalData == true){
+    						angular.forEach(angular.fromJson(response.jsonDataAdd), function(obj, index){
+        						obj.formName = "My Leads - Canceling lead";
+        						$scope.josnData.push(obj);
+       	    				});
+    					}
+    					var oneProduct = 0;
+    					
+    					$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
+    						$scope.customList = response;
+    					});
+    					
+    					
+        			if($scope.leadDetId.length != 0){
+        				$scope.closeleadObj.actionSelectedLead = $scope.leadDetId;
+        			}else{
+        				$scope.closeleadObj.actionSelectedLead = $scope.actionSelectedLead;
+        			}
+    	    		$scope.closeleadObj.reasonToCancel = reasonToCancel;
+    	    		$scope.closeleadObj.customData = $scope.customList;
+    	    		console.log($scope.closeleadObj);
+    	    		$scope.reasonFlag = 0;
+    					if($scope.closeleadObj.reasonToCancel != ""){
+    						$scope.reasonFlag = 0;
+    						apiserviceMoreInfo.setScheduleStatusClose($scope.closeleadObj).then(function(data){
+    							
+    							if($scope.closeleadObj.actionSelectedLead.length == 1){
+    								$.pnotify({
+    		    					    title: "Success",
+    		    					    type:'success',
+    		    					    text: $scope.closeleadObj.actionSelectedLead.length+ " lead has been deleted",
+    		    					});
+    							}else{
+    								$.pnotify({
+    		    					    title: "Success",
+    		    					    type:'success',
+    		    					    text: $scope.closeleadObj.actionSelectedLead.length+ " leads have been deleted",
+    		    					});
+    							}
+    		    	    		 
+    							$scope.getAllRequestInfo();
+    		    	    		/* $scope.schedulmultidatepicker();
+    		    	    		 $scope.proceedToNext();
+    		    	    		 $scope.getAllSalesPersonRecord($scope.salesPerson);*/
+    		    	    		  $scope.reasonToCancel = "";
+    		    				});
+    						console.log($scope.scheduLeadId.length);
+    						console.log($scope.closeFlg);
+    						console.log($scope.actionSelectedLead.length);
+    		    	    	  	if($scope.actionSelectedLead.length == $scope.closeFlg){
+    		    	    	  		$scope.actionSelectedLead = [];
+    		    	    	  		$("#scheduleCancelModal").modal("hide");
+    		  						//$route.reload();
+    		    	    	  }
+    					}else{
+    						$scope.reasonFlag = 1;
+    					}
+    	    	
+      	  		});
+    			
+    				
+    		
+    	}
+    	
+    	
+    	$scope.getCreateCustomList = function(customeDataList , josnData){
+			 var deferred = $q.defer();
+			 var addrs = 0;
+			 var fileFlag = 0;
+			 var timeRangs = 0;
+			 $scope.dateFlag = 0
+			$scope.customList = [];
+			 console.log(customeDataList);
+			$.each(customeDataList, function(attr, value) {
+				angular.forEach(josnData, function(value1, key) {
+					
+					if(addrs == 0){
+						if(value1.component == "autocompleteText"){
+							addrs = 1;
+							$scope.customList.push({
+								fieldId:value1.fieldId,
+	    		   	  			key:value1.key,
+	    		   	  			value:customeDataList.autocompleteText,
+	    		   	  			savecrm:value1.savecrm,
+	    		   	  			displayGrid:value1.displayGrid,
+	    		   	  		    displayWebsite:value1.displayWebsite,
+	    		   	  		    component:value1.component,
+	    		   	  			formName:value1.formName,
+	    					});
+						}
+					}
+					if(timeRangs == 0){
+						
+						if(value1.component == "timerange"){
+							timeRangs = 1;
+							$scope.customList.push({
+								fieldId:value1.fieldId,
+	    		   	  			key:value1.key,
+	    		   	  			value:customeDataList.time_range,
+	    		   	  			savecrm:value1.savecrm,
+	    		   	  			displayGrid:value1.displayGrid,
+	    		   	  		    displayWebsite:value1.displayWebsite,
+	    		   	  		    component:value1.component,
+	    		   	  			formName:value1.formName,
+	    					});
+						}
+					}
+					
+					if(fileFlag == 0){
+						if(value1.component == "fileuploaders"){
+							if($rootScope.fileCustom != undefined){
+			    				 $scope.fileFlag = 1;
+								$scope.customList.push({
+   								fieldId:value1.fieldId,
+		    		   	  			key:value1.key,
+		    		   	  			value:$rootScope.fileCustom[0].name,
+		    		   	  			savecrm:value1.savecrm,
+		    		   	  			displayGrid:value1.displayGrid,
+		    		   	  		    displayWebsite:value1.displayWebsite,
+		    		   	  		    component:value1.component,
+		    		   	  			formName:value1.formName,
+		    					});
+			    			}
+						}
+					}
+					
+					
+					if(value1.key == attr){
+						
+						if(value1.component == "multipleselect"){
+							value = value.toString();
+						}
+						
+						$scope.customList.push({
+							fieldId:value1.fieldId,
+   		   	  			key:attr,
+   		   	  			value:value,
+   		   	  			savecrm:value1.savecrm,
+   		   	  			displayGrid:value1.displayGrid,
+   		   	  		    displayWebsite:value1.displayWebsite,
+   		   	  		    component:value1.component,
+   		   	  			formName:value1.formName,
+   					});
+						if(value1.component == "productType"){
+							$scope.customList.push({
+								fieldId:value1.fieldId,
+	    		   	  			key:attr+'_subCollection',
+	    		   	  			value:$rootScope.subColl,
+	    		   	  			savecrm:value1.savecrm,
+	    		   	  			displayGrid:value1.displayGrid,
+	    		   	  		    displayWebsite:value1.displayWebsite,
+	    		   	  		    component:value1.component,
+	    		   	  			formName:value1.formName,
+	    					});
+						}
+						
+						if(value1.component == "daterange"){
+							
+							$.each(customeDataList, function(attr1, value3) {
+								if(value1.key+"_endDate" == attr1){
+									
+									if(new Date(value) >= new Date(value3)){
+										$scope.dateFlag = 1;
+									}else{
+										$scope.dateFlag = 0;
+									}
+									
+									$scope.customList.push({
+	    								fieldId:value1.fieldId,
+			    		   	  			key:attr1,
+			    		   	  			value:value3,
+			    		   	  			savecrm:value1.savecrm,
+			    		   	  			displayGrid:value1.displayGrid,
+			    		   	  		    displayWebsite:value1.displayWebsite,
+			    		   	  		    component:value1.component,
+			    		   	  			formName:value1.formName,
+			    					});
+								}
+							});
+						}
+
+						
+						var arr = [];
+						var arr = attr.split('_');
+						if(value1.component == "emailSelect"){
+							
+							$scope.customList.push({
+								fieldId:value1.fieldId,
+	    		   	  			key: arr[0]+"_emailType",
+	    		   	  			value:$rootScope.selectEmailType,
+	    		   	  			savecrm:value1.savecrm,
+	    		   	  			displayGrid:value1.displayGrid,
+	    		   	  		    displayWebsite:value1.displayWebsite,
+	    		   	  		    component:value1.component,
+	    		   	  			formName:value1.formName,
+	    					});
+						}
+						
+						if(value1.component == "phoneSelect"){
+							$scope.customList.push({
+								fieldId:value1.fieldId,
+	    		   	  			key:arr[0]+"_phoneType",
+	    		   	  			value:$rootScope.selectPhoneType,
+	    		   	  			savecrm:value1.savecrm,
+	    		   	  			displayGrid:value1.displayGrid,
+	    		   	  		    displayWebsite:value1.displayWebsite,
+	    		   	  		    component:value1.component,
+	    		   	  			formName:value1.formName,
+	    					});
+						}
+					} 
+				});
+			   });
+				    			
+			deferred.resolve($scope.customList);
+			
+			return deferred.promise;
+		}
+    	
+    	$scope.multiSelectBindWithCustomData = function(){
+			if($rootScope.rObj != undefined){
+				$.each($rootScope.rObj, function(attr, value) {
+    				$scope.customData[attr] = value;
+    			});
+			}
+			if($rootScope.productArrayList != undefined){
+				$scope.customData["productList"] = $rootScope.productArrayList.toString();
+			}
+			
+			if($rootScope.subColl != undefined){
+    				$scope.customData["subCollection"] = $rootScope.subColl;
+			}
+		}
+    	
+    	apiserviceMoreInfo.getUsers().then(function(data){
+			  $scope.allUser = data;
+			 });
+    	
+    	$scope.createContact = function(entity) {
+			  $scope.contactsDetails = {};
+			  $scope.contactsDetails.workEmail = "Work";
+			   $scope.contactsDetails.workEmail1 = "Work";
+			   $scope.contactsDetails.workPhone = "Work";
+			   $scope.contactsDetails.workPhone1 = "Work";
+			  $scope.contactMsg = "";
+			  $scope.contactsDetails.firstName = entity.name;
+			  $scope.contactsDetails.email = entity.email;
+			  $scope.contactsDetails.phone = entity.phone;
+			  
+			  $scope.formField = [];
+			   $scope.getFormDesign('Create New Lead').then(function(success){
+				   $scope.formField = $scope.userList;
+				   $scope.getFormDesign('New Contact').then(function(success){
+					   angular.forEach($scope.userList, function(value, key) {
+						   $scope.formField.push(value);
+					   });
+					   $scope.userFields = $scope.addFormField($scope.formField);
+						 $scope.userFieldsCopy = angular.copy($scope.userFields);
+				   });
+			   });
+			   $scope.showFomeD("Create Contact");
+			  $('#createcontactsModal').modal();
+		  }
+    	
+    	$scope.saveContact = function() {
+			   $scope.customList =[];
+			   $scope.multiSelectBindWithCustomData();
+	   		   $scope.customList =[];
+	   		   $scope.customData.time_range = $("#bestTimes").val();
+	   		   if($scope.customData.time_range == undefined){
+	   			   delete $scope.customData.time_range;
+	   		   }
+	   		   $scope.customData.custName = $('#exCustoms_value').val();
+	   		   if($scope.customData.custName == undefined){
+	   			   delete $scope.customData.custName;
+	   		   }
+	   		   $scope.customData.autocompleteText = $("#autocomplete").val();
+	   		   if($scope.customData.autocompleteText == undefined){
+	   			   delete $scope.customData.autocompleteText;
+	   		   }
+	   		apiserviceMoreInfo.getCustomizationform('Create New Lead').then(function(response){
+	   			   $scope.josnData = angular.fromJson(response.jsonData);
+	   			   angular.forEach($scope.josnData, function(obj, index){
+	   			   obj.formName = "Create New Lead";
+	    		});
+	    				
+	    		$scope.josnData1 = null;
+	    		apiserviceMoreInfo.getCustomizationform('New Contact').then(function(response1){
+	    			$scope.josnData1 = angular.fromJson(response1.jsonData);
+	    			angular.forEach($scope.josnData1, function(obj, index){
+	    				obj.formName = 'New Contact';
+	    				$scope.josnData.push(obj);
+	   	    		});
+	    			if(response1.additionalData == true){
+	    				angular.forEach(angular.fromJson(response1.jsonDataAdd), function(obj, index){
+	    					obj.formName = $scope.selectedLead;
+	    					$scope.josnData.push(obj);
+	    				});
+	    			}
+	    			var oneProduct = 0;
+	    			$.each($scope.customData, function(attr, value) {
+	    				angular.forEach($scope.josnData, function(value1, key) {
+	    					if(value1.key == attr){
+	    						if(value1.component == "leadTypeSelector"){
+	    							$scope.contactsDetails.leadType = value;
+	    						}
+	    						if(value1.component == "productType"){
+	    							if(oneProduct == 0){
+	    								$scope.contactsDetails.manufacturers = value;
+	    								oneProduct++;
+	    							}
+	    						}
+	    					}
+	    				});
+	    			});
+	    			$scope.getCreateCustomList($scope.customData,$scope.josnData).then(function(response){
+	    				$scope.customList = response;
+	    			});
+	    			$scope.contactsDetails.customData = $scope.customList;
+	    			apiserviceMoreInfo.saveContactsData($scope.contactsDetails).then(function(data){
+	    					$scope.actionSelectedLead = [];
+	    						if(data == "") {
+	    							
+	    							$('#createcontactsModal').modal('hide');
+	    						}else {
+	    							$scope.contactMsg = data;
+	    						}
+	    				});
+	    			});
+				});
+		   }
+    	
 	$scope.testDrive = function() {
 		$location.path('/scheduleTest');
 	}  

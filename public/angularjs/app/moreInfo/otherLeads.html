@@ -21,8 +21,8 @@
 	         <ul style="margin-top:4px;" ng-if="actionSelectedLead.length >= 1">
 				         		<button class="btn btn-primary" style="height: 30px;font-size: 11px;" ng-click="setAsRead()">CLAIM</button>
 				         		<button class="btn btn-primary" ng-click="assignCanceledLead()" style="height: 30px;font-size: 11px;">ASSIGN</button>
-				         		<!-- <button class="btn btn-primary" ng-click="createContact(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">ADD TO CRM</button>
-				         		<button class="btn btn-primary" ng-click="cancelScheduleStatus()" style="height: 30px;font-size: 11px;">DELETE</button> -->
+				         		<button class="btn btn-primary" ng-click="createContact(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">ADD TO CRM</button> 
+				         		<button class="btn btn-primary" ng-click="cancelScheduleStatus()" style="height: 30px;font-size: 11px;">DELETE</button> 
 				         		
 			</ul>
 			<div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
@@ -76,6 +76,114 @@
 								            </div>
 								        </div>
 								    </div>
+								    
+			<div class="modal fade" id="scheduleCancelModal" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content" style="width: 800px;">
+								                <div class="modal-header">
+								                    <button type="button" class="close" id="scheduleCancelBtn" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">CANCEL LEAD</h4>
+								                </div>
+								                <form ng-submit="cancelSure(reasonToCancel)">
+								                <div class="modal-body">
+								                <div class="col-md-12">
+								                	<div class="col-md-2">
+								                		<label>Reason</label><span style="color: red;">*</span>
+								                	</div>
+								                	<div class="col-md-6">
+								                		<input class="form-control form-white" ng-model="reasonToCancel" type="text" required>
+								                	</div>
+								                	<label ng-if="reasonFlag == 1" style="color:red;">Reason field should be mandatory</label>
+								                	<label ng-if="notiCanFlag == 1" style="color:black;">{{rowData.name}} has an appointment scheduled on {{rowData.bestDay}} at {{rowData.bestTime}}. Canceling the lead will
+															also remove an appointment. Do you want to proceed?</label>
+								                </div>
+								                <div class="col-md-12" ng-if="cancelFlag == 1">
+								                 	<input style="margin-left: 15px;margin-top: 25px;" type="checkbox" name="selectAll"  ng-click="cancelAllLead(selectAll)"
+				 						   				ng-model="selectAll">					
+   					 									Apply this decision to all selected leads
+   					 							</div>
+													 <div ng-if="cancellingAddress" class="col-md-12" style="margin-top: 32px;">
+								                				<formly-form model="customData" fields="userFields">
+  																</formly-form>
+								                    	</div>
+								                </div>
+								                <div class="modal-footer">
+								                	<button ng-if="cancelFlag == 1 && allCanFlag != 1" type="button" class="btn btn-primary btn-embossed" ng-click="saveScheduleClose()">Proceed to the next lead</button>
+								                	<button ng-if="cancelFlag == 2 || allCanFlag == 1" type="submit" class="btn btn-primary">Proceed</button>
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div>			
+								    
+		<div class="modal fade" id="createcontactsModal" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog" style="width: 892px;">
+									            <div class="modal-content">
+									                <div class="modal-header">
+									                    <button type="button" class="close" id="driveClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+									                    <h4 class="modal-title">Create contact</h4>
+									                </div>
+									                 <form ng-submit="saveContact()">
+									                <div class="modal-body" style="height:500px;overflow-x:auto;">
+									                    	<div class="form-group col-sm-12">
+									                    	<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align: right;">First Name</label>
+																	<div class="col-sm-8">
+																		<input type="text" class="form-control form-white" ng-model="contactsDetails.firstName" >
+																	</div>
+															</div>
+															
+														</div>
+														<div class="form-group col-sm-12">
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align: right;">Assigned to</label>
+																<div class="col-sm-8">
+																	<select class="form-white" style="height: 35px;" ng-model="contactsDetails.assignedTo" required>
+         																		<option ng-repeat="alUser in allUser" value="{{alUser.id}}">{{alUser.fullName}}</option>
+ 																   </select>
+																</div>
+																
+																
+															</div>													
+														</div>
+												
+														<div class="form-group col-sm-12">
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align: right;">Email</label>
+																<div class="col-sm-8">
+																	<input type="email" class="form-control form-white" ng-model="contactsDetails.email" required>
+																</div>
+															
+															</div>
+														
+														</div>
+														
+														<div class="form-group col-sm-12">
+															<div class="col-sm-6">
+																<label class="col-sm-4 control-label" style="text-align: right;">Phone</label>
+																<div class="col-sm-8">
+																	<input type="text" class="form-control form-white" ng-model="contactsDetails.phone" >
+																</div>
+															</div>
+														</div>
+														
+													
+													<div ng-if="createContactFlag" class="col-md-12" style="margin-top: 10px;">
+								                				<formly-form model="customData" fields="userFields">
+  																</formly-form>
+								                    	</div>
+								                </div>
+								                <div class="modal-footer">
+								                	<p style="color:red;">{{contactMsg}}</p>
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div>						    		    
 <style>
 .red { color: black;  background-color: #ffd3d3 !important; }
 

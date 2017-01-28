@@ -31,6 +31,41 @@ angular.module('app.apiserviceMoreInfo', [])
 		return defer.promise;
 	};
 	
+	this.getUsers = function(){
+		var defer = $q.defer();
+		$http.get('/getUsers').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	
+	this.saveContactsData = function(contactsDetails){
+		var defer = $q.defer();
+		$http.post('/saveContactsData',contactsDetails).success(function(data) {
+			 $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "contact saved successfully",
+				});
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.setScheduleStatusClose = function(closeleadObj){
+		
+		var defer = $q.defer();
+			$http.post('/setScheduleStatusClose',closeleadObj).success(function(data) {
+				 
+				defer.resolve(data);
+			});
+		
+		return defer.promise;
+	};
+	
 	this.requestInfoMarkRead=function(flag, id){
 		var defer = $q.defer();
 		
@@ -63,6 +98,15 @@ angular.module('app.apiserviceMoreInfo', [])
 			defer.resolve(data);
 		});
 
+		return defer.promise;
+	};
+	
+	this.getCustomizationform = function(formType){
+		var defer = $q.defer();
+		$http.get('/getCustomizationform/'+formType).success(function(data) {
+			defer.resolve(data);
+		});
+		
 		return defer.promise;
 	};
 	
