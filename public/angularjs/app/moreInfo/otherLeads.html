@@ -94,11 +94,14 @@
 								            <div class="modal-content" style="width: 800px;">
 								                <div class="modal-header">
 								                    <button type="button" class="close" id="scheduleCancelBtn" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-								                    <h4 class="modal-title">CANCEL LEAD</h4>
+								                    <h4 class="modal-title">Delete LEAD</h4>
 								                </div>
 								                <form ng-submit="cancelSure(reasonToCancel)">
 								                <div class="modal-body">
 								                <div class="col-md-12">
+								                	<div class="form-group col-md-12">
+								                		<label>Are you sure you want to delete selected </label><label ng-show="actionSelectedLead.length > 1">requests?</label><label ng-show="actionSelectedLead.length == 1">request?</label>
+								                	</div>
 								                	<div class="col-md-2">
 								                		<label>Reason</label><span style="color: red;">*</span>
 								                	</div>
@@ -109,21 +112,11 @@
 								                	<label ng-if="notiCanFlag == 1" style="color:black;">{{rowData.name}} has an appointment scheduled on {{rowData.bestDay}} at {{rowData.bestTime}}. Canceling the lead will
 															also remove an appointment. Do you want to proceed?</label>
 								                </div>
-								                <div class="col-md-12" ng-if="cancelFlag == 1">
-								                 	<input style="margin-left: 15px;margin-top: 25px;" type="checkbox" name="selectAll"  ng-click="cancelAllLead(selectAll)"
-				 						   				ng-model="selectAll">					
-   					 									Apply this decision to all selected leads
-   					 							</div>
-													 <div ng-if="cancellingAddress" class="col-md-12" style="margin-top: 32px;">
-								                				<formly-form model="customData" fields="userFields">
-  																</formly-form>
-								                    	</div>
+								               
 								                </div>
 								                <div class="modal-footer">
-								                	<button ng-if="cancelFlag == 1 && allCanFlag != 1" type="button" class="btn btn-primary btn-embossed" ng-click="saveScheduleClose()">Proceed to the next lead</button>
-								                	<button ng-if="cancelFlag == 2 || allCanFlag == 1" type="submit" class="btn btn-primary">Proceed</button>
+								                	<button type="submit" class="btn btn-primary">Delete</button>
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
-								                    
 								                </div>
 								                </form>
 								            </div>
