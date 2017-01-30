@@ -366,23 +366,28 @@ public class CrmController extends Controller {
 	 public static Result importContacts(){
 		 Form<OldNewContactVM> form = DynamicForm.form(OldNewContactVM.class).bindFromRequest();
 		 OldNewContactVM vm = form.get();
-		 for(ContactsVM cVm:vm.newContact){
-			 Contacts contacts = Contacts.findByEmail(cVm.email);
-			 if(contacts == null){
-				 saveContact(cVm);
-			 }else{
-				 updateContact(contacts,cVm);
+		 if(vm.newContact != null){
+			 for(ContactsVM cVm:vm.newContact){
+				 Contacts contacts = Contacts.findByEmail(cVm.email);
+				 if(contacts == null){
+					 saveContact(cVm);
+				 }else{
+					 updateContact(contacts,cVm);
+				 }
+			 }
+		 }
+		
+		 if(vm.oldContact != null){
+			 for(ContactsVM cVm:vm.oldContact){
+				 Contacts contacts = Contacts.findByEmail(cVm.email);
+				 if(contacts == null){
+					 saveContact(cVm);
+				 }else{
+					 updateContact(contacts,cVm);
+				 }
 			 }
 		 }
 		 
-		 for(ContactsVM cVm:vm.oldContact){
-			 Contacts contacts = Contacts.findByEmail(cVm.email);
-			 if(contacts == null){
-				 saveContact(cVm);
-			 }else{
-				 updateContact(contacts,cVm);
-			 }
-		 }
 		 
 		 return ok();
 	 }

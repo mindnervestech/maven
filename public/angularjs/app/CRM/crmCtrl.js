@@ -159,17 +159,18 @@ angular.module('newApp')
 		$scope.selectedCrm = [];
  		$scope.selectedCrmObj = "";
  		$scope.selectAllCheckOldNew = function(checked){
+ 			$scope.selectedCrm = [];
  			if(checked){
- 				for(var i=0;i<$scope.gridOptions1.data.length;i++){
- 					$scope.gridOptions1.data[i].checkBoxSelect = true;
+ 				for(var i=0;i<$scope.gridOptionsNew.data.length;i++){
+ 					$scope.gridOptionsNew.data[i].checkBoxSelect = true;
  				}//checked = checked
- 				angular.forEach($scope.gridOptions1.data, function(obj, index){
+ 				angular.forEach($scope.gridOptionsNew.data, function(obj, index){
  					$scope.selectedCrm.push(obj.email);
        	  			$scope.selectedCrmObj = obj;
  	   			 });
  			}else{
- 				for(var i=0;i<$scope.gridOptions1.data.length;i++){
- 					$scope.gridOptions1.data[i].checkBoxSelect = false;
+ 				for(var i=0;i<$scope.gridOptionsNew.data.length;i++){
+ 					$scope.gridOptionsNew.data[i].checkBoxSelect = false;
  				}
    	  			$scope.deleteCrmSelected($scope.selectedCrm);
  				
@@ -1178,6 +1179,26 @@ angular.module('newApp')
 	 			    };
 	 			 });
 	 	  	}
+	 	  
+	 	  	$scope.doActionOldNew = function(row,checkBoxSelect){
+	 	  		if(checkBoxSelect == undefined || checkBoxSelect == false){
+	 	  			$scope.selectedCrm.push(row.entity.email);
+	 	  			$scope.selectedCrmObj = row.entity;
+	 	  		}else{
+	 	  			$scope.deleteActionSelectedLeadOldNew(row.entity);
+	 	  		}
+	 	  		console.log($scope.selectedCrm);
+	 	  	}
+	 	  	
+	 	  	$scope.deleteActionSelectedLeadOldNew = function(row){
+	 	  		angular.forEach($scope.selectedCrm, function(obj, index){
+	 	  			if ((row.email == obj)) {
+	 	  				$scope.selectedCrm.splice(index, 1);
+	 			       	return;
+	 			    };
+	 			 });
+	 	  	}
+	 	  	
 	 	  	
 	 	  	$scope.assignCanceledLead = function() {
 	        	$scope.changedUser = "";
@@ -1249,6 +1270,34 @@ angular.module('newApp')
 			  $('#NewOldContact').modal('hide');
 			  $scope.getContactsData();
 		   });
+	 }
+	 
+	 $scope.ImportSelectedValue = function(){
+		 console.log($scope.oldNewContact);
+		 $scope.otherObj = {};
+		 $scope.otherObj.oldContact = [];
+		 $scope.otherObj.newContact = [];
+		 angular.forEach($scope.oldNewContact.oldContact, function(value, key) {
+			 angular.forEach($scope.selectedCrm, function(value1, key1) {
+				    if(value.email == value1){
+				    	$scope.otherObj.oldContact.push(value);
+					} 
+			 });
+		});
+		 angular.forEach($scope.oldNewContact.newContact, function(value, key) {
+			 angular.forEach($scope.selectedCrm, function(value1, key1) {
+				    if(value.email == value1){
+				    	$scope.otherObj.newContact.push(value);
+					} 
+			 });
+		});
+		 console.log($scope.otherObj); 
+			console.log($scope.selectedCrm); 
+		 apiserviceCrm.importContacts($scope.otherObj).then(function(data){
+			  $('#NewOldContact').modal('hide');
+			  $scope.getContactsData();
+		   });
+		
 	 }
 	 
 	 $scope.showTypeModal = function() {
