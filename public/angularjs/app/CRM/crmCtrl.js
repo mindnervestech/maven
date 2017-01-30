@@ -72,7 +72,8 @@ angular.module('newApp')
 										}, 
    		                                 { name: 'contactId', displayName: '#', width:'4%',cellEditableCondition: false,
    		                                 },
-   		                                 { name: 'type', displayName: 'Type',enableFiltering: false, width:'10%',
+   		                                 { name: 'type', displayName: 'Type',cellEditableCondition: false, enableSorting: false, enableColumnMenu: false, width:'10%',
+   		                                	filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter2 in col.filters"><div my-custom-modal2></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByType(text)" ng-model="text"></div>'
    		                                 },
    		                                 { name: 'firstName', displayName: 'Name', width:'11%',cellEditableCondition: false,
    		                                 },
@@ -96,7 +97,7 @@ angular.module('newApp')
 			 
 	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
 		          var grid = this.grid;
-		        	  $scope.gridOptions.data = $filter('filter')($scope.contactsList,{'contactId':grid.columns[0].filters[0].term,'firstName':grid.columns[2].filters[0].term,'lastName':grid.columns[3].filters[0].term,'companyName':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'phone':grid.columns[6].filters[0].term,'assignedToName':grid.columns[7].filters[0].term},undefined);
+		        	  $scope.gridOptions.data = $filter('filter')($scope.contactsList,{'contactId':grid.columns[1].filters[0].term,'type':grid.columns[2].filters[0].term,'firstName':grid.columns[3].filters[0].term,'companyName':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'phone':grid.columns[6].filters[0].term,'assignedToName':grid.columns[7].filters[0].term},undefined);
 		        });
 	   		
    		};
@@ -1249,5 +1250,82 @@ angular.module('newApp')
 			  $('#NewOldContact').modal('hide');
 			  $scope.getContactsData();
 		   });
-	 }  		
+	 }
+	 
+	 $scope.showTypeModal = function() {
+		    $scope.listOfAges1 = [];
+		    
+		    $scope.col.grid.appScope.gridOptions.data.forEach( function ( row ) {
+		      if ( $scope.listOfAges1.indexOf( row.type ) === -1 ) {
+		        $scope.listOfAges1.push( row.type );
+		      }
+		    });
+		    $scope.listOfAges1.sort();
+		    
+		    $scope.gridOptions2 = { 
+		      data: [],
+		      enableColumnMenus: false,
+		      onRegisterApi: function( gridApi) {
+		        $scope.gridApi2 = gridApi;
+		        
+		        if ( $scope.colFilter2 && $scope.colFilter2.listTerm ){
+		          $timeout(function() {
+		            $scope.colFilter2.listTerm.forEach( function( type ) {
+		              var entities = $scope.gridOptions2.data.filter( function( row ) {
+		                return row.type === type;
+		              });
+		              
+		              if( entities.length > 0 ) {
+		                $scope.gridApi2.selection.selectRow(entities[0]);
+		              }
+		            });
+		          });
+		        }
+		      } 
+		    };
+		    
+		    $scope.listOfAges1.forEach(function( type ) {
+		      $scope.gridOptions2.data.push({type: type});
+		    });
+		    
+		    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions2" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button><button id="button" class="btn btn-primary" ng-click="removeCompanyFulter()">Remove Filters</button></div></div></div></div>';
+		    $elm = angular.element(html);
+		    angular.element(document.body).prepend($elm);
+		 
+		    $compile($elm)($scope);
+		    
+		  }
+	 
+	 	$scope.closeType = function() {
+			    var ages = $scope.gridApi2.selection.getSelectedRows();
+			    $scope.colFilter2.listTerm = [];
+			    
+			    ages.forEach( function( type ) {
+			      $scope.colFilter2.listTerm.push( type.type );
+			    });
+			    
+			    $scope.colFilter2.term = $scope.colFilter2.listTerm.join(', ');
+			    $scope.colFilter2.condition = new RegExp($scope.colFilter2.listTerm.join('|'));
+			    if ($elm) {
+			      $elm.remove();
+			    }
+		  };
+		  
+		  
+		  $scope.searchFilterByType = function(text){
+	   			console.log(text);
+	   			if(text == ''){
+	   				$scope.gridOptions.data = $scope.contactsList;
+	   			}else{
+	   			compData = [];
+	   			$scope.contactsList.forEach( function addDates( row, index ){
+	   				if(row.type){
+	   					if(row.type.includes(text)){
+	   						compData.push(row);
+	   					}
+	   				}
+	   			});
+	   			$scope.gridOptions.data = compData;
+	   			}
+	   		}
 }]);

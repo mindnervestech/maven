@@ -700,7 +700,16 @@ var MakeApp = angular
   		
   	.directive('myCustomModal1', function() {
   		return {
+  			
   			template: '<label>{{colFilter.term}}</label><button ng-click="showAssignedModal()">^</button>',
+  		    controller: 'crmCtrl'
+  		};
+  	})
+  	
+  	.directive('myCustomModal2', function() {
+  		return {
+  			
+  			template: '<label>{{colFilter2.term}}</label><button ng-click="showTypeModal()">^</button>',
   		    controller: 'crmCtrl'
   		};
   	})
