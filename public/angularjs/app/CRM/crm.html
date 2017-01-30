@@ -449,13 +449,22 @@
 								                </div>
 								                <form ng-submit="changeAssignedUser()">
 								                <div class="modal-body">
-								                    <div class="form-group col-sm-12">
+								                    <div class="form-group col-sm-12" ng-if="salesPersonPerf.length > 0">
 														<label class="col-sm-4 control-label" style="text-align: right;">User</label>
 														<div class="col-sm-6">
 															<select  class="form-control form-white" ng-model="changedUser" required>
 														    	<option value="">Select user</option>
 											                     <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.fullName}}</option>
 											                </select>
+														</div>
+													</div>
+													<div class="form-group col-sm-12" ng-if="salesPersonPerf.length <= 0">
+															<div class="form-group col-sm-12">
+																<label>There are no sales people added. Would you like to invite new sales people?</label>
+															</div>
+														<div class="form-group col-sm-12">
+														    <button type="button" class="btn btn-primary col-sm-3" ng-click="inviteNewUser()">Invite</button>
+														    <button type="button" class="btn btn-default btn-embossed col-sm-3" data-dismiss="modal">Cancel</button>
 														</div>
 													</div>
 								                </div>

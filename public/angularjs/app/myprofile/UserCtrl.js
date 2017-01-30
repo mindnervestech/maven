@@ -504,7 +504,8 @@ angular.module('newApp')
 		
 	}
 	
-	if($routeParams.inPage == "external"){
+	
+	if($routeParams.inPage == "external" || $routeParams.inPage == "invite"){
 		//$scope.user.userType = "Sales Person";
 		
 		$http.get('/getAllPermissionById')
@@ -830,7 +831,7 @@ angular.module('newApp')
 			$scope.user.locationId = data;
 		console.log($scope.permissionList);
 		
-		if($routeParams.inPage == "external"){
+		if($routeParams.inPage == "external" || $routeParams.inPage == "invite"){
 			$scope.user.userType = "Sales Person";
 			
 			angular.forEach($scope.permissionList, function(obj, index){
@@ -980,6 +981,8 @@ angular.module('newApp')
 						$('#btnClose').click();
 						if($routeParams.inPage == "external"){
 							$location.path('/otherLeads/35');
+						}else if($routeParams.inPage == "invite"){
+							$location.path('/crm');
 						}
 						
 					}else{
@@ -1001,6 +1004,8 @@ angular.module('newApp')
 							}
 							if($routeParams.inPage == "external"){
 								$location.path('/otherLeads/35');
+							}else if($routeParams.inPage == "invite"){
+								$location.path('/crm');
 							}
 						});
 					}
@@ -1021,6 +1026,8 @@ angular.module('newApp')
 			            $('#btnClose').click();
 			            if($routeParams.inPage == "external"){
 							$location.path('/otherLeads/35');
+						}else if($routeParams.inPage == "invite"){
+							$location.path('/crm');
 						}
 			            $scope.init();
 					});
@@ -1040,6 +1047,8 @@ angular.module('newApp')
 				            $('#btnClose').click();
 				            if($routeParams.inPage == "external"){
 								$location.path('/otherLeads/35');
+							}else if($routeParams.inPage == "invite"){
+								$location.path('/crm');
 							}
 				            $scope.init();
 					});

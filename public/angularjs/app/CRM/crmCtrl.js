@@ -1328,4 +1328,9 @@ angular.module('newApp')
 	   			$scope.gridOptions.data = compData;
 	   			}
 	   		}
+		  
+		  $scope.inviteNewUser = function(){
+	    		console.log("edit");
+	    		$location.path('/createUser/invite');
+	    	}
 }]);
