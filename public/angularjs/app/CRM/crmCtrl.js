@@ -6,50 +6,25 @@ angular.module('newApp')
 	
 	
 
-	 $scope.gridOptions1 = {
+	 $scope.gridOptionsNew = {
     		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
     		 paginationPageSize: 150,
 	 		 enableFiltering: true,
 	 		 useExternalFiltering: true,
  		    rowTemplate: '<div grid="grid" class="ui-grid-draggable-row" draggable="true"><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader, \'custom\': true }" ui-grid-cell></div></div>',
     		 };
-    		 $scope.gridOptions1.enableHorizontalScrollbar = 0;
-    		 $scope.gridOptions1.enableVerticalScrollbar = 2;
-    		 $scope.gridOptions1.columnDefs = [
-												 { name: 'isSelect', displayName: '#', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-													headerCellTemplate:	'<label style="margin-top: 5px; margin-left: 8px;">#</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 5px; margin-left: 8px;" type=\"checkbox\"  ng-model=\"checked\"  ng-change="grid.appScope.selectAllCheckOldNew(checked)" autocomplete="off">',
-													cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doActionOldNew(row,row.entity.checkBoxSelect)" autocomplete="off">',
-												 }, 
-    	   		                                 { name: 'type', displayName: 'Type',enableFiltering: false, width:'14%',
-    	   		                                 },
-    	   		                                 { name: 'firstName', displayName: 'Name', width:'14%',enableFiltering: false,
-    	   		                                 },
-    	   		                                 { name: 'companyName', displayName: 'Company Name', width:'14%',enableFiltering: false,
-    	   		                                 },
-    	   		                                 { name: 'email', displayName: 'Email', width:'15%',enableFiltering: false,
-    	   		                                 },
-    	   		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'14%',
-    	   		                                 },
-    	   		                                /* { name: 'edit', displayName: 'Edit', width:'8%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    	   		                                	 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editContactsDetail(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Remove Contact" ng-click="grid.appScope.deleteContactsDetail(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>', 
-    	   		                                 },*/
-        		                                 ];   
+    		 $scope.gridOptionsNew.enableHorizontalScrollbar = 0;
+    		 $scope.gridOptionsNew.enableVerticalScrollbar = 2;
+    		 
 	    
-	   		$scope.gridOptions1.onRegisterApi = function(gridApi){
+	   		$scope.gridOptionsNew.onRegisterApi = function(gridApi){
 	   		 $scope.gridApi = gridApi;
 			 gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
 			 $scope.rowData = rowEntity;
 			 $scope.$apply();
 				
 				 console.log($scope.rowData);
-					/* apiserviceConfigPage.updateProductName($scope.rowData).then(function(data){
-						 $.pnotify({
-							    title: "Success",
-							    type:'success',
-							    text: "Update successfully",
-							});
-					 });*/
-				 
+									 
 			 });
 		   		
 	   		};
@@ -536,14 +511,38 @@ angular.module('newApp')
 	   $scope.showProgress = false;
 	   $scope.oldNewContact = {};
 	   $scope.saveContactsFile = function() {
+		   
 		   apiserviceCrm.uploadContactsFile(logofile).then(function(data){
 			  console.log(data);
 			  $scope.oldNewContact = data;
-			  $scope.gridOptions1.data = data.newContact;
-			  console.log($scope.gridOptions1.data);
+			  $scope.gridOptionsNew.data = data.newContact;
+			  console.log($scope.gridOptionsNew.data);
 			  $('#NewOldContact').modal('show');
+			  $scope.functionForGrid();
 			   // $scope.getContactsData();
 		   });
+	   }
+	   
+	   $scope.functionForGrid = function(){
+		   $scope.gridOptionsNew.columnDefs = [
+												 { name: 'isSelect', displayName: '#', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+													headerCellTemplate:	'<label style="margin-top: 5px; margin-left: 8px;">#</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 5px; margin-left: 8px;" type=\"checkbox\"  ng-model=\"checked\"  ng-change="grid.appScope.selectAllCheckOldNew(checked)" autocomplete="off">',
+													cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doActionOldNew(row,row.entity.checkBoxSelect)" autocomplete="off">',
+												 }, 
+  	   		                                 { name: 'type', displayName: 'Type',enableFiltering: false, width:'14%',
+  	   		                                 },
+  	   		                                 { name: 'firstName', displayName: 'Name', width:'14%',enableFiltering: false,
+  	   		                                 },
+  	   		                                 { name: 'companyName', displayName: 'Company Name', width:'14%',enableFiltering: false,
+  	   		                                 },
+  	   		                                 { name: 'email', displayName: 'Email', width:'15%',enableFiltering: false,
+  	   		                                 },
+  	   		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'14%',
+  	   		                                 },
+  	   		                                /* { name: 'edit', displayName: 'Edit', width:'8%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+  	   		                                	 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editContactsDetail(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Remove Contact" ng-click="grid.appScope.deleteContactsDetail(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>', 
+  	   		                                 },*/
+      		                                 ];   
 	   }
 	   
    		$scope.contactsDetails = {};
@@ -1234,13 +1233,13 @@ angular.module('newApp')
 	   			console.log("ssssss");
 	   			$scope.checked = false;
 	   			$scope.selectedCrm = [];
-	   			for(var i=0;i<$scope.gridOptions1.data.length;i++){
- 					$scope.gridOptions1.data[i].checkBoxSelect = false;
+	   			for(var i=0;i<$scope.gridOptionsNew.data.length;i++){
+ 					$scope.gridOptionsNew.data[i].checkBoxSelect = false;
  				}
 	   			if(type == "new"){
-	   				$scope.gridOptions1.data = $scope.oldNewContact.newContact;
+	   				$scope.gridOptionsNew.data = $scope.oldNewContact.newContact;
 	   			}else if(type == "old"){
-	   				$scope.gridOptions1.data = $scope.oldNewContact.oldContact;
+	   				$scope.gridOptionsNew.data = $scope.oldNewContact.oldContact;
 	   			}
 	   		}
 	   		
