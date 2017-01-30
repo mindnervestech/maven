@@ -7565,7 +7565,7 @@ angular.module('newApp')
 	    			  apiserviceDashborad.saveNoteOfUser($scope.notOnject).then(function(data){
 	 		 			 $scope.getAllSalesPersonRecord($scope.salesPerson);
 	 					$('#noteClose').click();
-	 										
+	 					$scope.actionSelectedLead = [];				
 	 		 		});
  	  		});
 			   
