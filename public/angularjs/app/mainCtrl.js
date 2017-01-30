@@ -186,7 +186,7 @@
 	          	}
 	          	if(notification != undefined){
 	          		notification.onclick = function(event) {
-		            	window.location.href = "#otherLeads/"+obj.isContactusType;
+		            	window.location.href = "#otherLeads/"+obj.isContactusType+"/"+"All Requests";
 		            	$http.get('/requestInfoRichNotification/'+obj.id).success(function(data) {});
 		            };
 		            notification.onclose = function(event) {

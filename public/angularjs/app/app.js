@@ -375,7 +375,7 @@ var MakeApp = angular
             templateUrl: '/dealer/moreInfo/contactUsInfo.html',
             controller: 'contactUsInfoCtrl'
         })
-        .when('/otherLeads/:leadId', {
+        .when('/otherLeads/:leadId/:tabInfo', {
             templateUrl: '/dealer/moreInfo/otherLeads.html',
             controller: 'otherLeadCtrl'
         })
@@ -700,7 +700,6 @@ var MakeApp = angular
   		
   	.directive('myCustomModal1', function() {
   		return {
-  			
   			template: '<label>{{colFilter.term}}</label><button ng-click="showAssignedModal()">^</button>',
   		    controller: 'crmCtrl'
   		};
@@ -712,6 +711,13 @@ var MakeApp = angular
   			template: '<label>{{colFilter2.term}}</label><button ng-click="showTypeModal()">^</button>',
   		    controller: 'crmCtrl'
   		};
+  	})
+	
+		.directive('myCustomModalReq', function() {
+ 		return {
+ 			template: '<label>{{colFilter.term}}</label><button ng-click="showAgeModalReq()">^</button>',
+  		    controller: 'otherLeadCtrl'
+  		 };
   	})
   		
  .directive('ngSec',function(){

@@ -27,6 +27,12 @@
 			</ul>
 			<div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
 				</div> 
+					<select class="" id="userType" ng-change="changeTabInfo(tabInfo)" ng-model="tabInfo" style="margin-top: 20px;height: 35px;">
+				                                    <option  value="All Requests">All Requests</option>
+				                                    <option  value="Only unclaimed">Only unclaimed</option>
+				                                    <option  value="Only claimed">Only claimed</option>
+				                                </select>
+				
 	      </div>
 	      
 	    </div>
