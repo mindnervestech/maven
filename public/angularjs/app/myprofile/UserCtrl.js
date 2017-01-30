@@ -1,5 +1,8 @@
 angular.module('newApp')
 .controller('createUserCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceUser', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceUser) {
+	console.log($routeParams.inPage);
+	$scope.user = {};
+
 	$scope.img = "/assets/images/profile-pic.jpg";
 	$scope.user = {};
 	$scope.permission = [];
@@ -15,6 +18,8 @@ angular.module('newApp')
 	{name:'CRM',isSelected:false},
 	{name:'Financial Statistics',isSelected:false},
 	{name:'Account Settings',isSelected:false}];
+	
+	
 	
 	/*$http.get('/getAllPermission')
 	.success(function(data) {
@@ -226,7 +231,7 @@ angular.module('newApp')
 		$location.path('/myprofile');
 	};
 	$scope.goToUsers = function() {
-			$location.path('/createUser');
+			$location.path('/createUser/normal');
 		};
 	$scope.goToContractors = function() {
 			$location.path('/contractors');
@@ -395,8 +400,6 @@ angular.module('newApp')
 			$scope.showOtherFild = 2;
 		}
 		
-		
-		
 		if(type == "Sales Person"){
 			angular.forEach($scope.permissionList, function(obj, index){
 				 if ((obj.name == "My Profile") || (obj.name == "Inventory") || (obj.name == "Dashboard")) {
@@ -412,6 +415,7 @@ angular.module('newApp')
 					 });
 			    };
 			  });
+			console.log($scope.permission);
 		}else if(type == "Front Desk"){
 			angular.forEach($scope.permissionList, function(obj, index){
 				 if ((obj.name == "My Profile") || (obj.name == "Dashboard")) {
@@ -490,12 +494,41 @@ angular.module('newApp')
 		$scope.contactVal = "";
 		$("#cnfstartDateValue").val("");
 		$scope.permission = [];
+		console.log($scope.permissionList);
 		angular.forEach($scope.permissionList, function(obj, index){
 			 obj.isSelected = false;
 			 obj.childData.isSelected = false;
 			 
 		});
 		$scope.img="/assets/images/profile-pic.jpg ";
+		
+	}
+	
+	if($routeParams.inPage == "external"){
+		//$scope.user.userType = "Sales Person";
+		
+		$http.get('/getAllPermissionById')
+		.success(function(data) {
+			console.log(data);
+			$scope.permissionList =[];
+			/*angular.forEach(data, function(obj, index){
+				var jsonObj = {name:obj.name,isSelected:false,id:obj.id};
+				$scope.permissionList.push(jsonObj);
+			});*/
+			angular.forEach(data, function(obj, index){
+				obj.isSelected = false;
+				angular.forEach(obj.childData, function(obj1, index1){
+					obj1.isSelected = false;
+				});
+				
+			});
+			$scope.permissionList = data;
+			$('#userType').val("Sales Person");
+			$scope.selectOption();
+			$('#modal-basic').modal('show');
+			$scope.createNewUser();
+			console.log($scope.permissionList);
+		});
 		
 	}
 	
@@ -795,8 +828,28 @@ angular.module('newApp')
 			console.log(data);
 			$scope.locationId = data;
 			$scope.user.locationId = data;
+		console.log($scope.permissionList);
 		
+		if($routeParams.inPage == "external"){
+			$scope.user.userType = "Sales Person";
+			
+			angular.forEach($scope.permissionList, function(obj, index){
+				 if ((obj.name == "My Profile") || (obj.name == "Inventory") || (obj.name == "Dashboard")) {
+					 $scope.permission.push(obj.name);
+					 obj.isSelected = true;
+					 angular.forEach(obj.childData, function(obj1, index1){
+						 if(obj1.name != "Edit Business Information"){
+							 if(obj1.isSelected == true){
+								 $scope.permission.push(obj1.name);
+							 }
+						 } 
+					 });
+			    };
+			  });
+			
+		}
 		$scope.user.permissions = $scope.permission;
+		
 		$scope.user.pdfIds = $scope.pdfDoc;
 		
 		if($scope.user.premiumFlag == undefined){
@@ -925,6 +978,10 @@ angular.module('newApp')
 					console.log(data);
 					if(data == null){
 						$('#btnClose').click();
+						if($routeParams.inPage == "external"){
+							$location.path('/otherLeads/35');
+						}
+						
 					}else{
 						apiserviceUser.updateImageFileLoadPhoto(data,$scope.user.userType, logofile).then(function(data){
 							console.log("succeee!!!!!!!!");
@@ -941,6 +998,9 @@ angular.module('newApp')
 						            $("#file").val('');
 						            $('#btnClose').click();
 						            $scope.init();
+							}
+							if($routeParams.inPage == "external"){
+								$location.path('/otherLeads/35');
 							}
 						});
 					}
@@ -959,7 +1019,9 @@ angular.module('newApp')
 			            $scope.user.img=" ";
 			            $scope.user = {};
 			            $('#btnClose').click();
-			            
+			            if($routeParams.inPage == "external"){
+							$location.path('/otherLeads/35');
+						}
 			            $scope.init();
 					});
 			} else {
@@ -976,6 +1038,9 @@ angular.module('newApp')
 				            $scope.user.img=" ";
 				            $("#file").val('');
 				            $('#btnClose').click();
+				            if($routeParams.inPage == "external"){
+								$location.path('/otherLeads/35');
+							}
 				            $scope.init();
 					});
 				  
@@ -1373,6 +1438,8 @@ angular.module('newApp')
 	 				$scope.init();
 	 			});
 	 		};
+	 		
+	 		
 	 		$scope.gotoProfile = function() {
 	 			$location.path('/myprofile');
 	 		};
@@ -1381,7 +1448,7 @@ angular.module('newApp')
 	 		};
 	 		
 	 		$scope.goToUsers = function() {
-	 			$location.path('/createUser');
+	 			$location.path('/createUser/normal');
 	 		};
 	 		
 	 		$scope.goToContractors = function() {

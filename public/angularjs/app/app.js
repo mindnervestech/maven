@@ -155,7 +155,7 @@ var MakeApp = angular
             templateUrl: 'dealer/addManufacturers/productImages.html',
             controller: 'ProductImagesCtrl'
         })
-        .when('/createUser', {
+        .when('/createUser/:inPage', {
             templateUrl: '/dealer/myprofile/createUser.html',
             controller: 'createUserCtrl'
         })

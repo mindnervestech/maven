@@ -131,7 +131,7 @@ angular.module('newApp')
 			$location.path('/deactiveLocations');
 	};
 	$scope.goToUsers = function() {
-		$location.path('/createUser');
+		$location.path('/createUser/normal');
 	};
 	$scope.goToContractors = function() {
 		$location.path('/contractors');

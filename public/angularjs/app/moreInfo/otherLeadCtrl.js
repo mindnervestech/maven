@@ -269,6 +269,7 @@ angular.module('newApp')
 	 	  console.log($scope.leadType);
 	  apiserviceMoreInfo.changeAssignedUser($scope.actionSelectedLead.toString(), userKey, $scope.leadType).then(function(data){
    		$("#assignUserModal").modal("hide");
+   		$scope.actionSelectedLead = [];
    		$scope.getAllRequestInfo();
 	});
   }
@@ -811,6 +812,11 @@ angular.module('newApp')
 	    			});
 				});
 		   }
+    	
+    	$scope.inviteNewUser = function(){
+    		console.log("edit");
+    		$location.path('/createUser/external');
+    	}
     	
 	$scope.testDrive = function() {
 		$location.path('/scheduleTest');
