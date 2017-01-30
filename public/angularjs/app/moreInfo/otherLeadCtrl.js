@@ -122,7 +122,23 @@ angular.module('newApp')
 			 
 	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
 		          var grid = this.grid;
-		          $scope.gridOptions.data = $filter('filter')($scope.requsetMoreList,{'isSelect':grid.columns[0].filters[0].term,'vin':grid.columns[1].filters[0].term,'model':grid.columns[2].filters[0].term,'make':grid.columns[3].filters[0].term,'stock':grid.columns[4].filters[0].term,'name':grid.columns[5].filters[0].term},undefined);
+		          console.log("dddddddddddddddddoooooo");
+		          console.log(grid.columns[0].filters[0].term);
+		          $scope.actionSelectedLead = [];
+		   		 	$scope.actionSelectedLeadObj = "";
+			   			 if(grid.columns[0].filters[0].term == "Select All"){
+			   				 $scope.selectAllCheck(true);
+			   			 }else if(grid.columns[0].filters[0].term == "Select All, Select unclaimed"){
+			   				$scope.selectAllCheck(true);
+			   			 }else if(grid.columns[0].filters[0].term == "Select All, Select unclaimed"){
+			   				$scope.selectAllCheck(true);
+			   			 }else if(grid.columns[0].filters[0].term == "Select unclaimed"){
+			   				$scope.selectUnclaimed();
+			   			 }else{
+			   				$scope.gridOptions.data = $filter('filter')($scope.requsetMoreList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'stock':grid.columns[3].filters[0].term,'name':grid.columns[4].filters[0].term},undefined);
+			   			 }
+		          
+		          
 		        });
 	   		
   		};
@@ -279,12 +295,12 @@ angular.module('newApp')
 	  
 	  }
 	  
-	  var promo =  $interval(function(){
+	  /*var promo =  $interval(function(){
 		  apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data){
 					$scope.editgirdData(data);
 				$scope.requsetMoreList = data;
 			});
-	  },60000);
+	  },60000);*/
 	  
 	  $scope.premiumFlagForSale = 0;
   /*$scope.setAsRead = function(flag,id) {
@@ -452,23 +468,15 @@ angular.module('newApp')
    		    var ages = $scope.gridApi.selection.getSelectedRows();
    		    console.log(ages);
    		 $scope.colFilter.listTerm = [];
-   		    $scope.actionSelectedLead = [];
-   		 	$scope.actionSelectedLeadObj = "";
-	   		 angular.forEach(ages, function(obj, index){
-	   			 if(obj.selectValue == "Select All"){
-	   				 $scope.selectAllCheck(true);
-	   			 }else if(obj.selectValue == "Select unclaimed"){
-	   				$scope.selectUnclaimed();
-	   			 }
-	   		 });
+   		    
 	   		
-	   		/*ages.forEach( function( selectValue ) {
+	   		ages.forEach( function( selectValue ) {
 	   			console.log(selectValue);
   		      $scope.colFilter.listTerm.push( selectValue.selectValue );
   		    });
   		    
   		    $scope.colFilter.term = $scope.colFilter.listTerm.join(', ');
-  		    $scope.colFilter.condition = new RegExp($scope.colFilter.listTerm.join('|'));*/
+  		    $scope.colFilter.condition = new RegExp($scope.colFilter.listTerm.join('|'));
   		   if ($elm) {
    		      $elm.remove();
    		    }
