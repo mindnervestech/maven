@@ -122,8 +122,6 @@ angular.module('newApp')
 			 
 	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
 		          var grid = this.grid;
-		          console.log("dddddddddddddddddoooooo");
-		          console.log(grid.columns[0].filters[0].term);
 		          $scope.actionSelectedLead = [];
 		   		 	$scope.actionSelectedLeadObj = "";
 			   			 if(grid.columns[0].filters[0].term == "Select All"){
@@ -330,7 +328,7 @@ angular.module('newApp')
    		$scope.getAllRequestInfo();
 	});
   }
-  
+  $scope.showButton = "0";
   $scope.actionSelectedLead = [];
 	  	$scope.actionSelectedLeadObj = "";
 	  	$scope.doAction = function(row,checkBoxSelect){
@@ -340,6 +338,26 @@ angular.module('newApp')
 	  		}else{
 	  			$scope.deleteActionSelectedLead(row.entity);
 	  		}
+	  		var isReadValue = 0;
+	  		var notReadValue = 0;
+	  		angular.forEach($scope.gridOptions.data, function(obj, index){
+	  			angular.forEach($scope.actionSelectedLead, function(obj1, index1){
+	  					if(obj1 == obj.id){
+	  						if(obj.isRead === false){
+	  							isReadValue = 1;
+	  						}else{
+	  							notReadValue = 1;
+	  						}
+	  					}
+	  			});
+	   		});
+	  		if(isReadValue == 1 && notReadValue == 1){
+	  			$scope.showButton = "1";
+	  		}else{
+	  			$scope.showButton = "0";
+	  		}
+	  		
+	  		
 	  		console.log($scope.actionSelectedLead);
 	  	}
 	  	$scope.deleteActionSelectedLead = function(row){
@@ -369,12 +387,32 @@ angular.module('newApp')
    	  			$scope.deleteActionSelected($scope.actionSelectedLead);
  				
  			}
+ 			
+ 			var isReadValue = 0;
+	  		var notReadValue = 0;
+	  		angular.forEach($scope.gridOptions.data, function(obj, index){
+	  			angular.forEach($scope.actionSelectedLead, function(obj1, index1){
+	  					if(obj1 == obj.id){
+	  						if(obj.isRead === false){
+	  							isReadValue = 1;
+	  						}else{
+	  							notReadValue = 1;
+	  						}
+	  					}
+	  			});
+	   		});
+	  		
+	  		if(isReadValue == 1 && notReadValue == 1){
+	  			$scope.showButton = "1";
+	  		}else{
+	  			$scope.showButton = "0";
+	  		}
  			console.log($scope.actionSelectedLead);
  			console.log($scope.gridOptions.data);
  		}
  		
  		$scope.selectUnclaimed = function(){
- 			
+ 			$scope.showButton = "0";
  				for(var i=0;i<$scope.gridOptions.data.length;i++){
  					if($scope.gridOptions.data[i].isRead === false){
  						$scope.gridOptions.data[i].checkBoxSelect = true;
