@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('crmCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','apiserviceCrm','$q','$rootScope','$compile','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,apiserviceCrm,$q,$rootScope,$compile,$timeout) {
+.controller('crmCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','apiserviceCrm','$q','$rootScope','$compile','$timeout','$route', function ($scope,$http,$location,$filter,$routeParams,$upload,apiserviceCrm,$q,$rootScope,$compile,$timeout,$route) {
 	if(!$scope.$$phase) {
 		//$scope.$apply();
 	}
@@ -45,21 +45,21 @@ angular.module('newApp')
 											headerCellTemplate:	'<label style="margin-top: 5px; margin-left: 8px;">Select</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 5px; margin-left: 8px;" type=\"checkbox\"  ng-model=\"checker.checked\"  ng-change="grid.appScope.selectAllCheck(checker.checked)" autocomplete="off">',
 											cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doAction(row,row.entity.checkBoxSelect)" autocomplete="off">',
 										}, 
-   		                                 { name: 'contactId', displayName: '#', width:'4%',cellEditableCondition: false,
+   		                                 { name: 'contactId', displayName: '#', width:'4%',cellEditableCondition: false,enableColumnMenu: false,
    		                                 },
    		                                 { name: 'type', displayName: 'Type',cellEditableCondition: false, enableSorting: false, enableColumnMenu: false, width:'10%',
    		                                	filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter2 in col.filters"><div my-custom-modal2></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByType(text)" ng-model="text"></div>'
    		                                 },
-   		                                 { name: 'firstName', displayName: 'Name', width:'11%',cellEditableCondition: false,
+   		                                 { name: 'firstName', displayName: 'Name', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
    		                                 },
    		                                /* { name: 'lastName', displayName: 'Last Name', width:'11%',cellEditableCondition: false,
    		                                 },*/
    		                                 { name: 'companyName', displayName: 'Company Name', width:'12%',cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
    		                                	 filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><div my-custom-modal></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilter(text)" ng-model="text"></div>'
    		                                 },
-   		                                 { name: 'email', displayName: 'Email', width:'10%',cellEditableCondition: false,
+   		                                 { name: 'email', displayName: 'Email', width:'10%',cellEditableCondition: false, enableColumnMenu: false,
    		                                 },
-   		                                 { name: 'phone', displayName: 'Phone',cellEditableCondition: false, width:'10%',
+   		                                 { name: 'phone', displayName: 'Phone',cellEditableCondition: false, width:'10%', enableColumnMenu: false,
    		                                 },
    		                                 { name: 'assignedToName', displayName: 'Assigned To',enableSorting: false, width:'12%',cellEditableCondition: false, enableColumnMenu: false,
    		                                	filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter1 in col.filters"><div my-custom-modal1></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByAssigned(text)" ng-model="text"></div>'
@@ -148,7 +148,7 @@ angular.module('newApp')
    		      $scope.gridOptions.data.push({companyName: companyName});
    		    });
    		    
-   		    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Company Name</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="close()">Filter</button></div></div></div></div>';
+   		    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Company Name</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="close()">Filter</button><button id="button" class="btn btn-primary" ng-click="removeCompanyFulter()">Remove Filters</button></div></div></div></div>';
    		    $elm = angular.element(html);
    		    angular.element(document.body).prepend($elm);
    		 
@@ -185,11 +185,13 @@ angular.module('newApp')
    			    };
    	  	}	
    		
+ 		$scope.companyNameData = {};
    		$scope.close = function() {
-   		    var ages = $scope.gridApi.selection.getSelectedRows();
-   		    $scope.colFilter.listTerm = [];
+   		   // var ages = $scope.gridApi.selection.getSelectedRows();
+   			$scope.companyNameData = $scope.gridApi.selection.getSelectedRows();
+   			$scope.colFilter.listTerm = [];
    		    
-   		    ages.forEach( function( companyName ) {
+   			$scope.companyNameData.forEach( function( companyName ) {
    		      $scope.colFilter.listTerm.push( companyName.companyName );
    		    });
    		    
@@ -390,8 +392,9 @@ angular.module('newApp')
 						var name = value.key;
 						$scope.flagValFlag = 1;
 						name = name.replace(" ","");
-						$scope.gridOptions.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,
-			              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+						$scope.gridOptions.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,enableColumnMenu: false,
+							//filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter3 in col.filters"><div my-custom-modal3></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByType(text)" ng-model="text"></div>',
+							cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 			                        return 'red';
 			                    }
@@ -1111,16 +1114,19 @@ angular.module('newApp')
 	   		    	$scope.gridOptions1.data.push({assignedToName: assignedToName});
 	   		    });
 	   		    console.log( $scope.gridOptions1.data);
-	   		    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Assigned To</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions1" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="checkAssigned()">Filter</button></div></div></div></div>';
+	   		    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Assigned To</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions1" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="checkAssigned()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeFilters()">Remove Filters</button></div></div></div></div>';
 	   		    $elm = angular.element(html);
 	   		    angular.element(document.body).prepend($elm);
 	   		    $compile($elm)($scope);
 			}
 			
+			$scope.assignedTo = {};
 			$scope.checkAssigned = function() {
-				var ages = $scope.gridApi1.selection.getSelectedRows();
+				//var ages = $scope.gridApi1.selection.getSelectedRows();
+				$scope.assignedTo = $scope.gridApi1.selection.getSelectedRows();
+				console.log($scope.assignedTo);
 	   		    $scope.colFilter1.listTerm = [];
-	   		    ages.forEach( function( assignedToName ) {
+	   		    $scope.assignedTo.forEach( function( assignedToName ) {
 	   		    	$scope.colFilter1.listTerm.push( assignedToName.assignedToName );
 	   		    });
 	   		    $scope.colFilter1.term = $scope.colFilter1.listTerm.join(', ');
@@ -1271,34 +1277,43 @@ angular.module('newApp')
 			  $scope.getContactsData();
 		   });
 	 }
+	 $scope.removeFilters = function(){
+		 $scope.assignedTo = $scope.gridApi1.selection.getSelectedRows();
+		    $scope.colFilter1.listTerm = [];
+		    console.log($scope.assignedTo);
+		    $scope.assignedTo.forEach( function( assignedToName ) {
+		    	$scope.colFilter1.listTerm.splice( assignedToName.assignedToName );
+		    });
+		    $scope.colFilter1.term = $scope.colFilter1.listTerm.join(', ');
+		    $scope.colFilter1.condition = new RegExp($scope.colFilter1.listTerm.join('|'));
+		    if ($elm) {
+		    	$elm.remove();
+		    }
+		 
+		 /*if($elm){
+  		      $elm.remove();
+  		 }
+		 $route.reload();
+		 //$scope.getContactsData();
+*/	 };
 	 
-	 $scope.ImportSelectedValue = function(){
-		 console.log($scope.oldNewContact);
-		 $scope.otherObj = {};
-		 $scope.otherObj.oldContact = [];
-		 $scope.otherObj.newContact = [];
-		 angular.forEach($scope.oldNewContact.oldContact, function(value, key) {
-			 angular.forEach($scope.selectedCrm, function(value1, key1) {
-				    if(value.email == value1){
-				    	$scope.otherObj.oldContact.push(value);
-					} 
-			 });
-		});
-		 angular.forEach($scope.oldNewContact.newContact, function(value, key) {
-			 angular.forEach($scope.selectedCrm, function(value1, key1) {
-				    if(value.email == value1){
-				    	$scope.otherObj.newContact.push(value);
-					} 
-			 });
-		});
-		 console.log($scope.otherObj); 
-			console.log($scope.selectedCrm); 
-		 apiserviceCrm.importContacts($scope.otherObj).then(function(data){
-			  $('#NewOldContact').modal('hide');
-			  $scope.getContactsData();
-		   });
-		
+	 $scope.removeCompanyFulter = function(){
+		 $scope.companyNameData = $scope.gridApi.selection.getSelectedRows();
+			$scope.colFilter.listTerm = [];
+		    
+			$scope.companyNameData.forEach( function( companyName ) {
+		      $scope.colFilter.listTerm.splice( companyName.companyName );
+		    });
+		    
+		    $scope.colFilter.term = $scope.colFilter.listTerm.join(', ');
+		    $scope.colFilter.condition = new RegExp($scope.colFilter.listTerm.join('|'));
+		 if($elm){
+  		      $elm.remove();
+  		 }
+		// $route.reload();
+		// $scope.getContactsData();
 	 }
+	 
 	 
 	 $scope.showTypeModal = function() {
 		    $scope.listOfAges1 = [];
@@ -1336,7 +1351,7 @@ angular.module('newApp')
 		      $scope.gridOptions2.data.push({type: type});
 		    });
 		    
-		    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions2" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button><button id="button" class="btn btn-primary" ng-click="removeCompanyFulter()">Remove Filters</button></div></div></div></div>';
+		    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions2" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button><button id="button" class="btn btn-primary" ng-click="removeTypeFilter()">Remove Filters</button></div></div></div></div>';
 		    $elm = angular.element(html);
 		    angular.element(document.body).prepend($elm);
 		 
@@ -1344,11 +1359,12 @@ angular.module('newApp')
 		    
 		  }
 	 
+	 	$scope.typeToData = {};
 	 	$scope.closeType = function() {
-			    var ages = $scope.gridApi2.selection.getSelectedRows();
+	 			$scope.typeToData = $scope.gridApi2.selection.getSelectedRows();
 			    $scope.colFilter2.listTerm = [];
 			    
-			    ages.forEach( function( type ) {
+			    $scope.typeToData.forEach( function( type ) {
 			      $scope.colFilter2.listTerm.push( type.type );
 			    });
 			    
@@ -1359,6 +1375,20 @@ angular.module('newApp')
 			    }
 		  };
 		  
+		  $scope.removeTypeFilter = function(){
+			  $scope.typeToData = $scope.gridApi2.selection.getSelectedRows();
+			    $scope.colFilter2.listTerm = [];
+			    
+			    $scope.typeToData.forEach( function( type ) {
+			      $scope.colFilter2.listTerm.splice( type.type );
+			    });
+			    
+			    $scope.colFilter2.term = $scope.colFilter2.listTerm.join(', ');
+			    $scope.colFilter2.condition = new RegExp($scope.colFilter2.listTerm.join('|'));
+			    if ($elm) {
+			      $elm.remove();
+			    }
+		  }
 		  
 		  $scope.searchFilterByType = function(text){
 	   			console.log(text);
@@ -1381,4 +1411,49 @@ angular.module('newApp')
 	    		console.log("edit");
 	    		$location.path('/createUser/invite');
 	    	}
+		  
+		  
+		  $scope.showDyanemicModal = function() {
+			    $scope.listOfAges3 = [];
+			    console.log($scope.col.grid.appScope.gridOptions.data);
+			    $scope.col.grid.appScope.gridOptions.data.forEach( function ( row ) {
+			      if ( $scope.listOfAges3.indexOf( row.type ) === -1 ) {
+			        $scope.listOfAges3.push( row.type );
+			      }
+			    });
+			    $scope.listOfAges3.sort();
+			    
+			    $scope.gridOptions3 = { 
+			      data: [],
+			      enableColumnMenus: false,
+			      onRegisterApi: function( gridApi) {
+			        $scope.gridApi3 = gridApi;
+			        
+			        if ( $scope.colFilter3 && $scope.colFilter3.listTerm ){
+			          $timeout(function() {
+			            $scope.colFilter3.listTerm.forEach( function( type ) {
+			              var entities = $scope.gridOptions3.data.filter( function( row ) {
+			                return row.type === type;
+			              });
+			              
+			              if( entities.length > 0 ) {
+			                $scope.gridApi3.selection.selectRow(entities[0]);
+			              }
+			            });
+			          });
+			        }
+			      } 
+			    };
+			    
+			    $scope.listOfAges3.forEach(function( type ) {
+			      $scope.gridOptions3.data.push({type: type});
+			    });
+			    
+			    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions3" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button><button id="button" class="btn btn-primary" ng-click="removeDyanmicFulter()">Remove Filters</button></div></div></div></div>';
+			    $elm = angular.element(html);
+			    angular.element(document.body).prepend($elm);
+			 
+			    $compile($elm)($scope);
+			    
+			  }
 }]);
