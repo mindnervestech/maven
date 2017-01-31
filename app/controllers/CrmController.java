@@ -578,7 +578,7 @@ public class CrmController extends Controller {
 				    	    		 contact.lastEditedDate = row[25];
 				    	    	 }
 				    	    	 if(row.length >= 27) {
-				    	    		// contact.assignedTo = row[26];
+				    	    		 contact.assignedTo = row[26];
 				    	    	 }
 				    	    	 if(row.length >= 28) {
 				    	    		 contact.campaignSource = row[27];
@@ -587,10 +587,11 @@ public class CrmController extends Controller {
 				    	    		 contact.priority = row[28];
 				    	    	 }
 				    	    	 if(row.length >= 30) {
-				    	    		 GroupTable gr = null;
+				    	    		 /*GroupTable gr = null;
 				    	  		    if(row[29] != null)
 				    	  		    	gr = GroupTable.findByName(row[29]);
-				    	    		 contact.groups = gr;
+				    	    		 contact.groups = gr;*/
+				    	    		 contact.setGroupsName(row[29]);
 				    	    	 }
 				    	    	 if(row.length >= 31) {
 				    	    		 contact.relationships = row[30];
@@ -691,7 +692,7 @@ public class CrmController extends Controller {
 			    	    			 contact.setLastEditedDate(row[25]);
 			    	    		 }
 			    	    		 if(row.length >= 27) {
-			    	    			// contactObj.setAssignedTo(row[26]);
+			    	    			 contactObj.setAssignedTo(row[26]);
 			    	    		 }
 			    	    		 if(row.length >= 28) {
 			    	    			 contact.setCampaignSource(row[27]);
@@ -700,10 +701,11 @@ public class CrmController extends Controller {
 			    	    			 contact.setPriority(row[28]);
 			    	    		 }
 			    	    		 if(row.length >= 30) {
-			    	    			 GroupTable gr = null;
+			    	    			 /*GroupTable gr = null;
 			    	    			 if(row[29] != null)
 			    	    				 gr = GroupTable.findByName(row[29]);
-			    	    			 contact.setGroups(gr);
+			    	    			 contact.setGroups(gr);*/
+			    	    			 contact.setGroupsName(row[29]);
 			    	    		 }
 			    	    		 if(row.length >= 31) {
 			    	    			 contact.setRelationships(row[30]);

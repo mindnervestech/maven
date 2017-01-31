@@ -39,6 +39,7 @@ public class ContactsVM {
 	public String campaignSource;
 	public String priority;
 	public GroupTable groups;
+	public String groupsName;
 	public String relationships;
 	public String notes;
 	public String workEmail;
@@ -258,6 +259,13 @@ public class ContactsVM {
 	}
 	public void setRelationships(String relationships) {
 		this.relationships = relationships;
+	}
+	
+	public String getGroupsName() {
+		return groupsName;
+	}
+	public void setGroupsName(String groupsName) {
+		this.groupsName = groupsName;
 	}
 	public String getNotes() {
 		return notes;

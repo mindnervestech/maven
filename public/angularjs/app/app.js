@@ -713,6 +713,18 @@ var MakeApp = angular
   		    controller: 'crmCtrl'
   		};
   	})
+  	
+  	/*.directive('myCustomModal3', function() {
+  		
+  		return{
+  	        scope: {
+  	        	values: '='
+  	         },
+  			template: '<label>{{colFilter2.term}}</label>{{values}}<button ng-click="showDyanemicModal()">^</button>',
+  			controller: 'crmCtrl'
+			
+		};
+  	})*/
 	
 		.directive('myCustomModalReq', function() {
  		return {
