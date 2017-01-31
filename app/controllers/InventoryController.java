@@ -944,9 +944,15 @@ public class InventoryController extends Controller {
 							   vm.actionClientPdf = lType2.actionClientPdf;
 							   vm.confirmationMsg = lType2.confirmationMsg;
 							   vm.dowpdfIds = lType2.dowpdfIds;
-							  
+							  int countunClaimReq = 0;
 							   List<RequestMoreInfo> rInfo = RequestMoreInfo.findAllOtherLeadIdAndStatus(vm.id.toString());		   
 							   vm.hideTab = String.valueOf(rInfo.size());
+							   for(RequestMoreInfo rInfo2:rInfo){
+								   if(rInfo2.isRead == 0){
+									   countunClaimReq++;
+								   }
+							   }
+							   vm.unClaimReq = countunClaimReq;
 							   lVmList.add(vm);
 			   }
 			   

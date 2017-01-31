@@ -6,7 +6,7 @@
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="tradeIn()">Trade In Inquiries</button></a></li>
       <li role="presentation" class="" ng-if="userRole == 'Manager' || premiumFlagForSale == 1"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goPremium()">Premium</button></a></li>
        -->
-      <li ng-repeat="lead in leadList" role="presentation" ng-class="lead.id == leadId ?'active':''"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="otherLeads(lead)">{{lead.leadName}}</button></a></li>
+      <li ng-repeat="lead in leadList" role="presentation" ng-class="lead.id == leadId ?'active':''"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="otherLeads(lead)" style="margin-right: 0px;">{{lead.leadName}}</button><span class="badge badge-header" style="border-radius: 17px / 17px;background-color: red;font-size: 14px;" ng-if="lead.unClaimReq != 0"><b>{{lead.unClaimReq}}</b></span></a></li>
       <!-- <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goContactUs()">ContactUs</button></a></li> -->
     </ul>
     	<div class="col-md-10"></div>
