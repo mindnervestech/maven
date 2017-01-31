@@ -62,7 +62,7 @@ angular.module('newApp')
    		                                 { name: 'phone', displayName: 'Phone',cellEditableCondition: false, width:'10%', enableColumnMenu: false,
    		                                 },
    		                                 { name: 'assignedToName', displayName: 'Assigned To',enableSorting: false, width:'12%',cellEditableCondition: false, enableColumnMenu: false,
-   		                                	filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter1 in col.filters"><div my-custom-modal1></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByAssigned(text)" ng-model="text"></div>'
+   		                                	filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><div my-custom-modal1></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByAssigned(text)" ng-model="text"></div>'
    		                                 },
        		                                
        		                                 ];  
@@ -1134,22 +1134,22 @@ angular.module('newApp')
 		/*--------------------------------Custome Search Filter --------------------------------*/	
 			
 			$scope.showAssignedModal = function() {
-	   		    $scope.listOfAges1 = [];
+	   		    $scope.listOfAges = [];
 	   		 $scope.contactsList.forEach( function ( row ) {
-	   		    	if($scope.listOfAges1.indexOf( row.assignedToName ) === -1 ) {
-	   		        	$scope.listOfAges1.push( row.assignedToName );
+	   		    	if($scope.listOfAges.indexOf( row.assignedToName ) === -1 ) {
+	   		        	$scope.listOfAges.push( row.assignedToName );
 	   		        	console.log(row.assignedToName);
 	   		      	}
 	   		    });
-	   		    $scope.listOfAges1.sort();
+	   		    $scope.listOfAges.sort();
 	   		    $scope.gridOptions = { 
 	   		    	data: [],
 	   		    	enableColumnMenus: false,
 	   		    	onRegisterApi: function( gridApi) {
 	   		        $scope.gridApi = gridApi;
-	   		        if($scope.colFilter1 && $scope.colFilter1.listTerm ){
+	   		        if($scope.colFilter && $scope.colFilter.listTerm ){
 	   		        	$timeout(function() {
-	   		        		$scope.colFilter1.listTerm.forEach( function( assignedToName ) {
+	   		        		$scope.colFilter.listTerm.forEach( function( assignedToName ) {
 	   		        			var entities = $scope.gridOptions.data.filter( function( row ) {
 	   		        				return row.assignedToName === assignedToName;
 	   		        			}); 
@@ -1163,7 +1163,7 @@ angular.module('newApp')
 	   		        }
 	   		      } 
 	   		    };
-	   		    $scope.listOfAges1.forEach(function( assignedToName ) {
+	   		    $scope.listOfAges.forEach(function( assignedToName ) {
 	   		    	$scope.gridOptions.data.push({assignedToName: assignedToName});
 	   		    });
 	   		    console.log( $scope.gridOptions.data);
@@ -1178,12 +1178,12 @@ angular.module('newApp')
 				//var ages = $scope.gridApi1.selection.getSelectedRows();
 				$scope.assignedTo = $scope.gridApi.selection.getSelectedRows();
 				console.log($scope.assignedTo);
-	   		    $scope.colFilter1.listTerm = [];
+	   		    $scope.colFilter.listTerm = [];
 	   		    $scope.assignedTo.forEach( function( assignedToName ) {
-	   		    	$scope.colFilter1.listTerm.push( assignedToName.assignedToName );
+	   		    	$scope.colFilter.listTerm.push( assignedToName.assignedToName );
 	   		    });
-	   		    $scope.colFilter1.term = $scope.colFilter1.listTerm.join(', ');
-	   		    $scope.colFilter1.condition = new RegExp($scope.colFilter1.listTerm.join('|'));
+	   		    $scope.colFilter.term = $scope.colFilter.listTerm.join(', ');
+	   		    $scope.colFilter.condition = new RegExp($scope.colFilter.listTerm.join('|'));
 	   		    if ($elm) {
 	   		    	$elm.remove();
 	   		    }
@@ -1360,13 +1360,13 @@ angular.module('newApp')
 	 }
 	 $scope.removeFilters = function(){
 		 $scope.assignedTo = $scope.gridApi.selection.getSelectedRows();
-		    $scope.colFilter1.listTerm = [];
+		    $scope.colFilter.listTerm = [];
 		    console.log($scope.assignedTo);
 		    $scope.assignedTo.forEach( function( assignedToName ) {
-		    	$scope.colFilter1.listTerm.splice( assignedToName.assignedToName );
+		    	$scope.colFilter.listTerm.splice( assignedToName.assignedToName );
 		    });
-		    $scope.colFilter1.term = $scope.colFilter1.listTerm.join(', ');
-		    $scope.colFilter1.condition = new RegExp($scope.colFilter1.listTerm.join('|'));
+		    $scope.colFilter.term = undefined;
+		    $scope.colFilter.condition = new RegExp($scope.colFilter.listTerm.join('|'));
 		    if ($elm) {
 		    	$elm.remove();
 		    }
@@ -1386,7 +1386,7 @@ angular.module('newApp')
 		      $scope.colFilter.listTerm.splice( companyName.companyName );
 		    });
 		    
-		    $scope.colFilter.term = $scope.colFilter.listTerm.join(', ');
+		    $scope.colFilter.term = undefined;
 		    $scope.colFilter.condition = new RegExp($scope.colFilter.listTerm.join('|'));
 		 if($elm){
   		      $elm.remove();
@@ -1397,14 +1397,14 @@ angular.module('newApp')
 	 
 	 
 	 $scope.showTypeModal = function() {
-		    $scope.listOfAges1 = [];
+		    $scope.listOfAges = [];
 		    
 		    $scope.contactsList.forEach( function ( row ) {
-		      if ( $scope.listOfAges1.indexOf( row.type ) === -1 ) {
-		        $scope.listOfAges1.push( row.type );
+		      if ( $scope.listOfAges.indexOf( row.type ) === -1 ) {
+		        $scope.listOfAges.push( row.type );
 		      }
 		    });
-		    $scope.listOfAges1.sort();
+		    $scope.listOfAges.sort();
 		    
 		    $scope.gridOptions = { 
 		      data: [],
@@ -1412,9 +1412,9 @@ angular.module('newApp')
 		      onRegisterApi: function( gridApi) {
 		        $scope.gridApi = gridApi;
 		        
-		        if ( $scope.colFilter2 && $scope.colFilter2.listTerm ){
+		        if ( $scope.colFilter && $scope.colFilter.listTerm ){
 		          $timeout(function() {
-		            $scope.colFilter2.listTerm.forEach( function( type ) {
+		            $scope.colFilter.listTerm.forEach( function( type ) {
 		              var entities = $scope.gridOptions.data.filter( function( row ) {
 		                return row.type === type;
 		              });
@@ -1428,7 +1428,7 @@ angular.module('newApp')
 		      } 
 		    };
 		    
-		    $scope.listOfAges1.forEach(function( type ) {
+		    $scope.listOfAges.forEach(function( type ) {
 		      $scope.gridOptions.data.push({type: type});
 		    });
 		    
@@ -1443,14 +1443,14 @@ angular.module('newApp')
 	 	$scope.typeToData = {};
 	 	$scope.closeType = function() {
 	 			$scope.typeToData = $scope.gridApi.selection.getSelectedRows();
-			    $scope.colFilter2.listTerm = [];
+			    $scope.colFilter.listTerm = [];
 			    
 			    $scope.typeToData.forEach( function( type ) {
-			      $scope.colFilter2.listTerm.push( type.type );
+			      $scope.colFilter.listTerm.push( type.type );
 			    });
 			    
-			    $scope.colFilter2.term = $scope.colFilter2.listTerm.join(', ');
-			    $scope.colFilter2.condition = new RegExp($scope.colFilter2.listTerm.join('|'));
+			    $scope.colFilter.term = $scope.colFilter.listTerm.join(', ');
+			    $scope.colFilter.condition = new RegExp($scope.colFilter.listTerm.join('|'));
 			    if ($elm) {
 			      $elm.remove();
 			    }
@@ -1458,14 +1458,14 @@ angular.module('newApp')
 		  
 		  $scope.removeTypeFilter = function(){
 			  $scope.typeToData = $scope.gridApi.selection.getSelectedRows();
-			    $scope.colFilter2.listTerm = [];
+			    $scope.colFilter.listTerm = [];
 			    
 			    $scope.typeToData.forEach( function( type ) {
-			      $scope.colFilter2.listTerm.splice( type.type );
+			      $scope.colFilter.listTerm.splice( type.type );
 			    });
 			    
-			    $scope.colFilter2.term = $scope.colFilter2.listTerm.join(', ');
-			    $scope.colFilter2.condition = new RegExp($scope.colFilter2.listTerm.join('|'));
+			    $scope.colFilter.term = undefined;
+			    $scope.colFilter.condition = new RegExp($scope.colFilter.listTerm.join('|'));
 			    if ($elm) {
 			      $elm.remove();
 			    }
