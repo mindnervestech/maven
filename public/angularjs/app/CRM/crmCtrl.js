@@ -126,6 +126,7 @@ angular.module('newApp')
    		    console.log($scope.contactsList);
    		 //$scope.gridOptions.data = $scope.contactsList;
    		$scope.contactsList.forEach( function ( row ) {
+   			console.log(row.companyName);
    		      if ( $scope.listOfAges.indexOf( row.companyName ) === -1 ) {
    		        $scope.listOfAges.push( row.companyName );
    		      }
