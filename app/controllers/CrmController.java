@@ -1064,7 +1064,7 @@ public class CrmController extends Controller {
 	       			vm.lastName = contact.lastName;
 	       			vm.suffix = contact.suffix;
 	       			if(contact.companyName.equals("null")){
-	       				vm.companyName = null;
+	       				vm.companyName = "";
 	       			}else{
 	       				vm.companyName = contact.companyName;
 	       			}
