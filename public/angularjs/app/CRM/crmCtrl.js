@@ -1514,10 +1514,7 @@ angular.module('newApp')
 		  $scope.showDyanemicModal = function(colType) {
 			  console.log(colType);
 			    $scope.listOfAges = [];
-			    console.log("***888888888888888***8");
 			    
-			    console.log($scope.col.grid.appScope.gridOptions.data);
-			    console.log($scope.col.grid.appScope.gridOptions.data);
 			    $scope.col.grid.appScope.gridOptions.data.forEach( function ( row ) {
 			      if ( $scope.listOfAges.indexOf( row[colType] ) === -1 ) {
 			        $scope.listOfAges.push( row[colType] );
@@ -1535,7 +1532,7 @@ angular.module('newApp')
 			          $timeout(function() {
 			            $scope.colFilter.listTerm.forEach( function( type ) {
 			              var entities = $scope.gridOptions.data.filter( function( row ) {
-			                return row[colType] === type;
+			                return row.type === type;
 			              });
 			              
 			              if( entities.length > 0 ) {
@@ -1551,7 +1548,7 @@ angular.module('newApp')
 			      $scope.gridOptions.data.push({type: type});
 			    });
 			    
-			    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeDyanemicFilter()">Remove Filters</button></div></div></div></div></div></div>';
+			    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="selectDyanemicType()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeDyanemicFilter()">Remove Filters</button></div></div></div></div></div></div>';
 			    $elm = angular.element(html);
 			    angular.element(document.body).prepend($elm);
 			 
@@ -1574,4 +1571,19 @@ angular.module('newApp')
 			      $elm.remove();
 			    }
 		  }
+		  $scope.selectDyanemicType = function() {
+	 			$scope.typeToData = $scope.gridApi.selection.getSelectedRows();
+			    $scope.colFilter.listTerm = [];
+			    
+			    $scope.typeToData.forEach( function( type ) {
+			      $scope.colFilter.listTerm.push( type.type );
+			    });
+			    
+			    $scope.colFilter.term = $scope.colFilter.listTerm.join(', ');
+			    $scope.colFilter.condition = new RegExp($scope.colFilter.listTerm.join('|'));
+			    if ($elm) {
+			      $elm.remove();
+			    }
+		  };
+		  
 }]);

@@ -1976,7 +1976,7 @@ angular.module('newApp')
 																					             }
 																					       	} ,
 																					       },
-																					     { name: 'collectionName', displayName: 'Collection', width:'14%',enableColumnMenu: false,cellEditableCondition: false,
+																					     { name: 'collectionName', displayName: 'Interest', width:'14%',enableColumnMenu: false,cellEditableCondition: false,
 									    		    						                   	cellTemplate:'<a>{{row.entity.collectionName}}</a>',
 									    		    						                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 									    		    						                          if (row.entity.noteFlag != 1) {
@@ -10258,7 +10258,7 @@ angular.module('newApp')
 		                          }
 		                   	} ,
 		                    });
-						$scope.gridOptions13.columnDefs.push({ name: 'collectionName', displayName: 'Collection', width:'14%',enableColumnMenu: false,cellEditableCondition: false,
+						$scope.gridOptions13.columnDefs.push({ name: 'collectionName', displayName: 'Interest', width:'14%',enableColumnMenu: false,cellEditableCondition: false,
 		                   	cellTemplate:'<a>{{row.entity.collectionName}}</a>',
 		                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                          if (row.entity.noteFlag != 1) {

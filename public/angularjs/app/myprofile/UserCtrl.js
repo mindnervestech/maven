@@ -505,7 +505,7 @@ angular.module('newApp')
 	}
 	
 	
-	if($routeParams.inPage == "external" || $routeParams.inPage == "invite"){
+	if($routeParams.inPage == "external" || $routeParams.inPage == "invite" || $routeParams.inPage == "backToDashBoard"){
 		//$scope.user.userType = "Sales Person";
 		
 		$http.get('/getAllPermissionById')
@@ -831,7 +831,7 @@ angular.module('newApp')
 			$scope.user.locationId = data;
 		console.log($scope.permissionList);
 		
-		if($routeParams.inPage == "external" || $routeParams.inPage == "invite"){
+		if($routeParams.inPage == "external" || $routeParams.inPage == "invite" || $routeParams.inPage == "backToDashBoard"){
 			$scope.user.userType = "Sales Person";
 			
 			angular.forEach($scope.permissionList, function(obj, index){
@@ -983,6 +983,8 @@ angular.module('newApp')
 							$location.path('/otherLeads/35');
 						}else if($routeParams.inPage == "invite"){
 							$location.path('/crm');
+						}else if($routeParams.inPage == "backToDashBoard"){
+							$location.path('/');
 						}
 						
 					}else{
@@ -1006,6 +1008,8 @@ angular.module('newApp')
 								$location.path('/otherLeads/35');
 							}else if($routeParams.inPage == "invite"){
 								$location.path('/crm');
+							}else if($routeParams.inPage == "backToDashBoard"){
+								$location.path('/');
 							}
 						});
 					}
@@ -1028,6 +1032,8 @@ angular.module('newApp')
 							$location.path('/otherLeads/35');
 						}else if($routeParams.inPage == "invite"){
 							$location.path('/crm');
+						}else if($routeParams.inPage == "backToDashBoard"){
+							$location.path('/');
 						}
 			            $scope.init();
 					});
@@ -1049,6 +1055,8 @@ angular.module('newApp')
 								$location.path('/otherLeads/35');
 							}else if($routeParams.inPage == "invite"){
 								$location.path('/crm');
+							}else if($routeParams.inPage == "backToDashBoard"){
+								$location.path('/');
 							}
 				            $scope.init();
 					});

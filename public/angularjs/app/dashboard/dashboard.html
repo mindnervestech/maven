@@ -999,6 +999,9 @@ float: right !important;
 									  </div>
 									          <br>
 									          <div style="width: 100%;  float: left;display: flex;overflow-x: auto;height: 360px;padding-left: 43px;">
+									          <div class="col-md-12" style="margin-top: 128px;text-align:center;" ng-if="userPerformanceList.length <= 0">
+														<a class="btn btn-blue" href="#createUser/backToDashBoard">Invite Sales Person</a> <!-- href="#addManufacturers" -->
+												</div>
 									                <div style="float: left;" ng-repeat="item in userPerformanceList | orderBy: orderItem">
 									               									                
 									              <div>
