@@ -93,6 +93,7 @@ angular.module('newApp')
    			compData = [];
    			$scope.contactsList.forEach( function addDates( row, index ){
    				//console.log(row.companyName.match(text));
+   				
    				if(row.companyName){
    					if(row.companyName.includes(text)){
    						compData.push(row);
@@ -127,6 +128,13 @@ angular.module('newApp')
    		 //$scope.gridOptions.data = $scope.contactsList;
    		$scope.contactsList.forEach( function ( row ) {
    			console.log(row.companyName);
+   			if(row.companyName != null){
+   				if(row.companyName.trim() == "null" || row.companyName.trim() == ""){
+   	   				row.companyName = null;
+   	   				console.log(row.companyName,"iii");  
+   	   			}
+   			}
+   			
    		      if ( $scope.listOfAges.indexOf( row.companyName ) === -1 ) {
    		        $scope.listOfAges.push( row.companyName );
    		      }
@@ -203,6 +211,7 @@ angular.module('newApp')
    			$scope.colFilter.listTerm = [];
    		    
    			$scope.companyNameData.forEach( function( companyName ) {
+   				
    		      $scope.colFilter.listTerm.push( companyName.companyName );
    		    });
    		    
