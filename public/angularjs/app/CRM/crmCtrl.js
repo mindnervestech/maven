@@ -127,11 +127,9 @@ angular.module('newApp')
    		    console.log($scope.contactsList);
    		 //$scope.gridOptions.data = $scope.contactsList;
    		$scope.contactsList.forEach( function ( row ) {
-   			console.log(row.companyName);
    			if(row.companyName != null){
    				if(row.companyName.trim() == "null" || row.companyName.trim() == ""){
    	   				row.companyName = null;
-   	   				console.log(row.companyName,"iii");  
    	   			}
    			}
    			
@@ -420,7 +418,7 @@ angular.module('newApp')
 						$scope.flagValFlag = 1;
 						name = name.replace(" ","");
 						$scope.gridOptions.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,enableColumnMenu: false,
-							filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter3 in col.filters"><div my-custom-modal3></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByType(text)" ng-model="text"></div>',
+							filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><div my-custom-modal3 type="'+name+'"></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByType(text)" ng-model="text"></div>',
 							cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 			                        return 'red';
@@ -1513,31 +1511,35 @@ angular.module('newApp')
 	    	}
 		  
 		  
-		  $scope.showDyanemicModal = function() {
-			    $scope.listOfAges3 = [];
+		  $scope.showDyanemicModal = function(colType) {
+			  console.log(colType);
+			    $scope.listOfAges = [];
+			    console.log("***888888888888888***8");
+			    
+			    console.log($scope.col.grid.appScope.gridOptions.data);
 			    console.log($scope.col.grid.appScope.gridOptions.data);
 			    $scope.col.grid.appScope.gridOptions.data.forEach( function ( row ) {
-			      if ( $scope.listOfAges3.indexOf( row.type ) === -1 ) {
-			        $scope.listOfAges3.push( row.type );
+			      if ( $scope.listOfAges.indexOf( row[colType] ) === -1 ) {
+			        $scope.listOfAges.push( row[colType] );
 			      }
 			    });
-			    $scope.listOfAges3.sort();
+			    $scope.listOfAges.sort();
 			    
-			    $scope.gridOptions3 = { 
+			    $scope.gridOptions = { 
 			      data: [],
 			      enableColumnMenus: false,
 			      onRegisterApi: function( gridApi) {
-			        $scope.gridApi3 = gridApi;
+			        $scope.gridApi = gridApi;
 			        
-			        if ( $scope.colFilter3 && $scope.colFilter3.listTerm ){
+			        if ( $scope.colFilter && $scope.colFilter.listTerm ){
 			          $timeout(function() {
-			            $scope.colFilter3.listTerm.forEach( function( type ) {
-			              var entities = $scope.gridOptions3.data.filter( function( row ) {
-			                return row.type === type;
+			            $scope.colFilter.listTerm.forEach( function( type ) {
+			              var entities = $scope.gridOptions.data.filter( function( row ) {
+			                return row[colType] === type;
 			              });
 			              
 			              if( entities.length > 0 ) {
-			                $scope.gridApi3.selection.selectRow(entities[0]);
+			                $scope.gridApi.selection.selectRow(entities[0]);
 			              }
 			            });
 			          });
@@ -1545,11 +1547,11 @@ angular.module('newApp')
 			      } 
 			    };
 			    
-			    $scope.listOfAges3.forEach(function( type ) {
-			      $scope.gridOptions3.data.push({type: type});
+			    $scope.listOfAges.forEach(function( type ) {
+			      $scope.gridOptions.data.push({type: type});
 			    });
 			    
-			    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeTypeFilter()">Remove Filters</button></div></div></div></div></div></div>';
+			    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeDyanemicFilter()">Remove Filters</button></div></div></div></div></div></div>';
 			    $elm = angular.element(html);
 			    angular.element(document.body).prepend($elm);
 			 
@@ -1557,4 +1559,19 @@ angular.module('newApp')
 			    $("#modelClose").modal('show');
 			    
 			  }
+		  
+		  $scope.removeDyanemicFilter = function(){
+			  $scope.typeToData = $scope.gridApi.selection.getSelectedRows();
+			    $scope.colFilter.listTerm = [];
+			    
+			    /*$scope.typeToData.forEach( function( type ) {
+			      $scope.colFilter.listTerm.splice( type.type );
+			    });*/
+			    
+			    $scope.colFilter.term = undefined;
+			    $scope.colFilter.condition = new RegExp($scope.colFilter.listTerm.join('|'));
+			    if ($elm) {
+			      $elm.remove();
+			    }
+		  }
 }]);

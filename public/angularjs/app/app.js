@@ -714,17 +714,19 @@ var MakeApp = angular
   		};
   	})
   	
-  	/*.directive('myCustomModal3', function() {
+  	.directive('myCustomModal3', function() {
   		
   		return{
-  	        scope: {
-  	        	values: '='
-  	         },
-  			template: '<label>{{colFilter2.term}}</label>{{values}}<button ng-click="showDyanemicModal()">^</button>',
+  	       
+  			template: function(elem,attr){
+  				var htmlvar = "showDyanemicModal('"+attr.type+"')";
+  				console.log(htmlvar);
+  				return '<label>{{colFilter2.term}}</label><button ng-click="'+htmlvar+'">^</button>';
+  	  			
+  			},
   			controller: 'crmCtrl'
-			
 		};
-  	})*/
+  	})
 	
 		.directive('myCustomModalReq', function() {
  		return {
