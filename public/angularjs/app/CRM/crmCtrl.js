@@ -34,7 +34,7 @@ angular.module('newApp')
    		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
    		    paginationPageSize: 150,
    		    enableFiltering: true,
-   		    useExternalFiltering: true,
+   		   // useExternalFiltering: true,
    		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
    		 };
    		 $scope.gridOptions.enableHorizontalScrollbar = 2;
@@ -48,7 +48,7 @@ angular.module('newApp')
    		                                 { name: 'contactId', displayName: '#', width:'4%',cellEditableCondition: false,enableColumnMenu: false,
    		                                 },
    		                                 { name: 'type', displayName: 'Type',cellEditableCondition: false, enableSorting: false, enableColumnMenu: false, width:'10%',
-   		                                	filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter2 in col.filters"><div my-custom-modal2></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByType(text)" ng-model="text"></div>'
+   		                                	filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><div my-custom-modal2></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByType(text)" ng-model="text"></div>'
    		                                 },
    		                                 { name: 'firstName', displayName: 'Name', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
    		                                 },
@@ -70,13 +70,21 @@ angular.module('newApp')
    		$scope.gridOptions.onRegisterApi = function(gridApi){
 			 $scope.gridApi = gridApi;
 			 
-	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+	   		/*$scope.gridApi.core.on.filterChanged( $scope, function() {
 		          var grid = this.grid;
+		          console.log(grid.columns[0].filters[0].term,"grid.columns[0].filters[0].term")
+		          console.log(grid.columns[1].filters[0].term,"grid.columns[1].filters[0].term")
+		          console.log(grid.columns[2].filters[0].term,"grid.columns[2].filters[0].term")
+		          console.log(grid.columns[3].filters[0].term,"grid.columns[3].filters[0].term")
+		          console.log(grid.columns[4].filters[0].term,"grid.columns[4].filters[0].term")
+		          console.log(grid.columns[5].filters[0].term,"grid.columns[5].filters[0].term")
+		          console.log(grid.columns[6].filters[0].term,"grid.columns[6].filters[0].term")
+		          console.log(grid.columns[7].filters[0].term,"grid.columns[7].filters[0].term")
+		          console.log($scope.contactsList);
 		        	  $scope.gridOptions.data = $filter('filter')($scope.contactsList,{'contactId':grid.columns[1].filters[0].term,'type':grid.columns[2].filters[0].term,'firstName':grid.columns[3].filters[0].term,'companyName':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'phone':grid.columns[6].filters[0].term,'assignedToName':grid.columns[7].filters[0].term},undefined);
-		        });
+		        });*/
 	   		
    		};
-   		 
    		$scope.searchFilter = function(text){
    			console.log(text);
    			if(text == ''){
@@ -150,12 +158,12 @@ angular.module('newApp')
    		      $scope.gridOptions.data.push({companyName: companyName});
    		    });
    		    
-   		    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Company Name</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="close()">Filter</button><button id="button" class="btn btn-primary" ng-click="removeCompanyFulter()">Remove Filters</button><button id="button" class="btn btn-primary" ng-click="closepopUp()">Close</button></div></div></div></div>';
+   		    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Company Name</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="close()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeCompanyFulter()">Remove Filters</button></div></div></div></div></div></div>';
    		    $elm = angular.element(html);
    		    angular.element(document.body).prepend($elm);
    		 
    		    $compile($elm)($scope);
-   		    
+   		    $("#modelClose").modal('show');
    		  }
    		
 		$scope.selectedCrm = [];
@@ -402,7 +410,7 @@ angular.module('newApp')
 						$scope.flagValFlag = 1;
 						name = name.replace(" ","");
 						$scope.gridOptions.columnDefs.push({ name: name, displayName: value.label, width:'10%',cellEditableCondition: false,enableColumnMenu: false,
-							//filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter3 in col.filters"><div my-custom-modal3></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByType(text)" ng-model="text"></div>',
+							filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter3 in col.filters"><div my-custom-modal3></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByType(text)" ng-model="text"></div>',
 							cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			              		if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 			                        return 'red';
@@ -1167,10 +1175,11 @@ angular.module('newApp')
 	   		    	$scope.gridOptions.data.push({assignedToName: assignedToName});
 	   		    });
 	   		    console.log( $scope.gridOptions.data);
-	   		    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Assigned To</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="checkAssigned()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeFilters()">Remove Filters</button><button id="button" class="btn btn-primary" ng-click="closepopUp()">Close</button></div></div></div></div>';
+	   		    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Assigned To</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="checkAssigned()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeFilters()">Remove Filters</button></div></div></div></div></div></div>';
 	   		    $elm = angular.element(html);
 	   		    angular.element(document.body).prepend($elm);
 	   		    $compile($elm)($scope);
+	   		    $("#modelClose").modal('show');
 			}
 			
 			$scope.assignedTo = {};
@@ -1432,12 +1441,12 @@ angular.module('newApp')
 		      $scope.gridOptions.data.push({type: type});
 		    });
 		    
-		    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button><button id="button" class="btn btn-primary" ng-click="removeTypeFilter()">Remove Filters</button><button id="button" class="btn btn-primary" ng-click="closepopUp()">Close</button></div></div></div></div>';
+		    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeTypeFilter()">Remove Filters</button></div></div></div></div></div></div>';
 		    $elm = angular.element(html);
 		    angular.element(document.body).prepend($elm);
 		 
 		    $compile($elm)($scope);
-		    
+		    $("#modelClose").modal('show');
 		  }
 	 
 	 	$scope.typeToData = {};
@@ -1530,11 +1539,12 @@ angular.module('newApp')
 			      $scope.gridOptions3.data.push({type: type});
 			    });
 			    
-			    var html = '<div class="modal" ng-style="{display: \'block\'}"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions3" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button><button id="button" class="btn btn-primary" ng-click="removeDyanmicFulter()">Remove Filters</button><button id="button" class="btn btn-primary" ng-click="closepopUp()">Close</button></div></div></div></div>';
+			    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeTypeFilter()">Remove Filters</button></div></div></div></div></div></div>';
 			    $elm = angular.element(html);
 			    angular.element(document.body).prepend($elm);
 			 
 			    $compile($elm)($scope);
+			    $("#modelClose").modal('show');
 			    
 			  }
 }]);
