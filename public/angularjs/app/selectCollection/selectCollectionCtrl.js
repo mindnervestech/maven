@@ -535,7 +535,9 @@ angular.module('newApp')
 				localStorage.setItem('popupType','Lead');
 				$scope.leadcreateData.leadName = $routeParams.leadId;
 				$scope.leadcreateData.callToAction = true;
+				$scope.leadcreateData.hideLead = false;
 				localStorage.setItem('callToAction',true);
+				localStorage.setItem('hideLead',true);
 				console.log($scope.leadcreateData);
 				apiserviceSelectCollection.addnewrUser($scope.leadcreateData).then(function(data){
 					localStorage.setItem('popupType','Lead');

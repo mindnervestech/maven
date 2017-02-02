@@ -4493,13 +4493,16 @@ angular.module('newApp')
 	    			 $scope.leadList = [];
 	    			apiserviceDashborad.getSelectedLeadType().then(function(response){
 	    				angular.forEach(response, function(value, key) {
-	    					if(value.callToAction){
-		    					$scope.leadList.push(value); 
-		    				}else{
-		    					if(value.hideTab != "0"){
-		    						$scope.leadList.push(value); 
-		    					}
-		    				}
+	    					if(value.hideLead == false){
+	    						if(value.callToAction){
+			    					$scope.leadList.push(value); 
+			    				}else{
+			    					if(value.hideTab != "0"){
+			    						$scope.leadList.push(value); 
+			    					}
+			    				}
+	    					}
+	    					
 	    				});
 	    			
 	    			});	

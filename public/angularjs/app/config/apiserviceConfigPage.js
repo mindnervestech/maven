@@ -127,6 +127,17 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
+	
+	this.getHideLeadCheck=function(entityId, intValue){
+		var defer = $q.defer();
+		
+		$http.get('/getHideLeadCheck/'+entityId+'/'+intValue).success(function(data) {
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	};
+	
 	this.getCheckButton=function(entityId, intValue){
 		var defer = $q.defer();
 		

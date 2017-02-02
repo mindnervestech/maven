@@ -940,6 +940,7 @@ public class InventoryController extends Controller {
 							   vm.callToAction = lType2.callToAction;
 							   vm.actionOutcomes = lType2.actionOutcomes;
 							   vm.actionTitle = lType2.actionTitle;
+							   vm.hideLead = lType2.hideLead;
 							   vm.maunfacturersIds = lType2.maunfacturersIds;
 							   vm.actionClientPdf = lType2.actionClientPdf;
 							   vm.confirmationMsg = lType2.confirmationMsg;

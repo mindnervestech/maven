@@ -25,6 +25,7 @@ public class LeadType extends Model {
 	public String maunfacturersIds;
 	public String confirmationMsg;
 	public Boolean deleted;
+	public Boolean hideLead;
 	public Long dowpdfIds;
 	
 	public Boolean getDeleted() {
@@ -53,6 +54,14 @@ public class LeadType extends Model {
 
 	public void setActionTitle(String actionTitle) {
 		this.actionTitle = actionTitle;
+	}
+
+	public Boolean getHideLead() {
+		return hideLead;
+	}
+
+	public void setHideLead(Boolean hideLead) {
+		this.hideLead = hideLead;
 	}
 
 	public String getActionOutcomes() {

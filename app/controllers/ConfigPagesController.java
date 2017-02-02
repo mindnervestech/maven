@@ -599,6 +599,7 @@ public class ConfigPagesController extends Controller{
 			     		lead.callToAction = vm.callToAction;
 			     		lead.actionClientPdf = vm.actionClientPdf;
 			     		lead.actionOutcomes = vm.actionOutcomes;
+			     		lead.hideLead = vm.hideLead;
 			     		lead.actionTitle = vm.actionTitle;
 			     		
 			     		leadVMs.add(lead);
@@ -615,6 +616,7 @@ public class ConfigPagesController extends Controller{
 			}
 		 
 		 public static Result getCheckButton(Long leadId,Integer intValue){
+				
 				LeadType lType = LeadType.findById(leadId);
 				lType.setShows(intValue);
 				if(intValue == 1){
@@ -622,6 +624,17 @@ public class ConfigPagesController extends Controller{
 				}else if(intValue == 0){
 					lType.setCallToAction(false);
 				}
+				lType.update();
+				return ok();
+			}
+		 public static Result getHideLeadCheck(Long leadId,Integer intValue){
+			 LeadType lType = LeadType.findById(leadId);
+				if(intValue == 1){
+					lType.setHideLead(true);
+				}else if(intValue == 0){
+					lType.setHideLead(false);
+				}
+				
 				lType.update();
 				return ok();
 			}
@@ -841,7 +854,7 @@ public class ConfigPagesController extends Controller{
 		    	   }else{
 		    		   lead.shows = 1;
 		    	   }
-		    	   
+		    	   lead.hideLead = vm.hideLead;
 		    	   lead.deleted = false;
 		    	   
 		    	   lead.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -1117,6 +1130,7 @@ public class ConfigPagesController extends Controller{
 					//vm.checkValue = leadData.
 					vm.profile = leadData.profile;
 					vm.callToAction = leadData.callToAction;
+					vm.hideLead = leadData.hideLead;
 					vm.actionTitle = leadData.actionTitle;
 					vm.actionOutcomes = leadData.actionOutcomes;
 					vm.actionClientPdf = leadData.actionClientPdf;

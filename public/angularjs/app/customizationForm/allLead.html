@@ -194,8 +194,8 @@
 								                <form ng-submit="callToAction()" style="margin-left: 12px;">
 								                <div class="modal-body">
 								                <br>
-								                <h4 class="modal-title" style="margin-bottom: 20px;">SYSTEM OUTCOMES</h4>
-								                <div class="col-md-12">
+								                 <h4 class="modal-title" ng-if="hideLead != true" style="margin-bottom: 20px;">SYSTEM OUTCOMES</h4>
+								                <div class="col-md-12" ng-if="hideLead != true">
 								                	<div class="col-sm-12">
 								                    
 								                    <div class="col-sm-12">
@@ -231,8 +231,8 @@
 											</div>
         										</div>
 								                </div>
-								                <br>
-								                <hr>
+								                <br ng-if="hideLead != true">
+								                <hr ng-if="hideLead != true">
 								                <br>
 								                <h4 class="modal-title" ng-if="callToActonP == '1'" style="margin-bottom: 20px;">"CALL TO ACTION" PROPERTIES </h4>
 								                <div class="col-md-12 form-group" ng-if="callToActonP == '1'">

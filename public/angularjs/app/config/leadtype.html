@@ -58,7 +58,13 @@
         												<input style="height:16px;width:16px;" class="col-sm-1" type="checkbox" name="callToAction"	ng-model="leadcreate.callToAction" ng-change="callActionGo(leadcreate.callToAction,leadcreate.leadName)" >
         												<label style="padding: 0px;margin-left: 4px; " class="col-sm-11">Add "Call to Action" to Website</label>
 													</div>
-												</div>				                
+												</div>	
+												<div class="col-sm-12" style="margin-top: 10px;">
+        											<div class="col-sm-10">
+        												<input style="height:16px;width:16px;" class="col-sm-1" type="checkbox" name="hideLead"	ng-model="leadcreate.hideLead">
+        												<label style="padding: 0px;margin-left: 4px; " class="col-sm-11">Hide this lead type from "+Create New Lead" form</label>
+													</div>
+												</div>			                
 								                </div>
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
@@ -113,7 +119,12 @@
 							<label style="padding: 0px;margin-left: 4px; " class="col-sm-11">Add "Call to Action" to Website</label>
 						</div>
 					</div>
-					
+					<div class="col-sm-12" style="margin-top: 10px;">
+        											<div class="col-sm-10">
+        												<input style="height:16px;width:16px;" class="col-sm-1" type="checkbox" name="hideLead" ng-change="saveHideLead(leadTypeData.hideLead,leadTypeData)"	ng-model="leadTypeData.hideLead" >
+        												<label style="padding: 0px;margin-left: 4px; " class="col-sm-11">Hide this lead type from "+Create New Lead" form1</label>
+													</div>
+												</div>
 					<input type="submit" class="btn btn-primary btn-embossed"
 						value="Edit Form">
 					<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>

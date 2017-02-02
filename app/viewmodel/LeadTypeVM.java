@@ -18,6 +18,7 @@ public class LeadTypeVM {
 	public Long sendpdfIds;  
 	public Long dowpdfIds;
 	public String hideTab;
+	public Boolean hideLead;
 	public Integer unClaimReq;
 
 	

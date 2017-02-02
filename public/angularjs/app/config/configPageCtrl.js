@@ -190,7 +190,19 @@ angular.module('newApp')
 			console.log(data);
 		})
 	}	
-	
+	$scope.saveHideLead = function(value,data){
+		console.log(value);
+		console.log(data);
+		var intValue = 0;
+		if(value == true){
+			intValue = 1;
+		}else if(value == false){
+			intValue = 0;
+		}
+		apiserviceConfigPage.getHideLeadCheck(data.id, intValue).then(function(data){
+			
+		})
+	}
 	$scope.setActionAndShow = function(value,allData){
 		console.log(value);
 		console.log(allData);
@@ -349,10 +361,14 @@ angular.module('newApp')
 			if($scope.leadcreate.callToAction == undefined){
 				$scope.leadcreate.callToAction = false;
 			}
+			if($scope.leadcreate.hideLead == undefined){
+				$scope.leadcreate.hideLead = false;
+			}
 			
 			$scope.leadcreateData.leadName = $scope.leadcreate.leadName;
 			$scope.leadcreateData.callToAction = $scope.leadcreate.callToAction;
 			localStorage.setItem('callToAction',$scope.leadcreate.callToAction);
+			localStorage.setItem('hideLead',$scope.leadcreate.hideLead);
 			$scope.namelead1 = [];
 			console.log($scope.leadcreate);
 		$scope.nameLead = $scope.leadcreate.leadName;

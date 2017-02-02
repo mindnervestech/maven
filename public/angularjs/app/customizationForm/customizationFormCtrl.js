@@ -18,6 +18,7 @@ angular.module('newApp')
 	  	$scope.loactionVal = localStorage.getItem('popupType');
 	  	
 	  	$scope.showDefault = localStorage.getItem('callToAction');
+	  	//$scope.hideLead = localStorage.getItem('hideLead');
 	  if($routeParams.formType == "Request Appointment"){
 		  $scope.appointFlag=1;
 		  
@@ -360,12 +361,18 @@ angular.module('newApp')
 					  console.log($scope.callactions);
 				  }
 				 
+				 $scope.hideLead = data.hideLead;
 				  if(data.callToAction == true){
 					  $scope.callToActonP = "1";
 				  }else{
 					  $scope.callToActonP = "0";
 				  }
+				  console.log($scope.hideLead);
+				  console.log($scope.callToActonP);
+				  if($scope.hideLead == false || $scope.callToActonP == "1" ){
 					  $('#completedPopup').modal('show');
+				  }
+					 
 				});
 		  }
 		  apiserviceCustomizationForm.getInternalPdfData().then(function(data){
@@ -490,7 +497,15 @@ angular.module('newApp')
 			 console.log($scope.callactions);
 			 console.log($scope.callactions.toString());
 			$scope.selectout = '0';
-			 if($scope.callactions.toString() != ""){
+			console.log($scope.hideLead);
+			  console.log($scope.callToActonP);
+			  var actionFlag = 0;
+			 if($scope.hideLead == false && $scope.callToActonP == "0" ){
+				  actionFlag = 1;
+			  }else if($scope.callactions.toString() != ""){
+				  actionFlag = 1;
+			  }
+			 if(actionFlag == 1){
 				 $scope.selectout = '0';
 				 console.log($scope.leadId);
 				 $scope.callAction.id = $scope.leadId;
