@@ -615,7 +615,7 @@ angular.module('newApp')
 			   		     
   	   		                           
   	   		                               ];   
-		    var flag = 0;
+		    var flag = 0;$scope.connectMShow = "0";
 		    console.log(data);
 		   angular.forEach(data,function(obj,key){
 			   if(flag == 0){
