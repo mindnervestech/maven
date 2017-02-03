@@ -1394,7 +1394,7 @@ angular.module('newApp')
  			$scope.obj = {};
 	 		$scope.connecmanually = function(){
 	 			console.log($scope.oldNewContact);
-	 			
+	 			$scope.columnList = [];
 	 			  angular.forEach($scope.oldNewContact.otherColumnName, function(value, key) {
 	 				$scope.columnList.push({"name":value,"match":""});
 	 			  });
