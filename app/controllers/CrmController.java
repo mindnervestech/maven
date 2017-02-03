@@ -468,7 +468,45 @@ public class CrmController extends Controller {
 		    contacts.update();
 		
 	}
-
+	 
+	 private static void createColumnName(List<String> columnName) {
+			// TODO Auto-generated method stub
+		 columnName.add("Type");
+		 columnName.add("Salutation");
+		 columnName.add("First Name");
+		 columnName.add("Middle Name");
+		 columnName.add("Last Name");
+		 columnName.add("Suffix");
+		 columnName.add("Company");
+		 columnName.add("Primary Email");
+		 columnName.add("Primary Phone");
+		 columnName.add("Primary Street");
+		 columnName.add("Primary City");
+		 columnName.add("Primary State");
+		 columnName.add("Primary Zip");
+		 columnName.add("Primary Country");
+		 columnName.add("All Email");
+		 columnName.add("All Phone");
+		 columnName.add("Website");
+		 columnName.add("All Addresses"); 	
+		 columnName.add("Title");
+		 columnName.add("Birthday");
+		 columnName.add("Background Info");
+		 columnName.add("Industry");
+		 columnName.add("# of Employees");
+		 columnName.add("Creation Date");
+		 columnName.add("Last Edited Date");
+		 columnName.add("Assigned To");
+		 columnName.add("Campaign Source");
+		 columnName.add("Priority");
+		 columnName.add("Groups");
+		 columnName.add("Relationships");
+		 columnName.add("Notes");
+		 
+		 
+	  }
+	 
+	 
 	public static Result uploadContactsFile() throws Exception {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
@@ -478,267 +516,304 @@ public class CrmController extends Controller {
 		    	List<ContactsVM> cListOld = new ArrayList<>();
 		    	Map<String,Object> map = new HashMap<String,Object>();
 		    	AuthUser userObj = (AuthUser) getLocalUser();
+		    	List<String> columnName = new ArrayList<>();
+		    	List<String> otherColumnName = new ArrayList<>();
 		    	
+		    	createColumnName(columnName);
 		    	FilePart fileData = body.getFile("file0");
 		    	  if (fileData != null) {
 		    	    String fileName = fileData.getFilename();
 		    	    File file = fileData.getFile();
-		    	    com.opencsv.CSVReader reader = new com.opencsv.CSVReader(new FileReader(file), ',', '"','\0', 1);
-		    	    
+		    	    com.opencsv.CSVReader reader = new com.opencsv.CSVReader(new FileReader(file), ',', '"','\0', 0);
+		    	    String[] firstRow = null; 
 		    	    List<String[]> allRows = reader.readAll();
-		    	       
+		    	    int notFirstTime = 0;
 		    	     for(String[] row : allRows){
-		    	    	 ContactsVM contact = new ContactsVM();
-		    	    	 int flag = 0;
-			    	    	 Contacts contactObj = null;
-			    	    	 if(row.length >= 9) {
-				    	    	 if( row[8] != null && !row[8].isEmpty()) {
-				    	    		 if(!row[8].trim().equals("")) {
-				    	    			 contactObj = Contacts.findByEmail(row[8]);
-				    	    		 }
-				    	    	 }else{
-			    	    			 flag = 1;
-			    	    		 }
-			    	    	 }
-			    	    	 if(contactObj == null) {
-				    	    	
-				    	    	 if(row.length >= 2) {
-				    	    		 contact.type = row[1];
-				    	    	 }
-				    	    	 if(row.length >= 3) {
-				    	    		 contact.salutation = row[2];
-				    	    	 }
-				    	    	 if(row.length >= 4) {
-				    	    		 contact.firstName = row[3];
-				    	    	 }
-				    	    	 if(row.length >= 5) {
-				    	    		 contact.middleName = row[4];
-				    	    	 }
-				    	    	 if(row.length >= 6) {
-				    	    		 contact.lastName = row[5];
-				    	    	 }
-				    	    	 if(row.length >= 7) {
-				    	    		 contact.suffix = row[6];
-				    	    	 }
-				    	    	 if(row.length >= 8) {
-				    	    		 contact.companyName = row[7];
-				    	    	 }
+		    	    	
+		    	    	 if(notFirstTime == 0){
+		    	    		 firstRow = row;
+		    	    		 notFirstTime++;
+		    	    	 }else{
+		    	    		 List<KeyValueDataVM> keyValue = new ArrayList<>();
+		    	    		
+		    	    		 ContactsVM contact = new ContactsVM();
+			    	    	 int flag = 0;
+				    	    	 Contacts contactObj = null;
 				    	    	 if(row.length >= 9) {
-				    	    		 contact.email = row[8];
+					    	    	 if( row[8] != null && !row[8].isEmpty()) {
+					    	    		 if(!row[8].trim().equals("")) {
+					    	    			 contactObj = Contacts.findByEmail(row[8]);
+					    	    		 }
+					    	    	 }else{
+				    	    			 flag = 1;
+				    	    		 }
 				    	    	 }
-				    	    	 if(row.length >= 10) {
-				    	    		 contact.phone = row[9];
-				    	    	 }
-				    	    	 if(row.length >= 11) {
-				    	    		 contact.street = row[10];
-				    	    	 }
-				    	    	 if(row.length >= 12) {
-				    	    		 contact.city = row[11];
-				    	    	 }
-				    	    	 if(row.length >= 13) {
-				    	    		 contact.state = row[12];
-				    	    	 }
-				    	    	 if(row.length >= 14) {
-				    	    		 contact.zip = row[13];
-				    	    	 }
-				    	    	 if(row.length >= 15) {
-				    	    		 contact.country = row[14];
-				    	    	 }
-				    	    	 if(row.length >= 16) {
-				    	    		 contact.allEmail = row[15];
-				    	    	 }
-				    	    	 if(row.length >= 17) {
-				    	    		 contact.allPhone = row[16];
-				    	    	 }
-				    	    	 if(row.length >= 18) {
-				    	    		 contact.website = row[17];
-				    	    	 }
-				    	    	 if(row.length >= 19) {
-				    	    		 contact.allAddresses = row[18];
-				    	    	 }
-				    	    	 if(row.length >= 20) {
-				    	    		 contact.title = row[19];
-				    	    	 }
-				    	    	 if(row.length >= 21) {
-				    	    		 contact.birthday = row[20];
-				    	    	 }
-				    	    	 if(row.length >= 22) {
-				    	    		 contact.backgroundInfo = row[21];
-				    	    	 }
-				    	    	 if(row.length >= 23) {
-				    	    		 contact.industry = row[22];
-				    	    	 }
-				    	    	 if(row.length >= 24) {
-				    	    		 contact.numberOfEmployees = row[23];
-				    	    	 }
-				    	    	 if(row.length >= 25) {
-				    	    		 contact.creationDate = row[24];
-				    	    	 }
-				    	    	 if(row.length >= 26) {
-				    	    		 contact.lastEditedDate = row[25];
-				    	    	 }
-				    	    	 if(row.length >= 27) {
-				    	    		 contact.assignedTo = row[26];
-				    	    	 }
-				    	    	 if(row.length >= 28) {
-				    	    		 contact.campaignSource = row[27];
-				    	    	 }
-				    	    	 if(row.length >= 29) {
-				    	    		 contact.priority = row[28];
-				    	    	 }
-				    	    	 if(row.length >= 30) {
-				    	    		 /*GroupTable gr = null;
-				    	  		    if(row[29] != null)
-				    	  		    	gr = GroupTable.findByName(row[29]);
-				    	    		 contact.groups = gr;*/
-				    	    		 contact.setGroupsName(row[29]);
-				    	    	 }
-				    	    	 if(row.length >= 31) {
-				    	    		 contact.relationships = row[30];
-				    	    	 }
-				    	    	 if(row.length >= 32) {
-				    	    		 contact.notes = row[31];
-				    	    	 }
-				    	    	 
-				    	    	// cList.add(contact);
-				    	    	 //contact.newsLetter = 0;
-				    	    	 //contact.save();
-				    	    	 
-				    	    	/* MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L); //Long.valueOf(session("USER_LOCATION"))
-				     			if(mSchedular != null){
-				     				if(mSchedular.schedularTime.equals("Immediately")){
-				     					MailIntegrationServices objMail = new MailIntegrationServices();
-				     	    			//obj.getLists(Long.valueOf(session("USER_LOCATION")));
-				     	    			objMail.addUser(contact.firstName, contact.lastName, contact.email);
-				     				}
-				     			}*/
-				    	    	 if(flag == 0){
-				    	    		 cListNew.add(contact);
-				    	    	 }
-			    	    	 } else {
-			    	    		 if(row.length >= 2) {
-			    	    			 contact.setType(row[1]);
-			    	    		 }
-			    	    		 if(row.length >= 3) {
-			    	    			 contact.setSalutation(row[2]);
-			    	    		 }
-			    	    		 if(row.length >= 4) {
-			    	    			 contact.setFirstName(row[3]);
-			    	    		 }
-			    	    		 if(row.length >= 5) {
-			    	    			 contact.setMiddleName(row[4]);
-			    	    		 }
-			    	    		 if(row.length >= 6) {
-			    	    			 contact.setLastName(row[5]);
-			    	    		 }
-			    	    		 if(row.length >= 7) {
-			    	    			 contact.setSuffix(row[6]);
-			    	    		 }
-			    	    		 if(row.length >= 8) {
-			    	    			 contact.setCompanyName(row[7]);
-			    	    		 }
-			    	    		 if(row.length >= 9) {
-			    	    			 contact.setEmail(row[8]);
-			    	    		 }
-			    	    		 if(row.length >= 10) {
-			    	    			 contact.setPhone(row[9]);
-			    	    		 }
-			    	    		 if(row.length >= 11) {
-			    	    			 contact.setStreet(row[10]);
-			    	    		 }
-			    	    		 if(row.length >= 12) {
-			    	    			 contact.setCity(row[11]);
-			    	    		 }
-			    	    		 if(row.length >= 13) {
-			    	    			 contact.setState(row[12]);
-			    	    		 }
-			    	    		 if(row.length >= 14) {
-			    	    			 contact.setZip(row[13]);
-			    	    		 }
-			    	    		 if(row.length >= 15) {
-			    	    			 contact.setCountry(row[14]);
-			    	    		 }
-			    	    		 if(row.length >= 16) {
-			    	    			 contact.setAllEmail(row[15]);
-			    	    		 }
-			    	    		 if(row.length >= 17) {
-			    	    			 contact.setAllPhone(row[16]);
-			    	    		 }
-			    	    		 if(row.length >= 18) {
-			    	    			 contact.setWebsite(row[17]);
-			    	    		 }
-			    	    		 if(row.length >= 19) {
-			    	    			 contact.setAllAddresses(row[18]);
-			    	    		 }
-			    	    		 if(row.length >= 20) {
-			    	    			 contact.setTitle(row[19]);
-			    	    		 }
-			    	    		 if(row.length >= 21) {
-			    	    			 contact.setBirthday(row[20]);
-			    	    		 }
-			    	    		 if(row.length >= 22) {
-			    	    			 contact.setBackgroundInfo(row[21]);
-			    	    		 }
-			    	    		 if(row.length >= 23) {
-			    	    			 contact.setIndustry(row[22]);
-			    	    		 }
-			    	    		 if(row.length >= 24) {
-			    	    			 contact.setNumberOfEmployees(row[23]);
-			    	    		 }
-			    	    		 if(row.length >= 25) {
-			    	    			 contact.setCreationDate(row[24]);
-			    	    		 }
-			    	    		 if(row.length >= 26) {
-			    	    			 contact.setLastEditedDate(row[25]);
-			    	    		 }
-			    	    		 if(row.length >= 27) {
-			    	    			 contactObj.setAssignedTo(row[26]);
-			    	    		 }
-			    	    		 if(row.length >= 28) {
-			    	    			 contact.setCampaignSource(row[27]);
-			    	    		 }
-			    	    		 if(row.length >= 29) {
-			    	    			 contact.setPriority(row[28]);
-			    	    		 }
-			    	    		 if(row.length >= 30) {
-			    	    			 /*GroupTable gr = null;
-			    	    			 if(row[29] != null)
-			    	    				 gr = GroupTable.findByName(row[29]);
-			    	    			 contact.setGroups(gr);*/
-			    	    			 contact.setGroupsName(row[29]);
-			    	    		 }
-			    	    		 if(row.length >= 31) {
-			    	    			 contact.setRelationships(row[30]);
-			    	    		 }
-			    	    		 if(row.length >= 32) {
-			    	    			 contact.setNotes(row[31]);
-			    	    		 }
-			    	    		 if(flag == 0){
-				    	    		 cListOld.add(contact);
-				    	    	 }
-			    	    		// cList.add(contact);
-				    	    	 //contactObj.update();
-				    	    	 
-				    	    	/* MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L); //Long.valueOf(session("USER_LOCATION"))
+				    	    	 if(contactObj == null) {
+					    	    	for(int i=0;i< row.length;i++){
+					    	    		 if(firstRow[i].equalsIgnoreCase("ContactId")){
+					    	    			 contact.contactId = Long.parseLong(row[i]);
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Type")){
+					    	    			 contact.type = row[i];
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Salutation")){
+					    	    			 contact.salutation = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("First Name")){
+					    	    			 contact.firstName = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Middle Name")){
+					    	    			 contact.middleName = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Last Name")){
+					    	    			 contact.lastName = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Suffix")){
+					    	    			 contact.suffix = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Company Name")){
+					    	    			 contact.companyName = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary Email")){
+					    	    			 contact.email = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary Phone")){
+					    	    			 contact.phone = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary Street")){
+					    	    			 contact.street = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary City")){
+					    	    			 contact.city = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary State")){
+					    	    			 contact.state = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary Zip")){
+					    	    			 contact.zip = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary Country")){
+					    	    			 contact.country = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("All Email")){
+					    	    			 contact.allEmail = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("All Phone")){
+					    	    			 contact.allPhone = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Website")){
+					    	    			 contact.website = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("All Addresses")){
+					    	    			 contact.allAddresses = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Title")){
+					    	    			 contact.title = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Birthday")){
+					    	    			 contact.birthday = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Background Info")){
+					    	    			 contact.backgroundInfo = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Industry")){
+					    	    			 contact.industry = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("# of Employees")){
+					    	    			 contact.firstName = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Creation Date")){
+					    	    			 contact.creationDate = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Assigned To")){
+					    	    			 contact.assignedTo = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Campaign Source")){
+					    	    			 contact.campaignSource = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Last Edited Date")){
+					    	    			 contact.lastEditedDate = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Priority")){
+					    	    			 contact.priority = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Groups")){
+					    	    			 contact.groupsName = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Relationships")){
+					    	    			 contact.relationships = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Notes")){
+					    	    			 contact.notes = row[i];
+					    	    		 }else{
+					    	    			 KeyValueDataVM keyV = new KeyValueDataVM();
+					    	    			 if(!otherColumnName.contains(firstRow[i])){
+						    	    			 otherColumnName.add(firstRow[i]);
+					    	    			 }
+					    	    			 keyV.key = firstRow[i];
+					    	    			 keyV.value = row[i];
+					    	    			 keyValue.add(keyV);
+					    	    		 }
+					    	    		 
+					    	    	}
+					    	    	contact.customData = keyValue;
+					    	    	if(flag == 0){
+					    	    		 cListNew.add(contact);
+					    	    	 }
+					    	   
+					    	    	 
+					    	    	// cList.add(contact);
+					    	    	 //contact.newsLetter = 0;
+					    	    	 //contact.save();
+					    	    	 
+					    	    	/* MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L); //Long.valueOf(session("USER_LOCATION"))
 					     			if(mSchedular != null){
 					     				if(mSchedular.schedularTime.equals("Immediately")){
 					     					MailIntegrationServices objMail = new MailIntegrationServices();
 					     	    			//obj.getLists(Long.valueOf(session("USER_LOCATION")));
-					     	    			objMail.addUser(contactObj.firstName, contactObj.lastName, contactObj.email);
+					     	    			objMail.addUser(contact.firstName, contact.lastName, contact.email);
 					     				}
 					     			}*/
-			    	    	 }
-			    	    	 
-			    	    	 
+					    	    	 /*if(flag == 0){
+					    	    		 cListNew.add(contact);
+					    	    	 }*/
+				    	    	 } else {
+				    	    		 for(int i=0;i< row.length;i++){
+					    	    		 if(firstRow[i].equalsIgnoreCase("ContactId")){
+					    	    			 contact.contactId = Long.parseLong(row[i]);
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Type")){
+					    	    			 contact.type = row[i];
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Salutation")){
+					    	    			 contact.salutation = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("First Name")){
+					    	    			 contact.firstName = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Middle Name")){
+					    	    			 contact.middleName = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Last Name")){
+					    	    			 contact.lastName = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Suffix")){
+					    	    			 contact.suffix = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Company Name")){
+					    	    			 contact.companyName = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary Email")){
+					    	    			 contact.email = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary Phone")){
+					    	    			 contact.phone = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary Street")){
+					    	    			 contact.street = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary City")){
+					    	    			 contact.city = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary State")){
+					    	    			 contact.state = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary Zip")){
+					    	    			 contact.zip = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Primary Country")){
+					    	    			 contact.country = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("All Email")){
+					    	    			 contact.allEmail = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("All Phone")){
+					    	    			 contact.allPhone = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Website")){
+					    	    			 contact.website = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("All Addresses")){
+					    	    			 contact.allAddresses = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Title")){
+					    	    			 contact.title = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Birthday")){
+					    	    			 contact.birthday = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Background Info")){
+					    	    			 contact.backgroundInfo = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Industry")){
+					    	    			 contact.industry = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("# of Employees")){
+					    	    			 contact.firstName = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Creation Date")){
+					    	    			 contact.creationDate = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Assigned To")){
+					    	    			 contact.assignedTo = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Campaign Source")){
+					    	    			 contact.campaignSource = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Last Edited Date")){
+					    	    			 contact.lastEditedDate = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Priority")){
+					    	    			 contact.priority = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Groups")){
+					    	    			 contact.groupsName = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Relationships")){
+					    	    			 contact.relationships = row[i];
+					    	    			 
+					    	    		 }else if(firstRow[i].equalsIgnoreCase("Notes")){
+					    	    			 contact.notes = row[i];
+					    	    		 }else{
+					    	    			 KeyValueDataVM keyV = new KeyValueDataVM();
+					    	    			 if(!otherColumnName.contains(firstRow[i])){
+						    	    			 otherColumnName.add(firstRow[i]);
+						    	    			
+					    	    			 }
+					    	    			 keyV.key = firstRow[i];
+					    	    			 keyV.value = row[i];
+					    	    			 keyValue.add(keyV);
+					    	    		 }
+					    	    		 
+					    	    	}
+				    	    		 contact.customData = keyValue;
+				    	    		 if(flag == 0){
+					    	    		 cListOld.add(contact);
+					    	    	 }
+				    	    		// cList.add(contact);
+					    	    	 //contactObj.update();
+					    	    	 
+					    	    	/* MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L); //Long.valueOf(session("USER_LOCATION"))
+						     			if(mSchedular != null){
+						     				if(mSchedular.schedularTime.equals("Immediately")){
+						     					MailIntegrationServices objMail = new MailIntegrationServices();
+						     	    			//obj.getLists(Long.valueOf(session("USER_LOCATION")));
+						     	    			objMail.addUser(contactObj.firstName, contactObj.lastName, contactObj.email);
+						     				}
+						     			}*/
+				    	    	 }
+				    	    	 
+		    	    	 }
+		    	    	
 		    	     }
 		    	  } 
+		    	  
+		    	  map.put("columnName", columnName);
+		    	  map.put("otherColumnName", otherColumnName);
 		    	  map.put("newContact", cListNew);
 		    	  map.put("oldContact", cListOld);
 		    	  return ok(Json.toJson(map));
 	    	}	
 	    }
 	 
-	 public static Result removeAllContactsData(){
+
+	public static Result removeAllContactsData(){
 			if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {

@@ -552,65 +552,88 @@ angular.module('newApp')
 		   });
 	   }
 	   
+	   $scope.connectMShow = "0";
+	   
 	   $scope.functionForGrid = function(data){
 		   $scope.gridOptionsNew.columnDefs = [
 												 { name: 'isSelect', displayName: '#', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 													headerCellTemplate:	'<label style="margin-top: 5px; margin-left: 8px;">#</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 5px; margin-left: 8px;" type=\"checkbox\"  ng-model=\"checked\"  ng-change="grid.appScope.selectAllCheckOldNew(checked)" autocomplete="off">',
 													cellTemplate:'<input type=\"checkbox\" ng-model=\"row.entity.checkBoxSelect\"  ng-click="grid.appScope.doActionOldNew(row,row.entity.checkBoxSelect)" autocomplete="off">',
 												 }, 
-  	   		                                 { name: 'type', displayName: 'Type',enableFiltering: false, width:'14%',
+  	   		                                 { name: 'type', displayName: 'Type',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
   	   		                                 },
-  	   		                                 { name: 'salutation', displayName: 'Salutation',enableFiltering: false, width:'14%',
+  	   		                                 { name: 'salutation', displayName: 'Salutation',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 	   		                                 },
-  	   		                                 { name: 'firstName', displayName: 'Name', width:'14%',enableFiltering: false,
+  	   		                                 { name: 'firstName', displayName: 'Name',headerCellClass: 'greenColor', width:'14%',enableFiltering: false,
   	   		                                 },
-  	   		                                 { name: 'suffix', displayName: 'Suffix', width:'14%',enableFiltering: false,
+  	   		                                 { name: 'suffix', displayName: 'Suffix',headerCellClass: 'greenColor', width:'14%',enableFiltering: false,
 	   		                                 },
-  	   		                                 { name: 'companyName', displayName: 'Company Name', width:'14%',enableFiltering: false,
+  	   		                                 { name: 'companyName', displayName: 'Company Name',headerCellClass: 'greenColor', width:'14%',enableFiltering: false,
   	   		                                 },
-  	   		                                 { name: 'email', displayName: 'Email', width:'15%',enableFiltering: false,
+  	   		                                 { name: 'email', displayName: 'Email',headerCellClass: 'greenColor', width:'15%',enableFiltering: false,
   	   		                                 },
-  	   		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'14%',
+  	   		                                 { name: 'phone', displayName: 'Phone',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
   	   		                                 },
-	  	   		                             { name: 'city', displayName: 'City',enableFiltering: false, width:'14%',
+	  	   		                             { name: 'city', displayName: 'City',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 		   		                             },
-		   		                             { name: 'state', displayName: 'State',enableFiltering: false, width:'14%',
+		   		                             { name: 'state', displayName: 'State',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 		   		                             },
-		   		                             { name: 'zip', displayName: 'ZipCode',enableFiltering: false, width:'14%',
+		   		                             { name: 'zip', displayName: 'ZipCode',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 		   		                             },
-		   		                             { name: 'allEmail', displayName: 'All Email',enableFiltering: false, width:'14%',
+		   		                             { name: 'allEmail', displayName: 'All Email',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 		   		                             },
-		   		                             { name: 'allPhone', displayName: 'All Phone',enableFiltering: false, width:'14%',
+		   		                             { name: 'allPhone', displayName: 'All Phone',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 		   		                             },
-		   		                             { name: 'website', displayName: 'WebSite',enableFiltering: false, width:'14%',
+		   		                             { name: 'website', displayName: 'WebSite',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 		   		                             },
-			   		                         { name: 'allAddresses', displayName: 'Address',enableFiltering: false, width:'14%',
+			   		                         { name: 'allAddresses', displayName: 'Address',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 			   		                         },
-			   		                         { name: 'title', displayName: 'Title',enableFiltering: false, width:'14%',
+			   		                         { name: 'title', displayName: 'Title',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 			   		                         },
-			   		                         { name: 'brithday', displayName: 'Brithday',enableFiltering: false, width:'14%',
+			   		                         { name: 'brithday', displayName: 'Brithday',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 			   		                         },
-			   		                         { name: 'backgroundInfo', displayName: 'BackGound Info',enableFiltering: false, width:'14%',
+			   		                         { name: 'backgroundInfo', displayName: 'BackGound Info',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 			   		                         },
-			   		                         { name: 'industry', displayName: 'Industry',enableFiltering: false, width:'14%',
+			   		                         { name: 'industry', displayName: 'Industry',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 			   		                         }, 
-			   		                         { name: 'creationDate', displayName: 'CreateDate',enableFiltering: false, width:'14%',
+			   		                         { name: 'creationDate', displayName: 'CreateDate',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 			   		                         },
-			   		                         { name: 'lastEditedDate', displayName: 'Last Edited Date',enableFiltering: false, width:'14%',
+			   		                         { name: 'lastEditedDate', displayName: 'Last Edited Date',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 			   		                         },
-			   		                         { name: 'assignedTo', displayName: 'Assigned To',enableFiltering: false, width:'14%',
+			   		                         { name: 'assignedTo', displayName: 'Assigned To',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 			   		                         }, 
-			   		                         { name: 'campaignSource', displayName: 'Campaign Source',enableFiltering: false, width:'14%',
+			   		                         { name: 'campaignSource', displayName: 'Campaign Source',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 			   		                         },
-			   		                         { name: 'priority', displayName: 'Priority',enableFiltering: false, width:'14%',
+			   		                         { name: 'priority', displayName: 'Priority',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 			   		                         },
-			   		                         { name: 'groupsName', displayName: 'Groups',enableFiltering: false, width:'14%',
+			   		                         { name: 'groupsName', displayName: 'Groups',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 			   		                         },      
-			   		                         { name: 'relationships', displayName: 'Relationships',enableFiltering: false, width:'14%',
+			   		                         { name: 'relationships', displayName: 'Relationships',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
 			   		                         },        
-			   		                         { name: 'notes', displayName: 'Notes',enableFiltering: false, width:'14%',
-			   		                          },       
-  	   		                                     		                                 ];   
+			   		                         { name: 'notes', displayName: 'Notes',headerCellClass: 'greenColor',enableFiltering: false, width:'14%',
+			   		                          },   
+			   		     
+  	   		                           
+  	   		                               ];   
+		    var flag = 0;
+		    console.log(data);
+		   angular.forEach(data,function(obj,key){
+			   if(flag == 0){
+				   angular.forEach(obj.customData,function(obj1,key1){
+					       $scope.connectMShow = "1";
+						   var name = obj1.key;
+						   $scope.flagValFlag = 1;
+						   name = name.replace(" ","");
+						   $scope.gridOptionsNew.columnDefs.push({ name: name, displayName: obj1.key,headerCellClass: 'redColor', width:'10%',enableFiltering: false,
+
+						});
+					});   
+			   }
+			   flag = 1;
+			   
+		   });
+		   
+		  
 		   /*angular.forEach(data, function(value, key) {
 			   
 		   });*/
@@ -1367,7 +1390,123 @@ angular.module('newApp')
                   });
 
         }
+	 		$scope.columnList = [];
+ 			$scope.obj = {};
+	 		$scope.connecmanually = function(){
+	 			console.log($scope.oldNewContact);
+	 			
+	 			  angular.forEach($scope.oldNewContact.otherColumnName, function(value, key) {
+	 				$scope.columnList.push({"name":value,"match":""});
+	 			  });
+	 			 $("#showotherColumn").modal('show');
+	 		}
+	 		
+	 		$scope.checkCondition= function(obj,obj1,obj2){
+	 			 if(obj2.name == obj1.key){
+	 					 if(obj2.match == "Last Name"){
+	 						 obj.lastName = obj1.value;
+	 					 }else if(obj2.match == "Middle Name"){
+	 						 obj.middleName = obj1.value;
+	 					 }else if(obj2.match == "First Name"){
+	 						 obj.firstName = obj1.value;
+	 					 }else if(obj2.match == "Salutation"){
+	 						 obj.salutation = obj1.value;
+	 					 }else if(obj2.match == "Type"){
+	 						 obj.type = obj1.value;
+	 					 }else if(obj2.match == "Suffix"){
+	 						 obj.suffix = obj1.value;
+	 					 }else if(obj2.match == "Company"){
+	 						 obj.companyName = obj1.value;
+	 					 }else if(obj2.match == "Primary Email"){
+	 						 obj.email = obj1.value;
+	 					 }else if(obj2.match == "Primary Phone"){
+	 						 obj.phone = obj1.value;
+	 					 }else if(obj2.match == "Primary Street"){
+	 						 obj.street = obj1.value;
+	 					 }else if(obj2.match == "Primary City"){
+	 						 obj.city = obj1.value;
+	 					 }else if(obj2.match == "Primary State"){
+	 						 obj.state = obj1.value;
+	 					 }else if(obj2.match == "Primary Zip"){
+	 						 obj.zip = obj1.value;
+	 					 }else if(obj2.match == "Primary Country"){
+	 						 obj.country = obj1.value;
+	 					 }else if(obj2.match == "All Email"){
+	 						 obj.allEmail = obj1.value;
+	 					 }else if(obj2.match == "All Phone"){
+	 						 obj.allPhone = obj1.value;
+	 					 }else if(obj2.match == "Website"){
+	 						 obj.website = obj1.value;
+	 					 }else if(obj2.match == "All Addresses"){
+	 						 obj.allAddresses = obj1.value;
+	 					 }else if(obj2.match == "Title"){
+	 						 obj.title = obj1.value;
+	 					 }else if(obj2.match == "Birthday"){
+	 						 obj.birthday = obj1.value;
+	 					 }else if(obj2.match == "Background Info"){
+	 						 obj.backgroundInfo = obj1.value;
+	 					 }else if(obj2.match == "Industry"){
+	 						 obj.industry = obj1.value;
+	 					 }else if(obj2.match == "# of Employees"){
+	 						 obj.numberOfEmployees = obj1.value;
+	 					 }else if(obj2.match == "Creation Date"){
+	 						 obj.creationDate = obj1.value;
+	 					 }else if(obj2.match == "Last Edited Date"){
+	 						 obj.lastEditedDate = obj1.value;
+	 					 }else if(obj2.match == "Assigned To"){
+	 						 obj.assignedTo = obj1.value;
+	 					 }else if(obj2.match == "Campaign Source"){
+	 						 obj.campaignSource = obj1.value;
+	 					 }else if(obj2.match == "Priority"){
+	 						 obj.priority = obj1.value;
+	 					 }else if(obj2.match == "Groups"){
+	 						 obj.groupsName = obj1.value;
+	 					 }else if(obj2.match == "Relationships"){
+	 						 obj.relationships = obj1.value;
+	 					 }else if(obj2.match == "Notes"){
+	 						 obj.notes = obj1.value;
+	 					 }
+	 					 
+	 					 
+	 				 }
+	 		}
 
+	 		$scope.connecmanuallyMatch = function(){
+	 			console.log($scope.oldNewContact);
+	 			console.log($scope.obj);
+	 			console.log($scope.columnList);
+	 			console.log($scope.gridOptionsNew.columnDefs);
+	 			var lessFlag = $scope.gridOptionsNew.columnDefs.length - 1;
+	 			
+	 			angular.forEach($scope.columnList, function(obj2, key2) {
+	 				console.log(lessFlag);
+	 				$scope.gridOptionsNew.columnDefs.splice(lessFlag, 1);
+	 				lessFlag--;
+	 			});
+	 			console.log($scope.gridOptionsNew.columnDefs);
+	 				 angular.forEach($scope.oldNewContact.newContact, function(obj, key) {
+	 					angular.forEach(obj.customData, function(obj1, key1) {
+	 						 angular.forEach($scope.columnList, function(obj2, key2) {
+	 							  $scope.checkCondition(obj,obj1,obj2);
+	 							
+	 						 });
+	 					});
+	 					
+	 				 });
+	 				 angular.forEach($scope.oldNewContact.oldContact, function(obj, key) {
+		 					angular.forEach(obj.customData, function(obj1, key1) {
+		 						 angular.forEach($scope.columnList, function(obj2, key2) {
+		 							  $scope.checkCondition(obj,obj1,obj2);
+		 							
+		 						 });
+		 					});
+		 					
+		 				 });
+	 				 console.log($scope.oldNewContact.newContact);
+	 				$scope.gridOptionsNew.data = $scope.oldNewContact.newContact;
+	 				 $("#showotherColumn").modal('hide')
+	 		}
+	 		
 	 $scope.ImportAllValue = function(){
 		 console.log($scope.oldNewContact);
 		 apiserviceCrm.importContacts($scope.oldNewContact).then(function(data){

@@ -432,9 +432,40 @@
 					</div>
 					<a class="btn btn-primary" ng-click="ImportAllValue()">Import All</a>
 					<a class="btn btn-primary" ng-click="ImportSelectedValue()">Import Selected</a>
+					<a class="btn btn-primary" ng-click="connecmanually()" ng-if="connectMShow == '1'">Connect manually</a>
+					
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                    <!-- <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="removeAllContactsData()">Yes</button> -->
+                </div>
+            </div>
+        </div>
+    </div>      
+     <div class="modal fade" id="showotherColumn" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" style="width: 800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Match Column</strong></h4>
+                </div>
+                <div class="modal-body">
+                	<div class="form-group col-md-12" ng-repeat="column in columnList">
+                		<div class="form-group col-md-2">
+                			<label>{{column.name}}</label>
+                		</div>
+                		<div class="form-group col-md-4">
+                			<select class="from-control form-white col-sm-12" style="height: 35px;" ng-model="column.match" required>
+									<option ng-repeat="allCol in oldNewContact.columnName" value="{{allCol}}">{{allCol}}</option>
+							</select>
+                		</div>
+                	</div>
+					
+					
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="connecmanuallyMatch()">Ok</button>
                     <!-- <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="removeAllContactsData()">Yes</button> -->
                 </div>
             </div>
@@ -541,5 +572,11 @@ th {
 
 table, th, td {
     border: 1px solid black;
+}
+.redColor{
+	background-color: red;
+}
+.greenColor{
+	background-color: green;
 }
 </style>					
