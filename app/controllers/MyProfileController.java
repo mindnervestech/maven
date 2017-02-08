@@ -3298,9 +3298,9 @@ public class MyProfileController extends Controller{
 	    			for(Permission permission:user.permission){
 	    				parmi.add(permission.name);
 	    			}
-	    			for(Permission permission:user.permission){
+	    			/*for(Permission permission:user.permission){
 	    				parmi.add(permission.name);
-	    			}
+	    			}*/
 	    			vm.permissions = parmi;
 	    			if(user.role.equals("Photographer")){
 	    				SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");

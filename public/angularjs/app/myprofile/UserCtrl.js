@@ -643,10 +643,9 @@ angular.module('newApp')
 	}
 	
 	$scope.editUser = function(row) {
-		angular.forEach($scope.permissionList, function(obj, index){
-			 obj.isSelected = false;
-			 obj.childData.isSelected = false;
-		});
+		//$scope.permission = [];
+	
+		console.log($scope.permission);
 		console.log(row.entity);
 		$scope.userTemp = angular.copy(row.entity);
 		console.log($scope.permissionList);
@@ -694,6 +693,19 @@ angular.module('newApp')
 					 $scope.permission.push(obj.name);
 				 }
 			});
+		});
+		
+		angular.forEach($scope.permissionList, function(obj, index){
+			angular.forEach(obj.childData, function(obj1, index1){
+				angular.forEach(row.entity.permissions, function(obj2, index2){
+					if(obj1.name == obj2){
+						//obj.isSelected = false;
+						obj1.isSelected = true;
+						$scope.permission.push(obj1.name);
+					}
+				});
+			});
+			
 		});
 		
 		if($scope.userData.imageName == null || $scope.userData.imageName == "null"){

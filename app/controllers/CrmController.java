@@ -554,7 +554,7 @@ public class CrmController extends Controller {
 				    	    	 if(contactObj == null) {
 					    	    	for(int i=0;i< row.length;i++){
 					    	    		 if(firstRow[i].equalsIgnoreCase("ContactId")){
-					    	    			 contact.contactId = Long.parseLong(row[i]);
+					    	    			// contact.contactId = Long.parseLong(row[i]);
 					    	    		 }else if(firstRow[i].equalsIgnoreCase("Type")){
 					    	    			 contact.type = row[i];
 					    	    		 }else if(firstRow[i].equalsIgnoreCase("Salutation")){
