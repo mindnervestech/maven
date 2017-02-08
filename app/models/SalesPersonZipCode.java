@@ -77,6 +77,9 @@ public class SalesPersonZipCode extends Model {
 	public static SalesPersonZipCode findByUser(AuthUser user) {
 		return find.where().eq("user", user).findUnique();
 	}
+	public static List<SalesPersonZipCode> findByUserList(AuthUser user) {
+		return find.where().eq("user", user).findList();
+	}
 	
 	public static SalesPersonZipCode findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findUnique();

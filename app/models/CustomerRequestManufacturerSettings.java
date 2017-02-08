@@ -65,6 +65,10 @@ public class CustomerRequestManufacturerSettings extends Model {
 		return find.where().eq("user", user).findUnique();
 	}
 	
+	public static List<CustomerRequestManufacturerSettings> findByUserList(AuthUser user) {
+		return find.where().eq("user", user).findList();
+	}
+	
 	public static CustomerRequestManufacturerSettings findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findUnique();
 	}

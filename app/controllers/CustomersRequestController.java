@@ -36,6 +36,8 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import models.AddCollection;
 import models.AuthUser;
 import models.CustomerPdf;
+import models.CustomerRequest;
+import models.CustomerRequestManufacturerSettings;
 import models.CustomizationDataValue;
 import models.CustomizationForm;
 import models.EmailDetails;
@@ -48,6 +50,7 @@ import models.MyProfile;
 import models.Product;
 import models.ProductImages;
 import models.RequestMoreInfo;
+import models.SalesPersonZipCode;
 import models.ScheduleTest;
 import models.SiteLogo;
 import models.ToDo;
@@ -123,7 +126,7 @@ public class CustomersRequestController extends Controller {
 	    				listData = RequestMoreInfo.findAllLocationAndOtherLeadDataManager(Long.valueOf(session("USER_LOCATION")),leadId);
 	    			} else {
 	    				//listData = RequestMoreInfo.findAllByDate();
-	    				listData = RequestMoreInfo.findAllLocationAndOtherLeadData(Long.valueOf(session("USER_LOCATION")),leadId);
+	    				listData = RequestMoreInfo.findAllLocationAndOtherLeadDataNull(Long.valueOf(session("USER_LOCATION")),leadId,user);
 	    			}
 	    		}
 		    	List<RequestInfoVM> infoVMList = new ArrayList<>();
@@ -221,14 +224,40 @@ public class CustomersRequestController extends Controller {
 	    				listData = RequestMoreInfo.findAllLocationAndOtherLeadDataManager(Long.valueOf(session("USER_LOCATION")),leadId);
 	    			} else {
 	    				//listData = RequestMoreInfo.findAllByDate();
-	    				listData = RequestMoreInfo.findAllLocationAndOtherLeadData(Long.valueOf(session("USER_LOCATION")),leadId);
+	    				listData = RequestMoreInfo.findAllLocationAndOtherLeadData(Long.valueOf(session("USER_LOCATION")),leadId,user);
 	    			}
 	    		}
+		    	int addleadFlagAll = 0;
+		    	List<CustomerRequestManufacturerSettings> cuSettings = null;
+		    	List<SalesPersonZipCode> sList = null;
+		    	CustomerRequest cRequest = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+		    	if(cRequest != null){
+		    		if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && cRequest.personValue.equals("Manufacturer")){
+		    			  cuSettings = CustomerRequestManufacturerSettings.findByUserList(user);
+		    		}else if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && cRequest.personValue.equals("Price")){
+		    			 
+		    		}else if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && cRequest.personValue.equals("Zip Code")){
+		    			 sList = SalesPersonZipCode.findByUserList(user);
+		    		}else if(cRequest.redirectValue.equals("Redirect all online requests to") && (cRequest.personValue.equals("Myself") || cRequest.personValue.equals("Sales Person(s)"))){
+		    			 if(user.id.equals(cRequest.users.id)){
+		    				 addleadFlagAll = 1;
+		    			 }
+		    		}else if(cRequest.redirectValue.equals("Redirect all online requests to") && cRequest.personValue.equals("Me and all Sales people")){
+		    			 addleadFlagAll = 1;
+		    		}
+		    		
+		    		if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && user.role.equals("Manager")){
+		    			addleadFlagAll = 1;
+		    		}
+		    	}
+		    	
+		    	
 		    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 		    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 		    	for(RequestMoreInfo info: listData) {
 		    		RequestInfoVM vm = new RequestInfoVM();
 		    		vm.id = info.id;
+		    		int addleadFlag = 0;
 		    		AddCollection productInfo = AddCollection.findById(Long.parseLong(info.productId));
 		    		vm.productId = info.productId;
 		    		if(productInfo != null) {
@@ -245,7 +274,23 @@ public class CustomersRequestController extends Controller {
 		        		else {
 		        			vm.imgId = "/assets/images/no-image.jpg";
 		        		}
+		        		
+		        		if(cuSettings != null){
+			    			for(CustomerRequestManufacturerSettings cSettings:cuSettings){
+				    			if(cSettings.manufacturer.id == productInfo.mainCollection.id){
+				    				addleadFlag = 1;
+				    			}
+				    		}
+		        		}
 		    		}
+		    		if(sList != null){
+		    			for(SalesPersonZipCode sZipCode:sList){
+			    			if(sZipCode.zipCode.equals(info.custZipCode)){
+			    				addleadFlag = 1;
+			    			}
+			    		}
+		    		}
+		    		
 		    		vm.name = info.name;
 		    		vm.phone = info.phone;
 		    		vm.email = info.email;
@@ -307,7 +352,13 @@ public class CustomersRequestController extends Controller {
 		    			
 		    		}
 		    		//Application.findCustomeData(info.id,vm,Long.parseLong(leadId));
-		    		infoVMList.add(vm);
+		    		if(addleadFlag == 1 || addleadFlagAll == 1){
+			    		infoVMList.add(vm);
+		    		}else if(cRequest == null){
+		    			infoVMList.add(vm);
+		    		}
+		    		
+		    		
 		    	}
 		    	
 		    	return ok(Json.toJson(infoVMList));

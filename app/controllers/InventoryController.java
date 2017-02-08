@@ -931,7 +931,8 @@ public class InventoryController extends Controller {
 	   
 	   public static Result getSelectedLeadType() {
 		   List<LeadType> lType = LeadType.findByLocationsAndSelected(Long.valueOf(session("USER_LOCATION")));
-		   List<LeadTypeVM> lVmList = new ArrayList<LeadTypeVM>(); 
+		   List<LeadTypeVM> lVmList = new ArrayList<LeadTypeVM>();
+		   AuthUser user = (AuthUser) getLocalUser();
 		   for(LeadType lType2 : lType){
 							   LeadTypeVM vm = new LeadTypeVM();
 							   vm.id = lType2.id;
@@ -946,7 +947,13 @@ public class InventoryController extends Controller {
 							   vm.confirmationMsg = lType2.confirmationMsg;
 							   vm.dowpdfIds = lType2.dowpdfIds;
 							  int countunClaimReq = 0;
-							   List<RequestMoreInfo> rInfo = RequestMoreInfo.findAllOtherLeadIdAndStatus(vm.id.toString());		   
+							  List<RequestMoreInfo> rInfo = null;
+							  if(user.role.equals("Manager")){
+								  rInfo = RequestMoreInfo.findAllOtherLeadIdAndStatus(vm.id.toString());  
+							  }else{
+								  rInfo = RequestMoreInfo.findAllOtherLeadIdAndStatusAsUser(vm.id.toString(),user);
+							  }
+							   		   
 							   vm.hideTab = String.valueOf(rInfo.size());
 							   for(RequestMoreInfo rInfo2:rInfo){
 								   if(rInfo2.isRead == 0){
