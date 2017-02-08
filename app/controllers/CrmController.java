@@ -450,7 +450,10 @@ public class CrmController extends Controller {
 		    GroupTable gr = null;
 		    if(vm.groups != null)
 		    	gr = GroupTable.findByName(vm.groups.name);
-		    contacts.setGroups(gr);
+		    if(gr != null){
+		    	contacts.setGroups(gr);
+		    }
+		    
 		    contacts.setWorkEmail(vm.workEmail);
 		    contacts.setWorkEmail1(vm.workEmail1);
 		    contacts.setWorkPhone(vm.workPhone);
