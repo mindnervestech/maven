@@ -1275,6 +1275,7 @@ angular.module('newApp')
 					$scope.salesPersonName = data;
 					if($scope.userRoleData.role == "Manager"){
 						$scope.salesPersonName.push($scope.userRoleData);
+						$scope.customerReq.userId = $scope.userRoleData.id;
 						$scope.saveCustomerData($scope.userRoleData);
 					}
 			});
