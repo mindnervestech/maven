@@ -42,10 +42,11 @@ angular.module('newApp')
 		});*/
 		angular.forEach(data, function(obj, index){
 			obj.isSelected = false;
-			angular.forEach(obj.childData, function(obj1, index1){
-				obj1.isSelected = false;
-			});
-			
+			if(obj.name != "Inventory"){
+				angular.forEach(obj.childData, function(obj1, index1){
+					obj1.isSelected = false;
+				});
+			}
 		});
 		$scope.permissionList = data;
 		console.log($scope.permissionList);
@@ -386,7 +387,7 @@ angular.module('newApp')
 	$scope.selectOption = function(){
 		var type = $('#userType').val();
 		console.log(type);
-		console.log($scope.userData.userType);
+		console.log($scope.userData);
 		
 		if(type == "Front Desk"){
 			$scope.showOtherFild = 1;
@@ -407,10 +408,12 @@ angular.module('newApp')
 					 obj.isSelected = true;
 					 angular.forEach(obj.childData, function(obj1, index1){
 						 if(obj1.name != "Edit Business Information"){
-							 if(obj1.isSelected == false){
-								 obj1.isSelected = true;
-								 $scope.permission.push(obj1.name);
-							 }
+							 //if(obj1.name != "Inventory"){
+								 if(obj1.isSelected == false){
+									 obj1.isSelected = true;
+									 $scope.permission.push(obj1.name);
+								 }
+							// }
 						 } 
 					 });
 			    };
@@ -569,6 +572,10 @@ angular.module('newApp')
 		}
 		
 	}
+	$scope.inventoryData = [
+	{name:'Compelte access to Inventory : Add, Edit, Remove, Statistics'},
+	{name:'Update existing Inventorys Information : No Statistics is displayed'},
+	{name:'Only View Inventory'}];
 	
 	//console.log($scope.permissionList);
 	$scope.permission =[];
@@ -591,6 +598,13 @@ angular.module('newApp')
 				}
 		});
 		if(value == false){
+			angular.forEach($scope.permission, function(obj, index){
+				angular.forEach($scope.inventoryData, function(obj1, index){
+					if(obj == obj1.name){
+						$scope.deleteItem(obj1);
+					}
+				});
+			});
 			$scope.permission.push(rolePer.name);
 		}else{
 			$scope.deleteItem(rolePer);

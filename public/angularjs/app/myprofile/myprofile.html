@@ -321,8 +321,8 @@
 
 
 
-
-<h2><b>Manager Details</b></h2>
+<h2 ng-if="userRole == 'Sales Person'"><b>Sales Person Details</b></h2>
+<h2 ng-if="userRole == 'Manager'"><b>Manager Details</b></h2>
 <hr class="ng-scope">
 
 <div class="form-group col-sm-12">
@@ -351,7 +351,8 @@
 	</div>
 </div>
 <div class="form-group col-sm-12">
-	<label class="col-sm-2 control-label" style="text-align: right;">Manager Photo </label>
+	<label ng-if="userRole == 'Manager'" class="col-sm-2 control-label" style="text-align: right;">Manager Photo </label>
+	<label ng-if="userRole == 'Sales Person'" class="col-sm-2 control-label" style="text-align: right;">Sales Person Photo </label>
                   <p class="col-sm-5">
  	               <input class="form-control" type="file" id="file" style="width: 42%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
                    <span id="preview" style="margin-top: 20px;width: 108px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{img}}></span>
