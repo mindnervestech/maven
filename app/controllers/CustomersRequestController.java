@@ -228,9 +228,12 @@ public class CustomersRequestController extends Controller {
 	    			}
 	    		}
 		    	int addleadFlagAll = 0;
+		    	int permis = 0;
 		    	List<CustomerRequestManufacturerSettings> cuSettings = null;
 		    	List<SalesPersonZipCode> sList = null;
 		    	CustomerRequest cRequest = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+		    	//setTwoThreeFlag(addleadFlagAll,cuSettings,sList,cRequest,permis);
+		    	
 		    	if(cRequest != null){
 		    		if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && cRequest.personValue.equals("Manufacturer")){
 		    			  cuSettings = CustomerRequestManufacturerSettings.findByUserList(user);
@@ -250,7 +253,7 @@ public class CustomersRequestController extends Controller {
 		    			addleadFlagAll = 1;
 		    		}
 		    	}
-		    	int permis = 0;
+		    	
 		    	if(!user.role.equals("Manager")){
 		    		for(Permission permission: user.permission){
 			    		if(permission.id == 8){
@@ -385,7 +388,47 @@ public class CustomersRequestController extends Controller {
 	    	}	
 	    }	
 	  
-	  public static Result getAllSalesPersonOtherLead(Integer id){
+	 
+
+	/*public static void setTwoThreeFlag(int addleadFlagAll,
+			List<CustomerRequestManufacturerSettings> cuSettings,
+			List<SalesPersonZipCode> sList, CustomerRequest cRequest, int permis) {
+		
+		
+		AuthUser user = (AuthUser) getLocalUser();
+		if(cRequest != null){
+    		if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && cRequest.personValue.equals("Manufacturer")){
+    			  cuSettings = CustomerRequestManufacturerSettings.findByUserList(user);
+    		}else if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && cRequest.personValue.equals("Price")){
+    			 
+    		}else if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && cRequest.personValue.equals("Zip Code")){
+    			 sList = SalesPersonZipCode.findByUserList(user);
+    		}else if(cRequest.redirectValue.equals("Redirect all online requests to") && (cRequest.personValue.equals("Myself") || cRequest.personValue.equals("Sales Person(s)"))){
+    			 if(user.id.equals(cRequest.users.id)){
+    				 addleadFlagAll = 1;
+    			 }
+    		}else if(cRequest.redirectValue.equals("Redirect all online requests to") && cRequest.personValue.equals("Me and all Sales people")){
+    			 addleadFlagAll = 1;
+    		}
+    		
+    		if((cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") || cRequest.redirectValue.equals("Redirect all online requests to")) && user.role.equals("Manager")){
+    			addleadFlagAll = 1;
+    		}
+    	}
+    	
+    	if(!user.role.equals("Manager")){
+    		for(Permission permission: user.permission){
+	    		if(permission.id == 8){
+	    			permis = 1;
+	    		}
+	    	}
+    	}
+		// TODO Auto-generated method stub
+		
+	}
+*/
+
+	public static Result getAllSalesPersonOtherLead(Integer id){
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {

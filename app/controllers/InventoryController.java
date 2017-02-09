@@ -14,11 +14,16 @@ import javax.imageio.ImageIO;
 import models.AddCollection;
 import models.AuthUser;
 import models.CollectionImages;
+import models.CustomerRequest;
+import models.CustomerRequestManufacturerSettings;
 import models.InventorySetting;
 import models.LeadType;
+import models.Location;
+import models.Permission;
 import models.Product;
 import models.ProductImages;
 import models.RequestMoreInfo;
+import models.SalesPersonZipCode;
 import models.Sections;
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -42,6 +47,7 @@ import viewmodel.AddCollectionVM;
 import viewmodel.ImageVM;
 import viewmodel.LeadTypeVM;
 import viewmodel.ProductVM;
+import viewmodel.RequestInfoVM;
 import viewmodel.SectionsVM;
 import views.html.home;
 
@@ -953,14 +959,93 @@ public class InventoryController extends Controller {
 							  }else{
 								  rInfo = RequestMoreInfo.findAllOtherLeadIdAndStatusAsUser(vm.id.toString(),user);
 							  }
-							   		   
+							  
+							  int addleadFlagAll = 0;
+						    	int permis = 0;
+						    	List<CustomerRequestManufacturerSettings> cuSettings = null;
+						    	List<SalesPersonZipCode> sList = null;
+						    	CustomerRequest cRequest = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+						    	//CustomersRequestController.setTwoThreeFlag(addleadFlagAll,cuSettings,sList,cRequest,permis);
+						    	if(cRequest != null){
+						    		if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && cRequest.personValue.equals("Manufacturer")){
+						    			  cuSettings = CustomerRequestManufacturerSettings.findByUserList(user);
+						    		}else if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && cRequest.personValue.equals("Price")){
+						    			 
+						    		}else if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && cRequest.personValue.equals("Zip Code")){
+						    			 sList = SalesPersonZipCode.findByUserList(user);
+						    		}else if(cRequest.redirectValue.equals("Redirect all online requests to") && (cRequest.personValue.equals("Myself") || cRequest.personValue.equals("Sales Person(s)"))){
+						    			 if(user.id.equals(cRequest.users.id)){
+						    				 addleadFlagAll = 1;
+						    			 }
+						    		}else if(cRequest.redirectValue.equals("Redirect all online requests to") && cRequest.personValue.equals("Me and all Sales people")){
+						    			 addleadFlagAll = 1;
+						    		}
+						    		
+						    		if((cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") || cRequest.redirectValue.equals("Redirect all online requests to")) && user.role.equals("Manager")){
+						    			addleadFlagAll = 1;
+						    		}
+						    	}
+						    	
+						    	if(!user.role.equals("Manager")){
+						    		for(Permission permission: user.permission){
+							    		if(permission.id == 8){
+							    			permis = 1;
+							    		}
+							    	}
+						    	}
+						    	
 							   vm.hideTab = String.valueOf(rInfo.size());
+							   List<RequestInfoVM> infoVMList = new ArrayList<>();
 							   for(RequestMoreInfo rInfo2:rInfo){
-								   if(rInfo2.isRead == 0){
-									   countunClaimReq++;
-								   }
+								   RequestInfoVM vms = new RequestInfoVM();
+								   vms.id = rInfo2.id;
+								   int addleadFlag = 0;
+									AddCollection productInfo = AddCollection.findById(Long.parseLong(rInfo2.productId));
+						    		if(productInfo != null) {
+						        		
+						        		if(cuSettings != null){
+							    			for(CustomerRequestManufacturerSettings cSettings:cuSettings){
+								    			if(cSettings.manufacturer.id == productInfo.id){
+								    				addleadFlag= 1;
+								    			}
+								    		}
+						        		}
+								   
+										   if(rInfo2.isRead == 0){
+											   countunClaimReq++;
+										   }
+							        }
+						    		
+						    		if(sList != null){
+						    			for(SalesPersonZipCode sZipCode:sList){
+							    			if(sZipCode.zipCode.equals(rInfo2.custZipCode)){
+							    				addleadFlag = 1;
+							    			}
+							    		}
+						    		}
+						    		if(rInfo2.isRead == 0){
+						    		if(addleadFlag == 1 || addleadFlagAll == 1){
+						    			if(permis == 0){
+						    				if(rInfo2.onlineOrOfflineLeads != 1){
+						    					infoVMList.add(vms);
+						    				}
+						    			}else{
+						    				infoVMList.add(vms);
+						    			}
+							    		
+						    		}else if(cRequest == null){
+						    			if(permis == 0){
+						    				if(rInfo2.onlineOrOfflineLeads != 1){
+						    					infoVMList.add(vms);
+						    				}
+						    			}else{
+						    				infoVMList.add(vms);
+						    			}
+						    		}
+						    		}	
+								  
 							   }
-							   vm.unClaimReq = countunClaimReq;
+							   vm.unClaimReq = infoVMList.size();
 							   lVmList.add(vm);
 			   }
 			   
