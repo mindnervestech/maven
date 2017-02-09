@@ -623,6 +623,9 @@ public void setMessage(String message) {
 		return find.where().eq("locations",location).eq("onlineOrOfflineLeads", 0).ge("requestDate",start).le("requestDate", end).findList();
 	}
 	
+	public static List<RequestMoreInfo> findByLead(Long locationId, AuthUser user) {
+		return find.where().add(Expr.or(Expr.eq("assignedTo", null),Expr.eq("assignedTo", user))).eq("isRead", 0).eq("premiumFlag", 0).eq("status", null).eq("locations.id", locationId).findList();
+	}
 	public static List<RequestMoreInfo> findAllLeads(Long locationId) {
 		return find.where().eq("isRead", 0).eq("premiumFlag", 0).eq("status", null).eq("locations.id", locationId).findList();
 	}

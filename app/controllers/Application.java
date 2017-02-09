@@ -64,6 +64,7 @@ import models.ContactOtherField;
 import models.Contacts;
 import models.CreateNewForm;
 import models.CustomerPdf;
+import models.CustomerRequest;
 import models.CustomerRequestManufacturerSettings;
 import models.CustomizationCrm;
 import models.CustomizationDataValue;
@@ -93,6 +94,7 @@ import models.Product;
 import models.ProductImages;
 import models.Registration;
 import models.RequestMoreInfo;
+import models.SalesPersonZipCode;
 import models.SalesPlanSchedule;
 import models.ScheduleTest;
 import models.Site;
@@ -3181,11 +3183,41 @@ public class Application extends Controller {
     	} else {
     		AuthUser user = (AuthUser) getLocalUser();
 	    	InfoCountVM vm = new InfoCountVM();
-	    	//List<ScheduleTest> scList = ScheduleTest.findAllLeads(Long.valueOf(session("USER_LOCATION")));
-	    	//List<TradeIn> trList = TradeIn.findAllLeads(Long.valueOf(session("USER_LOCATION")));
-	    	List<RequestMoreInfo> rList = RequestMoreInfo.findAllLeads(Long.valueOf(session("USER_LOCATION")));
+	    	List<RequestMoreInfo> rList = null;
+	    	if(user.role.equals("Manager")){
+	    		rList = RequestMoreInfo.findAllLeads(Long.valueOf(session("USER_LOCATION")));
+	    	}else{
+	    		rList = RequestMoreInfo.findByLead(Long.valueOf(session("USER_LOCATION")), user);
+	    	}
+	    	
 	    	List<RequestInfoVM> list = new ArrayList<>();
 	    	Date curr = new Date();
+	    	
+	     	int addleadFlagAll = 0;
+	    	List<CustomerRequestManufacturerSettings> cuSettings = null;
+	    	List<SalesPersonZipCode> sList = null;
+	    	CustomerRequest cRequest = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    	if(cRequest != null){
+	    		if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && cRequest.personValue.equals("Manufacturer")){
+	    			  cuSettings = CustomerRequestManufacturerSettings.findByUserList(user);
+	    		}else if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && cRequest.personValue.equals("Price")){
+	    			 
+	    		}else if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && cRequest.personValue.equals("Zip Code")){
+	    			 sList = SalesPersonZipCode.findByUserList(user);
+	    		}else if(cRequest.redirectValue.equals("Redirect all online requests to") && (cRequest.personValue.equals("Myself") || cRequest.personValue.equals("Sales Person(s)"))){
+	    			 if(user.id.equals(cRequest.users.id)){
+	    				 addleadFlagAll = 1;
+	    			 }
+	    		}else if(cRequest.redirectValue.equals("Redirect all online requests to") && cRequest.personValue.equals("Me and all Sales people")){
+	    			 addleadFlagAll = 1;
+	    		}
+	    		
+	    		if((cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") || cRequest.redirectValue.equals("Redirect all online requests to")) && user.role.equals("Manager")){
+	    			addleadFlagAll = 1;
+	    		}
+	    	}
+	    	
+	    	
     		Location location = Location.findById(Long.parseLong(session("USER_LOCATION")));
       		 if(user.location != null){
       			 location = Location.findById(user.location.id);
@@ -3202,92 +3234,12 @@ public class Application extends Controller {
 				e1.printStackTrace();
 			}
 	    	
-/*	    	for(ScheduleTest sc: scList){
-	    		RequestInfoVM vm1=new RequestInfoVM();
-	    		vm1.name=sc.name;
-	    		vm1.id=sc.id;
-	    		vm1.typeOfLead="Schedule Test";
-	    		vm1.leadType="Schedule Test";
-	    		//vm1.notifFlag=sc.notifFlag;
-	    		vm1.typeOfLead="Schedule Test Drive";
-	    		String imagePath=null;
-	    		if(sc.vin != null){
-	    			AddCollection image = AddCollection.getDefaultImg(sc.id);
-	    			if(image != null){
-	    				imagePath=image.filePath;
-	    			}
-	    		}
-	    		vm1.imageUrl=imageUrlPath+imagePath;
-	    		
-    	        Date dt1=null;
-    	        Date dt2=null;
-    	        try {
-    	        	dt1 =currD;
-    	            //dt2 = sc.scheduleTime;
-    	        	 String dat1=df1.format(sc.scheduleTime);
-    	            dt2=df2.parse(dat1);
-    	        } catch (Exception e) {
-    	            e.printStackTrace();
-    	        }
-
-    	        // Get msec from each, and subtract.
-    	        long diff = dt1.getTime() - dt2.getTime();
-    	        vm1.timeDiff=diff;
-    	        long diffSeconds = diff / 1000 % 60;
-    	        long diffMinutes = diff / (60 * 1000) % 60;
-    	        long diffHours = diff / (60 * 60 * 1000)% 24;
-    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
-    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
-    	        String diffDay=null;
-    	        String diffHr=null;
-    	        if(diffInDays != 0){
-    	        if(diffInDays <10){
-    	        	
-    	        	diffDay=""+diffInDays;
-    	        }
-    	        else{
-    	        	diffDay=""+diffInDays;
-    	        }
-    	        if(diffHours <10){
-    	        	diffHr="0"+diffHours;
-    	        }
-    	        else{
-    	        	diffHr=""+diffHours;
-    	        }
-    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
-    	        vm1.diffDays=diffDay+" + days";
-    	        }
-    	        else if(diffInDays == 0 && diffHours == 0){
-    	        	if(diffMinutes == 1){
-    	        		vm1.diffDays=diffMinutes+" minute ago";
-            	        vm1.timeUnit=diffMinutes+" minute ago";
-    	        	}else{
-    	        	vm1.diffDays=diffMinutes+" minutes ago";
-        	        vm1.timeUnit=diffMinutes+" minutes ago";
-    	        	}
-        	     
-        	        }
-    	        else{
-    	        	
-    	        	 if(diffHours <10){
-    	    	        	diffHr=""+diffHours;
-    	    	        }
-    	    	        else{
-    	    	        	diffHr=""+diffHours;
-    	    	        }
-    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
-    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
-    	        }
-	    		
-	    		list.add(vm1);		
-	    		
-	    	}*/
-	    	
 
 	    	for(RequestMoreInfo sc: rList){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
 	    		vm1.id=sc.id;
+	    		int addleadFlag = 0;
 	    		vm1.leadType="Request More Info";
 	    		vm1.notifFlag=sc.notifFlag;
 	    		vm1.richNotification = sc.richNotification;
@@ -3300,12 +3252,29 @@ public class Application extends Controller {
 		    			AddCollection image=AddCollection.getDefaultImg(pId);
 		    			if(image != null){
 		    				imagePath=image.filePath;
+		    				if(cuSettings != null){
+				    			for(CustomerRequestManufacturerSettings cSettings:cuSettings){
+					    			if(cSettings.manufacturer.id == image.mainCollection.id){
+					    				addleadFlag = 1;
+					    			}
+					    		}
+			        		}
 		    			}
+		    			
+		    			
 	    			}
 	    			
 	    			typeoflead="Request More";
 	    			vm1.typeOfLead="Request More Info";
 	    		}
+	    		if(sList != null){
+	    			for(SalesPersonZipCode sZipCode:sList){
+		    			if(sZipCode.zipCode.equals(sc.custZipCode)){
+		    				addleadFlag = 1;
+		    			}
+		    		}
+	    		}
+	    		
 	    		else if(sc.isContactusType.equals("contactUs")){
 	    			imagePath="../../../assets/global/images/leadsImages/rmail.png" ;
 	    			typeoflead="Contact Us";
@@ -3372,97 +3341,18 @@ public class Application extends Controller {
     	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
 	    		
-	    		list.add(vm1);		
-	    		
-	    	}
-	    	
-	    	
-	    	//List<ScheduleTest> sched = ScheduleTest.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
-	    	List<RequestMoreInfo> reInfos = RequestMoreInfo.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
-	    	//List<TradeIn> tradeIns = TradeIn.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
-
-	    	//int premi = sched.size() + reInfos.size() + tradeIns.size();
-	    	//vm.premium = premi;
-	    	
-	    	/*for(ScheduleTest sc: sched){
-	    		RequestInfoVM vm1=new RequestInfoVM();
-	    		vm1.name=sc.name;
-	    		vm1.typeOfLead="Premium";
-	    		vm1.leadTypeForNotif="Premium Lead";
-	    		vm1.leadType="Schedule Test";
-	    		vm1.id=sc.id;
-	    		//vm1.notifFlag=sc.notifFlag;
-	    		String imagePath=null;
-	    		if(sc.vin != null){
-	    			AddCollection image=AddCollection.getDefaultImg(sc.id);
-	    			if(image != null){
-	    				imagePath=image.filePath;
-	    			}
+    	        if(addleadFlag == 1 || addleadFlagAll == 1){
+    	        	list.add(vm1);	
+	    		}else if(cRequest == null){
+	    			list.add(vm1);	
 	    		}
-	    		vm1.imageUrl=imageUrlPath+imagePath;
-    	        Date dt1=null;
-    	        Date dt2=null;
-    	        try {
-    	        	dt1 =currD;
-    	        	String dat1=df1.format(sc.scheduleTime);
-    	            dt2=df2.parse(dat1);
-    	           // dt2 = sc.scheduleTime;
-    	            
-    	        } catch (Exception e) {
-    	            e.printStackTrace();
-    	        }
-
-    	        // Get msec from each, and subtract.
-    	        long diff = dt1.getTime() - dt2.getTime();
-    	        vm1.timeDiff=diff;
-    	        long diffSeconds = diff / 1000 % 60;
-    	        long diffMinutes = diff / (60 * 1000) % 60;
-    	        long diffHours = diff / (60 * 60 * 1000)% 24;
-    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
-    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
-    	        String diffDay=null;
-    	        String diffHr=null;
-    	        if(diffInDays != 0){
-    	        if(diffInDays <10){
-    	        	diffDay=""+diffInDays;
-    	        }
-    	        else{
-    	        	diffDay=""+diffInDays;
-    	        }
-    	        if(diffHours <10){
-    	        	diffHr=""+diffHours;
-    	        }
-    	        else{
-    	        	diffHr=""+diffHours;
-    	        }
-    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
-    	        vm1.diffDays=diffDay+" + days";
-    	        }
-    	        else if(diffInDays == 0 && diffHours == 0){
-    	        	if(diffMinutes == 1){
-    	        		vm1.diffDays=diffMinutes+" minute ago";
-            	        vm1.timeUnit=diffMinutes+" minute ago";
-    	        	}else{
-    	        	vm1.diffDays=diffMinutes+" minutes ago";
-        	        vm1.timeUnit=diffMinutes+" minutes ago";
-    	        	}
-        	     
-        	        }
-    	        else{
-    	        	
-    	        	 if(diffHours <10){
-    	    	        	diffHr=""+diffHours;
-    	    	        }
-    	    	        else{
-    	    	        	diffHr=""+diffHours;
-    	    	        }
-    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
-    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
-    	        }
-	    		list.add(vm1);		
+	    			
 	    		
 	    	}
-*/	    	
+	    	
+	    	
+	    	  /*  	List<RequestMoreInfo> reInfos = RequestMoreInfo.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+	
 	    	for(RequestMoreInfo sc: reInfos){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
@@ -3489,14 +3379,12 @@ public class Application extends Controller {
     	        Date dt2=null;
     	        try {
     	        	dt1 =currD;
-    	           // dt2 = sc.requestTime;
     	        	 String dat1=df1.format(sc.requestTime);
      	            dt2=df2.parse(dat1);
     	        } catch (Exception e) {
     	            e.printStackTrace();
     	        }
 
-    	        // Get msec from each, and subtract.
     	        long diff = dt1.getTime() - dt2.getTime();
     	        vm1.timeDiff=diff;
     	        long diffSeconds = diff / 1000 % 60;
@@ -3546,7 +3434,7 @@ public class Application extends Controller {
 	    		
 	    		list.add(vm1);		
 	    		
-	    	}
+	    	}*/
 	    	
 	    	vm.userType = user.role;
 	    	
