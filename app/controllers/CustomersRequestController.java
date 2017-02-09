@@ -47,6 +47,7 @@ import models.InventorySetting;
 import models.LeadType;
 import models.Location;
 import models.MyProfile;
+import models.Permission;
 import models.Product;
 import models.ProductImages;
 import models.RequestMoreInfo;
@@ -249,6 +250,14 @@ public class CustomersRequestController extends Controller {
 		    			addleadFlagAll = 1;
 		    		}
 		    	}
+		    	int permis = 0;
+		    	if(!user.role.equals("Manager")){
+		    		for(Permission permission: user.permission){
+			    		if(permission.id == 8){
+			    			permis = 1;
+			    		}
+			    	}
+		    	}
 		    	
 		    	
 		    	List<RequestInfoVM> infoVMList = new ArrayList<>();
@@ -290,6 +299,7 @@ public class CustomersRequestController extends Controller {
 			    		}
 		    		}
 		    		
+		    			    		
 		    		vm.name = info.name;
 		    		vm.phone = info.phone;
 		    		vm.email = info.email;
@@ -352,12 +362,23 @@ public class CustomersRequestController extends Controller {
 		    		}
 		    		//Application.findCustomeData(info.id,vm,Long.parseLong(leadId));
 		    		if(addleadFlag == 1 || addleadFlagAll == 1){
-			    		infoVMList.add(vm);
+		    			if(permis == 0){
+		    				if(info.onlineOrOfflineLeads != 1){
+		    					infoVMList.add(vm);
+		    				}
+		    			}else{
+		    				infoVMList.add(vm);
+		    			}
+			    		
 		    		}else if(cRequest == null){
-		    			infoVMList.add(vm);
+		    			if(permis == 0){
+		    				if(info.onlineOrOfflineLeads != 1){
+		    					infoVMList.add(vm);
+		    				}
+		    			}else{
+		    				infoVMList.add(vm);
+		    			}
 		    		}
-		    		
-		    		
 		    	}
 		    	
 		    	return ok(Json.toJson(infoVMList));
