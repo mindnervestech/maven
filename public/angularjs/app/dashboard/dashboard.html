@@ -440,9 +440,9 @@ float: right !important;
 						           
 						           <div class="col-sm-4">
 									     <h4 class="col-sm-12"><b>MY STATISTICS</b></h4>
-									     <div class="col-sm-12" ng-if="userRole == 'Manager'">
+									     <div class="col-sm-12" ng-if="userRole == 'Manager' || userRole == 'Sales Person'">
 									     <!--  -->
-									     	<a ng-if="nameOfValue == 'Receive Online Leads' || nameOfValue == 'Offline Leads: Create , Clain edit and Remove Leads'" style="cursor: pointer;font-size: 18px;" ng-click="locationOrPersonData('person')" ng-class="dataLocOrPerWise == 'person' ?'underline':''">Personal</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-sec="Business Sales Statistics" ng-click="locationOrPersonData('location')" ng-class="dataLocOrPerWise == 'location' ?'underline':''" style="cursor: pointer;font-size: 18px;">Business</a>
+									     	<a ng-sec="Personal Sales Statistics" ng-if="nameOfValue == 'Receive Online Leads' || nameOfValue == 'Offline Leads: Create , Clain edit and Remove Leads'" style="cursor: pointer;font-size: 18px;" ng-click="locationOrPersonData('person')" ng-class="dataLocOrPerWise == 'person' ?'underline':''">Personal</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-sec="Business Sales Statistics" ng-click="locationOrPersonData('location')" ng-class="dataLocOrPerWise == 'location' ?'underline':''" style="cursor: pointer;font-size: 18px;">Business</a>
 									     </div>
 									    </div> 
 									     <form ng-submit="checkDatewsie(startDate,endDate)">
@@ -954,7 +954,7 @@ float: right !important;
         
 	</div>
 	
-	 <div ng-sec="Top Sales People" class="col-sm-12" ng-if="userRole == 'General Manager' || userRole == 'Manager'" style=" padding: 0px;">
+	 <div ng-sec="Top Sales People" class="col-sm-12" ng-if="userRole == 'General Manager' || userRole == 'Manager' || userRole == 'Sales Person'" style=" padding: 0px;">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 			   <!--  <ul id="myTabs" class="nav nav-tabs" role="tablist">
 			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="salesStats()">Top and Least Sales Representatives</button></a></li>

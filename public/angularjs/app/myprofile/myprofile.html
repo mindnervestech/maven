@@ -12,7 +12,7 @@
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 	        
 	       <!--  <h1><b>My Profile</b></h1> -->
-	       <div class="col-sm-12" style="margin-bottom: 20px;">
+	       <div ng-sec="Edit Business Information" class="col-sm-12" style="margin-bottom: 20px;">
 				<h2><b>General Information</b></h2>
 		   </div>
 <!-- h4><b>Enter your 17 digit vin in the form below and click decode.</b></h4>
@@ -27,7 +27,7 @@
 </div> -->
 <hr>
 
-<form ng-submit="saveMyprofile()">
+<form ng-sec="Edit Business Information" ng-submit="saveMyprofile()">
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Name *</label>
 	<div class="col-sm-5">
@@ -285,7 +285,7 @@
     
     
     
-    <div ng-if="userRole == 'Manager'" id="myTabContent" class="tab-content">
+    <div ng-if="userRole == 'Manager' || userRole == 'Sales Person'" id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab" ng-init="initManager()">
 	        
 <!-- <h2><b>Location Info</b></h2>
