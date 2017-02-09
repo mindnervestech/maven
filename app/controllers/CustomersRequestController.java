@@ -246,7 +246,7 @@ public class CustomersRequestController extends Controller {
 		    			 addleadFlagAll = 1;
 		    		}
 		    		
-		    		if(cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") && user.role.equals("Manager")){
+		    		if((cRequest.redirectValue.equals("Automatically redirect an online customer requests based on") || cRequest.redirectValue.equals("Redirect all online requests to")) && user.role.equals("Manager")){
 		    			addleadFlagAll = 1;
 		    		}
 		    	}

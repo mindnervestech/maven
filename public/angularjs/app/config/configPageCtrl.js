@@ -1274,7 +1274,8 @@ angular.module('newApp')
 			apiserviceConfigPage.getAllSalesPersons().then(function(data){
 					$scope.salesPersonName = data;
 					if($scope.userRoleData.role == "Manager"){
-						$scope.salesPersonName.push($scope.userRoleData); 
+						$scope.salesPersonName.push($scope.userRoleData);
+						$scope.saveCustomerData($scope.userRoleData);
 					}
 			});
 			
@@ -1350,29 +1351,35 @@ angular.module('newApp')
 	$scope.saveCustomerData = function(type){
 		$scope.salespersonName = type;
 	}
-	
+	$scope.redirectMsg = 0;
 	$scope.dataSalesPer = {};
 	$scope.saveSalesPersonsData = function(value){
 		console.log($scope.salespersonName);
-		
+		console.log($scope.customerReq);
 		if($scope.salespersonName == undefined){
 			$scope.salespersonName = $scope.customerReq;
 		}else{
 			$scope.dataSalesPer.userId =  $scope.salespersonName.id;
 		}
 		if($scope.personValue == undefined){
-			$scope.personValue = $scope.salespersonName.personValue;
+			$scope.personValue =$scope.customerReq.personValue;
 		}
 		if($scope.redirectValue == undefined){
-			$scope.redirectValue = $scope.salespersonName.redirectValue;
+			$scope.redirectValue =$scope.customerReq.redirectValue;
 		}
 		$scope.dataSalesPer.personValue = $scope.personValue;
 		$scope.dataSalesPer.redirectValue = $scope.redirectValue;
 		$scope.dataSalesPer.id = $scope.salesId;
 		console.log($scope.dataSalesPer);
-		apiserviceConfigPage.saveSalesPersons($scope.dataSalesPer).then(function(data){
-			console.log(data);
-		});
+		if($scope.personValue == undefined){
+			$scope.redirectMsg = 1;
+		}else{
+			apiserviceConfigPage.saveSalesPersons($scope.dataSalesPer).then(function(data){
+				console.log(data);
+				$scope.redirectMsg = 0;
+			});
+		}
+		
 	}
 	
 	
@@ -2080,7 +2087,7 @@ angular.module('newApp')
 				});
 			});
 	}
-	
+	$scope.allLeftOutFlag = 0;
 	$scope.SaveZipCodeData = function(){
 		//$scope.saveRedirectToAll();
 		console.log($scope.salesPersonName);
@@ -2103,9 +2110,16 @@ angular.module('newApp')
 					
 					
 				}
-				apiserviceConfigPage.saveZipCode($scope.realese.allSalesPeople,longId).then(function(data){
-					console.log(data);
-				});
+				if($scope.realese.allSalesPeople == undefined){
+					$scope.allLeftOutFlag = 1;
+				}else{
+					 $scope.allLeftOutFlag = 0;
+					apiserviceConfigPage.saveZipCode($scope.realese.allSalesPeople,longId).then(function(data){
+					  console.log(data);
+					 
+				   });
+				}
+				
 		
 	}
 	
