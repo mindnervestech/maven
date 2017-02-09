@@ -223,7 +223,6 @@ public class CustomersRequestController extends Controller {
 	    			if(user.role.equals("Manager")) {
 	    				listData = RequestMoreInfo.findAllLocationAndOtherLeadDataManager(Long.valueOf(session("USER_LOCATION")),leadId);
 	    			} else {
-	    				//listData = RequestMoreInfo.findAllByDate();
 	    				listData = RequestMoreInfo.findAllLocationAndOtherLeadData(Long.valueOf(session("USER_LOCATION")),leadId,user);
 	    			}
 	    		}
@@ -277,7 +276,7 @@ public class CustomersRequestController extends Controller {
 		        		
 		        		if(cuSettings != null){
 			    			for(CustomerRequestManufacturerSettings cSettings:cuSettings){
-				    			if(cSettings.manufacturer.id == productInfo.mainCollection.id){
+				    			if(cSettings.manufacturer.id == productInfo.id){
 				    				addleadFlag = 1;
 				    			}
 				    		}
