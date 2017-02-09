@@ -343,7 +343,9 @@ public class Contacts extends Model {
 	public static List<Contacts> getAllContactsByUser(int id) {
 		return find.where().eq("user", id).findList();
 	}
-	
+	public static List<Contacts> getAllContactsByUserId(String id) {
+		return find.where().eq("assignedTo", id).findList();
+	}
 	public static List<Contacts> getAllContactsByLocation(Long locationId) {
 		return find.where().eq("locations.id", locationId).findList();
 	}

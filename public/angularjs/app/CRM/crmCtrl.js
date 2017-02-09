@@ -1314,8 +1314,13 @@ angular.module('newApp')
 	    			});
 	    		});
 	 		}
-	 		
+	 	  	$scope.changeds = 0;
+	 	  	$scope.chnagesNameFunction = function(value){
+	 	  		console.log(value);
+	 	  		$scope.changedUser = value;
+	 	  	}
 	 		 $scope.changeAssignedUser = function() {
+	 			 console.log($scope.changedUser);
 	 			apiserviceCrm.changeContactAssignedUser($scope.actionSelectedLead.toString(), $scope.changedUser).then(function(data){
 	         		$("#assignUserModal").modal("hide");
 	         		$scope.getContactsData();

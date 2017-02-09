@@ -1033,8 +1033,8 @@ public class CrmController extends Controller {
 		    	    			contactsList = Contacts.getAllContacts();
 		    	    		}else if(userObj.role.equalsIgnoreCase("Manager")){
 		    	    			contactsList = Contacts.getAllContactsByLocation(Long.valueOf(session("USER_LOCATION")));
-		    	    		}else{
-		    	    			contactsList = Contacts.getAllContactsByUser(userObj.id);
+		    	    		}else if(userObj.role.equalsIgnoreCase("Sales Person")){
+		    	    			contactsList = Contacts.getAllContactsByUserId(userObj.id.toString());
 		    	    		}
 	    			}
 	    			else if(per.name.equals("Access to the Whole Contacts data base")){

@@ -479,14 +479,14 @@
 								                    <button type="button" class="close" data-dismiss="modal" id="closeChangeUser" aria-hidden="true"><i class="icons-office-52"></i></button>
 								                    <h4 class="modal-title">Assign Sales Representative</h4>
 								                </div>
-								                <form ng-submit="changeAssignedUser()">
+								                <form>
 								                <div class="modal-body">
 								                    <div class="form-group col-sm-12" ng-if="salesPersonPerf.length > 0">
 														<label class="col-sm-4 control-label" style="text-align: right;">User</label>
 														<div class="col-sm-6">
-															<select  class="form-control form-white" ng-model="changedUser" required>
+															<select  class="form-control form-white" ng-model="changedUser" ng-change="chnagesNameFunction(changedUser)" required>
 														    	<option value="">Select user</option>
-											                     <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.fullName}}</option>
+											                    <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.fullName}}</option>
 											                </select>
 														</div>
 													</div>
@@ -502,7 +502,7 @@
 								                </div>
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
-								                    <button type="submit" class="btn btn-primary btn-embossed">Yes</button>
+								                    <button type="submit" ng-click="changeAssignedUser()" class="btn btn-primary btn-embossed">Yes</button>
 								                </div>
 								                </form>
 								            </div>
