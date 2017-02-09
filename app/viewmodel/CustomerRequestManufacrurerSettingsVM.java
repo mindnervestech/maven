@@ -9,5 +9,5 @@ public class CustomerRequestManufacrurerSettingsVM {
 
 	public String id;
 	//public List<AddProductVM> allManufacturerList;
-	public List<InventorySettingVM> allManufacturerList;
+	public List<AddCollectionVM> allManufacturerList;
 }

@@ -692,6 +692,16 @@ angular.module('app.apiserviceConfigPage', [])
 		return defer.promise;
 	};
 	
+	this.getAllCollection = function(){
+		var defer = $q.defer();
+		
+		$http.get('/getAllCollection').success(function(data) {
+			defer.resolve(data);
+		});
+
+		return defer.promise;
+	}
+	
 	this.getAllFrontAndSalesPer=function(type){
 		var defer = $q.defer();
 		

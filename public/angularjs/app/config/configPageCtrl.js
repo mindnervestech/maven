@@ -1397,8 +1397,8 @@ angular.module('newApp')
 		
 	$scope.getchangesManufactures = function(type){
 		if(type != "Zip Code"){
-			
-			apiserviceConfigPage.getAllManufacturer().then(function(data){
+			//apiserviceConfigPage.getAllManufacturer().then(function(data){
+			apiserviceConfigPage.getAllCollection().then(function(data){
 				$scope.allManufacturerList =data;
 				console.log($scope.allManufacturerList);
 				angular.forEach($scope.allManufacturerList, function(obj, index){

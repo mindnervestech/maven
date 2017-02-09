@@ -311,6 +311,11 @@ public class AddCollection extends Model {
 	public static List<AddCollection> getProductByDraftStatus() {
 		return find.where().eq("publicStatus", "publish").findList();		
 	}
+	
+	public static List<AddCollection> getProductByAndMainColl(InventorySetting inv) {
+		return find.where().eq("publicStatus", "publish").eq("mainCollection", inv).findList();		
+	}
+	
 	public static List<AddCollection> getProductByParentId(Long id) {
 		return find.where().eq("parentId", id).findList();		
 	}

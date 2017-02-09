@@ -64,6 +64,7 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
+import viewmodel.AddCollectionVM;
 import viewmodel.AutoPortalVM;
 import viewmodel.CreateNewFormVM;
 import viewmodel.CustomerRequestManufacrurerSettingsVM;
@@ -652,6 +653,28 @@ public class ConfigPagesController extends Controller{
 				return ok(Json.toJson(manufact)); 
 			}
 		 
+		 public static Result getAllCollection(){
+			 List<InventorySetting> manufact = InventorySetting.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			 List<AddCollectionVM> aList = new ArrayList<>();
+			 for(InventorySetting inv:manufact){
+				 List<AddCollection> aCollections = AddCollection.getProductByAndMainColl(inv);
+				 for(AddCollection aColl:aCollections){
+					 AddCollectionVM vm = new AddCollectionVM();
+					 vm.id = aColl.id;
+					 vm.title = aColl.title;
+					 vm.description = aColl.description;
+					 vm.price = aColl.price;
+					 
+					 aList.add(vm);
+				 }
+			 }
+			
+			 
+			 
+			 return ok(Json.toJson(aList));
+		 }
+		 
+		 
 		 public static Result getAllFrontAndSalesPer(String type) {
 			 List<AuthUser> authuser = AuthUser.getAllSalesAndFrontUser();
 			// if(!type.equals("Zip Code")){
@@ -712,11 +735,11 @@ public class ConfigPagesController extends Controller{
 			 Form<CustomerRequestManufacrurerSettingsVM> form = DynamicForm.form(CustomerRequestManufacrurerSettingsVM.class).bindFromRequest();
 			 CustomerRequestManufacrurerSettingsVM vm = form.get();
 			 	deleteCustManfuctList();
-		    	for(InventorySettingVM aProduct:vm.allManufacturerList){
+		    	for(AddCollectionVM aProduct:vm.allManufacturerList){
 		    		for(UserVM user:aProduct.userData){
 		    			if(user.premiumFlag.equals("true")){
 		    			CustomerRequestManufacturerSettings custManufact = new CustomerRequestManufacturerSettings();
-		    			custManufact.manufacturer = InventorySetting.findById(aProduct.id);
+		    			custManufact.manufacturer = AddCollection.findById(aProduct.id);
 		    			custManufact.user = AuthUser.findById(user.id);
 		    			custManufact.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    			custManufact.save();

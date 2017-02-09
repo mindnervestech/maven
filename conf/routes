@@ -402,6 +402,7 @@ GET		/getAllPhotographer/:name/:locationId				controllers.MyProfileController.ge
 GET		/getAllDeactivatePhotographer/:name/:location				controllers.MyProfileController.getAllDeactivatePhotographer(name:String, location:Long)
 GET     /getAllSalesUsers 			controllers.ConfigPagesController.getAllSalesUsers()
 GET     /getAllManufacturer 			controllers.ConfigPagesController.getAllManufacturer()
+GET     /getAllCollection  			    controllers.ConfigPagesController.getAllCollection()
 GET     /getAllFrontAndSalesPer/:type 			controllers.ConfigPagesController.getAllFrontAndSalesPer(type:String)
 GET     /getAllCustomerManufacturer 			controllers.ConfigPagesController.getAllCustomerManufacturer()
 GET     /getAllSalesPersonZipCode 			controllers.ConfigPagesController.getAllSalesPersonZipCode()
