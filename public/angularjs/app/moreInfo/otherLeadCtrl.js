@@ -353,6 +353,8 @@ angular.module('newApp')
 	   		});
 	  		if(isReadValue == 1 && notReadValue == 1){
 	  			$scope.showButton = "1";
+	  		}else if(notReadValue == 1 && isReadValue == 0){
+	  			$scope.showButton = "1";
 	  		}else{
 	  			$scope.showButton = "0";
 	  		}
