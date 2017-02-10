@@ -47,6 +47,13 @@ angular.module('newApp')
 					obj1.isSelected = false;
 				});
 			}
+			if(obj.name == "Customer Requests"){
+				angular.forEach(obj.childData, function(obj2, index1){
+					if(obj2.name != "Able to assign online request to other sales people" || obj2.name != "Abel to add online request to CRM database" || obj2.name != "Delete online request from the database"){
+						obj2.isSelected = "";
+					}
+				});
+			}
 		});
 		$scope.permissionList = data;
 		console.log($scope.permissionList);
@@ -577,6 +584,11 @@ angular.module('newApp')
 	{name:'Update existing Inventorys Information : No Statistics is displayed'},
 	{name:'Only View Inventory'}];
 	
+	$scope.customerReqData = [
+	      {name:'User see only automatically/manually assigned online Request'},
+	      {name:'User see all submitted online Request'}
+	      ];
+	
 	//console.log($scope.permissionList);
 	$scope.permission =[];
 	$scope.rolesClicked = function(e, rolePer,value){
@@ -605,6 +617,16 @@ angular.module('newApp')
 					}
 				});
 			});
+			angular.forEach($scope.permission, function(obj, index){
+				angular.forEach($scope.customerReqData, function(obj1, index){
+					if(obj == obj1.name){
+						if(obj == "User see all submitted online Request" || obj == "User see only automatically/manually assigned online Request"){
+							$scope.deleteItem(obj1);
+						}
+					}
+				});
+			});
+			
 			$scope.permission.push(rolePer.name);
 		}else{
 			$scope.deleteItem(rolePer);

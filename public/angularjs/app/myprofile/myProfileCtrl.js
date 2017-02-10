@@ -459,7 +459,7 @@ $scope.locationObj = {};
 			
 		
 		apiserviceProfile.UpdateuploadManagerImageFile(logofile, $scope.managerObj).then(function(data){
-			
+			$scope.initManager();
 		});
 	
 	   }

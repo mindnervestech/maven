@@ -255,16 +255,39 @@
 				 						 			<input type="checkbox" name="permissions" ng-click="rolesClicked($event,rolePer,rolePer.isSelected)"
 				 						   				ng-model="rolePer.isSelected">					
    					 									{{rolePer.name}}</label></td>
-					    						<td style="border: 1px solid;text-align: center;" ><label ng-if="rolePer.name != 'Inventory'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
-				 						 			<input type="checkbox" name="permissions" ng-click="rolesClicked($event,child,child.isSelected)"
-				 						   				ng-model="child.isSelected">					
-   					 									{{child.name}}</label>
+					    						<td style="border: 1px solid;text-align: center;" >
+					    							<div ng-if="rolePer.name != 'Inventory' && rolePer.name != 'Customer Requests'">
+					    								<label ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
+				 						 					<input type="checkbox" name="permissions" ng-click="rolesClicked($event,child,child.isSelected)"
+				 						   						ng-model="child.isSelected">					
+   					 											{{child.name}}
+   					 									</label>
+   					 								</div>
    					 									
-   					 									<label ng-if="rolePer.name == 'Inventory'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
-				 						 				<input type="radio" name="permissions" value="{{child.name}}" ng-click="rolesClicked($event,child,false)"
-				 						   				ng-model="child.isSelected">					
-   					 									{{child.name}}</label>
-   					 									</td>
+   					 								<div ng-if="rolePer.name == 'Inventory'">
+   					 									<label ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
+				 						 					<input type="radio" name="permissions" value="{{child.name}}" ng-click="rolesClicked($event,child,false)"
+				 						   						ng-model="child.isSelected">					
+   					 											{{child.name}}
+   					 									</label>
+   					 								</div>
+   					 									
+   					 								<div ng-if="rolePer.name == 'Customer Requests'">
+   					 									<label ng-if="child.name == 'User see only automatically/manually assigned online Request' || child.name == 'User see all submitted online Request'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
+				 						 					<input type="radio" name="permissions" value="{{child.name}}" ng-click="rolesClicked($event,child,false)"
+				 						   						ng-model="child.isSelected">					
+   					 											{{child.name}}
+   					 									</label>
+   					 								</div>
+   					 								
+   					 								<div ng-if="rolePer.name == 'Customer Requests'" ng-repeat="child in rolePer.childData">
+					    								<label ng-if="child.name == 'Able to assign online request to other sales people' || child.name == 'Abel to add online request to CRM database' || child.name == 'Delete online request from the database'" class="col-sm-6" style="padding:4px;">
+				 						 					<input type="checkbox" name="permissions" ng-click="rolesClicked($event,child,child.isSelected)"
+				 						   						ng-model="child.isSelected">					
+   					 											{{child.name}}
+   					 									</label>
+   					 								</div>
+   					 							</td>
 					    					</tr>
 					    					</table>					
 								</div>
@@ -706,20 +729,42 @@
    					 						
    					 						<table>
    					 						<tr ng-repeat="rolePer in permissionList" style="border: 1px solid;">
-					    						<td style="padding: 5px;border: 1px solid;width: 150px;" ><label  class="col-sm-12" style="padding:4px;">
-				 						 			<input type="checkbox" name="permissions" ng-click="rolesClicked($event,rolePer,rolePer.isSelected)"
-				 						   				ng-model="rolePer.isSelected">					
-   					 									{{rolePer.name}}</label></td>
-					    						<td style="border: 1px solid;text-align: center;" ><label ng-if="rolePer.name != 'Inventory'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
-				 						 			<input type="checkbox" name="permissions" ng-click="rolesClicked($event,child,child.isSelected)"
-				 						   				ng-model="child.isSelected">					
-   					 									{{child.name}}</label>
+					    						<td style="padding: 5px;border: 1px solid;width: 150px;" >
+					    							<label  class="col-sm-12" style="padding:4px;">
+				 						 				<input type="checkbox" name="permissions" ng-click="rolesClicked($event,rolePer,rolePer.isSelected)"
+				 						   					ng-model="rolePer.isSelected">					
+   					 										{{rolePer.name}}
+   					 								</label>
+   					 							</td>
+					    						<td style="border: 1px solid;text-align: center;" >
+					    							<label ng-if="rolePer.name != 'Inventory' && rolePer.name != 'Customer Requests'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
+				 						 				<input type="checkbox" name="permissions" ng-click="rolesClicked($event,child,child.isSelected)"
+				 						   					ng-model="child.isSelected">					
+   					 										{{child.name}}
+   					 								</label>
    					 									
-   					 									<label ng-if="rolePer.name == 'Inventory'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
+   					 								<label ng-if="rolePer.name == 'Inventory'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
 				 						 				<input type="radio" name="permissions" value="{{child.name}}" ng-click="rolesClicked($event,child,false)"
-				 						   				ng-model="child.isSelected">					
-   					 									{{child.name}}</label>
-   					 									</td>
+				 						   					ng-model="child.isSelected">					
+   					 										{{child.name}}
+   					 								</label>
+   					 									
+   					 								<div ng-if="rolePer.name == 'Customer Requests'">
+   					 									<label ng-if="child.name == 'User see only automatically/manually assigned online Request' || child.name == 'User see all submitted online Request'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
+				 						 					<input type="radio" name="permissions" value="{{child.name}}" ng-click="rolesClicked($event,child,false)"
+				 						   						ng-model="child.isSelected">					
+   					 											{{child.name}}
+   					 									</label>
+   					 								</div>
+   					 								
+   					 								<div ng-if="rolePer.name == 'Customer Requests'" ng-repeat="child in rolePer.childData">
+					    								<label ng-if="child.name == 'Able to assign online request to other sales people' || child.name == 'Abel to add online request to CRM database' || child.name == 'Delete online request from the database'" class="col-sm-6" style="padding:4px;">
+				 						 					<input type="checkbox" name="permissions" ng-click="rolesClicked($event,child,child.isSelected)"
+				 						   						ng-model="child.isSelected">					
+   					 											{{child.name}}
+   					 									</label>
+   					 								</div>
+   					 							</td>
 					    					</tr>
 					    					</table>
    					 												
