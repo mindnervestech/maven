@@ -1436,8 +1436,6 @@ angular.module('newApp')
 				$scope.editSalesZipData = data2;
 					$scope.zipCode ={};
 					
-					console.log(")))))))))))))000000000000000");
-					console.log($scope.allFronAndSalesList);
 					$scope.list = [];
 					var flag = 0;
 					
