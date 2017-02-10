@@ -1965,6 +1965,7 @@ angular.module('newApp')
 	$scope.getZipCode = function(address){
 		console.log(address);
 		$scope.addre = address;
+		address.selectFlag = 0;
 		apiserviceConfigPage.getZipCodeData(address).then(function(data){
 			console.log(data);
 			if(data.zip_codes.length == 0){
@@ -2173,12 +2174,42 @@ angular.module('newApp')
 	
 	$scope.hideAdditionalCity = function(value, addAdditionalFields){
 		$scope.val = value;
+		
 		$scope.addAdd = addAdditionalFields;
+		
+		console.log(addAdditionalFields);
+		console.log($scope.rowData);
+		console.log($scope.allFronAndSalesList);
+		var city = "";
+		var state = "";
 		angular.forEach(addAdditionalFields, function(obj, index){
+			if(value == index){
+				city = obj.city;
+				state = obj.state;
+			}
+		});
+		
+		angular.forEach($scope.allFronAndSalesList, function(obj, index){
+			if(obj.id == $scope.rowData.id){
+				obj.cityList.splice(value,1);
+				var zipCopy = [];
+				zipCopy = angular.copy(obj.zipCode);
+				obj.zipCode = [];
+				angular.forEach(zipCopy, function(obj1, index1){
+					if(obj1.city != city && obj1.state != state){
+						obj.zipCode.push(obj1);
+					}
+				});
+				
+			}
+		});
+		$scope.addAdditionalFields.splice(value,1);
+		console.log($scope.allFronAndSalesList);
+		/*angular.forEach(addAdditionalFields, function(obj, index){
 			if(value == index){
 				obj.indexValue = "1";
 			}
-		});
+		});*/
 	}
 	
 	$scope.clickedUser = function(users, userSelect){
