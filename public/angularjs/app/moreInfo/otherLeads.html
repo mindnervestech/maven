@@ -20,9 +20,9 @@
 	        <h2><b>{{leadName}}</b></h2>
 	         <ul style="margin-top:4px;" ng-if="actionSelectedLead.length >= 1">
 				         		<button class="btn btn-primary" style="height: 30px;font-size: 11px;" ng-click="setAsRead()" ng-if="showButton == '0'">CLAIM</button>
-				         		<button class="btn btn-primary" ng-click="assignCanceledLead()" style="height: 30px;font-size: 11px;" ng-if="showButton == '0'">ASSIGN</button>
-				         		<button class="btn btn-primary" ng-click="createContact(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">ADD TO CRM</button> 
-				         		<button class="btn btn-primary" ng-click="cancelScheduleStatus()" style="height: 30px;font-size: 11px;">DELETE</button> 
+				         		<button ng-sec="Able to assign online request to other sales people" class="btn btn-primary" ng-click="assignCanceledLead()" style="height: 30px;font-size: 11px;" ng-if="showButton == '0'">ASSIGN</button>
+				         		<button ng-sec="Abel to add online request to CRM database" class="btn btn-primary" ng-click="createContact(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">ADD TO CRM</button> 
+				         		<button ng-sec="Delete online request from the database" class="btn btn-primary" ng-click="cancelScheduleStatus()" style="height: 30px;font-size: 11px;">DELETE</button> 
 				         		
 			</ul>
 			<div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
