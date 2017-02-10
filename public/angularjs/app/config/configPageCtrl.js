@@ -1399,18 +1399,23 @@ angular.module('newApp')
 	$scope.getchangesManufactures = function(type){
 		if(type != "Zip Code"){
 			//apiserviceConfigPage.getAllManufacturer().then(function(data){
+			
 			apiserviceConfigPage.getAllFrontAndSalesPer(type).then(function(data1){
 				$scope.allFronAndSalesList =data1;
 				console.log(data1);
+				apiserviceConfigPage.getAllCustomerManufacturer().then(function(data2){
+					console.log(data2);
+					$scope.editCustManufData = data2;
+				
+		
 				apiserviceConfigPage.getAllCollection().then(function(data){
 					$scope.allManufacturerList =data;
 					console.log($scope.allManufacturerList);
 					angular.forEach($scope.allManufacturerList, function(obj, index){
 						obj.userData = angular.copy($scope.allFronAndSalesList); 
 					 });
-					apiserviceConfigPage.getAllCustomerManufacturer().then(function(data){
-						console.log(data);
-						$scope.editCustManufData = data;
+					
+						
 						angular.forEach($scope.allManufacturerList, function(obj, index){
 							angular.forEach($scope.editCustManufData, function(obj1, index1){
 								 if(obj.id == obj1.manufacturer.id){
@@ -1422,11 +1427,11 @@ angular.module('newApp')
 								 }
 							 });
 						 });
-					});
+					
 					
 				});
 			});	
-			
+			});
 		}else{
 			apiserviceConfigPage.getAllFrontAndSalesPer(type).then(function(data1){
 				$scope.allFronAndSalesList =data1;
