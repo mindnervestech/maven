@@ -1519,7 +1519,7 @@ angular.module('newApp')
 			obj.premiumFlag = false;
 		});
 		$scope.msgShow($scope.allFronAndSalesList);
-		$scope.getchangesManufactures("Manufacturer");
+		//$scope.getchangesManufactures("Manufacturer");
 	});
 	
 	$scope.initCustomerRequ = function(){
