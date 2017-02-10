@@ -254,13 +254,13 @@ public class CustomersRequestController extends Controller {
 		    		}
 		    	}
 		    	
-		    	if(!user.role.equals("Manager")){
+		    	/*if(!user.role.equals("Manager")){
 		    		for(Permission permission: user.permission){
 			    		if(permission.id == 8){
 			    			permis = 1;
 			    		}
 			    	}
-		    	}
+		    	}*/
 		    	
 		    	
 		    	List<RequestInfoVM> infoVMList = new ArrayList<>();
@@ -363,24 +363,23 @@ public class CustomersRequestController extends Controller {
 		    			
 		    			
 		    		}
-		    		//Application.findCustomeData(info.id,vm,Long.parseLong(leadId));
 		    		if(addleadFlag == 1 || addleadFlagAll == 1){
-		    			if(permis == 0){
+		    			/*if(permis == 0){
 		    				if(info.onlineOrOfflineLeads != 1){
 		    					infoVMList.add(vm);
 		    				}
-		    			}else{
+		    			}else{*/
 		    				infoVMList.add(vm);
-		    			}
+		    			//}
 			    		
 		    		}else if(cRequest == null){
-		    			if(permis == 0){
+		    			/*if(permis == 0){
 		    				if(info.onlineOrOfflineLeads != 1){
 		    					infoVMList.add(vm);
 		    				}
-		    			}else{
+		    			}else{*/
 		    				infoVMList.add(vm);
-		    			}
+		    			//}
 		    		}
 		    	}
 		    	
