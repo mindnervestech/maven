@@ -77,6 +77,7 @@ import viewmodel.MailchimpPageVM;
 import viewmodel.NewFormWebsiteVM;
 import viewmodel.SalePersonZipCodeVM;
 import viewmodel.SiteVM;
+import viewmodel.SomeCollectionInfoVM;
 import viewmodel.UserVM;
 import viewmodel.WebAnalyticsVM;
 import viewmodel.ZipCodeVM;
@@ -655,15 +656,14 @@ public class ConfigPagesController extends Controller{
 		 
 		 public static Result getAllCollection(){
 			 List<InventorySetting> manufact = InventorySetting.findByLocation(Long.valueOf(session("USER_LOCATION")));
-			 List<AddCollectionVM> aList = new ArrayList<>();
+			 List<SomeCollectionInfoVM> aList = new ArrayList<SomeCollectionInfoVM>();
 			 for(InventorySetting inv:manufact){
 				 List<AddCollection> aCollections = AddCollection.getProductByAndMainColl(inv);
 				 for(AddCollection aColl:aCollections){
-					 AddCollectionVM vm = new AddCollectionVM();
+					 SomeCollectionInfoVM vm = new SomeCollectionInfoVM();
 					 vm.id = aColl.id;
 					 vm.title = aColl.title;
 					 vm.description = aColl.description;
-					 vm.price = aColl.price;
 					 
 					 aList.add(vm);
 				 }
@@ -735,7 +735,7 @@ public class ConfigPagesController extends Controller{
 			 Form<CustomerRequestManufacrurerSettingsVM> form = DynamicForm.form(CustomerRequestManufacrurerSettingsVM.class).bindFromRequest();
 			 CustomerRequestManufacrurerSettingsVM vm = form.get();
 			 	deleteCustManfuctList();
-		    	for(AddCollectionVM aProduct:vm.allManufacturerList){
+		    	for(SomeCollectionInfoVM aProduct:vm.allManufacturerList){
 		    		for(UserVM user:aProduct.userData){
 		    			if(user.premiumFlag.equals("true")){
 		    			CustomerRequestManufacturerSettings custManufact = new CustomerRequestManufacturerSettings();

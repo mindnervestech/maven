@@ -1752,7 +1752,26 @@ angular.module('newApp')
 				$('#notselectedSelesPer').click();
 			}
 			else{
-				apiserviceConfigPage.saveManfactSales($scope.obj).then(function(data){
+				$scope.objForSave = {};
+				$scope.objForSave = angular.copy($scope.obj);
+				angular.forEach($scope.objForSave.allManufacturerList, function(obj, index){
+					delete obj.userData;
+				});
+				angular.forEach($scope.obj.allManufacturerList, function(obj, index){
+					angular.forEach($scope.objForSave.allManufacturerList, function(obj1, index1){
+						
+						if(obj.id == obj1.id){
+							obj1.userData = [];
+							angular.forEach(obj.userData, function(obj2, index2){
+								obj1.userData.push({"id":obj2.id,"premiumFlag":obj2.premiumFlag});
+							});
+						}
+					});
+				});
+				
+				console.log($scope.obj);
+				console.log($scope.objForSave);
+				apiserviceConfigPage.saveManfactSales($scope.objForSave).then(function(data){
 					console.log(data);
 				});
 			}
