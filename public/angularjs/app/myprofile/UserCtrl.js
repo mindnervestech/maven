@@ -580,9 +580,9 @@ angular.module('newApp')
 		
 	}
 	$scope.inventoryData = [
-	{name:'Compelte access to Inventory : Add, Edit, Remove, Statistics'},
-	{name:'Update existing Inventorys Information : No Statistics is displayed'},
-	{name:'Only View Inventory'}];
+	{name:'Compelte access to Inventory : Add, Edit, Remove, Statistics',isSelected:false},
+	{name:'Update existing Inventorys Information : No Statistics is displayed',isSelected:false},
+	{name:'Only View Inventory',isSelected:false}];
 	
 	$scope.customerReqData = [
 	      {name:'User see only automatically/manually assigned online Request'},
