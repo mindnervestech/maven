@@ -447,7 +447,7 @@ $scope.managerObj = {};
 $scope.locationObj = {};
 	
 	
-	$scope.updateManagerProfile = function() {
+	$scope.updateMyProfileData = function() {
 		$scope.managerProfile.userType = "Manager"
 		$scope.managerObj.id = $scope.managerProfile.managerId;
 		$scope.managerObj.userType = $scope.managerProfile.userType;
@@ -456,16 +456,23 @@ $scope.locationObj = {};
 		$scope.managerObj.email = $scope.managerProfile.email;
 		$scope.managerObj.phone = $scope.managerProfile.phone;
 		$scope.managerObj.mi = "false";
-			
 		
 		apiserviceProfile.UpdateuploadManagerImageFile(logofile, $scope.managerObj).then(function(data){
 			$scope.initManager();
+			window.location.href='/logout';
+			//$location.path('/logout');
 		});
-	
-	   }
+		
+	}
 	
 	$scope.updateManager = function(){
 	
+	}
+	$scope.updateManagerProfile = function(){
+		$('#openPopUp').modal('show');
+	}
+	$scope.noChangeOnProfile = function(){
+		$scope.initManager();
 	}
 	
 }]);	
