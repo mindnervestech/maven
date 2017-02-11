@@ -32,6 +32,7 @@ public class RequestInfoVM {
 	public String email;
 	public String phone;
 	public String requestDate;
+	public String requestTime;
 	public String bestDay;
 	public String bestTime;
 	public String confirmDate;

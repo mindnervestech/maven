@@ -265,6 +265,7 @@ public class CustomersRequestController extends Controller {
 		    	
 		    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 		    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		    	SimpleDateFormat df1 = new SimpleDateFormat("HH:mm:ss");
 		    	for(RequestMoreInfo info: listData) {
 		    		RequestInfoVM vm = new RequestInfoVM();
 		    		vm.id = info.id;
@@ -310,6 +311,9 @@ public class CustomersRequestController extends Controller {
 		    		vm.howFoundUs = info.hearedFrom;
 		    		vm.custZipCode = info.custZipCode;
 		    		vm.requestDate = df.format(info.requestDate);
+		    		if(info.confirmTime != null){
+		    			vm.confirmTime = df1.format(info.confirmTime);
+		    		}
 		    		vm.userRole = user.role;
 		    		vm.premiumFlagForSale = user.premiumFlag;
 		    		vm.message = info.message;

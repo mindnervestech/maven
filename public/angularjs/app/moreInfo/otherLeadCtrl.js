@@ -114,7 +114,13 @@ angular.module('newApp')
     		                                     }
    		                                	} ,
    		                                 },
- 		                                 
+   		                              { name: 'confirmTime', displayName: 'Time',enableFiltering: false, width:'8%',enableColumnMenu: false,cellEditableCondition: false,
+    		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     		                                       if (row.entity.isRead === false) {
+     		                                         return 'red';
+     		                                     }
+    		                                	} ,
+    		                                 },
      		                                 ];
   
  		$scope.gridOptions.onRegisterApi = function(gridApi){
