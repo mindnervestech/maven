@@ -265,7 +265,7 @@ public class CustomersRequestController extends Controller {
 		    	
 		    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 		    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-		    	SimpleDateFormat df1 = new SimpleDateFormat("HH:mm:ss");
+		    	SimpleDateFormat df1 = new SimpleDateFormat("hh:mm:ss a");
 		    	for(RequestMoreInfo info: listData) {
 		    		RequestInfoVM vm = new RequestInfoVM();
 		    		vm.id = info.id;
