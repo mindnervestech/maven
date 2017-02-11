@@ -751,7 +751,7 @@
    					 									
    					 								<div ng-if="rolePer.name == 'Customer Requests'">
    					 									<label ng-if="child.name == 'User see only automatically/manually assigned online Request' || child.name == 'User see all submitted online Request'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
-				 						 					<input type="radio" name="permissions" data-ng-value="true" ng-click="rolesClicked($event,child,false)"
+				 						 					<input type="radio" name="permissions" value="child.name" ng-click="rolesClicked($event,child,false)"
 				 						   						ng-model="child.isSelected">					
    					 											{{child.name}}
    					 									</label>
