@@ -2391,9 +2391,9 @@ angular.module('newApp')
 		console.log($scope.userId);
 		console.log($scope.userDetails.city);
 		console.log($scope.userDetails.state);
-		/*apiserviceConfigPage.deleteZipCodeDetail($scope.userId, $scope.userDetails.city , $scope.userDetails.state).then(function(data){
+		apiserviceConfigPage.deleteZipCodeDetail($scope.userId, $scope.userDetails.city , $scope.userDetails.state).then(function(data){
 				$scope.getchangesManufactures($scope.customerReq.priceValue);
-		});*/
+		});
 		$scope.addAdditionalFields.splice(value,1);
 	}
 	

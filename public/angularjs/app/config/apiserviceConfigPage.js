@@ -904,4 +904,17 @@ angular.module('app.apiserviceConfigPage', [])
 		});
 		return defer.promise;
 	};
+	
+	this.deleteZipCodeDetail=function(id,city,state){
+		var defer = $q.defer();
+		$http.get('/deleteZipCodeDetail/'+id+'/'+city+'/'+state).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Deleted successfully",
+			});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 })
