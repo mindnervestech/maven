@@ -939,7 +939,9 @@ public class InventoryController extends Controller {
 		   List<LeadType> lType = LeadType.findByLocationsAndSelected(Long.valueOf(session("USER_LOCATION")));
 		   List<LeadTypeVM> lVmList = new ArrayList<LeadTypeVM>();
 		   AuthUser user = (AuthUser) getLocalUser();
+		  
 		   for(LeadType lType2 : lType){
+			   int permis = 0;
 							   LeadTypeVM vm = new LeadTypeVM();
 							   vm.id = lType2.id;
 							   vm.leadName = lType2.leadName;
@@ -957,11 +959,21 @@ public class InventoryController extends Controller {
 							  if(user.role.equals("Manager")){
 								  rInfo = RequestMoreInfo.findAllOtherLeadIdAndStatus(vm.id.toString());  
 							  }else{
-								  rInfo = RequestMoreInfo.findAllOtherLeadIdAndStatusAsUser(vm.id.toString(),user);
+								  for(Permission permission: user.permission){
+							    		if(permission.id == 35){
+							    			permis = 1;
+							    		}
+							    	}
+								 
+								  if(permis == 0){
+									    rInfo = RequestMoreInfo.findAllOtherLeadIdAndStatusAsUser(vm.id.toString(),user);
+				    				}else{
+				    					rInfo = RequestMoreInfo.findAllOtherLeadIdAndStatusAsUserAll(vm.id.toString(),user);
+				    				}
 							  }
 							  
 							  int addleadFlagAll = 0;
-						    	int permis = 0;
+						    	
 						    	List<CustomerRequestManufacturerSettings> cuSettings = null;
 						    	List<SalesPersonZipCode> sList = null;
 						    	CustomerRequest cRequest = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
@@ -996,6 +1008,7 @@ public class InventoryController extends Controller {
 						    	
 							   vm.hideTab = String.valueOf(rInfo.size());
 							   List<RequestInfoVM> infoVMList = new ArrayList<>();
+							   int pFlag =0;
 							   for(RequestMoreInfo rInfo2:rInfo){
 								   RequestInfoVM vms = new RequestInfoVM();
 								   vms.id = rInfo2.id;
@@ -1010,8 +1023,15 @@ public class InventoryController extends Controller {
 								    			}
 								    		}
 						        		}
+						        		if(permis == 1){
+							    			if(!user.id.equals(rInfo2.assignedTo.id)){
+							    				rInfo2.isRead = 1;
+							    				
+							    			}
+							    		}
 								   
 										   if(rInfo2.isRead == 0){
+											   pFlag = 1;
 											   countunClaimReq++;
 										   }
 							        }
@@ -1023,7 +1043,7 @@ public class InventoryController extends Controller {
 							    			}
 							    		}
 						    		}
-						    		if(rInfo2.isRead == 0){
+						    		if(pFlag == 1){
 						    		if(addleadFlag == 1 || addleadFlagAll == 1){
 						    			/*if(permis == 0){
 						    				if(rInfo2.onlineOrOfflineLeads != 1){

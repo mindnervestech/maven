@@ -383,6 +383,10 @@ public void setMessage(String message) {
 		return find.where().add(Expr.or(Expr.eq("assignedTo", null),Expr.eq("assignedTo", user))).eq("status", null).eq("isContactusType", leadId).findList();
 	}
 	
+	public static List<RequestMoreInfo> findAllOtherLeadIdAndStatusAsUserAll(String leadId,AuthUser user) {
+		return find.where().eq("status", null).eq("isContactusType", leadId).findList();
+	}
+	
 	public static List<RequestMoreInfo> findAllContactData() {
 		return find.where().ne("isContactusType", null).findList();
 	}
