@@ -2361,4 +2361,9 @@ angular.module('newApp')
 		$scope.getAllInventory();
 	}
 	
+	$scope.deleteZipCode = function(index, add){
+		console.log(index);
+		console.log(add);
+	}
+	
 }]);	

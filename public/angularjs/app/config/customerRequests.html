@@ -353,6 +353,9 @@ requests that don't match any of the entered price range criteria</strong></h4>
 										<div ng-if="add.selectFlag == 1">
 											<button type="button" class="btn btn-primary" ng-click="unSelectAll($index, add)"> Unselect All</button>
 										</div>
+										<div>
+											<button type="button" class="btn btn-primary" ng-click="deleteZipCode($index, add)">Delete</button>
+										</div>
 									</div>
 									<div class="col-md-2" style="margin-top: 10px;margin-left: 10px;" ng-repeat="value in add.zipCodeDetailData">
 										<input type="checkbox" name="zipcode" ng-model="value.isSelected" ng-click="storeZipCode(value)" ng-checked="value.isSelected == 1">{{value.zipcode}}
