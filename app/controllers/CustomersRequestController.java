@@ -235,7 +235,7 @@ public class CustomersRequestController extends Controller {
 	    				listData = RequestMoreInfo.findAllLocationAndOtherLeadDataManager(Long.valueOf(session("USER_LOCATION")),leadId);
 	    			} else {
 	    				for(Permission permission: user.permission){
-				    		if(permission.id == 35){
+				    		if(permission.id == 36){
 				    			permis = 1;
 				    		}
 				    	}

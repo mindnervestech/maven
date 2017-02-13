@@ -960,7 +960,7 @@ public class InventoryController extends Controller {
 								  rInfo = RequestMoreInfo.findAllOtherLeadIdAndStatus(vm.id.toString());  
 							  }else{
 								  for(Permission permission: user.permission){
-							    		if(permission.id == 35){
+							    		if(permission.id == 36){
 							    			permis = 1;
 							    		}
 							    	}
