@@ -3254,7 +3254,7 @@ public class Application extends Controller {
 		    				imagePath=image.filePath;
 		    				if(cuSettings != null){
 				    			for(CustomerRequestManufacturerSettings cSettings:cuSettings){
-					    			if(cSettings.manufacturer.id == image.mainCollection.id){
+					    			if(cSettings.manufacturer.id == image.id){
 					    				addleadFlag = 1;
 					    			}
 					    		}

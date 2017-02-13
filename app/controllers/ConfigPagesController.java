@@ -2059,4 +2059,13 @@ public class ConfigPagesController extends Controller{
 		   		
 		    	   return ok();
 		    }
+		    
+		    public static Result deleteZipCodeDetail(Long id, String city, String state){
+				
+		    	List<SalesPersonZipCode> zipcode = SalesPersonZipCode.findPdfByIdCityAndState(id, city, state);
+		    	for(SalesPersonZipCode detail:zipcode){
+		    		detail.delete();
+		    	}
+		    	return ok();
+			 }
 }

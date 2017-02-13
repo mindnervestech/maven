@@ -93,4 +93,8 @@ public class SalesPersonZipCode extends Model {
 	public static List<SalesPersonZipCode> findByZipCode(Long location , String custZipCode) {
 		return find.where().eq("locations.id", location).eq("zipCode", custZipCode).findList();
 	}
+	
+	public static List<SalesPersonZipCode> findPdfByIdCityAndState(Long id , String city, String state) {
+		return find.where().eq("user.id", id).eq("city", city).eq("state", state).findList();
+	}
 }

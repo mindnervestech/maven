@@ -986,13 +986,13 @@ public class InventoryController extends Controller {
 						    		}
 						    	}
 						    	
-						    	if(!user.role.equals("Manager")){
+						    	/*if(!user.role.equals("Manager")){
 						    		for(Permission permission: user.permission){
 							    		if(permission.id == 8){
 							    			permis = 1;
 							    		}
 							    	}
-						    	}
+						    	}*/
 						    	
 							   vm.hideTab = String.valueOf(rInfo.size());
 							   List<RequestInfoVM> infoVMList = new ArrayList<>();
@@ -1025,22 +1025,22 @@ public class InventoryController extends Controller {
 						    		}
 						    		if(rInfo2.isRead == 0){
 						    		if(addleadFlag == 1 || addleadFlagAll == 1){
-						    			if(permis == 0){
+						    			/*if(permis == 0){
 						    				if(rInfo2.onlineOrOfflineLeads != 1){
 						    					infoVMList.add(vms);
 						    				}
-						    			}else{
+						    			}else{*/
 						    				infoVMList.add(vms);
-						    			}
+						    			//}
 							    		
 						    		}else if(cRequest == null){
-						    			if(permis == 0){
+						    			/*if(permis == 0){
 						    				if(rInfo2.onlineOrOfflineLeads != 1){
 						    					infoVMList.add(vms);
 						    				}
-						    			}else{
+						    			}else{*/
 						    				infoVMList.add(vms);
-						    			}
+						    			//}
 						    		}
 						    		}	
 								  

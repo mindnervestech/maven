@@ -1478,7 +1478,6 @@ angular.module('newApp')
 					
 					
 					$scope.msgShow($scope.allFronAndSalesList);
-					
 				});
 			});
 		}
@@ -2361,9 +2360,41 @@ angular.module('newApp')
 		$scope.getAllInventory();
 	}
 	
-	$scope.deleteZipCode = function(index, add){
-		console.log(index);
-		console.log(add);
+	$scope.deleteZipCode = function(value, addAdditionalFields){
+		$scope.val = value;
+		$scope.userDetails = {};
+		$scope.addAdd = addAdditionalFields;
+		
+		var city = "";
+		var state = "";
+		angular.forEach(addAdditionalFields, function(obj, index){
+			if(value == index){
+				city = obj.city;
+				state = obj.state;
+				$scope.userDetails = obj;
+			}
+		});
+		angular.forEach($scope.allFronAndSalesList, function(obj, index){
+			if(obj.id == $scope.rowData.id){
+				$scope.userId = obj.id;
+				obj.cityList.splice(value,1);
+				var zipCopy = [];
+				zipCopy = angular.copy(obj.zipCode);
+				obj.zipCode = [];
+				angular.forEach(zipCopy, function(obj1, index1){
+					if(obj1.city != city && obj1.state != state){
+						obj.zipCode.push(obj1);
+					}
+				});
+			}
+		});
+		console.log($scope.userId);
+		console.log($scope.userDetails.city);
+		console.log($scope.userDetails.state);
+		/*apiserviceConfigPage.deleteZipCodeDetail($scope.userId, $scope.userDetails.city , $scope.userDetails.state).then(function(data){
+				$scope.getchangesManufactures($scope.customerReq.priceValue);
+		});*/
+		$scope.addAdditionalFields.splice(value,1);
 	}
 	
 }]);	

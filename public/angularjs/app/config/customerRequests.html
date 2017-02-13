@@ -311,8 +311,8 @@ requests that don't match any of the entered price range criteria</strong></h4>
 			
 			<div style="display:none;" id="editAddressPop" data-toggle="modal" data-target="#addressPopUp"></div>
 			<div class="modal fade" id="addressPopUp" tabindex="-1" role="dialog" aria-hidden="true">
-        		<div class="modal-dialog" style="width: 777px;height: 600px;overflow: auto;overflow-x: hidden;margin-top: 110px;">
-            		<div class="modal-content col-md-12" style="width: 777px;">
+        		<div class="modal-dialog" style="width: 850px;height: 600px;overflow: auto;overflow-x: hidden;margin-top: 110px;">
+            		<div class="modal-content col-md-12" style="width: 850px;">
                 		<div class="modal-header">
                     		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
                     		<h4 class="modal-title"><strong>Address</strong></h4>
@@ -326,7 +326,8 @@ requests that don't match any of the entered price range criteria</strong></h4>
 										<h4><b><a ng-if="$index != 0" ng-click="hideAdditionalCity($index,addAdditionalFields)">Hide additional city</a></b></h4>
 										<!-- <button type="button" class="btn btn-primary" ng-if="zipCodeDetailData.length != 0" ng-click="addAdditionalCity()" >Add additional city</button> -->								
 									</div>
-									<div class="col-md-1">
+									
+									<div class="col-md-1">  	
 										<label>City</label>
 									</div>
 									<div class="col-md-3">
@@ -354,9 +355,11 @@ requests that don't match any of the entered price range criteria</strong></h4>
 											<button type="button" class="btn btn-primary" ng-click="unSelectAll($index, add)"> Unselect All</button>
 										</div>
 										<div>
-											<button type="button" class="btn btn-primary" ng-click="deleteZipCode($index, add)">Delete</button>
-										</div>
+										   <button type="button" class="btn btn-primary" ng-click="deleteZipCode($index, addAdditionalFields)">Delete</button>
+									   </div>
 									</div>
+									
+									
 									<div class="col-md-2" style="margin-top: 10px;margin-left: 10px;" ng-repeat="value in add.zipCodeDetailData">
 										<input type="checkbox" name="zipcode" ng-model="value.isSelected" ng-click="storeZipCode(value)" ng-checked="value.isSelected == 1">{{value.zipcode}}
 									</div>
