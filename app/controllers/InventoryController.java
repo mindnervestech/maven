@@ -1019,13 +1019,15 @@ public class InventoryController extends Controller {
 						        		}
 						        		
 							        }
-						    		
-						    		if(permis == 1){
-						    			if(!user.id.equals(rInfo2.assignedTo.id)){
-						    				rInfo2.isRead = 1;
-						    				
-						    			}
+						    		if(rInfo2.assignedTo != null){
+						    			if(permis == 1){
+							    			if(!user.id.equals(rInfo2.assignedTo.id)){
+							    				rInfo2.isRead = 1;
+							    				
+							    			}
+							    		}
 						    		}
+						    		
 							   
 									   if(rInfo2.isRead == 0){
 										   pFlag = 1;

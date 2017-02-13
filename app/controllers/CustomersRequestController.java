@@ -351,13 +351,13 @@ public class CustomersRequestController extends Controller {
 		    		if(info.isRead == 1) {
 		    			vm.isRead = true;
 		    		}
-		    		
+		    		if(info.assignedTo != null){
 		    		if(permis == 1){
 		    			if(!user.id.equals(info.assignedTo.id)){
 		    				vm.isRead = true;
 		    			}
 		    		}
-		    		
+		    		}
 		    		
 		    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));
 		    		if(lType != null){
