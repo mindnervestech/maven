@@ -399,6 +399,10 @@ public void setMessage(String message) {
 		return find.where().add(Expr.or(Expr.eq("assignedTo", null),Expr.eq("assignedTo", user))).eq("status", null).eq("isRead", 0).eq("premiumFlag", 0).eq("isContactusType", leadId).eq("locations.id", locationId).findList();
 	}
 	
+	public static List<RequestMoreInfo> findAllLocationAndOtherLeadDataAll(Long locationId,String leadId,AuthUser user) {
+		return find.where().eq("status", null).eq("isRead", 0).eq("premiumFlag", 0).eq("isContactusType", leadId).eq("locations.id", locationId).findList();
+	}
+	
 	public static List<RequestMoreInfo> findAllLocationDataContactUs(Long locationId) {
 		return find.where().eq("status", null).eq("isRead", 0).eq("premiumFlag", 0).eq("assignedTo", null).ne("isContactusType", null).eq("locations.id", locationId).findList();
 	}

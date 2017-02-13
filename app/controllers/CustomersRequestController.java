@@ -217,18 +217,38 @@ public class CustomersRequestController extends Controller {
 	    	} else {
 	    		//Long.valueOf(session("USER_LOCATION"))
 		    	AuthUser user = (AuthUser) getLocalUser();
+		    	int permis = 0;
 		    	List<RequestMoreInfo> listData = new ArrayList<>();
+		    	
+		    /*	if(!user.role.equals("Manager")){
+		    		for(Permission permission: user.permission){
+			    		if(permission.id == 35){
+			    			permis = 1;
+			    		}
+			    	}
+		    	}*/
+		    	
 		    	if(user.role == null || user.role.equals("General Manager")) {
 	    			listData = RequestMoreInfo.findAllOtherLeadIdWise(leadId);
 	    		} else {
 	    			if(user.role.equals("Manager")) {
 	    				listData = RequestMoreInfo.findAllLocationAndOtherLeadDataManager(Long.valueOf(session("USER_LOCATION")),leadId);
 	    			} else {
-	    				listData = RequestMoreInfo.findAllLocationAndOtherLeadData(Long.valueOf(session("USER_LOCATION")),leadId,user);
+	    				for(Permission permission: user.permission){
+				    		if(permission.id == 35){
+				    			permis = 1;
+				    		}
+				    	}
+	    				if(permis == 0){
+	    					listData = RequestMoreInfo.findAllLocationAndOtherLeadData(Long.valueOf(session("USER_LOCATION")),leadId,user);
+	    				}else{
+	    					listData = RequestMoreInfo.findAllLocationAndOtherLeadDataAll(Long.valueOf(session("USER_LOCATION")),leadId,user);
+	    				}
+	    				
 	    			}
 	    		}
 		    	int addleadFlagAll = 0;
-		    	int permis = 0;
+		    	
 		    	List<CustomerRequestManufacturerSettings> cuSettings = null;
 		    	List<SalesPersonZipCode> sList = null;
 		    	CustomerRequest cRequest = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
@@ -254,13 +274,7 @@ public class CustomersRequestController extends Controller {
 		    		}
 		    	}
 		    	
-		    	/*if(!user.role.equals("Manager")){
-		    		for(Permission permission: user.permission){
-			    		if(permission.id == 8){
-			    			permis = 1;
-			    		}
-			    	}
-		    	}*/
+		    	
 		    	
 		    	
 		    	List<RequestInfoVM> infoVMList = new ArrayList<>();
@@ -337,6 +351,14 @@ public class CustomersRequestController extends Controller {
 		    		if(info.isRead == 1) {
 		    			vm.isRead = true;
 		    		}
+		    		
+		    		if(permis == 1){
+		    			if(!user.id.equals(info.assignedTo.id)){
+		    				vm.isRead = true;
+		    			}
+		    		}
+		    		
+		    		
 		    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));
 		    		if(lType != null){
 		    			vm.showOnWeb = lType.shows;
