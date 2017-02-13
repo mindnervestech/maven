@@ -998,18 +998,12 @@ public class InventoryController extends Controller {
 						    		}
 						    	}
 						    	
-						    	/*if(!user.role.equals("Manager")){
-						    		for(Permission permission: user.permission){
-							    		if(permission.id == 8){
-							    			permis = 1;
-							    		}
-							    	}
-						    	}*/
 						    	
 							   vm.hideTab = String.valueOf(rInfo.size());
 							   List<RequestInfoVM> infoVMList = new ArrayList<>();
-							   int pFlag =0;
+							 
 							   for(RequestMoreInfo rInfo2:rInfo){
+								   int pFlag =0;
 								   RequestInfoVM vms = new RequestInfoVM();
 								   vms.id = rInfo2.id;
 								   int addleadFlag = 0;
