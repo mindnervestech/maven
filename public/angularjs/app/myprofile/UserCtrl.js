@@ -667,19 +667,22 @@ angular.module('newApp')
 					obj.isSelected = false;
 				}
 				if(obj.isSelected == true){
-					$scope.permission.push(obj.name);
+					if(obj.name != "Manage Own Contacts data base" && obj.name != "Access to the Whole Contacts data base" && obj.name != "User see only automatically/manually assigned online Request" && obj.name != "User see all submitted online Request" && obj.name != "Compelte access to Inventory : Add, Edit, Remove, Statistics" && obj.name !="Update existing Inventorys Information : No Statistics is displayed" && obj.name != "Only View Inventory"){
+						$scope.permission.push(obj.name);
+					}
+					
 				}else{
 					$scope.deleteItem(obj);
 				}
 		});
 		if(value == false){
-			angular.forEach($scope.permission, function(obj, index){
+			/*angular.forEach($scope.permission, function(obj, index){
 				angular.forEach($scope.inventoryData, function(obj1, index){
 					if(obj == obj1.name){
 						$scope.deleteItem(obj1);
 					}
 				});
-			});
+			});*/
 			
 			
 			$scope.permission.push(rolePer.name);
