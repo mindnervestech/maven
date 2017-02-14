@@ -1067,12 +1067,12 @@ public class CrmController extends Controller {
 	       			vm.title = contact.title;
 	       			vm.fullName = contact.firstName+" "+contact.lastName;
 	       			vm.enthicity = contact.enthicity;
-	       			/*vm.birthday = contact.birthday;
+	       			vm.birthday = contact.birthday;
 	       			vm.backgroundInfo = contact.backgroundInfo;
 	       			vm.industry = contact.industry;
 	       			vm.numberOfEmployees = contact.numberOfEmployees;
 	       			vm.creationDate = contact.creationDate;
-	       			vm.lastEditedDate = contact.lastEditedDate;*/
+	       			vm.lastEditedDate = contact.lastEditedDate;
 	       			if(contact.assignedTo !=null && !contact.assignedTo.equals("null")){
 	       				AuthUser user = AuthUser.findById(Integer.parseInt(contact.assignedTo));
 	       				if(user != null)

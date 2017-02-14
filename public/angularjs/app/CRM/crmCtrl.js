@@ -64,7 +64,40 @@ angular.module('newApp')
    		                                 { name: 'assignedToName', displayName: 'Assigned To',enableSorting: false, width:'12%',cellEditableCondition: false, enableColumnMenu: false,
    		                                	filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><div my-custom-modal1></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByAssigned(text)" ng-model="text"></div>'
    		                                 },
-       		                                
+   		                                 { name: 'salutation', displayName: 'Salutation', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'suffix', displayName: 'Suffix', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'city', displayName: 'City', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'state', displayName: 'State', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'zip', displayName: 'ZipCode', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'allPhone', displayName: 'All Phone', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'allEmail', displayName: 'All Email', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'title', displayName: 'Title', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'birthday', displayName: 'Birthday', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'backgroundInfo', displayName: 'BackgrountInfo', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'industry', displayName: 'Industry', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'creationDate', displayName: 'CreationDate', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'lastEditedDate', displayName: 'LastEditedDate', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'campaignSource', displayName: 'CampaignSource', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'priority', displayName: 'Priority', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'relationships', displayName: 'Relationships', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
+		                                 { name: 'notes', displayName: 'Notes', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },
        		                                 ];  
     
    		$scope.gridOptions.onRegisterApi = function(gridApi){
@@ -164,11 +197,9 @@ angular.module('newApp')
    		    $scope.listOfAges.forEach(function( companyName ) {
    		      $scope.gridOptions.data.push({companyName: companyName});
    		    });
-   		    
-   		    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Company Name</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="close()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeCompanyFulter()">Remove Filters</button></div></div></div></div></div></div>';
+   		    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Company Name</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="close()">Filter</button> <button id="buttonClose" class="btn btnRed" ng-click="removeCompanyFulter()">Remove Filters</button></div></div></div></div></div></div>';
    		    $elm = angular.element(html);
    		    angular.element(document.body).prepend($elm);
-   		 
    		    $compile($elm)($scope);
    		    $("#modelClose").modal('show');
    		  }
@@ -1206,7 +1237,7 @@ angular.module('newApp')
 	   		    	$scope.gridOptions.data.push({assignedToName: assignedToName});
 	   		    });
 	   		    console.log( $scope.gridOptions.data);
-	   		    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Assigned To</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="checkAssigned()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeFilters()">Remove Filters</button></div></div></div></div></div></div>';
+	   		    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Assigned To</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="checkAssigned()">Filter</button> <button id="buttonClose" class="btn btnRed" ng-click="removeFilters()">Remove Filters</button></div></div></div></div></div></div>';
 	   		    $elm = angular.element(html);
 	   		    angular.element(document.body).prepend($elm);
 	   		    $compile($elm)($scope);
@@ -1593,7 +1624,7 @@ angular.module('newApp')
 		      $scope.gridOptions.data.push({type: type});
 		    });
 		    
-		    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeTypeFilter()">Remove Filters</button></div></div></div></div></div></div>';
+		    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button> <button id="buttonClose" class="btn btnRed" ng-click="removeTypeFilter()">Remove Filters</button></div></div></div></div></div></div>';
 		    $elm = angular.element(html);
 		    angular.element(document.body).prepend($elm);
 		 
@@ -1692,7 +1723,7 @@ angular.module('newApp')
 			      $scope.gridOptions.data.push({type: type});
 			    });
 			    
-			    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="selectDyanemicType()">Filter</button> <button id="buttonClose" class="btn btn-primary" ng-click="removeDyanemicFilter()">Remove Filters</button></div></div></div></div></div></div>';
+			    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="selectDyanemicType()">Filter</button> <button id="buttonClose" class="btn btnRed" ng-click="removeDyanemicFilter()">Remove Filters</button></div></div></div></div></div></div>';
 			    $elm = angular.element(html);
 			    angular.element(document.body).prepend($elm);
 			 
