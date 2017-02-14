@@ -16,9 +16,9 @@
 	    		<a ng-sec="Manage Groups" class="btn btn-primary"  ng-click="addGroupPopUp()">Groups</a>
 					<!-- <input type="file" name="contactsFile"  id="fileUpd" accept=".csv" ng-file-select="onCsvFileSelect($files)" style="float:left;" required><button type="submit" class="btn btn-primary">Import Contacts</button> -->
 					<input type="file" accept=".csv" ng-file-select="onCsvFileSelect($files)" id="imgupload" style="display:none;">
-<a href="#" class="btn btn-primary" onclick="$('#imgupload').trigger('click'); return false;">Import Contacts</a>
+					<a ng-sec="Import Contacts" href="#" class="btn btn-primary" onclick="$('#imgupload').trigger('click'); return false;">Import Contacts</a>
 					<label ng-show="showProgress" style="float:left;">Progress : {{progress}}</label>
-					<a class="btn btn-primary"  ng-click="exportCsvPop()">Export CSV</a>
+					<a ng-sec="Export contacts" class="btn btn-primary"  ng-click="exportCsvPop()">Export CSV</a>
 					<a class="btn btn-primary" ng-click="createContact()">Create Contact</a>
 					
 					<!-- <a class="btn btn-primary"  ng-click="deleteAllContactPop()">Remove All</a> -->

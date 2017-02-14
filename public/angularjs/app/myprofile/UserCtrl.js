@@ -54,6 +54,13 @@ angular.module('newApp')
 					}
 				});
 			}
+			if(obj.name == "CRM"){
+				angular.forEach(obj.childData, function(obj2, index1){
+					if(obj2.name != "Manage Groups" || obj2.name != "Export contacts" || obj2.name != "Import Contacts"){
+						obj2.isSelected = "";
+					}
+				});
+			}
 		});
 		$scope.permissionList = data;
 		console.log($scope.permissionList);
@@ -502,6 +509,7 @@ angular.module('newApp')
 	$scope.createNewUser=function(){
 		$scope.user = {};
 		$scope.contactVal = "";
+		$scope.showOtherFild = 0;
 		$("#cnfstartDateValue").val("");
 		$scope.permission = [];
 		console.log($scope.permissionList);
@@ -589,6 +597,11 @@ angular.module('newApp')
 	      {name:'User see all submitted online Request'}
 	      ];
 	
+	$scope.crmData = [
+	       {name:'Manage Own Contacts data base'},
+	       {name:'Access to the Whole Contacts data base'}
+	       ];
+	
 	//console.log($scope.permissionList);
 	$scope.permission =[];
 	$scope.rolesClicked = function(e, rolePer,value){
@@ -626,7 +639,15 @@ angular.module('newApp')
 					}
 				});
 			});
-			
+			angular.forEach($scope.permission, function(obj, index){
+				angular.forEach($scope.crmData, function(obj1, index){
+					if(obj == obj1.name){
+						if(obj == "Manage Own Contacts data base" || obj == "Access to the Whole Contacts data base"){
+							$scope.deleteItem(obj1);
+						}
+					}
+				});
+			});
 			$scope.permission.push(rolePer.name);
 		}else{
 			$scope.deleteItem(rolePer);
