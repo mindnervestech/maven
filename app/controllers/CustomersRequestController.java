@@ -248,6 +248,7 @@ public class CustomersRequestController extends Controller {
 	    			}
 	    		}
 		    	int addleadFlagAll = 0;
+		    	int userflag = 0;
 		    	
 		    	List<CustomerRequestManufacturerSettings> cuSettings = null;
 		    	List<SalesPersonZipCode> sList = null;
@@ -264,6 +265,7 @@ public class CustomersRequestController extends Controller {
 		    		}else if(cRequest.redirectValue.equals("Redirect all online requests to") && (cRequest.personValue.equals("Myself") || cRequest.personValue.equals("Sales Person(s)"))){
 		    			 if(user.id.equals(cRequest.users.id)){
 		    				 addleadFlagAll = 1;
+		    				 userflag = 1;
 		    			 }
 		    		}else if(cRequest.redirectValue.equals("Redirect all online requests to") && cRequest.personValue.equals("Me and all Sales people")){
 		    			 addleadFlagAll = 1;
@@ -273,8 +275,6 @@ public class CustomersRequestController extends Controller {
 		    			addleadFlagAll = 1;
 		    		}
 		    	}
-		    	
-		    	
 		    	
 		    	
 		    	List<RequestInfoVM> infoVMList = new ArrayList<>();
@@ -351,13 +351,39 @@ public class CustomersRequestController extends Controller {
 		    		if(info.isRead == 1) {
 		    			vm.isRead = true;
 		    		}
-		    		if(info.assignedTo != null){
+		    		
 		    		if(permis == 1){
-		    			if(!user.id.equals(info.assignedTo.id)){
-		    				vm.isRead = true;
+		    			if(userflag == 0){
+		    				if(addleadFlag == 0){
+		    					vm.isRead = true;
+		    				}else{
+		    					if(info.assignedTo != null){
+				    				if(!user.id.equals(info.assignedTo.id)){
+					    				vm.isRead = true;
+					    			}
+			    				}
+		    				}
+		    				
+		    			}else{
+		    				if(info.assignedTo != null){
+			    				if(!user.id.equals(info.assignedTo.id)){
+				    				vm.isRead = true;
+				    			}
+		    				}
 		    			}
+		    			
 		    		}
-		    		}
+		    		/*if(info.assignedTo != null){
+			    		if(permis == 1){
+			    			if(userflag == 0){
+			    				vm.isRead = true;
+			    			}else{
+			    				if(!user.id.equals(info.assignedTo.id)){
+				    				vm.isRead = true;
+				    			}
+			    			}
+			    		}
+		    		}*/
 		    		
 		    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));
 		    		if(lType != null){
@@ -389,24 +415,17 @@ public class CustomersRequestController extends Controller {
 		    			
 		    			
 		    		}
-		    		if(addleadFlag == 1 || addleadFlagAll == 1){
-		    			/*if(permis == 0){
-		    				if(info.onlineOrOfflineLeads != 1){
-		    					infoVMList.add(vm);
-		    				}
-		    			}else{*/
+		    		
+		    		if(permis == 1){
+		    			infoVMList.add(vm);
+		    		}else{
+		    			if(addleadFlag == 1 || addleadFlagAll == 1){
 		    				infoVMList.add(vm);
-		    			//}
-			    		
-		    		}else if(cRequest == null){
-		    			/*if(permis == 0){
-		    				if(info.onlineOrOfflineLeads != 1){
-		    					infoVMList.add(vm);
-		    				}
-		    			}else{*/
-		    				infoVMList.add(vm);
-		    			//}
+			    		}else if(cRequest == null){
+			    				infoVMList.add(vm);
+			    		}
 		    		}
+		    		
 		    	}
 		    	
 		    	return ok(Json.toJson(infoVMList));
