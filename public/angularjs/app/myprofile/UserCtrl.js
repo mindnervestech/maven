@@ -508,8 +508,8 @@ angular.module('newApp')
 	
 	$scope.createNewUser=function(){
 		$scope.user = {};
-		$scope.contactVal = "";
 		$scope.showOtherFild = 0;
+		$scope.contactVal = "";
 		$("#cnfstartDateValue").val("");
 		$scope.permission = [];
 		console.log($scope.permissionList);
@@ -604,6 +604,56 @@ angular.module('newApp')
 	
 	//console.log($scope.permissionList);
 	$scope.permission =[];
+	
+	$scope.rolesRedioClicked = function(e, rolePer,value,type){
+		console.log(rolePer);
+		console.log(value);
+		console.log(e);
+		console.log(type)
+		angular.forEach($scope.permission, function(obj, index){
+			if(type == "Inventory"){
+				angular.forEach($scope.inventoryData, function(obj1, index){
+					if(obj == obj1.name){
+							$scope.deleteItem(obj1);
+					}
+				});
+			}else if(type == "Customer Requests"){
+				angular.forEach($scope.customerReqData, function(obj1, index){
+					if(obj == obj1.name){
+							$scope.deleteItem(obj1);
+					}
+				});
+			}else if(type == "CRM"){
+				angular.forEach($scope.crmData, function(obj1, index){
+					if(obj == obj1.name){
+							$scope.deleteItem(obj1);
+					}
+				});
+			}
+			
+		 });
+			$scope.permission.push(rolePer.name);
+		
+		
+		angular.forEach(rolePer.childData, function(obj, index){
+				
+				if(value == false){
+					obj.isSelected = true;
+				}
+				else if(value == true){
+					obj.isSelected = false;
+				}
+				if(obj.isSelected == true){
+					$scope.permission.push(obj.name);
+				}else{
+					$scope.deleteItem(obj);
+				}
+		});
+	
+		console.log($scope.permission);
+	}
+	
+	
 	$scope.rolesClicked = function(e, rolePer,value){
 		console.log(rolePer);
 		console.log(value);
@@ -630,24 +680,8 @@ angular.module('newApp')
 					}
 				});
 			});
-			angular.forEach($scope.permission, function(obj, index){
-				angular.forEach($scope.customerReqData, function(obj1, index){
-					if(obj == obj1.name){
-						if(obj == "User see all submitted online Request" || obj == "User see only automatically/manually assigned online Request"){
-							$scope.deleteItem(obj1);
-						}
-					}
-				});
-			});
-			angular.forEach($scope.permission, function(obj, index){
-				angular.forEach($scope.crmData, function(obj1, index){
-					if(obj == obj1.name){
-						if(obj == "Manage Own Contacts data base" || obj == "Access to the Whole Contacts data base"){
-							$scope.deleteItem(obj1);
-						}
-					}
-				});
-			});
+			
+			
 			$scope.permission.push(rolePer.name);
 		}else{
 			$scope.deleteItem(rolePer);
