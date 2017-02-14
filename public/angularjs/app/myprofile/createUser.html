@@ -289,7 +289,7 @@
    					 								</div>
    					 								<div ng-if="rolePer.name == 'CRM'">
    					 									<label ng-if="child.name == 'Manage Own Contacts data base' || child.name == 'Access to the Whole Contacts data base'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
-				 						 					<input type="radio" name="crm" value="{{child.name}}" ng-click="rolesRedioClicked($event,child,false,'CRM')"
+				 						 					<input type="radio" name="crm" value="{{child.name}}" ng-checked="child.isSelected == true" ng-click="rolesRedioClicked($event,child,false,'CRM')"
 				 						   						ng-model="child.isSelected">					
    					 											{{child.name}}
    					 									</label>
@@ -760,14 +760,14 @@
    					 								</label>
    					 									
    					 								<label ng-if="rolePer.name == 'Inventory'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
-				 						 				<input type="radio" name="permissions"  value="{{child.name}}" ng-checked="child.isSelected == true" ng-click="rolesRedioClicked($event,child,false,Inventory)"
+				 						 				<input type="radio" name="permissions"  value="{{child.name}}" ng-checked="child.isSelected == true" ng-click="rolesRedioClicked($event,child,false,'Inventory')"
 				 						   					ng-model="child.isSelected">					
    					 										{{child.name}}
    					 								</label>
    					 									
    					 								<div ng-if="rolePer.name == 'Customer Requests'">
    					 									<label ng-repeat="child in rolePer.childData"  ng-if="child.name == 'User see only automatically/manually assigned online Request' || child.name == 'User see all submitted online Request'" class="col-sm-6" style="padding:4px;">
-				 						 					<input type="radio" name="custReq" value="{{child.name}}" ng-checked="child.isSelected == true" ng-click="rolesRedioClicked($event,child,false,Customer Requests)"
+				 						 					<input type="radio" name="custReq" value="{{child.name}}" ng-checked="child.isSelected == true" ng-click="rolesRedioClicked($event,child,false,'Customer Requests')"
 				 						   						ng-model="child.isSelected">					
    					 											{{child.name}}
    					 									</label>
@@ -782,7 +782,7 @@
    					 								</div>
    					 								<div ng-if="rolePer.name == 'CRM'">
    					 									<label ng-if="child.name == 'Manage Own Contacts data base' || child.name == 'Access to the Whole Contacts data base'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
-				 						 					<input type="radio" name="crm" value="{{child.name}}" ng-click="rolesRedioClicked($event,child,false,'CRM')"
+				 						 					<input type="radio" name="crm" value="{{child.name}}" ng-checked="child.isSelected == true" ng-click="rolesRedioClicked($event,child,false,'CRM')"
 				 						   						ng-model="child.isSelected">					
    					 											{{child.name}}
    					 									</label>
