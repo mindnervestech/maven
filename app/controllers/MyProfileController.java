@@ -3265,6 +3265,7 @@ public class MyProfileController extends Controller{
 	    			System.out.println("hhhhhhhhhhhhhhhhhhh"+per.name);
 	    			if(per.name.equals("Invite New Users")){
 	    				userList = AuthUser.findByPermissionUser(users.location,users.id);
+	    				break;
 	    			}else{
 	    				userList = AuthUser.findByLocatio(users.location);
 	    			}
