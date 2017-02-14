@@ -3259,10 +3259,18 @@ public class MyProfileController extends Controller{
 	    		//2813
 	    		//2714
 	    		//2583
-	    		
+	    		List<AuthUser> userList = null;
 	    		AuthUser users = getLocalUser();
+	    		for(Permission per :users.permission){
+	    			System.out.println("hhhhhhhhhhhhhhhhhhh"+per.name);
+	    			if(per.name.equals("Invite New Users")){
+	    				userList = AuthUser.findByPermissionUser(users.location,users.id);
+	    			}else{
+	    				userList = AuthUser.findByLocatio(users.location);
+	    			}
+	    		}
 	    		/*List<AuthUser> userList = AuthUser.getUserByType();*/
-	    		List<AuthUser> userList = AuthUser.findByLocatio(users.location);
+	    		
 	    		List<UserVM> vmList = new ArrayList<>();
 	    		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	    	

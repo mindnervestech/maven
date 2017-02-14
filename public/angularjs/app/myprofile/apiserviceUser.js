@@ -445,7 +445,14 @@ angular.module('app.apiserviceUser', [])
 			});
 		return defer.promise;
 	};
-	
+	this.getUserRole=function(){
+		var defer = $q.defer();
+		$http.get('/getUserRole').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+
 	
 	
 })

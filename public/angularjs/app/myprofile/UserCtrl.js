@@ -20,7 +20,10 @@ angular.module('newApp')
 	{name:'Account Settings',isSelected:false}];
 	
 	
-	
+	apiserviceUser.getUserRole().then(function(data){
+		$scope.userRole = data;
+		console.log("ddddddddddddddddd",data);
+	});
 	/*$http.get('/getAllPermission')
 	.success(function(data) {
 		$scope.permissionList =[];

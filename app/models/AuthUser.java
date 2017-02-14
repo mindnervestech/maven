@@ -494,4 +494,8 @@ public class AuthUser extends Model implements Identity {
 	public static AuthUser findByOutLeftAll(Long location) {
 		return find.where().eq("location.id", location).eq("outLeftAll", "Sent to one of the sales people").findUnique();
 	}
+
+	public static List<AuthUser> findByPermissionUser(Location location2,Integer id2) {
+		return find.where().eq("location", location2).ne("id", id2).eq("account", "active").findList();
+	}
 }
