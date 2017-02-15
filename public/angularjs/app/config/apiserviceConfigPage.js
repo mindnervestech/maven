@@ -799,7 +799,7 @@ angular.module('app.apiserviceConfigPage', [])
 		var defer = $q.defer();
 		if(address.state != undefined && address.city != undefined){
 			//JLnDGAvrRbmuvUflZsBNK9nNUYbS4uYOflrWVXoN8KhEEw0DZCrJLOwGNHyScwGs
-			$http.get('http://www.zipcodeapi.com/rest/js-s8CkSTl4PxAO9QiQiaL9dLZvzgppmrlPAX9tRuyH18vbYO1hZNrcyqI7G7w3zRSa/city-zips.json/'+address.city+'/'+address.state).success(function(data) {
+			$http.get('https://www.zipcodeapi.com/rest/js-s8CkSTl4PxAO9QiQiaL9dLZvzgppmrlPAX9tRuyH18vbYO1hZNrcyqI7G7w3zRSa/city-zips.json/'+address.city+'/'+address.state).success(function(data) {
 				defer.resolve(data);
 			});
 		}
