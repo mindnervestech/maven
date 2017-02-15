@@ -17966,7 +17966,7 @@ private static void cancelTestDriveMail(Map map) {
 		
 		//MyProfile profile = MyProfile.findByUser(user);
 		List<MyProfile> profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));
-		String mapUrl = "http://maps.google.com/?q="+profile.get(0).address+","+profile.get(0).city+","+profile.get(0).zip+","+profile.get(0).state+","+profile.get(0).country;
+		String mapUrl = "https://maps.google.com/?q="+profile.get(0).address+","+profile.get(0).city+","+profile.get(0).zip+","+profile.get(0).state+","+profile.get(0).country;
 		if(blogList.size() > 0) {
 			AuthUser logoUser = getLocalUser();
 			//AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));

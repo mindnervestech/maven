@@ -26,13 +26,13 @@ public class MailChimpServiceFactory {
 	public static IMailChimpServices getMailChimpServices() {
 		IMailChimpServices result = null;
 		try {
-			String url = "http://us8.api.mailchimp.com/1.2/";
+			String url = "https://us8.api.mailchimp.com/1.2/";
 			MailchimpSchedular mScheduler = MailchimpSchedular.findByLocations(16L);
 			if(mScheduler != null){
 				if(mScheduler.apikey != null){
 					String[] api = mScheduler.apikey.split("-");
 					if(api.length == 2){
-						url = "http://"+api[1]+".api.mailchimp.com/1.2/";
+						url = "https://"+api[1]+".api.mailchimp.com/1.2/";
 					}
 				}
 			}
