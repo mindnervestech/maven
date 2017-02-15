@@ -1204,6 +1204,7 @@ angular.module('newApp')
 		/*--------------------------------Custome Search Filter --------------------------------*/	
 			
 			$scope.showAssignedModal = function() {
+				$scope.assignedFlag = 0;
 	   		    $scope.listOfAges = [];
 	   		 $scope.contactsList.forEach( function ( row ) {
 	   		    	if($scope.listOfAges.indexOf( row.assignedToName ) === -1 ) {
@@ -1217,6 +1218,15 @@ angular.module('newApp')
 	   		    	enableColumnMenus: false,
 	   		    	onRegisterApi: function( gridApi) {
 	   		        $scope.gridApi = gridApi;
+	   		        gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+	   		        	var msg = 'row selected ' + row.isSelected;
+	   		        	if($scope.gridApi.selection.getSelectedRows().length >= 1){
+	   		        		$scope.assignedFlag = 1;
+	   		        	}else{
+	   		        		$scope.assignedFlag = 0;
+	   		        	}
+	   		        });
+	   		        
 	   		        if($scope.colFilter && $scope.colFilter.listTerm ){
 	   		        	$timeout(function() {
 	   		        		$scope.colFilter.listTerm.forEach( function( assignedToName ) {
@@ -1237,7 +1247,7 @@ angular.module('newApp')
 	   		    	$scope.gridOptions.data.push({assignedToName: assignedToName});
 	   		    });
 	   		    console.log( $scope.gridOptions.data);
-	   		    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Assigned To</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="checkAssigned()">Filter</button> <button id="buttonClose" class="btn btnRed" ng-click="removeFilters()">Remove Filters</button></div></div></div></div></div></div>';
+	   		    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Assigned To</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="checkAssigned()">Filter</button><button ng-show="assignedFlag == 1" id="buttonClose" class="btn btnRed" ng-click="removeFilters()">Remove Filters</button></div></div></div></div></div></div>';
 	   		    $elm = angular.element(html);
 	   		    angular.element(document.body).prepend($elm);
 	   		    $compile($elm)($scope);
@@ -1590,7 +1600,7 @@ angular.module('newApp')
 	 
 	 $scope.showTypeModal = function() {
 		    $scope.listOfAges = [];
-		    
+		    $scope.typeFlag = 0;
 		    $scope.contactsList.forEach( function ( row ) {
 		      if ( $scope.listOfAges.indexOf( row.type ) === -1 ) {
 		        $scope.listOfAges.push( row.type );
@@ -1603,6 +1613,15 @@ angular.module('newApp')
 		      enableColumnMenus: false,
 		      onRegisterApi: function( gridApi) {
 		        $scope.gridApi = gridApi;
+		        
+		        gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+   		        	var msg = 'row selected ' + row.isSelected;
+   		        	if($scope.gridApi.selection.getSelectedRows().length >= 1){
+   		        		$scope.typeFlag = 1;
+   		        	}else{
+   		        		$scope.typeFlag = 0;
+   		        	}
+   		        });
 		        
 		        if ( $scope.colFilter && $scope.colFilter.listTerm ){
 		          $timeout(function() {
@@ -1624,7 +1643,7 @@ angular.module('newApp')
 		      $scope.gridOptions.data.push({type: type});
 		    });
 		    
-		    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button> <button id="buttonClose" class="btn btnRed" ng-click="removeTypeFilter()">Remove Filters</button></div></div></div></div></div></div>';
+		    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter Of Type</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="closeType()">Filter</button> <button ng-show="typeFlag == 1" id="buttonClose" class="btn btnRed" ng-click="removeTypeFilter()">Remove Filters</button></div></div></div></div></div></div>';
 		    $elm = angular.element(html);
 		    angular.element(document.body).prepend($elm);
 		 
@@ -1689,7 +1708,7 @@ angular.module('newApp')
 		  $scope.showDyanemicModal = function(colType) {
 			  console.log(colType);
 			    $scope.listOfAges = [];
-			    
+			    $scope.dynamicFlag = 0;
 			    $scope.col.grid.appScope.gridOptions.data.forEach( function ( row ) {
 			      if ( $scope.listOfAges.indexOf( row[colType] ) === -1 ) {
 			        $scope.listOfAges.push( row[colType] );
@@ -1702,6 +1721,15 @@ angular.module('newApp')
 			      enableColumnMenus: false,
 			      onRegisterApi: function( gridApi) {
 			        $scope.gridApi = gridApi;
+			        
+			        gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+	   		        	var msg = 'row selected ' + row.isSelected;
+	   		        	if($scope.gridApi.selection.getSelectedRows().length >= 1){
+	   		        		$scope.dynamicFlag = 1;
+	   		        	}else{
+	   		        		$scope.dynamicFlag = 0;
+	   		        	}
+	   		        });
 			        
 			        if ( $scope.colFilter && $scope.colFilter.listTerm ){
 			          $timeout(function() {
@@ -1723,7 +1751,7 @@ angular.module('newApp')
 			      $scope.gridOptions.data.push({type: type});
 			    });
 			    
-			    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="selectDyanemicType()">Filter</button> <button id="buttonClose" class="btn btnRed" ng-click="removeDyanemicFilter()">Remove Filters</button></div></div></div></div></div></div>';
+			    var html = '<div class="modal fade" id="modelClose" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">Filter</div><div class="modal-body"><div id="grid1" ui-grid="gridOptions" ui-grid-selection class="modalGrid"></div></div><div class="modal-footer"><button id="buttonClose" class="btn btn-primary" ng-click="selectDyanemicType()">Filter</button> <button ng-show="dynamicFlag == 1" id="buttonClose" class="btn btnRed" ng-click="removeDyanemicFilter()">Remove Filters</button></div></div></div></div></div></div>';
 			    $elm = angular.element(html);
 			    angular.element(document.body).prepend($elm);
 			 
