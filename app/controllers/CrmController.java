@@ -190,7 +190,6 @@ public class CrmController extends Controller {
     			contacts.setIndustry(vm.industry);
     			contacts.setNumberOfEmployees(vm.numberOfEmployees);
     			contacts.setCreationDate(vm.creationDate);
-    			contacts.setLastEditedDate(vm.lastEditedDate);
     			contacts.setAssignedTo(vm.assignedTo);
     			contacts.setCampaignSource(vm.campaignSource);
     			contacts.setPriority(vm.priority);
