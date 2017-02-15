@@ -395,7 +395,8 @@ public class CrmController extends Controller {
 	 
 	
 	 private static void saveContact(ContactsVM vm) {
-		 	Contacts contacts = new Contacts();
+		 AuthUser userObj = (AuthUser) getLocalUser();	
+		 Contacts contacts = new Contacts();
 		    contacts.setFirstName(vm.firstName);
 		    contacts.setCompanyName(vm.companyName);
 		    contacts.setEmail(vm.email);
@@ -403,11 +404,11 @@ public class CrmController extends Controller {
 		    contacts.setWebsite(vm.website);
 		    contacts.setAllAddresses(vm.allAddresses);
 		   	contacts.setTitle(vm.title);
-		   /*	if(vm.assignedTo == null){
+		   if(vm.assignedTo == null){
 		   		contacts.setAssignedTo(userObj.id.toString());
 		   	}else{
-		   		contacts.setAssignedTo(vm.assignedTo);
-		   	}*/
+		   		contacts.setAssignedTo(userObj.id.toString());
+		   	}
 		    contacts.setCampaignSource(vm.campaignSource);
 		    contacts.setPriority(vm.priority);
 		    GroupTable gr = null;
@@ -433,18 +434,19 @@ public class CrmController extends Controller {
 	}
 	 
 	 private static void updateContact(Contacts contacts ,ContactsVM vm) {
-		    contacts.setFirstName(vm.firstName);
+		 AuthUser userObj = (AuthUser) getLocalUser();  
+		 contacts.setFirstName(vm.firstName);
 		    contacts.setCompanyName(vm.companyName);
 		    contacts.setEmail(vm.email);
 		    contacts.setPhone(vm.phone);
 		    contacts.setWebsite(vm.website);
 		    contacts.setAllAddresses(vm.allAddresses);
 		   	contacts.setTitle(vm.title);
-		   /*	if(vm.assignedTo == null){
+		   if(vm.assignedTo == null){
 		   		contacts.setAssignedTo(userObj.id.toString());
 		   	}else{
-		   		contacts.setAssignedTo(vm.assignedTo);
-		   	}*/
+		   		contacts.setAssignedTo(userObj.id.toString());
+		   	}
 		    contacts.setCampaignSource(vm.campaignSource);
 		    contacts.setPriority(vm.priority);
 		    GroupTable gr = null;
@@ -1032,7 +1034,8 @@ public class CrmController extends Controller {
 		    				if(userObj.role.equalsIgnoreCase("General Manager")){
 		    	    			contactsList = Contacts.getAllContacts();
 		    	    		}else if(userObj.role.equalsIgnoreCase("Manager")){
-		    	    			contactsList = Contacts.getAllContactsByLocation(Long.valueOf(session("USER_LOCATION")));
+		    	    			contactsList = Contacts.getAllContacts();
+		    	    			//contactsList = Contacts.getAllContactsByLocation(Long.valueOf(session("USER_LOCATION")));
 		    	    		}else if(userObj.role.equalsIgnoreCase("Sales Person")){
 		    	    			contactsList = Contacts.getAllContactsByUserId(userObj.id.toString());
 		    	    		}

@@ -130,7 +130,7 @@ angular.module('newApp')
     		                                 { name: 'addedDate', displayName: 'Date Added',enableColumnMenu: false, width:'15%',
     		                                 },
     		                                 { name: 'countImages', displayName: 'Images',enableColumnMenu: false,enableFiltering: false, width:'9%',cellEditableCondition: false,
-    		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
+    		                                	 cellTemplate: '<div> <a ng-sec="Only View Inventory" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a><a ng-sec="Update existing Inventorys Information : No Statistics is displayed" ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a><a ng-sec="Compelte access to Inventory : Add, Edit, Remove, Statistics" ng-click="grid.appScope.gotoImgTag(row)" style="line-height: 200%;" title="" data-content="{{row.entity.countImages}}">{{row.entity.countImages}}</a></div>',
     		                                 },
     		                                 { name: 'pageViewCount', displayName: 'Views',enableColumnMenu: false,enableFiltering: false, width:'8%',cellEditableCondition: false,
     		                                 },
@@ -153,11 +153,6 @@ angular.module('newApp')
     		                                 { name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
         		                                 cellTemplate:'<input type="checkbox" ng-checked="row.entity.hideWebsite" name="vehicle" ng-click="grid.options.expandableRowScope.hideProduct(row)" autocomplete="off">', 
     		                                 },
-    		                                 { name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    		                                	 cellTemplate:'<span ng-sec="Compelte access to Inventory : Add, Edit, Remove, Statistics"><i class="glyphicon glyphicon-picture" ng-click="grid.options.expandableRowScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.options.expandableRowScope.editProduct(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.options.expandableRowScope.deleteVehicle(row,\'current\')" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i  class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.options.expandableRowScope.showSessionData(row)" title="sessions"></i>&nbsp;&nbsp;&nbsp;</span><span ng-sec="Update existing Inventorys Information : No Statistics is displayed"><i class="glyphicon glyphicon-picture" ng-click="grid.options.expandableRowScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.options.expandableRowScope.editProduct(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.options.expandableRowScope.deleteVehicle(row,\'current\')" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;</span>', 
-    		                                 
-    		                                 },
-        		                                
         		                                 ];  
      
     		 
@@ -813,6 +808,21 @@ angular.module('newApp')
 	   });
 			
    }
+   
+   apiserviceViewInventory.getUserRole().then(function(data){
+		$scope.userLogin = data;
+		var flag = 0;
+		angular.forEach($scope.userLogin.permission, function(value, key) {
+			if(value.name == "Only View Inventory"){
+				flag = 1;
+			}
+		});
+		if(flag == 0){
+			$scope.gridOptions.columnDefs.push({ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+		         cellTemplate:'<span ng-sec="Compelte access to Inventory : Add, Edit, Remove, Statistics"><i class="glyphicon glyphicon-picture" ng-click="grid.options.expandableRowScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.options.expandableRowScope.editProduct(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.options.expandableRowScope.deleteVehicle(row,\'current\')" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i  class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.options.expandableRowScope.showSessionData(row)" title="sessions"></i>&nbsp;&nbsp;&nbsp;</span><span ng-sec="Update existing Inventorys Information : No Statistics is displayed"><i class="glyphicon glyphicon-picture" ng-click="grid.options.expandableRowScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.options.expandableRowScope.editProduct(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.options.expandableRowScope.deleteVehicle(row,\'current\')" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;</span>', 
+		  });
+		}
+	});
    
    $scope.deleteVehicle = function(row,type){
 	   $('#deleteModal').click();

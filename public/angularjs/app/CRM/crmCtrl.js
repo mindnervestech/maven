@@ -90,8 +90,6 @@ angular.module('newApp')
 		                                 },
 		                                 { name: 'lastEditedDate', displayName: 'LastEditedDate', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
 		                                 },
-		                                 { name: 'campaignSource', displayName: 'CampaignSource', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
-		                                 },
 		                                 { name: 'priority', displayName: 'Priority', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
 		                                 },
 		                                 { name: 'relationships', displayName: 'Relationships', width:'11%',cellEditableCondition: false, enableColumnMenu: false,

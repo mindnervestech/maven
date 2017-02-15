@@ -3262,7 +3262,6 @@ public class MyProfileController extends Controller{
 	    		List<AuthUser> userList = null;
 	    		AuthUser users = getLocalUser();
 	    		for(Permission per :users.permission){
-	    			System.out.println("hhhhhhhhhhhhhhhhhhh"+per.name);
 	    			if(per.name.equals("Invite New Users")){
 	    				userList = AuthUser.findByPermissionUser(users.location,users.id);
 	    				break;
