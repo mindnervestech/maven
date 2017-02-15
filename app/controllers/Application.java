@@ -11615,6 +11615,8 @@ private static void cancelTestDriveMail(Map map) {
     		List<String> emailList = new ArrayList<>();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
+    		Date date = new Date();
+			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     		SoldContact contact = new SoldContact();
     		contact.name = vm.name;
     		contact.email = vm.email;
@@ -11630,7 +11632,6 @@ private static void cancelTestDriveMail(Map map) {
     		contact.price = vm.price;
     		contact.custZipCode = vm.custZipCode;
     		contact.enthicity = vm.enthicity;
-    		
     		contact.save();
     		Contacts contactsObj = new Contacts();
     		String arr[] = vm.name.split(" ");
@@ -11645,6 +11646,7 @@ private static void cancelTestDriveMail(Map map) {
     		if(arr.length >= 3) {
     			contactsObj.lastName = arr[2];
     		} 
+    		contactsObj.creationDate = df.format(date);
     		contactsObj.email = vm.email;
     		contactsObj.phone = vm.phone;
     		contactsObj.custZipCode = vm.custZipCode;
@@ -11659,8 +11661,8 @@ private static void cancelTestDriveMail(Map map) {
     		
     		if(vehicle != null){
 	    		vehicle.setStatus("Sold");
-	    		Date date = new Date();
-	    		vehicle.setSoldDate(date);
+	    		Date dates = new Date();
+	    		vehicle.setSoldDate(dates);
 	    		vehicle.setSoldUser(user);
 	    		vehicle.setPrice(Integer.parseInt(vm.price));
 	    		vehicle.update();
@@ -12319,6 +12321,8 @@ private static void cancelTestDriveMail(Map map) {
  		try {
  			Contacts con = Contacts.findByEmail(vm.email);
      		if(con ==null){
+     			Date dates = new Date();
+    			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
      			Contacts contactsObj = new Contacts();
          		String arr[] = vm.name.split(" ");
          		if(arr.length >= 1) {
@@ -12332,6 +12336,7 @@ private static void cancelTestDriveMail(Map map) {
          		if(arr.length >= 3) {
          			contactsObj.lastName = arr[2];
          		} 
+         		contactsObj.creationDate = df.format(dates);
          		contactsObj.email = vm.email;
          		contactsObj.phone = vm.phone;
          		contactsObj.custZipCode = vm.custZipCode;
@@ -17571,6 +17576,8 @@ private static void cancelTestDriveMail(Map map) {
     	    		sendMail(map);
     	    	}
     	    	if(sid.equals("3")){
+    	    		Date dates = new Date();
+    				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     	    		Contacts contactsObj = new Contacts();
     	    		String arr[] = info.name.split(" ");
     	    		if(arr.length >= 1) {
@@ -17587,6 +17594,7 @@ private static void cancelTestDriveMail(Map map) {
     	    		if(arr.length >= 3) {
     	    			contactsObj.lastName = arr[2];
     	    		}
+    	    		contactsObj.creationDate = df.format(dates);
     	    		contactsObj.type = "Offline";
     	    		contactsObj.email = info.email;
     	    		contactsObj.phone = info.phone;

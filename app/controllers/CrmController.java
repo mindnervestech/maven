@@ -84,7 +84,8 @@ public class CrmController extends Controller {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		
+    		Date date = new Date();
+			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     		AuthUser userObj = (AuthUser) getLocalUser();
     		MultipartFormData body = request().body().asMultipartFormData();
     		Form<ContactsVM> form = DynamicForm.form(ContactsVM.class).bindFromRequest();
@@ -105,6 +106,7 @@ public class CrmController extends Controller {
  		   	}else{
  		   		contacts.setAssignedTo(vm.assignedTo);
  		   	}
+ 		   	contacts.setCreationDate(df.format(date));
  		    contacts.setCampaignSource(vm.campaignSource);
  		    contacts.setPriority(vm.priority);
  		    GroupTable gr = null;
@@ -155,6 +157,8 @@ public class CrmController extends Controller {
     		return ok(home.render("",userRegistration));
     	} else {
     		String msg = "";
+    		Date date = new Date();
+			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     		MultipartFormData body = request().body().asMultipartFormData();
     		Form<ContactsVM> form = DynamicForm.form(ContactsVM.class).bindFromRequest();
     		ContactsVM vm = form.get();
@@ -172,6 +176,7 @@ public class CrmController extends Controller {
     			contacts.setCity(vm.city);
     			contacts.setState(vm.state);
     			contacts.setZip(vm.zip);
+    			contacts.setLastEditedDate(df.format(date));
     			contacts.setCustZipCode(vm.zip);
     			contacts.setEnthicity(vm.enthicity);
     			contacts.setCountry(vm.country);
@@ -396,6 +401,8 @@ public class CrmController extends Controller {
 	
 	 private static void saveContact(ContactsVM vm) {
 		 AuthUser userObj = (AuthUser) getLocalUser();	
+		 Date date = new Date();
+			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		 Contacts contacts = new Contacts();
 		    contacts.setFirstName(vm.firstName);
 		    contacts.setCompanyName(vm.companyName);
@@ -411,6 +418,7 @@ public class CrmController extends Controller {
 		   	}
 		    contacts.setCampaignSource(vm.campaignSource);
 		    contacts.setPriority(vm.priority);
+		    contacts.setCreationDate(df.format(date));
 		    GroupTable gr = null;
 		    if(vm.groups != null)
 		    	gr = GroupTable.findByName(vm.groups.name);
@@ -434,6 +442,8 @@ public class CrmController extends Controller {
 	}
 	 
 	 private static void updateContact(Contacts contacts ,ContactsVM vm) {
+		 Date date = new Date();
+			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		 AuthUser userObj = (AuthUser) getLocalUser();  
 		 contacts.setFirstName(vm.firstName);
 		    contacts.setCompanyName(vm.companyName);
@@ -455,7 +465,7 @@ public class CrmController extends Controller {
 		    if(gr != null){
 		    	contacts.setGroups(gr);
 		    }
-		    
+		    contacts.setLastEditedDate(df.format(date));
 		    contacts.setWorkEmail(vm.workEmail);
 		    contacts.setWorkEmail1(vm.workEmail1);
 		    contacts.setWorkPhone(vm.workPhone);
