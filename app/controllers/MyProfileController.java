@@ -29,6 +29,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import models.AuthUser;
+import models.CustomerRequest;
 import models.EmailDetails;
 import models.HoursOfOperation;
 import models.InternalPdf;
@@ -3256,9 +3257,6 @@ public class MyProfileController extends Controller{
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
-	    		//2813
-	    		//2714
-	    		//2583
 	    		List<AuthUser> userList = null;
 	    		AuthUser users = getLocalUser();
 	    		for(Permission per :users.permission){
@@ -3298,6 +3296,17 @@ public class MyProfileController extends Controller{
 	    			vm.imageName = user.imageName;
 	    			vm.imageUrl = user.imageUrl;
 	    			vm.trial = user.trial;
+	    			vm.applyOnlineReqUser = 0;
+	    			CustomerRequest cuRequest = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    			if(cuRequest != null){
+	    				if(cuRequest.personValue.equals("Sales Person(s)")){
+	    					if(cuRequest.users.id.equals(user.id)){
+		    					vm.applyOnlineReqUser = 1;
+		    				}
+	    				}
+	    				
+	    			}
+	    			//vm.applyOnlineReq = 
 	    			vm.id = user.id;
 	    			if(user.contractDurEndDate != null)
 	    				vm.contractDurEndDate = dateFormat.format(user.contractDurEndDate);
@@ -3401,6 +3410,19 @@ public class MyProfileController extends Controller{
 	    		return ok(Json.toJson(vmList));
 	    	}
 	    }
+	    
+	    
+	    
+	    public static Result getOnlineReqUserChange(){
+	    	List<AuthUser> aUser = AuthUser.getlocationAndManager(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    	for(AuthUser authUser:aUser){
+	    		CustomerRequest cRequest = CustomerRequest.getBylocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    		cRequest.setUsers(authUser);
+	    		cRequest.update();
+	    	}
+	    	return ok();
+	    }
+	    
 	    
 	    public static Result findLocation(){
 			   return ok(Json.toJson(Long.valueOf(session("USER_LOCATION"))));

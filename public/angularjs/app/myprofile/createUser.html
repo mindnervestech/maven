@@ -1221,7 +1221,25 @@
             </div>
         </div>
     </div>
-  
+  <div class="modal fade" id="modal-online-requ" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" id="deleteClose" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Message</strong></h4>
+                </div>
+                
+                <div class="modal-body">
+                	<label>This sales person has assigned automatical online requests redirection. Continuing will erase "Online Requests" settings
+for this user</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal" style="margin-top:30px;">Cancel</button>
+                    <button type="button" class="btn btn-primary btn-embossed" ng-click="continueOnReq()" style="margin-top:30px;">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <style>
 .ImageBorder
 {

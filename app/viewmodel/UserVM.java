@@ -58,5 +58,6 @@ public class UserVM {
 	public Integer priceEnd;
 	public Integer priceStart;
 	public String outLeftAll;
+	public Integer applyOnlineReqUser;
 	public List<ZipCodeVM> zipCode;
 }

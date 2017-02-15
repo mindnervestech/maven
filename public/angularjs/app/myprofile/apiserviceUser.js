@@ -73,6 +73,16 @@ angular.module('app.apiserviceUser', [])
 		return defer.promise;
 	};
 	
+	
+	this.getOnlineReqUserChange = function(){
+		var defer = $q.defer();
+		$http.get('/getOnlineReqUserChange').success(function(data) {
+			 	defer.resolve(data);
+    	});
+		
+		return defer.promise;
+	};
+	
 	this.getAllUsers = function(){
 		var defer = $q.defer();
 		$http.get('/getAllUsers').success(function(data) {

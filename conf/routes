@@ -209,6 +209,7 @@ GET		/getInternalPdfDataById/:id	   controllers.ConfigPagesController.getInterna
 GET		/getCustomerPdfDataById/:id	   controllers.ConfigPagesController.getCustomerPdfDataById(id:Long)
 GET		/getInternalPdfData		controllers.ConfigPagesController.getInternalPdfData()
 POST	/myprofile				controllers.MyProfileController.myprofile()
+GET    /getOnlineReqUserChange     controllers.MyProfileController.getOnlineReqUserChange()
 GET		/checkMailChim		controllers.CrmController.checkMailChim()
 
 POST	/assignToUser				controllers.MyProfileController.assignToUser()

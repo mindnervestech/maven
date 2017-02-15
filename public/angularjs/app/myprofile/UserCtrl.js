@@ -679,18 +679,21 @@ angular.module('newApp')
 				}
 		});
 		if(value == false){
-			/*angular.forEach($scope.permission, function(obj, index){
-				angular.forEach($scope.inventoryData, function(obj1, index){
-					if(obj == obj1.name){
-						$scope.deleteItem(obj1);
-					}
-				});
-			});*/
 			
+				$scope.permission.push(rolePer.name);
 			
-			$scope.permission.push(rolePer.name);
 		}else{
-			$scope.deleteItem(rolePer);
+			if(rolePer.name == "Customer Requests"){
+				if($scope.userData.applyOnlineReqUser == 1){
+					$('#modal-online-requ').modal('show');
+				}else{
+					$scope.deleteItem(rolePer);
+				}
+				
+			}else{
+				$scope.deleteItem(rolePer);
+			}
+			
 		}
 		console.log($scope.permission);
 	}
@@ -707,6 +710,13 @@ angular.module('newApp')
 		  });
 	}
 	
+	$scope.continueOnReq = function(){
+		
+		apiserviceUser.getOnlineReqUserChange().then(function(data){
+			console.log("caaaaallllllllllll");
+			$('#modal-online-requ').modal('hide');
+		});
+	}
 	
 	$scope.pdfDoc = [];
 	$scope.selectPdf = function(e,item,value){
