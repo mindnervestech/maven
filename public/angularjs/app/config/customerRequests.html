@@ -370,7 +370,10 @@ requests that don't match any of the entered price range criteria</strong></h4>
 									<!-- <button type="button" class="btn btn-primary" ng-if="zipCodeDetailData.length != 0" ng-click="addAdditionalCity()" >Add additional city</button> -->								
 							</div>
 							<div class="col-md-12">
-								<button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="addZipCodeData()">Save</button>
+								<label style="color:red;" ng-show="oneZipcodeMsg == 1">Select at least one zipcode</label>
+							</div>
+							<div class="col-md-12">
+								<button type="button" class="btn btn-primary" ng-click="addZipCodeData()">Save</button>
 								<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
 							</div>
 							</form>

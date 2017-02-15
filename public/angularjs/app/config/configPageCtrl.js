@@ -2154,15 +2154,23 @@ angular.module('newApp')
 				
 		
 	}
-	
+	$scope.oneZipcodeMsg = 0;
 	$scope.addZipCodeData = function(){
 		//$scope.SaveZipCodeData();
+		console.log($scope.rowData);
 		console.log($scope.allFronAndSalesList);
 		$scope.obj = {allFronAndSalesList:$scope.allFronAndSalesList};
 		console.log($scope.obj);
-		apiserviceConfigPage.saveZipCodeDetails($scope.obj).then(function(data){
+		if($scope.rowData.cityList.length > 0){
+			/*apiserviceConfigPage.saveZipCodeDetails($scope.obj).then(function(data){
 			console.log(data);
-		});
+			});*/
+			$scope.oneZipcodeMsg = 0;
+			$('#addressPopUp').modal('hide');
+		}else{
+			$scope.oneZipcodeMsg = 1;
+		}
+	
 	}
 	
 	apiserviceConfigPage.getAllStateCodes().then(function(data){
