@@ -1859,6 +1859,7 @@ angular.module('newApp')
 	$scope.showCityAddPop = function(salesDet){
 		$scope.rowData = salesDet;
 		console.log($scope.rowData);
+		$scope.oneZipcodeMsg = 0;
 		$scope.addAdditionalFields = [];
 		
 		if(salesDet.zipCode.length <= 0){
