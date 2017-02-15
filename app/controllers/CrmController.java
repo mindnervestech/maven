@@ -1059,12 +1059,30 @@ public class CrmController extends Controller {
 	    			ContactsVM vm = new ContactsVM();
 	    			vm.contactId = contact.contactId;
 	       			vm.type = contact.type;
-	       			vm.salutation = contact.salutation;
+	       			if(contact.salutation != null){
+	       				if(contact.salutation.equals("null")){
+		       				vm.salutation = "";
+		       			}else{
+		       				vm.salutation = contact.salutation;
+		       			}
+	       			}
 	       			vm.firstName = contact.firstName;
 	       			vm.middleName = contact.middleName;
 	       			vm.lastName = contact.lastName;
-	       			vm.suffix = contact.suffix;
-	       			vm.companyName = contact.companyName;
+	       			if(contact.suffix != null){
+	       				if(contact.suffix.equals("null")){
+		       				vm.suffix = "";
+		       			}else{
+		       				vm.suffix = contact.suffix;
+		       			}
+	       			}
+	       			if(contact.companyName != null){
+	       				if(contact.companyName.equals("null")){
+		       				vm.companyName = "";
+		       			}else{
+		       				vm.companyName = contact.companyName;
+		       			}
+	       			}
 	       			vm.email = contact.email;
 	       			vm.phone = contact.phone;
 	       			vm.street = contact.street;
@@ -1073,18 +1091,60 @@ public class CrmController extends Controller {
 	       			vm.zip = contact.custZipCode;
 	       			vm.country = contact.country;
 	       			vm.allEmail = contact.allEmail;
-	       			vm.allPhone = contact.allPhone;
+	       			if(contact.allPhone != null){
+	       				if(contact.allPhone.equals("null")){
+		       				vm.allPhone = "";
+		       			}else{
+		       				vm.allPhone = contact.allPhone;
+		       			}
+	       			}
 	       			vm.website = contact.website;
 	       			vm.allAddresses = contact.allAddresses;
-	       			vm.title = contact.title;
+	       			if(contact.title != null){
+	       				if(contact.title.equals("null")){
+		       				vm.title = "";
+		       			}else{
+		       				vm.title = contact.title;
+		       			}
+	       			}
 	       			vm.fullName = contact.firstName+" "+contact.lastName;
 	       			vm.enthicity = contact.enthicity;
-	       			vm.birthday = contact.birthday;
-	       			vm.backgroundInfo = contact.backgroundInfo;
-	       			vm.industry = contact.industry;
+	       			if(contact.birthday != null){
+	       				if(contact.birthday.equals("null")){
+		       				vm.birthday = "";
+		       			}else{
+		       				vm.birthday = contact.birthday;
+		       			}
+	       			}
+	       			if(contact.backgroundInfo != null){
+	       				if(contact.backgroundInfo.equals("null")){
+		       				vm.backgroundInfo = "";
+		       			}else{
+		       				vm.backgroundInfo = contact.backgroundInfo;
+		       			}
+	       			}
+	       			if(contact.industry != null){
+	       				if(contact.industry.equals("null")){
+		       				vm.industry = "";
+		       			}else{
+		       				vm.industry = contact.industry;
+		       			}
+	       			}
 	       			vm.numberOfEmployees = contact.numberOfEmployees;
-	       			vm.creationDate = contact.creationDate;
-	       			vm.lastEditedDate = contact.lastEditedDate;
+	       			if(contact.creationDate != null){
+	       				if(contact.creationDate.equals("null")){
+		       				vm.creationDate = "";
+		       			}else{
+		       				vm.creationDate = contact.creationDate;
+		       			}
+	       			}
+	       			if(contact.lastEditedDate != null){
+	       				if(contact.lastEditedDate.equals("null")){
+		       				vm.lastEditedDate = "";
+		       			}else{
+		       				vm.lastEditedDate = contact.lastEditedDate;
+		       			}
+	       			}
 	       			if(contact.assignedTo !=null && !contact.assignedTo.equals("null")){
 	       				AuthUser user = AuthUser.findById(Integer.parseInt(contact.assignedTo));
 	       				if(user != null)
@@ -1092,10 +1152,28 @@ public class CrmController extends Controller {
 	       			}
 	       			vm.assignedTo = contact.assignedTo;
 	       			vm.campaignSource = contact.campaignSource;
-	       			vm.priority = contact.priority;
+	       			if(contact.priority != null){
+	       				if(contact.priority.equals("null")){
+		       				vm.priority = "";
+		       			}else{
+		       				vm.priority = contact.priority;
+		       			}
+	       			}
+	       			if(contact.relationships != null){
+	       				if(contact.relationships.equals("null")){
+		       				vm.relationships = "";
+		       			}else{
+		       				vm.relationships = contact.relationships;
+		       			}
+	       			}
+	       			if(contact.notes != null){
+	       				if(contact.notes.equals("null")){
+		       				vm.notes = "";
+		       			}else{
+		       				vm.notes = contact.notes;
+		       			}
+	       			}
 	       			vm.groups = contact.groups;
-	       			vm.relationships = contact.relationships;
-	       			vm.notes = contact.notes;
 	       			vm.workEmail = contact.workEmail;
 	       			vm.workEmail1 = contact.workEmail1;
 	       			vm.workPhone = contact.workPhone;
