@@ -8692,12 +8692,11 @@ angular.module('newApp')
 				   $scope.locationValue = locationId;
 			   }
 			   apiserviceDashborad.getSalesUserOnly($scope.locationValue).then(function(data){
-   			
 	    			$scope.salesPersonPerf = data;
-	    			 $scope.gridOptionsValue.data = $scope.salesPersonPerf;
+	    			$scope.gridOptionsValue.data = $scope.salesPersonPerf;
 	    			angular.forEach($scope.salesPersonPerf, function(value, key) {
-						if(id==value.id){
-							$scope.nextbutton = 1;
+	    				if(id==value.id){
+	    					//$scope.nextbutton = 1;
 							$scope.schPlan.scheduleBy = 'salePerson';
 							$scope.entity = value;
 							$scope.schedule = $scope.schPlan.scheduleBy;
@@ -8707,13 +8706,10 @@ angular.module('newApp')
 							$scope.schPlan.scheduleBy = $scope.schedule;
 							$scope.schPlan.salePerson = $scope.saleperson;
 							$scope.planIs = "update";
-							
 						}
 	    				value.isSelected = false;
 	    			});
 	    		});
-			   
-			   
 		   };
 		   
 		   $scope.MonthTotal = {};
