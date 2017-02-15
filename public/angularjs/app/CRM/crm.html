@@ -184,7 +184,7 @@
 																<label style="text-align:right;" class="col-sm-12 control-label">Phone</label>
 																</div>
 																	<div class="col-sm-4 control-label">
-																	<input type="text" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.phone" >
+																	<input type="number" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.phone" >
 																</div>
 																<!-- <div class="col-sm-4">
 																	<select id="sectionId" class="from-control form-white" style="height: 35px;" ng-model="contactsDetails.workPhone" required>
@@ -192,8 +192,111 @@
          																		<option value="Personal">Personal</option>
  																   </select>
 																</div> -->
-															
-															
+														</div>
+														<div style="margin-top: 10px;padding: 0px;" class="form-group col-sm-12">
+															<div class="col-sm-2">
+																<label style="text-align:right;" class="col-sm-12 control-label">Salutation</label>
+																</div>
+																	<div class="col-sm-4 control-label">
+																	<input type="text" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.salutation" >
+																</div>
+														</div>
+														<div style="margin-top: 10px;padding: 0px;" class="form-group col-sm-12">
+															<div class="col-sm-2">
+																<label style="text-align:right;" class="col-sm-12 control-label">Suffix</label>
+																</div>
+																	<div class="col-sm-4 control-label">
+																	<input type="text" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.suffix" >
+																</div>
+														</div>
+														<div style="margin-top: 10px;padding: 0px;" class="form-group col-sm-12">
+															<div class="col-sm-2">
+																<label style="text-align:right;" class="col-sm-12 control-label">City</label>
+																</div>
+																	<div class="col-sm-4 control-label">
+																	<input type="text" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.city" >
+																</div>
+														</div>
+														<div style="margin-top: 10px;padding: 0px;" class="form-group col-sm-12">
+															<div class="col-sm-2">
+																<label style="text-align:right;" class="col-sm-12 control-label">State</label>
+																</div>
+																	<div class="col-sm-4 control-label">
+																	<input type="text" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.state" >
+																</div>
+														</div>
+														<div style="margin-top: 10px;padding: 0px;" class="form-group col-sm-12">
+															<div class="col-sm-2">
+																<label style="text-align:right;" class="col-sm-12 control-label">ZipCode</label>
+																</div>
+																	<div class="col-sm-4 control-label">
+																	<input type="text" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.zip" >
+																</div>
+														</div>
+														<div style="margin-top: 10px;padding: 0px;" class="form-group col-sm-12">
+															<div class="col-sm-2">
+																<label style="text-align:right;" class="col-sm-12 control-label">AllPhone</label>
+																</div>
+																	<div class="col-sm-4 control-label">
+																	<input type="number" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.allPhone" >
+																</div>
+														</div>
+														<div style="margin-top: 10px;padding: 0px;" class="form-group col-sm-12">
+															<div class="col-sm-2">
+																<label style="text-align:right;" class="col-sm-12 control-label">AllEmail</label>
+																</div>
+																	<div class="col-sm-4 control-label">
+																	<input type="email" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.allEmail" >
+																</div>
+														</div>
+														<div style="margin-top: 10px;padding: 0px;" class="form-group col-sm-12">
+															<div class="col-sm-2">
+																<label style="text-align:right;" class="col-sm-12 control-label">Title</label>
+																</div>
+																	<div class="col-sm-4 control-label">
+																	<input type="text" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.title" >
+																</div>
+														</div>
+														<div style="margin-top: 10px;padding: 0px;" class="form-group col-sm-12">
+															<div class="col-sm-2">
+																<label style="text-align:right;" class="col-sm-12 control-label">Birthday</label>
+																</div>
+																	<div class="col-sm-4 control-label">
+																	<input data-provide="datepicker" id="birthday" name="birthday" class="col-sm-10 form-control form-white" ng-model="contactsDetails.birthday" data-date-format="dd-mm-yyyy" required>
+																	<!-- <input type="text" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.allPhone" > -->
+																</div>
+														</div>
+														<div style="margin-top: 10px;padding: 0px;" class="form-group col-sm-12">
+															<div class="col-sm-2">
+																<label style="text-align:right;" class="col-sm-12 control-label">Background Info</label>
+																</div>
+																	<div class="col-sm-4 control-label">
+																	<input type="text" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.backgroundInfo" >
+																</div>
+														</div>
+														<div style="margin-top: 10px;padding: 0px;" class="form-group col-sm-12">
+															<div class="col-sm-2">
+																<label style="text-align:right;" class="col-sm-12 control-label">Industry</label>
+																</div>
+																	<div class="col-sm-4 control-label">
+																	<input type="text" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.industry" >
+																</div>
+														</div>
+														<div style="margin-top: 10px;padding: 0px;" class="form-group col-sm-12">
+															<div class="col-sm-2">
+																<label style="text-align:right;" class="col-sm-12 control-label">Relationship</label>
+																</div>
+																	<div class="col-sm-4 control-label">
+																	<input type="text" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.relationships" >
+																</div>
+														</div>
+														<div style="margin-top: 10px;padding: 0px;" class="form-group col-sm-12">
+															<div class="col-sm-2">
+																<label style="text-align:right;" class="col-sm-12 control-label">Notes</label>
+																</div>
+																	<div class="col-sm-4 control-label">
+																	<input type="text" class=" col-sm-10 form-control form-white" ng-model="contactsDetails.notes" >
+																</div>
 														</div>
 												       <div  class="col-md-12" style="margin-top: 10px;">
 								                				<formly-form model="customData" fields="userFields">

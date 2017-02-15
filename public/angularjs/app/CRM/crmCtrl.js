@@ -54,9 +54,9 @@ angular.module('newApp')
    		                                 },
    		                                /* { name: 'lastName', displayName: 'Last Name', width:'11%',cellEditableCondition: false,
    		                                 },*/
-   		                                 { name: 'companyName', displayName: 'Company Name', width:'12%',cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+   		                                 /*{ name: 'companyName', displayName: 'Company Name', width:'12%',cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
    		                                	 filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><div my-custom-modal></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilter(text)" ng-model="text"></div>'
-   		                                 },
+   		                                 },*/
    		                                 { name: 'email', displayName: 'Email', width:'10%',cellEditableCondition: false, enableColumnMenu: false,
    		                                 },
    		                                 { name: 'phone', displayName: 'Phone',cellEditableCondition: false, width:'10%', enableColumnMenu: false,
@@ -90,8 +90,8 @@ angular.module('newApp')
 		                                 },
 		                                 { name: 'lastEditedDate', displayName: 'LastEditedDate', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
 		                                 },
-		                                 { name: 'priority', displayName: 'Priority', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
-		                                 },
+		                                 /*{ name: 'priority', displayName: 'Priority', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                 },*/
 		                                 { name: 'relationships', displayName: 'Relationships', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
 		                                 },
 		                                 { name: 'notes', displayName: 'Notes', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
@@ -930,7 +930,9 @@ angular.module('newApp')
     					});
     					
 	    			$scope.contactsDetails.customData = $scope.customList;
-    					
+	    			$scope.contactsDetails.birthday = $("#birthday").val();
+	    			console.log($("#birthday").val());
+    				console.log($scope.contactsDetails);
 	    			apiserviceCrm.saveContactsData($scope.contactsDetails).then(function(data){
 	    				 if(data == "" || data != "Email already exists") {
 	    					 $scope.contactMsg="";

@@ -101,6 +101,19 @@ public class CrmController extends Controller {
  		    contacts.setWebsite(vm.website);
  		    contacts.setAllAddresses(vm.allAddresses);
  		   	contacts.setTitle(vm.title);
+ 		   	contacts.setSalutation(vm.salutation);
+ 		   	contacts.setSuffix(vm.suffix);
+ 		   	contacts.setCity(vm.city);
+ 		   	contacts.setState(vm.state);
+ 		   	contacts.setZip(vm.zip);
+ 		   	contacts.setAllPhone(vm.allPhone);
+ 		   	contacts.setAllEmail(vm.allEmail);
+ 		   	contacts.setTitle(vm.title);
+ 		   	contacts.setBirthday(vm.birthday);
+ 		   	contacts.setBackgroundInfo(vm.backgroundInfo);
+ 		   	contacts.setIndustry(vm.industry);
+ 		   	contacts.setRelationships(vm.relationships);
+ 		   	contacts.setNotes(vm.notes);
  		   	if(vm.assignedTo == null){
  		   		contacts.setAssignedTo(userObj.id.toString());
  		   	}else{
