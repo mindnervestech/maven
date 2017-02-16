@@ -3238,6 +3238,8 @@ public class Application extends Controller {
 	    	for(RequestMoreInfo sc: rList){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
+	    		vm1.email = sc.email;
+	    		vm1.phone = sc.phone;
 	    		vm1.id=sc.id;
 	    		int addleadFlag = 0;
 	    		vm1.leadType="Request More Info";

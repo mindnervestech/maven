@@ -171,7 +171,7 @@
             $scope.showRichNotification = function(obj){
 	          	var opt={
 	          			icon: obj.imageUrl,
-	          		    body: "New "+obj.leadType+" has been submitted!"
+	          		    body: "New "+obj.leadType+" has been submitted! \nName : "+obj.name+"\nPhone : "+obj.phone+"\nEmail : "+obj.email
 	          	};
 	          	if (!("Notification" in window)) {
 	          	    alert("This browser does not support desktop notification");
