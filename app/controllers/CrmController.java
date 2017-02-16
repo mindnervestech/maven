@@ -85,7 +85,7 @@ public class CrmController extends Controller {
     		return ok(home.render("",userRegistration));
     	} else {
     		Date date = new Date();
-			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     		AuthUser userObj = (AuthUser) getLocalUser();
     		MultipartFormData body = request().body().asMultipartFormData();
     		Form<ContactsVM> form = DynamicForm.form(ContactsVM.class).bindFromRequest();
@@ -171,7 +171,7 @@ public class CrmController extends Controller {
     	} else {
     		String msg = "";
     		Date date = new Date();
-			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     		MultipartFormData body = request().body().asMultipartFormData();
     		Form<ContactsVM> form = DynamicForm.form(ContactsVM.class).bindFromRequest();
     		ContactsVM vm = form.get();
@@ -414,7 +414,7 @@ public class CrmController extends Controller {
 	 private static void saveContact(ContactsVM vm) {
 		 AuthUser userObj = (AuthUser) getLocalUser();	
 		 Date date = new Date();
-			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 		 Contacts contacts = new Contacts();
 		    contacts.setFirstName(vm.firstName);
 		    contacts.setCompanyName(vm.companyName);
@@ -455,7 +455,7 @@ public class CrmController extends Controller {
 	 
 	 private static void updateContact(Contacts contacts ,ContactsVM vm) {
 		 Date date = new Date();
-			SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 		 AuthUser userObj = (AuthUser) getLocalUser();  
 		 contacts.setFirstName(vm.firstName);
 		    contacts.setCompanyName(vm.companyName);
