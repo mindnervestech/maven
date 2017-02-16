@@ -482,10 +482,10 @@ float: right !important;
 										</div>
 										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& flagForBestSale == 0">
 										<!-- http://glider-autos.com/MavenImg/images/LocationImg/best.png -->
-									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4" ng-style="{opacity : ((currentPage == 0) && '0.4') || '0.5'}" style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{parLocationData.imageUrl}}"> </a>
+									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4" ng-style="{opacity : ((currentPage == 0) && '0.4') || '0.5'}" style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images/{{parLocationData.imageUrl}}"> </a>
 										</div>
 										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& flagForBestSale != 0">
-									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4"  style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{parLocationData.imageUrl}}"> </a>
+									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4"  style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images/{{parLocationData.imageUrl}}"> </a>
 										</div>
 										<div class="col-sm-5" style="margin-top: 25px;">
 									       	<span class="glyphicon glyphicon-user col-sm-2" style="color: darkturquoise;" title="Total leads"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson | number:0}}</label>
