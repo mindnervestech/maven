@@ -14686,7 +14686,9 @@ private static void cancelTestDriveMail(Map map) {
 				vm.planFlag = 0; 
 				
 				if(pMonthlySalepeople != null){
-					total = Integer.parseInt(pMonthlySalepeople.totalBrought);
+					if(pMonthlySalepeople.totalBrought != null){
+						total = Integer.parseInt(pMonthlySalepeople.totalBrought);
+					}
 		    	}else{
 						vm.planFlag = 1; 
 		    	}
