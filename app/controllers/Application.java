@@ -10760,8 +10760,10 @@ private static void cancelTestDriveMail(Map map) {
      		}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
      			PlanScheduleMonthlySalepeople  pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(users, monthCal); 
      			if(pMonthlySalepeople != null){
-     				double val= ((double)pricecount/Double.parseDouble(pMonthlySalepeople.totalBrought));
-     				lDataVM.AngSale = (int) (val*100);
+     				if(pMonthlySalepeople.totalBrought != null){
+     					double val= ((double)pricecount/Double.parseDouble(pMonthlySalepeople.totalBrought));
+         				lDataVM.AngSale = (int) (val*100);
+     				}
      			}
      		}
    	
@@ -11194,8 +11196,10 @@ private static void cancelTestDriveMail(Map map) {
     	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
     		PlanScheduleMonthlySalepeople  pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(users, monthCal); 
         	if(pMonthlySalepeople != null){
-        		double val= ((double)pricecount/Double.parseDouble(pMonthlySalepeople.totalBrought));
-            	lDataVM.AngSale = (int) (val*100);
+        		if(pMonthlySalepeople.totalBrought != null){
+        			double val= ((double)pricecount/Double.parseDouble(pMonthlySalepeople.totalBrought));
+                	lDataVM.AngSale = (int) (val*100);
+        		}
         	}
     	}
     	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
