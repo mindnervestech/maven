@@ -481,10 +481,11 @@ float: right !important;
 									       <img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images/{{parLocationData.imageUrl}}">
 										</div>
 										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& flagForBestSale == 0">
-									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4" ng-style="{opacity : ((currentPage == 0) && '0.4') || '0.5'}" style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images/LocationImg/best.png"> </a>
+										<!-- http://glider-autos.com/MavenImg/images/LocationImg/best.png -->
+									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4" ng-style="{opacity : ((currentPage == 0) && '0.4') || '0.5'}" style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{parLocationData.imageUrl}}"> </a>
 										</div>
 										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& flagForBestSale != 0">
-									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4"  style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images/LocationImg/best.png"> </a>
+									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4"  style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{parLocationData.imageUrl}}"> </a>
 										</div>
 										<div class="col-sm-5" style="margin-top: 25px;">
 									       	<span class="glyphicon glyphicon-user col-sm-2" style="color: darkturquoise;" title="Total leads"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson | number:0}}</label>
@@ -2130,7 +2131,7 @@ float: right !important;
                          <div class="row" ng-if="userType =='Manager' || showGmLocation == 1 || userType =='Sales Person'">
 						  <label class="col-sm-12" style="margin-left:40px;">Plan Schedule by</label>
                           <div class="col-sm-12" ng-if="nextbutton == 0">
-                            <div class="form-group">
+                            <div class="form-group"> 
                              <div class="row">
 							  <div ng-sec ="Assign Plan to the business" class="image col-sm-6" ng-click="getLocation(0)">
 							  
@@ -3028,9 +3029,9 @@ float: right !important;
                          </div>
                          
                          </div>
-                         
+                         </div>
                          <div ng-if="schPlan.scheduleBy == 'salePerson' && nextbutton == 1">
-                         <div class="row" style="height: 620px;overflow: auto;">
+                         <div class="row">
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          			<label style="margin-left: 40px;">JANUARY</label>

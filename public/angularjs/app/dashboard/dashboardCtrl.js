@@ -8696,7 +8696,7 @@ angular.module('newApp')
 	    			$scope.gridOptionsValue.data = $scope.salesPersonPerf;
 	    			angular.forEach($scope.salesPersonPerf, function(value, key) {
 	    				if(id==value.id){
-	    					//$scope.nextbutton = 1;
+	    					$scope.nextbutton = 1;
 							$scope.schPlan.scheduleBy = 'salePerson';
 							$scope.entity = value;
 							$scope.schedule = $scope.schPlan.scheduleBy;
