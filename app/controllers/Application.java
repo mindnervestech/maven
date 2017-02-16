@@ -10675,6 +10675,7 @@ private static void cancelTestDriveMail(Map map) {
 			lDataVM.imageUrl = location.getImageUrl();
 		}else if(locOrPer.equals("person")){
 			lDataVM.imageUrl = users.imageUrl;
+			lDataVM.imageName = users.imageName;
 		}
    	
 		lDataVM.countSalePerson = countLeads;
@@ -14689,6 +14690,7 @@ private static void cancelTestDriveMail(Map map) {
 					if(pMonthlySalepeople.totalBrought != null){
 						total = Integer.parseInt(pMonthlySalepeople.totalBrought);
 					}
+					
 		    	}else{
 						vm.planFlag = 1; 
 		    	}

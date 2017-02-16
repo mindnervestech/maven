@@ -741,8 +741,14 @@ angular.module('newApp')
 			
 		}else{
 			apiserviceDashborad.getUserLocationByDateInfo($scope.userKey, startD, endD, locOrPer).then(function(data){
-			
 				$scope.flagForBestSale=data.flagForBestSaleIcon;
+				console.log("hu88888888888888888888999ooooooooooo");
+				console.log(data);
+				   $scope.countTestDrives=data.countTestDrives;
+					$scope.parLocationData = data;
+					$scope.leadsTime.leads = data.leads;
+					$scope.leadsTime.goalSetTime = data.goalTime;
+					$scope.showLeads = data.leads;	
 				apiserviceDashborad.getPlanTarget(locOrPer).then(function(data1){
 					/*if(data.sendData[0] != undefined){
 							data.sendData[0].plan = data1.data[0].price;
@@ -767,11 +773,6 @@ angular.module('newApp')
 					
 			});
 				
-				   $scope.countTestDrives=data.countTestDrives;
-					$scope.parLocationData = data;
-					$scope.leadsTime.leads = data.leads;
-					$scope.leadsTime.goalSetTime = data.goalTime;
-					$scope.showLeads = data.leads;	
 				});
 		}
 		
