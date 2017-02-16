@@ -800,8 +800,9 @@ angular.module('newApp')
 	    			$scope.contactsDetails.birthday = $("#birthdayDate").val()
 	    			$scope.contactsDetails.customData = $scope.customList;
 	    			 apiserviceCrm.updateContactsData($scope.contactsDetails).then(function(data){
-	    				 $('#contactsModal').modal('hide');
 	    				 $scope.getContactsData();
+	    				 $scope.actionSelectedLead = [];
+	    				 $('#contactsModal').modal('hide');
 	    			 });
      	  		});
 			
