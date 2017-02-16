@@ -69,8 +69,10 @@ angular.module('newApp')
 		                                 { name: 'suffix', displayName: 'Suffix', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
 		                                 },
 		                                 { name: 'city', displayName: 'City', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                	 filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><div my-custom-modal3 type="city"></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByCity(text)" ng-model="text"></div>',
 		                                 },
 		                                 { name: 'state', displayName: 'State', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                	 filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><div my-custom-modal3 type="state"></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByState(text)" ng-model="text"></div>',
 		                                 },
 		                                 { name: 'zip', displayName: 'ZipCode', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
 		                                 },
@@ -85,6 +87,7 @@ angular.module('newApp')
 		                                 { name: 'backgroundInfo', displayName: 'BackgrountInfo', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
 		                                 },
 		                                 { name: 'industry', displayName: 'Industry', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
+		                                	 filterHeaderTemplate: '<div class="ui-grid-filter-container" ng-repeat="colFilter in col.filters"><div my-custom-modal3 type="industry"></div><input type="text" style="width:100px;margin-top: 7px;" ng-change="grid.appScope.searchFilterByIndustry(text)" ng-model="text"></div>',
 		                                 },
 		                                 { name: 'creationDate', displayName: 'CreationDate', width:'11%',cellEditableCondition: false, enableColumnMenu: false,
 		                                 },
@@ -1691,6 +1694,57 @@ angular.module('newApp')
 	   			$scope.contactsList.forEach( function addDates( row, index ){
 	   				if(row.type){
 	   					if(row.type.includes(text)){
+	   						compData.push(row);
+	   					}
+	   				}
+	   			});
+	   			$scope.gridOptions.data = compData;
+	   			}
+	   		}
+		  
+	   		$scope.searchFilterByIndustry = function(text){
+	   			console.log(text);
+	   			if(text == ''){
+	   				$scope.gridOptions.data = $scope.contactsList;
+	   			}else{
+	   			compData = [];
+	   			$scope.contactsList.forEach( function addDates( row, index ){
+	   				if(row.industry){
+	   					if(row.industry.includes(text)){
+	   						compData.push(row);
+	   					}
+	   				}
+	   			});
+	   			$scope.gridOptions.data = compData;
+	   			}
+	   		}
+	   		
+		  $scope.searchFilterByCity = function(text){
+	   			console.log(text);
+	   			if(text == ''){
+	   				$scope.gridOptions.data = $scope.contactsList;
+	   			}else{
+	   			compData = [];
+	   			$scope.contactsList.forEach( function addDates( row, index ){
+	   				if(row.city){
+	   					if(row.city.includes(text)){
+	   						compData.push(row);
+	   					}
+	   				}
+	   			});
+	   			$scope.gridOptions.data = compData;
+	   			}
+	   		}
+		  
+		  $scope.searchFilterByState = function(text){
+	   			console.log(text);
+	   			if(text == ''){
+	   				$scope.gridOptions.data = $scope.contactsList;
+	   			}else{
+	   			compData = [];
+	   			$scope.contactsList.forEach( function addDates( row, index ){
+	   				if(row.state){
+	   					if(row.state.includes(text)){
 	   						compData.push(row);
 	   					}
 	   				}
