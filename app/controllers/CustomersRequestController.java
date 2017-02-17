@@ -25,17 +25,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
-
 import models.AddCollection;
 import models.AuthUser;
-import models.CustomerPdf;
 import models.CustomerRequest;
 import models.CustomerRequestManufacturerSettings;
 import models.CustomizationDataValue;
@@ -73,16 +64,12 @@ import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import viewmodel.CreateFormVM;
 import viewmodel.CreateNewFormVM;
 import viewmodel.KeyValueDataVM;
 import viewmodel.NoteVM;
 import viewmodel.ProductVM;
 import viewmodel.RequestInfoVM;
-import viewmodel.SpecificationVM;
 import views.html.home;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 public class CustomersRequestController extends Controller {
 
@@ -323,6 +310,7 @@ public class CustomersRequestController extends Controller {
 		    		vm.email = info.email;
 		    		vm.howContactedUs = info.contactedFrom;
 		    		vm.howFoundUs = info.hearedFrom;
+		    		vm.requestTimeDate = info.requestTime;
 		    		vm.custZipCode = info.custZipCode;
 		    		vm.requestDate = df.format(info.requestDate);
 		    		if(info.confirmTime != null){
