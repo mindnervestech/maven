@@ -3782,7 +3782,7 @@ public class MyProfileController extends Controller{
 		 			
 		  			Message message = new MimeMessage(session);
 		  			try {
-						message.setFrom(new InternetAddress("glider.autos@gmail.com",emailName));
+						message.setFrom(new InternetAddress(emailUser,emailName));
 					} catch (UnsupportedEncodingException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -3801,7 +3801,7 @@ public class MyProfileController extends Controller{
 	    			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 	    			ve.init();
 	    			
-	    			Template t = ve.getTemplate("/public/emailTemplate/newUserTemplate.vm"); 
+	    			Template t = ve.getTemplate("/public/emailTemplate/newUserEmailTamplete.vm"); 
 	    	        VelocityContext context = new VelocityContext();
 	    	        context.put("hostnameUrl", imageUrlPath);
 	    	        //context.put("siteLogo", logo.logoImagePath);
