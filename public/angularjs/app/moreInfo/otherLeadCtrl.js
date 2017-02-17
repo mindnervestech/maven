@@ -165,8 +165,8 @@ angular.module('newApp')
 		  	}
   			
 			$scope.editgirdData(allData);
-			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
-			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'isRead');
+			//$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			
 			$scope.requsetMoreList = data;
 			if(data.length > 0){
