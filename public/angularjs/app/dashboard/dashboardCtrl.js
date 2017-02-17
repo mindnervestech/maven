@@ -819,10 +819,9 @@ angular.module('newApp')
 	$scope.dataLocOrPerWise = "location";
 	$scope.showLeads = null;
 	$scope.locationOrPersonData = function(wiseData){
-		 /*var startD = $('#cnfstartDateValue').val();
+		 var startD = $('#cnfstartDateValue').val();
 		   var endD = $('#cnfendDateValue').val();
-		$scope.dataLocOrPerWise = wiseData;
-		$scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);*/
+		$scope.findMystatisData(startD,endD,wiseData);
 		$scope.wiseData = wiseData;
 		console.log($scope.wiseData);
 		$scope.changeValueInStat($scope.planValue);

@@ -10628,14 +10628,14 @@ private static void cancelTestDriveMail(Map map) {
 		List<RequestMoreInfo> rInfoTest = null;
 		List<ScheduleTest> sListTest = null;
    	
-		if(users.role.equals("Manager") && locOrPer.equals("location")){
+		if(users.role.equals("Manager") && locOrPer.equals("location") || users.role.equals("Sales Person") && locOrPer.equals("location")){
 			rInfo = RequestMoreInfo.findAllSeenLocationSch(locationId);
 			sList = ScheduleTest.findAllAssignedLocation(locationId);
    		
 			rInfoAll = RequestMoreInfo.findByLocationNotOpenLead(locationId);
 			sListAll = ScheduleTest.findByLocationNotOpenLead(locationId);
    		
-		}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
+		}else if(users.role.equals("Sales Person") && locOrPer.equals("person")){
 			rInfo = RequestMoreInfo.findAllSeenSch(users);
 			sList = ScheduleTest.findAllAssigned(users);
    		
@@ -10702,7 +10702,7 @@ private static void cancelTestDriveMail(Map map) {
 		Integer monthPriceCount = 0;
 		Integer pricecount = 0;
 		int saleCarCount = 0;
-		if(users.role.equals("Manager") && locOrPer.equals("location")){
+		if(users.role.equals("Manager") && locOrPer.equals("location") || users.role.equals("Sales Person") && locOrPer.equals("location")){
 			List<SoldInventory> pList = SoldInventory.findBySold();
        	
 			for(SoldInventory proList:pList){
@@ -10721,7 +10721,7 @@ private static void cancelTestDriveMail(Map map) {
 				lDataVM.successRate = 0;
 			}
        	
-		}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
+		}else if(users.role.equals("Sales Person") && locOrPer.equals("person")){
    		
 			List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(users);
 			List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(users);
@@ -10750,14 +10750,14 @@ private static void cancelTestDriveMail(Map map) {
 		double valAvlPrice= ((double)pricecount/(double)saleCarCount);
 		lDataVM.angSalePrice = (int) valAvlPrice;
    	
-     	if(users.role.equals("Manager") && locOrPer.equals("location")){
+     	if(users.role.equals("Manager") && locOrPer.equals("location") || users.role.equals("Sales Person") && locOrPer.equals("location")){
      		PlanScheduleMonthlyLocation pMonthlyLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(locationId), monthCal);
      		if(pMonthlyLocation != null){
      			double val= ((double)pricecount/Double.parseDouble(pMonthlyLocation.totalEarning));
      			lDataVM.AngSale = (int) (val*100);
      		}
        	
-     		}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
+     		}else if(users.role.equals("Sales Person") && locOrPer.equals("person")){
      			PlanScheduleMonthlySalepeople  pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(users, monthCal); 
      			if(pMonthlySalepeople != null){
      				if(pMonthlySalepeople.totalBrought != null){
