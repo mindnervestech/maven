@@ -823,6 +823,8 @@ angular.module('newApp')
 		   var endD = $('#cnfendDateValue').val();
 		$scope.dataLocOrPerWise = wiseData;
 		$scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);*/
+		$scope.wiseData = wiseData;
+		console.log($scope.wiseData);
 		$scope.changeValueInStat($scope.planValue);
 	}
 	
@@ -2946,7 +2948,7 @@ angular.module('newApp')
     			  $scope.planMsg();
     			 // $scope.initAutocomplete();
     			  //$scope.priceAlertMsg();
-    			  
+    			  $scope.wiseData = "person";
     			 $scope.check={};
     			  var date = new Date();
     			  

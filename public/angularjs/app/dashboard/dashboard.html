@@ -482,13 +482,22 @@ float: right !important;
 										</div>
 										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& flagForBestSale == 0">
 										<!-- http://glider-autos.com/MavenImg/images/LocationImg/best.png -->
-										
-									       <a ng-click="bestEmpComp(parLocationData)" ng-show="parLocationData.imageName == null"> <img class="col-sm-4" ng-style="{opacity : ((currentPage == 0) && '0.4') || '0.5'}" style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{parLocationData.imageUrl}}"> </a>
-									       <a ng-click="bestEmpComp(parLocationData)" ng-show="parLocationData.imageName != null"> <img class="col-sm-4" ng-style="{opacity : ((currentPage == 0) && '0.4') || '0.5'}" style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images{{parLocationData.imageUrl}}"> </a>
+											<div ng-if="wiseData == 'person'">
+													<a ng-click="bestEmpComp(parLocationData)" ng-show="parLocationData.imageName == null"> <img class="col-sm-4" ng-style="{opacity : ((currentPage == 0) && '0.4') || '0.5'}" style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{parLocationData.imageUrl}}"> </a>
+									       			<a ng-click="bestEmpComp(parLocationData)" ng-show="parLocationData.imageName != null"> <img class="col-sm-4" ng-style="{opacity : ((currentPage == 0) && '0.4') || '0.5'}" style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images{{parLocationData.imageUrl}}"> </a>											
+											</div>
+											<div ng-if="wiseData == 'location'">
+													<img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images/LocationImg/16/4b617f650409dd5356d0debc5d890343.jpg">											
+											</div>
 										</div>
 										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& flagForBestSale != 0">
-									       <a ng-click="bestEmpComp(parLocationData)" ng-show="parLocationData.imageName == null"> <img class="col-sm-4"  style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{parLocationData.imageUrl}}"> </a>
-									       <a ng-click="bestEmpComp(parLocationData)" ng-show="parLocationData.imageName != null"> <img class="col-sm-4"  style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images{{parLocationData.imageUrl}}"> </a>
+											<div ng-if="wiseData == 'person'">
+												<a ng-click="bestEmpComp(parLocationData)" ng-show="parLocationData.imageName == null"> <img class="col-sm-4"  style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{parLocationData.imageUrl}}"> </a>
+									       		<a ng-click="bestEmpComp(parLocationData)" ng-show="parLocationData.imageName != null"> <img class="col-sm-4"  style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images{{parLocationData.imageUrl}}"> </a>
+											</div>
+											<div ng-if="wiseData == 'location'">
+													<img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/MavenImg/images/LocationImg/16/4b617f650409dd5356d0debc5d890343.jpg">											
+											</div>
 										</div>
 										<div class="col-sm-5" style="margin-top: 25px;">
 									       	<span class="glyphicon glyphicon-user col-sm-2" style="color: darkturquoise;" title="Total leads"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson | number:0}}</label>
@@ -497,7 +506,7 @@ float: right !important;
 									       	<span class="glyphicon glyphicon-usd col-sm-2" ng-if="parLocationData.totalSalePrice != 0 && InventoryFlag == true" style="color: darkturquoise;" title="Sold"></span><label ng-if="parLocationData.totalSalePrice != 0 && InventoryFlag == true" class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.totalSalePrice | number:0}}</label>
 									       	<span class="glyphicon glyphicon-usd col-sm-2" ng-if="parLocationData.totalSalePrice == 0 && InventoryFlag == true" style="color: darkturquoise;" title="Sold"></span><label ng-if="parLocationData.totalSalePrice == 0 && InventoryFlag == true" class="col-sm-4 control-label" style="text-align: center;">N/A</label>
 									       	<span class="glyphicon glyphicon-record col-sm-2" style="color: darkturquoise;" title="Success Rate"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.successRate | number:0}}%</label>
-									       	<span class="fa fa-car col-sm-2" style="color: darkturquoise;" title="Total Car Sold"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.totalsaleCar | number:0}}</label>
+									       	<span class="glyphicon glyphicon-lamp col-sm-2" style="color: darkturquoise;" title="Items sold"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.totalsaleCar | number:0}}</label>
 									       	<!-- <span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label> -->
 									       	<span class="glyphicon glyphicon-shopping-cart col-sm-2" ng-if="parLocationData.angSalePrice != 0 && InventoryFlag == true" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" ng-if="parLocationData.angSalePrice != 0 && InventoryFlag == true" style="text-align: center;">${{parLocationData.angSalePrice | number:0}}</label>
 									       	<span class="glyphicon glyphicon-shopping-cart col-sm-2" ng-if="parLocationData.angSalePrice == 0 && InventoryFlag == true" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" ng-if="parLocationData.angSalePrice == 0 && InventoryFlag == true" style="text-align: center;">N/A</label>
