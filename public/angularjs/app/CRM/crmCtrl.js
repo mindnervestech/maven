@@ -1144,7 +1144,7 @@ angular.module('newApp')
 				 $.pnotify({
 				    title: "Success",
 				    type:'success',
-				    text: "Delete successfully",
+				    text: "Deleted successfully",
 				 });
 	
 				 $scope.getContactsData();

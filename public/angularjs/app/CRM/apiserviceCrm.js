@@ -294,11 +294,7 @@ angular.module('app.apiserviceCrm', [])
 	this.deleteContactsById = function(contactId){
 		var defer = $q.defer();
 		 $http.get('/deleteContactsById/'+contactId).success(function(data) {
-			 $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "group deleted successfully",
-				});
+			 
 			defer.resolve(data);
 		});
 		
