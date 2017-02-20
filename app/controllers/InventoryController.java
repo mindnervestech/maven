@@ -582,6 +582,8 @@ public class InventoryController extends Controller {
 	    		AddCollectionVM vm =new AddCollectionVM();
 	    		vm.id = product.id;
 	    		vm.title =product.title;
+	    		vm.fileName = product.fileName;
+	    		vm.filePath = product.filePath;
 	    		vm.description = product.description;
 	    		vm.parentId = product.parentId;
 	    		vm.externalUrlLink = product.externalUrlLink;

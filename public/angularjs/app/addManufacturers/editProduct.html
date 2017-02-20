@@ -19,8 +19,12 @@
 	<div>
 		<label class="control-label " style="width: 40%;"><font size="3">Logo </font></label>
 	</div>
+	<div style="margin-bottom: 15px;">
+		<span ng-show="productData.fileName != ''">
+   		<img style="height: 15px;" src="http://glider-autos.com/MavenImg/images/{{productData.filePath}}">
+   		</span><a href="/downloadFile/{{productData.id}}">{{productData.fileName}}</a>
+	</div>
 	<div class="fallback">
-   		<a href="/downloadFile/{{productData.id}}">{{productData.fileName}}</a>
    		<input name="file" type="file" ng-model="productData.fileName" name="logoFile" ng-file-select="onLogoFileSelect($files)" accept="image/*"/>
 	</div>
 </div>
