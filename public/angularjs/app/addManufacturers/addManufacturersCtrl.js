@@ -299,7 +299,7 @@ angular.module('newApp')
 	   $scope.uploadFilesDreft = function(){
 		   $scope.object = {};
 		   $scope.object.id = $routeParams.id;
-		   $scope.object.publicStatus = "draft";
+		   $scope.object.publicStatus = "noStatus";
 		   $http.post('/updateProductInfo',$scope.object)
 	   		.success(function(data) {
 	   			

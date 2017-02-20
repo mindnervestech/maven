@@ -66,8 +66,11 @@
 
 </div>-->
 	
-<input type="submit" class="btn btn-primary"  value="Save" ng-click="setStatusvalue('publish')" style="margin-top:3%;margin-left:32%;">
-<!-- <input type="submit" class="btn btn-primary"  ng-click="setStatusvalue('draft')" value="Save to Drafts" style="margin-top:3%;"> -->
+	<input ng-if="productData.publicStatus == 'draft'" type="submit" class="btn btn-primary"  value="Save" ng-click="setStatusvalue('noStatus')" style="margin-top:3%;margin-left:32%;">
+	<input ng-if="productData.publicStatus == 'draft'" type="submit" class="btn btn-primary"  ng-click="setStatusvalue('publish')" value="Save & Publish" style="margin-top:3%;">
+	
+<input ng-if="productData.publicStatus == 'publish'" type="submit" class="btn btn-primary"  value="Save" ng-click="setStatusvalue('publish')" style="margin-top:3%;margin-left:32%;">
+<!-- <input type="submit" class="btn btn-primary"  ng-click="setStatusvalue('publish')" value="Save & Publish" style="margin-top:3%;"> -->
 <input type="button" class="btn btn-primary" ng-click="goToImages()"  value="Edit Images" style="margin-top:3%;">
 <input type="button" class="btn btn-primary" ng-click="deleteVehicle(productData)"  value="Delete" style="margin-top:3%;">
 <!-- <input type="button" class="btn btn-primary" ng-click="deleteVehiclePer(productData)"  value="Delete Forever" style="margin-top:3%;"> --> 

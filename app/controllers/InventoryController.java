@@ -332,7 +332,9 @@ public class InventoryController extends Controller {
 	    				AddCollection add = AddCollection.findById(vm.getId());
 	    				add.setTitle(vm.getTitle());
 	            		add.setDescription(vm.getDescription());
-	            		add.setPublicStatus(vm.getPublicStatus());
+	            		if(!vm.getPublicStatus().equals("noStatus")){
+	            			add.setPublicStatus(vm.getPublicStatus());
+	            		}
 	            		add.setParentId(vm.getParentId());
 	            		add.setExternalUrlLink(vm.getExternalUrlLink());
 	            		add.update();
@@ -590,6 +592,7 @@ public class InventoryController extends Controller {
 	    		vm.mainCollection = product.mainCollection;
 	    		vm.hideWebsite = product.hideWebsite;
 	    		vm.subhideWebsite = product.subhideWebsite;
+	    		vm.publicStatus = product.publicStatus;
 	    		return ok(Json.toJson(vm));
 	    	}
 	    }
@@ -622,7 +625,10 @@ public class InventoryController extends Controller {
 	       	    	AddCollection add = AddCollection.findById(vm.getId());
 	        		add.setTitle(vm.getTitle());
 	        		add.setDescription(vm.getDescription());
-	        		add.setPublicStatus(vm.getPublicStatus());
+	        		if(!vm.getPublicStatus().equals("noStatus")){
+            			add.setPublicStatus(vm.getPublicStatus());
+            		}
+	        		//add.setPublicStatus(vm.getPublicStatus());
 	        		add.setParentId(vm.getParentId());
 	        		add.setMainCollection(vm.mainCollection);
 	        		add.setExternalUrlLink(vm.getExternalUrlLink());
