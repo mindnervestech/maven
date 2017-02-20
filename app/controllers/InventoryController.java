@@ -1159,11 +1159,15 @@ public class InventoryController extends Controller {
 		   List<AddCollection> pList = new ArrayList<>();
 		   if(collId != null){
 			   InventorySetting mainCollection = InventorySetting.findById(collId);
-			   //pList = AddCollection.getProductByStatusMainColl(Long.valueOf(session("USER_LOCATION")), status,mainCollection);
-			   pList = AddCollection.getProductByStatusMainCollData(Long.valueOf(session("USER_LOCATION")), status,mainCollection);
+			   if(status.equals("draft")){
+				   pList = AddCollection.getProductByStatusMainColl(Long.valueOf(session("USER_LOCATION")), status,mainCollection);
+			   }else{
+				   //pList = AddCollection.getProductByStatusMainColl(Long.valueOf(session("USER_LOCATION")), status,mainCollection);
+				   pList = AddCollection.getProductByStatusMainCollData(Long.valueOf(session("USER_LOCATION")), status,mainCollection);
+			   }
 		   }else{
-			    //pList = AddCollection.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
-			    pList = AddCollection.getProductByStatusMain(Long.valueOf(session("USER_LOCATION")), status);
+			   //pList = AddCollection.getProductByStatus(Long.valueOf(session("USER_LOCATION")), status);
+			   pList = AddCollection.getProductByStatusMain(Long.valueOf(session("USER_LOCATION")), status);
 		   }
 			List<AddCollectionVM> aList = new ArrayList<AddCollectionVM>();
 			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
