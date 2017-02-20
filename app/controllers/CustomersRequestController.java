@@ -465,13 +465,16 @@ public class CustomersRequestController extends Controller {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 	    		AuthUser user;
+	    		List<RequestMoreInfo>  listData = null;
 	    		if(id == 0){
-	    			user = getLocalUser();
+	    			//user = getLocalUser();
+	    			listData = RequestMoreInfo.findAllOtherLeadData();
 	    		}else{
 	    			user = AuthUser.findById(id);
+	    			listData = RequestMoreInfo.findAllOtherLead(user);
 	    		}
 	    			
-		    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllOtherLead(user);
+		    	//List<RequestMoreInfo> listData = RequestMoreInfo.findAllOtherLead(user);
 		    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 		    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");

@@ -647,4 +647,7 @@ public void setMessage(String message) {
 	public static List<RequestMoreInfo> findAllAssignedLeadsArchive(Long locationId) {
 		return find.where().eq("locations.id", locationId).ne("status", null).findList();
 	}
+	public static List<RequestMoreInfo> findAllOtherLeadData() {
+		return find.where().eq("isRead", 1).eq("status", null).ne("isContactusType", null).eq("isScheduled", false).orderBy("requestDate desc").findList();
+	}
 }
