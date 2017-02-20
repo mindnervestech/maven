@@ -61,6 +61,8 @@ public class Contacts extends Model {
 	public Integer newsLetter;
 	public String custZipCode;
 	public String enthicity;
+	public Date version;
+	
 	
 	 public Integer user;
 	 
@@ -76,8 +78,7 @@ public class Contacts extends Model {
 
 
 
-	@Version
-	public java.util.Date version; 
+	 
 	
 	public Long getContactId() {
 		return contactId;
