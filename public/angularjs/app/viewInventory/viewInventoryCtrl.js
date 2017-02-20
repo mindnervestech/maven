@@ -192,9 +192,18 @@ angular.module('newApp')
                          enableFiltering: false,
                          columnDefs: $scope.desGrid()
                      };
-                       
-                       row.entity.subGridOptions.data =  row.entity.subCollection;
-                       
+                      var flag = 0;
+                      row.entity.subGridOptions.data =  row.entity.subCollection;
+                      angular.forEach($scope.userLogin.permission, function(value, key) {
+                    	  if(value.name == "Only View Inventory"){
+                    		  flag = 1;
+               				}
+               			});
+               			if(flag == 0){
+               				row.entity.subGridOptions.columnDefs.push({ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+               					cellTemplate:'<span ng-sec="Compelte access to Inventory : Add, Edit, Remove, Statistics"><i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)"                   ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProduct(row)"                   ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row,\'current\')" 					 ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i  class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;</span></i>&nbsp;&nbsp;&nbsp;</span><span ng-sec="Update existing Inventorys Information : No Statistics is displayed"><i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)"                   ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProduct(row)"                   ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row,\'current\')" 					ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;</span>',
+               				});
+               			}
                      }
                  });
     			 //expandableRowScope: { editProduct: function(){alert('hi');} }
@@ -389,18 +398,18 @@ angular.module('newApp')
 														{ name: 'designer', displayName: 'Designer',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
 															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.designer}}" data-content="{{row.entity.designer}}" >{{row.entity.designer}}</label> </div>',
 														},
-														{ name: 'amount', displayName: 'Amount',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+														{ name: 'amount', displayName: 'Amount',enableColumnMenu: false, width:'10%',cellEditableCondition: true,
 															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.amount}}" data-content="{{row.entity.amount}}" >{{row.entity.amount}}</label> </div>',
 														},
-														{ name: 'price', displayName: 'Price',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+														{ name: 'price', displayName: 'Price',enableColumnMenu: false, width:'10%',cellEditableCondition: true,
 															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.price}}" data-content="{{row.entity.price}}" >{{row.entity.price}}</label> </div>',
 														},
-														{ name: 'cost', displayName: 'Cost',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
+														{ name: 'cost', displayName: 'Cost',enableColumnMenu: false, width:'10%',cellEditableCondition: true,
 															 cellTemplate: '<div> <label  style="line-height: 200%;" title="{{row.entity.cost}}" data-content="{{row.entity.cost}}" >{{row.entity.cost}}</label> </div>',
 														},
-														{ name: 'edit', displayName: 'Action', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+														/*{ name: 'edit', displayName: 'Action', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 															 cellTemplate:'<i class="glyphicon glyphicon-picture"  ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit"  ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit" ng-click="grid.appScope.updateProduct(row.entity)"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.deleteProduct(row.entity)"></i>&nbsp;', 
-														},
+														},*/
     			                                   ];
     			 
     			 
@@ -646,6 +655,18 @@ angular.module('newApp')
     		    			 		angular.forEach($scope.gridOptions4.data, function(row,key) {
     		    			 			row.collectionTitle = row.collection.title;
 	    			 				});
+    		    			 		var flag = 0;
+    		                        angular.forEach($scope.userLogin.permission, function(value, key) {
+    		                      	  if(value.name == "Only View Inventory"){
+    		                      		  flag = 1;
+    		                 				}
+    		                 			});
+    		                 			if(flag == 0){
+    		                 				$scope.gridOptions4.columnDefs.push({ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+    		                 					cellTemplate:'<span><i class="glyphicon glyphicon-picture" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; 															<i class="glyphicon glyphicon-edit"  ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit" ng-click="grid.appScope.updateProduct(row.entity)"></i> 	      &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.deleteProduct(row.entity)"></i>&nbsp;</span>',
+    		                 				});
+    		                 			}
+    		    			 		
     		    			 	});
     		    			 }
     		    			 
@@ -675,10 +696,10 @@ angular.module('newApp')
     		    		    		                                 { name: 'Hide', displayName: 'Hide', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
     		    		        		                                 cellTemplate:'<input type="checkbox" ng-checked="row.entity.hideWebsite" name="vehicle" ng-click="grid.appScope.hideProduct(row)" autocomplete="off">', 
     		    		    		                                 },
-    		    		    		                                 { name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+    		    		    		                                 /*{ name: 'edit', displayName: 'Action', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
     		    		    		                                	 cellTemplate:'<span ng-sec="Only View Inventory"><i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editProduct(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row,\'current\')" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i ng-sec="Update existing Inventorys Information : No Statistics is displayed" class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\'" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;</span>', 
     		    		    		                                 
-    		    		    		                                 },
+    		    		    		                                 },*/
     		    		        		                                
     		    		        		                                 ];
     		    				 
