@@ -22660,7 +22660,7 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
         			e.printStackTrace();
         		}
         		msg.setRecipients(Message.RecipientType.TO,
-    					InternetAddress.parse("deependrasingh120794@gmail.com"));
+    					InternetAddress.parse("support@gliderllc.com"));
         		msg.setSubject(title);
     			Multipart multipart = new MimeMultipart();
     			BodyPart messageBodyPart = new MimeBodyPart();
