@@ -1996,14 +1996,14 @@ angular.module('newApp')
 									    		    						                          }
 									    		    						                   	} ,
 									    		    						               },
-									    		    						               { name: 'salesRep', displayName: 'Sales Person', width:'14%',enableColumnMenu: false,cellEditableCondition: false,
+									    		    						              /* { name: 'salesRep', displayName: 'Sales Person', width:'14%',enableColumnMenu: false,cellEditableCondition: false,
 									    		    						                   	cellTemplate:'<a>{{row.entity.salesPerson}}</a>',
 									    		    						                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 									    		    						                          if (row.entity.noteFlag != 1) {
 									    		    						                            return 'red';
 									    		    						                          }
 									    		    						                   	} ,
-									    		    						               },
+									    		    						               },*/
      	     		     			 		 		                            /*{ name: 'typeOfLead', displayName: 'type', width:'8%',cellEditableCondition: false,
       	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.typeOfLead}}</a> ',
       	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
