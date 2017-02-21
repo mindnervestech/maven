@@ -20734,14 +20734,20 @@ private static void salesPersonPlanMail(Map map) {
 	
 	
 	
-	public static Result getSoldVehicleDetailsAvgSale(String startD,String endD){
+	public static Result getSoldVehicleDetailsAvgSale(String startD,String endD,String id){
 		List<Long[]> lonnn = new ArrayList<>();
-		AuthUser user = getLocalUser();
-		soldSaleVolu(user,lonnn,startD,endD);
+		//AuthUser user = getLocalUser();
+		AuthUser user = null;
+		if(!id.equals("0")){
+			user = AuthUser.findById(Integer.parseInt(id));
+		}else{
+			user = getLocalUser();
+		}
+		soldSaleVolu(user,lonnn,startD,endD,id);
 		return ok(Json.toJson(lonnn));
 	}
 
-	public static void soldSaleVolu(AuthUser user, List<Long[]> lonnn,String startD,String endD){
+	public static void soldSaleVolu(AuthUser user, List<Long[]> lonnn,String startD,String endD,String id){
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		
 		Map<Long, String> mapdate = new HashMap<Long, String>();
@@ -20755,11 +20761,23 @@ private static void salesPersonPlanMail(Map map) {
 			vehicle = AddCollection.findBySold();
 			vehicaleNew = AddCollection.findByNewlyArrived();
 		}else if(user.role.equals("Manager")){
-			vehicle = AddCollection.findByLocationAndSold(user.location.id);
-			vehicaleNew = AddCollection.findByNewArrAndLocation(user.location.id);
+			if(!id.equals("0")){
+				vehicle = AddCollection.findByLocationAndSold(user.location.id);
+				vehicaleNew = AddCollection.findByNewArrAndLocation(user.location.id);
+			}else{
+				vehicle = AddCollection.findBySoldUserAndSold(user);
+				vehicaleNew = AddCollection.findByUserAndNew(user);
+			}
+			//vehicle = AddCollection.findByLocationAndSold(user.location.id);
+			//vehicaleNew = AddCollection.findByNewArrAndLocation(user.location.id);
 		}else if(user.role.equals("Sales Person")){
-			vehicle = AddCollection.findBySoldUserAndSold(user);
-			vehicaleNew = AddCollection.findByUserAndNew(user);
+			if(!id.equals("0")){
+				vehicle = AddCollection.findByLocationAndSold(user.location.id);
+				vehicaleNew = AddCollection.findByNewArrAndLocation(user.location.id);
+			}else{
+				vehicle = AddCollection.findBySoldUserAndSold(user);
+				vehicaleNew = AddCollection.findByUserAndNew(user);
+			}
 		}		
 		
 		Date startDate = null;
@@ -20837,14 +20855,19 @@ private static void salesPersonPlanMail(Map map) {
 		return ok(Json.toJson(lonnn));
 	}*/
 	
-	public static Result getSoldVehicleDetails(String startD,String endD){
-		AuthUser user = getLocalUser();
+	public static Result getSoldVehicleDetails(String startD,String endD,String id){
+		AuthUser user = null;
+		if(!id.equals("0")){
+			user = AuthUser.findById(Integer.parseInt(id));
+		}else{
+			user = getLocalUser();
+		}
 		List<Long[]> lonnn = new ArrayList<>();
-		soldVehicalDetailsSaleVolu(user,lonnn,startD,endD);
+		soldVehicalDetailsSaleVolu(user,lonnn,startD,endD,id);
 		return ok(Json.toJson(lonnn));
 	}
 	
-	public static void soldVehicalDetailsSaleVolu(AuthUser user,List<Long[]> lonnn,String startD,String endD){
+	public static void soldVehicalDetailsSaleVolu(AuthUser user,List<Long[]> lonnn,String startD,String endD,String id){
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Map<Long, Long> mapdate = new HashMap<Long, Long>();
 		Long pricevalue = 0L;
@@ -20854,9 +20877,19 @@ private static void salesPersonPlanMail(Map map) {
 		if(user.role.equals("General Manager")){
 			vehicle = SoldInventory.findBySold();
 		}else if(user.role.equals("Manager")){
-			vehicle = SoldInventory.findByLocationAndSold(user.location.id);
+			if(!id.equals("0")){
+				vehicle = SoldInventory.findBySoldUserAndSold(user);
+			}else{
+				vehicle = SoldInventory.findByLocationAndSold(user.location.id);
+			}
+			//vehicle = SoldInventory.findByLocationAndSold(user.location.id);
 		}else if(user.role.equals("Sales Person")){
-			vehicle = SoldInventory.findBySoldUserAndSold(user);
+			if(!id.equals("0")){
+				vehicle = SoldInventory.findBySoldUserAndSold(user);
+				
+			}else{
+				vehicle = SoldInventory.findByLocationAndSold(user.location.id);
+			}
 		}
 			for(SoldInventory vhVehicle:vehicle){
 				if(vhVehicle.price != null){

@@ -5162,7 +5162,11 @@ float: right !important;
 	 <div class="col-sm-12 portlets" ng-if="InventoryFlag == true" style="height: 240px;">
         <div class="panel m-t-0">
             <div class="panel-header panel-controls">
-               <i class="icon-basket" style="font-size: 18px;"></i> <strong style="font-size: 18px;">Sales</strong><strong style="font-size: 18px;"> Volume Stats</strong> 
+               <i class="icon-basket" style="font-size: 18px;"></i> <strong style="font-size: 18px;">Sales</strong><strong style="font-size: 18px;"> Volume Stats</strong>
+               <select ng-sec="Sees all available sales volume statistics" class="form-control form-white" ng-show="userType == 'General Manager' || userType == 'Manager' || userType == 'Sales Person'" id="salesPersonUserData" ng-change="changeSalesPersonChart()" ng-model="salesPerson1" style="width:20%;margin-left: 30px;margin-bottom: 9px;" >
+                    	<option value="0"  >All Leads</option>
+                    	<option ng-repeat="item in salesPersonList" value="{{item.id}}"  >{{item.fullName}}</option>
+                     </select>
                             <span style="margin-left: 5%;">  <a style="cursor: pointer;font-size: 18px;" ng-click="showVehicalBarChart()" title="Collection Sale"><i class="glyphicon glyphicon-signal"></i></a>
                             	<a style="cursor: pointer;font-size: 18px;" ng-click="showVehicalFinancialChart()" title="by Colllection"><i class="glyphicon glyphicon-lamp"></i></a>
                             	<!-- <a style="cursor: pointer;font-size: 18px;" ng-click="showVehicalFinancialChartByBodyStyle()" title="Body Style"><i class="fa fa-cogs"></i></a>

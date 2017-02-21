@@ -115,6 +115,7 @@ angular.module('newApp')
 	 		$scope.topLocations('Week');
 	 	}
 	 	if($scope.userType == "Sales Person") {
+	 		$scope.getGMData();
 	 		$scope.getToDoNotification();
 	 		$scope.getAssignedLeads();
 	 		$scope.getAllSalesPersonRecord($scope.userKey);
@@ -1005,6 +1006,15 @@ angular.module('newApp')
       $scope.msgShow = 0;
       
       /*------------------------financial-charts----------------------------------*/
+     
+      
+      $scope.changeSalesPersonChart = function(){
+			var id = $('#salesPersonUserData').val();
+			$scope.salesPerson = id;
+			$scope.getAllSalesPersonRecord(id);
+		};
+      
+      
       $scope.showvehical = 0;
       $scope.showBarvehical = 1;
       
@@ -1015,7 +1025,7 @@ angular.module('newApp')
     		  volumeStatStartDateId = $('#volumeStatStartDateId').val();
     		  volumeStatEndDateId = $('#volumeStatEndDateId').val();
     	  }
-    	  apiserviceDashborad.getSoldVehicleDetails(volumeStatStartDateId, volumeStatEndDateId).then(function(data){
+    	  apiserviceDashborad.getSoldVehicleDetails(volumeStatStartDateId, volumeStatEndDateId,$scope.salesPerson).then(function(data){
    		$scope.locationDataList = data;	
        if(data.length == 0){
     	   $scope.msgShow = 1;
@@ -1251,7 +1261,7 @@ angular.module('newApp')
     	  
     	  $scope.showBarvehical = 1;
     	  $scope.showvehical = 0;
-    	  apiserviceDashborad.getSoldVehicleDetailsAvgSale(volumeStatStartDateId, volumeStatEndDateId).then(function(data){
+    	  apiserviceDashborad.getSoldVehicleDetailsAvgSale(volumeStatStartDateId, volumeStatEndDateId,$scope.salesPerson).then(function(data){
     	  
   			$scope.locationDataList = data;	
   			if(data.length == 0){

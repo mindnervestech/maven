@@ -71,6 +71,13 @@ angular.module('newApp')
 					}
 				});
 			}
+			if(obj.name == "Dashboard"){
+				angular.forEach(obj.childData, function(obj2, index1){
+					if(obj2.name != "Invite Other Users to Meetings" || obj2.name != "Assign Plan to the business" || obj2.name != "Assing Plan to other Sales Person" || obj2.name != "Quick Inventory Statistics" ||obj2.name != "Top Sales People" || obj2.name != "Quick Website Analytics Data" || obj2.name != "Receive Online Leads" || obj2.name != "Offline Leads: Create , Clain edit and Remove Leads" || obj2.name != "Personal Sales Statistics" || obj2.name != "Business Sales Statistics"){
+						obj2.isSelected = "";
+					}
+				});
+			}
 		});
 		$scope.permissionList = data;
 		console.log($scope.permissionList);
@@ -616,7 +623,11 @@ angular.module('newApp')
 	       	       {name:'Access to the whole leads archive'},
 	       	       {name:'Only see own leads archive'}
 	       	       ];
-	
+	$scope.dashboardData = [
+	       	    	{name:'Sees all available sales volume statistics'},
+	       	    	{name:'Sees only own sales volume statistics'}
+	       	  ];
+	       	       
 	//console.log($scope.permissionList);
 	$scope.permission =[];
 	
@@ -646,6 +657,12 @@ angular.module('newApp')
 				});
 			}else if(type == "My Leads"){
 				angular.forEach($scope.myLeadsData, function(obj1, index){
+					if(obj == obj1.name){
+							$scope.deleteItem(obj1);
+					}
+				});
+			}else if(type == "Dashboard"){
+				angular.forEach($scope.dashboardData, function(obj1, index){
 					if(obj == obj1.name){
 							$scope.deleteItem(obj1);
 					}

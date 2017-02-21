@@ -256,7 +256,7 @@
 				 						   				ng-model="rolePer.isSelected">					
    					 									{{rolePer.name}}</label></td>
 					    						<td style="border: 1px solid;text-align: center;" >
-					    							<div ng-if="rolePer.name != 'Inventory' && rolePer.name != 'Customer Requests' && rolePer.name != 'CRM' && rolePer.name != 'My Leads'">
+					    							<div ng-if="rolePer.name != 'Inventory' && rolePer.name != 'Customer Requests' && rolePer.name != 'CRM' && rolePer.name != 'My Leads' && rolePer.name != 'Dashboard'">
 					    								<label ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
 				 						 					<input type="checkbox" name="permissions" ng-click="rolesClicked($event,child,child.isSelected)"
 				 						   						ng-model="child.isSelected">					
@@ -313,6 +313,22 @@
    					 								
    					 								<div ng-if="rolePer.name == 'My Leads'" ng-repeat="child in rolePer.childData">
 					    								<label ng-if="child.name == 'Export leads list' || child.name == 'Reassign Leads' || child.name == 'Schedule Appointments' || child.name == 'See other sales people leads'" class="col-sm-6" style="padding:4px;">
+				 						 					<input type="checkbox" name="permissions" ng-click="rolesClicked($event,child,child.isSelected)"
+				 						   						ng-model="child.isSelected">					
+   					 											{{child.name}}
+   					 									</label>
+   					 								</div>
+   					 								
+   					 								<div ng-if="rolePer.name == 'Dashboard'">
+   					 									<label ng-if="child.name == 'Sees all available sales volume statistics' || child.name == 'Sees only own sales volume statistics'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
+				 						 					<input type="radio" name="dashboard" value="{{child.name}}" ng-checked="child.isSelected == true" ng-click="rolesRedioClicked($event,child,false,'Dashboard')"
+				 						   						ng-model="child.isSelected">					
+   					 											{{child.name}}
+   					 									</label>
+   					 								</div>
+   					 								
+   					 								<div ng-if="rolePer.name == 'Dashboard'" ng-repeat="child in rolePer.childData">
+					    								<label ng-if="child.name == 'Invite Other Users to Meetings' || child.name == 'Assign Plan to the business' || child.name == 'Assing Plan to other Sales Person' || child.name == 'Quick Inventory Statistics'|| child.name == 'Offline Leads: Create , Clain edit and Remove Leads' || child.name == 'Receive Online Leads' || child.name == 'Quick Website Analytics Data' || child.name == 'Top Sales People' || child.name == 'Personal Sales Statistics' || child.name == 'Business Sales Statistics'" class="col-sm-6" style="padding:4px;">
 				 						 					<input type="checkbox" name="permissions" ng-click="rolesClicked($event,child,child.isSelected)"
 				 						   						ng-model="child.isSelected">					
    					 											{{child.name}}
@@ -769,7 +785,7 @@
    					 								</label>
    					 							</td>
 					    						<td style="border: 1px solid;text-align: center;" >
-					    							<label ng-if="rolePer.name != 'Inventory' && rolePer.name != 'Customer Requests' && rolePer.name != 'CRM' && rolePer.name != 'My Leads'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
+					    							<label ng-if="rolePer.name != 'Inventory' && rolePer.name != 'Customer Requests' && rolePer.name != 'CRM' && rolePer.name != 'My Leads' && rolePer.name != 'Dashboard'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
 				 						 				<input type="checkbox" name="permissions" ng-click="rolesClicked($event,child,child.isSelected)"
 				 						   					ng-model="child.isSelected">					
    					 										{{child.name}}
@@ -822,6 +838,22 @@
    					 								
    					 								<div ng-if="rolePer.name == 'My Leads'" ng-repeat="child in rolePer.childData">
 					    								<label ng-if="child.name == 'Export leads list' || child.name == 'Reassign Leads' || child.name == 'Schedule Appointments' || child.name == 'See other sales people leads'" class="col-sm-6" style="padding:4px;">
+				 						 					<input type="checkbox" name="permissions" ng-click="rolesClicked($event,child,child.isSelected)"
+				 						   						ng-model="child.isSelected">					
+   					 											{{child.name}}
+   					 									</label>
+   					 								</div>
+   					 								
+   					 								<div ng-if="rolePer.name == 'Dashboard'">
+   					 									<label ng-if="child.name == 'Sees all available sales volume statistics' || child.name == 'Sees only own sales volume statistics'" ng-repeat="child in rolePer.childData" class="col-sm-6" style="padding:4px;">
+				 						 					<input type="radio" name="dashboard" value="{{child.name}}" ng-checked="child.isSelected == true" ng-click="rolesRedioClicked($event,child,false,'Dashboard')"
+				 						   						ng-model="child.isSelected">					
+   					 											{{child.name}}
+   					 									</label>
+   					 								</div>
+   					 								
+   					 								<div ng-if="rolePer.name == 'Dashboard'" ng-repeat="child in rolePer.childData">
+					    								<label ng-if="child.name == 'Invite Other Users to Meetings' || child.name == 'Assign Plan to the business' || child.name == 'Assing Plan to other Sales Person' || child.name == 'Quick Inventory Statistics'|| child.name == 'Offline Leads: Create , Clain edit and Remove Leads' || child.name == 'Receive Online Leads' || child.name == 'Quick Website Analytics Data' || child.name == 'Top Sales People' || child.name == 'Personal Sales Statistics' || child.name == 'Business Sales Statistics'" class="col-sm-6" style="padding:4px;">
 				 						 					<input type="checkbox" name="permissions" ng-click="rolesClicked($event,child,child.isSelected)"
 				 						   						ng-model="child.isSelected">					
    					 											{{child.name}}

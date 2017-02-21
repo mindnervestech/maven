@@ -201,9 +201,9 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.getSoldVehicleDetails = function(volumeStatStartDateId, volumeStatEndDateId){
+	this.getSoldVehicleDetails = function(volumeStatStartDateId, volumeStatEndDateId,id){
 		var defer = $q.defer();
-		$http.get('/getSoldVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
+		$http.get('/getSoldVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId+"/"+id).success(function(data) {
 			defer.resolve(data);
 		});
 		
@@ -228,9 +228,9 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.getSoldVehicleDetailsAvgSale = function(volumeStatStartDateId, volumeStatEndDateId){
+	this.getSoldVehicleDetailsAvgSale = function(volumeStatStartDateId, volumeStatEndDateId,id){
 		var defer = $q.defer();
-		$http.get('/getSoldVehicleDetailsAvgSale/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
+		$http.get('/getSoldVehicleDetailsAvgSale/'+volumeStatStartDateId+"/"+volumeStatEndDateId+"/"+id).success(function(data) {
 			defer.resolve(data);
 		});
 		
