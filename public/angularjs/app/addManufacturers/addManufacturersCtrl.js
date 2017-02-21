@@ -633,7 +633,12 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Product Update successfully",
 					});
-		        	$location.path('/manufacturersImages/'+$routeParams.id);
+		        	if($scope.productData.publicStatus != "noStatus"){
+		        		$location.path('/manufacturersImages/'+$routeParams.id);
+		   			}else{
+		   				$location.path('/viewInventory');
+		   			}
+		        	//$location.path('/manufacturersImages/'+$routeParams.id);
 		   		});	
 		
 		}else if(logofile != undefined){
@@ -649,7 +654,12 @@ angular.module('newApp')
 				    type:'success',
 				    text: "Product Update successfully",
 				});
-	        	$location.path('/manufacturersImages/'+$routeParams.id);
+	        	if($scope.productData.publicStatus != "noStatus"){
+	        		$location.path('/manufacturersImages/'+$routeParams.id);
+	   			}else{
+	   				$location.path('/viewInventory');
+	   			}
+	        	//$location.path('/manufacturersImages/'+$routeParams.id);
 	   		});
 		}
 		else{
@@ -661,7 +671,12 @@ angular.module('newApp')
 			    type:'success',
 			    text: "Product Update successfully",
 			});
-   			$location.path('/manufacturersImages/'+$routeParams.id);
+   			if($scope.productData.publicStatus != "noStatus"){
+   				$location.path('/manufacturersImages/'+$routeParams.id);
+   			}else{
+   				$location.path('/viewInventory');
+   			}
+   			//$location.path('/manufacturersImages/'+$routeParams.id);
    		});
 		}	
 	}
