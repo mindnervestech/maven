@@ -50,6 +50,7 @@ public class RequestInfoVM {
 	public String action;
 	public String statusDate;
 	public String salesRep;
+	public String salesPerson;
 	public String prefferedContact;
 	public String leadType;
 	public String howContactedUs;

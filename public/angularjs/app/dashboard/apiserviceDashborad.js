@@ -1635,4 +1635,18 @@ this.setScheduleStatusCancel = function(closeleadObj){
 		return defer.promise;
 	};
 	
+	this.issueReportMail = function(title,message){
+		var defer = $q.defer();
+		$http.get('/issueReportMail/'+title+"/"+message).success(function(data) {
+			 $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Email Send successfully",
+				});
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
 })

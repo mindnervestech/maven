@@ -22630,4 +22630,70 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 		}
 	} 
 	
+    public static Result issueReportMail(String title, String message) {
+    	AuthUser logoUser = getLocalUser();
+    		
+        	 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    			String emailName=details.name;
+    			String port=details.port;
+    			String gmail=details.host;
+    			final	String emailUser=details.username;
+    			final	String emailPass=details.passward;
+        	Properties props = new Properties();
+    		props.put("mail.smtp.auth", "true");
+    		props.put("mail.smtp.host",gmail);
+    		props.put("mail.smtp.port", port);
+    		props.put("mail.smtp.starttls.enable", "true");
+    		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+    			protected PasswordAuthentication getPasswordAuthentication() {
+    				return new PasswordAuthentication(emailUser, emailPass);
+    			}
+    		});
+        	try
+    		{
+        		
+    			Message msg = new MimeMessage(session);
+        		try{
+        			msg.setFrom(new InternetAddress(emailUser,emailName));
+        		}
+        		catch(UnsupportedEncodingException e){
+        			e.printStackTrace();
+        		}
+        		msg.setRecipients(Message.RecipientType.TO,
+    					InternetAddress.parse("deependrasingh120794@gmail.com"));
+        		msg.setSubject(title);
+    			Multipart multipart = new MimeMultipart();
+    			BodyPart messageBodyPart = new MimeBodyPart();
+    			messageBodyPart = new MimeBodyPart();
+    			
+    			VelocityEngine ve = new VelocityEngine();
+    			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+    			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+    			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+    			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+    			ve.init();
+    		
+    			
+    	        Template t = ve.getTemplate("/public/emailTemplate/issueReportingData.html"); 
+    	        VelocityContext context = new VelocityContext();
+    	       
+    	        context.put("message", message);
+    	       // context.put("siteLogo", logo.logoImagePath);
+    	        
+    	        StringWriter writer = new StringWriter();
+    	        t.merge( context, writer );
+    	        String content = writer.toString(); 
+    			
+    			messageBodyPart.setContent(content, "text/html");
+    			multipart.addBodyPart(messageBodyPart);
+    			msg.setContent(multipart);
+    			Transport.send(msg);
+    		}
+    		catch (Exception e)
+    		{
+    			e.printStackTrace();
+    		}
+    		return ok();
+    }
+    
 }

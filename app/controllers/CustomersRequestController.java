@@ -514,6 +514,9 @@ public class CustomersRequestController extends Controller {
 		    		vm.requestDate = df.format(info.requestDate);
 		    		vm.productId = info.productId;
 		    		vm.viewPdfId = 0L;
+		    		if(info.assignedTo != null){
+		    			vm.salesPerson = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
+		    		}
 		    		if(info.saveLeadTypeAs == null){
 		    			AddCollection aCollection = AddCollection.findById(Long.parseLong(info.productId));
 		    			if(aCollection != null){

@@ -498,4 +498,8 @@ public class AuthUser extends Model implements Identity {
 	public static List<AuthUser> findByPermissionUser(Location location2,Integer id2) {
 		return find.where().eq("location", location2).ne("id", id2).eq("account", "active").findList();
 	}
+
+	public static AuthUser findByAssignedTo(AuthUser assignedTo) {
+		return find.byId(assignedTo.id);
+	}
 }
