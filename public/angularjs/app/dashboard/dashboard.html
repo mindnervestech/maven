@@ -4817,18 +4817,18 @@ float: right !important;
         	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 			    <ul id="myTabs" class="nav nav-tabs" role="tablist">
 			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:15px;margin-right: 0px;" ng-click="showLeadsDrive()">Leads</button><span class="badge badge-header" style="border-radius: 17px / 17px;background-color: red;font-size: 14px;" ng-if="lengthOfAllLead >= 1"><b>{{lengthOfAllLead}}</b></span></a></li>
-			       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="schedultestDrive()">My Appointmetns</button></a></li> 
+			      <li ng-sec="Schedule Appointments" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="schedultestDrive()">My Appointmetns</button></a></li> 
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-show="userType == 'General Manager' || userType == 'Manager'" ng-click="canceledLeads()">Canceled Leads</button></a></li>
 			       
 			       <li role="presentation" class="" style="float: right;"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="showLeadsArchive()">Archive</button></a></li>
 			    	<h3><b style="margin-left:4%;float: left;margin-bottom:5px;" ng-show="userType == 'General Manager'" >Choose Sales Person</b></h3>
 			    	<h2><b style="margin-left:10%;" ng-show="userType == 'Sales Person'">My Leads</b></h2>
-			    	<select  class="form-control form-white" ng-show="userType == 'General Manager' || userType == 'Manager'" id="salesPersonUserId" ng-change="changeSalesPerson()" ng-model="salesPerson1" style="width:20%;margin-left: 30px;margin-bottom: 9px;" >
+			    	<select ng-sec="See other sales people leads"  class="form-control form-white" ng-show="userType == 'General Manager' || userType == 'Manager' || userType == 'Sales Person'" id="salesPersonUserId" ng-change="changeSalesPerson()" ng-model="salesPerson1" style="width:20%;margin-left: 30px;margin-bottom: 9px;" >
                     	<option ng-selected="$index==0" value="0"  >All Leads</option>
                     	<option ng-repeat="item in salesPersonList" ng-selected="$index==0" value="{{item.id}}"  >{{item.fullName}}</option>
                      </select>
-                        <li ng-if="cancelleads" role="presentation" class="" style="margin-top: -15px;float: right;"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="exportCsvPopCanceled()">Export CSV</button></li>
-                        <li ng-if="showLeadsV" role="presentation" class="" style="margin-top: -15px;float: right;"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="exportCsvPopArchive()">Export CSV Archive</button></li>       
+                        <li ng-sec="Export leads list" ng-if="cancelleads" role="presentation" class="" style="margin-top: -15px;float: right;"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="exportCsvPopCanceled()">Export CSV</button></li>
+                        <li ng-sec="Export leads list" ng-if="showLeadsV" role="presentation" class="" style="margin-top: -15px;float: right;"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="exportCsvPopArchive()">Export CSV Archive</button></li>       
 			    </ul>
 			    
 				    <div id="myTabContent" class="tab-content" ng-if="showAllTypeLeads" style="background-color: white;">
@@ -4837,18 +4837,18 @@ float: right !important;
 				        <ul id="myTabs" class="nav nav-tabs" role="tablist">
 				        	<li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" ng-click="getAllLeadIn()">All </a></li>
 			      			<li role="presentation" class="" ng-repeat="lead in leadList"><a role="tab" id="home" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="otherLeadId(lead.id)">{{lead.leadName}}</a></li>
-			      			<li  role="presentation" class="" style="margin-top: -15px;float: right;"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="exportCsvPop()">Export CSV</button></li>
+			      			<li ng-sec="Export leads list" role="presentation" class="" style="margin-top: -15px;float: right;"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="exportCsvPop()">Export CSV</button></li>
 			    		</ul>
 			    		
 				         <ul style="margin-top:4px;" ng-if="(allLeadd == true || otherLeads == true) && (actionSelectedLead.length >= 1)">
 				         		<button class="btn btn-primary" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;" ng-click="soldScheduleStatus(actionSelectedLeadObj)">SOLD</button>
 				         		<button class="btn btn-primary" ng-click="addNoteToRequestUser(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">HISTORY</button>
-				         		<button class="btn btn-primary" ng-click="assignCanceledLead()" style="height: 30px;font-size: 11px;">ASSIGN</button>
+				         		<button ng-sec="Reassign Leads" class="btn btn-primary" ng-click="assignCanceledLead()" style="height: 30px;font-size: 11px;">ASSIGN</button>
 				         		<button class="btn btn-primary" ng-click="cancelScheduleStatus()" style="height: 30px;font-size: 11px;">CANCEL</button>
 				         		<button class="btn btn-primary" ng-click="createContact(actionSelectedLeadObj)" ng-if="actionSelectedLead.length <= 1" style="height: 30px;font-size: 11px;">ADD TO CRM</button>
 				         		<select ng-model="action" ng-change="actionOnPdf(row.entity,action)" class="btn btn-sm btn-primary" style="text-transform :uppercase;height :34px">
 				         			<option value="" >More</option>
-				         			<option ng-if="row.entity.confirmDate == null" value="Schedule">Schedule</option>
+				         			<option ng-sec="Schedule Appointments" ng-if="row.entity.confirmDate == null" value="Schedule">Schedule</option>
 				         			<option ng-if="row.entity.confirmDate != null" value="Rechedule" value="Reschedule">Reschedule</option> 
 				         			<option value="SendPdf">Send Pdf</option>
 				         	</select>

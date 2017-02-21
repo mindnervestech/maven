@@ -7503,8 +7503,20 @@ public class Application extends Controller {
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	
+	    	List<Permission> userPermissions = user.getPermission();
+	    	List<RequestMoreInfo> requestMoreInfos = null;
+    		for(Permission per: userPermissions) {
+    			if(per.name.equals("Only see own leads archive")){
+    				requestMoreInfos = RequestMoreInfo.getAllContactsByUserId(user.id.toString());
+    			}
+    			else if(per.name.equals("Access to the whole leads archive")){
+    				requestMoreInfos = RequestMoreInfo.getAllContactsByAllData();
+    			}
+    		
+    		}
+	    	
 	    	List<ScheduleTest> listData = ScheduleTest.findAllAssignedLeadsToUser(user);
-	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllAssignedLeadsToUser(user);
+	    	//List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllAssignedLeadsToUser(user);
 	    	List<TradeIn> tradeIns = TradeIn.findAllAssignedLeadsToUser(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	

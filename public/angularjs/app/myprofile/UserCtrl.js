@@ -64,6 +64,13 @@ angular.module('newApp')
 					}
 				});
 			}
+			if(obj.name == "My Leads"){
+				angular.forEach(obj.childData, function(obj2, index1){
+					if(obj2.name != "Export leads list" || obj2.name != "Reassign Leads" || obj2.name != "Schedule Appointments" || obj2.name != "See other sales people leads"){
+						obj2.isSelected = "";
+					}
+				});
+			}
 		});
 		$scope.permissionList = data;
 		console.log($scope.permissionList);
@@ -605,6 +612,11 @@ angular.module('newApp')
 	       {name:'Access to the Whole Contacts data base'}
 	       ];
 	
+	$scope.myLeadsData = [
+	       	       {name:'Access to the whole leads archive'},
+	       	       {name:'Only see own leads archive'}
+	       	       ];
+	
 	//console.log($scope.permissionList);
 	$scope.permission =[];
 	
@@ -628,6 +640,12 @@ angular.module('newApp')
 				});
 			}else if(type == "CRM"){
 				angular.forEach($scope.crmData, function(obj1, index){
+					if(obj == obj1.name){
+							$scope.deleteItem(obj1);
+					}
+				});
+			}else if(type == "My Leads"){
+				angular.forEach($scope.myLeadsData, function(obj1, index){
 					if(obj == obj1.name){
 							$scope.deleteItem(obj1);
 					}
