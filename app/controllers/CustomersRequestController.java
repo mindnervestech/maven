@@ -540,24 +540,27 @@ public class CustomersRequestController extends Controller {
 			    			for(int i=0;i<arrList.length;i++){
 			    				ProductVM pVm = new ProductVM();
 			    				Product product = Product.findById(Long.parseLong(arrList[i]));
-			    				pVm.id = product.id;
-			    				pVm.primaryTitle = product.primaryTitle;
 			    				if(product != null){
-			    					if(i == 0){
-			    						if(i == arrList.length - 1){
-				    						collNames = product.primaryTitle;
-				    					}else {
-				    						collNames = product.primaryTitle +" ,";
+			    					pVm.id = product.id;
+				    				pVm.primaryTitle = product.primaryTitle;
+				    				if(product != null){
+				    					if(i == 0){
+				    						if(i == arrList.length - 1){
+					    						collNames = product.primaryTitle;
+					    					}else {
+					    						collNames = product.primaryTitle +" ,";
+					    					}
+				    					}else{
+				    						if(i == arrList.length - 1){
+					    						collNames = collNames + product.primaryTitle;
+					    					}else {
+					    						collNames = collNames + product.primaryTitle +",";
+					    					}
+				    						
 				    					}
-			    					}else{
-			    						if(i == arrList.length - 1){
-				    						collNames = collNames + product.primaryTitle;
-				    					}else {
-				    						collNames = collNames + product.primaryTitle +",";
-				    					}
-			    						
-			    					}
+				    				}
 			    				}
+			    				
 			    				pList.add(pVm);
 			    			}
 			    			vm.collectionName = collNames;
