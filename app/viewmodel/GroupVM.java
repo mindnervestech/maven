@@ -8,4 +8,5 @@ public class GroupVM {
 	public int contactCount ;
 	public String name;
 	public Long id;
+	public String nickValue;
 }

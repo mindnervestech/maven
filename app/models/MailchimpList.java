@@ -43,4 +43,8 @@ public class MailchimpList extends Model{
 	public static MailchimpList getListByListId(String listId) {
 		return find.where().eq("listId", listId).findUnique();
 	}
+	
+	public static MailchimpList findById(Long id) {
+		return find.byId(id);
+	}
 }

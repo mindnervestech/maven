@@ -14,7 +14,7 @@ public class GroupTable extends Model {
 	@Id
 	public Long id;
 	public String name;
-	
+	public String nickValue;
 
 	public static Finder<Long,GroupTable> find = new Finder<>(Long.class,GroupTable.class);
 	
@@ -24,6 +24,14 @@ public class GroupTable extends Model {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getNickValue() {
+		return nickValue;
+	}
+
+	public void setNickValue(String nickValue) {
+		this.nickValue = nickValue;
 	}
 
 	public String getName() {
