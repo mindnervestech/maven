@@ -330,7 +330,6 @@ angular.module('newApp')
 				apiserviceCrm.saveNewGroup($scope.group).then(function(data){
 					if(data !='error'){
 						$scope.group = {};
-						$scope.nickValue = [];
 						$scope.getAllGroupList();
 						$scope.showAddGr = !$scope.showAddGr;
 						
@@ -352,9 +351,6 @@ angular.module('newApp')
    			}else{
    				$scope.groupDetail.nickValue = grp.nickValue;
    			}
-   			
-   			console.log($scope.groupDetail);
-   			console.log(grp);
 			if(grp.name == undefined ||  grp.name == null){
 				$scope.grNameReq = true;
 			}else{
@@ -391,9 +387,19 @@ angular.module('newApp')
    		};
    		
    		$scope.viewGroup = function(gr){
+   			$scope.checkNick = [];
    			$scope.group = gr.group;
    			$scope.showAddGr = true;
    			$scope.updateGr = true;
+	   	   				angular.forEach($scope.nicknameData, function(obj1, index){
+	   	   					$scope.checkNick = gr.nickValue.split(",");
+	   	   					angular.forEach($scope.checkNick, function(obj2, index1){
+	   	   						if(obj1.nickName == obj2){
+	   	   							obj1.isSelected = true;
+	   	   							$scope.nickValue.push(obj1.id);
+	   	   						}
+	   	   					});
+	   	   				});
    		};
    		
    		$scope.closeUpdateGr = function(){

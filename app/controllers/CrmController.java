@@ -1008,7 +1008,7 @@ public class CrmController extends Controller {
 		    			for(int i=0;i<value.length;i++){
 		    				MailchimpList mail = MailchimpList.findById(Long.parseLong(value[i]));
 		    				 mailList = mailList + mail.nickName;
-		    				 mailList = mailList +" "+ ",";
+		    				 mailList = mailList + ",";
 		    			}
 	    			}
 	    			GroupVM vm = new GroupVM();
