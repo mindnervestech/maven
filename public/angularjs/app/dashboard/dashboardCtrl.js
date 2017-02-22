@@ -6178,7 +6178,7 @@ angular.module('newApp')
 		    		    		    		       					$scope.getAllListLeadDate[i].checkBoxSelect = false;
 		    		    		    		       				}
 		    		    		    		       				$scope.gridOptions7.data = $scope.getAllListLeadDate;
-		    		    		    		       				
+		    		    		    		       				$scope.gridMapObect = [];
 		    		    		    		       				apiserviceDashborad.getCustomizationform('Create New Lead').then(function(response){
 		    		    		    		       					$scope.josnData = angular.fromJson(response.jsonData);
 		    		    		    		       				});
