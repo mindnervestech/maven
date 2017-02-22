@@ -360,4 +360,13 @@ angular.module('app.apiserviceCrm', [])
 
 		return defer.promise;
 	};
+	
+	this.getAllNickName = function(){
+		var defer = $q.defer();
+		$http.get('/getAllNickName').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
 })

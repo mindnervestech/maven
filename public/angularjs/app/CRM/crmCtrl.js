@@ -303,6 +303,7 @@ angular.module('newApp')
    		apiserviceCrm.getAllContactsData().then(function(data){
    			$scope.editgirdData(data);
 				$scope.contactsList = data;
+				$scope.getAllNickName();
 				
    		});
    		
@@ -318,16 +319,22 @@ angular.module('newApp')
    		$scope.showAddGr = false;
    		$scope.updateGr = false;
    		$scope.saveNewGroup = function(group){
+   			
+   			$scope.group.nickValue = $scope.nickValue.toString();
+   			$scope.group = group;
 			if(group.name == undefined ||  group.name == null){
 				$scope.grNameReq = true;
 				$scope.errMsg= "Group name required.";
 			}else{
 				$scope.grNameReq = false;
-				apiserviceCrm.saveNewGroup(group).then(function(data){
+				apiserviceCrm.saveNewGroup($scope.group).then(function(data){
 					if(data !='error'){
 						$scope.group = {};
+						$scope.nickValue = [];
 						$scope.getAllGroupList();
 						$scope.showAddGr = !$scope.showAddGr;
+						
+										
 					}else{
 						$scope.grNameReq = true;
 						$scope.errMsg= "Group name already exist.";
@@ -336,13 +343,23 @@ angular.module('newApp')
 				});
 			}
 		}
-   		
+   		$scope.groupDetail = {};
    		$scope.updateGroup = function(grp){
+   			$scope.groupDetail.id = grp.id;
+   			$scope.groupDetail.name = grp.name;
+   			if($scope.nickValue.toString() != ""){
+   				$scope.groupDetail.nickValue = $scope.nickValue.toString();
+   			}else{
+   				$scope.groupDetail.nickValue = grp.nickValue;
+   			}
+   			
+   			console.log($scope.groupDetail);
+   			console.log(grp);
 			if(grp.name == undefined ||  grp.name == null){
 				$scope.grNameReq = true;
 			}else{
 				$scope.grNameReq = false;
-				apiserviceCrm.updateGroup(grp).then(function(data){
+				apiserviceCrm.updateGroup($scope.groupDetail).then(function(data){
 					if(data !='error'){
 						$scope.group = {};
 						$scope.getAllGroupList();
@@ -1844,4 +1861,45 @@ angular.module('newApp')
 			    }
 		  };
 		  
+		  $scope.getAllNickName = function(){
+	   			apiserviceCrm.getAllNickName().then(function(data){
+	   					$scope.nicknameData = data;
+	   					angular.forEach($scope.nicknameData, function(obj, index){
+	   	 					obj.isSelected = false;
+	   	 	   			 });
+	   					console.log($scope.nicknameData);
+	   	   		});
+	   		}
+		  
+		  $scope.nickValue = [];
+		  $scope.checkNickName = function(event,item,value){
+			  console.log(item);
+			  console.log(value);
+			  angular.forEach($scope.nicknameData, function(obj, index){
+				  if(obj.id == item.id){
+					  if(value == false){
+							obj.isSelected = true;
+						}
+						else if(value == true){
+							obj.isSelected = false;
+						}
+						if(obj.isSelected == true){
+							$scope.nickValue.push(obj.id);
+							
+						}else{
+							$scope.deleteItem(obj);
+						}
+				  }
+			  });
+			console.log($scope.nickValue);
+		  }
+		  
+		  $scope.deleteItem = function(item){
+				angular.forEach($scope.nickValue, function(obj, index){
+					 if ((item.id == obj)) {
+						 $scope.nickValue.splice(index, 1);
+				       	return;
+				    };
+				  });
+			}
 }]);

@@ -510,7 +510,7 @@
   
   <div class="modal fade" id="addNewGroup" tabindex="-1" role="dialog" aria-hidden="true">
        <div class="modal-dialog">
-           <div class="modal-content">
+           <div class="modal-content" style="width: 650px;">
                	<div class="modal-header">
                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
                    <h4 class="modal-title">
@@ -527,6 +527,17 @@
 								<input name="groupName" class="form-control form-white" type="text" style="width:80%;" placeholder="Enter group name" ng-model="group.name"  required>
 								<p ng-if="grNameReq" style="color:red;">{{errMsg}}</p>
 						</div>
+						<div class="form-group col-sm-12">
+							<div class="form-group col-sm-5" style="margin-left: -15px;">
+								<label class="control-label"><font size="3">NickName Mailchimp</font></label>
+							</div>
+							<div class="form-group col-sm-6">
+								<label ng-repeat="item in nicknameData" class="col-sm-12" style="padding:4px;">
+				 					<input type="checkbox" name="nickname" ng-click="checkNickName($event,item,item.isSelected)"
+				 						ng-model="item.isSelected">					
+   					 					{{item.nickName}}</label>
+   					 		</div>
+						</div>
 						<button ng-if="!updateGr" type="submit" class="btn btn-primary btn-embossed" style="float: right;" ng-click="saveNewGroup(group)">Save</button>
 						<button ng-if="updateGr" type="submit" class="btn btn-primary btn-embossed" style="float: right;" ng-click="updateGroup(group)">Update</button>
 						<button ng-if="updateGr" type="button" class="btn btn-default btn-embossed" style="float: right;" ng-click="closeUpdateGr()">Cancel</button>
@@ -537,11 +548,13 @@
 								<tr>
 									<th>Name</th>
 									<th>Exisitng Contacts</th>
+									<th>Nick Name</th>
 									<th>Actions</th>
 								</tr>
 								<tr ng-repeat="gr in groupList">
 									<td>{{gr.group.name}}</td>
 									<td>{{gr.contactCount}}</td>
+									<td>{{gr.nickValue}}</td>
 									<td ng-show="gr.group.name.toUpperCase() === 'UNDEFINED'">
 									</td>
 									<td ng-hide="gr.group.name.toUpperCase() === 'UNDEFINED'">

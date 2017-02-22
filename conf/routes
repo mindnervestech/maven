@@ -548,6 +548,7 @@ GET    /getAllVehicleSession/:lasttime			controllers.ClickyAnalyticsController.g
 POST	/uploadContactsFile				controllers.CrmController.uploadContactsFile()
 POST    /importContacts 				controllers.CrmController.importContacts()
 GET		/getAllContactsData				controllers.CrmController.getAllContactsData()
+GET		/getAllNickName				controllers.CrmController.getAllNickName()
 GET		/getAllMeetingData				controllers.Application.getAllMeetingData()
 GET		/getAllGroupList				controllers.CrmController.getAllGroupList()
 POST	/saveNewGroup				controllers.CrmController.saveNewGroup()

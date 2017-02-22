@@ -1002,6 +1002,15 @@ public class CrmController extends Controller {
 	    		List<GroupTable> groupList =GroupTable.findAllGroup();
 	    		List<GroupVM> grList= new ArrayList<>();
 	    		for (GroupTable gr : groupList) {
+	    			String mailList = "";
+	    			if(gr.nickValue != null){
+	    				String[] value = gr.nickValue.split(",");
+		    			for(int i=0;i<value.length;i++){
+		    				MailchimpList mail = MailchimpList.findById(Long.parseLong(value[i]));
+		    				 mailList = mailList + mail.nickName;
+		    				 mailList = mailList +" "+ ",";
+		    			}
+	    			}
 	    			GroupVM vm = new GroupVM();
 		    		List<Contacts> conList = new ArrayList<>();
 	    			if(gr.name.equalsIgnoreCase("Undefined"))
@@ -1009,6 +1018,9 @@ public class CrmController extends Controller {
 	    			else
 	    				conList= Contacts.findByGroup(gr);
 	    			vm.group = gr;
+	    			if(!mailList.equals("")){
+	    				vm.nickValue = mailList;
+	    			}
 	    			vm.contactCount = conList.size();
 	    			grList.add(vm);
 				}
@@ -1021,7 +1033,10 @@ public class CrmController extends Controller {
 			Form<GroupTable> form = DynamicForm.form(GroupTable.class).bindFromRequest();
 			GroupTable vm = form.get();
 			try {
-				vm.update();
+			   	GroupTable infoObj = GroupTable.findById(vm.id);
+	    		infoObj.setName(vm.name);
+	    		infoObj.setNickValue(vm.nickValue);
+	    		infoObj.update();
 			} catch (Exception e) {
 				msg = "error";
 			}
@@ -1033,7 +1048,10 @@ public class CrmController extends Controller {
 			Form<GroupTable> form = DynamicForm.form(GroupTable.class).bindFromRequest();
 			GroupTable vm = form.get();
 			try {
-				vm.save();
+				GroupTable gTable = new GroupTable();
+			   	  gTable.setName(vm.name);
+			   	  gTable.setNickValue(vm.nickValue);
+			   	  gTable.save();
 			} catch (Exception e) {
 				msg = "error";
 			}
@@ -1459,4 +1477,10 @@ public class CrmController extends Controller {
 	    		return ok();
 	    	}
 	    }
+	  
+	  public static Result getAllNickName(){
+			List<MailchimpList> list = MailchimpList.getAll();
+			return ok(Json.toJson(list));
+		}
+	  
 }
