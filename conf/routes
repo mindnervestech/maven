@@ -430,7 +430,7 @@ POST		/setScheduleStatusCancel		controllers.Application.setScheduleStatusCancel(
 GET     /setScheduleConfirmClose/:id/:leadType  		controllers.Application.setScheduleConfirmClose(id:Long,leadType:String)
 #GET		/getAllRequestInfoSeen		controllers.Application.getAllRequestInfoSeen()
 #GET     /getAllContactUsSeen 		controllers.Application.getAllContactUsSeen()
-GET     /getAllLostAndCompLeads			controllers.Application.getAllLostAndCompLeads()
+GET     /getAllLostAndCompLeads/:id			controllers.Application.getAllLostAndCompLeads(id:String)
 #GET     /getAllCompletedLeads   			controllers.Application.getAllCompletedLeads()
 #GET     /getTestDirConfir		controllers.Application.getTestDirConfir()
 #GET		/getAllTradeInSeen			controllers.Application.getAllTradeInSeen()

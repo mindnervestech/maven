@@ -255,9 +255,9 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.getAllLostAndCompLeads = function(){
+	this.getAllLostAndCompLeads = function(id){
 		var defer = $q.defer();
-		$http.get('/getAllLostAndCompLeads').success(function(data) {
+		$http.get('/getAllLostAndCompLeads/'+id).success(function(data) {
 			defer.resolve(data);
 		});
 		

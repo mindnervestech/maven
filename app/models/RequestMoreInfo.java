@@ -650,10 +650,16 @@ public void setMessage(String message) {
 	public static List<RequestMoreInfo> findAllOtherLeadData() {
 		return find.where().eq("isRead", 1).eq("status", null).ne("isContactusType", null).eq("isScheduled", false).orderBy("requestDate desc").findList();
 	}
-	public static List<RequestMoreInfo> getAllContactsByUserId(String id) {
+	/*public static List<RequestMoreInfo> getAllContactsByUserId(String id) {
 		return find.where().eq("assignedTo", id).ne("status", null).findList();
-	}
+	}*/
 	public static List<RequestMoreInfo> getAllContactsByAllData() {
 		return find.where().ne("status", null).findList();
+	}
+	public static List<RequestMoreInfo> getAllContactsByUserId(AuthUser user2) {
+		return find.where().eq("assignedTo", user2).ne("status", null).findList();
+	}
+	public static List<RequestMoreInfo> getAllContactsByUserId(int id) {
+		return find.where().eq("assignedTo.id", id).ne("status", null).findList();
 	}
 }

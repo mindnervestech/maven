@@ -7497,20 +7497,25 @@ public class Application extends Controller {
 		}
 
 	 
-    public static Result getAllLostAndCompLeads() {
+    public static Result getAllLostAndCompLeads(String id) {
       	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
-	    	
 	    	List<Permission> userPermissions = user.getPermission();
 	    	List<RequestMoreInfo> requestMoreInfos = null;
     		for(Permission per: userPermissions) {
     			if(per.name.equals("Only see own leads archive")){
-    				requestMoreInfos = RequestMoreInfo.getAllContactsByUserId(user.id.toString());
+    				//requestMoreInfos = RequestMoreInfo.getAllContactsByUserId(user.id.toString());
+    				requestMoreInfos = RequestMoreInfo.getAllContactsByUserId(user);
     			}
     			else if(per.name.equals("Access to the whole leads archive")){
-    				requestMoreInfos = RequestMoreInfo.getAllContactsByAllData();
+    				if(id.equals("0")){
+    					requestMoreInfos = RequestMoreInfo.getAllContactsByAllData();
+    				}else{
+    						requestMoreInfos = RequestMoreInfo.getAllContactsByUserId(Integer.parseInt(id));
+    				}
+    				
     			}
     		
     		}

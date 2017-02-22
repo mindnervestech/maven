@@ -1996,14 +1996,7 @@ angular.module('newApp')
 									    		    						                          }
 									    		    						                   	} ,
 									    		    						               },
-									    		    						              /* { name: 'salesRep', displayName: 'Sales Person', width:'14%',enableColumnMenu: false,cellEditableCondition: false,
-									    		    						                   	cellTemplate:'<a>{{row.entity.salesPerson}}</a>',
-									    		    						                   	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-									    		    						                          if (row.entity.noteFlag != 1) {
-									    		    						                            return 'red';
-									    		    						                          }
-									    		    						                   	} ,
-									    		    						               },*/
+									    		    						              
      	     		     			 		 		                            /*{ name: 'typeOfLead', displayName: 'type', width:'8%',cellEditableCondition: false,
       	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.typeOfLead}}</a> ',
       	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -5565,7 +5558,8 @@ angular.module('newApp')
         }*/
         
         $scope.getAllLostAndComLeads = function(){
-        	apiserviceDashborad.getAllLostAndCompLeads().then(function(data){
+        	console.log($scope.salesPerson);
+        	apiserviceDashborad.getAllLostAndCompLeads($scope.salesPerson).then(function(data){
         		$scope.gridOptions6.data = data;
         		$scope.gridMapObect = [];
         		angular.forEach(data,function(value,key){
@@ -5700,7 +5694,11 @@ angular.module('newApp')
 		$scope.changeSalesPerson = function(){
 			var id = $('#salesPersonUserId').val();
 			$scope.salesPerson = id;
-			$scope.getAllSalesPersonRecord(id);
+			if($scope.showLeadsV == true){
+				$scope.getAllLostAndComLeads();
+			}else{
+				$scope.getAllSalesPersonRecord(id);
+			}
 //			$scope.getAllLeadIn();
 //			$('#home-tab').click();
 		};
