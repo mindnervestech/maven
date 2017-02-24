@@ -151,12 +151,37 @@ public class CrmController extends Controller {
     			if(mSchedular != null){
     				if(mSchedular.synchronizeContact){
     					saveCustomCrmData(contacts.contactId,vm,body);
-    	    			MailIntegrationServices objMail = new MailIntegrationServices();
-    	    			msg = objMail.addUser(vm.lastName, vm.firstName, vm.email);
+    	    			//MailIntegrationServices objMail = new MailIntegrationServices();
+    	    			//msg = objMail.addUser(vm.lastName, vm.firstName, vm.email);
     				}
     			}
-    			
-    			
+    			String nickName = null;
+    			for(KeyValueDataVM value1:vm.customData){
+    				if(value1.key.equals("Nt_crm_group")){
+    					nickName = value1.value;
+    				}
+    			}
+    			if(msg.equals("")){
+    				List<CustomizationCrm> custCRM = CustomizationCrm.findByGroupName(nickName);
+    				for(CustomizationCrm crm:custCRM){
+    					GroupTable nickValue1 = GroupTable.findByName(nickName);
+    					String[] keyvalue = nickValue1.nickValue.split(",");
+    					ContactsVM vm1 = new ContactsVM();
+    					Contacts contact = Contacts.findListById(crm.crmId);
+    					if(contact != null){
+    						vm1.firstName = contact.firstName;
+    						vm1.lastName = contact.lastName;
+    						vm1.email = contact.email;
+    						
+    						for(int i=0;i<keyvalue.length;i++){
+    							MailchimpList mailchip = MailchimpList.findById(Long.parseLong(keyvalue[i]));
+    							
+    							MailIntegrationServices objMail = new MailIntegrationServices();
+    							objMail.addNewuser(vm.firstName,vm.lastName,vm.email,mailchip.listId);
+    						}
+    					}
+    				}
+    			}
     			
     		} else {
     			msg = "Email already exists";
@@ -211,13 +236,42 @@ public class CrmController extends Controller {
     			contacts.setNotes(vm.notes);
     			contacts.update();
     			saveCustomCrmData(contacts.contactId,vm,body);
-    			MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L);
+    			/*MailchimpSchedular mSchedular = MailchimpSchedular.findByLocations(16L);
     			if(mSchedular != null){
     				if(mSchedular.synchronizeContact){
     					MailIntegrationServices objMail = new MailIntegrationServices();
     	    			msg = objMail.unsubscribe( vm.lastName,vm.firstName, vm.email);
     				}
+    			}*/
+    			
+    			String nickName = null;
+    			for(KeyValueDataVM value1:vm.customData){
+    				if(value1.key.equals("Nt_crm_group")){
+    					nickName = value1.value;
+    				}
     			}
+    			if(msg.equals("")){
+    				List<CustomizationCrm> custCRM = CustomizationCrm.findByGroupName(nickName);
+    				for(CustomizationCrm crm:custCRM){
+    					GroupTable nickValue1 = GroupTable.findByName(nickName);
+    					String[] keyvalue = nickValue1.nickValue.split(",");
+    					ContactsVM vm1 = new ContactsVM();
+    					Contacts contact = Contacts.findListById(crm.crmId);
+    					if(contact != null){
+    						vm1.firstName = contact.firstName;
+    						vm1.lastName = contact.lastName;
+    						vm1.email = contact.email;
+    						
+    						for(int i=0;i<keyvalue.length;i++){
+    							MailchimpList mailchip = MailchimpList.findById(Long.parseLong(keyvalue[i]));
+    							
+    							MailIntegrationServices objMail = new MailIntegrationServices();
+    							objMail.addNewuser(vm.firstName,vm.lastName,vm.email,mailchip.listId);
+    						}
+    					}
+    				}
+    			}
+    			
     		return ok(msg);
     	}
 	}
