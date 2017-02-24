@@ -126,6 +126,10 @@ public class CustomizationCrm extends Model {
 	public static CustomizationCrm findByCRMId(Long groupId) {
 		return find.where().eq("keyValue", "Nt_crm_group").eq("crmId", groupId).findUnique();
 	}
+
+	public static List<CustomizationCrm> findByGroupName(String name) {
+		return find.where().eq("value", name).findList();
+	}
 	
 	
 }

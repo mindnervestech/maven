@@ -385,5 +385,9 @@ public class Contacts extends Model {
 	public static List<Contacts> findByDefault(GroupTable group) {
 		return find.where().or(Expr.eq("groups", group),Expr.eq("groups", null)).findList();
 	}
+	public static Contacts findListById(Long crmId) {
+		return find.byId(crmId);
+	}
+	
 	
 }

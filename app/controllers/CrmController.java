@@ -374,9 +374,7 @@ public class CrmController extends Controller {
 					//obj.getLists(Long.valueOf(session("USER_LOCATION")));
 					objMail.addUser(cont.firstName, cont.lastName, cont.email);
 			}
-		 
-		
-		 
+			
 		 return ok();
 	 }
 	 
@@ -1037,10 +1035,35 @@ public class CrmController extends Controller {
 	    		infoObj.setName(vm.name);
 	    		infoObj.setNickValue(vm.nickValue);
 	    		infoObj.update();
+	    		
 			} catch (Exception e) {
 				msg = "error";
 			}
+			List<ContactsVM> contactsVMListData = new ArrayList<>();
+			if(msg.equals("")){
+				List<CustomizationCrm> custCRM = CustomizationCrm.findByGroupName(vm.name);
+				for(CustomizationCrm crm:custCRM){
+					String[] keyvalue = vm.nickValue.split(",");
+					ContactsVM vm1 = new ContactsVM();
+					Contacts contact = Contacts.findListById(crm.crmId);
+					if(contact != null){
+						vm1.firstName = contact.firstName;
+						vm1.lastName = contact.lastName;
+						vm1.email = contact.email;
+						
+						for(int i=0;i<keyvalue.length;i++){
+							MailchimpList mailchip = MailchimpList.findById(Long.parseLong(keyvalue[i]));
+							
+							MailIntegrationServices objMail = new MailIntegrationServices();
+							objMail.addNewuser(vm1.firstName,vm1.lastName,vm1.email,mailchip.listId);
+						}
+						
+						//contactsVMListData.add(vm1);
+					}
+				}
+			}
 			return ok(msg);
+			
 		}
 	 	
 	 	public static Result saveNewGroup(){

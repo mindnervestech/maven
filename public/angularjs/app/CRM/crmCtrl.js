@@ -386,20 +386,28 @@ angular.module('newApp')
 			});
    		};
    		
+   		$scope.checkNick = [];
    		$scope.viewGroup = function(gr){
-   			$scope.checkNick = [];
+   			angular.forEach($scope.nicknameData, function(obj1, index1){
+   				obj1.isSelected = false;
+   				$scope.nickValue = [];
+   			});
    			$scope.group = gr.group;
    			$scope.showAddGr = true;
    			$scope.updateGr = true;
-	   	   				angular.forEach($scope.nicknameData, function(obj1, index){
-	   	   					$scope.checkNick = gr.nickValue.split(",");
-	   	   					angular.forEach($scope.checkNick, function(obj2, index1){
-	   	   						if(obj1.nickName == obj2){
-	   	   							obj1.isSelected = true;
-	   	   							$scope.nickValue.push(obj1.id);
-	   	   						}
-	   	   					});
-	   	   				});
+   			console.log(gr.group.id);
+   			console.log($scope.groupList);
+   				angular.forEach($scope.nicknameData, function(obj1, index1){
+	   				if(gr.nickValue != null){
+	   					$scope.checkNick = gr.nickValue.split(",");
+	   					angular.forEach($scope.checkNick, function(obj2, index2){
+	   						if(obj1.nickName == obj2){
+	   							obj1.isSelected = true;
+	   							$scope.nickValue.push(obj1.id);
+	   						}
+	   					});
+	   				}	
+	   				});
    		};
    		
    		$scope.closeUpdateGr = function(){
