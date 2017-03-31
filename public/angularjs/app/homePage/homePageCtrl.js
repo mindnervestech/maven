@@ -28,7 +28,7 @@ angular.module('newApp')
 	$scope.contactList = [];
 	$scope.vehicleProfileList = [];
 	$scope.gridsterOpts1 = {
-		    columns: 6, // the width of the grid, in columns
+		    columns: 3, // the width of the grid, in columns
 		    pushing: true, // whether to push other items out of the way on move or resize
 		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
 		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
@@ -40,9 +40,9 @@ angular.module('newApp')
 		    isMobile: false, // stacks the grid items if true
 		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
 		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
-		    minColumns: 6, // the minimum columns the grid must have
+		    minColumns: 3, // the minimum columns the grid must have
 		    minRows: 1, // the minimum height of the grid, in rows
-		    maxRows: 100,
+		    maxRows: 1,
 		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
 		    defaultSizeY: 1, // the default height of a gridster item, if not specified
 		    resizable: {
@@ -71,10 +71,23 @@ angular.module('newApp')
 				    		   delete $scope.sliderList[i].width;
 				    		   delete $scope.sliderList[i].height;
 				    		   delete $scope.sliderList[i].link;
-				    		   delete $scope.sliderList[i].vin;
-				    		   delete $scope.sliderList[i].defaultImage;
+				    		  // delete $scope.sliderList[i].vin;
+				    		  // delete $scope.sliderList[i].defaultImage;
+				    		   delete $scope.sliderList[i].findNewId;
+				    		   delete $scope.sliderList[i].findNewId;
+				    		   delete $scope.sliderList[i].findNewId;
 				    	   }
-				    	   apiserviceHomePage.saveSliderPosition($scope.sliderList).then(function(data){
+				    	   $scope.newObjArray = [];
+				    	   console.log($scope.sliderList);
+				    	   angular.forEach($scope.sliderList, function(value, key) {
+				    		   $scope.newObj = {};
+				    		   $scope.newObj.id = value.id;
+				    		   $scope.newObj.sliderNumber = value.col;
+				    		   $scope.newObj.col = value.col;
+				    		   $scope.newObjArray.push($scope.newObj);
+				    	   });
+				    	   console.log($scope.newObjArray);
+				    	   apiserviceHomePage.saveSliderPosition($scope.newObjArray).then(function(data){
 				    	   
 					   			
 					   		});
