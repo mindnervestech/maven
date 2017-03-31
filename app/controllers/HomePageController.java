@@ -500,7 +500,7 @@ public class HomePageController extends Controller{
 	    	} else {
 	    		SliderImageConfig slconfig = new SliderImageConfig();
 	    		slconfig.cropHeight = 840;
-	    		slconfig.cropWidth = 1400;
+	    		slconfig.cropWidth = 1500;
 	    		slconfig.user = user;
 				slconfig.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		slconfig.save();
